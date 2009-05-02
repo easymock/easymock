@@ -15,7 +15,7 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
 
     private final List<UnorderedBehavior> behaviorLists = new ArrayList<UnorderedBehavior>();
 
-    private List<ExpectedInvocationAndResult> stubResults = new ArrayList<ExpectedInvocationAndResult>();
+    private final List<ExpectedInvocationAndResult> stubResults = new ArrayList<ExpectedInvocationAndResult>();
 
     private final boolean nice;
 
@@ -26,6 +26,8 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
     private int position = 0;
 
     private transient volatile Thread lastThread;
+    
+    private LegacyMatcherProvider legacyMatcherProvider;
 
     public MocksBehavior(boolean nice) {
         this.nice = nice;
@@ -69,13 +71,13 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
     @SuppressWarnings("deprecation")
     public final Result addActual(Invocation actual) {
         int tempPosition = position;
-        String errorMessage = "";
+        StringBuilder errorMessage = new StringBuilder();
         while (position < behaviorLists.size()) {
             Result result = behaviorLists.get(position).addActual(actual);
             if (result != null) {
                 return result;
             }
-            errorMessage += behaviorLists.get(position).toString(actual);
+            errorMessage.append(behaviorLists.get(position).toString(actual));
             if (!behaviorLists.get(position).verify()) {
                 break;
             }
@@ -98,7 +100,7 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
                         "\n  Unexpected method call "
                                 + actual
                                         .toString(org.easymock.MockControl.EQUALS_MATCHER)
-                                + ":" + errorMessage.toString()));
+                                + ":" + errorMessage));
     }
 
     public void verify() {
@@ -141,8 +143,6 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
                     " Current: " + Thread.currentThread()));
         }        
     }
-
-    private LegacyMatcherProvider legacyMatcherProvider;
 
     public LegacyMatcherProvider getLegacyMatcherProvider() {
         if (legacyMatcherProvider == null) {
