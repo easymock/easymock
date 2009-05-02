@@ -1,0 +1,50 @@
+I'm using:
+- Eclipse 3.4.2
+- Maven 2.1.0
+- Clover 2.5.0-SNAPSHOT
+
+To compile EasyMock in Eclipse 3.3 and above:
+- In the base directory do "mvn eclise:eclipse -DdownloadSources=true"
+- Open the newly created Eclipse project
+
+To build EasyMock with Maven:
+- Tests are ran over JDK 1.5. You need to add something like this in your settings.xml
+
+    <profile>
+      <id>easymock</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <jdk1_5.jvm>C:\Program Files\Java\jdk1.5.0_17\bin\java.exe</jdk1_5.jvm>
+      </properties>
+    </profile
+
+- Then "mvn verify" or "mvn install"
+
+To bundle EasyMock:
+- "mvn clean verify assembly:single"
+
+To deploy to the EasyMock maven repository,
+- You will first need to add something like this to your settings.xml
+
+  <servers>
+    <server>
+      <id>easymock-release</id>
+      <username>source_forge_login</username>
+      <configuration>
+        <sshExecutable>C:\putty\plink</sshExecutable>
+        <scpExecutable>C:\putty\pscp</scpExecutable>
+      </configuration>
+    </server>
+    <server>
+      <id>easymock-snapshot</id>
+      <username>source_forge_login</username>
+      <configuration>
+        <sshExecutable>C:\putty\plink</sshExecutable>
+        <scpExecutable>C:\putty\pscp</scpExecutable>
+      </configuration>
+    </server>    
+  </servers>
+
+- Then just type 'mvn deploy'
