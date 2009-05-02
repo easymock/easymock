@@ -4,7 +4,9 @@
  */
 package org.easymock;
 
-import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.*;
+
+import java.io.Serializable;
 
 import org.easymock.internal.*;
 
@@ -17,7 +19,11 @@ import org.easymock.internal.*;
  * @deprecated Since EasyMock 2.0, static methods on <code>EasyMock</code> are
  * used to create and control mock objects.
  */
-public class MockControl<T> {
+@Deprecated
+public class MockControl<T> implements Serializable {
+
+    private static final long serialVersionUID = 8741244302173698092L;
+
     private final T mock;
 
     private final MocksControl ctrl;

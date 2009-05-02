@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 import java.io.*;
 import java.util.List;
 
+import org.easymock.MockControl;
 import org.junit.Test;
 
 public class SerializationTest {
@@ -17,6 +18,7 @@ public class SerializationTest {
     @SuppressWarnings("unchecked")
     @Test
     public void test() throws Exception {
+        
         List<String> mock = createMock(List.class);
         
         mock = serialize(mock);
@@ -34,6 +36,33 @@ public class SerializationTest {
         mock = serialize(mock);
         
         verify(mock);
+    }
+    
+    @SuppressWarnings({ "deprecation", "unchecked" })
+    @Test
+    public void testLegacyMatcher() throws Exception {
+        MockControl<List> control = MockControl
+                .createControl(List.class);
+                
+        control = serialize(control);
+        
+        control.setDefaultMatcher(MockControl.EQUALS_MATCHER);
+        
+        control.expectAndReturn(control.getMock().get(1), "a");
+
+        control.setMatcher(MockControl.EQUALS_MATCHER);
+        
+        control = serialize(control);
+        
+        control.replay();
+        
+        control = serialize(control);
+        
+        assertEquals("a", control.getMock().get(1));
+        
+        control = serialize(control);
+        
+        control.verify();
     }
 
     @SuppressWarnings("unchecked")

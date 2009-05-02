@@ -4,6 +4,8 @@
  */
 package org.easymock.internal;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,13 +14,15 @@ import org.easymock.ArgumentsMatcher;
 import org.easymock.MockControl;
 
 @SuppressWarnings("deprecation")
-public class LegacyMatcherProvider {
+public class LegacyMatcherProvider implements Serializable {
+
+    private static final long serialVersionUID = -4143082656571251917L;
 
     private ArgumentsMatcher defaultMatcher;
 
     private boolean defaultMatcherSet;
 
-    private Map<Method, ArgumentsMatcher> matchers = new HashMap<Method, ArgumentsMatcher>();
+    private transient Map<Method, ArgumentsMatcher> matchers = new HashMap<Method, ArgumentsMatcher>();
 
     public ArgumentsMatcher getMatcher(Method method) {
         if (!matchers.containsKey(method)) {
@@ -30,7 +34,6 @@ public class LegacyMatcherProvider {
         return matchers.get(method);
     }
 
-    
     public void setDefaultMatcher(ArgumentsMatcher matcher) {
         if (defaultMatcherSet) {
             throw new RuntimeExceptionWrapper(
@@ -52,5 +55,37 @@ public class LegacyMatcherProvider {
                             + "), a matcher has already been set"));
         }
         matchers.put(method, matcher);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void readObject(java.io.ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+        Map<MethodSerializationWrapper, ArgumentsMatcher> map = (Map<MethodSerializationWrapper, ArgumentsMatcher>) stream
+                .readObject();
+        matchers = new HashMap<Method, ArgumentsMatcher>(map.size());
+        for (Map.Entry<MethodSerializationWrapper, ArgumentsMatcher> entry : map
+                .entrySet()) {
+            try {
+                Method method = entry.getKey().getMethod();
+                matchers.put(method, entry.getValue());
+            } catch (NoSuchMethodException e) {
+                // ///CLOVER:OFF
+                throw new IOException(e.toString());
+                // ///CLOVER:ON
+            }
+        }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream stream)
+            throws IOException {
+        stream.defaultWriteObject();
+        Map<MethodSerializationWrapper, ArgumentsMatcher> map = new HashMap<MethodSerializationWrapper, ArgumentsMatcher>(
+                matchers.size());
+        for (Map.Entry<Method, ArgumentsMatcher> matcher : matchers.entrySet()) {
+            map.put(new MethodSerializationWrapper(matcher.getKey()), matcher
+                    .getValue());
+        }
+        stream.writeObject(map);
     }
 }
