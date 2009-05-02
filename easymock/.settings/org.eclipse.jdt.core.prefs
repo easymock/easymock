@@ -1,4 +1,4 @@
-#Sat Mar 15 17:39:04 CET 2008
+#Sat May 02 23:17:10 CEST 2009
 eclipse.preferences.version=1
 org.eclipse.jdt.core.builder.cleanOutputFolder=clean
 org.eclipse.jdt.core.builder.duplicateResourceTask=warning
@@ -14,6 +14,7 @@ org.eclipse.jdt.core.compiler.compliance=1.5
 org.eclipse.jdt.core.compiler.debug.lineNumber=generate
 org.eclipse.jdt.core.compiler.debug.localVariable=generate
 org.eclipse.jdt.core.compiler.debug.sourceFile=generate
+org.eclipse.jdt.core.compiler.doc.comment.support=enabled
 org.eclipse.jdt.core.compiler.maxProblemPerUnit=100
 org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
 org.eclipse.jdt.core.compiler.problem.autoboxing=ignore
@@ -29,8 +30,20 @@ org.eclipse.jdt.core.compiler.problem.forbiddenReference=warning
 org.eclipse.jdt.core.compiler.problem.hiddenCatchBlock=warning
 org.eclipse.jdt.core.compiler.problem.incompatibleNonInheritedInterfaceMethod=warning
 org.eclipse.jdt.core.compiler.problem.indirectStaticAccess=ignore
+org.eclipse.jdt.core.compiler.problem.invalidJavadoc=warning
+org.eclipse.jdt.core.compiler.problem.invalidJavadocTags=enabled
+org.eclipse.jdt.core.compiler.problem.invalidJavadocTagsDeprecatedRef=disabled
+org.eclipse.jdt.core.compiler.problem.invalidJavadocTagsNotVisibleRef=disabled
+org.eclipse.jdt.core.compiler.problem.invalidJavadocTagsVisibility=protected
 org.eclipse.jdt.core.compiler.problem.localVariableHiding=ignore
 org.eclipse.jdt.core.compiler.problem.methodWithConstructorName=warning
+org.eclipse.jdt.core.compiler.problem.missingJavadocComments=ignore
+org.eclipse.jdt.core.compiler.problem.missingJavadocCommentsOverriding=disabled
+org.eclipse.jdt.core.compiler.problem.missingJavadocCommentsVisibility=public
+org.eclipse.jdt.core.compiler.problem.missingJavadocTagDescription=return_tag
+org.eclipse.jdt.core.compiler.problem.missingJavadocTags=warning
+org.eclipse.jdt.core.compiler.problem.missingJavadocTagsOverriding=disabled
+org.eclipse.jdt.core.compiler.problem.missingJavadocTagsVisibility=public
 org.eclipse.jdt.core.compiler.problem.missingSerialVersion=warning
 org.eclipse.jdt.core.compiler.problem.noEffectAssignment=warning
 org.eclipse.jdt.core.compiler.problem.noImplicitStringConversion=warning
