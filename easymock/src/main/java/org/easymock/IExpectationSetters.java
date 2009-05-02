@@ -8,6 +8,8 @@ package org.easymock;
  * Allows setting expectations for an associated expected invocation.
  * Implementations of this interface are returned by
  * {@link EasyMock#expect(Object)}, and by {@link EasyMock#expectLastCall()}.
+ * 
+ * @param <T> type of what should be returned by this expected call
  */
 public interface IExpectationSetters<T> {
 

@@ -12,6 +12,8 @@ import org.easymock.internal.*;
  * A <code>MockControl</code> object controls the behavior of its associated
  * mock object. For more information, see the EasyMock documentation.
  * 
+ * @param <T> type of the mock controlled 
+ * 
  * @deprecated Since EasyMock 2.0, static methods on <code>EasyMock</code> are
  * used to create and control mock objects.
  */
@@ -31,6 +33,7 @@ public class MockControl<T> {
      * the order of expected method calls. An unexpected method call on the mock
      * object will lead to an <code>AssertionError</code>.
      * 
+     * @param <T> type of the mock controlled
      * @param toMock
      *            the class of the interface to mock.
      * @return the mock control.
@@ -46,11 +49,12 @@ public class MockControl<T> {
      * order of expected method calls. An unexpected method call on the mock
      * object will lead to an <code>AssertionError</code>.
      * 
+     * @param <T> type of the mock controlled
      * @param toMock
      *            the class of the interface to mock.
      * @return the mock control.
      */
-    public static <T extends Object> MockControl<T> createStrictControl(Class<T> toMock) {
+    public static <T> MockControl<T> createStrictControl(Class<T> toMock) {
         return new MockControl<T>(
                 (MocksControl) EasyMock.createStrictControl(), toMock);
     }
@@ -60,7 +64,8 @@ public class MockControl<T> {
      * <code>MockControl</code> and its associated mock object will not check
      * the order of expected method calls. An unexpected method call on the mock
      * object will return an empty value (0, null, false).
-     * 
+     *
+     * @param <T> type of the mock controlled
      * @param toMock
      *            the class of the interface to mock.
      * @return the mock control.
@@ -297,6 +302,7 @@ public class MockControl<T> {
      * Sets the ArgumentsMatcher for the last method called on the mock object.
      * The matcher must be set before any behavior for the method is defined.
      * 
+     * @param matcher the matcher for the last method called 
      * @throws IllegalStateException
      *             if called in replay state, or if no method was called on the
      *             mock object before.
@@ -422,6 +428,7 @@ public class MockControl<T> {
      * Sets the default ArgumentsMatcher for all methods of the mock object. The
      * matcher must be set before any behavior is defined on the mock object.
      * 
+     * @param matcher the default matcher for this control 
      * @throws IllegalStateException
      *             if called in replay state, or if any behavior is already
      *             defined on the mock object.
@@ -434,8 +441,11 @@ public class MockControl<T> {
      * Same as {@link MockControl#setReturnValue(Object)}. For explanation, see
      * "Convenience Methods for Return Values" in the EasyMock documentation.
      * 
+     * @param <V1> mocked method return type 
+     * @param <V2> returned value type
      * @param ignored
      *            an ignored value.
+     * @param value value returned by the mock
      */
     public <V1, V2 extends V1> void expectAndReturn(V1 ignored, V2 value) {
         EasyMock.expectLastCall().andReturn(value).once();
@@ -450,8 +460,12 @@ public class MockControl<T> {
      * explanation, see "Convenience Methods for Return Values" in the EasyMock
      * documentation.
      * 
+     * @param <V1> mocked method return type 
+     * @param <V2> returned value type
      * @param ignored
      *            an ignored value.
+     * @param value value returned by the mock
+     * @param range range of number of calls
      */
     public <V1, V2 extends V1> void expectAndReturn(V1 ignored, V2 value,
             Range range) {
@@ -469,8 +483,12 @@ public class MockControl<T> {
      * explanation, see "Convenience Methods for Return Values" in the EasyMock
      * documentation.
      * 
+     * @param <V1> mocked method return type 
+     * @param <V2> returned value type
      * @param ignored
      *            an ignored value.
+     * @param value value returned by the mock 
+     * @param count number of times the call is expected
      */
     public <V1, V2 extends V1> void expectAndReturn(V1 ignored, V2 value,
             int count) {
@@ -486,8 +504,13 @@ public class MockControl<T> {
      * explanation, see "Convenience Methods for Return Values" in the EasyMock
      * documentation.
      * 
+     * @param <V1> mocked method return type 
+     * @param <V2> returned value type
      * @param ignored
      *            an ignored value.
+     * @param value value returned by the mock 
+     * @param min minimum number of times the call is expected
+     * @param max maximum number of times the call is expected
      */
     public <V1, V2 extends V1> void expectAndReturn(V1 ignored, V2 value,
             int min, int max) {
@@ -504,6 +527,7 @@ public class MockControl<T> {
      * 
      * @param ignored
      *            an ignored value.
+     * @param throwable to be thrown on the call
      */
     public void expectAndThrow(Object ignored, Throwable throwable) {
         EasyMock.expect(ignored).andThrow(throwable).once();
@@ -516,6 +540,8 @@ public class MockControl<T> {
      * 
      * @param ignored
      *            an ignored value.
+     * @param throwable to be thrown on the call
+     * @param range range of number of calls
      */
     public void expectAndThrow(Object ignored, Throwable throwable, Range range) {
         IExpectationSetters<Object> setter = EasyMock.expect(ignored).andThrow(
@@ -530,6 +556,8 @@ public class MockControl<T> {
      * 
      * @param ignored
      *            an ignored value.
+     * @param throwable to be thrown on the call
+     * @param count number of times the call is expected
      */
     public void expectAndThrow(Object ignored, Throwable throwable, int count) {
         expect(ignored).andThrow(throwable).times(count);
@@ -542,6 +570,9 @@ public class MockControl<T> {
      * 
      * @param ignored
      *            an ignored value.
+     * @param throwable to be thrown on the call
+     * @param min minimum number of times the call is expected
+     * @param max maximum number of times the call is expected         
      */
     public void expectAndThrow(Object ignored, Throwable throwable, int min,
             int max) {
@@ -553,8 +584,11 @@ public class MockControl<T> {
      * explanation, see "Convenience Methods for Return Values" in the EasyMock
      * documentation.
      * 
+     * @param <V1> mocked method return type 
+     * @param <V2> returned value type
      * @param ignored
      *            an ignored value.
+     * @param value value returned by the mock            
      */
     public <V1, V2 extends V1> void expectAndDefaultReturn(V1 ignored, V2 value) {
         EasyMock.expectLastCall().andStubReturn(value);
@@ -567,6 +601,7 @@ public class MockControl<T> {
      * 
      * @param ignored
      *            an ignored value.
+     * @param throwable to be thrown on the call
      */
     public void expectAndDefaultThrow(Object ignored, Throwable throwable) {
         expectLastCall(
