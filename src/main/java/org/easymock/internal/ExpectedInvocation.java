@@ -70,7 +70,7 @@ public class ExpectedInvocation implements Serializable {
     }
 
     public int hashCode() {
-        return invocation.hashCode();
+        throw new UnsupportedOperationException("hashCode() is not implemented");
     }
 
     public boolean matches(Invocation actual) {
