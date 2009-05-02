@@ -85,7 +85,6 @@ public interface IExpectationSetters<T> {
      * 
      * @param delegateTo
      *            the object the call is delegated to.
-     * @return the value returned by the delegated call.
      */
     void andStubDelegateTo(Object delegateTo);
 
