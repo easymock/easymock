@@ -506,17 +506,17 @@ case should be quite rare.
 To understand correctly the two options, here is an example:
 </p>
 <pre>
-    List<String> l = createMock(List.class);
+    List&lt;String&gt; l = createMock(List.class);
 
     // andAnswer style
-    expect(l.remove(10)).andAnswer(new IAnswer<String>() {
+    expect(l.remove(10)).andAnswer(new IAnswer&lt;String&gt;() {
         public String answer() throws Throwable {
             return getCurrentArguments()[0].toString();
         }
     });
 
     // andDelegateTo style
-    expect(l.remove(10)).andDelegateTo(new ArrayList<String>() {
+    expect(l.remove(10)).andDelegateTo(new ArrayList&lt;String&gt;() {
         @Override
         public String remove(int index) {
             return Integer.toString(index);
