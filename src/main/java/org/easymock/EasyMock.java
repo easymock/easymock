@@ -150,6 +150,7 @@ public class EasyMock {
      * Returns the expectation setter for the last expected invocation in the
      * current thread.
      * 
+     * @param <T> type returned by the expected method 
      * @param value
      *            the parameter is used to transport the type to the
      *            ExpectationSetter. It allows writing the expected call as
@@ -167,6 +168,7 @@ public class EasyMock {
      * current thread. This method is used for expected invocations on void
      * methods.
      * 
+     * @param <T> type returned by the expected method
      * @return the expectation setter.
      */
     public static <T> IExpectationSetters<T> expectLastCall() {
@@ -266,6 +268,7 @@ public class EasyMock {
     /**
      * Expects any Object argument. For details, see the EasyMock documentation.
      * 
+     * @param <T> type of the method argument to match 
      * @return <code>null</code>.
      */
     public static <T> T anyObject() {
@@ -277,6 +280,7 @@ public class EasyMock {
      * Expects a comparable argument greater than or equal the given value. For details, see
      * the EasyMock documentation.
      * 
+     * @param <T> type of the method argument to match
      * @param value
      *            the given value.
      * @return <code>null</code>.
@@ -368,6 +372,7 @@ public class EasyMock {
      * Expects a comparable argument less than or equal the given value. For details, see
      * the EasyMock documentation.
      * 
+     * @param <T> type of the method argument to match
      * @param value
      *            the given value.
      * @return <code>null</code>.
@@ -459,6 +464,7 @@ public class EasyMock {
      * Expects a comparable argument greater than the given value. For details, see
      * the EasyMock documentation.
      * 
+     * @param <T> type of the method argument to match
      * @param value
      *            the given value.
      * @return <code>null</code>.
@@ -550,6 +556,7 @@ public class EasyMock {
      * Expects a comparable argument less than the given value. For details, see
      * the EasyMock documentation.
      * 
+     * @param <T> type of the method argument to match
      * @param value
      *            the given value.
      * @return <code>null</code>.
@@ -1130,6 +1137,7 @@ public class EasyMock {
     /**
      * Expects an Object that is equal to the given value.
      * 
+     * @param <T> type of the method argument to match
      * @param value
      *            the given value.
      * @return <code>null</code>.
@@ -1261,6 +1269,7 @@ public class EasyMock {
     /**
      * Expects null.
      * 
+     * @param <T> type of the method argument to match
      * @return <code>null</code>.
      */
     public static <T> T isNull() {
@@ -1271,6 +1280,7 @@ public class EasyMock {
     /**
      * Expects not null.
      * 
+     * @param <T> type of the method argument to match
      * @return <code>null</code>.
      */
     public static <T> T notNull() {
@@ -1381,6 +1391,7 @@ public class EasyMock {
      * Expects a comparable argument equals to the given value according to their
      * compareTo method. For details, see the EasMock documentation.
      * 
+     * @param <T> type of the method argument to match
      * @param value
      *            the given value.
      * @return <code>null</code>.
@@ -1398,6 +1409,7 @@ public class EasyMock {
      * </p>
      * For details, see the EasyMock documentation.
      * 
+     * @param <T> type of the method argument to match
      * @param value the given value.
      * @param comparator Comparator used to compare the actual with expected value.
      * @param operator The comparison operator.

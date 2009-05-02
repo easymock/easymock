@@ -105,6 +105,7 @@ public final class EasyMockProperties {
      *            the key of the new property
      * @param value
      *            the value corresponding to <tt>key</tt>.
+     * @return the property previous value
      */
     public String setProperty(String key, String value) {
         if (!key.startsWith(PREFIX)) {
