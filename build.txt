@@ -48,3 +48,6 @@ To deploy to the EasyMock maven repository,
   </servers>
 
 - Then just type 'mvn deploy'
+
+To check-in:
+- easymock/trunk/svn-config.txt should be used to handle mime types correctly
