@@ -17,7 +17,7 @@ public class RecordState implements IMocksControlState, Serializable {
 
     private static final long serialVersionUID = -5418279681566430252L;
 
-    private ExpectedInvocation lastInvocation;
+    private ExpectedInvocation lastInvocation = null;
 
     private boolean lastInvocationUsed = true;
 
@@ -30,13 +30,13 @@ public class RecordState implements IMocksControlState, Serializable {
     static {
         emptyReturnValues.put(Void.TYPE, null);
         emptyReturnValues.put(Boolean.TYPE, Boolean.FALSE);
-        emptyReturnValues.put(Byte.TYPE, new Byte((byte) 0));
-        emptyReturnValues.put(Short.TYPE, new Short((short) 0));
-        emptyReturnValues.put(Character.TYPE, new Character((char) 0));
-        emptyReturnValues.put(Integer.TYPE, new Integer(0));
-        emptyReturnValues.put(Long.TYPE, new Long(0));
-        emptyReturnValues.put(Float.TYPE, new Float(0));
-        emptyReturnValues.put(Double.TYPE, new Double(0));
+        emptyReturnValues.put(Byte.TYPE, Byte.valueOf((byte) 0));
+        emptyReturnValues.put(Short.TYPE, Short.valueOf((short) 0));
+        emptyReturnValues.put(Character.TYPE, Character.valueOf((char)0));
+        emptyReturnValues.put(Integer.TYPE, Integer.valueOf(0));
+        emptyReturnValues.put(Long.TYPE, Long.valueOf(0));
+        emptyReturnValues.put(Float.TYPE, Float.valueOf(0));
+        emptyReturnValues.put(Double.TYPE, Double.valueOf(0));
     }
 
     private static Map<Class<?>, Class<?>> primitiveToWrapperType = new HashMap<Class<?>, Class<?>>();
