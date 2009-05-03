@@ -13,6 +13,7 @@ import java.util.List;
 import org.easymock.MockControl;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class SerializationTest {
 
     @SuppressWarnings("unchecked")
@@ -38,7 +39,7 @@ public class SerializationTest {
         verify(mock);
     }
     
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @SuppressWarnings("unchecked")
     @Test
     public void testLegacyMatcher() throws Exception {
         MockControl<List> control = MockControl
