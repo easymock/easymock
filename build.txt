@@ -5,7 +5,11 @@ I'm using:
 
 To compile EasyMock in Eclipse 3.3 and above:
 - In the base directory do "mvn eclipse:eclipse -DdownloadSources=true"
-- Open the newly created Eclipse project
+- Import the newly created Eclipse project to your Eclipse workspace
+- For the project to compile, you need to have a classpath variable named M2_REPO set to you maven repository directory.
+  Two ways to set it:
+  - Manually (Windows->Preferences->Classpath variables)
+  - Calling "mvn eclipse:configure-workspace -Dworkspace=path/to/your/eclipse/workspace" (Eclipse must be closed)
 
 To build EasyMock with Maven:
 - Tests are ran over JDK 1.5. You need to add something like this in your settings.xml
@@ -20,6 +24,7 @@ To build EasyMock with Maven:
       </properties>
     </profile
 
+- The clover.license file must be in the easymock directory
 - Then "mvn verify" or "mvn install"
 
 To bundle EasyMock:
