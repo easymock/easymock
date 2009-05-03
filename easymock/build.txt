@@ -9,7 +9,7 @@ To compile EasyMock in Eclipse 3.3 and above:
 - For the project to compile, you need to have a classpath variable named M2_REPO set to you maven repository directory.
   Two ways to set it:
   - Manually (Windows->Preferences->Classpath variables)
-  - Calling "mvn eclipse:configure-workspace -Dworkspace=path/to/your/eclipse/workspace" (Eclipse must be closed)
+  - Calling "mvn eclipse:configure-workspace -Declipse.workspace=path/to/your/eclipse/workspace" (Eclipse must be closed)
 
 To build EasyMock with Maven:
 - Tests are ran over JDK 1.5. You need to add something like this in your settings.xml
