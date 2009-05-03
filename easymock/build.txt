@@ -4,7 +4,7 @@ I'm using:
 - Clover 2.5.0-SNAPSHOT
 
 To compile EasyMock in Eclipse 3.3 and above:
-- In the base directory do "mvn eclise:eclipse -DdownloadSources=true"
+- In the base directory do "mvn eclipse:eclipse -DdownloadSources=true"
 - Open the newly created Eclipse project
 
 To build EasyMock with Maven:
