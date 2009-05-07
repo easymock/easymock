@@ -6,6 +6,7 @@
     <fileSet>
       <outputDirectory/>
       <directory>${project.basedir}/src/site</directory>
+      <filtered>true</filtered>
     </fileSet>
     <fileSet>
       <outputDirectory/>

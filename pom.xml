@@ -62,6 +62,22 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>com.keyboardsamurais.maven</groupId>
+        <artifactId>maven-timestamp-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <propertyName>date</propertyName>
+          <timestampPattern>yyyy-MM-dd</timestampPattern>
+        </configuration>
+       <executions>
+        <execution>
+         <goals>
+          <goal>create</goal>
+         </goals>
+        </execution>
+       </executions>
+      </plugin>    
+      <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
