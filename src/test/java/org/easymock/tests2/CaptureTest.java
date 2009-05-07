@@ -7,7 +7,10 @@ package org.easymock.tests2;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import org.easymock.Capture;
+import org.easymock.CaptureType;
 import org.easymock.tests.IMethods;
 import org.junit.After;
 import org.junit.Before;
@@ -27,6 +30,54 @@ public class CaptureTest {
 
     @After
     public void tearDown() throws Exception {
+    }
+    
+    private Capture<Integer> testCaptureType(CaptureType type) {
+        IMethods mock = createMock(IMethods.class);
+        Capture<Integer> captured = new Capture<Integer>(type);
+                
+        expect(mock.oneArg(capture(captured))).andReturn("1");
+        expect(mock.oneArg(anyInt())).andReturn("1");
+        expect(mock.oneArg(capture(captured))).andReturn("2").times(2);
+        mock.twoArgumentMethod(capture(captured), eq(5));
+        mock.twoArgumentMethod(capture(captured), capture(captured));
+
+        replay(mock);
+
+        mock.oneArg(0);
+        mock.oneArg(1);
+        mock.oneArg(2);
+        mock.oneArg(3);
+        mock.twoArgumentMethod(4, 5);
+        mock.twoArgumentMethod(6, 7);
+
+        verify(mock);
+
+        return captured;
+    }
+    
+    @Test
+    public void testCaptureFirst() {
+        Capture<Integer> captured = testCaptureType(CaptureType.FIRST);
+        assertEquals(0, (int) captured.getValue());
+    }
+
+    @Test
+    public void testCaptureLast() {
+        Capture<Integer> captured = testCaptureType(CaptureType.LAST);
+        assertEquals(7, (int) captured.getValue());
+    }
+
+    @Test
+    public void testCaptureAll() {
+        Capture<Integer> captured = testCaptureType(CaptureType.ALL);
+        assertEquals(Arrays.asList(0, 2, 3, 4, 6, 7), captured.getValues());
+    }
+
+    @Test
+    public void testCaptureNone() {
+        Capture<Integer> captured = testCaptureType(CaptureType.NONE);
+        assertFalse(captured.hasCaptured());
     }
 
     // capture in thread
@@ -144,7 +195,7 @@ public class CaptureTest {
         assertFalse(capture.hasCaptured());
         try {
             capture.getValue();
-            fail("Should not be allowed");
+            fail();
         }
         catch(AssertionError e) {
             assertEquals("Nothing captured yet", e.getMessage());
@@ -153,6 +204,124 @@ public class CaptureTest {
         capture.setValue(null);
         assertTrue(capture.hasCaptured());
         assertNull(capture.getValue());
-        assertNull(capture.toString());
+        assertEquals("null", capture.toString());
+    }
+    
+    @Test
+    public void testCaptureMultiple() {
+        Capture<String> capture = new Capture<String>(CaptureType.ALL);
+        capture.setValue("a");
+        capture.setValue("b");
+        try {
+            capture.getValue();
+            fail();
+        } catch (AssertionError e) {
+            assertEquals(
+                    "More than one value captured: " + capture.getValues(), e
+                            .getMessage());
+        }
+        assertEquals(Arrays.asList("a", "b"), capture.getValues());
+    }
+
+    @Test
+    public void testCapture_2617107() {
+
+        IMethods mock = createMock(IMethods.class);
+
+        Capture<String> cap1 = new Capture<String>();
+        Capture<String> cap2 = new Capture<String>();
+        Capture<String> cap3 = new Capture<String>();
+        Capture<String> cap4 = new Capture<String>();
+
+        mock.simpleMethodWithArgument(and(isA(String.class),
+                capture(cap1)));
+        mock.simpleMethodWithArgument(and(isA(String.class),
+                capture(cap2)));
+        mock.simpleMethodWithArgument(and(isA(String.class),
+                capture(cap3)));
+        mock.simpleMethodWithArgument(and(isA(String.class),
+                capture(cap4)));
+
+        replay(mock);
+
+        final String[] s = { "one", "two", "three", "four" };
+
+        for (int i = 0; i < s.length; i++) {
+            mock.simpleMethodWithArgument(s[i]);
+        }
+        
+        assertEquals("one", cap1.getValue());
+        assertEquals("two", cap2.getValue());
+        assertEquals("three", cap3.getValue());
+        assertEquals("four", cap4.getValue());
+
+        verify(mock);
+    }
+    
+    @Test
+    public void testCaptureNonStrictControl_2133741() {
+        testCaptureHelper(createMock(IMethods.class));
+    }
+
+    @Test
+    public void testCaptureStrictControl_2133741() {
+        testCaptureHelper(createStrictMock(IMethods.class));
+    }
+
+    protected void testCaptureHelper(IMethods mock) {
+        Capture<String> capture1 = new Capture<String>();
+        Capture<String> capture2 = new Capture<String>();
+
+        mock.simpleMethodWithArgument(capture(capture1));
+        mock.simpleMethodWithArgument(capture(capture2));
+
+        replay(mock);
+        mock.simpleMethodWithArgument("a");
+        mock.simpleMethodWithArgument("b");
+        verify(mock);
+
+        assertTrue(capture1.hasCaptured());
+        assertTrue(capture2.hasCaptured());
+        assertFalse(capture1.getValue() == capture2.getValue());
+    } 
+    
+    @Test
+    public void testCapture1_2446744() {
+        Capture<String> capture1 = new Capture<String>();
+        Capture<String> capture2 = new Capture<String>();
+        Capture<String> capture3 = new Capture<String>();
+        IMethods mock = createMock(IMethods.class);
+        expect(mock.oneArg(capture(capture1))).andReturn("1").once();
+        expect(mock.oneArg(capture(capture2))).andReturn("2").once();
+        expect(mock.oneArg(capture(capture3))).andReturn("3").once();
+        
+        replay(mock);
+        
+        for (int i = 0; i < 3; i++) {
+            String string = "Run" + (i + 1);
+            mock.oneArg(string);
+        }
+        
+        assertEquals("Run3", capture3.getValue());
+        assertEquals("Run2", capture2.getValue());
+        assertEquals("Run1", capture1.getValue());
+    }
+
+    @Test
+    public void testCapture2_2446744() {
+        Capture<String> capture = new Capture<String>(CaptureType.ALL);
+        IMethods mock = createMock(IMethods.class);
+        expect(mock.oneArg(capture(capture))).andReturn("1").once();
+        expect(mock.oneArg(capture(capture))).andReturn("2").once();
+        expect(mock.oneArg(capture(capture))).andReturn("3").once();
+        
+        replay(mock);
+        
+        for (int i = 0; i < 3; i++) {
+            String string = "Run" + (i + 1);
+            mock.oneArg(string);
+        }
+
+        assertEquals(Arrays.asList("Run1", "Run2", "Run3"), capture.getValues());
     }
 }

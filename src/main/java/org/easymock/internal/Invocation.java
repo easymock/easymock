@@ -9,18 +9,24 @@ import static java.lang.Character.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.easymock.internal.matchers.ArrayEquals;
+import org.easymock.internal.matchers.Captures;
 
 public class Invocation implements Serializable {
 
-    private static final long serialVersionUID = -2836226970244118495L;
+    private static final long serialVersionUID = 1604995470419943411L;
 
     private final Object mock;
 
     private transient Method method;
 
     private final Object[] arguments;
+    
+    private final Collection<Captures<?>> currentCaptures = new ArrayList<Captures<?>>(
+            0);
 
     public Invocation(Object mock, Method method, Object[] args) {
         this.mock = mock;
@@ -55,6 +61,7 @@ public class Invocation implements Serializable {
         return arguments;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o == null || !o.getClass().equals(this.getClass()))
             return false;
@@ -65,6 +72,7 @@ public class Invocation implements Serializable {
                 && this.equalArguments(other.arguments);
     }
 
+    @Override
     public int hashCode() {
         throw new UnsupportedOperationException("hashCode() is not implemented");
     }
@@ -120,7 +128,25 @@ public class Invocation implements Serializable {
             return methodName;
         }
     }
+    
+    public void addCapture(Captures<Object> capture, Object value) {
+        capture.setPotentialValue(value);
+        currentCaptures.add(capture);
+    }
 
+    public void validateCaptures() {
+        for (Captures<?> c : currentCaptures) {
+            c.validateCapture();
+        }
+    }
+
+    public void clearCaptures() {
+        for (Captures<?> c : currentCaptures) {
+            c.setPotentialValue(null);
+        }
+        currentCaptures.clear();
+    }    
+    
     private boolean toStringIsDefined(Object o) {
         try {
             o.getClass().getDeclaredMethod("toString", (Class[]) null)
@@ -164,5 +190,5 @@ public class Invocation implements Serializable {
     private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
         stream.writeObject(new MethodSerializationWrapper(method));
-    }    
+    }
 }

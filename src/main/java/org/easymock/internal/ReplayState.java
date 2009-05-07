@@ -38,9 +38,9 @@ public class ReplayState implements IMocksControlState, Serializable {
     }
 
     private Object invokeInner(Invocation invocation) throws Throwable {
-        Result result = behavior.addActual(invocation);
         LastControl.pushCurrentInvocation(invocation);
         try {
+            Result result = behavior.addActual(invocation);                
             try {
                 return result.answer();
             } catch (Throwable t) {

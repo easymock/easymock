@@ -70,14 +70,13 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
 
     @SuppressWarnings("deprecation")
     public final Result addActual(Invocation actual) {
-        int tempPosition = position;
-        StringBuilder errorMessage = new StringBuilder();
+        int initialPosition = position;
+        
         while (position < behaviorLists.size()) {
             Result result = behaviorLists.get(position).addActual(actual);
             if (result != null) {
                 return result;
-            }
-            errorMessage.append(behaviorLists.get(position).toString(actual));
+            }            
             if (!behaviorLists.get(position).verify()) {
                 break;
             }
@@ -89,12 +88,28 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
                     .emptyReturnValueFor(actual.getMethod().getReturnType()));
         }
 
+        int endPosition = position;
+        
         // Do not move the cursor in case of stub, nice or error
-        position = tempPosition;
+        position = initialPosition;
 
         if (stubOrNice != null) {
             return stubOrNice;
         }
+        
+        // Case where the loop was exited at the end of the behaviorLists
+        if (endPosition == behaviorLists.size()) {
+            endPosition--;
+        }
+        
+        // Loop all around the behaviors left to generate the message
+        StringBuilder errorMessage = new StringBuilder(70 * (endPosition
+                - initialPosition + 1)); // rough approximation of the length
+        for (int i = initialPosition; i <= endPosition; i++) {
+            errorMessage.append(behaviorLists.get(i).toString(actual));
+        }
+
+        // And finally throw the error
         throw new AssertionErrorWrapper(
                 new AssertionError(
                         "\n  Unexpected method call "
