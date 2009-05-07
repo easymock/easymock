@@ -151,4 +151,15 @@ public class ConstraintsToStringTest {
         assertEquals("matches(\"\\\\s+\")", buffer.toString());
     }
 
+    @Test
+    public void equalsWithDeltaToString() {
+        new EqualsWithDelta(2.1d, 0.2d).appendTo(buffer);
+        assertEquals("eq(2.1, 0.2)", buffer.toString());
+    }
+    
+    @Test
+    public void arrayEqualsToString() {
+        new ArrayEquals(new Object[] { 1, "a", null }).appendTo(buffer);
+        assertEquals("[1, \"a\", null]", buffer.toString());
+    }
 }
