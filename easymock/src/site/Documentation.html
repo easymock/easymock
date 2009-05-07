@@ -692,7 +692,8 @@ There are a couple of predefined argument matchers available.
 
 <dt><code>capture(Capture&lt;T&gt; capture)</code></dt>
 <dd>Matches any value but captures it in the <code>Capture</code> parameter for later access. You can do <code>and(someMatcher(...), capture(c))</code> to 
-capture a parameter from a specific call to the method.</dd>
+capture a parameter from a specific call to the method. You can also specify a <code>CaptureType</code> telling that a given <code>Capture</code> should keep 
+the first, the last, all or no captured values.</dd>
 
 </dl>
 
@@ -982,6 +983,10 @@ Changes since 2.4:
 <li>Add andDelegateTo and andStubDelegateTo (2708883)
 </li>
 <li>Move to Subversion
+</li>
+<li>Add a capture type (capture first, last, all, none) (2446744)
+</li>
+<li>Give the capture a more user friendly behavior (2617107, 2133741)
 </li>
 </ul>
 <p>

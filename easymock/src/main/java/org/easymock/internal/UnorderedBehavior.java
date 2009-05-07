@@ -35,12 +35,21 @@ public class UnorderedBehavior implements Serializable {
 
     public Result addActual(Invocation actual) {
         for (ExpectedInvocationAndResults entry : results) {
-            if (!entry.getExpectedInvocation().matches(actual)) {
-                continue;
+            try {
+                if (!entry.getExpectedInvocation().matches(actual)) {
+                    continue;
+                }
+                Result result = entry.getResults().next();
+                if (result != null) {
+                    // actual and expected matched, validate the capture
+                    actual.validateCaptures();
+                    return result;
+                }
             }
-            Result result = entry.getResults().next();
-            if (result != null) {
-                return result;
+            finally {
+                // reset the capture (already validated or expected didn't
+                // matched)
+                actual.clearCaptures();
             }
         }
         return null;

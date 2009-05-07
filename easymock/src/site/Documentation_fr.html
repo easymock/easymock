@@ -722,7 +722,8 @@ ou égale/supérieure à la valeur attendue. Disponible pour tous les types prim
 
 <dt><code>capture(Capture&lt;T&gt; capture)</code></dt>
 <dd>Laisse passer n'importe quelle valeur mais la capture dans le paramètre <code>Capture</code> pour un usage ultérieurs. Vous pouvez utiliser <code>and(someMatcher(...), capture(c))</code> pour 
-capturer un paramètre d'un appel de méthode en particulier.</dd>
+capturer le paramètre d'un appel de méthode en particulier. Vous pouvez aussi spécifier le <code>CaptureType</code> pour indiquer à l'objet
+<code>Capture</code> de conserver le premier (<code>FIRST</code>), le dernier (<code>LAST</code>), tous (<code>ALL</code>) ou aucun (<code>NONE</code>) des objets capturés</dd>
 
 </dl>
 
@@ -1030,6 +1031,11 @@ de fils sécurisés (2169027)
 </li>
 <li>Migrer vers Subversion
 </li>
+<li>Ajout du <code>CaptureType</code> (capturer premier, dernier, tous, aucun) (2446744)
+</li>
+<li>Donner un comportement plus simple à la capture (2617107, 2133741)
+</li>
+
 </ul>
 <p>
 Changements depuis la version 2.3:
