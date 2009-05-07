@@ -91,6 +91,13 @@ public class ConstraintsToStringTest {
     }
 
     @Test
+    public void equalsToStringWithArray() {
+        String[] s = new String[] { "a", "b", null, "c" };
+        new Equals(s).appendTo(buffer);
+        assertEquals("[\"a\", \"b\", null, \"c\"]", buffer.toString());
+    }
+
+    @Test
     public void orToString() {
         List<IArgumentMatcher> matchers = new ArrayList<IArgumentMatcher>();
         matchers.add(new Equals(1));

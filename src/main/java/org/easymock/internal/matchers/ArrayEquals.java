@@ -4,8 +4,9 @@
  */
 package org.easymock.internal.matchers;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
+
+import org.easymock.internal.ArgumentToString;
 
 public class ArrayEquals extends Equals {
 
@@ -15,6 +16,7 @@ public class ArrayEquals extends Equals {
         super(expected);
     }
 
+    @Override
     public boolean matches(Object actual) {
         Object expected = getExpected();
         if (expected instanceof boolean[]
@@ -49,33 +51,8 @@ public class ArrayEquals extends Equals {
         }
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
-        if (getExpected() != null && getExpected().getClass().isArray()) {
-            appendArray(createObjectArray(getExpected()), buffer);
-        } else {
-            super.appendTo(buffer);
-        }
-    }
-
-    private void appendArray(Object[] array, StringBuffer buffer) {
-        buffer.append("[");
-        for (int i = 0; i < array.length; i++) {
-            new Equals(array[i]).appendTo(buffer);
-            if (i != array.length - 1) {
-                buffer.append(", ");
-            }
-        }
-        buffer.append("]");
-    }
-
-    public static Object[] createObjectArray(Object array) {
-        if (array instanceof Object[]) {
-            return (Object[]) array;
-        }
-        Object[] result = new Object[Array.getLength(array)];
-        for (int i = 0; i < Array.getLength(array); i++) {
-            result[i] = Array.get(array, i);
-        }
-        return result;
+        ArgumentToString.appendArgument(getExpected(), buffer);        
     }
 }
