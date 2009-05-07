@@ -6,7 +6,7 @@ package org.easymock;
 
 import java.io.Serializable;
 
-import org.easymock.internal.matchers.ArrayEquals;
+import org.easymock.internal.ArgumentToString;
 
 /**
  * A convenience implementation of {@link ArgumentsMatcher}. A subclass that
@@ -49,7 +49,7 @@ public abstract class AbstractMatcher implements ArgumentsMatcher, Serializable 
      */
     protected String argumentToString(Object argument) {
         StringBuffer result = new StringBuffer();
-        new ArrayEquals(argument).appendTo(result);
+        ArgumentToString.appendArgument(argument, result);
         return result.toString();
     }
 
@@ -118,8 +118,9 @@ public abstract class AbstractMatcher implements ArgumentsMatcher, Serializable 
         StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < arguments.length; i++) {
-            if (i > 0)
+            if (i > 0) {
                 result.append(", ");
+            }
             result.append(argumentToString(arguments[i]));
         }
         return result.toString();

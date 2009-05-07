@@ -7,6 +7,7 @@ package org.easymock.internal.matchers;
 import java.io.Serializable;
 
 import org.easymock.IArgumentMatcher;
+import org.easymock.internal.ArgumentToString;
 
 public class Same implements IArgumentMatcher, Serializable {
 
@@ -24,17 +25,7 @@ public class Same implements IArgumentMatcher, Serializable {
 
     public void appendTo(StringBuffer buffer) {
         buffer.append("same(");
-        appendQuoting(buffer);
-        buffer.append(expected);
-        appendQuoting(buffer);
+        ArgumentToString.appendArgument(expected, buffer);
         buffer.append(")");
-    }
-
-    private void appendQuoting(StringBuffer buffer) {
-        if (expected instanceof String) {
-            buffer.append("\"");
-        } else if (expected instanceof Character) {
-            buffer.append("'");
-        }
     }
 }

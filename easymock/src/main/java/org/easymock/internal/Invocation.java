@@ -8,11 +8,11 @@ import static java.lang.Character.*;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.easymock.internal.matchers.ArrayEquals;
 import org.easymock.internal.matchers.Captures;
 
 public class Invocation implements Serializable {
@@ -40,13 +40,24 @@ public class Invocation implements Serializable {
                 && !args[args.length - 1].getClass().isArray()) {
             return args == null ? new Object[0] : args;
         }
-        Object[] varArgs = ArrayEquals.createObjectArray(args[args.length - 1]);
+        Object[] varArgs = createObjectArray(args[args.length - 1]);
         final int nonVarArgsCount = args.length - 1;
         final int varArgsCount = varArgs.length;
         Object[] newArgs = new Object[nonVarArgsCount + varArgsCount];
         System.arraycopy(args, 0, newArgs, 0, nonVarArgsCount);
         System.arraycopy(varArgs, 0, newArgs, nonVarArgsCount, varArgsCount);
         return newArgs;
+    }
+    
+    private static Object[] createObjectArray(Object array) {
+        if (array instanceof Object[]) {
+            return (Object[]) array;
+        }
+        Object[] result = new Object[Array.getLength(array)];
+        for (int i = 0; i < Array.getLength(array); i++) {
+            result[i] = Array.get(array, i);
+        }
+        return result;
     }
 
     public Object getMock() {
