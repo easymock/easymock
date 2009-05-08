@@ -31,12 +31,14 @@ To bundle EasyMock:
 - "mvn clean verify assembly:single"
 
 To deploy to the EasyMock maven repository,
+- A shell might be needed so just do something like 'plink source_forge_login,easymock@shell.sf.net create'
+
 - You will first need to add something like this to your settings.xml
 
   <servers>
     <server>
       <id>easymock-release</id>
-      <username>source_forge_login</username>
+      <username>source_forge_login,easymock</username>
       <configuration>
         <sshExecutable>C:\putty\plink</sshExecutable>
         <scpExecutable>C:\putty\pscp</scpExecutable>
@@ -44,7 +46,7 @@ To deploy to the EasyMock maven repository,
     </server>
     <server>
       <id>easymock-snapshot</id>
-      <username>source_forge_login</username>
+      <username>source_forge_login,easymock</username>
       <configuration>
         <sshExecutable>C:\putty\plink</sshExecutable>
         <scpExecutable>C:\putty\pscp</scpExecutable>
