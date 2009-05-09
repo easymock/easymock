@@ -4,6 +4,8 @@
  */
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -129,21 +131,46 @@ public class UsageVarargTest {
         mock.withVarargsShort(1, (short) 1, (short) 2);
         control.verify();
     }
-    
+
     @Test
     public void varargAcceptedIfArrayIsGiven() {
-        IVarArgs object = (IVarArgs) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[] { IVarArgs.class }, new InvocationHandler() {
-        
-            public Object invoke(Object proxy, Method method, Object[] args)
-                    throws Throwable {
-                return null;
-            }
-        });
+        IVarArgs object = (IVarArgs) Proxy.newProxyInstance(Thread
+                .currentThread().getContextClassLoader(),
+                new Class[] { IVarArgs.class }, new InvocationHandler() {
+
+                    public Object invoke(Object proxy, Method method,
+                            Object[] args) throws Throwable {
+                        return null;
+                    }
+                });
         object.withVarargsObject(1);
         object.withVarargsObject(1, (Object) null);
         object.withVarargsObject(1, (Object[]) null);
-        object.withVarargsObject(1, (Object[]) new Object[0] );
+        object.withVarargsObject(1, new Object[0]);
         object.withVarargsObject(1, false);
-        object.withVarargsObject(1, new boolean[] {true, false});
+        object.withVarargsObject(1, new boolean[] { true, false });
     }
+
+    /**
+     * Make sure we can validate any kind of varargs call
+     */
+    @Test
+    public void allKinds() {
+        mock.withVarargsObject(eq(1), aryEq((Object[]) null));
+        mock.withVarargsObject(eq(1), isNull());
+        mock.withVarargsObject(1, "a", "b");
+        mock.withVarargsObject(1, "a", "b");
+        mock
+                .withVarargsObject(eq(1), aryEq(new Object[] { "a", "b" }));
+        mock.withVarargsObject(1);
+        control.replay();
+        mock.withVarargsObject(1, (Object[]) null);
+        mock.withVarargsObject(1, (Object) null);        
+        mock.withVarargsObject(1, "a", "b");
+        mock.withVarargsObject(1, new Object[] { "a", "b" });
+        mock.withVarargsObject(1, (Object) new Object[] { "a", "b" });
+        mock.withVarargsObject(1);
+        control.verify();
+    }
+
 }
