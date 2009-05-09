@@ -36,9 +36,11 @@ public class Invocation implements Serializable {
 
     private static Object[] expandVarArgs(final boolean isVarArgs,
             final Object[] args) {
-        if (!isVarArgs || isVarArgs && args[args.length - 1] != null
-                && !args[args.length - 1].getClass().isArray()) {
+        if (!isVarArgs) {
             return args == null ? new Object[0] : args;
+        }
+        if (args[args.length - 1] == null) {
+            return args;
         }
         Object[] varArgs = createObjectArray(args[args.length - 1]);
         final int nonVarArgsCount = args.length - 1;
