@@ -179,14 +179,28 @@ public class CaptureTest {
     public void testCapture() {
         Capture<String> capture = new Capture<String>();
         assertFalse(capture.hasCaptured());
-        assertNull(capture.getValue());
+        try {
+            capture.getValue();
+            fail("Should not be allowed");
+        }
+        catch(AssertionError e) {
+            assertEquals("Nothing captured yet", e.getMessage());
+        }
+        assertEquals("Nothing captured yet", capture.toString());
         capture.setValue("s");
         assertTrue(capture.hasCaptured());
         assertEquals("s", capture.getValue());
         assertEquals("s", capture.toString());
         capture.reset();
         assertFalse(capture.hasCaptured());
-        assertNull(capture.getValue());
+        try {
+            capture.getValue();
+            fail();
+        }
+        catch(AssertionError e) {
+            assertEquals("Nothing captured yet", e.getMessage());
+        }
+        
         capture.setValue(null);
         assertTrue(capture.hasCaptured());
         assertNull(capture.getValue());

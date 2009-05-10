@@ -58,12 +58,13 @@ public class Capture<T> implements Serializable {
      * Return captured value
      * 
      * @throws AssertionError
-     *             if more than one value was captured
-     * @return The last captured value or null if none
+     *             if nothing was captured yet or if more than one value was
+     *             captured
+     * @return The last captured value
      */
     public T getValue() {
         if (values.isEmpty()) {
-            return null;
+            throw new AssertionError("Nothing captured yet");
         }
         if (values.size() > 1) {
             throw new AssertionError("More than one value captured: "
