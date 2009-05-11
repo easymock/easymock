@@ -40,7 +40,8 @@ public class UsageUnorderedTest {
             mock.method(42);
             fail();
         } catch (AssertionError expected) {
-            assertEquals("\n  Unexpected method call method(42):"
+            assertEquals(
+                    "\n  Unexpected method call method(42). Possible matches are marked with (+1):"
                     + "\n    method(<any>): expected: 3, actual: 3 (+1)"
                     + "\n    method(<any>): expected: 1, actual: 1 (+1)",
                     expected.getMessage());

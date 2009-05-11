@@ -15,9 +15,9 @@ public class Results implements Serializable {
 
     private int callCount;
 
-    private LinkedList<Range> ranges = new LinkedList<Range>();
+    private final LinkedList<Range> ranges = new LinkedList<Range>();
 
-    private List<Result> results = new ArrayList<Result>();
+    private final List<Result> results = new ArrayList<Result>();
 
     public void add(Result result, Range range) {
         if (!ranges.isEmpty()) {
@@ -54,7 +54,7 @@ public class Results implements Serializable {
 
     @Override
     public String toString() {
-        return getMainInterval().expectedAndActual(getCallCount());
+        return getMainInterval().expectedCount();
     }
 
     private Range getMainInterval() {

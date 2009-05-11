@@ -271,7 +271,7 @@ call is executed too often, the Mock Object complains, too:
 <pre>
 java.lang.AssertionError: 
   Unexpected method call documentAdded("New Document"):
-    documentAdded("New Document"): expected: 1, actual: 1 (+1)
+    documentAdded("New Document"): expected: 1, actual: 2
     at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
     at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
     at $Proxy0.documentAdded(Unknown Source)
@@ -366,7 +366,7 @@ exceeding the limit:
 <pre>
 java.lang.AssertionError: 
   Unexpected method call documentChanged("Document"):
-    documentChanged("Document"): expected: 3, actual: 3 (+1)
+    documentChanged("Document"): expected: 3, actual: 4
 	at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
 	at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
 	at $Proxy0.documentChanged(Unknown Source)
@@ -989,6 +989,8 @@ Changes since 2.4:
 <li>Give the capture a more user friendly behavior (2617107, 2133741)
 </li>
 <li>NPE was sometime thrown during recording on varargs methods (2078444)
+</li>
+<li>Clearer error message for actual and expected count (2744605)
 </li>
 </ul>
 <p>
