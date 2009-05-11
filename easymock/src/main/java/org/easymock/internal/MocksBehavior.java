@@ -100,31 +100,50 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         // Case where the loop was exited at the end of the behaviorLists
         if (endPosition == behaviorLists.size()) {
             endPosition--;
-        }
+        }   
         
         // Loop all around the behaviors left to generate the message
         StringBuilder errorMessage = new StringBuilder(70 * (endPosition
                 - initialPosition + 1)); // rough approximation of the length
+        errorMessage.append("\n  Unexpected method call ").append(
+                actual.toString(org.easymock.MockControl.EQUALS_MATCHER));
+                
+        List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
+        
+        int matches = 0;
+        
+        // First find how many match we have
         for (int i = initialPosition; i <= endPosition; i++) {
-            errorMessage.append(behaviorLists.get(i).toString(actual));
+            List<ErrorMessage> thisListMessages = behaviorLists.get(i)
+                    .getMessages(actual);
+            messages.addAll(thisListMessages);
+            for (ErrorMessage m : thisListMessages) {
+                if (m.isMatching()) {
+                    matches++;
+                }
+            }
+        }
+        
+        if (matches > 1) {
+            errorMessage
+                    .append(". Possible matches are marked with (+1):");
+        } else {
+            errorMessage.append(":");
         }
 
+        for (ErrorMessage m : messages) {
+            m.appendTo(errorMessage, matches);
+        }
+        
         // And finally throw the error
-        throw new AssertionErrorWrapper(
-                new AssertionError(
-                        "\n  Unexpected method call "
-                                + actual
-                                        .toString(org.easymock.MockControl.EQUALS_MATCHER)
-                                + ":" + errorMessage));
+        throw new AssertionErrorWrapper(new AssertionError(errorMessage));
     }
 
     public void verify() {
         boolean verified = true;
-        StringBuilder errorMessage = new StringBuilder();
-
+        
         for (UnorderedBehavior behaviorList : behaviorLists.subList(position,
                 behaviorLists.size())) {
-            errorMessage.append(behaviorList.toString());
             if (!behaviorList.verify()) {
                 verified = false;
             }
@@ -132,9 +151,21 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         if (verified) {
             return;
         }
+        
+        StringBuilder errorMessage = new StringBuilder(70 * (behaviorLists
+                .size()
+                - position + 1));
 
-        throw new AssertionErrorWrapper(new AssertionError(
-                "\n  Expectation failure on verify:" + errorMessage.toString()));
+        errorMessage.append("\n  Expectation failure on verify:");
+        for (UnorderedBehavior behaviorList : behaviorLists.subList(position,
+                behaviorLists.size())) {
+            for (ErrorMessage m : behaviorList.getMessages(null)) {
+                m.appendTo(errorMessage, 0);
+            }
+        }
+        
+        throw new AssertionErrorWrapper(new AssertionError(errorMessage
+                .toString()));
     }
 
     public void checkOrder(boolean value) {

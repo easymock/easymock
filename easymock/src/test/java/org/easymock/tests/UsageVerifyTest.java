@@ -60,7 +60,7 @@ public class UsageVerifyTest {
             fail("AssertionError expected");
         } catch (AssertionError expected) {
             assertEquals("\n  Unexpected method call throwsNothing(true):"
-                    + "\n    throwsNothing(true): expected: 2, actual: 2 (+1)",
+                    + "\n    throwsNothing(true): expected: 2, actual: 3",
                     expected.getMessage());
         }
     }
@@ -147,7 +147,7 @@ public class UsageVerifyTest {
         } catch (AssertionError expected) {
             assertEquals(
                     "\n  Unexpected method call throwsIOException(0):"
-                            + "\n    throwsIOException(0): expected: 2, actual: 2 (+1)",
+                            + "\n    throwsIOException(0): expected: 2, actual: 3",
                     expected.getMessage());
         }
     }

@@ -10,9 +10,9 @@ public class Range implements Serializable {
 
     private static final long serialVersionUID = -6743402320315331536L;
 
-    private int minimum;
+    private final int minimum;
 
-    private int maximum;
+    private final int maximum;
 
     public Range(int count) {
         this(count, count);
@@ -49,6 +49,7 @@ public class Range implements Serializable {
         return minimum;
     }
 
+    @Override
     public String toString() {
         if (hasFixedCount()) {
             return "" + minimum;
@@ -59,8 +60,8 @@ public class Range implements Serializable {
         }
     }
 
-    public String expectedAndActual(int count) {
-        return "expected: " + this.toString() + ", actual: " + count;
+    public String expectedCount() {
+        return "expected: " + this.toString();
     }
 
     public boolean contains(int count) {

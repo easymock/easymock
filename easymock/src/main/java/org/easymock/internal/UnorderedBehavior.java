@@ -63,14 +63,10 @@ public class UnorderedBehavior implements Serializable {
         }
         return true;
     }
-
-    @Override
-    public String toString() {
-        return toString(null);
-    }
-
-    public String toString(Invocation invocation) {
-        StringBuilder result = new StringBuilder();
+    
+    public List<ErrorMessage> getMessages(Invocation invocation) {
+        List<ErrorMessage> messages = new ArrayList<ErrorMessage>(results
+                .size());
         for (ExpectedInvocationAndResults entry : results) {
             boolean unordered = !checkOrder;
             boolean validCallCount = entry.getResults().hasValidCallCount();
@@ -80,12 +76,14 @@ public class UnorderedBehavior implements Serializable {
             if (unordered && validCallCount && !match) {
                 continue;
             }
-            result.append("\n    " + entry.toString());
-            if (match) {
-                result.append(" (+1)");
-            }
+
+            ErrorMessage message = new ErrorMessage(match, entry.toString(),
+                    entry.getResults()
+                    .getCallCount());
+            messages.add(message);
         }
-        return result.toString();
+        return messages;
+
     }
 
     public boolean allowsExpectedInvocation(ExpectedInvocation expected,

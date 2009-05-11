@@ -157,7 +157,7 @@ public class UsageStrictMockTest {
             failed = true;
             assertEquals(
                     "\n  Unexpected method call booleanReturningMethod(1):"
-                            + "\n    booleanReturningMethod(1): expected: between 2 and 3, actual: 3 (+1)"
+                            + "\n    booleanReturningMethod(1): expected: between 2 and 3, actual: 4"
                             + "\n    simpleMethod(): expected: at least 1, actual: 0",
                     expected.getMessage());
         }
