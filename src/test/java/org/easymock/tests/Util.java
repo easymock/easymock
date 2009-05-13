@@ -7,10 +7,19 @@ package org.easymock.tests;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class Util {
+public final class Util {
+
+    private Util() {
+    }
+    
     public static String getStackTrace(Throwable throwable) {
         StringWriter stackTrace = new StringWriter();
         throwable.printStackTrace(new PrintWriter(stackTrace));
         return stackTrace.getBuffer().toString();
+    }
+    
+    public static boolean startWithClass(Throwable throwable, Class<?> clazz) {
+        StackTraceElement[] elements = throwable.getStackTrace();
+        return elements[0].getClassName().equals(clazz.getName());
     }
 }
