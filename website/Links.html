@@ -118,13 +118,28 @@ Some information on the concept of mocking.
 </li>
 </ul>
 <h3>
-EasyMock Alternatives
+EasyMock Alternatives and Add-ins
 </h3>
-<p>
+<ul>
+<li><a href="http://code.google.com/p/powermock/">Powermock</a> is built on top of EasyMock. It uses a custom classloader and bytecode
+manipulation to enable mocking of static methods, constructors, final classes and methods, private methods, removal of static initializers and more. 
+</li>
+<li>
+<a href="http://www.stephenduncanjr.com/projects/easymock-propertyutils/index.html">easymock-propertyutils</a> is an add-in to EasyMock. It allows
+to use JavaBeans-style property matching for arguments when using EasyMock. Property matching is based on commons-beanutils as documented in Standard JavaBeans. 
+</li>
+<li>
 <a href="http://www.jmock.org">jMock</a> is another dynamic Mock Object generator for Java that was first released 
 two years after EasyMock. It uses another approach to define expectations that results in more flexibility to set expectations (you may specify almost everything imaginable) at the cost of less flexibility when refactoring (refactorings like method renaming and parameter reordering will break the tests) and loss of code completion when defining expectations or test-driving code.
-</p>
-
+</li>
+<li>
+<a href="http://mockito.org/">Mockito</a> is a lot like EasyMock but ordering steps a little differently. Mockito doesn't understand the notion 
+of 'expectation'. There is only stubbing and verifications.     
+</li>
+<li>
+<a href="http://code.google.com/p/hamcrest/">Hamcrest</a> is a library of matcher objects that can be used with EasyMock.
+</li>
+</ul>
 <div class="contentbar">
 &copy; 2001-2009 <a href="mailto:lists@tammofreese.de">Tammo Freese</a> 
 </div>
