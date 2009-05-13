@@ -14,9 +14,12 @@ public class Result implements IAnswer<Object>, Serializable {
     private static final long serialVersionUID = 5476251941213917681L;
 
     private final IAnswer<?> value;
+    
+    private final boolean shouldFillInStackTrace;
 
-    private Result(IAnswer<?> value) {
+    private Result(IAnswer<?> value, boolean shouldFillInStackTrace) {
         this.value = value;
+        this.shouldFillInStackTrace = shouldFillInStackTrace;
     }
 
     public static Result createThrowResult(final Throwable throwable) {
@@ -33,7 +36,7 @@ public class Result implements IAnswer<Object>, Serializable {
                 return "Answer throwing " + throwable;
             }
         }
-        return new Result(new ThrowingAnswer());
+        return new Result(new ThrowingAnswer(), true);
     }
 
     public static Result createReturnResult(final Object value) {
@@ -50,7 +53,7 @@ public class Result implements IAnswer<Object>, Serializable {
                 return "Answer returning " + value;
             }
         }
-        return new Result(new ReturningAnswer());
+        return new Result(new ReturningAnswer(), true);
     }
 
     public static Result createDelegatingResult(final Object value) {
@@ -78,20 +81,23 @@ public class Result implements IAnswer<Object>, Serializable {
                 return "Delegated to " + value;
             }
         }
-        return new Result(new DelegatingAnswer());
+        return new Result(new DelegatingAnswer(), false);
     }
 
     public static Result createAnswerResult(IAnswer<?> answer) {
-        return new Result(answer);
+        return new Result(answer, false);
     }
 
     public Object answer() throws Throwable {
         return value.answer();
     }
 
+    public boolean shouldFillInStackTrace() {
+        return shouldFillInStackTrace;
+    }
+    
     @Override
     public String toString() {
         return value.toString();
     }
-
 }

@@ -44,7 +44,10 @@ public class ReplayState implements IMocksControlState, Serializable {
             try {
                 return result.answer();
             } catch (Throwable t) {
-                throw new ThrowableWrapper(t);
+                if (result.shouldFillInStackTrace()) {
+                    throw new ThrowableWrapper(t);
+                }
+                throw t;
             }
         } finally {
             LastControl.popCurrentInvocation();
