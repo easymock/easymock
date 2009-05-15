@@ -21,7 +21,7 @@ public class LastControl {
 
     private static final ThreadLocal<Stack<IArgumentMatcher>> threadToArgumentMatcherStack = new ThreadLocal<Stack<IArgumentMatcher>>();
 
-    public static synchronized void reportLastControl(MocksControl control) {
+    public static void reportLastControl(MocksControl control) {
         if (control != null) {
             threadToControl.set(control);
         } else {
@@ -29,11 +29,11 @@ public class LastControl {
         }
     }
 
-    public static synchronized MocksControl lastControl() {
+    public static MocksControl lastControl() {
         return threadToControl.get();
     }
 
-    public static synchronized void reportMatcher(IArgumentMatcher matcher) {
+    public static void reportMatcher(IArgumentMatcher matcher) {
         Stack<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
         if (stack == null) {
             stack = new Stack<IArgumentMatcher>();
@@ -42,7 +42,7 @@ public class LastControl {
         stack.push(matcher);
     }
 
-    public static synchronized List<IArgumentMatcher> pullMatchers() {
+    public static List<IArgumentMatcher> pullMatchers() {
         Stack<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
         if (stack == null) {
             return null;
@@ -51,13 +51,13 @@ public class LastControl {
         return new ArrayList<IArgumentMatcher>(stack);
     }
 
-    public static synchronized void reportAnd(int count) {
+    public static void reportAnd(int count) {
         Stack<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
         assertState(stack != null, "no matchers found.");
         stack.push(new And(popLastArgumentMatchers(count)));
     }
 
-    public static synchronized void reportNot() {
+    public static void reportNot() {
         Stack<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
         assertState(stack != null, "no matchers found.");
         stack.push(new Not(popLastArgumentMatchers(1).get(0)));
