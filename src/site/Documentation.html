@@ -896,6 +896,10 @@ Mocks can be serialized at any time during their life. However, there are some o
 </ul>
 <h3>Multithreading</h3>
 <p>
+During recording, a mock is <b>not</b> thread-safe. So a giving mock (or mocks linked to the same <code>MockControl</code>)
+can only be recorded  from a single thread. However, different mocks can be recorded simultaneously in different threads.
+</p>
+<p>
 By default, mocks are not thread-safe. They also checks that they are indeed used in 
 only one thread. To synchronize it, call the <code>makeThreadSafe</code> method. Note
 that all mocks create with a given <code>IMocksControl</code> will be synchronized with one another.
