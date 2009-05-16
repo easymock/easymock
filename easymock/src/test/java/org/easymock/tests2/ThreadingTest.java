@@ -103,5 +103,36 @@ public class ThreadingTest {
             setEasyMockProperty(DISABLE_THREAD_SAFETY_CHECK, previous);
         }
     }
+    
+    @Test
+    public void testRecordingInMultipleThreads() throws InterruptedException,
+            ExecutionException {
+        
+        Callable<String> replay = new Callable<String>() {
+            public String call() throws Exception {
+                final IMethods mock = createMock(IMethods.class);
+                expect(mock.oneArg("test")).andReturn("result");
+
+                replay(mock);
+
+                String s = mock.oneArg("test");
+
+                verify(mock);
+                
+                return s;
+            }
+        };
+
+        ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
+
+        List<Callable<String>> tasks = Collections
+                .nCopies(THREAD_COUNT, replay);
+
+        List<Future<String>> results = service.invokeAll(tasks);
+
+        for (Future<String> future : results) {
+            assertEquals("result", future.get());
+        }
+    }
 }
 
