@@ -937,8 +937,9 @@ existence. Il y a toutefois des contraintes évidentes:
 </ul>
 <h3>Traitement multifil</h3>
 <p>
-During recording, a mock is <b>not</b> thread-safe. So a giving mock (or mocks linked to the same <code>MockControl</code>
-can only be recording in a given thread. However, different mocks can be recorded in different threads.
+Pendant la phase d'enregistrement un Mock Object <b>n'est pas</b> à fil sécurisé. Un Mock Object donné (ou des Mock Objects liés au
+même <code>MockControl</code>) ne peut être enregistré que d'un seul fil. Toutefois, plusieurs Mock Objects peuvent être enregistrés
+simultanément dans des fils différents.
 </p>
 <p>
 Par défaut, les Mock Objects ne sont pas à fil sécurisé. De plus, ils vérifient 
