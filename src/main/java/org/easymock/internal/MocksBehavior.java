@@ -9,6 +9,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.easymock.EasyMock;
+
 public class MocksBehavior implements IMocksBehavior, Serializable {
 
     private static final long serialVersionUID = 3265727009370529027L;
@@ -22,6 +24,8 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
     private boolean checkOrder;
 
     private boolean isThreadSafe;
+    
+    private boolean shouldBeUsedInOneThread;
 
     private int position = 0;
 
@@ -31,6 +35,11 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
 
     public MocksBehavior(boolean nice) {
         this.nice = nice;
+        this.isThreadSafe = !Boolean.valueOf(EasyMockProperties.getInstance()
+                .getProperty(EasyMock.NOT_THREAD_SAFE_BY_DEFAULT));
+        this.shouldBeUsedInOneThread = Boolean.valueOf(EasyMockProperties
+                .getInstance().getProperty(
+                        EasyMock.ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT));
     }
 
     public final void addStub(ExpectedInvocation expected, Result result) {
@@ -175,17 +184,25 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
     public void makeThreadSafe(boolean isThreadSafe) {
         this.isThreadSafe = isThreadSafe;
     }
+    
+    public void shouldBeUsedInOneThread(boolean shouldBeUsedInOneThread) {
+        this.shouldBeUsedInOneThread = shouldBeUsedInOneThread;
+    }    
 
     public boolean isThreadSafe() {
         return this.isThreadSafe;
     }
 
-    public void checkCurrentThreadSameAsLastThread() {       
+    public void checkThreadSafety() {
+        if (!shouldBeUsedInOneThread) {
+            return;
+        }
         if (lastThread == null) {
             lastThread = Thread.currentThread();
         } else if(lastThread != Thread.currentThread()) {
             throw new AssertionErrorWrapper(new AssertionError(
-                    "\n Un-thread-safe mock called from multiple threads. Last: " + lastThread + 
+                    "\n Mock isn't supposed to be called from multiple threads. Last: "
+                            + lastThread + 
                     " Current: " + Thread.currentThread()));
         }        
     }

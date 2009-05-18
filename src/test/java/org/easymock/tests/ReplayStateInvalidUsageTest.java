@@ -445,6 +445,11 @@ public class ReplayStateInvalidUsageTest {
     public void makeThreadSafe() {
         mocksControl.makeThreadSafe(true);
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void checkIsUsedInOneThread() {
+        mocksControl.checkIsUsedInOneThread(true);
+    }
     
     @Test(expected = IllegalStateException.class)
     public void andStubReturn() {

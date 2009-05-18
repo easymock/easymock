@@ -62,7 +62,6 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     public final void reset() {
         behavior = new MocksBehavior(type == MockType.NICE);
         behavior.checkOrder(type == MockType.STRICT);
-        behavior.makeThreadSafe(false);
         state = new RecordState(behavior);
         LastControl.reportLastControl(null);
     }
@@ -113,6 +112,14 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     public void makeThreadSafe(boolean threadSafe) {
         try {
             state.makeThreadSafe(threadSafe);
+        } catch (RuntimeExceptionWrapper e) {
+            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
+        }
+    }
+    
+    public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
+        try {
+            state.checkIsUsedInOneThread(shouldBeUsedInOneThread);
         } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }

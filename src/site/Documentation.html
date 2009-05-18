@@ -900,19 +900,23 @@ During recording, a mock is <b>not</b> thread-safe. So a giving mock (or mocks l
 can only be recorded  from a single thread. However, different mocks can be recorded simultaneously in different threads.
 </p>
 <p>
-By default, mocks are not thread-safe. They also checks that they are indeed used in 
-only one thread. To synchronize it, call the <code>makeThreadSafe</code> method. Note
-that all mocks create with a given <code>IMocksControl</code> will be synchronized with one another.
+During the replay phase, mocks are by default thread-safe. This can be change for a given mock if <code>makeThreadSafe(mock, false)</code>
+is called during the recording phase. This can prevent deadlocks in some rare situations.
 </p>
-<h3>Altering EasyMock behavior</h3>
+<p>
+Finally, calling <code>checkIsUsedInOneThread(mock, true)</code> on a mock will make sure the mock is used in only one thread and
+throw an exception otherwise. This can be handy to make sure a thread-unsafe mocked object is used correctly.
+</p>
+<h3>Altering EasyMock default behavior</h3>
 <p>
 EasyMock provides a property mecanisim allowing to alter its behavior. It mainly aims
 at allowing to use a legacy behavior on a new version. Currently supported properties are:
 </p>
 <dl>
-<dt><code>easymock.disableThreadSafetyCheck</code></dt>
-<dd>Disables thread-safety check feature and makes all mocks thread-safe by default. 
-Possible values are "true" or "false". Default is false</dd>
+<dt><code>easymock.notThreadSafeByDefault</code></dt>
+<dd>If true, a mock won't be thread-safe by default. Possible values are "true" or "false". Default is false</dd>
+<dt><code>easymock.enableThreadSafetyCheckByDefault</code></dt>
+<dd>If true, thread-safety check feature will be on by default. Possible values are "true" or "false". Default is false</dd>
 </dl>
 <p>
 Properties can be set in three ways. Each step in the list can overwrite
@@ -974,9 +978,13 @@ New in version 2.5:
 <ul>
 <li>Enhanced thread safety error message (2342332)
 </li>
+<li>Mocks are now thread-safe by default (2169027)
+</li>
+<li>Mocks are not checked for thread-safety by default anymore (2169027)
+</li>
 <li>Properties to get legacy behaviors back
 </li>
-<li>easymock.disableThreadSafetyCheck property to disable thread safety check (2169027)
+<li><code>easymock.notThreadSafeByDefault</code> and <code>easymock.enableThreadSafetyCheckByDefault</code> properties provide backward compatibility (2169027)
 </li>
 <li>Improved error message of actual parameters for arrays (2550502)
 </li>
