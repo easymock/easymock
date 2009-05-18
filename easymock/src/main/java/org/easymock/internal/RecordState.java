@@ -360,6 +360,10 @@ public class RecordState implements IMocksControlState, Serializable {
     public void makeThreadSafe(boolean threadSafe) {
         behavior.makeThreadSafe(threadSafe);
     }
+
+    public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
+        behavior.shouldBeUsedInOneThread(shouldBeUsedInOneThread);
+    }
     
     @SuppressWarnings("deprecation")
     public void setDefaultMatcher(org.easymock.ArgumentsMatcher matcher) {

@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
+import org.easymock.internal.AssertionErrorWrapper;
+import org.easymock.internal.MocksBehavior;
 import org.easymock.tests.IMethods;
 import org.junit.Test;
 
@@ -29,8 +31,6 @@ public class ThreadingTest {
 
         final IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg("test")).andReturn("result").times(THREAD_COUNT);
-        
-        makeThreadSafe(mock, true);
         
         replay(mock);
         
@@ -59,6 +59,10 @@ public class ThreadingTest {
         final IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg("test")).andReturn("result").times(THREAD_COUNT);
         
+        makeThreadSafe(mock, false);
+
+        checkIsUsedInOneThread(mock, true);
+        
         replay(mock);
         
         Callable<String> replay = new Callable<String>() {
@@ -84,7 +88,7 @@ public class ThreadingTest {
                 // best assert I can do except doing
                 // a regular exception and I don't think it worth it
                 assertTrue(e.getCause().getMessage().startsWith(                        
-                        "\n Un-thread-safe mock called from multiple threads. Last: "));
+                        "\n Mock isn't supposed to be called from multiple threads. Last: "));
                 exceptionThrown = true;
             }
         }
@@ -93,14 +97,50 @@ public class ThreadingTest {
     }    
     
     @Test
-    public void testDisablingThreadSafetyCheck() throws Throwable {
-        String previous = setEasyMockProperty(DISABLE_THREAD_SAFETY_CHECK,
+    public void testMockUsedCorrectly() {
+        final IMethods mock = createMock(IMethods.class);
+        expect(mock.oneArg("test")).andReturn("result").times(2);
+
+        checkIsUsedInOneThread(mock, true);
+
+        replay(mock);
+
+        mock.oneArg("test");
+        mock.oneArg("test");
+
+        verify(mock);
+    }
+
+    @Test
+    public void testChangeDefault() throws Throwable {
+        String previousThreadSafetyCheck = setEasyMockProperty(
+                ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT,
                 Boolean.TRUE.toString());
+        String previousThreadSafe = setEasyMockProperty(
+                NOT_THREAD_SAFE_BY_DEFAULT, Boolean.TRUE.toString());
         try {
-            // Call the thread-safe test. Shouldn't fail
-            testThreadNotSafe();            
+            final MocksBehavior behavior = new MocksBehavior(true);
+            assertFalse(behavior.isThreadSafe());
+            
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    behavior.checkThreadSafety();
+                }
+            };
+            t.start();
+            t.join();
+            try {
+                behavior.checkThreadSafety();
+                fail("Shouldn't work");
+            } catch (AssertionErrorWrapper e) {
+
+            }
+            
         } finally {
-            setEasyMockProperty(DISABLE_THREAD_SAFETY_CHECK, previous);
+            setEasyMockProperty(ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT,
+                    previousThreadSafetyCheck);
+            setEasyMockProperty(NOT_THREAD_SAFE_BY_DEFAULT, previousThreadSafe);
         }
     }
     

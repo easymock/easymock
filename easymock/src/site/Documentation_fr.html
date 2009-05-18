@@ -942,10 +942,13 @@ même <code>MockControl</code>) ne peut être enregistré que d'un seul fil. Tou
 simultanément dans des fils différents.
 </p>
 <p>
-Par défaut, les Mock Objects ne sont pas à fil sécurisé. De plus, ils vérifient 
-qu'ils sont bien utilisés dans un seul fil. Pour les synchroniser, appelez la méthode 
-<code>makeThreadSafe</code>. Notez que les Mock Objects créés à partir du même 
-<code>IMocksControl</code> seront synchronisés l'un avec l'autre.
+Durant la phase de rejeu, un Mock Object sera à fil sécurisé par défaut. Ceci peut être changé en appelant <code>makeThreadSafe(mock, false)</code>.
+durant la phase d'enregistrement. Cela peut permettre d'éviter des interblocages dans certaines rares situations.
+</p>
+<p>
+Finallement, appeler <code>checkIsUsedInOneThread(mock, true)</code> permet de s'assurer qu'un Mock Object ne sera appelé que d'un seul
+fil. Une exception sera lancé sinon. Cela peut être pratique dans le cas où l'objet "mocké" n'est pas à fil sécurisé et que l'on veut
+s'assurer qu'il est utilisé correctement.
 </p>
 <h3>Modifier les comportements d'EasyMock</h3>
 <p>
@@ -954,9 +957,10 @@ principalement à permettre le retour à un comportement antérieur à la versio
 actuellement supportées sont:
 </p>
 <dl>
-<dt><code>easymock.disableThreadSafetyCheck</code></dt>
-<dd>Ne pas vérifier si les Mock Objects devraient être à fil sécurisé et les rendre tous à fil sécurisé par
-défaut. Les valeurs possibles sont "true" ou "false". Le défaut est "false"</dd>
+<dt><code>easymock.notThreadSafeByDefault</code></dt>
+<dd>Si true, les Mock Objects ne seront pas à fil sécurisé par défaut. Values possibles: "true" ou "false". Défaut: false</dd>
+<dt><code>easymock.enableThreadSafetyCheckByDefault</code></dt>
+<dd>Si true, un mock ne pourra être appelé que d'un seul fil. Values possibles: "true" ou "false". Défaut: false</dd>
 </dl>
 <p>
 Les propriétés peuvent être mise de trois façons. Chaque étape de la liste peut écraser une précédente.
@@ -1021,10 +1025,13 @@ Nouveau dans la version 2.5:
 <ul>
 <li>Message d'erreur pour les fils sécurisés amélioré (2342332)
 </li>
-<li>Propriétés permettant d'avoir le comportement des versions précédentes
+<li>Les Mock Objects sont maintenant à fil sécurisé par défaut (2169027)
 </li>
-<li>Propriété <code>easymock.disableThreadSafetyCheck</code> pour désactiver la vérification
-de fils sécurisés (2169027)
+<li>Par défaut, il n'y a plus de vérification de l'utilisation d'un mock dans un seul fil  (2169027)
+</li>
+<li>Propriétés permettants d'avoir le comportement des versions précédentes
+</li>
+<li>Les propriétés <code>easymock.notThreadSafeByDefault</code> et <code>easymock.enableThreadSafetyCheckByDefault</code> permettent d'être rétrocompatible (2169027)
 </li>
 <li>Amélioration du message d'erreur pour les paramètres de type tableau (2550502)
 </li>

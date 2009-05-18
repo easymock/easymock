@@ -6,8 +6,8 @@ package org.easymock.internal;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.concurrent.locks.ReentrantLock;
 
-import org.easymock.EasyMock;
 import org.easymock.IAnswer;
 
 public class ReplayState implements IMocksControlState, Serializable {
@@ -15,6 +15,8 @@ public class ReplayState implements IMocksControlState, Serializable {
     private static final long serialVersionUID = 6314142602251047572L;
 
     private final IMocksBehavior behavior;
+    
+    private final ReentrantLock lock = new ReentrantLock();
 
     public ReplayState(IMocksBehavior behavior) {
         this.behavior = behavior;
@@ -22,18 +24,19 @@ public class ReplayState implements IMocksControlState, Serializable {
 
     public Object invoke(Invocation invocation) throws Throwable {
 
-        if (behavior.isThreadSafe()
-                || Boolean.getBoolean(EasyMockProperties.getInstance()
-                        .getProperty(EasyMock.DISABLE_THREAD_SAFETY_CHECK,
-                                "false"))) {
+        behavior.checkThreadSafety();
+        
+        if (behavior.isThreadSafe()) {
             // If thread safe, synchronize the mock
-            synchronized (this) {
+            lock.lock();
+            try {
                 return invokeInner(invocation);
+            }
+            finally {
+                lock.unlock();
             }
         }
 
-        // Check that the same thread is called all the time...
-        behavior.checkCurrentThreadSameAsLastThread();
         return invokeInner(invocation);
     }
 
@@ -71,6 +74,10 @@ public class ReplayState implements IMocksControlState, Serializable {
     }
 
     public void makeThreadSafe(boolean threadSafe) {
+        throwWrappedIllegalStateException();
+    }
+    
+    public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
         throwWrappedIllegalStateException();
     }
 

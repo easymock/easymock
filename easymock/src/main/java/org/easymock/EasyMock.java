@@ -13,13 +13,22 @@ import org.easymock.internal.matchers.*;
 public class EasyMock {
 
     /**
-     * Since EasyMock 2.4, by default, a mock isn't allowed to be called in
-     * multiple threads unless it is made thread-safe (See
-     * {@link #makeThreadSafe(Object, boolean)} method). Setting this property
-     * to true will synchronize the mock and won't do any thread-safety check
+     * Since EasyMock 2.4, by default, a mock wasn't allowed to be called in
+     * multiple threads unless it was made thread-safe (See
+     * {@link #makeThreadSafe(Object, boolean)} method). Since EasyMock 2.5,
+     * this isn't the default anymore. For backward compatibility, this property
+     * can bring EasyMock 2.4 behavior back.
      */
-    public static final String DISABLE_THREAD_SAFETY_CHECK = "easymock.disableThreadSafetyCheck";
+    public static final String ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT = "easymock.enableThreadSafetyCheckByDefault";
 
+    /**
+     * Since EasyMock 2.5, by default a mock is thread-safe. For backward
+     * compatibility, this property can change the default. A given mock still
+     * can be made thread-safe by calling
+     * {@link #makeThreadSafe(Object, boolean)}.
+     */
+    public static final String NOT_THREAD_SAFE_BY_DEFAULT = "easymock.notThreadSafeByDefault";
+    
     /**
      * Creates a mock object that implements the given interface, order checking
      * is enabled by default.
@@ -1636,18 +1645,39 @@ public class EasyMock {
         }
         return result.getArguments();
     }
-    
+
     /**
-     * Makes the mock thread safe. The mock will be usable in a multithreaded
-     * environment.
+     * By default, a mock is thread safe (unless
+     * {@link #NOT_THREAD_SAFE_BY_DEFAULT} is set). This method can change this
+     * behavior. Two reasons are known for someone to do that: Performance or
+     * dead-locking issues.
      * 
-     * @param mock the mock to make thread safe
-     * @param threadSafe If the mock should be thread safe or not
+     * @param mock
+     *            the mock to make thread safe
+     * @param threadSafe
+     *            If the mock should be thread safe or not
      */
     public static void makeThreadSafe(Object mock, boolean threadSafe) {
         getControl(mock).makeThreadSafe(threadSafe);
     }
-    
+
+    /**
+     * Tell that the mock should be used in only one thread. An exception will
+     * be thrown if that's not the case. This can be useful when mocking an
+     * object that isn't thread safe to make sure it is used correctly in a
+     * multithreaded environment. By default, no check is done unless
+     * {@link #ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT} was set to true.
+     * 
+     * @param mock
+     *            the mock
+     * @param shouldBeUsedInOneThread
+     *            If the mock should be used in only one thread
+     */
+    public static void checkIsUsedInOneThread(Object mock,
+            boolean shouldBeUsedInOneThread) {
+        getControl(mock).checkIsUsedInOneThread(shouldBeUsedInOneThread);
+    }
+
     /**
      * Get the current value for an EasyMock property
      * 

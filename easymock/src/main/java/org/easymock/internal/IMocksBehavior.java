@@ -13,15 +13,17 @@ public interface IMocksBehavior extends ILegacyMatcherMethods {
 
     void checkOrder(boolean value);
 
-    // replay
-    Result addActual(Invocation invocation);
-    
     void makeThreadSafe(boolean isThreadSafe);
-
+    
+    void shouldBeUsedInOneThread(boolean shouldBeUsedInOneThread);
+    
+    // replay
+    Result addActual(Invocation invocation);    
+    
     boolean isThreadSafe();
-    
-    void checkCurrentThreadSameAsLastThread();
-    
+
+    void checkThreadSafety();
+
     // verify
     void verify();
 }

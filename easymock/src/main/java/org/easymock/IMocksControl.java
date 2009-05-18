@@ -72,4 +72,12 @@ public interface IMocksControl {
      * @param threadSafe If the mock should be thread safe or not
      */
     void makeThreadSafe(boolean threadSafe);
+    
+    /**
+     * Check that the mock is called from only one thread
+     * 
+     * @param shouldBeUsedInOneThread
+     *            If it should be used in one thread only or not
+     */
+    void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread);
 }

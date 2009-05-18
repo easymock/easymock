@@ -36,6 +36,8 @@ public interface IMocksControlState extends ILegacyMethods {
 
     void makeThreadSafe(boolean threadSafe);
     
+    void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread);
+    
     void replay();
 
     void verify();
