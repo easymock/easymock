@@ -56,8 +56,9 @@ To deploy to the EasyMock maven repository:
 
 - Then just type 'mvn deploy'
 
-To build the maven site (with findbugs, checkstyle and JavaNCSS reports):
-- 'mvn site'
+To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS reports):
+- You will to give enough memory to maven with 'set MAVEN_OPTS=-Xmx512m' (or setting it as environment variable)
+- Then type 'mvn site'
 
 To check-in:
 - easymock/trunk/svn-config.txt should be used to handle mime types correctly
