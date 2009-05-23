@@ -30,7 +30,7 @@ To build EasyMock with Maven:
 To bundle EasyMock:
 - "mvn clean verify assembly:single"
 
-To deploy to the EasyMock maven repository,
+To deploy to the EasyMock maven repository:
 - A shell might be needed so just do something like 'plink source_forge_login,easymock@shell.sf.net create'
 
 - You will first need to add something like this to your settings.xml
@@ -55,6 +55,9 @@ To deploy to the EasyMock maven repository,
   </servers>
 
 - Then just type 'mvn deploy'
+
+To build the maven site (with findbugs, checkstyle and JavaNCSS reports):
+- 'mvn site'
 
 To check-in:
 - easymock/trunk/svn-config.txt should be used to handle mime types correctly
