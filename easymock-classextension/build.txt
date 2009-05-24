@@ -1,0 +1,3 @@
+EasyMock Class Extension is built exactly like core EasyMock.
+
+So, the build process is described in ../easymock/build.txt
