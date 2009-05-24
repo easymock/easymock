@@ -62,3 +62,19 @@ To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS report
 
 To check-in:
 - easymock/trunk/svn-config.txt should be used to handle mime types correctly
+
+To release to SourceForge:
+- Update the Website
+  - Update index.html to announce the new version
+  - Update Download.html to add the new package
+  - Update Documentation.html to add the new documentation pages
+  - Copy the javadoc to website/api
+  - Copy Documentation.html and Documentation_fr.html from the zip bundle to the website (rename them)
+  - Check-in everything
+  - Log to the shell and launch refresh-website.sh
+
+- Upload the bundle
+  - Upload the bundle to frs.sourceforge.net
+  - Create a new release named EasyMock 2.x
+  
+- DON'T FORGET: Tag in SVN!
