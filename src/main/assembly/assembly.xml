@@ -1,0 +1,23 @@
+<assembly>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <fileSets>
+    <fileSet>
+      <outputDirectory/>
+      <directory>${project.basedir}/src/site</directory>
+      <filtered>true</filtered>
+    </fileSet>
+    <fileSet>
+      <outputDirectory/>
+      <directory>${project.build.directory}</directory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <outputDirectory>clover</outputDirectory>
+      <directory>${project.reporting.outputDirectory}/clover</directory>
+    </fileSet>     
+  </fileSets>
+</assembly>

@@ -1,0 +1,20 @@
+<assembly>
+  <id>samples</id>
+  <formats>
+    <format>jar</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <outputDirectory/>
+      <directory>${project.build.testOutputDirectory}</directory>
+      <includes>
+        <include>org/easymock/classextension/samples/**</include>
+      </includes>      
+    </fileSet>
+    <fileSet>
+      <outputDirectory/>
+      <directory>${basedir}/src/samples/java</directory>      
+    </fileSet>    
+  </fileSets>
+</assembly>
