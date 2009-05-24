@@ -23,7 +23,7 @@ EasyMock Class Extension permet de g&eacute;n&eacute;rer des Mock Objects &agrav
   
 EasyMock Class Extension n&eacute;cessite 
 <a href="http://java.sun.com">Java 5 ou sup&eacute;rieur</a>,
-<a href="http://www.easymock.org">EasyMock 2.4</a>, 
+<a href="http://www.easymock.org">EasyMock 2.5</a>, 
 <a href="http://cglib.sourceforge.net">cglib 2.1</a> 
 (2.0.x fonctionne &eacute;galement mais ne permet pas de "mocker" une classe sans constructeur visible),
 <a href="http://forge.objectweb.org/projects/asm">asm</a> 
@@ -160,6 +160,15 @@ dans la section fichiers du of Yahoo!Groups.
 </p>
 
 <a id="Release_Notes"/><h3>Notes de mises &agrave; jour</h3>
+<p>
+New in version 2.5:
+</p>
+<ul>
+<li>Si EasyMock recoit en paramètre un object qui n'est pas un mock, l'exception retournée n'est emballée correctement</li>
+<li>Un mock d'une exception lance une NPE (2407137)</li>
+<li>Migrer vers Subversion</li>
+<li>Tout construire avec Maven</li>
+</ul>
 <p>
 Nouveau dans la version 2.4:
 </p>
