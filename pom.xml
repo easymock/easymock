@@ -121,6 +121,11 @@
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <version>2.0.0</version>
+        <configuration>
+          <instructions>
+            <Export-Package>org.easymock.internal.*;poweruser=true;mandatory:=poweruser, org.easymock</Export-Package>
+          </instructions>
+        </configuration>        
         <executions>
           <execution>
             <id>bundle-manifest</id>
