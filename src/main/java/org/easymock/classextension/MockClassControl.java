@@ -22,6 +22,8 @@ import org.easymock.classextension.internal.MocksClassControl;
 @Deprecated
 public class MockClassControl<T> extends MockControl<T> {
 
+    private static final long serialVersionUID = -4329096516045908847L;
+
     /**
      * Creates a mock control object for the specified class or interface. The
      * {@link MockClassControl}and its associated mock object will not check
