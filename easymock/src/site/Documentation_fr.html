@@ -990,6 +990,15 @@ qui a été retirée dans EasyMock 2.2, car trop complexe.
 Depuis EasyMock 2.2, l'interface <code>IAnswer</code>
 fournit la fonctionnalité de callback. 
 </p>
+<h3>OSGi</h3>
+<p>
+Le jar d'EasyMock peut être utilisé comme bundle OSGi. Il export les packages
+<code>org.easymock</code>, <code>org.easymock.internal</code> 
+et <code>org.easymock.internal.matchers</code>. Toutefois, pour importer les deux
+derniers, vous spécifier l'attribut <code>poweruser</code> à "true" (<code>poweruser=true</code>). 
+Ces packages sont prévus d'être utilisés pour étendre EasyMock, ils n'ont donc pas besoins d'être
+importés habituellement.
+</p>
 <h2>
 Développement d'EasyMock
 </h2>

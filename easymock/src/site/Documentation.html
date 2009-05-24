@@ -943,6 +943,14 @@ JUnit's <code>AssertionFailedError</code>.
 as it was too complex. Since EasyMock 2.2, the <code>IAnswer</code> interface
 provides the functionality for callbacks. 
 </p>
+<h3>OSGi</h3>
+<p>
+EasyMock jar can be used as an OSGi bundle. It exports <code>org.easymock</code>, 
+<code>org.easymock.internal</code> and <code>org.easymock.internal.matchers</code>
+packages. However, to import the two latter, you need to specify the <code>poweruser</code>
+attribute at true (<code>poweruser=true</code>). These packages are meant to be
+used to extend EasyMock so they usually don't need to be imported.
+</p>
 <h2>
 EasyMock Development
 </h2>
