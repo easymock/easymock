@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />	
 	<title>EasyMock : Home</title>
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link rel="stylesheet" href="easymock.css" />
 </head>
-
-
-
 <body><div class="bodywidth">
 
 <h1><img src="img/easymock.gif" width="301" height="57" alt="EasyMock" /></h1>
@@ -27,10 +23,13 @@
 Overview
 </h2>
 <p>
-EasyMock provides Mock Objects for interfaces in JUnit tests by
-generating them on the fly using Java's proxy mechanism. Due to EasyMock's unique style of recording expectations, most refactorings will not affect the Mock Objects. So EasyMock is a perfect fit for Test-Driven Development. 
+EasyMock provides Mock Objects for interfaces (and objects through the class extension) by
+generating them on the fly using Java's proxy mechanism. Due to EasyMock's unique style of 
+recording expectations, most refactorings will not affect the Mock Objects. So EasyMock is 
+a perfect fit for Test-Driven Development. 
 </p>
-<p>EasyMock is open source software available under the terms of the MIT license. Development, downloads and issue tracking are hosted on <a href="http://sourceforge.net/projects/easymock">SourceForge</a>.
+<p>EasyMock is open source software available under the terms of the MIT license. Development, 
+downloads and issue tracking are hosted on <a href="http://sourceforge.net/projects/easymock">SourceForge</a>.
 </p>
 <p class="center">
 <a href="http://sourceforge.net/projects/easymock"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=82958&type=13" width="120" height="30" border="0" alt="Get EasyMock at SourceForge.net. Fast, secure and Free Open Source software downloads" /></a>
@@ -39,23 +38,26 @@ generating them on the fly using Java's proxy mechanism. Due to EasyMock's uniqu
 Changes
 </h2>
 <ul>
+	<li>2009-05-24: <strong>EasyMock 2.5 is available</strong>. Better multithreading, capture and compatibility with previous version.
+	  OSGi bundle. New delegation feature. Improved error message.
+	</li>
 	<li>2008-08-30: <strong>EasyMock 2.4 Class Extension is available</strong>. Fully compatible with EasyMock 2.4. However, it is
       not possible to serialize class extension mocks yet.
 	</li>
-	<li>2008-07-02: <strong>EasyMock 2.4 is available</strong>. Allows mock serialization, parameter capture, 
+	<li>2008-07-02: EasyMock 2.4 is available. Allows mock serialization, parameter capture, 
       thread-safe mode and to change mock type.
 	</li>  
 	<li>2007-12-26: EasyMock 2.3 Class Extension is available. Fully compatible with EasyMock 2.3 and allows a constructor
 		to be called on partial mocking.
 	</li>  	
-  <li>2007-07-09: EasyMock 2.3 is available. Allows mock naming and adds new matchers for Comparable/Comparator.
-  </li>
+    <li>2007-07-09: EasyMock 2.3 is available. Allows mock naming and adds new matchers for Comparable/Comparator.
+    </li>
 	<li>2007-04-12: EasyMock 2.2.2 Class Extension is available. Improved performance and memory usage, support
 	  for JRockit and GCJ, possibility to extend support to other JVMs.
 	</li>  
-  <li>2006-04-17: EasyMock 2.2 is available. It allows callbacks to return values and to throw exceptions,
+    <li>2006-04-17: EasyMock 2.2 is available. It allows callbacks to return values and to throw exceptions,
 	  and extends replay(), verify() and reset() to accept multiple mock objects as arguments.
-  </li>	
+    </li>	
 	<li>2006-04-17: EasyMock 2.2 Class Extension is available.
 	</li>
     <li>2006-04-08: EasyMock 2.1 Class Extension is available. Its self-tests are updated to JUnit 4.
@@ -93,7 +95,7 @@ users of hand-writing Mock Objects, or generating code for them. It was
 presented for the first time at OOPSLA 2001.
 </p>
 <div class="contentbar">
-&copy; 2001-2009 <a href="mailto:lists@tammofreese.de">Tammo Freese</a> 
+&copy; 2001-2009 <a href="mailto:lists@tammofreese.de">Tammo Freese</a> , <a href="http://www.jroller.com/Henri/">Henri Tremblay</a>
 </div>
 
 </div>
