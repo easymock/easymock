@@ -542,8 +542,8 @@ expect(mock.voteForRemovals(aryEq(documents))).andReturn(42);
 <dt><code>cmpEq(X value)</code></dt>
 <dd>실제값이 <code>Comparable.compareTo(X o)</code>에 따라 일치한다면 대응. 모든 숫자 형식의 원시 타입과 <code>Comparable</code> 인터페이스를 구현한 객체 타입에 사용가능.</dd>
 
-<dt><code>cmp(X value, Comparator<X> comparator, LogicalOperator operator)</code></dt>
-<dd>연산자가 <,<=,>,>= or ==인 <code>comparator.compare(actual, value) operator 0</code> 라면 대응. 객체 타입에 사용가능.</dd>
+<dt><code>cmp(X value, Comparator&lt;X&gt; comparator, LogicalOperator operator)</code></dt>
+<dd>연산자가 &lt;,&lt;=,&gt;,&gt;= or ==인 <code>comparator.compare(actual, value) operator 0</code> 라면 대응. 객체 타입에 사용가능.</dd>
 
 </dl>
 
@@ -627,7 +627,7 @@ public static &lt;T extends Throwable&gt; T eqException(T in) {
 메소드를 위한 스텁 행위 사용하기
 </h3>
 <p>
-때때로. 몇가지 메소드 호출에 응답하고자 모의 겍체를 바라지만 호출될때 호출되는 방법을 체크하고자 하지는 않는다. 스텁 행위는 <code>andStubReturn(Object value)</code>, <code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer<T> answer)</code> 그리고 <code>asStub()</code> 메소드를 사용하여 정의된다. 다음의 코드는 <code>voteForRemoval("Document")</code>를 위해 42를 반환하고 다른 모든 인자를 위해서는 -1을 응답하는 모의 객체를 설정한다:
+때때로. 몇가지 메소드 호출에 응답하고자 모의 겍체를 바라지만 호출될때 호출되는 방법을 체크하고자 하지는 않는다. 스텁 행위는 <code>andStubReturn(Object value)</code>, <code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer&lt;T&gt; answer)</code> 그리고 <code>asStub()</code> 메소드를 사용하여 정의된다. 다음의 코드는 <code>voteForRemoval("Document")</code>를 위해 42를 반환하고 다른 모든 인자를 위해서는 -1을 응답하는 모의 객체를 설정한다:
 </p>
 <pre>
     expect(mock.voteForRemoval("Document")).andReturn(42);
@@ -692,7 +692,7 @@ IMocksControl은 하나 이상의 모의 객체를 생성하도록 하고 모의
 </pre>
 <h3>모의 객체 명명하기</h3>
 <p>
-모의 객체는 <code>createMock(String name, Class<T> toMock)</code>, <code>createStrictMock(String name, Class<T> toMock)</code> 또는 <code>createNiceMock(String name, Class<T> toMock)</code> 를 사용하여 만드는 것으로 명명할수 있다. 그 이름은 예외 메시지에서 보여질것이다. 
+모의 객체는 <code>createMock(String name, Class&lt;T&gt; toMock)</code>, <code>createStrictMock(String name, Class&lt;T&gt; toMock)</code> 또는 <code>createNiceMock(String name, Class&lt;T&gt; toMock)</code> 를 사용하여 만드는 것으로 명명할수 있다. 그 이름은 예외 메시지에서 보여질것이다. 
 </p>
 <h3>
 이전버전과의 호환성

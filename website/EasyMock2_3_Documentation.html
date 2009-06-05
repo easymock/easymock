@@ -652,8 +652,8 @@ There are a couple of predefined argument matchers available.
 <dt><code>cmpEq(X value)</code></dt>
 <dd>Matches if the actual value is equals according to <code>Comparable.compareTo(X o)</code>. Available for all numeric primitive types and <code>Comparable</code>.</dd>
 
-<dt><code>cmp(X value, Comparator<X> comparator, LogicalOperator operator)</code></dt>
-<dd>Matches if <code>comparator.compare(actual, value) operator 0</code> where the operator is <,<=,>,>= or ==. Available for objects.</dd>
+<dt><code>cmp(X value, Comparator&lt;X&gt; comparator, LogicalOperator operator)</code></dt>
+<dd>Matches if <code>comparator.compare(actual, value) operator 0</code> where the operator is &lt;,&lt;=,&gt;,&gt;= or ==. Available for objects.</dd>
 
 </dl>
 
@@ -752,7 +752,7 @@ Using Stub Behavior for Methods
 Sometimes, we would like our Mock Object to respond to some method calls, but we do not want to
 check how often they are called, when they are called, or even if they are called at all.
 This stub behavoir may be defined by using the methods <code>andStubReturn(Object value)</code>, 
-<code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer<T> answer)</code>
+<code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer&lt;T&gt; answer)</code>
 and <code>asStub()</code>. The following code 
 configures the MockObject to answer 42 to <code>voteForRemoval("Document")</code> once
 and -1 for all other arguments:
@@ -835,9 +835,9 @@ and <code>mock2.c()</code>, and finally <code>mock2.b()</code> and <code>mock1.b
 <h3>Naming Mock Objects</h3>
 <p>
 Mock Objects can be named at creation using 
-<code>createMock(String name, Class<T> toMock)</code>,
-<code>createStrictMock(String name, Class<T> toMock)</code> or
-<code>createNiceMock(String name, Class<T> toMock)</code>.
+<code>createMock(String name, Class&lt;T&gt; toMock)</code>,
+<code>createStrictMock(String name, Class&lt;T&gt; toMock)</code> or
+<code>createNiceMock(String name, Class&lt;T&gt; toMock)</code>.
 The names will be shown in exception failures.
 </p>
 <h3>

@@ -14,7 +14,7 @@
 <p>Documentation de la version 2.3 (July 9 2007)<br />
 &copy; 2001-2007 <a href="http://www.offis.de" title="OFFIS">OFFIS</a>, <a href="http://tammofreese.de" id="id" title="Tammo Freese">Tammo Freese</a>.
 </p>
-<p>Traduit originellement de l'anglais par <a target="_blank" href="http://alexdp.free.fr">Alexandre de Pellegrin</a>.
+<p>Traduit originellement de l'anglais par <a href="http://alexdp.free.fr">Alexandre de Pellegrin</a>.
 Maintenue par Henri Tremblay.
 </p>
 <p>
@@ -94,7 +94,7 @@ li&eacute;s pour&nbsp;nos tests unitaires du&nbsp;moment
 que nous avons confiance en eux. Si
 ce n'est pas le cas, les Mock Objects peuvent nous aider &agrave;
 tester unitairement de fa&ccedil;on isol&eacute;e. Les Mock Objects
-remplacent les objets li&eacute;s de l'&eacute;l&eacute;ment test&eacute.
+remplacent les objets li&eacute;s de l'&eacute;l&eacute;ment test&eacute;.
 </p>
 <p>
 Les exemples suivants utilisent l'interface <code>Collaborator</code>:
@@ -542,7 +542,7 @@ nous d&eacute;finissons <code>voteForRemoval("Document")</code> pour
 <p>
 Afin d'&ecirc;tre plus permissif sur le nombre d'appels attendus,
 des m&eacute;thodes additionnelles peuvent &ecirc;tre
-utilis&eacute;es &agrave; la place de <code>times(int count):
+utilis&eacute;es &agrave; la place de <code>times(int count)</code>:
 </p>
 <dl>
 <dt><code>times(int min, int max)</code></dt> 
@@ -669,7 +669,7 @@ ou &eacute;gale/sup&eacute;rieure &agrave; la valeur attendue. Disponible pour t
 <dd>V&eacute;rifie que la valeur re&ccedil;ue commence par/contient/se termine par la valeur attendue. Disponible pour les <code>String</code>s.</dd>
 
 <dt><code>matches(String regex), find(String regex)</code></dt>
-<dd>V&eacute;rifie que la valeur re&ccedil;ue/une sous-cha&icirc;ne de la valeur re&ccedil;ue correspond &&agrave; l'expression r&eacute;. Disponible pour les <code>String</code>s.</dd>
+<dd>V&eacute;rifie que la valeur re&ccedil;ue/une sous-cha&icirc;ne de la valeur re&ccedil;ue correspond &agrave; l'expression r&eacute;. Disponible pour les <code>String</code>s.</dd>
 
 <dt><code>and(X first, X second)</code></dt>
 <dd>Est valide si les r&eacute;sultats des deux comparateurs utilis&eacute;s en <code>first</code> et <code>second</code> sont v&eacute;rifi&eacute;s. Disponible pour tous les types primitifs et objets.</dd>
@@ -683,8 +683,8 @@ ou &eacute;gale/sup&eacute;rieure &agrave; la valeur attendue. Disponible pour t
 <dt><code>cmpEq(X value)</code></dt>
 <dd>V&eacute;rifie que la valeur re&ccedil;ue &eacute;gale la valeur attendue du point de vue de <code>Comparable.compareTo(X o)</code>. Disponible pour tous les types primitifs num&eacute;riques et les impl&eacute;mentations de <code>Comparable</code>.</dd>
 
-<dt><code>cmp(X value, Comparator<X> comparator, LogicalOperator operator)</code></dt>
-<dd>V&eacute;rifie que <code>comparator.compare(re&ccedil;ue, value) operator 0</code> o&ugrave; <code>operator</code> est <,<=,>,>= ou ==.</dd>
+<dt><code>cmp(X value, Comparator&lt;X&gt; comparator, LogicalOperator operator)</code></dt>
+<dd>V&eacute;rifie que <code>comparator.compare(re&ccedil;ue, value) operator 0</code> o&ugrave; <code>operator</code> est &lt;,&lt;=,&gt;,&gt;= ou ==.</dd>
 
 </dl>
 
@@ -790,7 +790,7 @@ Dans certains cas, nous voudrions que nos Mock Object r&eacute;pondent
 ni m&ecirc;me s'ils ont &eacute;t&eacute; eu lieu.
 Ce comportement de "stub" peut &ecirc;tre d&eacute;fini en utilisant
 les m&eacute;thodes <code>andStubReturn(Object value)</code>, 
-<code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer<t> answer)</code>
+<code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer&lt;T&gt; answer)</code>
 et <code>asStub()</code>. Le code suivant configure le Mock Object pour r&eacute;pondre 42 
 &agrave; <code>voteForRemoval("Document")</code> une fois et -1 pour tous les autres arguments:
 </p>
@@ -876,9 +876,9 @@ et enfin <code>mock2.b()</code> et <code>mock1.b()</code>, dans cet ordre:
 <h3>Nommer un Mock Object</h3>
 <p>
 Les Mock Objects peuvent &ecirc; nomm&eacute;s &agrave; leur cr&eacute;ation en utilisant 
-<code>createMock(String name, Class<T> toMock)</code>,
-<code>createStrictMock(String name, Class<T> toMock)</code> ou
-<code>createNiceMock(String name, Class<T> toMock)</code>.
+<code>createMock(String name, Class&lt;T&gt; toMock)</code>,
+<code>createStrictMock(String name, Class&lt;T&gt; toMock)</code> ou
+<code>createNiceMock(String name, Class&lt;T&gt; toMock)</code>.
 Les noms seront affich&eacute;s dans le message des <code>AssertionError</code>.
 </p>
 <h3>
@@ -906,7 +906,7 @@ Le d&eacute;veloppement d'EasyMock est h&eacute;berg&eacute; par SourceForge
 pour permettre &agrave; d'autres d&eacute;veloppeurs et soci&eacute;t&eacute;s d'y contribuer.
 </p>
 <p>
-Rmerciements &agrave ceux qui nous ont fourni retour d'exp&eacute;rience et rustines, incluant
+Rmerciements &agrave; ceux qui nous ont fourni retour d'exp&eacute;rience et rustines, incluant
 Nascif Abousalh-Neto, Dave Astels, Francois Beausoleil, George Dinwiddie, Shane Duan, 
 Wolfgang Frech, Steve Freeman, Oren Gross, John D. Heintz, Dale King, Brian Knorr,
 Dierk Koenig, Chris Kreussling, Robert Leftwich, Patrick Lightbody, Johannes Link, 
@@ -933,13 +933,13 @@ EasyMock Version 2.3 (July 9 2007)
 Changements depuis la version 2.2:
 </p>
 <ul>
-<li>Documentation en fran&ccedilais
+<li>Documentation en fran&ccedil;ais
 </li>
 <li>Comparateurs pour arguments de type Comparable
 </li>
 <li>Correction de la comparaison de nombres d&eacute;cimaux
 </li>
-<li>Les Mock Objects peuvent maintenant &ecirctre nomm&eacute;s
+<li>Les Mock Objects peuvent maintenant &ecirc;tre nomm&eacute;s
 </li>
 <li>Includ le fix de Bill Michell pour sur les ThreadLocals
 </li>
@@ -954,7 +954,7 @@ Changements depuis la version 2.1:
 <code>andAnswer(IAnswer answer)</code> et <code>andStubAnswer(IAnswer answer)</code>
 </li>
 <li><code>callback(Runnable runnable)</code> a &eacute;t&eacute; retir&eacute;, pour un callback, veuillez 
-convertir &agrave
+convertir &agrave;
 <code>andAnswer(IAnswer answer)</code> et <code>andStubAnswer(IAnswer answer)</code>
 </li>
 <li><code>replay()</code>, <code>verify()</code> et <code>reset()</code> acceptent maintenant
@@ -965,7 +965,7 @@ plusieurs mock objects comme arguments
 Changements depuis la version 2.0:
 </p>
 <ul>
-<li>les arguments pass&eacute;s &agrave un mock object sont &agrave; disponibles dans un callback via 
+<li>les arguments pass&eacute;s &agrave; un mock object sont &agrave; disponibles dans un callback via 
 <code>EasyMock.getCurrentArguments()</code>
 </li>
 <li>Correction du bogue report&eacute; par http://groups.yahoo.com/group/easymock/message/558

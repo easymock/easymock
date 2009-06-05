@@ -746,7 +746,7 @@ Using Stub Behavior for Methods
 Sometimes, we would like our Mock Object to respond to some method calls, but we do not want to
 check how often they are called, when they are called, or even if they are called at all.
 This stub behavoir may be defined by using the methods <code>andStubReturn(Object value)</code>, 
-<code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer<T> answer)</code>
+<code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer&lt;T&gt; answer)</code>
 and <code>asStub()</code>. The following code 
 configures the MockObject to answer 42 to <code>voteForRemoval("Document")</code> once
 and -1 for all other arguments:
@@ -885,7 +885,6 @@ switch to
 multiple mock objects as arguments
 </li>
 </ul>
-<p>
 <p>
 Changes since 2.0:
 </p>
