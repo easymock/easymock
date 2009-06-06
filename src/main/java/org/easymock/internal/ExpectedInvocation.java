@@ -58,7 +58,6 @@ public class ExpectedInvocation implements Serializable {
                         + " matchers expected, " + matchers.size()
                         + " recorded.");
             }
-            ;
             return matchers;
         }
         List<IArgumentMatcher> result = new ArrayList<IArgumentMatcher>();
@@ -68,6 +67,7 @@ public class ExpectedInvocation implements Serializable {
         return result;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o == null || !this.getClass().equals(o.getClass()))
             return false;
@@ -80,6 +80,7 @@ public class ExpectedInvocation implements Serializable {
                         .equals(other.matchers)));
     }
 
+    @Override
     public int hashCode() {
         throw new UnsupportedOperationException("hashCode() is not implemented");
     }
@@ -104,6 +105,7 @@ public class ExpectedInvocation implements Serializable {
         return true;
     }
 
+    @Override
     public String toString() {
         return matchers != null ? myToString() : invocation.toString(matcher);
     }
