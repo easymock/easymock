@@ -1,0 +1,12 @@
+<FindBugsFilter>
+  <Match>
+    <Class name="org.easymock.EasyMock" />
+    <Method name="aryEq" />
+    <Bug code="PZLA" />
+  </Match>
+  <Match>
+    <Class name="org.easymock.internal.Invocation" />
+    <Method name="getArguments" />
+    <Bug code="EI" />
+  </Match>  
+</FindBugsFilter>
