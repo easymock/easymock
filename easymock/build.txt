@@ -1,9 +1,9 @@
 I'm using:
 - Eclipse 3.4.2
 - Maven 2.1.0
-- Clover 2.5.0-SNAPSHOT
+- Clover 2.5.0
 
-To compile EasyMock in Eclipse 3.3 and above:
+To compile EasyMock in Eclipse:
 - In the base directory do "mvn eclipse:eclipse -DdownloadSources=true"
 - Import the newly created Eclipse project to your Eclipse workspace
 - For the project to compile, you need to have a classpath variable named M2_REPO set to you maven repository directory.
