@@ -15,6 +15,13 @@
     <fileSet>
       <outputDirectory/>
       <directory>${basedir}/src/samples/java</directory>      
-    </fileSet>    
+    </fileSet>
+    <fileSet>
+      <outputDirectory>META-INF</outputDirectory>
+      <directory>${project.basedir}</directory>
+      <includes>
+        <include>LICENSE.txt</include>
+      </includes>
+    </fileSet>        
   </fileSets>
 </assembly>

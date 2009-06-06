@@ -27,6 +27,7 @@ limitations under the License.
   <name>EasyMock</name>
   <url>http://www.easymock.org</url>
   <description>EasyMock provides an easy way to create Mock Objects for interfaces by generating them on the fly using Java's proxy mechanism</description>
+  <inceptionYear>2001</inceptionYear>
   <licenses>
     <license>
       <name>Apache 2</name>
@@ -34,6 +35,9 @@ limitations under the License.
       <distribution>repo</distribution>
     </license>
   </licenses>
+  <organization>
+    <name>OFFIS, Tammo Freese, Henri Tremblay</name>
+  </organization>
   <developers>
     <developer>
       <id>tammo</id>
@@ -78,20 +82,48 @@ limitations under the License.
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <configuration>
+              <resourceBundles>
+                <resourceBundle>org.apache:apache-jar-resource-bundle:1.4</resourceBundle>
+              </resourceBundles>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>    
+      <plugin>
         <groupId>com.keyboardsamurais.maven</groupId>
         <artifactId>maven-timestamp-plugin</artifactId>
         <version>1.0</version>
-        <configuration>
-          <propertyName>date</propertyName>
-          <timestampPattern>yyyy-MM-dd</timestampPattern>
-        </configuration>
-       <executions>
-        <execution>
-         <goals>
-          <goal>create</goal>
-         </goals>
-        </execution>
-       </executions>
+        <executions>
+          <execution>
+            <id>date</id>
+            <goals>
+              <goal>create</goal>
+            </goals>
+            <configuration>
+              <propertyName>date</propertyName>
+              <timestampPattern>yyyy-MM-dd</timestampPattern>
+            </configuration>
+          </execution>
+          <execution>
+            <id>year</id>
+            <goals>
+              <goal>create</goal>
+            </goals>
+            <configuration>
+              <propertyName>year</propertyName>
+              <timestampPattern>yyyy</timestampPattern>
+            </configuration>
+          </execution>          
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -246,7 +278,7 @@ limitations under the License.
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <excludePackageNames>*.internal</excludePackageNames>
-          <bottom><![CDATA[<i>Copyright &#169; 2001-2009 OFFIS, Tammo Freese, Henri Tremblay. This documentation is provided under the terms of the MIT licence.</i>]]></bottom>
+          <bottom><![CDATA[<i>Copyright &#169; ${project.inceptionYear}-${year} OFFIS, Tammo Freese, Henri Tremblay. This documentation is provided under the terms of the Apache 2 licence.</i>]]></bottom>
         </configuration>
       </plugin>
       <plugin>

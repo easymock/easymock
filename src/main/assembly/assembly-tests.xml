@@ -16,5 +16,12 @@
       <outputDirectory/>
       <directory>${project.build.testSourceDirectory}</directory>      
     </fileSet>
+    <fileSet>
+      <outputDirectory>META-INF</outputDirectory>
+      <directory>${project.basedir}</directory>
+      <includes>
+        <include>LICENSE.txt</include>
+      </includes>
+    </fileSet>    
   </fileSets>
 </assembly>
