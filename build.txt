@@ -54,7 +54,7 @@ To deploy to the EasyMock maven repository:
     </server>    
   </servers>
 
-- Then just type 'mvn deploy'
+- Then just type 'mvn deploy -Dmaven.test.skip=true -Dmaven.clover.skip=true'
 
 To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS reports):
 - You will to give enough memory to maven with 'set MAVEN_OPTS=-Xmx512m' (or setting it as environment variable)
