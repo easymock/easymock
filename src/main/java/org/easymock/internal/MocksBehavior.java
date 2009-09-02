@@ -114,6 +114,8 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         position = initialPosition;
 
         if (stubOrNice != null) {
+            actual.validateCaptures();
+            actual.clearCaptures();
             return stubOrNice;
         }
         
