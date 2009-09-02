@@ -335,4 +335,17 @@ public class CaptureTest {
 
         assertEquals(Arrays.asList("Run1", "Run2", "Run3"), capture.getValues());
     }
+
+    @Test
+    public void testCaptureFromStub() {
+        Capture<String> capture = new Capture<String>(CaptureType.ALL);
+        IMethods mock = createMock(IMethods.class);
+        expect(mock.oneArg(capture(capture))).andStubReturn("1");
+
+        replay(mock);
+
+        mock.oneArg("test");
+
+        assertEquals("test", capture.getValue());
+    }
 }
