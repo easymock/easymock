@@ -24,5 +24,5 @@ public interface Collaborator {
 
     byte voteForRemoval(String title);
 
-    byte voteForRemovals(String[] title);
+    byte voteForRemovals(String... titles);
 }

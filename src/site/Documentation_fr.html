@@ -950,7 +950,46 @@ Finallement, appeler <code>checkIsUsedInOneThread(mock, true)</code> permet de s
 fil. Une exception sera lancé sinon. Cela peut être pratique dans le cas où l'objet "mocké" n'est pas à fil sécurisé et que l'on veut
 s'assurer qu'il est utilisé correctement.
 </p>
-<h3>Modifier les comportements d'EasyMock</h3>
+<h3>EasyMockSupport</h3>
+<p>
+<code>EasyMockSupport</code> est une classe ayant pour but d'être utilisée comme classe utilitaire ou comme classe de base de vos classes 
+de test. Elle se souvient de tous les "Mock Objects" créés (ou en fait de tous les "Mock Controls" créés) pour pouvoir faire un replay, 
+reset ou verify de tous en un seul coup. Voici un exemple utilisant JUnit:
+</p>
+<pre>
+public class SupportTest extends EasyMockSupport {
+
+    private Collaborator firstCollaborator;
+    private Collaborator secondCollaborator;
+    private ClassTested classUnderTest;
+
+    @Before
+    public void setup() {
+        classUnderTest = new ClassTested();
+    }
+
+    @Test
+    public void addDocument() {
+        // phase de création
+        firstCollaborator = createMock(Collaborator.class);
+        secondCollaborator = createMock(Collaborator.class);
+        classUnderTest.addListener(firstCollaborator);
+        classUnderTest.addListener(secondCollaborator);
+
+        // phase d'enregistrement
+        firstCollaborator.documentAdded("New Document");
+        secondCollaborator.documentAdded("New Document");
+        
+        replayAll();
+        
+        // test
+        classUnderTest.addDocument("New Document", new byte[0]);
+                
+        verifyAll();
+    }
+}
+</pre>
+<h3>Modifier les comportements par défaut d'EasyMock</h3>
 <p>
 EasyMock fournit un mécanisme de gestion de propriétés permettant de modifier son comportement. Il vise
 principalement à permettre le retour à un comportement antérieur à la version courante. Les propriétés
@@ -1032,7 +1071,9 @@ EasyMock Version ${project.version} (${date}), Notes de Mise à Jour
 Nouveau dans la version 2.5.2:
 </p>
 <ul>
-<li> Les paramètres d'appels "stub" peuvent être capturés (2807921)
+<li>Les paramètres d'appels "stub" peuvent être capturés (2807921)
+</li>
+<li>Ajout de EasyMockSupport pour pouvoir faire replayAll, verifyAll, etc. (2157782) 
 </li>
 </ul>
 <p>
