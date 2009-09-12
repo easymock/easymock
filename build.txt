@@ -74,7 +74,13 @@ To release to SourceForge:
   - Log to the shell and launch refresh-website.sh
 
 - Upload the bundle
-  - Upload the bundle to frs.sourceforge.net
-  - Create a new release named EasyMock 2.x
+  - Connect to frs.sourceforge.net 
+  - Go to "/home/pfs/project/e/ea/easymock/EasyMock/EasyMock"
+  - Create a directory named "EasyMock 2.x"
+  - Upload the bundle in the newly created directory
+  - Add a file named "Release notes.txt" containing the release notes
+  - On www.sf.net, go to the file manager
+  - Click on "Release notes.txt" and specify it's a release note
+  - Client on the zip and select the release notes file
   
 - DON'T FORGET: Tag in SVN!
