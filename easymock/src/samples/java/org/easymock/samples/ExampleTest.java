@@ -98,8 +98,8 @@ public class ExampleTest {
     public void voteForRemovals() {
         mock.documentAdded("Document 1");
         mock.documentAdded("Document 2");
-        String[] documents = new String[] { "Document 1", "Document 2" };
-        expect(mock.voteForRemovals(aryEq(documents))).andReturn((byte) 42);
+        expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn(
+                (byte) 42);
         mock.documentRemoved("Document 1");
         mock.documentRemoved("Document 2");
         replay(mock);
@@ -114,13 +114,12 @@ public class ExampleTest {
     public void voteAgainstRemovals() {
         mock.documentAdded("Document 1");
         mock.documentAdded("Document 2");
-        String[] documents = new String[] { "Document 1", "Document 2" };
-        expect(mock.voteForRemovals(aryEq(documents))).andReturn((byte) -42);
+        expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn(
+                (byte) -42);
         replay(mock);
         classUnderTest.addDocument("Document 1", new byte[0]);
         classUnderTest.addDocument("Document 2", new byte[0]);
-        assertFalse(classUnderTest.removeDocuments(new String[] { "Document 1",
-                "Document 2" }));
+        assertFalse(classUnderTest.removeDocuments("Document 1", "Document 2"));
         verify(mock);
     }
     

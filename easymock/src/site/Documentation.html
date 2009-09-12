@@ -907,6 +907,44 @@ is called during the recording phase. This can prevent deadlocks in some rare si
 Finally, calling <code>checkIsUsedInOneThread(mock, true)</code> on a mock will make sure the mock is used in only one thread and
 throw an exception otherwise. This can be handy to make sure a thread-unsafe mocked object is used correctly.
 </p>
+<h3>EasyMockSupport</h3>
+<p>
+<code>EasyMockSupport</code> is a class that meant to be used as a helper or base class to your test cases. It will automatically registers all 
+created mocks (or in fact all created controls) and to replay, reset or verify them in batch instead of explicitly. Here's a JUnit example:
+</p>
+<pre>
+public class SupportTest extends EasyMockSupport {
+
+    private Collaborator firstCollaborator;
+    private Collaborator secondCollaborator;
+    private ClassTested classUnderTest;
+
+    @Before
+    public void setup() {
+        classUnderTest = new ClassTested();
+    }
+
+    @Test
+    public void addDocument() {
+        // creation phase
+        firstCollaborator = createMock(Collaborator.class);
+        secondCollaborator = createMock(Collaborator.class);
+        classUnderTest.addListener(firstCollaborator);
+        classUnderTest.addListener(secondCollaborator);
+
+        // recording phase
+        firstCollaborator.documentAdded("New Document");
+        secondCollaborator.documentAdded("New Document");
+        
+        replayAll();
+        
+        // test
+        classUnderTest.addDocument("New Document", new byte[0]);
+                
+        verifyAll();
+    }
+}
+</pre>
 <h3>Altering EasyMock default behavior</h3>
 <p>
 EasyMock provides a property mecanisim allowing to alter its behavior. It mainly aims
@@ -984,7 +1022,9 @@ EasyMock Version ${project.version} (${date}) Release Notes
 New in version 2.5.2:
 </p>
 <ul>
-<li> Can capture parameters from stubbed methods (2807921)
+<li>Can capture parameters from stubbed methods (2807921)
+</li>
+<li>Add an EasyMockSupport to replayAll, verifyAll, etc. (2157782) 
 </li>
 </ul>
 <p>

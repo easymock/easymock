@@ -22,9 +22,9 @@ import java.util.Set;
 
 public class ClassTested {
 
-    private Set<Collaborator> listeners = new HashSet<Collaborator>();
+    private final Set<Collaborator> listeners = new HashSet<Collaborator>();
 
-    private Map<String, byte[]> documents = new HashMap<String, byte[]>();
+    private final Map<String, byte[]> documents = new HashMap<String, byte[]>();
 
     public void addListener(Collaborator listener) {
         listeners.add(listener);
@@ -55,7 +55,7 @@ public class ClassTested {
         return true;
     }
 
-    public boolean removeDocuments(String[] titles) {
+    public boolean removeDocuments(String... titles) {
         if (!listenersAllowRemovals(titles)) {
             return false;
         }
@@ -93,7 +93,7 @@ public class ClassTested {
         return result > 0;
     }
 
-    private boolean listenersAllowRemovals(String[] titles) {
+    private boolean listenersAllowRemovals(String... titles) {
         int result = 0;
         for (Collaborator listener : listeners) {
             result += listener.voteForRemovals(titles);
