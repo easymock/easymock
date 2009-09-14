@@ -1,0 +1,20 @@
+<FindBugsFilter>
+  <Match>
+    <Class name="org.easymock.classextension.EasyMock" />
+    <Bug pattern="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" />
+  </Match>
+  <Match>
+    <Class name="org.easymock.classextension.IMocksControl" />
+    <Bug pattern="NM_SAME_SIMPLE_NAME_AS_INTERFACE" />
+  </Match>  
+  <Match>
+    <Class name="org.easymock.classextension.ConstructorArgs" />
+    <Method name="getInitArgs" />
+    <Bug code="EI" />
+  </Match>  
+  <Match>
+    <Class name="org.easymock.classextension.ConstructorArgs" />
+    <Method name="validateArgs" />
+    <Bug code="REC" />
+  </Match>    
+</FindBugsFilter>
