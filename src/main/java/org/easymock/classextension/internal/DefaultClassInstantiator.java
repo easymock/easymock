@@ -149,7 +149,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
             final int mask = Modifier.STATIC | Modifier.FINAL;
             if ((f.getModifiers() & mask) == mask) {
                 f.setAccessible(true);
-                return new Long(f.getLong(null));
+                return Long.valueOf(f.getLong(null));
             }
         } catch (NoSuchFieldException e) {
             // It's not there, compute it then
