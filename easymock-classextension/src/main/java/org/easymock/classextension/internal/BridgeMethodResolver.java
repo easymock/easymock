@@ -15,11 +15,7 @@
  */
 package org.easymock.classextension.internal;
 
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
+import java.lang.reflect.*;
 import java.util.*;
 
 /**
@@ -88,7 +84,7 @@ public final class BridgeMethodResolver {
         Method result;
         // Now perform simple quick checks.
         if (candidateMethods.size() == 1) {
-            result = (Method) candidateMethods.get(0);
+            result = candidateMethods.get(0);
         } else {
             result = searchCandidates(candidateMethods, bridgeMethod);
         }
@@ -116,7 +112,7 @@ public final class BridgeMethodResolver {
         Map<TypeVariable<?>, Type> typeParameterMap = createTypeVariableMap(bridgeMethod
                 .getDeclaringClass());
         for (int i = 0; i < candidateMethods.size(); i++) {
-            Method candidateMethod = (Method) candidateMethods.get(i);
+            Method candidateMethod = candidateMethods.get(i);
             if (isBridgeMethodFor(bridgeMethod, candidateMethod,
                     typeParameterMap)) {
                 return candidateMethod;
@@ -232,9 +228,9 @@ public final class BridgeMethodResolver {
      */
     private static Type getRawType(Type genericType,
             Map<TypeVariable<?>, Type> typeVariableMap) {
-        if (genericType instanceof TypeVariable) {
+        if (genericType instanceof TypeVariable<?>) {
             TypeVariable<?> tv = (TypeVariable<?>) genericType;
-            Type result = (Type) typeVariableMap.get(tv);
+            Type result = typeVariableMap.get(tv);
             return (result != null ? result : Object.class);
         } else if (genericType instanceof ParameterizedType) {
             return ((ParameterizedType) genericType).getRawType();
@@ -301,12 +297,12 @@ public final class BridgeMethodResolver {
             if (genericInterface instanceof ParameterizedType) {
                 ParameterizedType pt = (ParameterizedType) genericInterface;
                 populateTypeMapFromParameterizedType(pt, typeVariableMap);
-                if (pt.getRawType() instanceof Class) {
+                if (pt.getRawType() instanceof Class<?>) {
                     extractTypeVariablesFromGenericInterfaces(((Class<?>) pt
                             .getRawType()).getGenericInterfaces(),
                             typeVariableMap);
                 }
-            } else if (genericInterface instanceof Class) {
+            } else if (genericInterface instanceof Class<?>) {
                 extractTypeVariablesFromGenericInterfaces(
                         ((Class<?>) genericInterface).getGenericInterfaces(),
                         typeVariableMap);
@@ -337,14 +333,14 @@ public final class BridgeMethodResolver {
      */
     private static void populateTypeMapFromParameterizedType(
             ParameterizedType type, Map<TypeVariable<?>, Type> typeVariableMap) {
-        if (type.getRawType() instanceof Class) {
+        if (type.getRawType() instanceof Class<?>) {
             Type[] actualTypeArguments = type.getActualTypeArguments();
             TypeVariable<?>[] typeVariables = ((Class<?>) type.getRawType())
                     .getTypeParameters();
             for (int i = 0; i < actualTypeArguments.length; i++) {
                 Type actualTypeArgument = actualTypeArguments[i];
                 TypeVariable<?> variable = typeVariables[i];
-                if (actualTypeArgument instanceof Class) {
+                if (actualTypeArgument instanceof Class<?>) {
                     typeVariableMap.put(variable, actualTypeArgument);
                 } else if (actualTypeArgument instanceof GenericArrayType) {
                     typeVariableMap.put(variable, actualTypeArgument);
@@ -352,11 +348,11 @@ public final class BridgeMethodResolver {
                     typeVariableMap.put(variable,
                             ((ParameterizedType) actualTypeArgument)
                                     .getRawType());
-                } else if (actualTypeArgument instanceof TypeVariable) {
+                } else if (actualTypeArgument instanceof TypeVariable<?>) {
                     // We have a type that is parameterized at instantiation time
                     // the nearest match on the bridge method will be the bounded type.
                     TypeVariable<?> typeVariableArgument = (TypeVariable<?>) actualTypeArgument;
-                    Type resolvedType = (Type) typeVariableMap
+                    Type resolvedType = typeVariableMap
                             .get(typeVariableArgument);
                     if (resolvedType == null) {
                         resolvedType = extractClassForTypeVariable(typeVariableArgument);
@@ -381,13 +377,13 @@ public final class BridgeMethodResolver {
             Type bound = bounds[0];
             if (bound instanceof ParameterizedType) {
                 result = ((ParameterizedType) bound).getRawType();
-            } else if (bound instanceof Class) {
+            } else if (bound instanceof Class<?>) {
                 result = bound;
-            } else if (bound instanceof TypeVariable) {
+            } else if (bound instanceof TypeVariable<?>) {
                 result = extractClassForTypeVariable((TypeVariable<?>) bound);
             }
         }
-        return (result instanceof Class ? (Class<?>) result : null);
+        return (result instanceof Class<?> ? (Class<?>) result : null);
     }
 
     /**
@@ -415,7 +411,7 @@ public final class BridgeMethodResolver {
             }
             clazz = clazz.getSuperclass();
         }
-        return (Class[]) interfaces.toArray(new Class[interfaces.size()]);
+        return interfaces.toArray(new Class[interfaces.size()]);
     }
 
     /**
@@ -471,7 +467,7 @@ public final class BridgeMethodResolver {
             leafClass = leafClass.getSuperclass();
         } while (leafClass != null);
 
-        return (Method[]) list.toArray(new Method[list.size()]);
+        return list.toArray(new Method[list.size()]);
     }
     // ///CLOVER:ON
 }
