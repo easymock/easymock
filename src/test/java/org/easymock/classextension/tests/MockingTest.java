@@ -181,7 +181,7 @@ public class MockingTest {
 
     private void checkClassMocking(MockControl<ClassToMock> ctrl,
             MockType behavior) {
-        assertTrue(ctrl instanceof MockClassControl);
+        assertTrue(ctrl instanceof MockClassControl<?>);
         checkBehavior(ctrl, behavior);
     }
 

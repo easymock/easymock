@@ -44,7 +44,7 @@ public class LimitationsTest {
     @Test
     public void abstractClass() {
         MockControl<?> ctrl = MockClassControl.createControl(AbstractList.class);
-        assertTrue(ctrl.getMock() instanceof AbstractList);
+        assertTrue(ctrl.getMock() instanceof AbstractList<?>);
     }
 
     @Test
