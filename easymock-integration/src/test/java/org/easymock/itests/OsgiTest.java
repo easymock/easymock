@@ -34,7 +34,7 @@ import org.springframework.osgi.util.OsgiStringUtils;
  */
 public class OsgiTest extends AbstractConfigurableBundleCreatorTests {
 
-     @Override
+    @Override
     protected String[] getTestBundlesNames() {
         final String version = EasyMock.class.getPackage()
                 .getImplementationVersion();
@@ -42,8 +42,8 @@ public class OsgiTest extends AbstractConfigurableBundleCreatorTests {
         return new String[] { "org.easymock, easymock, " + version };
     }
 
-     @Override
-     protected Manifest getManifest() {
+    @Override
+    protected Manifest getManifest() {
         Manifest mf = super.getManifest();
 
         String imports = mf.getMainAttributes().getValue(
@@ -57,27 +57,25 @@ public class OsgiTest extends AbstractConfigurableBundleCreatorTests {
 
         return mf;
     }
-     
+
     public void testOsgiPlatformStarts() throws Exception {
         System.out.println("Framework vendor: "
-                + this.bundleContext
-                .getProperty(Constants.FRAMEWORK_VENDOR));
+                + this.bundleContext.getProperty(Constants.FRAMEWORK_VENDOR));
         System.out.println("Framework version: "
-                + bundleContext
-                .getProperty(Constants.FRAMEWORK_VERSION));
+                + bundleContext.getProperty(Constants.FRAMEWORK_VERSION));
         System.out.println("Execution environment: "
                 + bundleContext
-                .getProperty(Constants.FRAMEWORK_EXECUTIONENVIRONMENT));
+                        .getProperty(Constants.FRAMEWORK_EXECUTIONENVIRONMENT));
 
         System.out.println("-----------------------------");
-        
+
         Bundle[] bundles = bundleContext.getBundles();
         for (int i = 0; i < bundles.length; i++) {
             System.out.println(OsgiStringUtils.nullSafeName(bundles[i]) + ": "
                     + bundles[i].getHeaders().get(Constants.BUNDLE_VERSION));
         }
     }
-    
+
     public void testCanMock() throws IOException {
         Appendable mock = createMock(Appendable.class);
         expect(mock.append("test")).andReturn(mock);
@@ -85,11 +83,11 @@ public class OsgiTest extends AbstractConfigurableBundleCreatorTests {
         assertSame(mock, mock.append("test"));
         verify(mock);
     }
-    
+
     public void testCanUseMatchers() {
         Equals equals = new Equals(new Object());
     }
-    
+
     public void testCanUseInternal() {
         MocksControl ctrl = new MocksControl(MockType.DEFAULT);
     }
