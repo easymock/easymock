@@ -118,6 +118,15 @@ L'instantiateur est gardé statiquement et reste donc entre deux tests. Assurez-v
 de le réinitialiser si nécessaire.
 </p>
 
+<h3>OSGi</h3>
+<p>
+Le jar d'EasyMock CE jar oeut être utilisé comme bundle OSGi. It exporte les packages
+<code>org.easymock.classextension</code> et <code>org.easymock.classextension.internal</code>. 
+Toutefois, pour importer le dernier, il faut spécifier l'attribut <code>poweruser</code> à true 
+(<code>poweruser=true</code>). cglib est aussi exporté pour permettre aux Mock Objects de fonctionner
+correctement.
+</p>
+
 <a id="Limitations"/><h2>Limitations</h2>
   
 <p> 
@@ -168,6 +177,7 @@ New in version 2.5:
 <li>Migrer vers Subversion</li>
 <li>Tout construire avec Maven</li>
 <li>Objenesis n'est plus incorporé</li>
+<li>Ajout de l'en-tête OSGi au MANIFEST.MF (2774873)</li>
 </ul>
 <p>
 Nouveau dans la version 2.4:
