@@ -30,8 +30,8 @@
       <organization>Ossia Conseil</organization>
       <organizationUrl>http://ossia-conseil.com</organizationUrl>
       <timezone>+1</timezone>
-    </developer>    
-  </developers>  
+    </developer>
+  </developers>
   <issueManagement>
     <system>SourceForge</system>
     <url>http://sourceforge.net/tracker/?group_id=82958</url>
@@ -44,7 +44,7 @@
       <post>easymock@yahoogroups.com</post>
       <archive>http://tech.groups.yahoo.com/group/easymock/</archive>
     </mailingList>
-  </mailingLists>  
+  </mailingLists>
   <scm>
     <url>http://easymock.svn.sourceforge.net/viewvc/easymock/trunk/easymock-classextension/</url>
     <developerConnection>scm:svn:https://easymock.svn.sourceforge.net/svnroot/easymock/trunk/easymock-classextension</developerConnection>
@@ -71,7 +71,7 @@
       <artifactId>junit</artifactId>
       <version>4.7</version>
       <scope>test</scope>
-    </dependency>    
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -145,13 +145,13 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.0.0</version>
+        <version>2.0.1</version>
         <configuration>
           <instructions>
             <Export-Package>org.easymock.classextension.internal.*;poweruser=true, org.easymock.classextension</Export-Package>
             <Import-Package>net.sf.cglib.core,net.sf.cglib.proxy,net.sf.cglib.reflect,org.easymock,org.easymock.classextension,org.easymock.classextension.internal;poweruser=true,org.easymock.internal;poweruser=true,org.objenesis</Import-Package>
           </instructions>
-        </configuration>        
+        </configuration>
         <executions>
           <execution>
             <id>bundle-manifest</id>
@@ -165,6 +165,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
+        <version>2.1</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -172,7 +173,7 @@
               <goal>jar</goal>
             </goals>
           </execution>
-        </executions>   
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -184,7 +185,7 @@
               <goal>jar</goal>
             </goals>
           </execution>
-        </executions>   
+        </executions>
       </plugin>
       <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
@@ -209,8 +210,8 @@
               <goal>check</goal>
             </goals>
           </execution>
-        </executions>        
-      </plugin>              
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
@@ -245,7 +246,7 @@
         <artifactId>wagon-ssh-external</artifactId>
         <version>1.0-beta-5</version>
       </extension>
-    </extensions>    
+    </extensions>
   </build>
   <reporting>
     <plugins>
@@ -264,14 +265,14 @@
           <licenseLocation>${basedir}/clover.license</licenseLocation>
           <jdk>1.5</jdk>
         </configuration>
-      </plugin>     
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
         <version>2.1</version>
         <configuration>
           <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
-        </configuration>        
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -285,17 +286,37 @@
         <configuration>
           <targetJdk>1.5</targetJdk>
         </configuration>
-      </plugin>      
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>javancss-maven-plugin</artifactId>
-        <version>2.0-beta-2</version>
+        <version>2.0</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jdepend-maven-plugin</artifactId>
         <version>2.0-beta-2</version>
-      </plugin>       
+      </plugin>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.1</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.4</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.1</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>2.0-beta-5</version>
+      </plugin>
     </plugins>
   </reporting>
   <distributionManagement>
