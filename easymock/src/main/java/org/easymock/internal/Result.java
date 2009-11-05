@@ -17,6 +17,7 @@ package org.easymock.internal;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import org.easymock.IAnswer;
 
@@ -75,7 +76,9 @@ public class Result implements IAnswer<Object>, Serializable {
             public Object answer() throws Throwable {
                 Invocation invocation = LastControl.getCurrentInvocation();
                 try {
-                    return invocation.getMethod().invoke(value,
+                    Method m = invocation.getMethod();
+                    m.setAccessible(true);
+                    return m.invoke(value,
                             invocation.getArguments());
                 } catch (IllegalArgumentException e) {
                     throw new IllegalArgumentException("Delegation to object ["

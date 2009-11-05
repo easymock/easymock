@@ -91,4 +91,17 @@ public class PartialMockingTest {
         }
     }
 
+    @Test
+    public void testDelegateOnTemplatePattern() {
+        A a = createMock(A.class);
+        expect(a.foo()).andDelegateTo(new A(5) {
+            @Override
+            protected int foo() {
+                return i;
+            }
+        });
+        replay(a);
+        assertEquals(5, a.foo());
+        verify(a);
+    }
 }
