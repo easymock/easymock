@@ -18,7 +18,7 @@ public class ClassInstantiatorFactory {
     // ///CLOVER:ON
 
     /**
-     * Returns the current JVM as specified in the Systtem properties
+     * Returns the current JVM as specified in the System properties
      * 
      * @return current JVM
      */
