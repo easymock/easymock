@@ -124,7 +124,20 @@ L'instantiateur est gardé statiquement et reste donc entre deux tests. Assurez-v
 de le réinitialiser si nécessaire.
 </p>
 
-<h3>OSGi</h3>
+<a id="Serialize_class_mock"/><h3>Sérializer une classe mockée</h3>
+<p>
+Une class mockée peut aussi être sérializé. Toutefois, comme celle-ci étant une classe sérializable,
+cette dernière peut avoir un comportement spécial dû à l'implémentation de méthodes tels 
+que <code>writeObject</code>. Ces méthodes seront toujours appelées lorsque le mock sera sérializé
+et peuvent potentiellement échouer. Habituellement, le contournement consiste à créer le mock
+en appelant un constructeur.
+</p>
+<p>
+Aussi, il est possible que la dé-sérialization d'un mock ne fonctionne pas si elle est effectuée dans
+un class loader différent de la sérialization. Ce cas n'a pas été testé.
+</p>
+
+<a id="OSGi"/><h3>OSGi</h3>
 <p>
 Le jar d'EasyMock CE jar oeut être utilisé comme bundle OSGi. It exporte les packages
 <code>org.easymock.classextension</code> et <code>org.easymock.classextension.internal</code>. 
@@ -185,6 +198,7 @@ New in version 2.5:
 <li>Objenesis n'est plus incorporé</li>
 <li>Ajout de l'en-tête OSGi au MANIFEST.MF (2774873)</li>
 <li>Nouvelle interface IMockBuilder pour créer des mocks partiels facilement (2822905, 2788098, 2783949)</li>
+<li>Une class mockée est maintenant sérializable (1963458)</li>
 </ul>
 <p>
 Nouveau dans la version 2.4:
