@@ -5,6 +5,7 @@
 package org.easymock.classextension.internal;
 
 import java.lang.reflect.Constructor;
+
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,15 @@ import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMockBuilder;
 import org.easymock.classextension.IMocksControl;
 
+/**
+ * Default implementation of IMockBuilder.
+ * <p>
+ * The original idea and part of the code where contributes by Rodrigo Damazio
+ * and Bruno Fonseca at <a href="http://www.google.com">Google</a>
+ * 
+ * @param <T>
+ *            type of the mock created
+ */
 public class MockBuilder<T> implements IMockBuilder<T> {
 
     private final Class<T> toMock;
