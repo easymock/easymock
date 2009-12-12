@@ -63,6 +63,9 @@ To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS report
 To check-in:
 - easymock/trunk/svn-config.txt should be used to handle mime types correctly
 
+To check dependencies and plugins versions:
+- mvn versions:display-dependency-updates versions:display-plugin-updates
+
 To release to SourceForge:
 - Update the Website
   - Update index.html to announce the new version
