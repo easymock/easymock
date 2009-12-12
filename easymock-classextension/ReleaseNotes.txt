@@ -1,0 +1,21 @@
+Notes:
+The biggest feature is the new IMockBuilder interface allowing to create partial mocks
+was more easily. See the documentation and javadoc to know how it works. Due to this
+new class, old methods for partial mocking are now deprecated and will be removed
+in EasyMock 3
+
+Also, Objenesis isn't embedded anymore. You will have to add it explicitly (or Maven
+will do it for you if you do use Maven). This was done to give more flexibility.
+
+Finally, two nice features to follow EasyMock. The jar is now an OSGi bundle and class
+mocks are now serializable.
+
+Changes:
+    * Incorrectly wrapped exception returned when EasyMock methods receive a parameter that is not a mock
+    * Stub exception causes NPE (2407137)
+    * Move to Subversion
+    * Build entirely with Maven
+    * Objenesis not embedded anymore
+    * Add OSGi header to manifest (2774873)
+    * New IMockBuilder interface to easily perform partial mocking (2822905, 2788098, 2783949)
+    * Class mocks are now serializable (1963458)
