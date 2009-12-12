@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import org.easymock.classextension.ConstructorArgs;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class PartialMockingTest {
 
     public static abstract class A {
@@ -90,18 +91,11 @@ public class PartialMockingTest {
             throw e;
         }
     }
-
-    @Test
-    public void testDelegateOnTemplatePattern() {
-        A a = createMock(A.class);
-        expect(a.foo()).andDelegateTo(new A(5) {
-            @Override
-            protected int foo() {
-                return i;
-            }
-        });
-        replay(a);
-        assertEquals(5, a.foo());
-        verify(a);
-    }
+    /*
+     * @Test public void testDelegateOnTemplatePattern() { A a =
+     * createMock(A.class); expect(a.foo()).andDelegateTo(new A(5) {
+     * 
+     * @Override protected int foo() { return i; } }); replay(a);
+     * assertEquals(5, a.foo()); verify(a); }
+     */    
 }

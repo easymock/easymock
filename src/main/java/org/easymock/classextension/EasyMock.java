@@ -7,6 +7,7 @@ package org.easymock.classextension;
 import java.lang.reflect.Method;
 
 import org.easymock.classextension.internal.ClassExtensionHelper;
+import org.easymock.classextension.internal.MockBuilder;
 import org.easymock.classextension.internal.MocksClassControl;
 import org.easymock.internal.MocksControl;
 
@@ -20,22 +21,38 @@ public class EasyMock extends org.easymock.EasyMock {
         return createStrictControl().createMock(name, toMock);
     }
 
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
     public static <T> T createStrictMock(Class<T> toMock,
             Method... mockedMethods) {
         return createStrictControl().createMock(toMock, mockedMethods);
     }
 
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
     public static <T> T createStrictMock(String name, Class<T> toMock,
             Method... mockedMethods) {
         return createStrictControl().createMock(name, toMock, mockedMethods);
     }
 
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
     public static <T> T createStrictMock(Class<T> toMock,
             ConstructorArgs constructorArgs, Method... mockedMethods) {
         return createStrictControl().createMock(toMock, constructorArgs,
                 mockedMethods);
     }
 
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
     public static <T> T createStrictMock(String name, Class<T> toMock,
             ConstructorArgs constructorArgs, Method... mockedMethods) {
         return createStrictControl().createMock(name, toMock, constructorArgs,
@@ -50,21 +67,37 @@ public class EasyMock extends org.easymock.EasyMock {
         return createControl().createMock(name, toMock);
     }
 
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
     public static <T> T createMock(Class<T> toMock, Method... mockedMethods) {
         return createControl().createMock(toMock, mockedMethods);
     }
 
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
     public static <T> T createMock(String name, Class<T> toMock,
             Method... mockedMethods) {
         return createControl().createMock(name, toMock, mockedMethods);
     }
 
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
     public static <T> T createMock(Class<T> toMock,
             ConstructorArgs constructorArgs, Method... mockedMethods) {
         return createControl().createMock(toMock, constructorArgs,
                 mockedMethods);
     }
 
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
     public static <T> T createMock(String name, Class<T> toMock,
             ConstructorArgs constructorArgs, Method... mockedMethods) {
         return createControl().createMock(name, toMock, constructorArgs,
@@ -79,21 +112,37 @@ public class EasyMock extends org.easymock.EasyMock {
         return createNiceControl().createMock(name, toMock);
     }
 
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
     public static <T> T createNiceMock(Class<T> toMock, Method... mockedMethods) {
         return createNiceControl().createMock(toMock, mockedMethods);
     }
 
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
     public static <T> T createNiceMock(String name, Class<T> toMock,
             Method... mockedMethods) {
         return createNiceControl().createMock(name, toMock, mockedMethods);
     }
 
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
     public static <T> T createNiceMock(Class<T> toMock,
             ConstructorArgs constructorArgs, Method... mockedMethods) {
         return createNiceControl().createMock(toMock, constructorArgs,
                 mockedMethods);
     }
 
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
     public static <T> T createNiceMock(String name, Class<T> toMock,
             ConstructorArgs constructorArgs, Method... mockedMethods) {
         return createNiceControl().createMock(name, toMock, constructorArgs,
@@ -110,6 +159,10 @@ public class EasyMock extends org.easymock.EasyMock {
 
     public static IMocksControl createNiceControl() {
         return new MocksClassControl(MocksControl.MockType.NICE);
+    }
+
+    public static <T> IMockBuilder<T> createMockBuilder(Class<T> toMock) {
+        return new MockBuilder<T>(toMock);
     }
 
     public static void replay(Object... mocks) {

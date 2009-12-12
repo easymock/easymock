@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author Henri Tremblay
+ * Example of how to perform partial mocking
  */
 public class PartialClassMockTest {
 
@@ -48,8 +48,8 @@ public class PartialClassMockTest {
 
     @Before
     public void setUp() throws Exception {
-        rect = createMock(Rect.class, Rect.class.getMethod("getX",
-                (Class[]) null), Rect.class.getMethod("getY", (Class[]) null));
+        rect = createMockBuilder(Rect.class).addMockedMethods("getX", "getY")
+                .createMock();
     }
 
     @After

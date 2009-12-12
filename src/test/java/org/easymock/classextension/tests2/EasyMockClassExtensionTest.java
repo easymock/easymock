@@ -14,9 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.easymock.classextension.ConstructorArgs;
+import org.easymock.classextension.IMockBuilder;
 import org.junit.Test;
 import static org.easymock.classextension.tests2.MocksControlTest.A;
 
+@SuppressWarnings("deprecation")
 public class EasyMockClassExtensionTest {
 
     private static class ParamEntry {
@@ -297,6 +299,13 @@ public class EasyMockClassExtensionTest {
         }        
     }
     
+    @Test
+    public void testCreateMockBuilder() {
+        IMockBuilder<A> builder = createMockBuilder(A.class);
+        A a = builder.withConstructor(int.class).withArgs(2).createMock();
+        assertEquals(2, a.i);
+    }
+
     // 3 mock types
     
     private static void testStrict(A mock) {

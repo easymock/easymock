@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Example of how to use <code>MockClassControl</code>
+ * Example of how to use <code>org.easymock.classextension.EasyMock</code>
  */
 public class BasicClassMockTest {
 
