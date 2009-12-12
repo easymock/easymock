@@ -96,6 +96,11 @@ public interface IMockBuilder<T> {
     IMockBuilder<T> withConstructor(ConstructorArgs constructorArgs);
 
     /**
+     * Defines the empty constructor should be called.
+     */
+    IMockBuilder<T> withConstructor();
+
+    /**
      * Defines the constructor parameters for the mocked class. The builder will
      * automatically find a constructor with compatible argument types. This
      * throws an exception if there is more than one constructor which would

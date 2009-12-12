@@ -85,6 +85,18 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         return this;
     }
 
+    public IMockBuilder<T> withConstructor() {
+        checkConstructorNotInitialized();
+        try {
+            constructor = ReflectionUtils.getConstructor(toMock);
+        } catch (NoSuchMethodException e) {
+            throw new IllegalArgumentException(
+                    "No empty constructor can be found", e);
+        }
+        constructorArgs = new ConstructorArgs(constructor);
+        return this;
+    }
+
     public IMockBuilder<T> withConstructor(Object... initArgs) {
         checkConstructorNotInitialized();
         try {
