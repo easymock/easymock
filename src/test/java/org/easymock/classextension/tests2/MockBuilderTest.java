@@ -8,6 +8,7 @@ import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import org.easymock.classextension.ConstructorArgs;
@@ -83,6 +84,25 @@ public class MockBuilderTest {
     @Test(expected = IllegalArgumentException.class)
     public void testWithConstructor_WrongClass() {
         builder.withConstructor(long.class);
+    }
+
+    @Test
+    public void testWithEmptyConstructor() throws Exception {
+        mock = builder.withConstructor().createMock();
+        Field field = ArrayList.class.getDeclaredField("elementData");
+        field.setAccessible(true);
+        int expected = ((Object[]) field.get(new ArrayList<String>())).length;
+        int actual = ((Object[]) field.get(mock)).length;
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testWithEmptyConstructor_NoEmptyConstructor() throws Exception {
+        try {
+            createMockBuilder(Integer.class).withConstructor().createMock();
+            fail("no empty constructor should be found");
+        } catch (IllegalArgumentException e) {
+        }
     }
 
     @Test
