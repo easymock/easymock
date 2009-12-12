@@ -65,15 +65,15 @@ the case or if you can't do otherwise because of some development constraints,
 here's the solution.
 </p>
 <pre>
-ToMock mock = createMock(ToMock.class, 
-   ToMock.class.getMethod("mockedMethod", null));
+ToMock mock = createMockBuilder(ToMock.class)
+   .addMockedMethod("mockedMethod").createMock();
 </pre>
-<p>In this case only the methods passed to <code>createMock</code> will be 
+<p>In this case only the methods added with <code>addMockedMethod(s)</code> will be 
 mocked (<code>mockedMethod()</code> in the example). The others will still 
 behave as they used to. One exception: abstract methods are conveniently mocked by default.
 </p>
-<p>The class extension's <code>IMocksControl</code> also provides a <code>createMock()</code> method
-to create partial mocks.
+<p><code>createMockBuilder</code> returns a <code>IMockBuilder</code> interface. It contains various methods to
+easily create a partial mock. Have a look at the javadoc.
 </p>
 <p>
 <b>Remark:</b> EasyMock provides a default behavior for Object's methods (<i>equals, hashCode, toString</i>).
@@ -84,9 +84,15 @@ instead of EasyMock default's one.
 <a id="Self_testing"/><h3>Self testing</h3>  
 <p>
 It is possible to create a mock by calling one of its constructor. This can be handy when a
-class method needs to be tested but the class other methods, mocked. For that you call a 
-<code>createMock()</code> method with a <code>ConstructorArgs</code>. See the
-<code>ConstructorCalledMockTest</code> for an example.
+class method needs to be tested but the class other methods, mocked. For that you should do
+something like
+</p>
+<pre>
+ToMock mock = createMockBuilder(ToMock.class)
+   .withConstructor(1, 2, 3); // 1, 2, 3 are the constructor parameters
+</pre>
+<p>
+See the <code>ConstructorCalledMockTest</code> for an example.
 </p>
 
 <a id="Replace_default_instantiator"/><h3>Replace default instantiator</h3>
@@ -170,6 +176,7 @@ New in version 2.5:
 <li>Build entirely with Maven</li>
 <li>Objenesis not embedded anymore</li>
 <li>Add OSGi header to manifest (2774873)</li>
+<li>New IMockBuilder interface to easily perform partial mocking (2822905, 2788098, 2783949)</li>
 </ul>
 <p>
 New in version 2.4:

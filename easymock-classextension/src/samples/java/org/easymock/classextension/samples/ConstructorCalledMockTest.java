@@ -10,11 +10,13 @@ import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 
-import org.easymock.classextension.ConstructorArgs;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Example of how to partial mock with actually calling a constructor
+ */
 public class ConstructorCalledMockTest {
 
     /**
@@ -45,12 +47,11 @@ public class ConstructorCalledMockTest {
 
     @Before
     public void setUp() {
-        ConstructorArgs args = new ConstructorArgs(TaxCalculator.class
-                .getConstructors()[0], // get the one and only constructor
-                (Object) new BigDecimal[] { new BigDecimal("5"), // (Object) cast required to tell the compiler the array is the first param of the varargs
-                        new BigDecimal("15") });
-
-        tc = createMock(TaxCalculator.class, args); // no need to mock any methods, abstract ones are mocked by default
+        tc = createMockBuilder(TaxCalculator.class).withConstructor(
+                BigDecimal[].class).withArgs(
+                (Object) new BigDecimal[] { new BigDecimal("5"),
+                        new BigDecimal("15") }) // varargs are special since they are in fact arrays
+                .createMock(); // no need to mock any methods, abstract ones are mocked by default
     }
 
     @After

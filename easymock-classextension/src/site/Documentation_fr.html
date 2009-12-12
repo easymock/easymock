@@ -72,15 +72,16 @@ vous ne pouvez faire autrement pour une quelconque contrainte de
 développement, voici la solution:
 </p>
 <pre>
-ToMock mock = createMock(ToMock.class, 
-   ToMock.class.getMethod("mockedMethod", null));
+ToMock mock = createMockBuilder(ToMock.class)
+   .addMockedMethod("mockedMethod").createMock();
 </pre>
-<p>Seules les méthodes passées à <code>createMock</code> seront
+<p>Seules les méthodes ajoutées avec <code>addMockedMethod(s)</code> seront
 "mockées" (<code>mockedMethod()</code> dans l'exemple). Les autres conservent leur
 comportement habituel. Une exception: les méthodes abstraites sont "mockées" par défaut.
 </p>
-<p>La version d'<code>IMocksControl</code> d'EasyMock class extension fournit aussi une 
-méthode <code>createMock()</code> pour créer des mocks partiels.
+<p><code>createMockBuilder</code> retourne l'interface <code>IMockBuilder</code>. Elle contient
+diverses méthodes pour facilement créer un mock partiel. Jettez un coup d'oeil à la javadoc
+pour en savoir plus.
 </p>
 <p><b>Remarque:</b> EasyMock fournit un comportement par défault pour les méthodes de la classe 
 Object (<i>equals, hashCode, toString</i>). Toutefois, pour un mock partiel, si ces méthodes ne sont pas
@@ -91,9 +92,14 @@ mockées explicitement, elles auront leur comportement normal et non celui par dé
 <p>
 Il est possible de créer un mock en appelant un constructeur de la classe. Ceci
 peut être utile lorsqu'une méthode doit être testée mais d'autres
-dans la même classe "mockées". Pour cela vous appelez <code>createMock()</code>
-en passant un <code>ConstructorArgs</code>. Voir <code>ConstructorCalledMockTest</code> pour un exemple
-d'utilisation.
+dans la même classe "mockées". Pour cela vous devez faire quelque chose comme
+</p>
+<pre>
+ToMock mock = createMockBuilder(ToMock.class)
+   .withConstructor(1, 2, 3); // 1, 2, 3 sont les paramètres passés au constructeur
+</pre>
+<p>
+Voir <code>ConstructorCalledMockTest</code> pour un exemple d'utilisation.
 </p>
 
 <a id="Replace_default_instantiator"/><h3>Remplacer l'instantiateur par défaut</h3>
@@ -178,6 +184,7 @@ New in version 2.5:
 <li>Tout construire avec Maven</li>
 <li>Objenesis n'est plus incorporé</li>
 <li>Ajout de l'en-tête OSGi au MANIFEST.MF (2774873)</li>
+<li>Nouvelle interface IMockBuilder pour créer des mocks partiels facilement (2822905, 2788098, 2783949)</li>
 </ul>
 <p>
 Nouveau dans la version 2.4:

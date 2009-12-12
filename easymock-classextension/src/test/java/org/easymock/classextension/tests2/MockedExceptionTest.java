@@ -8,8 +8,6 @@ import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Method;
-
 import org.junit.Test;
 
 public class MockedExceptionTest {
@@ -55,8 +53,8 @@ public class MockedExceptionTest {
     @Test
     public void testNotMockedFillInStackTrace() {
 
-        RuntimeException expected = createNiceMock(RuntimeException.class,
-                new Method[0]);
+        RuntimeException expected = createMockBuilder(RuntimeException.class)
+                .createNiceMock();
 
         CharSequence c = createMock(CharSequence.class);
         expect(c.length()).andStubThrow(expected);
