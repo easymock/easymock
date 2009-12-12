@@ -4,6 +4,8 @@
  */
 package org.easymock.classextension.internal;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.*;
 import java.lang.reflect.InvocationHandler;
 import java.util.Arrays;
@@ -17,6 +19,7 @@ import net.sf.cglib.proxy.*;
 
 import org.easymock.classextension.ConstructorArgs;
 import org.easymock.internal.IProxyFactory;
+import org.easymock.internal.MethodSerializationWrapper;
 import org.easymock.internal.ObjectMethodsFilter;
 
 /**
@@ -26,10 +29,107 @@ import org.easymock.internal.ObjectMethodsFilter;
  */
 public class ClassProxyFactory<T> implements IProxyFactory<T> {
 
-    public static interface MockMethodInterceptor extends MethodInterceptor {
-        InvocationHandler getHandler();
+    public static class MockMethodInterceptor implements MethodInterceptor,
+            Serializable {
 
-        void setMockedMethods(Method... mockedMethods);
+        private static final long serialVersionUID = -9054190871232972342L;
+
+        private final InvocationHandler handler;
+
+        private transient Set<Method> mockedMethods;
+
+        public MockMethodInterceptor(InvocationHandler handler) {
+            this.handler = handler;
+        }
+
+        public Object intercept(Object obj, Method method, Object[] args,
+                MethodProxy proxy) throws Throwable {
+
+            // Bridges should be called so they can forward to the real
+            // method
+            if (method.isBridge()) {
+                Method m = BridgeMethodResolver.findBridgedMethod(method);
+                return handler.invoke(obj, m, args);
+            }
+
+            // We conveniently mock abstract methods be default
+            if (Modifier.isAbstract(method.getModifiers())) {
+                return handler.invoke(obj, method, args);
+            }
+
+            // Here I need to check if the fillInStackTrace was called by EasyMock inner code
+            // If yes, invoke super. Otherwise, just behave normally
+            if (obj instanceof Throwable
+                    && method.getName().equals("fillInStackTrace")) {
+                Exception e = new Exception();
+                StackTraceElement[] elements = e.getStackTrace();
+                // ///CLOVER:OFF
+                if (elements.length > 2) {
+                    // ///CLOVER:ON    
+                    StackTraceElement element = elements[2];
+                    if (element.getClassName().equals(
+                            "org.easymock.internal.MockInvocationHandler")
+                            && element.getMethodName().equals("invoke")) {
+                        return proxy.invokeSuper(obj, args);
+                    }
+                }
+            }
+
+            if (mockedMethods != null && !mockedMethods.contains(method)) {
+                return proxy.invokeSuper(obj, args);
+            }
+
+            return handler.invoke(obj, method, args);
+        }
+
+        public InvocationHandler getHandler() {
+            return handler;
+        }
+
+        public void setMockedMethods(Method... mockedMethods) {
+            this.mockedMethods = new HashSet<Method>(Arrays
+                    .asList(mockedMethods));
+        }
+
+        @SuppressWarnings("unchecked")
+        private void readObject(java.io.ObjectInputStream stream)
+                throws IOException, ClassNotFoundException {
+            stream.defaultReadObject();
+            Set<MethodSerializationWrapper> methods = (Set<MethodSerializationWrapper>) stream
+                    .readObject();
+            if (methods == null) {
+                return;
+            }
+
+            mockedMethods = new HashSet<Method>(methods.size());
+            for (MethodSerializationWrapper m : methods) {
+                try {
+                    mockedMethods.add(m.getMethod());
+                } catch (NoSuchMethodException e) {
+                    // ///CLOVER:OFF
+                    throw new IOException(e.toString());
+                    // ///CLOVER:ON
+                }
+            }
+        }
+
+        private void writeObject(java.io.ObjectOutputStream stream)
+                throws IOException {
+            stream.defaultWriteObject();
+
+            if (mockedMethods == null) {
+                stream.writeObject(null);
+                return;
+            }
+
+            Set<MethodSerializationWrapper> methods = new HashSet<MethodSerializationWrapper>(
+                    mockedMethods.size());
+            for (Method m : mockedMethods) {
+                methods.add(new MethodSerializationWrapper(m));
+            }
+
+            stream.writeObject(methods);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -53,59 +153,7 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
             // ///CLOVER:ON
         }
 
-        MethodInterceptor interceptor = new MockMethodInterceptor() {
-
-            private Set<Method> mockedMethods;
-
-            public Object intercept(Object obj, Method method, Object[] args,
-                    MethodProxy proxy) throws Throwable {
-
-                // Bridges should be called so they can forward to the real
-                // method
-                if (method.isBridge()) {
-                    Method m = BridgeMethodResolver.findBridgedMethod(method);
-                    return handler.invoke(obj, m, args);
-                }
-
-                // We conveniently mock abstract methods be default
-                if (Modifier.isAbstract(method.getModifiers())) {
-                    return handler.invoke(obj, method, args);
-                }
-
-                // Here I need to check if the fillInStackTrace was called by EasyMock inner code
-                // If yes, invoke super. Otherwise, just behave normally
-                if (obj instanceof Throwable
-                        && method.getName().equals("fillInStackTrace")) {
-                    Exception e = new Exception();
-                    StackTraceElement[] elements = e.getStackTrace();
-                    // ///CLOVER:OFF
-                    if (elements.length > 2) {
-                    // ///CLOVER:ON    
-                        StackTraceElement element = elements[2];
-                        if (element.getClassName().equals(
-                                "org.easymock.internal.MockInvocationHandler")
-                                && element.getMethodName().equals("invoke")) {
-                            return proxy.invokeSuper(obj, args);
-                        }
-                    }
-                }
-
-                if (mockedMethods != null && !mockedMethods.contains(method)) {
-                    return proxy.invokeSuper(obj, args);
-                }
-
-                return handler.invoke(obj, method, args);
-            }
-
-            public InvocationHandler getHandler() {
-                return handler;
-            }
-
-            public void setMockedMethods(Method... mockedMethods) {
-                this.mockedMethods = new HashSet<Method>(Arrays
-                        .asList(mockedMethods));
-            }
-        };
+        MethodInterceptor interceptor = new MockMethodInterceptor(handler);
 
         // Create the mock
         Enhancer enhancer = new Enhancer() {

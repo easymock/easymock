@@ -116,7 +116,18 @@ The instantiator is kept statically so it will stick between your unit tests. Ma
 reset it if needed.
 </p>
 
-<h3>OSGi</h3>
+<a id="Serialize_class_mock"/><h3>Serialize a class mock</h3>
+<p>
+A class mock can also be serialized. However, since it extends a serializable class, this class
+might have defined a special behavior using for instance <code>writeObject</code>. These methods
+will still be called when serializing the mock and might fail. The workaround is usually to call
+a constructor when creating the mock.
+</p>
+<p>
+Also, de-serializing the mock in a different class loader than the serialization might fail. It wasn't tested.
+</p>
+
+<a id="OSGi"/><h3>OSGi</h3>
 <p>
 EasyMock CE jar can be used as an OSGi bundle. It exports <code>org.easymock.classextension</code> and 
 <code>org.easymock.classextension.internal</code> packages. However, to import the latter, you need 
@@ -177,6 +188,7 @@ New in version 2.5:
 <li>Objenesis not embedded anymore</li>
 <li>Add OSGi header to manifest (2774873)</li>
 <li>New IMockBuilder interface to easily perform partial mocking (2822905, 2788098, 2783949)</li>
+<li>Class mocks are now serializable (1963458)</li>
 </ul>
 <p>
 New in version 2.4:
