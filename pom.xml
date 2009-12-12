@@ -190,7 +190,7 @@
       <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
-        <version>2.6.0</version>
+        <version>2.6.3</version>
         <configuration>
           <licenseLocation>${basedir}/clover.license</licenseLocation>
           <targetPercentage>100.00%</targetPercentage>
