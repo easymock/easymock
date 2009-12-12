@@ -159,7 +159,7 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
             } catch (InvocationTargetException e) {
                 throw new RuntimeException(
                         "Failed to instantiate mock calling constructor: Exception in constructor",
-                        e);
+                        e.getTargetException());
             }
             return mock;
         } else {
