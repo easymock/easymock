@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2009 OFFIS, Henri Tremblay.
+ * Copyright (c) 2003-2009 Henri Tremblay.
  * This program is made available under the terms of the MIT License.
  */
 package org.easymock.classextension;

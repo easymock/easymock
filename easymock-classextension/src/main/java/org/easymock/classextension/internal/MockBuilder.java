@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2009 OFFIS, Henri Tremblay.
+ * Copyright (c) 2003-2009 Henri Tremblay.
  * This program is made available under the terms of the MIT License.
  */
 package org.easymock.classextension.internal;
@@ -18,9 +18,9 @@ import org.easymock.classextension.IMocksControl;
 /**
  * Default implementation of IMockBuilder.
  * <p>
- * The original idea and part of the code where contributes by Rodrigo Damazio
- * and Bruno Fonseca at <a href="http://www.google.com">Google</a>
- *
+ * <i>The original idea and part of the code where contributed by Rodrigo
+ * Damazio and Bruno Fonseca at <a href="http://www.google.com">Google</a></i>
+ * 
  * @param <T>
  *            type of the mock created
  */
