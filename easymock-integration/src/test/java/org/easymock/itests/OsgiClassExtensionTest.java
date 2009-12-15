@@ -123,9 +123,8 @@ public class OsgiClassExtensionTest extends
     }
 
     public void testCanPartialMock() throws Exception {
-        Constructor<A> constructor = A.class.getConstructor();
-        Method foo = A.class.getMethod("foo");
-        A mock = createMock(A.class, new ConstructorArgs(constructor), foo);
+        A mock = createMockBuilder(A.class).withConstructor().addMockedMethod(
+                "foo").createMock();
 
         mock.foo();
         replay(mock);
