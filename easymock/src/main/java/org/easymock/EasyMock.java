@@ -199,6 +199,8 @@ public class EasyMock {
     private static <T> IExpectationSetters<T> getControlForLastCall() {
         MocksControl lastControl = LastControl.lastControl();
         if (lastControl == null) {
+            LastControl.pullMatchers(); // cleanup matchers to prevent impacting
+                                        // other tests
             throw new IllegalStateException("no last call on a mock available");
         }
         return (IExpectationSetters<T>) lastControl;

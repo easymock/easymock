@@ -185,5 +185,25 @@ public class ThreadingTest {
             assertEquals("result", future.get());
         }
     }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testCleanupAfterFailureInRecordPhase() {
+        Comparable<String> mock = createNiceMock(Comparable.class);
+
+        // Mocking equals() doesn't work
+        try {
+            expect(mock.equals(eq(mock))).andReturn(true);
+        } catch (IllegalStateException e) {
+
+        }
+
+        // However, the recorded matchers should be cleaned to prevent impacting
+        // other tests
+        mock = createNiceMock(Comparable.class);
+        expect(mock.compareTo((String) isNull())).andReturn(1);
+        replay(mock);
+        assertEquals(1, mock.compareTo(null));
+    }
 }
 
