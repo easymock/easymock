@@ -66,6 +66,9 @@ To check-in:
 To check dependencies and plugins versions:
 - mvn versions:display-dependency-updates versions:display-plugin-updates
 
+To update the license:
+- mvn validate license:format
+
 To release to SourceForge:
 - Update the Website
   - Update index.html to announce the new version
