@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>EasyMock Class Extension 2.5.1 Readme</title>
+<link rel="stylesheet" href="easymock.css" />
+</head>
+<body><div class="bodywidth">
+
+<h2>EasyMock Class Extension 2.5.1 Readme</h2>
+
+<p>Documentation for release 2.5.1 (2009-12-17)<br />
+&copy; 2003-2009 <a href="http://www.offis.de">OFFIS</a>, Henri Tremblay.
+</p>
+<p>
+The EasyMock Class Extension allows to generate
+Mock Objects for classes.
+</p>
+
+<a id="Requirements"/><h2>Requirements</h2>
+
+The EasyMock Class Extension requires 
+<a href="http://java.sun.com">Java 5 or above</a>,
+<a href="http://www.easymock.org">EasyMock 2.5</a>, 
+<a href="http://cglib.sourceforge.net">cglib 2.1</a> 
+(2.0.x also works but cannot mock a class without visible constructor),
+<a href="http://forge.objectweb.org/projects/asm">asm</a> 
+(use the version that matches your cglib version, you can also use cglib-nodep-2.1.jar which includes asm)
+and <a href="http://www.junit.org">JUnit 4</a> to run the tests.
+
+<a id="Usage"/><h2>Usage</h2>
+
+To generate Mock Objects for classes <b>and</b> interfaces, use
+<pre>
+import static org.easymock.classextension.EasyMock.*;
+</pre>
+instead of
+<pre>
+import static org.easymock.EasyMock.*;
+</pre>
+You will then create a mock just like with EasyMock by doing something like this:
+<pre>
+ToMock mock = createMock(ToMock.class);
+</pre>
+From now on, you will use your mock just like you use to do with
+EasyMock. Note that <code>createNiceMock</code>, <code>createStrictMock</code>, 
+<code>createStrictControl</code>, <code>createControl</code> and 
+<code>createNiceControl</code> methods are also available. The <code>create...Control()</code> methods
+return <code>org.easymock.classextension.IMocksControl</code>, an extension of EasyMock's <code>IMocksControl</code>.
+
+<a id="Advanced"/><h2>Advanced</h2>
+  
+<a id="Partial_mocking"/><h3>Partial mocking</h3>  
+<p>
+Sometimes you may need to mock only some methods of a class and keep
+the normal behavior of others. This usually happens when you want to
+test a method that calls some others in the same class. So you want to
+keep the normal behavior of the tested method and mock the others.
+</p>
+<p>
+In this case, the first thing to do is to consider a refactoring since
+most of the time this problem caused by a bad design. If it's not
+the case or if you can't do otherwise because of some development constraints,
+here's the solution.
+</p>
+<pre>
+ToMock mock = createMockBuilder(ToMock.class)
+   .addMockedMethod("mockedMethod").createMock();
+</pre>
+<p>In this case only the methods added with <code>addMockedMethod(s)</code> will be 
+mocked (<code>mockedMethod()</code> in the example). The others will still 
+behave as they used to. One exception: abstract methods are conveniently mocked by default.
+</p>
+<p><code>createMockBuilder</code> returns a <code>IMockBuilder</code> interface. It contains various methods to
+easily create a partial mock. Have a look at the javadoc.
+</p>
+<p>
+<b>Remark:</b> EasyMock provides a default behavior for Object's methods (<i>equals, hashCode, toString</i>).
+However, for a partial mock, if these methods are not mocked explicitly, they will have their normal behavior
+instead of EasyMock default's one.
+</p>
+
+<a id="Self_testing"/><h3>Self testing</h3>  
+<p>
+It is possible to create a mock by calling one of its constructor. This can be handy when a
+class method needs to be tested but the class other methods, mocked. For that you should do
+something like
+</p>
+<pre>
+ToMock mock = createMockBuilder(ToMock.class)
+   .withConstructor(1, 2, 3); // 1, 2, 3 are the constructor parameters
+</pre>
+<p>
+See the <code>ConstructorCalledMockTest</code> for an example.
+</p>
+
+<a id="Replace_default_instantiator"/><h3>Replace default instantiator</h3>
+<p>
+For some reason (usually an unsupported JVM), it is possible that EasyMock CE isn't able to create
+a mock in your environment. Under the hood, class instantiation is implemented with a factory
+pattern. In case of failure, you can replace the default instantiator with:
+</p>
+<ul>
+<li>The good old <code>DefaultClassInstantiator</code> which works well with Serializable classes
+and otherwise tries to guess the best constructor and parameters to use.</li>
+<li>You own instantiator which only needs to implement <code>IClassInstantiator</code>.</li>
+</ul>
+<p>
+You set this new instantiator using <code>ClassInstantiatorFactory.setInstantiator()</code>.
+You can set back the default one with <code>setDefaultInstantiator()</code>.
+</p>
+<p>
+<b>Important:</b>
+The instantiator is kept statically so it will stick between your unit tests. Make sure you
+reset it if needed.
+</p>
+
+<a id="Serialize_class_mock"/><h3>Serialize a class mock</h3>
+<p>
+A class mock can also be serialized. However, since it extends a serializable class, this class
+might have defined a special behavior using for instance <code>writeObject</code>. These methods
+will still be called when serializing the mock and might fail. The workaround is usually to call
+a constructor when creating the mock.
+</p>
+<p>
+Also, de-serializing the mock in a different class loader than the serialization might fail. It wasn't tested.
+</p>
+
+<a id="OSGi"/><h3>OSGi</h3>
+<p>
+EasyMock CE jar can be used as an OSGi bundle. It exports <code>org.easymock.classextension</code> and 
+<code>org.easymock.classextension.internal</code> packages. However, to import the latter, you need 
+to specify the <code>poweruser</code> attribute at true (<code>poweruser=true</code>). cglib is also
+exported to allow mocks to work correctly.
+</p>
+
+<a id="Limitations"/><h2>Limitations</h2>
+
+<p> 
+EasyMock Class Extension provides a built-in behavior for <code>equals()</code>, 
+<code>toString()</code> and <code>hashCode()</code>. It means that you cannot
+record your own behavior for these methods. It is coherent with 
+<a href="EasyMock2_3_Documentation.html#Object_Methods">what
+EasyMock do</a>. This limitation is considered to be a feature
+that prevents you from having to care about these methods.
+</p>
+<p>
+Final methods cannot be mocked. If called, their normal code will be executed.
+</p>
+<p>
+Private methods cannot be mocked. If called, their normal code will be executed. 
+Remember this can occur during partial mocking.
+</p>
+<p>
+Class instantiation is performed using 
+<a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>.
+Supported JVMs are listed 
+<a href="http://code.google.com/p/objenesis/wiki/ListOfCurrentlySupportedVMs">here</a>.
+</p>
+<p>
+In the <a href="#Advanced">Advanced section</a>, it was explained how to do
+partial mocking. One important thing is that private methods are never mocked.
+So if your method under test is calling some private methods, you will need to
+test them as well since you cannot mock them.
+</p>
+
+<a id="Development"/><h2>Development</h2>
+
+<a id="Authors"/><h3>Authors</h3>
+<p>
+The EasyMock Class Extension is currently maintained by Henri Tremblay.
+</p>
+<p>
+It was initially developed by Joel Shellman, Chad Woolley and Henri Tremblay
+on the files section of Yahoo!Groups.
+</p>
+<p>
+Thanks to the people who gave feedback or provided patches, including
+Rodrigo Damazio, Bruno Fonseca, Ben Hutchison and numerous others.
+</p>
+
+<a id="Release_Notes"/><h3>Release Notes</h3>
+<p>
+New in version 2.5.1:
+</p>
+<ul>
+<li>Change license from MIT to Apache 2.0
+</li>
+</ul>
+<p>
+New in version 2.5:
+</p>
+<ul>
+<li>Incorrectly wrapped exception returned when EasyMock methods receive a parameter that is not a mock</li>
+<li>Stub exception causes NPE (2407137)</li>
+<li>Move to Subversion</li>
+<li>Build entirely with Maven</li>
+<li>Objenesis not embedded anymore</li>
+<li>Add OSGi header to manifest (2774873)</li>
+<li>New IMockBuilder interface to easily perform partial mocking (2822905, 2788098, 2783949)</li>
+<li>Class mocks are now serializable (1963458)</li>
+</ul>
+<p>
+New in version 2.4:
+</p>
+<ul>
+<li>Add resetToNice/Default/Strict methods (1963442)</li>
+<li>Can make a mock thread-safe (1895644,1953275)</li>
+<li>Fix on bridges calling super (thanks to Barry Kaplan)</li>
+<li>Copyrights updated to 2008</li>
+</ul>
+<p>
+New in version 2.3:
+</p>
+<ul>
+<li>French documentation</li>
+<li>Be able to call constructor for partial mocking</li>
+<li>Mock Objects can now be named</li>
+<li>Switch to varargs the "mockedMethods" parameter for partial mocking</li>  
+<li>Version in jar manifest</li>
+<li>Objenesis 1.1 for Aonix partial support</li>
+<li>Samples updated to JUnit 4</li>
+<li>Update to JUnit 4.4</li>
+<li>Maven pom more complete</li>
+<li>Abstract methods are mocked by default for partial mocks</li>
+</ul>
+<p>
+New in version 2.2.2:
+</p>
+<ul>
+<li>Use cglib cache. Greatly improve performance and reduce used perm space</li>
+<li>Class instantiation using objenesis for more portability</li>
+<li>Update to JUnit 4.3.1</li>
+<li>Possibility to use your own instantiator</li>
+</ul>
+<p>
+New in version 2.2.1:
+</p>
+<ul>
+<li>Varargs for record(), replay() and reset()</li>
+</ul>
+<p>
+New in version 2.1:
+</p>
+<ul>
+<li>Tests migrated to JUnit 4</li>
+</ul>
+<p>
+New in version 2.0:
+</p>
+<ul>
+<li>New implementation compatible with EasyMock 2</li>
+</ul>
+
+</div>
+</body>
+</html>

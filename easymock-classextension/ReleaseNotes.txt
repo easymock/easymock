@@ -3,3 +3,4 @@ Notes:
 EasyMock Class Extension is now under Apache 2.0 license
 
 Changes:
+    * License moved from MIT to Apache 2.0
