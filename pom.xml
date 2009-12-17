@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.easymock</groupId>
   <artifactId>easymockclassextension</artifactId>
-  <version>2.5.1-SNAPSHOT</version>
+  <version>2.5.1</version>
   <packaging>jar</packaging>
   <name>EasyMock class extension</name>
   <url>http://www.easymock.org</url>
