@@ -158,7 +158,7 @@ public class EasyMockSupport extends org.easymock.EasyMockSupport {
     }
 
     public <T> IMockBuilder<T> createMockBuilder(Class<T> toMock) {
-        return new MockBuilder<T>(toMock, controls);
+        return new MockBuilder<T>(toMock, this);
     }
 
 }

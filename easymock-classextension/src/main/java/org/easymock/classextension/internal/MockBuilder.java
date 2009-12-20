@@ -18,13 +18,9 @@ package org.easymock.classextension.internal;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.easymock.classextension.ConstructorArgs;
-import org.easymock.classextension.EasyMock;
-import org.easymock.classextension.IMockBuilder;
-import org.easymock.classextension.IMocksControl;
+import org.easymock.classextension.*;
 
 /**
  * Default implementation of IMockBuilder.
@@ -45,7 +41,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
 
     private ConstructorArgs constructorArgs;
 
-    private final List<org.easymock.IMocksControl> controls;
+    private final EasyMockSupport support;
 
     public MockBuilder(Class<T> toMock) {
         this(toMock, null);
@@ -57,13 +53,12 @@ public class MockBuilder<T> implements IMockBuilder<T> {
      * 
      * @param toMock
      *            The class of the mock to create
-     * @param controls
-     *            The list of all controls in the test
+     * @param support
+     *            The EasyMockSupport used to create mocks. Null if none
      */
-    public MockBuilder(Class<T> toMock,
-            List<org.easymock.IMocksControl> controls) {
+    public MockBuilder(Class<T> toMock, EasyMockSupport support) {
         this.toMock = toMock;
-        this.controls = controls;
+        this.support = support;
     }
 
     public IMockBuilder<T> addMockedMethod(Method method) {
@@ -192,7 +187,6 @@ public class MockBuilder<T> implements IMockBuilder<T> {
     public T createMock(String name, IMocksControl control) {
         // Create a mock with no default {@code withConstructor} was not called.
         if (constructor == null) {
-            addToControls(control);
             return control.createMock(name, toMock, mockedMethods
                     .toArray(new Method[mockedMethods.size()]));
         }
@@ -203,24 +197,25 @@ public class MockBuilder<T> implements IMockBuilder<T> {
                     "Picked a constructor but didn't pass arguments to it");
         }
 
-        addToControls(control);
-
         return control.createMock(name, toMock, constructorArgs, mockedMethods
                 .toArray(new Method[mockedMethods.size()]));
     }
 
     public T createMock(String name) {
-        IMocksControl control = EasyMock.createControl();
+        IMocksControl control = (support == null ? EasyMock.createControl()
+                : support.createControl());
         return createMock(name, control);
     }
 
     public T createNiceMock(String name) {
-        IMocksControl control = EasyMock.createNiceControl();
+        IMocksControl control = (support == null ? EasyMock.createNiceControl()
+                : support.createNiceControl());
         return createMock(name, control);
     }
 
     public T createStrictMock(String name) {
-        IMocksControl control = EasyMock.createStrictControl();
+        IMocksControl control = (support == null ? EasyMock
+                .createStrictControl() : support.createStrictControl());
         return createMock(name, control);
     }
 
@@ -230,12 +225,4 @@ public class MockBuilder<T> implements IMockBuilder<T> {
                     "Trying to define the constructor call more than once.");
         }
     }
-
-    private void addToControls(IMocksControl control) {
-        // If the mock is created with EasyMockSupport, keep the control
-        if (controls != null) {
-            controls.add(control);
-        }
-    }
-
 }
