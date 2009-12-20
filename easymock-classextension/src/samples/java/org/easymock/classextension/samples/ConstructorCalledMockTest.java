@@ -16,11 +16,11 @@
 package org.easymock.classextension.samples;
 
 import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 
+import org.easymock.classextension.EasyMockSupport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +28,7 @@ import org.junit.Test;
 /**
  * Example of how to partial mock with actually calling a constructor
  */
-public class ConstructorCalledMockTest {
+public class ConstructorCalledMockTest extends EasyMockSupport {
 
     /**
      * Class to test and partially mock
@@ -67,14 +67,14 @@ public class ConstructorCalledMockTest {
 
     @After
     public void tearDown() {
-        verify(tc);
+        verifyAll();
     }
 
     @Test
     public void testTax() {
 
         expect(tc.rate()).andStubReturn(new BigDecimal("0.20"));
-        replay(tc);
+        replayAll();
 
         assertEquals(new BigDecimal("4.00"), tc.tax());
     }
@@ -83,7 +83,7 @@ public class ConstructorCalledMockTest {
     public void testTax_ZeroRate() {
 
         expect(tc.rate()).andStubReturn(BigDecimal.ZERO);
-        replay(tc);
+        replayAll();
 
         assertEquals(BigDecimal.ZERO, tc.tax());
     }

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.jar.Manifest;
 
 import org.easymock.EasyMock;
+import org.easymock.EasyMockSupport;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.MocksControl.MockType;
 import org.easymock.internal.matchers.Equals;
@@ -33,6 +34,20 @@ import org.springframework.osgi.util.OsgiStringUtils;
  * Note: This is a JUnit 3 test because of the Spring OSGi test framework
  */
 public class OsgiTest extends AbstractConfigurableBundleCreatorTests {
+
+    private final EasyMockSupport support = new EasyMockSupport();
+
+    public <T> T createMock(Class<T> toMock) {
+        return support.createMock(toMock);
+    }
+
+    public void replayAll() {
+        support.replayAll();
+    }
+
+    public void verifyAll() {
+        support.verifyAll();
+    }
 
     @Override
     protected String[] getTestBundlesNames() {
@@ -79,9 +94,9 @@ public class OsgiTest extends AbstractConfigurableBundleCreatorTests {
     public void testCanMock() throws IOException {
         Appendable mock = createMock(Appendable.class);
         expect(mock.append("test")).andReturn(mock);
-        replay(mock);
+        replayAll();
         assertSame(mock, mock.append("test"));
-        verify(mock);
+        verifyAll();
     }
 
     public void testCanUseMatchers() {

@@ -16,9 +16,9 @@
 package org.easymock.classextension.internal;
 
 import java.lang.reflect.Constructor;
-
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.easymock.classextension.ConstructorArgs;
@@ -45,8 +45,25 @@ public class MockBuilder<T> implements IMockBuilder<T> {
 
     private ConstructorArgs constructorArgs;
 
+    private final List<org.easymock.IMocksControl> controls;
+
     public MockBuilder(Class<T> toMock) {
+        this(toMock, null);
+    }
+
+    /**
+     * Used by EasyMockSupport to allow the mock registration in the list of
+     * controls
+     * 
+     * @param toMock
+     *            The class of the mock to create
+     * @param controls
+     *            The list of all controls in the test
+     */
+    public MockBuilder(Class<T> toMock,
+            List<org.easymock.IMocksControl> controls) {
         this.toMock = toMock;
+        this.controls = controls;
     }
 
     public IMockBuilder<T> addMockedMethod(Method method) {
@@ -175,6 +192,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
     public T createMock(String name, IMocksControl control) {
         // Create a mock with no default {@code withConstructor} was not called.
         if (constructor == null) {
+            addToControls(control);
             return control.createMock(name, toMock, mockedMethods
                     .toArray(new Method[mockedMethods.size()]));
         }
@@ -184,6 +202,8 @@ public class MockBuilder<T> implements IMockBuilder<T> {
             throw new IllegalStateException(
                     "Picked a constructor but didn't pass arguments to it");
         }
+
+        addToControls(control);
 
         return control.createMock(name, toMock, constructorArgs, mockedMethods
                 .toArray(new Method[mockedMethods.size()]));
@@ -210,4 +230,12 @@ public class MockBuilder<T> implements IMockBuilder<T> {
                     "Trying to define the constructor call more than once.");
         }
     }
+
+    private void addToControls(IMocksControl control) {
+        // If the mock is created with EasyMockSupport, keep the control
+        if (controls != null) {
+            controls.add(control);
+        }
+    }
+
 }

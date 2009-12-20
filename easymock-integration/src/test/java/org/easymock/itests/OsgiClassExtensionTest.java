@@ -15,15 +15,14 @@
  */
 package org.easymock.itests;
 
+import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.jar.Manifest;
 
-import org.easymock.classextension.ConstructorArgs;
 import org.easymock.classextension.EasyMock;
+import org.easymock.classextension.EasyMockSupport;
 import org.easymock.classextension.internal.ClassExtensionHelper;
 import org.objenesis.Objenesis;
 import org.osgi.framework.Bundle;
@@ -39,6 +38,20 @@ public class OsgiClassExtensionTest extends
 
     public static abstract class A {
         public abstract void foo();
+    }
+
+    private final EasyMockSupport support = new EasyMockSupport();
+
+    public <T> T createMock(Class<T> toMock) {
+        return support.createMock(toMock);
+    }
+
+    public void replayAll() {
+        support.replayAll();
+    }
+
+    public void verifyAll() {
+        support.verifyAll();
     }
 
     @Override
@@ -106,9 +119,9 @@ public class OsgiClassExtensionTest extends
     public void testCanMock_BootstrapClassLoader() {
         ArrayList<?> mock = createMock(ArrayList.class);
         expect(mock.size()).andReturn(5);
-        replay(mock);
+        replayAll();
         assertEquals(5, mock.size());
-        verify(mock);
+        verifyAll();
     }
 
     /**
@@ -117,9 +130,9 @@ public class OsgiClassExtensionTest extends
     public void testCanMock_OtherClassLoader() {
         A mock = createMock(A.class);
         mock.foo();
-        replay(mock);
+        replayAll();
         mock.foo();
-        verify(mock);
+        verifyAll();
     }
 
     public void testCanPartialMock() throws Exception {
