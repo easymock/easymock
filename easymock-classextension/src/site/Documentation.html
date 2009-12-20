@@ -19,15 +19,16 @@ Mock Objects for classes.
 </p>
 
 <a id="Requirements"/><h2>Requirements</h2>
-
+<p>
 The EasyMock Class Extension requires 
 <a href="http://java.sun.com">Java 5 or above</a>,
-<a href="http://www.easymock.org">EasyMock 2.5</a>, 
-<a href="http://cglib.sourceforge.net">cglib 2.1</a> 
+<a href="http://www.easymock.org">EasyMock 2.5.2</a>, 
+<a href="http://cglib.sourceforge.net">cglib 2.1 or 2.2</a> 
 (2.0.x also works but cannot mock a class without visible constructor),
 <a href="http://forge.objectweb.org/projects/asm">asm</a> 
-(use the version that matches your cglib version, you can also use cglib-nodep-2.1.jar which includes asm)
-and <a href="http://www.junit.org">JUnit 4</a> to run the tests.
+(use the version that matches your cglib version, you can also use cglib-nodep-2.2.jar which includes asm)
+and <a href="http://www.junit.org">JUnit 4.4 or above</a> to run the tests.
+</p>
 
 <a id="Usage"/><h2>Usage</h2>
 
@@ -35,19 +36,27 @@ To generate Mock Objects for classes <b>and</b> interfaces, use
 <pre>
 import static org.easymock.classextension.EasyMock.*;
 </pre>
+<p>
 instead of
+</p>
 <pre>
 import static org.easymock.EasyMock.*;
 </pre>
+<p>
 You will then create a mock just like with EasyMock by doing something like this:
+</p>
 <pre>
 ToMock mock = createMock(ToMock.class);
 </pre>
+<p>
 From now on, you will use your mock just like you use to do with
 EasyMock. Note that <code>createNiceMock</code>, <code>createStrictMock</code>, 
 <code>createStrictControl</code>, <code>createControl</code> and 
 <code>createNiceControl</code> methods are also available. The <code>create...Control()</code> methods
 return <code>org.easymock.classextension.IMocksControl</code>, an extension of EasyMock's <code>IMocksControl</code>.
+Finally <code>org.easymock.classextension.EasyMockSupport</code> provides an implementation of <code>EasyMockSupport</code>
+working with the class extension.
+</p>
 
 <a id="Advanced"/><h2>Advanced</h2>
   

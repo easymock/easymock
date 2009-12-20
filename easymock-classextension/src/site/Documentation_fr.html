@@ -23,35 +23,43 @@ EasyMock Class Extension permet de générer des Mock Objects à partir de classes.
   
 EasyMock Class Extension nécessite 
 <a href="http://java.sun.com">Java 5 ou supérieur</a>,
-<a href="http://www.easymock.org">EasyMock 2.5</a>, 
-<a href="http://cglib.sourceforge.net">cglib 2.1</a> 
+<a href="http://www.easymock.org">EasyMock 2.5.2</a>, 
+<a href="http://cglib.sourceforge.net">cglib 2.1 or 2.2</a> 
 (2.0.x fonctionne également mais ne permet pas de "mocker" une classe sans constructeur visible),
 <a href="http://forge.objectweb.org/projects/asm">asm</a> 
 (utilisez la version appropriée pour votre version de cglib; vous pouvez
-aussi prendre cglib-nodep-2.1.jar qui inclut asm)
-et <a href="http://www.junit.org">JUnit 4</a> pour éxécuter les tests.
+aussi prendre cglib-nodep-2.2.jar qui inclut asm)
+et <a href="http://www.junit.org">JUnit 4.4 ou supérieur</a> pour éxécuter les tests.
 
 <a id="Usage"/><h2>Utilisation</h2>
-  
+<p>
 Pour générer des Mock Objects de classes <b>et</b> d'interfaces, utilisez
+</p>
 <pre>
 import static org.easymock.classextension.EasyMock.*;
 </pre>
+<p>
 au lieu de
+</p>
 <pre>
 import static org.easymock.EasyMock.*;
 </pre>
+<p>
 Vous pourrez ensuite créer un Mock Object, de la même façon qu'avec EasyMock, en faisant quelque
 chose comme:
+</p>
 <pre>
 ToMock mock = createMock(ToMock.class);
 </pre>
+<p>
 A partir de là, vous pouvez utiliser votre mock comme vous le faisiez avec EasyMock. Notez que les 
 méthodes <code>createNiceMock</code>, <code>createStrictMock</code>, 
 <code>createStrictControl</code>, <code>createControl</code> and 
 <code>createNiceControl</code> sont aussi disponibles. Les méthodes <code>create...Control()</code>
 retournent un object de type <code>org.easymock.classextension.IMocksControl</code>, une extension de
-la classe <code>IMocksControl</code> d'EasyMock.
+la classe <code>IMocksControl</code> d'EasyMock. Finalement, <code>org.easymock.classextension.EasyMockSupport</code>
+fournit une implémentation de <code>EasyMockSupport</code> fonctionnant pour la class extension.
+</p>
 
 <a id="Advanced"/><h2>Utilisation avancée</h2>
   
