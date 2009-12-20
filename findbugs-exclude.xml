@@ -21,6 +21,10 @@
     <Bug pattern="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" />
   </Match>
   <Match>
+    <Class name="org.easymock.classextension.EasyMockSupport" />
+    <Bug pattern="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" />
+  </Match>
+  <Match>
     <Class name="org.easymock.classextension.IMocksControl" />
     <Bug pattern="NM_SAME_SIMPLE_NAME_AS_INTERFACE" />
   </Match>  
