@@ -1,7 +1,7 @@
 Notes:
 
-EasyMockSupport implementations for the Class Extension. Use it the same way
+EasyMockSupport implementation for the Class Extension. Use it the same way
 as the original class.
 
 Changes:
-    * EasyMockSuport for class extension 
+    * EasyMockSup^port for class extension 
