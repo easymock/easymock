@@ -1,6 +1,7 @@
 Notes:
 
-EasyMock Class Extension is now under Apache 2.0 license
+EasyMockSupport implementations for the Class Extension. Use it the same way
+as the original class.
 
 Changes:
-    * License moved from MIT to Apache 2.0
+    * EasyMockSuport for class extension 
