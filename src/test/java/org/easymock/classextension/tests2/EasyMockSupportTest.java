@@ -182,4 +182,33 @@ public class EasyMockSupportTest extends EasyMockSupport {
         assertEquals(1, t.foo());
         verifyAll();
     }
+
+    @Test
+    public void testCreateMockBuilder_existingControl() {
+        IMocksControl ctrl = createControl(); // ctrl registered once here
+        ToMock t = createMockBuilder(ToMock.class).addMockedMethod(foo)
+                .createMock(ctrl); // should not be registered a second time here
+        expect(t.foo()).andReturn(1);
+        replayAll();
+        assertEquals(1, t.foo());
+        verifyAll();
+    }
+
+    @Test
+    public void testAllMockBuilderFlavors() {
+        ToMock t1 = createMockBuilder(ToMock.class).addMockedMethod(foo)
+                .createMock();
+        ToMock t2 = createMockBuilder(ToMock.class).addMockedMethod(foo)
+                .createNiceMock();
+        ToMock t3 = createMockBuilder(ToMock.class).addMockedMethod(foo)
+                .createStrictMock();
+        expect(t1.foo()).andReturn(1);
+        expect(t2.foo()).andReturn(2);
+        expect(t3.foo()).andReturn(3);
+        replayAll();
+        assertEquals(1, t1.foo());
+        assertEquals(2, t2.foo());
+        assertEquals(3, t3.foo());
+        verifyAll();
+    }
 }
