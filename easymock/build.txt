@@ -25,6 +25,7 @@ To build EasyMock with Maven:
 
 - The clover.license file must be in the easymock directory
 - Then "mvn verify" or "mvn install"
+- Also do a "mvn verify" on easymock-integration (with its pom using the latest EasyMock version)
 
 To bundle EasyMock:
 - "mvn clean verify assembly:single"

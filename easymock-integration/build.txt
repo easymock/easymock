@@ -1,6 +1,6 @@
 I'm using:
-- Eclipse 3.4.2
-- Maven 2.1.0
+- Eclipse 3.5.1
+- Maven 2.2.1
 
 To compile EasyMock Integration in Eclipse:
 - In the base directory do "mvn eclipse:eclipse -DdownloadSources=true"
