@@ -16,9 +16,9 @@
 package org.easymock.classextension.samples;
 
 import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
+import org.easymock.classextension.EasyMockSupport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * Example of how to perform partial mocking
  */
-public class PartialClassMockTest {
+public class PartialClassMockTest extends EasyMockSupport {
 
     public static class Rect {
 
@@ -72,8 +72,8 @@ public class PartialClassMockTest {
     public void testGetArea() {
         expect(rect.getX()).andReturn(4);
         expect(rect.getY()).andReturn(5);
-        replay(rect);
+        replayAll();
         assertEquals(20, rect.getArea());
-        verify(rect);
+        verifyAll();
     }
 }

@@ -17,6 +17,7 @@ package org.easymock.classextension.samples;
 
 import static org.easymock.classextension.EasyMock.*;
 
+import org.easymock.classextension.EasyMockSupport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,7 @@ import org.junit.Test;
 /**
  * Example of how to use <code>org.easymock.classextension.EasyMock</code>
  */
-public class BasicClassMockTest {
+public class BasicClassMockTest extends EasyMockSupport {
 
     /**
      * Our nice class that is allowed to print
@@ -84,17 +85,17 @@ public class BasicClassMockTest {
         document.setContent("Hello world");
         document.print();
 
-        verify(printer); // make sure Printer.print was called
+        verifyAll(); // make sure Printer.print was called
     }
 
     @Test
     public void testPrintEmptyContent() {
         printer.print("");
-        replay(printer);
+        replayAll();
 
         document.setContent("");
         document.print();
 
-        verify(printer); // make sure Printer.print was called
+        verifyAll(); // make sure Printer.print was called
     }
 }
