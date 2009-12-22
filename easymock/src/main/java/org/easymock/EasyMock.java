@@ -15,10 +15,8 @@
  */
 package org.easymock;
 
-import java.lang.reflect.Proxy;
 import java.util.Comparator;
 
-import org.easymock.IMockBuilder;
 import org.easymock.internal.*;
 import org.easymock.internal.matchers.*;
 
