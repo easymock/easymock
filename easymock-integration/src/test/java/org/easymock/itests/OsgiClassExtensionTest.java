@@ -16,13 +16,14 @@
 package org.easymock.itests;
 
 import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.*;
 
 import java.util.ArrayList;
 import java.util.jar.Manifest;
 
-import org.easymock.EasyMock;
-import org.easymock.EasyMockSupport;
-import org.easymock.internal.ClassExtensionHelper;
+import org.easymock.classextension.EasyMock;
+import org.easymock.classextension.EasyMockSupport;
+import org.easymock.classextension.internal.ClassExtensionHelper;
 import org.objenesis.Objenesis;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
