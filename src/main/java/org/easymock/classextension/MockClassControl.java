@@ -15,7 +15,7 @@
  */
 package org.easymock.classextension;
 
-import static org.easymock.classextension.internal.ClassExtensionHelper.*;
+import static org.easymock.internal.ClassExtensionHelper.*;
 
 import java.lang.reflect.Method;
 

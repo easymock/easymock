@@ -17,6 +17,8 @@ package org.easymock.classextension;
 
 import java.lang.reflect.Method;
 
+import org.easymock.ConstructorArgs;
+
 public interface IMocksControl extends org.easymock.IMocksControl {
     <T> T createMock(Class<T> toMock, Method... mockedMethods);
 
