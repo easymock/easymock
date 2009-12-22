@@ -18,6 +18,8 @@ package org.easymock;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.easymock.internal.MockBuilder;
+
 /**
  * Helper class to be used to keep tracks of mocks easily. See EasyMock
  * documentation and SupportTest sample
@@ -143,6 +145,21 @@ public class EasyMockSupport {
         IMocksControl ctrl = EasyMock.createStrictControl();
         controls.add(ctrl);
         return ctrl;
+    }
+
+    /**
+     * Create a mock builder allowing to create a partial mock for the given
+     * class or interface.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @return a mock builder to create a partial mock
+     */
+    public <T> IMockBuilder<T> createMockBuilder(Class<T> toMock) {
+        return new MockBuilder<T>(toMock, this);
     }
 
     /**

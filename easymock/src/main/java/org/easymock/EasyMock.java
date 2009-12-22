@@ -18,6 +18,7 @@ package org.easymock;
 import java.lang.reflect.Proxy;
 import java.util.Comparator;
 
+import org.easymock.IMockBuilder;
 import org.easymock.internal.*;
 import org.easymock.internal.matchers.*;
 
@@ -136,7 +137,22 @@ public class EasyMock {
     public static <T> T createNiceMock(String name, Class<T> toMock) {
         return createNiceControl().createMock(name, toMock);
     }
-    
+
+    /**
+     * Create a mock builder allowing to create a partial mock for the given
+     * class or interface.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @return a mock builder to create a partial mock
+     */
+    public static <T> IMockBuilder<T> createMockBuilder(Class<T> toMock) {
+        return new MockBuilder<T>(toMock);
+    }
+
     /**
      * Creates a control, order checking is enabled by default.
      * 
@@ -1637,8 +1653,7 @@ public class EasyMock {
     }
 
     private static MocksControl getControl(Object mock) {
-        return ((ObjectMethodsFilter) Proxy
-        .getInvocationHandler(mock)).getDelegate().getControl();
+        return ClassExtensionHelper.getControl(mock);
     }
 
     /**
@@ -1722,8 +1737,7 @@ public class EasyMock {
     }
     
     // ///CLOVER:OFF
-    /** Prevent instantiation but allow inheritance */
-    protected EasyMock() {
+    protected EasyMock() { // TODO: Put it in private
     }
     // ///CLOVER:ON
 }

@@ -15,6 +15,8 @@
  */
 package org.easymock;
 
+import java.lang.reflect.Method;
+
 /**
  * Controls all the mock objects created by it.
  * For details, see the EasyMock documentation.
@@ -37,6 +39,16 @@ public interface IMocksControl {
      * @throws IllegalArgumentException if the name is not a valid Java identifier.
      */
     <T> T createMock(String name, Class<T> toMock);
+
+    <T> T createMock(Class<T> toMock, Method... mockedMethods);
+
+    <T> T createMock(Class<T> toMock, ConstructorArgs constructorArgs,
+            Method... mockedMethods);
+
+    <T> T createMock(String name, Class<T> toMock, Method... mockedMethods);
+
+    <T> T createMock(String name, Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods);
 
     /**
      * Removes all expectations for the mock objects of this control.

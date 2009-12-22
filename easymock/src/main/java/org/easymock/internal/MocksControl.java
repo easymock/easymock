@@ -15,8 +15,12 @@
  */
 package org.easymock.internal;
 
-import java.io.Serializable;
+import static org.easymock.internal.ClassExtensionHelper.*;
 
+import java.io.Serializable;
+import java.lang.reflect.Method;
+
+import org.easymock.ConstructorArgs;
 import org.easymock.IAnswer;
 import org.easymock.IExpectationSetters;
 import org.easymock.IMocksControl;
@@ -66,8 +70,64 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    public <T> T createMock(String name, Class<T> toMock,
+            Method... mockedMethods) {
+
+        if (toMock.isInterface()) {
+            throw new IllegalArgumentException(
+                    "Partial mocking doesn't make sense for interface");
+        }
+
+        T mock = createMock(name, toMock);
+
+        // Set the mocked methods on the interceptor
+        getInterceptor(mock).setMockedMethods(mockedMethods);
+
+        return mock;
+    }
+
+    public <T> T createMock(Class<T> toMock, Method... mockedMethods) {
+
+        if (toMock.isInterface()) {
+            throw new IllegalArgumentException(
+                    "Partial mocking doesn't make sense for interface");
+        }
+
+        T mock = createMock(toMock);
+
+        // Set the mocked methods on the interceptor
+        getInterceptor(mock).setMockedMethods(mockedMethods);
+
+        return mock;
+    }
+
+    public <T> T createMock(Class<T> toMock, ConstructorArgs constructorArgs,
+            Method... mockedMethods) {
+        // Trick to allow the ClassProxyFactory to access constructor args
+        setCurrentConstructorArgs(constructorArgs);
+        try {
+            return createMock(toMock, mockedMethods);
+        } finally {
+            setCurrentConstructorArgs(null);
+        }
+    }
+
+    public <T> T createMock(String name, Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods) {
+        // Trick to allow the ClassProxyFactory to access constructor args
+        setCurrentConstructorArgs(constructorArgs);
+        try {
+            return createMock(name, toMock, mockedMethods);
+        } finally {
+            setCurrentConstructorArgs(null);
+        }
+    }
+
     protected <T> IProxyFactory<T> createProxyFactory(Class<T> toMock) {
-        return new JavaProxyFactory<T>();
+        if (toMock.isInterface()) {
+            return new JavaProxyFactory<T>();
+        }
+        return new ClassProxyFactory<T>();
     }
 
     public final void reset() {

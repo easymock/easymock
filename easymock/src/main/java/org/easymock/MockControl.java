@@ -16,8 +16,10 @@
 package org.easymock;
 
 import static org.easymock.EasyMock.*;
+import static org.easymock.internal.ClassExtensionHelper.*;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 
 import org.easymock.internal.*;
 
@@ -42,6 +44,13 @@ public class MockControl<T> implements Serializable {
     protected MockControl(MocksControl ctrl, Class<T> toMock) {
         this.ctrl = ctrl;
         this.mock = ctrl.createMock(toMock);
+    }
+
+    private MockControl(MocksControl ctrl, Class<T> classToMock,
+            Method... mockedMethods) {
+        this(ctrl, classToMock);
+        // Set the mocked methods on the interceptor
+        getInterceptor(getMock()).setMockedMethods(mockedMethods);
     }
 
     /**
@@ -92,6 +101,159 @@ public class MockControl<T> implements Serializable {
                 toMock);
     }
 
+    /**
+     * Same as {@link #createControl(Class)}but allows to pass a list of
+     * methods to mock. All the other methods won't be. It means that if these
+     * methods are called, their real code will be executed.
+     * 
+     * @param classToMock
+     *            the class to mock
+     * @param mockedMethods
+     *            Methods to be mocked. If null, all methods will be mocked.
+     * @return the mock control
+     */
+    public static <T> MockControl<T> createControl(Class<T> classToMock,
+            Method... mockedMethods) {
+        return new MockControl<T>((MocksControl) EasyMock
+                .createControl(), classToMock, mockedMethods);
+    }
+
+    /**
+     * Same as {@link #createStrictControl(Class)}but allows to pass a list of
+     * methods to mock. All the other methods won't be. It means that if these
+     * methods are called, their real code will be executed.
+     * 
+     * @param classToMock
+     *            the class to mock
+     * @param mockedMethods
+     *            Methods to be mocked. If null, all methods will be mocked.
+     * @return the mock control
+     */
+    public static <T> MockControl<T> createStrictControl(
+            Class<T> classToMock, Method... mockedMethods) {
+        return new MockControl<T>(
+                (MocksControl) EasyMock
+                .createStrictControl(), classToMock, mockedMethods);
+    }
+
+    /**
+     * Same as {@link #createNiceControl(Class, Method[])}but allows to pass a
+     * list of methods to mock. All the other methods won't be. It means that if
+     * these methods are called, their real code will be executed.
+     * 
+     * @param classToMock
+     *            the class to mock
+     * @param mockedMethods
+     *            Methods to be mocked. If null, all methods will be mocked.
+     * @return the mock control
+     */
+    public static <T> MockControl<T> createNiceControl(
+            Class<T> classToMock, Method... mockedMethods) {
+        return new MockControl<T>((MocksControl) EasyMock
+                .createNiceControl(), classToMock, mockedMethods);
+    }
+
+    /**
+     * @param classToMock
+     * @param constructorTypes
+     * @param constructorArgs
+     * @param <T>
+     * @return
+     * @deprecated No need to pick a constructor anymore. Constructor arguments
+     *             are now ignored. Just use {@link #createControl(Class)}
+     */
+    @Deprecated
+    public static <T> MockControl<T> createControl(Class<T> classToMock,
+            Class<?>[] constructorTypes, Object[] constructorArgs) {
+        return createControl(classToMock);
+    }
+
+    /**
+     * @param classToMock
+     * @param constructorTypes
+     * @param constructorArgs
+     * @param mockedMethods
+     * @param <T>
+     * @return
+     * @deprecated No need to pick a constructor anymore. Constructor arguments
+     *             are now ignored. Just use
+     *             {@link #createControl(Class, Method[])}
+     */
+    @Deprecated
+    public static <T> MockControl<T> createControl(Class<T> classToMock,
+            Class<?>[] constructorTypes, Object[] constructorArgs,
+            Method[] mockedMethods) {
+        return createControl(classToMock, mockedMethods);
+    }
+
+    /**
+     * @param classToMock
+     * @param constructorTypes
+     * @param constructorArgs
+     * @param <T>
+     * @return
+     * @deprecated No need to pick a constructor anymore. Constructor arguments
+     *             are now ignored. Just use {@link #createStrictControl(Class)}
+     */
+    @Deprecated
+    public static <T> MockControl<T> createStrictControl(
+            Class<T> classToMock, Class<?>[] constructorTypes,
+            Object[] constructorArgs) {
+        return createStrictControl(classToMock);
+    }
+
+    /**
+     * @param classToMock
+     * @param constructorTypes
+     * @param constructorArgs
+     * @param mockedMethods
+     * @param <T>
+     * @return
+     * @deprecated No need to pick a constructor anymore. Constructor arguments
+     *             are now ignored. Just use
+     *             {@link #createStrictControl(Class, Method[])}
+     */
+    @Deprecated
+    public static <T> MockControl<T> createStrictControl(
+            Class<T> classToMock, Class<?>[] constructorTypes,
+            Object[] constructorArgs, Method... mockedMethods) {
+        return createStrictControl(classToMock, mockedMethods);
+    }
+
+    /**
+     * @param classToMock
+     * @param constructorTypes
+     * @param constructorArgs
+     * @param <T>
+     * @return
+     * @deprecated No need to pick a constructor anymore. Constructor arguments
+     *             are now ignored. Just use {@link #createNiceControl(Class)}
+     */
+    @Deprecated
+    public static <T> MockControl<T> createNiceControl(
+            Class<T> classToMock, Class<?>[] constructorTypes,
+            Object[] constructorArgs) {
+        return createNiceControl(classToMock);
+    }
+
+    /**
+     * @param classToMock
+     * @param constructorTypes
+     * @param constructorArgs
+     * @param mockedMethods
+     * @param <T>
+     * @return
+     * @deprecated No need to pick a constructor anymore. Constructor arguments
+     *             are now ignored. Just use
+     *             {@link #createNiceControl(Class, Method[])}
+     */
+    @Deprecated
+    public static <T> MockControl<T> createNiceControl(
+            Class<T> classToMock, Class<?>[] constructorTypes,
+            Object[] constructorArgs, Method... mockedMethods) {
+        return createNiceControl(classToMock, mockedMethods);
+    }
+    
     /**
      * Returns the mock object.
      * 

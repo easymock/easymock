@@ -1,9 +1,6 @@
 Notes:
-A bug was preventing to capture parameters from a stub.
 
-A new EasyMockSupport class was added to help manipulating all mocks used in
-a test case. See the SupportTest sample for an example.
+EasyMock is now able to merge classes by itself.
 
 Changes:
-    * Can capture parameters from stubbed methods (2807921)
-    * Add an EasyMockSupport to replayAll, verifyAll, etc. (2157782)
+    * Merge EasyMock and EasyMock Class Extension (2325762)

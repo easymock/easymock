@@ -19,13 +19,17 @@ import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.easymock.MockControl;
+import org.junit.Ignore;
 import org.junit.Test;
 
 @SuppressWarnings("deprecation")
-public class SerializationTest {
+public class SerializationTest implements Serializable {
+
+    private static final long serialVersionUID = -774994679161263654L;
 
     @SuppressWarnings("unchecked")
     @Test
@@ -75,6 +79,58 @@ public class SerializationTest {
         control = serialize(control);
         
         control.verify();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testClass() throws Exception {
+
+        ArrayList<String> mock = createMockBuilder(ArrayList.class)
+                .addMockedMethod("get").withConstructor().createMock();
+
+        mock = serialize(mock);
+
+        expect(mock.get(1)).andReturn("a");
+
+        mock = serialize(mock);
+
+        replay(mock);
+
+        mock = serialize(mock);
+
+        assertEquals("a", mock.get(1));
+
+        mock = serialize(mock);
+
+        verify(mock);
+    }
+
+    @Test
+    public void testAllMockedMethod() throws Exception {
+
+        SerializationTest mock = createMock(SerializationTest.class);
+
+        mock = serialize(mock);
+
+        mock.test();
+
+        mock = serialize(mock);
+
+        replay(mock);
+
+        mock = serialize(mock);
+
+        mock.test();
+
+        mock = serialize(mock);
+
+        verify(mock);
+    }
+
+    @Test
+    @Ignore
+    public void testChangingClassLoader() {
+
     }
 
     @SuppressWarnings("unchecked")
