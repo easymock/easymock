@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# has to be executed on shell.sf.net with appropriate rights
+# Has to be executed on shell.sourceforge.net with appropriate rights!
+# To create a shell replace USERNAME with your username in the following snippet:
+# ssh -t USERNAME,easymock@shell.sourceforge.net create
 
 cd /home/groups/e/ea/easymock \
 && rm -rf htdocs2 \
