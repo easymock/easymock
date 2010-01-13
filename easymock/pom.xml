@@ -119,17 +119,17 @@
           </execution>          
         </executions>
       </plugin>
-      <!-- plugin>
-        <groupId>com.google.code.maven-license-plugin</groupId>
+      <plugin>
+        <groupId>com.mycila.maven-license-plugin</groupId>
         <artifactId>maven-license-plugin</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.0</version>
         <configuration>
-          <header>${basedir}/header.txt</header>
-          <excludes>
-            <exclude>*.txt</exclude>
-            <exclude>src/site/**</exclude>
-            <exclude>src/main/java/org/easymock/internal/BridgeMethodResolver.java</exclude>
-          </excludes>          
+          <header>${basedir}/../header.txt</header>
+          <includes>
+            <!-- Only copyright the java -->
+            <include>src/main/java/**</include>                        
+            <include>src/test/java/**</include>
+          </includes>          
           <properties>
             <inceptionYear>${project.inceptionYear}</inceptionYear>
             <year>${year}</year>
@@ -143,7 +143,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin-->      
+      </plugin>      
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
