@@ -67,7 +67,7 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         lastBehaviorList().addExpected(expected, result, count);
     }
 
-    private final Result getStubResult(Invocation actual) {
+    private Result getStubResult(Invocation actual) {
         for (ExpectedInvocationAndResult each : stubResults) {
             if (each.getExpectedInvocation().matches(actual)) {
                 return each.getResult();
