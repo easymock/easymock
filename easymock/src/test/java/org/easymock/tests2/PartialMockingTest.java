@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import org.easymock.ConstructorArgs;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class PartialMockingTest {
 
     public static abstract class A {

@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class Results implements Serializable {
 
     private static final long serialVersionUID = -2722051869610289637L;

@@ -19,6 +19,9 @@ import java.io.Serializable;
 
 import org.easymock.IArgumentMatcher;
 
+/**
+ * @author Henri Tremblay
+ */
 public abstract class CompareTo<T extends Comparable<T>> implements IArgumentMatcher, Serializable {
 
     private static final long serialVersionUID = -8447010713532143168L;

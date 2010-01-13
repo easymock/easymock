@@ -24,6 +24,9 @@ import java.util.List;
 import org.easymock.IArgumentMatcher;
 import org.easymock.internal.matchers.Equals;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class ExpectedInvocation implements Serializable {
 
     private static final long serialVersionUID = -5554816464613350531L;

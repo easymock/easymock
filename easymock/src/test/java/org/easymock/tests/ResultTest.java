@@ -21,6 +21,10 @@ import org.easymock.internal.Result;
 import org.junit.Test;
 
 
+/**
+ * @author OFFIS, Tammo Freese
+ * @author Henri Tremblay
+ */
 public class ResultTest {
 
     @Test

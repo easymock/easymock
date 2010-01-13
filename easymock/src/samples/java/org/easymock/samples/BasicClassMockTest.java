@@ -22,6 +22,8 @@ import org.junit.Test;
 
 /**
  * Example of how to use <code>org.easymock.classextension.EasyMock</code>
+ * 
+ * @author Henri Tremblay
  */
 public class BasicClassMockTest extends EasyMockSupport {
 

@@ -27,6 +27,9 @@ import org.easymock.IMocksControl;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class EasyMockSupportClassTest extends EasyMockSupport {
 
     public static class ToMock {

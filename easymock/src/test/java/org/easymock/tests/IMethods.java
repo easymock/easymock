@@ -17,6 +17,9 @@ package org.easymock.tests;
 
 import java.io.IOException;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public interface IMethods {
 
     boolean booleanReturningMethod(int index);

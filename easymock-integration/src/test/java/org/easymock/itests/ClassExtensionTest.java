@@ -26,6 +26,8 @@ import org.junit.Test;
 /**
  * Test to make sure the latest class extension is working with the latest
  * EasyMock
+ * 
+ * @author Henri Tremblay
  */
 public class ClassExtensionTest {
 

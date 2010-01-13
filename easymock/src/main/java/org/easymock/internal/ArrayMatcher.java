@@ -18,6 +18,9 @@ package org.easymock.internal;
 import org.easymock.AbstractMatcher;
 import org.easymock.internal.matchers.ArrayEquals;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 @SuppressWarnings("deprecation")
 public class ArrayMatcher extends AbstractMatcher {
 

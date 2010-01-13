@@ -17,6 +17,9 @@ package org.easymock.internal;
 
 import java.lang.reflect.InvocationHandler;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public interface IProxyFactory<T> {
     T createProxy(Class<T> toMock, InvocationHandler handler);
 }

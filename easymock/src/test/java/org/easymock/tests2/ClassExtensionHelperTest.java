@@ -31,6 +31,9 @@ import org.easymock.EasyMock;
 import org.easymock.internal.MocksControl;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class ClassExtensionHelperTest {
 
     @Test

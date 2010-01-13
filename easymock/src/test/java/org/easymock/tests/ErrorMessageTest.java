@@ -20,6 +20,9 @@ import static org.junit.Assert.*;
 import org.easymock.internal.ErrorMessage;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class ErrorMessageTest {
 
     @Test

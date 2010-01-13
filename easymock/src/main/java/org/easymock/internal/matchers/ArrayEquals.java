@@ -19,6 +19,9 @@ import java.util.Arrays;
 
 import org.easymock.internal.ArgumentToString;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class ArrayEquals extends Equals {
 
     private static final long serialVersionUID = 1L;

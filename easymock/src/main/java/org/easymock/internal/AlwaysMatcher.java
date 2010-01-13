@@ -17,6 +17,9 @@ package org.easymock.internal;
 
 import org.easymock.AbstractMatcher;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 @SuppressWarnings("deprecation")
 public class AlwaysMatcher extends AbstractMatcher {
 

@@ -27,6 +27,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class CaptureTest {
 
     public static class A {

@@ -30,6 +30,8 @@ import java.util.Properties;
  * <li>System properties</li>
  * <li>explicit call to setProperty</li>
  * </ul>
+ * 
+ * @author Henri Tremblay
  */
 public final class EasyMockProperties {
 

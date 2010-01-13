@@ -20,6 +20,8 @@ import java.lang.reflect.Method;
 /**
  * Controls all the mock objects created by it.
  * For details, see the EasyMock documentation.
+ * 
+ * @author OFFIS, Tammo Freese
  */
 public interface IMocksControl {
     /**

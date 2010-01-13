@@ -20,6 +20,9 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Henri Tremblay
+ */
 public class MethodSerializationWrapper implements Serializable {
 
     private static final long serialVersionUID = 1775475200823842126L;

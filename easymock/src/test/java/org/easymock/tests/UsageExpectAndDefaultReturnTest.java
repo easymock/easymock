@@ -25,7 +25,7 @@ import org.junit.Test;
  * Same as UsageExpectAndReturnTest except that each mocked method is called
  * twice to make sure the defaulting works fine.
  * 
- * @author Henri Tremblay
+ * @author OFFIS, Tammo Freese
  */
 @SuppressWarnings("deprecation")
 public class UsageExpectAndDefaultReturnTest {

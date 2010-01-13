@@ -19,6 +19,9 @@ import java.io.Serializable;
 
 import org.easymock.IArgumentMatcher;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class InstanceOf implements IArgumentMatcher, Serializable {
 
     private static final long serialVersionUID = -551735356674347591L;

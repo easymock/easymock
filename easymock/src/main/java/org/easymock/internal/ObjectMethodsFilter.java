@@ -21,6 +21,9 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class ObjectMethodsFilter implements InvocationHandler, Serializable {
 
     private static final long serialVersionUID = -2120581954279966998L;

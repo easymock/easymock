@@ -18,6 +18,9 @@ package org.easymock.internal;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class JavaProxyFactory<T> implements IProxyFactory<T> {
     @SuppressWarnings("unchecked")
     public T createProxy(Class<T> toMock, InvocationHandler handler) {

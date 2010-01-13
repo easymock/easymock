@@ -24,6 +24,8 @@ import org.junit.Test;
 
 /**
  * Test the limitations of class mocking
+ * 
+ * @author Henri Tremblay
  */
 @SuppressWarnings("deprecation")
 public class LimitationsTest {

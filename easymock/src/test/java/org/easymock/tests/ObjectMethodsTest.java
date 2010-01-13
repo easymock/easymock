@@ -24,6 +24,9 @@ import org.easymock.internal.ObjectMethodsFilter;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 @SuppressWarnings("deprecation")
 public class ObjectMethodsTest {
     private MockControl<EmptyInterface> control;

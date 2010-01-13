@@ -22,6 +22,9 @@ import org.easymock.tests.IMethods;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class StubTest {
     private IMethods mock;
 

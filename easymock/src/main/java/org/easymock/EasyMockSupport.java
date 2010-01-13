@@ -23,6 +23,8 @@ import org.easymock.internal.MockBuilder;
 /**
  * Helper class to be used to keep tracks of mocks easily. See EasyMock
  * documentation and SupportTest sample
+ * 
+ * @author Henri Tremblay
  */
 public class EasyMockSupport {
 

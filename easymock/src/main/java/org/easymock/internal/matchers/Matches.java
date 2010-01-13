@@ -19,6 +19,9 @@ import java.io.Serializable;
 
 import org.easymock.IArgumentMatcher;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class Matches implements IArgumentMatcher, Serializable {
 
     private static final long serialVersionUID = -6657694947057597484L;

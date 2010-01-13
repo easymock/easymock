@@ -15,6 +15,9 @@
  */
 package org.easymock.internal;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class ErrorMessage {
 
     private final boolean matching;

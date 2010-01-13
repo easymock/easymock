@@ -19,6 +19,9 @@ import java.io.Serializable;
 
 import org.easymock.IArgumentMatcher;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class EndsWith implements IArgumentMatcher, Serializable {
 
     private static final long serialVersionUID = 5159338714596685067L;

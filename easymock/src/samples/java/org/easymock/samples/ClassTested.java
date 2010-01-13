@@ -20,6 +20,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class ClassTested {
 
     private final Set<Collaborator> listeners = new HashSet<Collaborator>();

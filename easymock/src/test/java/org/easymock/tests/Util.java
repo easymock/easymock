@@ -18,6 +18,9 @@ package org.easymock.tests;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public final class Util {
 
     private Util() {

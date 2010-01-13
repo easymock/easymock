@@ -30,6 +30,8 @@ import org.junit.Test;
 /**
  * Test all kind of mocking making sure the partial mocking and interface works
  * and that to correct behavior is given.
+ * 
+ * @author Henri Tremblay
  */
 @SuppressWarnings("deprecation")
 public class MockingTest {

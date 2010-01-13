@@ -23,6 +23,9 @@ import net.sf.cglib.proxy.Factory;
 import org.easymock.ConstructorArgs;
 import org.easymock.internal.ClassProxyFactory.MockMethodInterceptor;
 
+/**
+ * @author Henri Tremblay
+ */
 public final class ClassExtensionHelper {
 
     private static final ThreadLocal<ConstructorArgs> currentConstructorArgs = new ThreadLocal<ConstructorArgs>();

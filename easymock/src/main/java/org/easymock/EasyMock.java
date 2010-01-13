@@ -1,5 +1,5 @@
 /*
- * Copyright 2001-2009 OFFIS, Tammo Freese
+ * Copyright 2001-2009 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,16 @@
  */
 package org.easymock;
 
-import java.lang.reflect.Proxy;
+import java.io.Console;
 import java.util.Comparator;
 
-import org.easymock.IMockBuilder;
 import org.easymock.internal.*;
 import org.easymock.internal.matchers.*;
 
+/**
+ * @author OFFIS, Tammo Freese
+ * @author Henri Tremblay
+ */
 public class EasyMock {
 
     /**
@@ -117,6 +120,7 @@ public class EasyMock {
      * @return the mock object.
      */
     public static <T> T createNiceMock(Class<T> toMock) {
+        Console c = System.console();
         return createNiceControl().createMock(toMock);
     }
 

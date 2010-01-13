@@ -19,6 +19,9 @@ import java.io.Serializable;
 
 import org.easymock.IArgumentMatcher;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class EqualsWithDelta implements IArgumentMatcher, Serializable {
 
     private static final long serialVersionUID = -3018631689416120154L;

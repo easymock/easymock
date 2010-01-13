@@ -17,6 +17,9 @@ package org.easymock.internal;
 
 import java.io.Serializable;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class ExpectedInvocationAndResults implements Serializable {
     
     private static final long serialVersionUID = 8189985418895395472L;

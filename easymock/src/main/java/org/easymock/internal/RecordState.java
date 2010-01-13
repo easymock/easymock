@@ -24,6 +24,9 @@ import java.util.Map;
 import org.easymock.IAnswer;
 import org.easymock.IArgumentMatcher;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class RecordState implements IMocksControlState, Serializable {
 
     private static final long serialVersionUID = -5418279681566430252L;

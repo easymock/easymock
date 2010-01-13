@@ -116,6 +116,8 @@ import java.lang.reflect.Method;
  * 
  * @param <T>
  *            type of the object being created
+ *            
+ * @author Henri Tremblay
  */
 public interface IMockBuilder<T> {
 

@@ -15,6 +15,9 @@
  */
 package org.easymock.internal;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class AssertionErrorWrapper extends RuntimeException {
 
     private static final long serialVersionUID = -2087349195182278608L;

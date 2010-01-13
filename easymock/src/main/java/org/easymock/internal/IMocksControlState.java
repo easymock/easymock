@@ -17,6 +17,9 @@ package org.easymock.internal;
 
 import org.easymock.IAnswer;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public interface IMocksControlState extends ILegacyMethods {
 
     Object invoke(Invocation invocation) throws Throwable;

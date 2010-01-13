@@ -25,6 +25,9 @@ import org.easymock.internal.matchers.And;
 import org.easymock.internal.matchers.Not;
 import org.easymock.internal.matchers.Or;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class LastControl {
     private static final ThreadLocal<MocksControl> threadToControl = new ThreadLocal<MocksControl>();
 

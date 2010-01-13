@@ -21,6 +21,9 @@ import org.easymock.Capture;
 import org.easymock.IArgumentMatcher;
 import org.easymock.internal.LastControl;
 
+/**
+ * @author Henri Tremblay
+ */
 public class Captures<T> implements IArgumentMatcher, Serializable {
     
     private static final long serialVersionUID = -5048595127450771363L;

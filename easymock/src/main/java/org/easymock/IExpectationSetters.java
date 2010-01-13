@@ -21,6 +21,8 @@ package org.easymock;
  * {@link EasyMock#expect(Object)}, and by {@link EasyMock#expectLastCall()}.
  * 
  * @param <T> type of what should be returned by this expected call
+ * 
+ * @author OFFIS, Tammo Freese
  */
 public interface IExpectationSetters<T> {
 

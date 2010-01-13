@@ -31,6 +31,8 @@ import org.easymock.internal.*;
  * 
  * @deprecated Since EasyMock 2.0, static methods on <code>EasyMock</code> are
  * used to create and control mock objects.
+ * 
+ * @author OFFIS, Tammo Freese
  */
 @Deprecated
 public class MockControl<T> implements Serializable {

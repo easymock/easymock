@@ -21,6 +21,9 @@ import java.util.List;
 
 import org.easymock.IArgumentMatcher;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class And implements IArgumentMatcher, Serializable {
 
     private static final long serialVersionUID = 3874580646798403818L;

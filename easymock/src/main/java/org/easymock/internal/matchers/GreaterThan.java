@@ -15,6 +15,9 @@
  */
 package org.easymock.internal.matchers;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class GreaterThan<T extends Comparable<T>> extends CompareTo<T> {
 
     private static final long serialVersionUID = 2736983121197045828L;

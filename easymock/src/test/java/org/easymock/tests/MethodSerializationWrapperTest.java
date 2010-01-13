@@ -22,6 +22,9 @@ import java.lang.reflect.Method;
 import org.easymock.internal.MethodSerializationWrapper;
 import org.junit.Test;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class MethodSerializationWrapperTest {
 
     public static class A {

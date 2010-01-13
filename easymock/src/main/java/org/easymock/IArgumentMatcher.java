@@ -17,6 +17,8 @@ package org.easymock;
 
 /**
  * Decides whether an actual argument is accepted.
+ * 
+ * @author OFFIS, Tammo Freese
  */
 public interface IArgumentMatcher {
     

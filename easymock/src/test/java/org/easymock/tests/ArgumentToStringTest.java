@@ -21,6 +21,9 @@ import org.easymock.internal.ArgumentToString;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class ArgumentToStringTest {
 
     private StringBuffer buffer;

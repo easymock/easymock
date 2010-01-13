@@ -22,6 +22,9 @@ import java.math.BigDecimal;
 import org.easymock.internal.matchers.*;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class CompareToTest {
 
     @Test

@@ -27,6 +27,8 @@ import org.junit.Test;
 
 /**
  * Example of how to partial mock with actually calling a constructor
+ * 
+ * @author Henri Tremblay
  */
 public class ConstructorCalledMockTest extends EasyMockSupport {
 

@@ -25,6 +25,8 @@ import java.util.List;
  * 
  * @param <T>
  *            Type of the captured element
+ * 
+ * @author Henri Tremblay
  */
 public class Capture<T> implements Serializable {
 

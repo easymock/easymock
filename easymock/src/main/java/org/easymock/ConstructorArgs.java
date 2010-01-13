@@ -18,6 +18,9 @@ package org.easymock;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 
+/**
+ * @author Henri Tremblay
+ */
 public class ConstructorArgs {
 
     private final Constructor<?> constructor;

@@ -17,6 +17,8 @@ package org.easymock.internal;
 
 /**
  * Used to instantiate a given class.
+ * 
+ * @author Henri Tremblay
  */
 public interface IClassInstantiator {
 

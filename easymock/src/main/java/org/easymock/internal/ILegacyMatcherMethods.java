@@ -17,6 +17,9 @@ package org.easymock.internal;
 
 import java.lang.reflect.Method;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public interface ILegacyMatcherMethods {
 
     @SuppressWarnings("deprecation")

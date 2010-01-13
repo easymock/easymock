@@ -18,6 +18,7 @@ package org.easymock;
 /**
  * Defines how arguments will be captured by a <tt>Capture</tt> object
  * 
+ * @author Henri Tremblay
  * @see Capture
  */
 public enum CaptureType {

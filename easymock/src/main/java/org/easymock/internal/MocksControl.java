@@ -25,6 +25,9 @@ import org.easymock.IAnswer;
 import org.easymock.IExpectationSetters;
 import org.easymock.IMocksControl;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class MocksControl implements IMocksControl, IExpectationSetters<Object>, Serializable {
 
     private static final long serialVersionUID = 443604921336702014L;

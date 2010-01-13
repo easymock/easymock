@@ -30,6 +30,8 @@ import org.easymock.*;
  * 
  * @param <T>
  *            type of the mock created
+ * 
+ * @author Henri Tremblay
  */
 public class MockBuilder<T> implements IMockBuilder<T> {
 

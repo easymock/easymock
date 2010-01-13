@@ -24,6 +24,9 @@ import java.util.Map;
 import org.easymock.ArgumentsMatcher;
 import org.easymock.MockControl;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 @SuppressWarnings("deprecation")
 public class LegacyMatcherProvider implements Serializable {
 

@@ -15,6 +15,9 @@
  */
 package org.easymock.internal;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class ThrowableWrapper extends Throwable {
 
     private static final long serialVersionUID = -4434322855124959723L;

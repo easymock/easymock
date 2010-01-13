@@ -21,6 +21,9 @@ import java.util.Comparator;
 import org.easymock.IArgumentMatcher;
 import org.easymock.LogicalOperator;
 
+/**
+ * @author Henri Tremblay
+ */
 public class Compare<T> implements IArgumentMatcher, Serializable {
 
     private static final long serialVersionUID = -4859402739599754147L;

@@ -21,6 +21,9 @@ import java.lang.reflect.Method;
 
 import org.easymock.IAnswer;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class Result implements IAnswer<Object>, Serializable {
 
     private static final long serialVersionUID = 5476251941213917681L;

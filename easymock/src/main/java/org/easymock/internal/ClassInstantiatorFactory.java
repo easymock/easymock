@@ -17,6 +17,8 @@ package org.easymock.internal;
 
 /**
  * Factory returning a {@link IClassInstantiator}for the current JVM
+ * 
+ * @author Henri Tremblay
  */
 public class ClassInstantiatorFactory {
 

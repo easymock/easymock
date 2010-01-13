@@ -31,6 +31,8 @@ import org.junit.Test;
  * I'm not unit testing directly the class. The reason I'm doing this is that I
  * want to make sure it works well with the cglib class and not the actual
  * mocked class.
+ * 
+ * @author Henri Tremblay
  */
 @SuppressWarnings("deprecation")
 public class DefaultClassInstantiatorTest {

@@ -15,6 +15,9 @@
  */
 package org.easymock.tests;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 import static org.junit.Assert.*;
 
 import org.easymock.AbstractMatcher;

@@ -19,6 +19,9 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public final class MockInvocationHandler implements InvocationHandler, Serializable {
 
     private static final long serialVersionUID = -7799769066534714634L;

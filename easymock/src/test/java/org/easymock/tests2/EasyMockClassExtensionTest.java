@@ -30,6 +30,9 @@ import org.easymock.IMockBuilder;
 import org.easymock.tests2.MocksControlTest.A;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class EasyMockClassExtensionTest {
 
     private static class ParamEntry {

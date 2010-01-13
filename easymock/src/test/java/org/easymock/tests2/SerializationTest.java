@@ -26,6 +26,9 @@ import org.easymock.MockControl;
 import org.junit.Ignore;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 @SuppressWarnings("deprecation")
 public class SerializationTest implements Serializable {
 

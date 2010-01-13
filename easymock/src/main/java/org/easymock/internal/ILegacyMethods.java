@@ -15,6 +15,9 @@
  */
 package org.easymock.internal;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public interface ILegacyMethods extends ILegacyMatcherMethods {
     void setDefaultReturnValue(Object value);
 

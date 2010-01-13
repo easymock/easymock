@@ -22,6 +22,9 @@ import java.util.List;
 
 import org.easymock.EasyMock;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class MocksBehavior implements IMocksBehavior, Serializable {
 
     private static final long serialVersionUID = 3265727009370529027L;

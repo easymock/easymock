@@ -15,6 +15,9 @@
  */
 package org.easymock.tests;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public interface IVarArgs {
     public void withVarargsString(int value, String... s);
 

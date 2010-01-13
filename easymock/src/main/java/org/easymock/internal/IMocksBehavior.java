@@ -15,6 +15,9 @@
  */
 package org.easymock.internal;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public interface IMocksBehavior extends ILegacyMatcherMethods {
 
     // record

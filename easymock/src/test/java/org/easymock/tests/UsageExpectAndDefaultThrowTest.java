@@ -26,7 +26,7 @@ import org.junit.Test;
  * Same as UsageExpectAndThrowTest except that each mocked method is called
  * twice to make sure the defaulting works fine.
  * 
- * @author Henri Tremblay
+ * @author OFFIS, Tammo Freese
  */
 @SuppressWarnings("deprecation")
 public class UsageExpectAndDefaultThrowTest {

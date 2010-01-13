@@ -19,6 +19,9 @@ import static org.easymock.EasyMock.reportMatcher;
 
 import org.easymock.IArgumentMatcher;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class ThrowableEquals implements IArgumentMatcher {
     private Throwable expected;
 

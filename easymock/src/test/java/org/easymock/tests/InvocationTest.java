@@ -24,6 +24,9 @@ import org.easymock.internal.Invocation;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class InvocationTest {
 
     private Invocation call;

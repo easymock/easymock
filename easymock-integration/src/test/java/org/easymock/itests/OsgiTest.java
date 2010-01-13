@@ -32,6 +32,8 @@ import org.springframework.osgi.util.OsgiStringUtils;
 
 /**
  * Note: This is a JUnit 3 test because of the Spring OSGi test framework
+ * 
+ * @author Henri Tremblay
  */
 public class OsgiTest extends AbstractConfigurableBundleCreatorTests {
 

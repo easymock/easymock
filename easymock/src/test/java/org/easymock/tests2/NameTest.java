@@ -22,6 +22,9 @@ import org.junit.Test;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class NameTest {
     @Test
     public void nameForMock() {

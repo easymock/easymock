@@ -28,6 +28,9 @@ import org.easymock.internal.MockInvocationHandler;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 @SuppressWarnings("deprecation")
 public class StacktraceTest {
 

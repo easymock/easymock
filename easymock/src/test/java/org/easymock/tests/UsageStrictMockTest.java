@@ -22,6 +22,9 @@ import org.easymock.internal.ReplayState;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 @SuppressWarnings("deprecation")
 public class UsageStrictMockTest {
     private MockControl<IMethods> control;

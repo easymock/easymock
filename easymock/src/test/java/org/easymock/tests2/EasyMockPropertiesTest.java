@@ -26,6 +26,9 @@ import org.easymock.internal.EasyMockProperties;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class EasyMockPropertiesTest {
 
     @BeforeClass

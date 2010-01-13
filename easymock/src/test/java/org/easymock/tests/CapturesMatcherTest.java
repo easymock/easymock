@@ -27,6 +27,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+/**
+ * @author Henri Tremblay
+ */
 public class CapturesMatcherTest {
 
     private final Capture<String> capture = new Capture<String>(

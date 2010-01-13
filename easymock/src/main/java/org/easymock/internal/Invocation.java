@@ -26,6 +26,9 @@ import java.util.Collection;
 
 import org.easymock.internal.matchers.Captures;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class Invocation implements Serializable {
 
     private static final long serialVersionUID = 1604995470419943411L;

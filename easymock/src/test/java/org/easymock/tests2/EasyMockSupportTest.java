@@ -23,6 +23,9 @@ import org.easymock.IMocksControl;
 import org.easymock.tests.IMethods;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class EasyMockSupportTest extends EasyMockSupport {
 
     private IMethods mock1;

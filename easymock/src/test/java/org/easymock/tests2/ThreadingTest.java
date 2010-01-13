@@ -32,6 +32,8 @@ import org.junit.Test;
  * environment. Note that sadly this test isn't sure to fail all
  * the time. Only if there's a concurrency issue and we're lucky
  * enough to fell on it during testing.
+ * 
+ * @author Henri Tremblay
  */
 public class ThreadingTest {
 

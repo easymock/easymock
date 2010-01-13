@@ -21,6 +21,9 @@ import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 @SuppressWarnings("deprecation")
 public class RecordStateInvalidMatcherTest {
     MockControl<IMethods> control;

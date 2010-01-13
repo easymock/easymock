@@ -17,6 +17,9 @@ package org.easymock.internal;
 
 import java.lang.reflect.Array;
 
+/**
+ * @author Henri Tremblay
+ */
 public final class ArgumentToString {
 
     // ///CLOVER:OFF

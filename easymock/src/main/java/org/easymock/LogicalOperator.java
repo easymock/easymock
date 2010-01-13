@@ -17,6 +17,8 @@ package org.easymock;
 
 /**
  * See {@link EasyMock#cmp}
+ * 
+ * @author Henri Tremblay
  */
 public enum LogicalOperator {
     LESS_THAN("<") {

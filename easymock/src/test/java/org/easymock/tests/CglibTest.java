@@ -27,6 +27,8 @@ import org.junit.Test;
 /**
  * This test case is used to make sure that the way cglib is used is providing
  * the expected behavior
+ * 
+ * @author Henri Tremblay
  */
 public class CglibTest extends TestCase {
 

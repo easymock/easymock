@@ -25,6 +25,8 @@ import org.junit.Test;
 
 /**
  * Example of how to perform partial mocking
+ * 
+ * @author Henri Tremblay
  */
 public class PartialClassMockTest extends EasyMockSupport {
 

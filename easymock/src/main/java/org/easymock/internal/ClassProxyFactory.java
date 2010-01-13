@@ -37,6 +37,8 @@ import org.easymock.ConstructorArgs;
  * 
  * @param <T>
  *            type of the proxy created
+ * 
+ * @author Henri Tremblay
  */
 public class ClassProxyFactory<T> implements IProxyFactory<T> {
 

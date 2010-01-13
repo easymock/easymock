@@ -20,6 +20,9 @@ import static org.junit.Assert.*;
 import org.easymock.ConstructorArgs;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class ConstructorArgsTest {
 
     public final Class<?> TYPE = null;

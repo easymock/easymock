@@ -23,6 +23,8 @@ import org.easymock.EasyMock;
 /**
  * Default class instantiator that is pretty limited. It just hope that the
  * mocked class has a public empty constructor.
+ * 
+ * @author Henri Tremblay
  */
 public class DefaultClassInstantiator implements IClassInstantiator {
 

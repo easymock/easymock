@@ -26,6 +26,9 @@ import org.easymock.ConstructorArgs;
 import org.easymock.IMocksControl;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class MocksControlTest {
 
     public static class A {

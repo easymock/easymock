@@ -24,6 +24,9 @@ import org.junit.Test;
 
 /**
  * Tests of MockClassControl basic functionnalities
+ * 
+ * @author Henri Tremblay
+ * @author OFFIS, Tammo Freese
  */
 @SuppressWarnings("deprecation")
 public class MockClassControlTest {

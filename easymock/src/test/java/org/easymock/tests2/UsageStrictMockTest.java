@@ -24,6 +24,9 @@ import org.easymock.tests.Util;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class UsageStrictMockTest {
     private IMethods mock;
 

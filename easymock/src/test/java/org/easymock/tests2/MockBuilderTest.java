@@ -28,6 +28,9 @@ import org.easymock.internal.MockBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class MockBuilderTest {
 
     private MockBuilder<ArrayList<String>> builder;

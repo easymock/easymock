@@ -24,6 +24,9 @@ import org.easymock.internal.ReplayState;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 @SuppressWarnings("deprecation")
 public class UsageVerifyTest {
     private MockControl<IMethods> control;

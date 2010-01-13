@@ -20,6 +20,9 @@ import static org.easymock.EasyMock.*;
 import org.easymock.tests.IMethods;
 import org.junit.Test;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class UsageMatchersTest {
     @Test(expected = IllegalStateException.class)
     public void additionalMatchersFailAtReplay() {

@@ -18,6 +18,8 @@ package org.easymock;
 /**
  * Used to answer expected calls.
  * @param <T> the type to return.
+ * 
+ * @author OFFIS, Tammo Freese
  */
 public interface IAnswer<T> {
     /**

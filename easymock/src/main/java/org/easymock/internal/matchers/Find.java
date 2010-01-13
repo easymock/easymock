@@ -20,6 +20,9 @@ import java.util.regex.Pattern;
 
 import org.easymock.IArgumentMatcher;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class Find implements IArgumentMatcher, Serializable {
 
     private static final long serialVersionUID = -7104607303959381785L;

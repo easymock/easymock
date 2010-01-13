@@ -15,6 +15,9 @@
  */
 package org.easymock.samples;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public interface Collaborator {
     void documentAdded(String title);
 

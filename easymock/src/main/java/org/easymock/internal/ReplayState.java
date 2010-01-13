@@ -21,6 +21,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.easymock.IAnswer;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class ReplayState implements IMocksControlState, Serializable {
 
     private static final long serialVersionUID = 6314142602251047572L;

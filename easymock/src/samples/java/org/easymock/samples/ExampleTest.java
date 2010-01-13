@@ -15,6 +15,9 @@
  */
 package org.easymock.samples;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 

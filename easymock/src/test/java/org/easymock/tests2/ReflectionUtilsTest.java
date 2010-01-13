@@ -23,6 +23,9 @@ import java.lang.reflect.Method;
 import org.easymock.internal.ReflectionUtils;
 import org.junit.Test;
 
+/**
+ * @author Henri Tremblay
+ */
 public class ReflectionUtilsTest {
 
     public static class B {

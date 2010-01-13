@@ -21,6 +21,9 @@ import org.easymock.ArgumentsMatcher;
 import org.easymock.MockControl;
 import org.junit.Test;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 @SuppressWarnings("deprecation")
 public class ArrayMatcherTest {
 

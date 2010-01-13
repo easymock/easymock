@@ -15,6 +15,9 @@
  */
 package org.easymock.internal;
 
+/**
+ * @author OFFIS, Tammo Freese
+ */
 public class RuntimeExceptionWrapper extends RuntimeException {
 
     private static final long serialVersionUID = -3483500330975410177L;

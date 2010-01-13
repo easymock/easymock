@@ -17,6 +17,9 @@ package org.easymock.internal;
 
 import org.objenesis.ObjenesisHelper;
 
+/**
+ * @author Henri Tremblay
+ */
 public class ObjenesisClassInstantiator implements IClassInstantiator {
 
     public Object newInstance(Class<?> clazz) throws InstantiationException {

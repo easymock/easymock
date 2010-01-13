@@ -25,6 +25,8 @@ import org.junit.Test;
 /**
  * Bridges are generated method used for generics. They shouldn't be mocked to
  * keep delegating correctly to the real implementation.
+ * 
+ * @author Henri Tremblay
  */
 public class GenericTest {
 
