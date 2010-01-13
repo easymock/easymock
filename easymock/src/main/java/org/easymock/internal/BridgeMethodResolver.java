@@ -457,8 +457,7 @@ public final class BridgeMethodResolver {
      * Get all declared methods on the leaf class and all superclasses. Leaf
      * class methods are included first.
      */
-    private static Method[] getAllDeclaredMethods(Class<?> leafClass)
-            throws IllegalArgumentException {
+    private static Method[] getAllDeclaredMethods(Class<?> leafClass) {
         final List<Method> list = new LinkedList<Method>();
 
         // Keep backing up the inheritance hierarchy.
