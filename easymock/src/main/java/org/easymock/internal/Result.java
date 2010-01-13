@@ -82,7 +82,7 @@ public class Result implements IAnswer<Object>, Serializable {
                             invocation.getArguments());
                 } catch (IllegalArgumentException e) {
                     throw new IllegalArgumentException("Delegation to object ["
-                            + String.valueOf(value)
+                            + value
                             + "] is not implementing the mocked method ["
                             + invocation.getMethod() + "]", e);
                 } catch (InvocationTargetException e) {
