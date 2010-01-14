@@ -129,6 +129,7 @@
             <!-- Only copyright the java -->
             <include>src/main/java/**</include>                        
             <include>src/test/java/**</include>
+            <include>src/samples/java/**</include>
           </includes>          
           <properties>
             <inceptionYear>${project.inceptionYear}</inceptionYear>
