@@ -51,8 +51,9 @@ public class Equals implements IArgumentMatcher, Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || !this.getClass().equals(o.getClass()))
+        if (o == null || !this.getClass().equals(o.getClass())) {
             return false;
+        }
         Equals other = (Equals) o;
         return this.expected == null && other.expected == null
                 || this.expected != null

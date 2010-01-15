@@ -37,10 +37,11 @@ public class Results implements Serializable {
     public void add(Result result, Range range) {
         if (!ranges.isEmpty()) {
             Range lastRange = ranges.getLast();
-            if (!lastRange.hasFixedCount())
+            if (!lastRange.hasFixedCount()) {
                 throw new RuntimeExceptionWrapper(
                         new IllegalStateException(
                                 "last method called on mock already has a non-fixed count set."));
+            }
         }
         ranges.add(range);
         results.add(result);

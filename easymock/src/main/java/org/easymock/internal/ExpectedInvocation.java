@@ -73,8 +73,9 @@ public class ExpectedInvocation implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || !this.getClass().equals(o.getClass()))
+        if (o == null || !this.getClass().equals(o.getClass())) {
             return false;
+        }
 
         ExpectedInvocation other = (ExpectedInvocation) o;
         return this.invocation.equals(other.invocation)

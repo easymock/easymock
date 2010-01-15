@@ -126,8 +126,9 @@ public abstract class AbstractMatcher implements ArgumentsMatcher, Serializable 
      * @return a string representation of the matcher.
      */
     public String toString(Object[] arguments) {
-        if (arguments == null)
+        if (arguments == null) {
             arguments = new Object[0];
+        }
 
         StringBuilder result = new StringBuilder();
 

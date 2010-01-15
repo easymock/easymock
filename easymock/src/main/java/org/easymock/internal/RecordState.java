@@ -301,11 +301,13 @@ public class RecordState implements IMocksControlState, Serializable {
     }
 
     private void requireValidThrowable(Throwable throwable) {
-        if (throwable == null)
+        if (throwable == null) {
             throw new RuntimeExceptionWrapper(new NullPointerException(
                     "null cannot be thrown"));
-        if (isValidThrowable(throwable))
+        }
+        if (isValidThrowable(throwable)) {
             return;
+        }
 
         throw new RuntimeExceptionWrapper(new IllegalArgumentException(
                 "last method called on mock cannot throw "
@@ -313,15 +315,17 @@ public class RecordState implements IMocksControlState, Serializable {
     }
 
     private void requireValidAnswer(IAnswer<?> answer) {
-        if (answer == null)
+        if (answer == null) {
             throw new RuntimeExceptionWrapper(new NullPointerException(
                     "answer object must not be null"));
+        }
     }
 
     private void requireValidDelegation(Object delegateTo) {
-        if (delegateTo == null)
+        if (delegateTo == null) {
             throw new RuntimeExceptionWrapper(new NullPointerException(
                     "delegated to object must not be null"));
+        }
         // Would be nice to validate delegateTo is implementing the mock
         // interface (not possible right now)
     }
@@ -361,8 +365,9 @@ public class RecordState implements IMocksControlState, Serializable {
         Class<?>[] exceptions = lastInvocation.getMethod().getExceptionTypes();
         Class<?> throwableClass = throwable.getClass();
         for (Class<?> exception : exceptions) {
-            if (exception.isAssignableFrom(throwableClass))
+            if (exception.isAssignableFrom(throwableClass)) {
                 return true;
+            }
         }
         return false;
     }
