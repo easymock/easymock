@@ -23,7 +23,7 @@ import org.easymock.IArgumentMatcher;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class Any implements IArgumentMatcher, Serializable {
+public final class Any implements IArgumentMatcher, Serializable {
 
     private static final long serialVersionUID = -3743894206806704049L;
     

@@ -16,7 +16,6 @@
 
 package org.easymock;
 
-import java.io.Console;
 import java.util.Comparator;
 
 import org.easymock.internal.*;
@@ -121,7 +120,6 @@ public class EasyMock {
      * @return the mock object.
      */
     public static <T> T createNiceMock(Class<T> toMock) {
-        Console c = System.console();
         return createNiceControl().createMock(toMock);
     }
 

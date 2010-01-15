@@ -47,9 +47,8 @@ public final class MockInvocationHandler implements InvocationHandler, Serializa
             throw e.getAssertionError().fillInStackTrace();
         } catch (ThrowableWrapper t) {
             throw t.getThrowable().fillInStackTrace();
-        } catch (Throwable t) {
-            throw t; // let all unwrapped pass unmodified
         }
+        // then let all unwrapped exceptions pass unmodified
     }
 
     public MocksControl getControl() {

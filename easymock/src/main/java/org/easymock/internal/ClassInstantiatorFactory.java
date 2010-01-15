@@ -21,7 +21,7 @@ package org.easymock.internal;
  * 
  * @author Henri Tremblay
  */
-public class ClassInstantiatorFactory {
+public final class ClassInstantiatorFactory {
 
     private static IClassInstantiator instantiator = new ObjenesisClassInstantiator();
 

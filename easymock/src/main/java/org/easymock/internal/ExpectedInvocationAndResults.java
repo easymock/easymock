@@ -25,9 +25,9 @@ public class ExpectedInvocationAndResults implements Serializable {
     
     private static final long serialVersionUID = 8189985418895395472L;
 
-    ExpectedInvocation expectedInvocation;
+    private ExpectedInvocation expectedInvocation;
 
-    Results results;
+    private Results results;
 
     public ExpectedInvocationAndResults(ExpectedInvocation expectedInvocation,
             Results results) {

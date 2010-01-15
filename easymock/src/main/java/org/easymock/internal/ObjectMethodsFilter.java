@@ -81,10 +81,12 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
     }
 
     private String mockType(Object proxy) {
-        if (Proxy.isProxyClass(proxy.getClass()))
+        if (Proxy.isProxyClass(proxy.getClass())) {
             return proxy.getClass().getInterfaces()[0].toString();
-        else
+        }
+        else {
             return proxy.getClass().getSuperclass().toString();
+        }
     }
 
     public MockInvocationHandler getDelegate() {

@@ -29,13 +29,21 @@ import org.easymock.internal.matchers.Or;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class LastControl {
+public final class LastControl {
+    
+    private static final String NO_MATCHERS_FOUND = "no matchers found.";
+
     private static final ThreadLocal<MocksControl> threadToControl = new ThreadLocal<MocksControl>();
 
     private static final ThreadLocal<Stack<Invocation>> threadToCurrentInvocation = new ThreadLocal<Stack<Invocation>>();
 
     private static final ThreadLocal<Stack<IArgumentMatcher>> threadToArgumentMatcherStack = new ThreadLocal<Stack<IArgumentMatcher>>();
 
+    // ///CLOVER:OFF
+    private LastControl() {
+    }
+    // ///CLOVER:ON
+    
     public static void reportLastControl(MocksControl control) {
         if (control != null) {
             threadToControl.set(control);
@@ -68,19 +76,19 @@ public class LastControl {
 
     public static void reportAnd(int count) {
         Stack<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
-        assertState(stack != null, "no matchers found.");
+        assertState(stack != null, NO_MATCHERS_FOUND);
         stack.push(new And(popLastArgumentMatchers(count)));
     }
 
     public static void reportNot() {
         Stack<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
-        assertState(stack != null, "no matchers found.");
+        assertState(stack != null, NO_MATCHERS_FOUND);
         stack.push(new Not(popLastArgumentMatchers(1).get(0)));
     }
 
     private static List<IArgumentMatcher> popLastArgumentMatchers(int count) {
         Stack<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
-        assertState(stack != null, "no matchers found.");
+        assertState(stack != null, NO_MATCHERS_FOUND);
         assertState(stack.size() >= count, "" + count + " matchers expected, "
                 + stack.size() + " recorded.");
         List<IArgumentMatcher> result = new LinkedList<IArgumentMatcher>();
@@ -100,7 +108,7 @@ public class LastControl {
 
     public static void reportOr(int count) {
         Stack<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
-        assertState(stack != null, "no matchers found.");
+        assertState(stack != null, NO_MATCHERS_FOUND);
         stack.push(new Or(popLastArgumentMatchers(count)));
     }
 

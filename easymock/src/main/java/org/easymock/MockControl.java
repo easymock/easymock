@@ -38,6 +38,10 @@ import org.easymock.internal.*;
 @Deprecated
 public class MockControl<T> implements Serializable {
 
+    private static final String METHOD_CALL_ON_THE_MOCK_NEEDED_BEFORE_SETTING_THROWABLE = "method call on the mock needed before setting Throwable";
+    private static final String METHOD_CALL_ON_THE_MOCK_NEEDED_BEFORE_SETTING_DEFAULT_VOID_CALLABLE = "method call on the mock needed before setting default void callable";
+    private static final String METHOD_CALL_ON_THE_MOCK_NEEDED_BEFORE_SETTING_RETURN_VALUE = "method call on the mock needed before setting return value";
+
     private static final long serialVersionUID = 8741244302173698092L;
 
     private final T mock;
@@ -330,7 +334,7 @@ public class MockControl<T> implements Serializable {
      */
     public void setThrowable(Throwable throwable) {
         expectLastCall(
-                "method call on the mock needed before setting Throwable")
+                METHOD_CALL_ON_THE_MOCK_NEEDED_BEFORE_SETTING_THROWABLE)
                 .andThrow(throwable).once();
     }
 
@@ -347,7 +351,7 @@ public class MockControl<T> implements Serializable {
      */
     public void setReturnValue(Object value) {
         expectLastCall(
-                "method call on the mock needed before setting return value")
+                METHOD_CALL_ON_THE_MOCK_NEEDED_BEFORE_SETTING_RETURN_VALUE)
                 .andReturn(value).once();
     }
 
@@ -387,7 +391,7 @@ public class MockControl<T> implements Serializable {
      */
     public void setThrowable(Throwable throwable, int times) {
         expectLastCall(
-                "method call on the mock needed before setting Throwable")
+                METHOD_CALL_ON_THE_MOCK_NEEDED_BEFORE_SETTING_THROWABLE)
                 .andThrow(throwable).times(times);
     }
 
@@ -406,7 +410,7 @@ public class MockControl<T> implements Serializable {
      */
     public void setReturnValue(Object value, int times) {
         expectLastCall(
-                "method call on the mock needed before setting return value")
+                METHOD_CALL_ON_THE_MOCK_NEEDED_BEFORE_SETTING_RETURN_VALUE)
                 .andReturn(value).times(times);
     }
 
@@ -425,7 +429,7 @@ public class MockControl<T> implements Serializable {
      */
     public void setReturnValue(Object value, Range range) {
         IExpectationSetters<Object> setter = expectLastCall(
-                "method call on the mock needed before setting return value")
+                METHOD_CALL_ON_THE_MOCK_NEEDED_BEFORE_SETTING_RETURN_VALUE)
                 .andReturn(value);
         callWithConvertedRange(setter, range);
     }
@@ -440,7 +444,7 @@ public class MockControl<T> implements Serializable {
      *                called on the mock was no void method.
      */
     public void setDefaultVoidCallable() {
-        ((MocksControl) expectLastCall("method call on the mock needed before setting default void callable"))
+        ((MocksControl) expectLastCall(METHOD_CALL_ON_THE_MOCK_NEEDED_BEFORE_SETTING_DEFAULT_VOID_CALLABLE))
                 .setLegacyDefaultVoidCallable();
     }
 
@@ -540,13 +544,13 @@ public class MockControl<T> implements Serializable {
      */
     public void setThrowable(Throwable throwable, int minCount, int maxCount) {
         expectLastCall(
-                "method call on the mock needed before setting Throwable")
+                METHOD_CALL_ON_THE_MOCK_NEEDED_BEFORE_SETTING_THROWABLE)
                 .andThrow(throwable).times(minCount, maxCount);
     }
 
     public void setThrowable(Throwable throwable, Range range) {
         IExpectationSetters<Object> setter = expectLastCall(
-                "method call on the mock needed before setting Throwable")
+                METHOD_CALL_ON_THE_MOCK_NEEDED_BEFORE_SETTING_THROWABLE)
                 .andThrow(throwable);
         callWithConvertedRange(setter, range);
     }
@@ -569,7 +573,7 @@ public class MockControl<T> implements Serializable {
      */
     public void setReturnValue(Object value, int minCount, int maxCount) {
         expectLastCall(
-                "method call on the mock needed before setting return value")
+                METHOD_CALL_ON_THE_MOCK_NEEDED_BEFORE_SETTING_RETURN_VALUE)
                 .andReturn(value).times(minCount, maxCount);
     }
 
