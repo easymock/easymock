@@ -16,6 +16,8 @@
 
 package org.easymock;
 
+import static org.easymock.EasyMock.*;
+
 import java.util.Comparator;
 
 import org.easymock.internal.*;
@@ -1482,6 +1484,17 @@ public class EasyMock {
         reportMatcher(new Captures<T>(captured));
         return null;
     }
+    
+    /**
+     * Expect any boolean but captures it for later use.
+     *  
+     * @param captured Where the parameter is captured
+     * @return <code>false</code>
+     */
+    public static boolean capture(Capture<Boolean> captured) {
+        reportMatcher(new Captures<Boolean>(captured));
+        return false;
+    }   
     
     /**
      * Expect any int but captures it for later use.

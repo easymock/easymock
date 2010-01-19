@@ -23,6 +23,7 @@ import java.util.Arrays;
 
 import org.easymock.Capture;
 import org.easymock.CaptureType;
+import org.easymock.internal.matchers.Captures;
 import org.easymock.tests.IMethods;
 import org.junit.After;
 import org.junit.Before;
@@ -161,6 +162,7 @@ public class CaptureTest {
         Capture<Double> captureD = new Capture<Double>();
         Capture<Byte> captureB = new Capture<Byte>();
         Capture<Character> captureC = new Capture<Character>();
+        Capture<Boolean> captureBool = new Capture<Boolean>();
 
         IMethods mock = createMock(IMethods.class);
 
@@ -170,6 +172,7 @@ public class CaptureTest {
         expect(mock.oneArg(capture(captureD))).andReturn("answerD");
         expect(mock.oneArg(capture(captureB))).andReturn("answerB");
         expect(mock.oneArg(capture(captureC))).andReturn("answerC");
+        expect(mock.oneArg(capture(captureBool))).andReturn("answerZ");
 
         replay(mock);
 
@@ -179,6 +182,7 @@ public class CaptureTest {
         assertEquals("answerD", mock.oneArg(4.0));
         assertEquals("answerB", mock.oneArg((byte) 5));
         assertEquals("answerC", mock.oneArg((char) 6));
+        assertEquals("answerZ", mock.oneArg(true));
 
         assertEquals(1, captureI.getValue().intValue());
         assertEquals(2l, captureL.getValue().longValue());
@@ -186,6 +190,7 @@ public class CaptureTest {
         assertEquals(4.0, captureD.getValue().doubleValue(), 0.0);
         assertEquals((byte) 5, captureB.getValue().byteValue());
         assertEquals((char) 6, captureC.getValue().charValue());
+        assertEquals(true, captureBool.getValue().booleanValue());
         
         verify(mock);
     }
