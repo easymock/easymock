@@ -23,7 +23,6 @@ import java.util.Arrays;
 
 import org.easymock.Capture;
 import org.easymock.CaptureType;
-import org.easymock.internal.matchers.Captures;
 import org.easymock.tests.IMethods;
 import org.junit.After;
 import org.junit.Before;

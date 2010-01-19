@@ -16,8 +16,6 @@
 
 package org.easymock;
 
-import static org.easymock.EasyMock.*;
-
 import java.util.Comparator;
 
 import org.easymock.internal.*;
