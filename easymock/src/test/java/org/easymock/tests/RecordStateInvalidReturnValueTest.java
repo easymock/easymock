@@ -159,4 +159,16 @@ public class RecordStateInvalidReturnValueTest {
             assertEquals("void method cannot return a value", e.getMessage());
         }
     }
+
+    @Test
+    public void nullForPrimitive() {
+        try {
+            control.expectAndReturn(mock.longReturningMethod(4), null);
+            fail("null not allowed");
+        } catch (IllegalStateException e) {
+            assertEquals(
+                    "can't return null for a method returning a primitive type",
+                    e.getMessage());
+        }
+    }
 }

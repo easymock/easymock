@@ -47,7 +47,7 @@ public class RecordState implements IMocksControlState, Serializable {
         emptyReturnValues.put(Boolean.TYPE, Boolean.FALSE);
         emptyReturnValues.put(Byte.TYPE, Byte.valueOf((byte) 0));
         emptyReturnValues.put(Short.TYPE, Short.valueOf((short) 0));
-        emptyReturnValues.put(Character.TYPE, Character.valueOf((char)0));
+        emptyReturnValues.put(Character.TYPE, Character.valueOf((char) 0));
         emptyReturnValues.put(Integer.TYPE, Integer.valueOf(0));
         emptyReturnValues.put(Long.TYPE, Long.valueOf(0));
         emptyReturnValues.put(Float.TYPE, Float.valueOf(0));
@@ -85,7 +85,8 @@ public class RecordState implements IMocksControlState, Serializable {
     public void replay() {
         closeMethod();
         if (LastControl.pullMatchers() != null) {
-            throw new IllegalStateException("matcher calls were used outside expectations");
+            throw new IllegalStateException(
+                    "matcher calls were used outside expectations");
         }
     }
 
@@ -112,7 +113,7 @@ public class RecordState implements IMocksControlState, Serializable {
         }
         lastResult = Result.createThrowResult(throwable);
     }
-    
+
     public void andAnswer(IAnswer<?> answer) {
         requireMethodCall("answer");
         requireValidAnswer(answer);
@@ -130,7 +131,7 @@ public class RecordState implements IMocksControlState, Serializable {
         }
         lastResult = Result.createDelegatingResult(delegateTo);
     }
-    
+
     public void andStubReturn(Object value) {
         requireMethodCall("stub return value");
         value = convertNumberClassIfNeccessary(value);
@@ -150,9 +151,9 @@ public class RecordState implements IMocksControlState, Serializable {
         if (lastResult != null) {
             times(MocksControl.ONCE);
         }
-        behavior.addStub(
-                lastInvocation.withMatcher(org.easymock.MockControl.ALWAYS_MATCHER), Result
-                        .createReturnResult(value));
+        behavior.addStub(lastInvocation
+                .withMatcher(org.easymock.MockControl.ALWAYS_MATCHER), Result
+                .createReturnResult(value));
         lastInvocationUsed = true;
     }
 
@@ -167,9 +168,9 @@ public class RecordState implements IMocksControlState, Serializable {
     public void setDefaultVoidCallable() {
         requireMethodCall("default void callable");
         requireVoidMethod();
-        behavior.addStub(
-                lastInvocation.withMatcher(org.easymock.MockControl.ALWAYS_MATCHER), Result
-                        .createReturnResult(null));
+        behavior.addStub(lastInvocation
+                .withMatcher(org.easymock.MockControl.ALWAYS_MATCHER), Result
+                .createReturnResult(null));
         lastInvocationUsed = true;
     }
 
@@ -190,9 +191,9 @@ public class RecordState implements IMocksControlState, Serializable {
         if (lastResult != null) {
             times(MocksControl.ONCE);
         }
-        behavior.addStub(
-                lastInvocation.withMatcher(org.easymock.MockControl.ALWAYS_MATCHER), Result
-                        .createThrowResult(throwable));
+        behavior.addStub(lastInvocation
+                .withMatcher(org.easymock.MockControl.ALWAYS_MATCHER), Result
+                .createThrowResult(throwable));
         lastInvocationUsed = true;
     }
 
@@ -216,7 +217,7 @@ public class RecordState implements IMocksControlState, Serializable {
                 .createDelegatingResult(delegateTo));
         lastInvocationUsed = true;
     }
-    
+
     public void times(Range range) {
         requireMethodCall("times");
         requireLastResultOrVoidMethod();
@@ -231,7 +232,7 @@ public class RecordState implements IMocksControlState, Serializable {
         if (!(value instanceof Number)) {
             return value;
         }
-        Number number = (Number) value;        
+        Number number = (Number) value;
         if (returnType.equals(Byte.TYPE)) {
             return number.byteValue();
         } else if (returnType.equals(Short.TYPE)) {
@@ -287,6 +288,11 @@ public class RecordState implements IMocksControlState, Serializable {
                     "void method cannot return a value"));
         }
         if (returnValue == null) {
+            Class<?> returnedType = lastInvocation.getMethod().getReturnType();
+            if (returnedType.isPrimitive()) {
+                throw new RuntimeExceptionWrapper(new IllegalStateException(
+                    "can't return null for a method returning a primitive type"));
+            }
             return;
         }
         Class<?> returnedType = lastInvocation.getMethod().getReturnType();
@@ -384,7 +390,7 @@ public class RecordState implements IMocksControlState, Serializable {
     public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
         behavior.shouldBeUsedInOneThread(shouldBeUsedInOneThread);
     }
-    
+
     @SuppressWarnings("deprecation")
     public void setDefaultMatcher(org.easymock.ArgumentsMatcher matcher) {
         behavior.setDefaultMatcher(matcher);
