@@ -125,7 +125,7 @@ in the package
 </p>
 <p>
 The following examples assume that you are familiar with the JUnit testing framework.
-Although the tests shown here use JUnit in version 3.8.1, you may as well use JUnit 4 or TestNG.
+Although the tests shown here use JUnit 4, you may as well use JUnit 3 or TestNG.
 </p>
 <h3>
 The first Mock Object
@@ -141,18 +141,20 @@ Mock Object:
 <pre>
 package org.easymock.samples;
 
-import junit.framework.TestCase;
+import org.junit.*;
 
-public class ExampleTest extends TestCase {
+public class ExampleTest {
 
     private ClassUnderTest classUnderTest;
     private Collaborator mock;
 
-    protected void setUp() {
+    @Before
+    public void setUp() {
         classUnderTest = new ClassUnderTest();
         classUnderTest.addListener(mock);
     }
 
+    @Test
     public void testRemoveNonExistingDocument() {    
         // This call should not lead to any notification
         // of the Mock Object: 
@@ -166,9 +168,9 @@ we only need a static import of methods of <code>org.easymock.EasyMock</code>.
 </p>
 <pre>
 import static org.easymock.EasyMock.*;
-import junit.framework.TestCase;
+import org.junit.*;
 
-public class ExampleTest extends TestCase {
+public class ExampleTest {
 
     private ClassUnderTest classUnderTest;
     private Collaborator mock;
@@ -190,12 +192,14 @@ To get a Mock Object, we need to
 Here is a first example:
 </p>
 <pre>
-    protected void setUp() {
+    @Before
+    public void setUp() {
         mock = createMock(Collaborator.class); // 1
         classUnderTest = new ClassUnderTest();
         classUnderTest.addListener(mock);
     }
 
+    @Test
     public void testRemoveNonExistingDocument() {
         // 2 (we do not expect anything)
         replay(mock); // 3
@@ -231,6 +235,7 @@ is added on the class under test, we expect a call to <code>mock.documentAdded()
 on the Mock Object with the title of the document as argument:
 </p>
 <pre>
+    @Test
     public void testAddDocument() {
         mock.documentAdded("New Document"); // 2
         replay(mock); // 3
@@ -289,6 +294,7 @@ specified behavior has been used, we have to call
 <code>verify(mock)</code>:
 </p>
 <pre>
+    @Test
     public void testAddDocument() {
         mock.documentAdded("New Document"); // 2 
         replay(mock); // 3
@@ -323,6 +329,7 @@ with the appropriate argument. To be sure, we check this three
 times (hey, it is an example ;-)):
 </p>
 <pre>
+    @Test
     public void testAddAndChangeDocument() {
         mock.documentAdded("Document");
         mock.documentChanged("Document");
@@ -343,6 +350,7 @@ EasyMock provides a shortcut. We may specify the call count with the method
 <code>expectLastCall()</code>. The code then looks like:
 </p>
 <pre>
+    @Test
     public void testAddAndChangeDocument() {
         mock.documentAdded("Document");
         mock.documentChanged("Document");
@@ -406,6 +414,7 @@ and <code>documentRemoved(String title)</code> is called on
 all collaborators:
 </p>
 <pre>
+    @Test
     public void testVoteForRemoval() {
         mock.documentAdded("Document");   // expect document addition
         // expect to be asked to vote for document removal, and vote for it
@@ -417,6 +426,7 @@ all collaborators:
         verify(mock);
     }
 
+    @Test
     public void testVoteAgainstRemoval() {
         mock.documentAdded("Document");   // expect document addition
         // expect to be asked to vote for document removal, and vote against it
@@ -934,12 +944,12 @@ public class SupportTest extends EasyMockSupport {
         firstCollaborator.documentAdded("New Document");
         secondCollaborator.documentAdded("New Document");
         
-        replayAll();
+        replayAll(); // replay all mocks at once
         
         // test
         classUnderTest.addDocument("New Document", new byte[0]);
                 
-        verifyAll();
+        verifyAll(); // verify all mocks at once
     }
 }
 </pre>

@@ -138,7 +138,7 @@ le package
 </p>
 <p>
 Les exemples qui suivent supposent que vous êtes familier avec le framework de test JUnit.
-Bien que les tests montrés ici utilisent JUnit version 3.8.1, vous pouvez également utiliser JUnit 4 ou TestNG.
+Bien que les tests montrés ici utilisent JUnit 4, vous pouvez également utiliser JUnit 3 ou TestNG.
 </p>
 <h3>
 Votre premier Mock Object
@@ -153,18 +153,20 @@ provoquer la notification de l'objet lié. Voici le test dans la définition du 
 <pre>
 package org.easymock.samples;
 
-import junit.framework.TestCase;
+import org.junit.*;
 
-public class ExampleTest extends TestCase {
+public class ExampleTest {
 
     private ClassUnderTest classUnderTest;
     private Collaborator mock;
 
-    protected void setUp() {
+    @Before
+    public void setUp() {
         classUnderTest = new ClassUnderTest();
         classUnderTest.addListener(mock);
     }
 
+    @Test
     public void testRemoveNonExistingDocument() {    
         // This call should not lead to any notification
         // of the Mock Object: 
@@ -180,9 +182,9 @@ Cette classe est la seule non interne et non dépréciée d'EasyMock 2.
 </p>
 <pre>
 import static org.easymock.EasyMock.*;
-import junit.framework.TestCase;
+import org.junit.*;
 
-public class ExampleTest extends TestCase {
+public class ExampleTest {
 
     private ClassUnderTest classUnderTest;
     private Collaborator mock;
@@ -204,12 +206,14 @@ Pour obtenir un Mock Object, il faut:
 Voici le premier exemple:
 </p>
 <pre>
-    protected void setUp() {
+    @Before
+    public void setUp() {
         mock = createMock(Collaborator.class); // 1
         classUnderTest = new ClassUnderTest();
         classUnderTest.addListener(mock);
     }
 
+    @Test
     public void testRemoveNonExistingDocument() {
         // 2 (we do not expect anything)
         replay(mock); // 3
@@ -245,6 +249,7 @@ la classe testée, nous nous attendons à un appel à
 sur le Mock Object avec le titre du document en argument:
 </p>
 <pre>
+    @Test
     public void testAddDocument() {
         mock.documentAdded("New Document"); // 2
         replay(mock); // 3
@@ -305,6 +310,7 @@ Le test qui suit passe si une méthode du Mock Object est appelée.
 Pour vérifier cela, nous devons appeler <code>verify(mock)</code>:
 </p>
 <pre>
+    @Test
     public void testAddDocument() {
         mock.documentAdded("New Document"); // 2 
         replay(mock); // 3
@@ -341,6 +347,7 @@ vérifions cela trois fois (après tout, c'est un exemple
 ;-)):
 </p>
 <pre>
+    @Test
     public void testAddAndChangeDocument() {
         mock.documentAdded("Document");
         mock.documentChanged("Document");
@@ -361,6 +368,7 @@ EasyMock fournit un raccourci. Nous pouvons spécifier le nombre d'appel avec la
 Le code ressemble alors à cela:
 </p>
 <pre>
+    @Test
     public void testAddAndChangeDocument() {
         mock.documentAdded("Document");
         mock.documentChanged("Document");
@@ -425,6 +433,7 @@ supprimé et l'appel à <code>documentRemoved(String title)</code>
 est effectué sur les objets liés:
 </p>
 <pre>
+    @Test
     public void testVoteForRemoval() {
         mock.documentAdded("Document");   // expect document addition
         // expect to be asked to vote for document removal, and vote for it
@@ -436,6 +445,7 @@ est effectué sur les objets liés:
         verify(mock);
     }
 
+    @Test
     public void testVoteAgainstRemoval() {
         mock.documentAdded("Document");   // expect document addition
         // expect to be asked to vote for document removal, and vote against it
@@ -981,12 +991,12 @@ public class SupportTest extends EasyMockSupport {
         firstCollaborator.documentAdded("New Document");
         secondCollaborator.documentAdded("New Document");
         
-        replayAll();
+        replayAll(); // tous les mocks d'un seul coup
         
         // test
         classUnderTest.addDocument("New Document", new byte[0]);
                 
-        verifyAll();
+        verifyAll(); // tous les mocks d'un seul coup
     }
 }
 </pre>
