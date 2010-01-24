@@ -18,8 +18,8 @@
 Maintenue par Henri Tremblay.</i>
 </p>
 <p>
-EasyMock 2 est une librairie fournissant un moyen simple d'utiliser des Mock Objects pour
-une interface donnée. EasyMock 2 est disponible sous <a href="http://www.apache.org/licenses/LICENSE-2.0.txt">license Apache 2</a>.
+EasyMock est une librairie fournissant un moyen simple d'utiliser des Mock Objects pour
+une interface ou classe donnée. EasyMock est disponible sous <a href="http://www.apache.org/licenses/LICENSE-2.0.txt">license Apache 2</a>.
 </p>
 <p>
 Les Mock Objects simulent le comportement du code
@@ -31,13 +31,12 @@ liés par des Mock Objects.
 </p>
 <p>
 Écrire et maintenir des Mock Objects est souvent une
-tâche pénible et source d'erreurs. EasyMock 2
-génère les
+tâche pénible et source d'erreurs. EasyMock génère les
 Mock Objects dynamiquement - pas besoin de les écrire, pas
 de code généré!
 </p>
 <h3>
-Avantages d'EasyMock 2
+Avantages d'EasyMock
 </h3>
 <ul>
 <li>Pas d'écriture manuelle des Mock Objects.
@@ -50,36 +49,38 @@ Avantages d'EasyMock 2
 <li>Supporte la vérification de l'ordre d'appel des méthodes, sur un ou plusieurs Mock Objects.
 </li>
 </ul>
-<h3>Inconvénients d'EasyMock 2
-</h3>
+<h2>
+Environnement Requis
+</h2>
 <ul>
-<li>EasyMock 2 fonctionne uniquement avec Java 2 Version 5.0 ou version supérieure.
+<li>EasyMock 2 fonctionne uniquement avec Java 1.5.0 ou supérieur.
 </li>
 </ul>
-<p>
-Par défaut, EasyMock supporte la génération de
-Mock Objects uniquement pour les interfaces. Pour ceux souhaitant
-générer des Mock Objects pour des classes, 
-il existe une extension disponible sur la page d'accueil d'EasyMock.
-</p>
 <h2>
 Installation
 </h2>
-<ol>
-<li>Java 2 (minimum 5.0) est requis.
-</li>
+<ul>
 <li>Décompressez le fichier zip d'EasyMock (<code>easymock${project.version}.zip</code>). Il contient le répertoire
 <code>easymock${project.version}</code>. Ajoutez le jar d'EasyMock (<code>easymock.jar</code>) de ce répertoire dans votre 
 classpath.
 </li>
-</ol>
-<p>
-Pour exécuter les tests d'EasyMock, ajoutez <code>tests.zip</code> et le jar de JUnit 4.5
+<li>Pour exécuter les tests d'EasyMock, ajoutez <code>tests.zip</code> et le jar de JUnit 4.5
 à votre classpath and lancez <code>'java org.easymock.tests.AllTests'</code>.
-</p>
-<p>
-Le code source d'EasyMock est situé dans <code>src.zip</code>.
-</p>
+</li>
+<li>Le code source d'EasyMock est situé dans <code>src.zip</code>.
+</li>
+<li>EasyMock est aussi disponible dans le référentiel central de Maven. Ajoutez la
+dépendance suivate à votre pom.xml:
+<pre>
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.easymock&lt;/groupId&gt;
+      &lt;artifactId&gt;easymock&lt;/artifactId&gt;
+      &lt;version&gt;${project.version}&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+</pre>
+</li>
+</ul>
 <h2>
 Utilisation
 </h2>
@@ -172,7 +173,7 @@ public class ExampleTest extends TestCase {
 }
 </pre>
 <p>
-Pour beaucoup de tests utilisant EasyMock 2, nous avons
+Pour beaucoup de tests utilisant EasyMock, nous avons
 uniquement besoin de l'import statique des méthodes de la classe
 <code>org.easymock.EasyMock</code>.
 Cette classe est la seule non interne et non dépréciée d'EasyMock 2.
@@ -1016,13 +1017,9 @@ dans la classe <code>EasyMock</code>
 <h3>
 Compatibilité avec les anciennes versions
 </h3>
-<p>
-EasyMock 2 contient une couche de compatibilité. Ainsi, les
-tests utilisant EasyMock 1.2 en Java 1.5 fonctionneront sans aucune modification. 
-Les seules différences connues sont visibles lorsque qu'un test est en erreur: il y a de
-légers changements dans les messages d'erreur, les stack traces et les erreurs 
-sont maintenant remontées en utilisant <code>AssertionError</code> de Java 
-au lieu de <code>AssertionFailedError</code> de JUnit.
+<p>EasyMock 3 inclue toujours le package <code>classextension</code> (qui est toutefois déprécié) pour
+permettre une migration plus facile de EasyMock 2 vers EasyMock 3. Il s'agit d'une compatibilité des
+sources et non des binaires. Le code devra donc être recompilé. 
 </p>
 <p>EasyMock 2.1 introduisait une fonctionnalité de callback
 qui a été retirée dans EasyMock 2.2, car trop complexe. 
@@ -1038,13 +1035,121 @@ derniers, vous spécifier l'attribut <code>poweruser</code> à "true" (<code>pow
 Ces packages sont prévus d'être utilisés pour étendre EasyMock, ils n'ont donc pas besoins d'être
 importés habituellement.
 </p>
+<h3>Mocking partiel</h3>
+<p>
+Dans certains cas, vous pouvez avoir besoin de "mocker" uniquement certaines
+méthodes d'une classe et de conserver un comportement normal pour
+les autres. Cela arrive habituellement lorsque pour souhaitez tester une
+méthode appelant d'autres méthodes de la même classe.
+Vous voulez donc garder le comportement normal de la méthode testée
+et "mocker" les autres.
+</p>
+<p>
+Dans ce cas, la premier réflexe à avoir est
+d'envisager un refactoring car, bien souvent, ce problème est la
+conséquence d'un mauvais design. Si ce n'est pas le cas ou si
+vous ne pouvez faire autrement pour une quelconque contrainte de 
+développement, voici la solution:
+</p>
+<pre>
+ToMock mock = createMockBuilder(ToMock.class)
+   .addMockedMethod("mockedMethod").createMock();
+</pre>
+<p>Seules les méthodes ajoutées avec <code>addMockedMethod(s)</code> seront
+"mockées" (<code>mockedMethod()</code> dans l'exemple). Les autres conservent leur
+comportement habituel. Une exception: les méthodes abstraites sont "mockées" par défaut.
+</p>
+<p><code>createMockBuilder</code> retourne l'interface <code>IMockBuilder</code>. Elle contient
+diverses méthodes pour facilement créer un mock partiel. Jettez un coup d'oeil à la javadoc
+pour en savoir plus.
+</p>
+<p><b>Remarque:</b> EasyMock fournit un comportement par défault pour les méthodes de la classe 
+Object (<i>equals, hashCode, toString</i>). Toutefois, pour un mock partiel, si ces méthodes ne sont pas
+mockées explicitement, elles auront leur comportement normal et non celui par défaut d'EasyMock.
+</p>
+<h3>Test interne d'une classe</h3>  
+<p>
+Il est possible de créer un mock en appelant un constructeur de la classe. Ceci
+peut être utile lorsqu'une méthode doit être testée mais d'autres
+dans la même classe "mockées". Pour cela vous devez faire quelque chose comme
+</p>
+<pre>
+ToMock mock = createMockBuilder(ToMock.class)
+   .withConstructor(1, 2, 3); // 1, 2, 3 sont les paramètres passés au constructeur
+</pre>
+<p>
+Voir <code>ConstructorCalledMockTest</code> pour un exemple d'utilisation.
+</p>
+<h3>Remplacer l'instantiateur de classes par défaut</h3>
+<p>
+Parfois (habituellement à cause d'une JVM non supportée), il est possible
+que EasyMock ne soit pas capable de créer un mock dans votre environnement java.
+Sous le capot, l'instantiation de classes est implémentée par un pattern "factory".
+En cas de problème, vous pouvez remplacer l'instantiateur par défaut avec:
+</p>
+<ul>
+<li>L'ancien <code>DefaultClassInstantiator</code> qui fonctionne très bien avec les classes
+sérializable et sinon tente de deviner quel constructeur appeler et quels paramètres lui passer.</li>
+<li>Votre propre instantiateur. Celui-ci doit implémenter <code>IClassInstantiator</code>.</li>
+</ul>
+<p>
+Vous assignez ce nouvel instantiateur à l'aide de <code>ClassInstantiatorFactory.setInstantiator()</code>.
+Vous pouvez remettre celui par défaut avec <code>setDefaultInstantiator()</code>.
+</p>
+<p>
+<b>Important:</b>
+L'instantiateur est gardé statiquement et reste donc entre deux tests. Assurez-vous
+de le réinitialiser si nécessaire.
+</p>
+<h3>Sérializer une classe mockée</h3>
+<p>
+Une class mockée peut aussi être sérializé. Toutefois, comme celle-ci étant une classe sérializable,
+cette dernière peut avoir un comportement spécial dû à l'implémentation de méthodes tels 
+que <code>writeObject</code>. Ces méthodes seront toujours appelées lorsque le mock sera sérializé
+et peuvent potentiellement échouer. Habituellement, le contournement consiste à créer le mock
+en appelant un constructeur.
+</p>
+<p>
+Aussi, il est possible que la dé-sérialization d'un mock ne fonctionne pas si elle est effectuée dans
+un class loader différent de la sérialization. Ce cas n'a pas été testé.
+</p>
+<h3>Limitations du mocking de classes</h3>
+<p> 
+Pour être cohérent avec le mocking d'interfaces, EasyMock fournit aussi un comportement par défaut 
+pour <code>equals()</code>, <code>toString()</code> et <code>hashCode()</code> pour les classes mockées. 
+Cela signifie que vous ne pourrez enregistrer votre propre comportement pour ces méthodes. Cette 
+limitation être considérée comme une fonctionnalité permettant de ne pas s'occuper de ces
+méthodes.
+</p>
+<p>
+Les méthodes finales ne peuvent pas être "mockées". Si
+appelées, leur code normal sera exécuté.
+</p>
+<p>
+Les méthodes privées ne peuvent être "mockées". Si
+appelées, leur code normal sera exécuté. Pour un mock partiel, si
+la méthode testée appelle une méthode privée, vous devrez aussi tester
+cette dernière étant donné que vous ne pouvez pas la mocker.
+</p>
+<p>
+L'instantiation des classes est faite par 
+<a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>.
+Les JVMs supportées sont listées <a href="http://code.google.com/p/objenesis/wiki/ListOfCurrentlySupportedVMs">ici</a>.
+</p>
+
 <h2>
 Développement d'EasyMock
 </h2>
 <p>
-EasyMock 1.0 a été développé par Tammo Freese chez OFFIS. La maintenance est effectuée
-par Henri Tremblay depuis 2007. Le développement d'EasyMock est hébergé par SourceForge
+EasyMock a été développé par Tammo Freese chez OFFIS. La maintenance est effectuée
+par Henri Tremblay depuis 2007. Le développement d'EasyMock est hébergé par 
+<a href="http://sourceforge.net/projects/easymock/">SourceForge</a>
 pour permettre à d'autres développeurs et sociétés d'y contribuer.
+</p>
+<p>
+Les Mock Objects de classes (précédemment appelé EasyMock Class Extension) ont été initialement 
+développée par Joel Shellman, Chad Woolley et Henri Tremblay dans la section 
+fichiers du of Yahoo!Groups.
 </p>
 <p>
 Remerciements à ceux qui nous ont fourni retour d'expérience et rustines, incluant
@@ -1055,7 +1160,8 @@ Rex Madden, David McIntosh, Karsten Menne, Bill Michell,
 Stephan Mikaty, Ivan Moore, Ilja Preuss, Justin Sampson, Markus Schmidlin, Richard Scott,
 Joel Shellman, Jiří Mareš, Alexandre de Pellegrin
 Shaun Smith, Marco Struck, Ralf Stuckert, Victor Szathmary, Bill Uetrecht,
-Frank Westphal, Chad Woolley, Bernd Worsch, et de nombreux autres.
+Frank Westphal, Chad Woolley, Bernd Worsch, 
+Rodrigo Damazio, Bruno Fonseca, Ben Hutchison et de nombreux autres.
 </p>
 <p>
 Merci de consulter la <a href="http://www.easymock.org">page d'accueil EasyMock</a> 
@@ -1083,142 +1189,8 @@ Nouveau dans la version 3.0:
 </li>
 </ul>
 <p>
-Nouveau dans la version 2.5.2:
+Pour des notes de mise à jour plus anciennes, voir la <a href="Documentation.html">documentation de EasyMock 2 et EasyMock 2 Class Extension</a>.
 </p>
-<ul>
-<li>Les paramètres d'appels "stub" peuvent être capturés (2807921)
-</li>
-<li>Ajout de EasyMockSupport pour pouvoir faire replayAll, verifyAll, etc. (2157782) 
-</li>
-</ul>
-<p>
-Nouveau dans la version 2.5.1:
-</p>
-<ul>
-<li>Passer la license de MIT à Apache 2.0
-</li>
-</ul>
-<p>
-Nouveau dans la version 2.5:
-</p>
-<ul>
-<li>Message d'erreur pour les fils sécurisés amélioré (2342332)
-</li>
-<li>Les Mock Objects sont maintenant à fil sécurisé par défaut (2169027)
-</li>
-<li>Par défaut, il n'y a plus de vérification de l'utilisation d'un mock dans un seul fil  (2169027)
-</li>
-<li>Propriétés permettants d'avoir le comportement des versions précédentes
-</li>
-<li>Les propriétés <code>easymock.notThreadSafeByDefault</code> et <code>easymock.enableThreadSafetyCheckByDefault</code> permettent d'être rétrocompatible (2169027)
-</li>
-<li>Amélioration du message d'erreur pour les paramètres de type tableau (2550502)
-</li>
-<li>Tout construire avec Maven
-</li>
-<li>Ajout de l'en-tête OSGi au MANIFEST.MF (2595775)
-</li>
-<li>Ajout de andDelegateTo et andStubDelegateTo (2708883)
-</li>
-<li>Migrer vers Subversion
-</li>
-<li>Ajout du <code>CaptureType</code> (capturer premier, dernier, tous, aucun) (2446744)
-</li>
-<li>Donner un comportement plus simple à la capture (2617107, 2133741)
-</li>
-<li>Une NPE pouvait se produire lors de l'enregistrement d'une méthode à paramètres variables (2078444)
-</li>
-<li>Message d'erreur plus clair sur les appels effectifs et attendus (2744605)
-</li>
-<li>Ne pas appeler <code>fillInStackTrace()</code> lorsqu'une exception est lancée par IAnswer ou une réponse déléguée
-pour aider le déboguage des tests (2771518)
-</li>
-</ul>
-<p>
-Nouveau dans la version 2.4:
-</p>
-<ul>
-<li>Pouvoir capturer un argument passé à un Mock Object (1963449)
-</li>
-<li>Ajout des méthodes resetToNice/Default/Strict methods (1963442)
-</li>
-<li>Rendre les Comparators génériques plus flexibles
-</li>
-<li>Les Mock Objects sont maintenant sérializable (1895630)
-</li>
-<li>Il est maintenant possible de continuer normalement après une assertion ignorée (1896509)
-</li>
-<li>Possibilité de rendre un Mock Object à fil sécurisé (1895644,1953275)
-</li>
-<li>Vérification qu'un Mock Object non sécurisé n'est pas utilisé dans un environnement multifil 
-</li>
-</ul>
-<p>
-Nouveau dans la version 2.3:
-</p>
-<ul>
-<li>Documentation en français
-</li>
-<li>Comparateurs pour arguments de type Comparable
-</li>
-<li>Correction de la comparaison de nombres décimaux
-</li>
-<li>Les Mock Objects peuvent maintenant être nommés
-</li>
-<li>Includ le fix de Bill Michell pour sur les ThreadLocals
-</li>
-<li>Migration des test unitaires d'EasyMock vers JUnit 4
-</li>
-</ul>
-<p>
-Nouveau dans la version 2.2:
-</p>
-<ul>
-<li>la réponse aux appels peut ètre créée au moment de l'appel via
-<code>andAnswer(IAnswer answer)</code> et <code>andStubAnswer(IAnswer answer)</code>
-</li>
-<li><code>callback(Runnable runnable)</code> a été retiré, pour un callback, veuillez 
-convertir à
-<code>andAnswer(IAnswer answer)</code> et <code>andStubAnswer(IAnswer answer)</code>
-</li>
-<li><code>replay()</code>, <code>verify()</code> et <code>reset()</code> acceptent maintenant
-plusieurs mock objects comme arguments
-</li>
-</ul>
-<p>
-Nouveau dans la version 2.1:
-</p>
-<ul>
-<li>les arguments passés à un mock object sont à disponibles dans un callback via 
-<code>EasyMock.getCurrentArguments()</code>
-</li>
-<li>Correction du bogue reporté par http://groups.yahoo.com/group/easymock/message/558
-</li>
-<li>remontée plus rapide d'une erreur si des comparateurs ne sont pas utilisés
-</li>
-</ul>
-<p>
-Nouveau dans la version 2.0:
-</p>
-<ul>
-<li>support de comparateurs d'arguments souple et ré au refactoring-safe
-</li>
-<li>aucun mock control n'est nécessaire pour un Mock Object solitaire
-</li>
-<li>le comportement de "stub" remplace le comportement "défaut"
-</li>
-<li>support de la vérification d'ordre d'appels entre plusieurs mocks 
-avec possibilité d'activer/désactiver cette vérification
-</li>
-<li>support de callbacks
-</li>
-<li>EasyMock lève désormais des <code>java.lang.AssertionError</code> au lieu 
-de <code>junit.framework.AssertionFailedError</code> ce qui permet d'être indépendant 
-du framework de test. Vous pouvez l'utiliser avec JUnit 3.8.x, JUnit 4 et TestNG
-</li>
-<li>ancienne API dépréciée
-</li>
-</ul>
 </div>
 </body>
 </html>

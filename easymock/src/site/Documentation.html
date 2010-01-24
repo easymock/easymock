@@ -15,8 +15,8 @@
 &copy; ${project.inceptionYear}-${year} <a href="http://www.offis.de">OFFIS</a>, <a href="http://tammofreese.de">Tammo Freese</a>, <a href="http://www.ossia-conseil.com/blog/henri/">Henri Tremblay</a>.
 </p>
 <p>
-EasyMock 2 is a library that provides an easy way to use Mock Objects for given
-interfaces. EasyMock 2 is available under the terms of the <a href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache 2 license</a>.
+EasyMock is a library that provides an easy way to use Mock Objects for given
+interfaces or classes. EasyMock is available under the terms of the <a href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache 2 license</a>.
 </p>
 <p>
 Mock Objects simulate parts of the behavior of domain code,
@@ -26,12 +26,12 @@ by simulating their collaborators with Mock Objects.
 </p>
 <p>
 Writing and maintaining Mock Objects often is a tedious
-task that may introduce errors. EasyMock 2 generates Mock Objects
+task that may introduce errors. EasyMock generates Mock Objects
 dynamically - no need to write them, and no generated code!
 </p>
-<h3>
-EasyMock 2 Benefits
-</h3>
+<h2>
+EasyMock Benefits
+</h2>
 <ul>
 <li>Hand-writing classes for Mock Objects is not needed.
 </li>
@@ -42,37 +42,36 @@ EasyMock 2 Benefits
 <li>Supports checking the order of method calls, for one or more Mock Objects.
 </li>
 </ul>
-<h3>EasyMock 2 Drawbacks
-</h3>
-<ul>
-<li>EasyMock 2 does only work with Java 2 Version 5.0 and above.
-</li>
-</ul>
+<h2>
+Requirements
+</h2>
 <p>
-EasyMock by default supports the generation of Mock Objects
-for interfaces only. For those who would like to generate
-Mock Objects for classes, there is an extension
-available at the EasyMock home page.
+EasyMock only works with Java 1.5.0 and above.
 </p>
 <h2>
 Installation
 </h2>
-<ol>
-<li>Java 2 (at least 5.0) is required.
-</li>
+<ul>
 <li>Unzip the EasyMock zip file (<code>easymock${project.version}.zip</code>). It contains a directory
-<code>easymock${project.version}</code>. Add the EasyMock jar file (<code>easymock.jar</code>) from this directory to your
-classpath.
+<code>easymock${project.version}</code>. Add the EasyMock jar file (<code>easymock.jar</code>) 
+from this directory to your classpath.
 </li>
-</ol>
-<p>
-To execute the EasyMock tests, add <code>tests.zip</code> and the JUnit 4.5 jar 
-to your class path and start
-<code>'java org.easymock.tests.AllTests'</code>.
-</p>
-<p>
-The source code of EasyMock is stored in the zip file <code>src.zip</code>.
-</p>
+<li>To execute the EasyMock tests, add <code>tests.zip</code> and the JUnit 4.5 jar 
+to your class path and start <code>'java org.easymock.tests.AllTests'</code>.
+</li>
+<li>The source code of EasyMock is stored in the zip file <code>src.zip</code>.
+</li>
+<li>EasyMock is also available in the Maven central repository. Add the following dependency to your pom.xml:
+<pre>
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.easymock&lt;/groupId&gt;
+      &lt;artifactId&gt;easymock&lt;/artifactId&gt;
+      &lt;version&gt;${project.version}&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+</pre>
+</li>
+</ul>
 <h2>
 Usage
 </h2>
@@ -162,9 +161,8 @@ public class ExampleTest extends TestCase {
 }
 </pre>
 <p>
-For many tests using EasyMock 2, 
+For many tests using EasyMock, 
 we only need a static import of methods of <code>org.easymock.EasyMock</code>.
-This is the only non-internal, non-deprecated class of EasyMock 2. 
 </p>
 <pre>
 import static org.easymock.EasyMock.*;
@@ -970,12 +968,9 @@ in the <code>EasyMock</code> class
 </li>
 </ul>
 <h3>Backward Compatibility</h3>
-<p>
-EasyMock 2 contains a compatibility layer so that tests using EasyMock 1.2 for Java 1.5
-should work without any modification. The only known differences are visible when 
-failures occur: there are small changes in the failure messages and stack traces,
-and failures are now reported using Java's <code>AssertionError</code> instead of
-JUnit's <code>AssertionFailedError</code>.
+<p>EasyMock 3 still include the <code>classextension</code> package (although deprecated) to
+allow an easier migration from EasyMock 2 to EasyMock 3. It is a source not a binary 
+compatibility. So the code will need to be recompiled.
 </p>
 <p>EasyMock 2.1 introduced a callback feature that has been removed in EasyMock 2.2,
 as it was too complex. Since EasyMock 2.2, the <code>IAnswer</code> interface
@@ -989,13 +984,110 @@ packages. However, to import the two latter, you need to specify the <code>power
 attribute at true (<code>poweruser=true</code>). These packages are meant to be
 used to extend EasyMock so they usually don't need to be imported.
 </p>
+<h3>Partial mocking</h3>  
+<p>
+Sometimes you may need to mock only some methods of a class and keep
+the normal behavior of others. This usually happens when you want to
+test a method that calls some others in the same class. So you want to
+keep the normal behavior of the tested method and mock the others.
+</p>
+<p>
+In this case, the first thing to do is to consider a refactoring since
+most of the time this problem caused by a bad design. If it's not
+the case or if you can't do otherwise because of some development constraints,
+here's the solution.
+</p>
+<pre>
+ToMock mock = createMockBuilder(ToMock.class)
+   .addMockedMethod("mockedMethod").createMock();
+</pre>
+<p>In this case only the methods added with <code>addMockedMethod(s)</code> will be 
+mocked (<code>mockedMethod()</code> in the example). The others will still 
+behave as they used to. One exception: abstract methods are conveniently mocked by default.
+</p>
+<p><code>createMockBuilder</code> returns a <code>IMockBuilder</code> interface. It contains various methods to
+easily create a partial mock. Have a look at the javadoc.
+</p>
+<p>
+<b>Remark:</b> EasyMock provides a default behavior for Object's methods (<i>equals, hashCode, toString</i>).
+However, for a partial mock, if these methods are not mocked explicitly, they will have their normal behavior
+instead of EasyMock default's one.
+</p>
+<h3>Self testing</h3>  
+<p>
+It is possible to create a mock by calling one of its constructor. This can be handy when a
+class method needs to be tested but the class other methods, mocked. For that you should do
+something like
+</p>
+<pre>
+ToMock mock = createMockBuilder(ToMock.class)
+   .withConstructor(1, 2, 3); // 1, 2, 3 are the constructor parameters
+</pre>
+<p>
+See the <code>ConstructorCalledMockTest</code> for an example.
+</p>
+<h3>Replace default class instantiator</h3>
+<p>
+For some reason (usually an unsupported JVM), it is possible that EasyMock isn't able to mock
+a class mock in your environment. Under the hood, class instantiation is implemented with a factory
+pattern. In case of failure, you can replace the default instantiator with:
+</p>
+<ul>
+<li>The good old <code>DefaultClassInstantiator</code> which works well with Serializable classes
+and otherwise tries to guess the best constructor and parameters to use.</li>
+<li>You own instantiator which only needs to implement <code>IClassInstantiator</code>.</li>
+</ul>
+<p>
+You set this new instantiator using <code>ClassInstantiatorFactory.setInstantiator()</code>.
+You can set back the default one with <code>setDefaultInstantiator()</code>.
+</p>
+<p>
+<b>Important:</b>
+The instantiator is kept statically so it will stick between your unit tests. Make sure you
+reset it if needed.
+</p>
+<h3>Serialize a class mock</h3>
+<p>
+A class mock can also be serialized. However, since it extends a serializable class, this class
+might have defined a special behavior using for instance <code>writeObject</code>. These methods
+will still be called when serializing the mock and might fail. The workaround is usually to call
+a constructor when creating the mock.
+</p>
+<p>
+Also, de-serializing the mock in a different class loader than the serialization might fail. It wasn't tested.
+</p>
+<h3>Class Mocking Limitations</h3>
+<ul> 
+<li>To be coherent with interface mocking, EasyMock provides a built-in behavior 
+for <code>equals()</code>, <code>toString()</code> and <code>hashCode()</code> 
+even for class mocking. It means that you cannot record your own behavior for 
+these methods. This limitation is considered to be a feature
+that prevents you from having to care about these methods.
+</li>
+<li>Final methods cannot be mocked. If called, their normal code will be executed.
+</li>
+<li>Private methods cannot be mocked. If called, their normal code will be executed. 
+During partial mocking, if your method under test is calling some private methods, 
+you will need to test them as well since you cannot mock them.
+</li>
+<li>Class instantiation is performed using 
+<a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>.
+Supported JVMs are listed 
+<a href="http://code.google.com/p/objenesis/wiki/ListOfCurrentlySupportedVMs">here</a>.
+</li>
+</ul>
+
 <h2>
 EasyMock Development
 </h2>
 <p>
-EasyMock 1.0 has been developed by Tammo Freese at OFFIS. It is maintained by Henri Tremblay 
-since 2007. The development of EasyMock is hosted on SourceForge to allow other developers 
-and companies to contribute.
+EasyMock has been developed by Tammo Freese at OFFIS. It is maintained by Henri Tremblay 
+since 2007. The development of EasyMock is hosted on <a href="http://sourceforge.net/projects/easymock/">SourceForge</a> 
+to allow other developers and companies to contribute.
+</p>
+<p>
+Class mocking (previously known as EasyMock Class Extension) was initially developed 
+by Joel Shellman, Chad Woolley and Henri Tremblay on the files section of Yahoo!Groups.
 </p>
 <p>
 Thanks to the people who gave feedback or provided patches, including
@@ -1006,7 +1098,8 @@ Rex Madden, David McIntosh, Karsten Menne, Bill Michell,
 Stephan Mikaty, Ivan Moore, Ilja Preuss, Justin Sampson, Markus Schmidlin, Richard Scott,
 Joel Shellman, Jiří Mareš, Alexandre de Pellegrin
 Shaun Smith, Marco Struck, Ralf Stuckert, Victor Szathmary, Bill Uetrecht,
-Frank Westphal, Chad Woolley, Bernd Worsch, and numerous others.
+Frank Westphal, Chad Woolley, Bernd Worsch, 
+Rodrigo Damazio, Bruno Fonseca, Ben Hutchison and numerous others.
 </p>
 <p>
 Please check the <a href="http://www.easymock.org">EasyMock home page</a> for new versions,
@@ -1034,139 +1127,8 @@ New in version 3.0:
 </li>
 </ul>
 <p>
-New in version 2.5.2:
+For older release notes, see <a href="Documentation.html">EasyMock 2 and EasyMock 2 Class Extension documentations</a>.
 </p>
-<ul>
-<li>Can capture parameters from stubbed methods (2807921)
-</li>
-<li>Add an EasyMockSupport to replayAll, verifyAll, etc. (2157782) 
-</li>
-</ul>
-<p>
-New in version 2.5.1:
-</p>
-<ul>
-<li>Change license from MIT to Apache 2.0
-</li>
-</ul>
-<p>
-New in version 2.5:
-</p>
-<ul>
-<li>Enhanced thread safety error message (2342332)
-</li>
-<li>Mocks are now thread-safe by default (2169027)
-</li>
-<li>Mocks are not checked for thread-safety by default anymore (2169027)
-</li>
-<li>Properties to get legacy behaviors back
-</li>
-<li><code>easymock.notThreadSafeByDefault</code> and <code>easymock.enableThreadSafetyCheckByDefault</code> properties provide backward compatibility (2169027)
-</li>
-<li>Improved error message of actual parameters for arrays (2550502)
-</li>
-<li>Build entirely with Maven
-</li>
-<li>Add OSGi header to manifest (2595775)
-</li>
-<li>Add andDelegateTo and andStubDelegateTo (2708883)
-</li>
-<li>Move to Subversion
-</li>
-<li>Add a capture type (capture first, last, all, none) (2446744)
-</li>
-<li>Give the capture a more user friendly behavior (2617107, 2133741)
-</li>
-<li>NPE was sometime thrown during recording on varargs methods (2078444)
-</li>
-<li>Clearer error message for actual and expected count (2744605)
-</li>
-<li>Do not <code>fillInStackTrace</code> when exception thrown by IAnswer or a delegated answer to help debugging tests (2771518)
-</li>
-</ul>
-<p>
-New in version 2.4:
-</p>
-<ul>
-<li>Be able to capture an argument passed to a mock (1963449)
-</li>
-<li>Add resetToNice/Default/Strict methods (1963442)
-</li>
-<li>Make generic comparator more flexible
-</li>
-<li>Mocks are now serializable (1895630)
-</li>
-<li>Can now resume after an ignored failure (1896509)
-</li>
-<li>Can make a mock thread-safe (1895644,1953275)
-</li>
-<li>Check that an unsafe mock isn't used in a multithreaded environment 
-</li>
-</ul>
-<p>
-New in version 2.3:
-</p>
-<ul>
-<li>French documentation
-</li>
-<li>Matchers for Comparable parameters 
-</li>
-<li>Decimal comparison fix
-</li>
-<li>Mock Objects can now be named 
-</li>
-<li>Include Bill Michell's ThreadLocal fix
-</li>
-<li>Converted EasyMock's unit tests to JUnit 4
-</li>
-</ul>
-<p>
-New in version 2.2:
-</p>
-<ul>
-<li>answers for expected calls can now be created at call time via
-<code>andAnswer(IAnswer answer)</code> and <code>andStubAnswer(IAnswer answer)</code>
-</li>
-<li><code>callback(Runnable runnable)</code> has been removed, for callbacks, please 
-switch to  
-<code>andAnswer(IAnswer answer)</code> and <code>andStubAnswer(IAnswer answer)</code>
-</li>
-<li><code>replay()</code>, <code>verify()</code> and <code>reset()</code> now accept
-multiple mock objects as arguments
-</li>
-</ul>
-<p>
-New in version 2.1:
-</p>
-<ul>
-<li>arguments passed to the mock object are now available in callbacks via
-<code>EasyMock.getCurrentArguments()</code>
-</li>
-<li>fixed bug reported in http://groups.yahoo.com/group/easymock/message/558
-</li>
-<li>earlier failing if unused matchers were specified
-</li>
-</ul>
-<p>
-New in version 2.0:
-</p>
-<ul>
-<li>support for flexible, refactoring-safe argument matchers
-</li>
-<li>no mock control is needed for single Mock Objects
-</li>
-<li>stub behavior replaces default behavior
-</li>
-<li>support for call order checking for more than one mock, and to switch order checking on and off
-</li>
-<li>support for callbacks
-</li>
-<li>EasyMock now throws <code>java.lang.AssertionError</code> instead of <code>junit.framework.AssertionFailedError</code>
-so that it is now independent from the testing framework, you may use it with JUnit 3.8.x, JUnit 4 and TestNG
-</li>
-<li>deprecated old API
-</li>
-</ul>
 </div>
 </body>
 </html>
