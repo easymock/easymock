@@ -73,19 +73,19 @@
     <dependency>
       <groupId>org.springframework.osgi</groupId>
       <artifactId>spring-osgi-test</artifactId>
-      <version>1.2.0</version>
+      <version>1.2.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.osgi</groupId>
       <artifactId>spring-osgi-annotation</artifactId>
-      <version>1.2.0</version>
+      <version>1.2.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.osgi</groupId>
       <artifactId>spring-osgi-extender</artifactId>
-      <version>1.2.0</version>
+      <version>1.2.1</version>
       <scope>test</scope>
     </dependency>
     
@@ -151,6 +151,7 @@
       </plugin>    
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+		<version>2.1</version>
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
@@ -166,7 +167,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-remote-resources-plugin</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
         <executions>
           <execution>
             <goals>
@@ -236,27 +237,27 @@
       <!-- defined just to fix the version -->
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>2.1</version>
+        <version>2.3</version>
       </plugin>
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.4</version>
+        <version>2.5</version>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.1</version>
+        <version>2.3</version>
       </plugin>      
       <plugin>
         <artifactId>maven-install-plugin</artifactId>
-        <version>2.1</version>
+        <version>2.3</version>
       </plugin>      
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>2.2</version>
+        <version>2.4.1</version>
       </plugin>
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
-        <version>2.0.1</version>
+        <version>2.1</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
