@@ -26,6 +26,7 @@ import org.easymock.EasyMockSupport;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.MocksControl.MockType;
 import org.easymock.internal.matchers.Equals;
+import org.objenesis.Objenesis;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
 import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
@@ -54,10 +55,21 @@ public class OsgiTest extends AbstractConfigurableBundleCreatorTests {
 
     @Override
     protected String[] getTestBundlesNames() {
-        final String version = EasyMock.class.getPackage()
+
+        ClassLoader cl = String.class.getClassLoader();
+        final String ceVersion = EasyMock.class.getPackage()
+                .getImplementationVersion();
+        final String cglibVersion = "2.2.0";
+        final String objenesisVersion = Objenesis.class.getPackage()
+                .getImplementationVersion();
+        final String easymockVersion = org.easymock.EasyMock.class.getPackage()
                 .getImplementationVersion();
 
-        return new String[] { "org.easymock, easymock, " + version };
+        return new String[] {
+                "net.sourceforge.cglib, com.springsource.net.sf.cglib, "
+                        + cglibVersion,
+                "org.easymock, easymock, " + easymockVersion,
+                "org.objenesis, objenesis, " + objenesisVersion };
     }
 
     @Override
@@ -70,6 +82,8 @@ public class OsgiTest extends AbstractConfigurableBundleCreatorTests {
                 "org.easymock.internal;poweruser=true,");
         imports = imports.replace("org.easymock.internal.matchers,",
                 "org.easymock.internal.matchers;poweruser=true,");
+
+        imports += ",net.sf.cglib.reflect,net.sf.cglib.core,net.sf.cglib.proxy";
 
         mf.getMainAttributes().putValue(Constants.IMPORT_PACKAGE, imports);
 

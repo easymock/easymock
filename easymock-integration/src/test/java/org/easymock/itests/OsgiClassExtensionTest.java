@@ -69,7 +69,6 @@ public class OsgiClassExtensionTest extends
                 .getImplementationVersion();
 
         return new String[] {
-                "org.easymock, easymockclassextension, " + ceVersion,
                 "net.sourceforge.cglib, com.springsource.net.sf.cglib, "
                         + cglibVersion,
                 "org.easymock, easymock, " + easymockVersion,
