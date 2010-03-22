@@ -17,9 +17,7 @@ package org.easymock.classextension;
 
 import java.lang.reflect.Method;
 
-import org.easymock.ConstructorArgs;
-import org.easymock.IMockBuilder;
-import org.easymock.internal.MockBuilder;
+import org.easymock.classextension.internal.MockBuilder;
 
 /**
  * Helper class to be used to keep tracks of mocks easily. Same as its base

@@ -13,18 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.easymock.classextension;
+package org.easymock.classextension.internal;
 
-import java.lang.reflect.Method;
+import org.objenesis.ObjenesisHelper;
 
-public interface IMocksControl extends org.easymock.IMocksControl {
-    <T> T createMock(Class<T> toMock, Method... mockedMethods);
+public class ObjenesisClassInstantiator implements IClassInstantiator {
 
-    <T> T createMock(Class<T> toMock, ConstructorArgs constructorArgs,
-            Method... mockedMethods);
+    public Object newInstance(Class<?> clazz) throws InstantiationException {
+        return ObjenesisHelper.newInstance(clazz);
+    }
 
-    <T> T createMock(String name, Class<T> toMock, Method... mockedMethods);
-
-    <T> T createMock(String name, Class<T> toMock,
-            ConstructorArgs constructorArgs, Method... mockedMethods);
 }

@@ -15,13 +15,12 @@
  */
 package org.easymock.classextension.internal;
 
-import static org.easymock.internal.ClassExtensionHelper.*;
+import static org.easymock.classextension.internal.ClassExtensionHelper.*;
 
 import java.lang.reflect.Method;
 
-import org.easymock.ConstructorArgs;
+import org.easymock.classextension.ConstructorArgs;
 import org.easymock.classextension.IMocksControl;
-import org.easymock.internal.ClassProxyFactory;
 import org.easymock.internal.IProxyFactory;
 import org.easymock.internal.MocksControl;
 

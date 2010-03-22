@@ -17,11 +17,9 @@ package org.easymock.classextension;
 
 import java.lang.reflect.Method;
 
-import org.easymock.ConstructorArgs;
-import org.easymock.IMockBuilder;
+import org.easymock.classextension.internal.ClassExtensionHelper;
+import org.easymock.classextension.internal.MockBuilder;
 import org.easymock.classextension.internal.MocksClassControl;
-import org.easymock.internal.ClassExtensionHelper;
-import org.easymock.internal.MockBuilder;
 import org.easymock.internal.MocksControl;
 
 public class EasyMock extends org.easymock.EasyMock {

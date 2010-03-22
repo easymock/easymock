@@ -13,18 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.easymock.classextension;
+package org.easymock.classextension.internal;
 
-import java.lang.reflect.Method;
+/**
+ * Used to instantiate a given class.
+ */
+public interface IClassInstantiator {
 
-public interface IMocksControl extends org.easymock.IMocksControl {
-    <T> T createMock(Class<T> toMock, Method... mockedMethods);
-
-    <T> T createMock(Class<T> toMock, ConstructorArgs constructorArgs,
-            Method... mockedMethods);
-
-    <T> T createMock(String name, Class<T> toMock, Method... mockedMethods);
-
-    <T> T createMock(String name, Class<T> toMock,
-            ConstructorArgs constructorArgs, Method... mockedMethods);
+    /**
+     * Return a new instance of the specified class. The recommended way is
+     * without calling any constructor. This is usually done by doing like
+     * <code>ObjectInputStream.readObject()</code> which is JVM specific.
+     * 
+     * @param c
+     *            Class to instantiate
+     * @return new instance of clazz
+     */
+    Object newInstance(Class<?> clazz) throws InstantiationException;
 }
