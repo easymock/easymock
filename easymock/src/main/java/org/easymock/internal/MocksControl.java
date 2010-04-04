@@ -48,6 +48,10 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         reset();
     }
 
+    public MockType getType() {
+        return type;
+    }
+
     public IMocksControlState getState() {
         return state;
     }

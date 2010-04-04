@@ -16,6 +16,7 @@
 
 package org.easymock;
 
+import java.lang.reflect.Method;
 import java.util.Comparator;
 
 import org.easymock.internal.*;
@@ -127,7 +128,9 @@ public class EasyMock {
      * Creates a mock object that implements the given interface, order checking
      * is disabled by default, and the mock object will return <code>0</code>,
      * <code>null</code> or <code>false</code> for unexpected invocations.
-     * @param name the name of the mock object.
+     * 
+     * @param name
+     *            the name of the mock object.
      * @param toMock
      *            the class of the interface that the mock object should
      *            implement.
@@ -135,10 +138,319 @@ public class EasyMock {
      * @param <T>
      *            the interface that the mock object should implement.
      * @return the mock object.
-     * @throws IllegalArgumentException if the name is not a valid Java identifier.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
      */
     public static <T> T createNiceMock(String name, Class<T> toMock) {
         return createNiceControl().createMock(name, toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the given class, order checking is
+     * enabled by default.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
+     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
+     *             instead
+     */
+    @Deprecated
+    public static <T> T createStrictMock(Class<T> toMock,
+            Method... mockedMethods) {
+        return createStrictControl().createMock(toMock, mockedMethods);
+    }
+
+    /**
+     * Creates a mock object that implements the given class, order checking is
+     * enabled by default.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
+     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
+     *             instead
+     */
+    @Deprecated
+    public static <T> T createStrictMock(String name, Class<T> toMock,
+            Method... mockedMethods) {
+        return createStrictControl().createMock(name, toMock, mockedMethods);
+    }
+
+    /**
+     * Creates a mock object that implements the given class, order checking is
+     * enabled by default.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
+     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
+     *             instead
+     */
+    @Deprecated
+    public static <T> T createStrictMock(Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods) {
+        return createStrictControl().createMock(toMock, constructorArgs,
+                mockedMethods);
+    }
+
+    /**
+     * Creates a mock object that implements the given class, order checking is
+     * enabled by default.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
+     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
+     *             instead
+     */
+    @Deprecated
+    public static <T> T createStrictMock(String name, Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods) {
+        return createStrictControl().createMock(name, toMock, constructorArgs,
+                mockedMethods);
+    }
+
+    /**
+     * Creates a mock object that implements the given class, order checking is
+     * disabled by default.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
+     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
+     *             instead
+     */
+    @Deprecated
+    public static <T> T createMock(Class<T> toMock, Method... mockedMethods) {
+        return createControl().createMock(toMock, mockedMethods);
+    }
+
+    /**
+     * Creates a mock object that implements the given class, order checking is
+     * disabled by default.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
+     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
+     *             instead
+     */
+    @Deprecated
+    public static <T> T createMock(String name, Class<T> toMock,
+            Method... mockedMethods) {
+        return createControl().createMock(name, toMock, mockedMethods);
+    }
+
+    /**
+     * Creates a mock object that implements the given class, order checking is
+     * disabled by default.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
+     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
+     *             instead
+     */
+    @Deprecated
+    public static <T> T createMock(Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods) {
+        return createControl().createMock(toMock, constructorArgs,
+                mockedMethods);
+    }
+
+    /**
+     * Creates a mock object that implements the given class, order checking is
+     * disabled by default.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
+     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
+     *             instead
+     */
+    @Deprecated
+    public static <T> T createMock(String name, Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods) {
+        return createControl().createMock(name, toMock, constructorArgs,
+                mockedMethods);
+    }
+
+    /**
+     * Creates a mock object that implements the given class, order checking is
+     * disabled by default, and the mock object will return <code>0</code>,
+     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
+     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
+     *             instead
+     */
+    @Deprecated
+    public static <T> T createNiceMock(Class<T> toMock, Method... mockedMethods) {
+        return createNiceControl().createMock(toMock, mockedMethods);
+    }
+
+    /**
+     * Creates a mock object that implements the given class, order checking is
+     * disabled by default, and the mock object will return <code>0</code>,
+     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
+     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
+     *             instead
+     */
+    @Deprecated
+    public static <T> T createNiceMock(String name, Class<T> toMock,
+            Method... mockedMethods) {
+        return createNiceControl().createMock(name, toMock, mockedMethods);
+    }
+
+    /**
+     * Creates a mock object that implements the given class, order checking is
+     * disabled by default, and the mock object will return <code>0</code>,
+     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
+     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
+     *             instead
+     */
+    @Deprecated
+    public static <T> T createNiceMock(Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods) {
+        return createNiceControl().createMock(toMock, constructorArgs,
+                mockedMethods);
+    }
+
+    /**
+     * Creates a mock object that implements the given class, order checking is
+     * disabled by default, and the mock object will return <code>0</code>,
+     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
+     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
+     *             instead
+     */
+    @Deprecated
+    public static <T> T createNiceMock(String name, Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods) {
+        return createNiceControl().createMock(name, toMock, constructorArgs,
+                mockedMethods);
     }
 
     /**

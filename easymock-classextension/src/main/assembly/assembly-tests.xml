@@ -1,0 +1,20 @@
+<assembly>
+  <id>tests</id>
+  <formats>
+    <format>jar</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <outputDirectory/>
+      <directory>${project.build.testOutputDirectory}</directory>
+      <excludes>
+        <exclude>org/easymock/classextension/samples/**</exclude>
+      </excludes>      
+    </fileSet>
+    <fileSet>
+      <outputDirectory/>
+      <directory>${project.build.testSourceDirectory}</directory>      
+    </fileSet>
+  </fileSets>
+</assembly>
