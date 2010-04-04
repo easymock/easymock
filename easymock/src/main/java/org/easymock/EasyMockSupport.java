@@ -16,6 +16,7 @@
 
 package org.easymock;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,117 @@ public class EasyMockSupport {
     /** List of all controls created */
     protected final List<IMocksControl> controls = new ArrayList<IMocksControl>(
             5);
+
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
+    public <T> T createStrictMock(Class<T> toMock, Method... mockedMethods) {
+        return createStrictControl().createMock(toMock, mockedMethods);
+    }
+
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
+    public <T> T createStrictMock(String name, Class<T> toMock,
+            Method... mockedMethods) {
+        return createStrictControl().createMock(name, toMock, mockedMethods);
+    }
+
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
+    public <T> T createStrictMock(Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods) {
+        return createStrictControl().createMock(toMock, constructorArgs,
+                mockedMethods);
+    }
+
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
+    public <T> T createStrictMock(String name, Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods) {
+        return createStrictControl().createMock(name, toMock, constructorArgs,
+                mockedMethods);
+    }
+
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
+    public <T> T createMock(Class<T> toMock, Method... mockedMethods) {
+        return createControl().createMock(toMock, mockedMethods);
+    }
+
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
+    public <T> T createMock(String name, Class<T> toMock,
+            Method... mockedMethods) {
+        return createControl().createMock(name, toMock, mockedMethods);
+    }
+
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
+    public <T> T createMock(Class<T> toMock, ConstructorArgs constructorArgs,
+            Method... mockedMethods) {
+        return createControl().createMock(toMock, constructorArgs,
+                mockedMethods);
+    }
+
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
+    public <T> T createMock(String name, Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods) {
+        return createControl().createMock(name, toMock, constructorArgs,
+                mockedMethods);
+    }
+
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
+    public <T> T createNiceMock(Class<T> toMock, Method... mockedMethods) {
+        return createNiceControl().createMock(toMock, mockedMethods);
+    }
+
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
+    public <T> T createNiceMock(String name, Class<T> toMock,
+            Method... mockedMethods) {
+        return createNiceControl().createMock(name, toMock, mockedMethods);
+    }
+
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
+    public <T> T createNiceMock(Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods) {
+        return createNiceControl().createMock(toMock, constructorArgs,
+                mockedMethods);
+    }
+
+    /**
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
+     */
+    @Deprecated
+    public <T> T createNiceMock(String name, Class<T> toMock,
+            ConstructorArgs constructorArgs, Method... mockedMethods) {
+        return createNiceControl().createMock(name, toMock, constructorArgs,
+                mockedMethods);
+    }
 
     /**
      * Creates a mock object that implements the given interface, order checking
