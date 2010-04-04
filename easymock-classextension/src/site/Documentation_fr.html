@@ -11,176 +11,48 @@
 <h2>EasyMock Class Extension ${project.version} Readme</h2>
 
 <p>Documentation de la version ${project.version} (${date})<br />
-&copy; 2003-2009 <a href="http://www.offis.de">OFFIS</a>, Henri Tremblay.
+&copy; 2003-2010 <a href="http://www.offis.de">OFFIS</a>, Henri Tremblay.
 </p>
 <p><i>Documentation traduite originellement de l'anglais par <a href="http://violet.sourceforge.net">Alexandre de Pellegrin</a>.
 Maintenue par Henri Tremblay.</i></p>
 <p>
 EasyMock Class Extension permet de générer des Mock Objects à partir de classes.
 </p>
+<p>
+<b>EasyMock Class Extension est à partir de maintenant considérée comme dépréciée.</b> 
+</p>
+<p>
+Les mocks de classes peuvent et doivent être fait directement à l'aide d'EasyMock 
+classique. La documentation concernant les mocks de classes a été intégrée à 
+<a href="Documentation.html">celle d'EasyMock</a>.
+</p>
 
 <a id="Requirements"/><h2>Pré-requis</h2>
-  
+<p>  
 EasyMock Class Extension nécessite 
 <a href="http://java.sun.com">Java 5 ou supérieur</a>,
-<a href="http://www.easymock.org">EasyMock 2.5.2</a>, 
-<a href="http://cglib.sourceforge.net">cglib 2.1 or 2.2</a> 
-(2.0.x fonctionne également mais ne permet pas de "mocker" une classe sans constructeur visible),
-<a href="http://forge.objectweb.org/projects/asm">asm</a> 
-(utilisez la version appropriée pour votre version de cglib; vous pouvez
-aussi prendre cglib-nodep-2.2.jar qui inclut asm)
-et <a href="http://www.junit.org">JUnit 4.4 ou supérieur</a> pour éxécuter les tests.
+<a href="http://www.easymock.org">EasyMock 3.0</a>, 
+</p>
 
 <a id="Usage"/><h2>Utilisation</h2>
 <p>
-Pour générer des Mock Objects de classes <b>et</b> d'interfaces, utilisez
-</p>
-<pre>
-import static org.easymock.classextension.EasyMock.*;
-</pre>
-<p>
-au lieu de
-</p>
-<pre>
-import static org.easymock.EasyMock.*;
-</pre>
-<p>
-Vous pourrez ensuite créer un Mock Object, de la même façon qu'avec EasyMock, en faisant quelque
-chose comme:
-</p>
-<pre>
-ToMock mock = createMock(ToMock.class);
-</pre>
-<p>
-A partir de là, vous pouvez utiliser votre mock comme vous le faisiez avec EasyMock. Notez que les 
-méthodes <code>createNiceMock</code>, <code>createStrictMock</code>, 
-<code>createStrictControl</code>, <code>createControl</code> and 
-<code>createNiceControl</code> sont aussi disponibles. Les méthodes <code>create...Control()</code>
-retournent un object de type <code>org.easymock.classextension.IMocksControl</code>, une extension de
-la classe <code>IMocksControl</code> d'EasyMock. Finalement, <code>org.easymock.classextension.EasyMockSupport</code>
-fournit une implémentation de <code>EasyMockSupport</code> fonctionnant pour la class extension.
+Au passage vers EasyMock et EasyMock CE 3.0, vos projets devraient fonctionner comme
+avant (à l'exception d'avertissement de dépréciation). Toutefois, vous devrez les
+recompiler.
 </p>
 
-<a id="Advanced"/><h2>Utilisation avancée</h2>
-  
-<a id="Partial_mocking"/><h3>Mocking partiel</h3>
+<a id="Migration"/><h3>Migration</h3>
 <p>
-Dans certains cas, vous pouvez avoir besoin de "mocker" uniquement certaines
-méthodes d'une classe et de conserver un comportement normal pour
-les autres. Cela arrive habituellement lorsque pour souhaitez tester une
-méthode appelant d'autres méthodes de la même classe.
-Vous voulez donc garder le comportement normal de la méthode testée
-et "mocker" les autres.
+Migrer d'EasyMock CE vers EasyMock 3.0 est simple. Vous devez retirer la dépendance
+à EasyMock CE et remplacer tous les imports vers
 </p>
+<pre>org.easymock.classextension.*</pre>
 <p>
-Dans ce cas, la premier réflexe à avoir est
-d'envisager un refactoring car, bien souvent, ce problème est la
-conséquence d'un mauvais design. Si ce n'est pas le cas ou si
-vous ne pouvez faire autrement pour une quelconque contrainte de 
-développement, voici la solution:
+par des imports vers
 </p>
-<pre>
-ToMock mock = createMockBuilder(ToMock.class)
-   .addMockedMethod("mockedMethod").createMock();
-</pre>
-<p>Seules les méthodes ajoutées avec <code>addMockedMethod(s)</code> seront
-"mockées" (<code>mockedMethod()</code> dans l'exemple). Les autres conservent leur
-comportement habituel. Une exception: les méthodes abstraites sont "mockées" par défaut.
-</p>
-<p><code>createMockBuilder</code> retourne l'interface <code>IMockBuilder</code>. Elle contient
-diverses méthodes pour facilement créer un mock partiel. Jettez un coup d'oeil à la javadoc
-pour en savoir plus.
-</p>
-<p><b>Remarque:</b> EasyMock fournit un comportement par défault pour les méthodes de la classe 
-Object (<i>equals, hashCode, toString</i>). Toutefois, pour un mock partiel, si ces méthodes ne sont pas
-mockées explicitement, elles auront leur comportement normal et non celui par défaut d'EasyMock.
-</p>
-
-<a id="Self_testing"/><h3>Test interne d'une classe</h3>  
+<pre>org.easymock.*</pre>
 <p>
-Il est possible de créer un mock en appelant un constructeur de la classe. Ceci
-peut être utile lorsqu'une méthode doit être testée mais d'autres
-dans la même classe "mockées". Pour cela vous devez faire quelque chose comme
-</p>
-<pre>
-ToMock mock = createMockBuilder(ToMock.class)
-   .withConstructor(1, 2, 3); // 1, 2, 3 sont les paramètres passés au constructeur
-</pre>
-<p>
-Voir <code>ConstructorCalledMockTest</code> pour un exemple d'utilisation.
-</p>
-
-<a id="Replace_default_instantiator"/><h3>Remplacer l'instantiateur par défaut</h3>
-<p>
-Parfois (habituellement à cause d'une JVM non supportée), il est possible
-que EasyMock CE ne soit pas capable de créer un mock dans votre environnement java.
-Sous le capot, l'instantiation de classes est implémentée par un pattern "factory".
-En cas de problème, vous pouvez remplacer l'instantiateur par défaut avec:
-</p>
-<ul>
-<li>L'ancien <code>DefaultClassInstantiator</code> qui fonctionne très bien avec les classes
-sérializable et sinon tente de deviner quel constructeur appeler et quels paramètres lui passer.</li>
-<li>Votre propre instantiateur. Celui-ci doit implémenter <code>IClassInstantiator</code>.</li>
-</ul>
-<p>
-Vous assignez ce nouvel instantiateur à l'aide de <code>ClassInstantiatorFactory.setInstantiator()</code>.
-Vous pouvez remettre celui par défaut avec <code>setDefaultInstantiator()</code>.
-</p>
-<p>
-<b>Important:</b>
-L'instantiateur est gardé statiquement et reste donc entre deux tests. Assurez-vous
-de le réinitialiser si nécessaire.
-</p>
-
-<a id="Serialize_class_mock"/><h3>Sérializer une classe mockée</h3>
-<p>
-Une class mockée peut aussi être sérializé. Toutefois, comme celle-ci étant une classe sérializable,
-cette dernière peut avoir un comportement spécial dû à l'implémentation de méthodes tels 
-que <code>writeObject</code>. Ces méthodes seront toujours appelées lorsque le mock sera sérializé
-et peuvent potentiellement échouer. Habituellement, le contournement consiste à créer le mock
-en appelant un constructeur.
-</p>
-<p>
-Aussi, il est possible que la dé-sérialization d'un mock ne fonctionne pas si elle est effectuée dans
-un class loader différent de la sérialization. Ce cas n'a pas été testé.
-</p>
-
-<a id="OSGi"/><h3>OSGi</h3>
-<p>
-Le jar d'EasyMock CE jar oeut être utilisé comme bundle OSGi. It exporte les packages
-<code>org.easymock.classextension</code> et <code>org.easymock.classextension.internal</code>. 
-Toutefois, pour importer le dernier, il faut spécifier l'attribut <code>poweruser</code> à true 
-(<code>poweruser=true</code>). cglib est aussi exporté pour permettre aux Mock Objects de fonctionner
-correctement.
-</p>
-
-<a id="Limitations"/><h2>Limitations</h2>
-  
-<p> 
-EasyMock Class Extension fournit un comportement par défaut pour <code>equals()</code>, 
-<code>toString()</code> et <code>hashCode()</code>. Cela signifie que vous ne pourrez
-enregistrer votre propre comportement pour ces méthodes. Cette limitation est
-cohérente avec <a href="http://www.easymock.org/EasyMock2_3_Documentation_fr.html#Méthodes_de_la_classe_Object">ce
-qu'EasyMock fait</a>. Elle doit être considérée comme une
-fonctionnalité permettant ne ne pas s'occuper de ces
-méthodes.
-</p>
-<p>
-Les méthodes finales ne peuvent pas être "mockées". Si
-appelées, leur code normal sera exécuté.
-</p>
-<p>
-L'instantiation des classes est faite par 
-<a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>.
-Les JVMs supportées sont listées <a href="http://code.google.com/p/objenesis/wiki/ListOfCurrentlySupportedVMs">ici</a>.
-</p>
-<p>
-Dans la section <a href="#Advanced">Utilisation avancée</a>, 
-il a été expliqué comment faire un mock partiel. Une chose
-importante à savoir est que les méthodes privées
-ne sont jamais "mockées". De ce fait, si votre méthode tester 
-appelle des méthodes privées, vous devrez les tester dans
-la foulée puisque vous ne pourrez pas les "mocker".
+ce qui veut concrètement dire d'enlever <code>.classextension</code> de votre code.
 </p>
 
 <a id="Development"/><h2>Développement</h2>
@@ -199,6 +71,15 @@ Rodrigo Damazio, Bruno Fonseca, Ben Hutchison, et de nombreux autres.
 </p>
 
 <a id="Release_Notes"/><h3>Notes de mises à jour</h3>
+<p>
+Nouveau dans la version 3.0:
+</p>
+<ul>
+<li>Intégrer EasyMock CE à EasyMock classique
+</li>
+<li>Déprécier la class extension
+</li>
+</ul>
 <p>
 Nouveau dans la version 2.5.2:
 </p>

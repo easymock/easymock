@@ -5,4 +5,4 @@ This version is only provided to make the migration easier.
 
 Changes:
     * Merge class extension in standard EasyMock
-    * Deprecate the clas extension
+    * Deprecate the class extension
