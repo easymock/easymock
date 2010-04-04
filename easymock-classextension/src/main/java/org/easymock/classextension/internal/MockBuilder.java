@@ -22,7 +22,7 @@ import org.easymock.classextension.IMockBuilder;
  * 
  * @author Henri Tremblay
  * 
- * @param <T>
+ * @param <T> type of the mock created
  */
 @SuppressWarnings("deprecation")
 @Deprecated
