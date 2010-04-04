@@ -12,7 +12,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   
-  <artifactId>easymock-classextension</artifactId>
+  <artifactId>easymockclassextension</artifactId>
   <packaging>jar</packaging>
   <name>EasyMock class extension</name>
   <description>The EasyMock Class Extension allows to generate Mock Objects for classes</description>
