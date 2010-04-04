@@ -1,4 +1,4 @@
-#Sat Jun 06 13:07:30 CEST 2009
+#Mon Apr 05 00:20:52 CEST 2010
 comment_clear_blank_lines=false
 comment_format_comments=true
 comment_format_header=false
@@ -10,6 +10,7 @@ comment_line_length=80
 comment_new_line_for_parameter=true
 comment_separate_root_tags=true
 eclipse.preferences.version=1
+formatter_profile=_EasyMock
 formatter_settings_version=11
 internal.default.compliance=default
 org.eclipse.jdt.ui.ignorelowercasenames=true
