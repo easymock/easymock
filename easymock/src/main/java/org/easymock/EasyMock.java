@@ -44,7 +44,13 @@ public class EasyMock {
      * {@link #makeThreadSafe(Object, boolean)}.
      */
     public static final String NOT_THREAD_SAFE_BY_DEFAULT = "easymock.notThreadSafeByDefault";
-    
+
+    /**
+     * Since EasyMock 3.0, EasyMock can perform class mocking directly without using the class
+     * extension. If you want to disable any class mocking, turn this to true.
+     */
+    public static final String DISABLE_CLASS_MOCKING = "easymock.disableClassMocking";
+
     /**
      * Creates a mock object that implements the given interface, order checking
      * is enabled by default.

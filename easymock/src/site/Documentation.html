@@ -963,6 +963,8 @@ at allowing to use a legacy behavior on a new version. Currently supported prope
 <dd>If true, a mock won't be thread-safe by default. Possible values are "true" or "false". Default is false</dd>
 <dt><code>easymock.enableThreadSafetyCheckByDefault</code></dt>
 <dd>If true, thread-safety check feature will be on by default. Possible values are "true" or "false". Default is false</dd>
+<dt><code>easymock.disableClassMocking</code></dt>
+<dd>Do not allow class mocking (only allow interface mocking). Possible values are "true" or "false". Default is false</dd>
 </dl>
 <p>
 Properties can be set in three ways. Each step in the list can overwrite
@@ -1134,6 +1136,8 @@ New in version 3.0:
 <li>Failure during recording phase can impact following tests (2914683)
 </li>
 <li>Return a specific error when null is recorded as return value on a method returning a primitive type (2936175)
+</li>
+<li>Can disable class mocking with <code>EasyMock.DISABLE_CLASS_MOCKING</code>
 </li>
 </ul>
 <p>

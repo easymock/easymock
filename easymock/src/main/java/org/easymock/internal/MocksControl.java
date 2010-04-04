@@ -21,10 +21,7 @@ import static org.easymock.internal.ClassExtensionHelper.*;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
-import org.easymock.ConstructorArgs;
-import org.easymock.IAnswer;
-import org.easymock.IExpectationSetters;
-import org.easymock.IMocksControl;
+import org.easymock.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -134,6 +131,11 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     protected <T> IProxyFactory<T> createProxyFactory(Class<T> toMock) {
         if (toMock.isInterface()) {
             return new JavaProxyFactory<T>();
+        }
+        String classMockingDisabled  = EasyMockProperties.getInstance().getProperty(EasyMock.DISABLE_CLASS_MOCKING);
+        if (Boolean.valueOf(classMockingDisabled)) {
+            throw new IllegalArgumentException("Class mocking is currently disabled. Change "
+                    + EasyMock.DISABLE_CLASS_MOCKING + " to true do modify this behavior");
         }
         return new ClassProxyFactory<T>();
     }

@@ -28,6 +28,7 @@ import java.util.List;
 import org.easymock.ConstructorArgs;
 import org.easymock.EasyMock;
 import org.easymock.IMockBuilder;
+import org.easymock.internal.EasyMockProperties;
 import org.easymock.tests2.MocksControlTest.A;
 import org.junit.Test;
 
@@ -110,6 +111,20 @@ public class EasyMockClassExtensionTest {
         }
     }
     
+    @Test
+    public void testDisablingClassMocking() {
+        EasyMockProperties.getInstance().setProperty(DISABLE_CLASS_MOCKING, Boolean.TRUE.toString());
+        try {
+            ArrayList<?> list = createMock(ArrayList.class);
+            fail("Class mocking should be disabled");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Class mocking is currently disabled. Change "
+                    + EasyMock.DISABLE_CLASS_MOCKING + " to true do modify this behavior", e.getMessage());
+        } finally {
+            EasyMockProperties.getInstance().setProperty(DISABLE_CLASS_MOCKING, null);
+        }
+    }
+
     @Test
     public void testClassMocking() {
         ArrayList<?> list = createMock(ArrayList.class);
