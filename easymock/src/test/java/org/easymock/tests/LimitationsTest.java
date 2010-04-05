@@ -16,11 +16,11 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.util.AbstractList;
 
-import org.easymock.MockControl;
 import org.junit.Test;
 
 /**
@@ -28,7 +28,6 @@ import org.junit.Test;
  * 
  * @author Henri Tremblay
  */
-@SuppressWarnings("deprecation")
 public class LimitationsTest {
 
     public static class MyClass {
@@ -48,7 +47,7 @@ public class LimitationsTest {
 
     public void finalClass() {
         try {
-            MockControl.createControl(String.class);
+            createMock(String.class);
             fail("Magic, we can mock a final class");
         } catch (Exception e) {
         }
@@ -56,15 +55,13 @@ public class LimitationsTest {
 
     @Test
     public void abstractClass() {
-        MockControl<?> ctrl = MockControl.createControl(AbstractList.class);
-        assertTrue(ctrl.getMock() instanceof AbstractList<?>);
+        Object o = createMock(AbstractList.class);
+        assertTrue(o instanceof AbstractList<?>);
     }
 
     @Test
     public void mockFinalMethod() {
-        MockControl<MyClass> ctrl = MockControl
-                .createControl(MyClass.class);
-        MyClass c = ctrl.getMock();
+        MyClass c = createMock(MyClass.class);
 
         try {
             c.foo();
@@ -75,17 +72,15 @@ public class LimitationsTest {
 
     @Test
     public void privateConstructor() {
-        MockControl.createControl(PrivateClass.class);
+        createMock(PrivateClass.class);
     }
     
     @Test
     public void mockNativeMethod() {
-        MockControl<NativeClass> ctrl = MockControl
-                .createControl(NativeClass.class);
-        NativeClass mock = ctrl.getMock();
-        ctrl.expectAndReturn(mock.foo(), 1);
-        ctrl.replay();
+        NativeClass mock = createMock(NativeClass.class);
+        expect(mock.foo()).andReturn(1);
+        replay(mock);
         assertEquals(1, mock.foo());
-        ctrl.verify();
+        verify(mock);
     }
 }

@@ -16,8 +16,8 @@
 
 package org.easymock.tests;
 
-import org.easymock.MockControl;
 import org.easymock.internal.MocksBehavior;
+import org.easymock.internal.Range;
 import org.easymock.internal.ReplayState;
 import org.easymock.internal.RuntimeExceptionWrapper;
 import org.junit.Before;
@@ -26,7 +26,6 @@ import org.junit.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class ReplayStateInvalidCallsTest {
 
     private ReplayState control;
@@ -50,18 +49,8 @@ public class ReplayStateInvalidCallsTest {
     }
 
     @Test(expected = RuntimeExceptionWrapper.class)
-    public void setDefaultMatcher() {
-        control.setDefaultMatcher(MockControl.ARRAY_MATCHER);
-    }
-
-    @Test(expected = RuntimeExceptionWrapper.class)
     public void asStub() {
         control.asStub();
-    }
-
-    @Test(expected = RuntimeExceptionWrapper.class)
-    public void setMatcher() {
-        control.setMatcher(null, MockControl.ARRAY_MATCHER);
     }
 
     @Test(expected = RuntimeExceptionWrapper.class)
@@ -93,7 +82,7 @@ public class ReplayStateInvalidCallsTest {
     public void makeThreadSafe() {
         control.makeThreadSafe(true);
     }
-    
+
     @Test(expected = RuntimeExceptionWrapper.class)
     public void andStubReturn() {
         control.andStubReturn("7");
@@ -116,7 +105,7 @@ public class ReplayStateInvalidCallsTest {
 
     @Test(expected = RuntimeExceptionWrapper.class)
     public void times() {
-        control.times(MockControl.ONE);
+        control.times(new Range(0, 1));
     }
 
     @Test(expected = RuntimeExceptionWrapper.class)

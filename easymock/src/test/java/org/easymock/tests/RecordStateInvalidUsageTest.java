@@ -16,157 +16,51 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class RecordStateInvalidUsageTest {
 
-    MockControl<IMethods> control;
-
-    IMethods mock;
+    private IMethods mock;
 
     @Before
     public void setup() {
-        control = MockControl.createControl(IMethods.class);
-        mock = control.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
-    public void setReturnValueWithoutMethodCall() {
+    public void notAMockPassedToExpect() {
         try {
-            control.setReturnValue(false);
+            expect(null);
             fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals(
-                    "method call on the mock needed before setting return value",
-                    expected.getMessage());
-        }
-    }
-
-    @Test
-    public void setExpectedVoidCallCountWithoutMethodCall() {
-        try {
-            control.setVoidCallable(3);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals(
-                    "method call on the mock needed before setting void callable",
-                    expected.getMessage());
+        } catch (final IllegalStateException expected) {
+            assertEquals("no last call on a mock available", expected.getMessage());
         }
     }
 
     @Test
     public void openVoidCallCountWithoutMethodCall() {
         try {
-            control.setVoidCallable();
+            expectLastCall();
             fail("IllegalStateException expected");
-        } catch (Exception expected) {
-            assertEquals(
-                    "method call on the mock needed before setting void callable",
-                    expected.getMessage());
+        } catch (final IllegalStateException expected) {
+            assertEquals("no last call on a mock available", expected.getMessage());
         }
     }
 
     @Test
     public void setWrongReturnValueBoolean() {
-        mock.oneArg(false);
         try {
-            control.setReturnValue(false);
+            expect((Object) mock.oneArg(false)).andReturn(false);
             fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals("incompatible return value type", expected
-                    .getMessage());
-        }
-    }
-
-    @Test
-    public void setWrongReturnValueShort() {
-        mock.oneArg(false);
-        try {
-            control.setReturnValue((short) 0);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals("incompatible return value type", expected
-                    .getMessage());
-        }
-    }
-
-    @Test
-    public void setWrongReturnValueChar() {
-        mock.oneArg(false);
-        try {
-            control.setReturnValue((char) 0);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals("incompatible return value type", expected
-                    .getMessage());
-        }
-    }
-
-    @Test
-    public void setWrongReturnValueInt() {
-        mock.oneArg(false);
-        try {
-            control.setReturnValue(0);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals("incompatible return value type", expected
-                    .getMessage());
-        }
-    }
-
-    @Test
-    public void setWrongReturnValueLong() {
-        mock.oneArg(false);
-        try {
-            control.setReturnValue((long) 0);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals("incompatible return value type", expected
-                    .getMessage());
-        }
-    }
-
-    @Test
-    public void setWrongReturnValueFloat() {
-        mock.oneArg(false);
-        try {
-            control.setReturnValue((float) 0);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals("incompatible return value type", expected
-                    .getMessage());
-        }
-    }
-
-    @Test
-    public void setWrongReturnValueDouble() {
-        mock.oneArg(false);
-        try {
-            control.setReturnValue((double) 0);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals("incompatible return value type", expected
-                    .getMessage());
-        }
-    }
-
-    @Test
-    public void setWrongReturnValueObject() {
-        mock.oneArg(false);
-        try {
-            control.setReturnValue(new Object());
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals("incompatible return value type", expected
-                    .getMessage());
+        } catch (final IllegalStateException expected) {
+            assertEquals("incompatible return value type", expected.getMessage());
         }
     }
 }

@@ -64,4 +64,16 @@ public class ArgumentToStringTest {
         ArgumentToString.appendArgument(actual, buffer);
         assertEquals(expected, buffer.toString());
     }
+
+    @Test
+    public void testArgumentToString() {
+        String actual = ArgumentToString.argumentToString(Boolean.TRUE);
+        assertEquals(Boolean.TRUE.toString(), actual);
+    }
+
+    @Test
+    public void testArgumentsToString() {
+        String actual = ArgumentToString.argumentsToString(Boolean.TRUE, Boolean.FALSE);
+        assertEquals("true, false", actual);
+    }
 }

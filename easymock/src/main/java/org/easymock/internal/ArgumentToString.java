@@ -19,6 +19,8 @@ package org.easymock.internal;
 import java.lang.reflect.Array;
 
 /**
+ * Utility class to convert method arguments to Strings
+ * 
  * @author Henri Tremblay
  */
 public final class ArgumentToString {
@@ -51,5 +53,44 @@ public final class ArgumentToString {
         } else {
             buffer.append(value);
         }
+    }
+
+    /**
+     * Converts an argument to a String using {@link #appendArgument(Object, StringBuffer)}
+     * 
+     * @param argument
+     *            the argument to convert to a String.
+     * @return a <code>String</code> representation of the argument.
+     */
+    public static String argumentToString(Object argument) {
+        StringBuffer result = new StringBuffer();
+        ArgumentToString.appendArgument(argument, result);
+        return result.toString();
+    }
+
+    /**
+     * Returns a string representation of the arguments. This convenience
+     * implementation calls {@link #argumentToString(Object)}
+     * for every argument in the given array and returns the string representations
+     * of the arguments separated by commas.
+     * 
+     * @param arguments
+     *            the arguments to be used in the string representation.
+     * @return a string representation of the matcher.
+     */
+    public static String argumentsToString(Object... arguments) {
+        if (arguments == null) {
+            arguments = new Object[0];
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < arguments.length; i++) {
+            if (i > 0) {
+                result.append(", ");
+            }
+            result.append(argumentToString(arguments[i]));
+        }
+        return result.toString();
     }
 }

@@ -16,9 +16,9 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,61 +28,58 @@ import org.junit.Test;
  * 
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageExpectAndDefaultReturnTest {
-    private MockControl<IMethods> control;
 
     private IMethods mock;
 
     @Before
     public void setup() {
-        control = MockControl.createControl(IMethods.class);
-        mock = control.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
     public void booleanType() {
-        control.expectAndDefaultReturn(mock.booleanReturningMethod(4), true);
-        control.replay();
+        expect(mock.booleanReturningMethod(4)).andStubReturn(true);
+        replay(mock);
         assertEquals(true, mock.booleanReturningMethod(4));
         assertEquals(true, mock.booleanReturningMethod(4));
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void longType() {
-        control.expectAndDefaultReturn(mock.longReturningMethod(4), 12l);
-        control.replay();
+        expect(mock.longReturningMethod(4)).andStubReturn(12l);
+        replay(mock);
         assertEquals(12l, mock.longReturningMethod(4));
         assertEquals(12l, mock.longReturningMethod(4));
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void floatType() {
-        control.expectAndDefaultReturn(mock.floatReturningMethod(4), 12f);
-        control.replay();
+        expect(mock.floatReturningMethod(4)).andStubReturn(12f);
+        replay(mock);
         assertEquals(12f, mock.floatReturningMethod(4), 0f);
         assertEquals(12f, mock.floatReturningMethod(4), 0f);
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void doubleType() {
-        control.expectAndDefaultReturn(mock.doubleReturningMethod(4), 12.0);
-        control.replay();
+        expect(mock.doubleReturningMethod(4)).andStubReturn(12.0);
+        replay(mock);
         assertEquals(12.0, mock.doubleReturningMethod(4), 0.0);
         assertEquals(12.0, mock.doubleReturningMethod(4), 0.0);
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void objectType() {
-        control.expectAndDefaultReturn(mock.objectReturningMethod(4), "12");
-        control.replay();
+        expect(mock.objectReturningMethod(4)).andStubReturn("12");
+        replay(mock);
         assertEquals("12", mock.objectReturningMethod(4));
         assertEquals("12", mock.objectReturningMethod(4));
-        control.verify();
+        verify(mock);
     }
 
 }

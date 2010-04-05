@@ -16,99 +16,91 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageLongCompatibleReturnValueTest {
-    MockControl<IMethods> control;
 
-    IMethods mock;
+    private IMethods mock;
 
     @Before
     public void setup() {
-        control = MockControl.createControl(IMethods.class);
-        mock = control.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
     public void returnByte() {
-        mock.byteReturningMethod(0);
-        control.setReturnValue(25);
-        control.setDefaultReturnValue(34);
+        expect(mock.byteReturningMethod(0)).andReturn((byte) 25);
+        expect(mock.byteReturningMethod(anyInt())).andStubReturn((byte) 34);
 
-        control.replay();
+        replay(mock);
 
         assertEquals((byte) 25, mock.byteReturningMethod(0));
         assertEquals((byte) 34, mock.byteReturningMethod(-4));
         assertEquals((byte) 34, mock.byteReturningMethod(12));
 
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void returnShort() {
-        mock.shortReturningMethod(0);
-        control.setReturnValue(25);
-        control.setDefaultReturnValue(34);
+        expect(mock.shortReturningMethod(0)).andReturn((short) 25);
+        expect(mock.shortReturningMethod(anyInt())).andStubReturn((short) 34);
 
-        control.replay();
+        replay(mock);
 
         assertEquals((short) 25, mock.shortReturningMethod(0));
         assertEquals((short) 34, mock.shortReturningMethod(-4));
         assertEquals((short) 34, mock.shortReturningMethod(12));
 
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void returnChar() {
-        mock.charReturningMethod(0);
-        control.setReturnValue(25);
-        control.setDefaultReturnValue(34);
+        expect(mock.charReturningMethod(0)).andReturn((char) 25);
+        expect(mock.charReturningMethod(anyInt())).andStubReturn((char) 34);
 
-        control.replay();
+        replay(mock);
 
         assertEquals((char) 25, mock.charReturningMethod(0));
         assertEquals((char) 34, mock.charReturningMethod(-4));
         assertEquals((char) 34, mock.charReturningMethod(12));
 
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void returnInt() {
-        mock.intReturningMethod(0);
-        control.setReturnValue(25);
-        control.setDefaultReturnValue(34);
+        expect(mock.intReturningMethod(0)).andReturn(25);
+        expect(mock.intReturningMethod(anyInt())).andStubReturn(34);
 
-        control.replay();
+        replay(mock);
 
         assertEquals(25, mock.intReturningMethod(0));
         assertEquals(34, mock.intReturningMethod(-4));
         assertEquals(34, mock.intReturningMethod(12));
 
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void returnLong() {
-        mock.longReturningMethod(0);
-        control.setReturnValue(25);
-        control.setDefaultReturnValue(34);
+        expect(mock.longReturningMethod(0)).andReturn(25L);
+        expect(mock.longReturningMethod(anyInt())).andStubReturn(34L);
 
-        control.replay();
+        replay(mock);
 
-        assertEquals((long) 25, mock.longReturningMethod(0));
-        assertEquals((long) 34, mock.longReturningMethod(-4));
-        assertEquals((long) 34, mock.longReturningMethod(12));
+        assertEquals(25, mock.longReturningMethod(0));
+        assertEquals(34, mock.longReturningMethod(-4));
+        assertEquals(34, mock.longReturningMethod(12));
 
-        control.verify();
+        verify(mock);
     }
 }

@@ -949,7 +949,7 @@ existence. Il y a toutefois des contraintes évidentes:
 <h3>Traitement multifil</h3>
 <p>
 Pendant la phase d'enregistrement un Mock Object <b>n'est pas</b> à fil sécurisé. Un Mock Object donné (ou des Mock Objects liés au
-même <code>MockControl</code>) ne peut être enregistré que d'un seul fil. Toutefois, plusieurs Mock Objects peuvent être enregistrés
+même <code>IMocksControl</code>) ne peut être enregistré que d'un seul fil. Toutefois, plusieurs Mock Objects peuvent être enregistrés
 simultanément dans des fils différents.
 </p>
 <p>
@@ -1029,7 +1029,7 @@ dans la classe <code>EasyMock</code>
 <h3>
 Compatibilité avec les anciennes versions
 </h3>
-<p>EasyMock 3 inclue toujours le package <code>classextension</code> (qui est toutefois déprécié) pour
+<p>EasyMock 3 fournit toujours le project Class Extension (qui est toutefois déprécié) pour
 permettre une migration plus facile de EasyMock 2 vers EasyMock 3. Il s'agit d'une compatibilité des
 sources et non des binaires. Le code devra donc être recompilé. 
 </p>
@@ -1200,6 +1200,8 @@ Nouveau dans la version 3.0:
 <li>Returner une erreur spécifique lorsqu'un null est enregistré comme retour sur une méthode retournant un type primitif (2936175)
 </li>
 <li>Désactiver le mocking de classes à l'aide de <code>EasyMock.DISABLE_CLASS_MOCKING</code>
+</li>
+<li>Retirer les classes dépréciées d'EasyMock 1
 </li>
 </ul>
 <p>

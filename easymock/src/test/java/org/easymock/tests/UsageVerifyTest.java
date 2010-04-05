@@ -16,11 +16,11 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 
-import org.easymock.MockControl;
 import org.easymock.internal.ReplayState;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,39 +28,33 @@ import org.junit.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageVerifyTest {
-    private MockControl<IMethods> control;
 
     private IMethods mock;
 
     @Before
     public void setup() {
-        control = MockControl.createControl(IMethods.class);
-        mock = control.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
     public void twoReturns() {
-        mock.throwsNothing(true);
-        control.setReturnValue("Test");
-        control.setReturnValue("Test2");
+        expect(mock.throwsNothing(true)).andReturn("Test").andReturn("Test2");
 
-        control.replay();
+        replay(mock);
 
         assertEquals("Test", mock.throwsNothing(true));
 
         boolean failed = true;
 
         try {
-            control.verify();
+            verify(mock);
             failed = false;
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
-                    + "\n    throwsNothing(true): expected: 2, actual: 1",
-                    expected.getMessage());
-            assertTrue("stack trace must be filled in", Util.getStackTrace(
-                    expected).indexOf(ReplayState.class.getName()) == -1);
+                    + "\n    throwsNothing(true): expected: 2, actual: 1", expected.getMessage());
+            assertTrue("stack trace must be filled in", Util.getStackTrace(expected).indexOf(
+                    ReplayState.class.getName()) == -1);
         }
 
         if (!failed)
@@ -68,102 +62,90 @@ public class UsageVerifyTest {
 
         assertEquals("Test2", mock.throwsNothing(true));
 
-        control.verify();
+        verify(mock);
 
         try {
             mock.throwsNothing(true);
             fail("AssertionError expected");
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             assertEquals("\n  Unexpected method call throwsNothing(true):"
-                    + "\n    throwsNothing(true): expected: 2, actual: 3",
-                    expected.getMessage());
+                    + "\n    throwsNothing(true): expected: 2, actual: 3", expected.getMessage());
         }
     }
 
     @Test
     public void atLeastTwoReturns() {
-        mock.throwsNothing(true);
-        control.setReturnValue("Test");
-        control.setReturnValue("Test2", MockControl.ONE_OR_MORE);
+        expect(mock.throwsNothing(true)).andReturn("Test").andReturn("Test2").atLeastOnce();
 
-        control.replay();
+        replay(mock);
 
         assertEquals("Test", mock.throwsNothing(true));
 
         try {
-            control.verify();
+            verify(mock);
             fail("AssertionError expected");
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
 
-            assertEquals(
-                    "\n  Expectation failure on verify:"
-                            + "\n    throwsNothing(true): expected: at least 2, actual: 1",
-                    expected.getMessage());
+            assertEquals("\n  Expectation failure on verify:"
+                    + "\n    throwsNothing(true): expected: at least 2, actual: 1", expected.getMessage());
         }
 
         assertEquals("Test2", mock.throwsNothing(true));
         assertEquals("Test2", mock.throwsNothing(true));
 
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void twoThrows() throws IOException {
-        mock.throwsIOException(0);
-        control.setThrowable(new IOException());
-        control.setThrowable(new IOException());
-        mock.throwsIOException(1);
-        control.setThrowable(new IOException());
+        expect(mock.throwsIOException(0)).andThrow(new IOException()).andThrow(new IOException());
+        expect(mock.throwsIOException(1)).andThrow(new IOException());
 
-        control.replay();
+        replay(mock);
 
         try {
             mock.throwsIOException(0);
             fail("IOException expected");
-        } catch (IOException expected) {
+        } catch (final IOException expected) {
         }
 
         try {
-            control.verify();
+            verify(mock);
             fail("AssertionError expected");
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
                     + "\n    throwsIOException(0): expected: 2, actual: 1"
-                    + "\n    throwsIOException(1): expected: 1, actual: 0",
-                    expected.getMessage());
+                    + "\n    throwsIOException(1): expected: 1, actual: 0", expected.getMessage());
         }
 
         try {
             mock.throwsIOException(0);
             fail("IOException expected");
-        } catch (IOException expected) {
+        } catch (final IOException expected) {
         }
 
         try {
-            control.verify();
+            verify(mock);
             fail("AssertionError expected");
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
-                    + "\n    throwsIOException(1): expected: 1, actual: 0",
-                    expected.getMessage());
+                    + "\n    throwsIOException(1): expected: 1, actual: 0", expected.getMessage());
         }
 
         try {
             mock.throwsIOException(1);
             fail("IOException expected");
-        } catch (IOException expected) {
+        } catch (final IOException expected) {
         }
 
-        control.verify();
+        verify(mock);
 
         try {
             mock.throwsIOException(0);
             fail("AssertionError expected");
-        } catch (AssertionError expected) {
-            assertEquals(
-                    "\n  Unexpected method call throwsIOException(0):"
-                            + "\n    throwsIOException(0): expected: 2, actual: 3",
-                    expected.getMessage());
+        } catch (final AssertionError expected) {
+            assertEquals("\n  Unexpected method call throwsIOException(0):"
+                    + "\n    throwsIOException(0): expected: 2, actual: 3", expected.getMessage());
         }
     }
 }

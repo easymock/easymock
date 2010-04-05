@@ -16,19 +16,16 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageCallCountTest {
-
-    private MockControl<VoidMethodInterface> control;
 
     private VoidMethodInterface mock;
 
@@ -38,41 +35,40 @@ public class UsageCallCountTest {
 
     @Before
     public void setup() {
-        control = MockControl.createControl(VoidMethodInterface.class);
-        mock = control.getMock();
+        mock = createMock(VoidMethodInterface.class);
     }
 
     @Test
     public void mockWithNoExpectedCallsPassesWithNoCalls() {
-        control.replay();
-        control.verify();
+        replay(mock);
+        verify(mock);
     }
 
     @Test
     public void mockWithNoExpectedCallsFailsAtFirstCall() {
-        control.replay();
+        replay(mock);
         assertMethodCallFails();
     }
 
     @Test
     public void mockWithOneExpectedCallFailsAtVerify() {
         callMethodOnce();
-        control.replay();
+        replay(mock);
         assertVerifyFails();
     }
 
     @Test
     public void mockWithOneExpectedCallPassesWithOneCall() {
         callMethodOnce();
-        control.replay();
+        replay(mock);
         callMethodOnce();
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void mockWithOneExpectedCallFailsAtSecondCall() {
         callMethodOnce();
-        control.replay();
+        replay(mock);
         callMethodOnce();
         assertMethodCallFails();
     }
@@ -80,7 +76,7 @@ public class UsageCallCountTest {
     @Test
     public void tooFewCalls() {
         callMethodThreeTimes();
-        control.replay();
+        replay(mock);
         callMethodTwice();
         assertVerifyFails();
     }
@@ -88,15 +84,15 @@ public class UsageCallCountTest {
     @Test
     public void correctNumberOfCalls() {
         callMethodThreeTimes();
-        control.replay();
+        replay(mock);
         callMethodThreeTimes();
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void tooManyCalls() {
         callMethodThreeTimes();
-        control.replay();
+        replay(mock);
         callMethodThreeTimes();
         assertMethodCallFails();
     }
@@ -118,9 +114,9 @@ public class UsageCallCountTest {
 
     private void assertVerifyFails() {
         try {
-            control.verify();
+            verify(mock);
             fail("Expected AssertionError");
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
         }
     }
 
@@ -128,21 +124,21 @@ public class UsageCallCountTest {
         try {
             mock.method();
             fail("Expected AssertionError");
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
         }
     }
 
     @Test
     public void noUpperLimitWithoutCallCountSet() {
         mock.method();
-        control.setVoidCallable(MockControl.ONE_OR_MORE);
-        control.replay();
+        expectLastCall().atLeastOnce();
+        replay(mock);
         assertVerifyFails();
         mock.method();
-        control.verify();
+        verify(mock);
         mock.method();
-        control.verify();
+        verify(mock);
         mock.method();
-        control.verify();
+        verify(mock);
     }
 }

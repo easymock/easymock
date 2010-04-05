@@ -23,14 +23,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.easymock.MockControl;
 import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * @author Henri Tremblay
  */
-@SuppressWarnings("deprecation")
 public class SerializationTest implements Serializable {
 
     private static final long serialVersionUID = -774994679161263654L;
@@ -56,33 +54,6 @@ public class SerializationTest implements Serializable {
         mock = serialize(mock);
         
         verify(mock);
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testLegacyMatcher() throws Exception {
-        MockControl<List> control = MockControl
-                .createControl(List.class);
-                
-        control = serialize(control);
-        
-        control.setDefaultMatcher(MockControl.EQUALS_MATCHER);
-        
-        control.expectAndReturn(control.getMock().get(1), "a");
-
-        control.setMatcher(MockControl.EQUALS_MATCHER);
-        
-        control = serialize(control);
-        
-        control.replay();
-        
-        control = serialize(control);
-        
-        assertEquals("a", control.getMock().get(1));
-        
-        control = serialize(control);
-        
-        control.verify();
     }
 
     @SuppressWarnings("unchecked")

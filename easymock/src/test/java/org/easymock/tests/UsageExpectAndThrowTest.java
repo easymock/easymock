@@ -16,18 +16,16 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageExpectAndThrowTest {
-    private MockControl<IMethods> control;
 
     private IMethods mock;
 
@@ -35,368 +33,362 @@ public class UsageExpectAndThrowTest {
 
     @Before
     public void setup() {
-        control = MockControl.createControl(IMethods.class);
-        mock = control.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
     public void booleanType() {
-        control.expectAndThrow(mock.booleanReturningMethod(4), EXCEPTION);
-        control.replay();
+        expect(mock.booleanReturningMethod(4)).andThrow(EXCEPTION);
+        replay(mock);
         try {
             mock.booleanReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void longType() {
-        control.expectAndThrow(mock.longReturningMethod(4), EXCEPTION);
-        control.replay();
+        expect(mock.longReturningMethod(4)).andThrow(EXCEPTION);
+        replay(mock);
         try {
             mock.longReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void floatType() {
-        control.expectAndThrow(mock.floatReturningMethod(4), EXCEPTION);
-        control.replay();
+        expect(mock.floatReturningMethod(4)).andThrow(EXCEPTION);
+        replay(mock);
         try {
             mock.floatReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void doubleType() {
-        control.expectAndThrow(mock.doubleReturningMethod(4), EXCEPTION);
-        control.replay();
+        expect(mock.doubleReturningMethod(4)).andThrow(EXCEPTION);
+        replay(mock);
         try {
             mock.doubleReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void object() {
-        control.expectAndThrow(mock.objectReturningMethod(4), EXCEPTION);
-        control.replay();
+        expect(mock.objectReturningMethod(4)).andThrow(EXCEPTION);
+        replay(mock);
         try {
             mock.objectReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void booleanAndRange() {
-        control.expectAndThrow(mock.booleanReturningMethod(4), EXCEPTION,
-                MockControl.ONE);
-        control.replay();
+        expect(mock.booleanReturningMethod(4)).andThrow(EXCEPTION).once();
+        replay(mock);
         try {
             mock.booleanReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void longAndRange() {
-        control.expectAndThrow(mock.longReturningMethod(4), EXCEPTION,
-                MockControl.ONE);
-        control.replay();
+        expect(mock.longReturningMethod(4)).andThrow(EXCEPTION).once();
+        replay(mock);
         try {
             mock.longReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void floatAndRange() {
-        control.expectAndThrow(mock.floatReturningMethod(4), EXCEPTION,
-                MockControl.ONE);
-        control.replay();
+        expect(mock.floatReturningMethod(4)).andThrow(EXCEPTION).once();
+        replay(mock);
         try {
             mock.floatReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void doubleAndRange() {
-        control.expectAndThrow(mock.doubleReturningMethod(4), EXCEPTION,
-                MockControl.ONE);
-        control.replay();
+        expect(mock.doubleReturningMethod(4)).andThrow(EXCEPTION).once();
+        replay(mock);
         try {
             mock.doubleReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void objectAndRange() {
-        control.expectAndThrow(mock.objectReturningMethod(4), EXCEPTION,
-                MockControl.ONE);
-        control.replay();
+        expect(mock.objectReturningMethod(4)).andThrow(EXCEPTION).once();
+        replay(mock);
         try {
             mock.objectReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void booleanAndCount() {
-        control.expectAndThrow(mock.booleanReturningMethod(4), EXCEPTION, 2);
-        control.replay();
+        expect(mock.booleanReturningMethod(4)).andThrow(EXCEPTION).times(2);
+        replay(mock);
         try {
             mock.booleanReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
         try {
             mock.booleanReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void longAndCount() {
-        control.expectAndThrow(mock.longReturningMethod(4), EXCEPTION, 2);
-        control.replay();
+        expect(mock.longReturningMethod(4)).andThrow(EXCEPTION).times(2);
+        replay(mock);
         try {
             mock.longReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
         try {
             mock.longReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void floatAndCount() {
-        control.expectAndThrow(mock.floatReturningMethod(4), EXCEPTION, 2);
-        control.replay();
+        expect(mock.floatReturningMethod(4)).andThrow(EXCEPTION).times(2);
+        replay(mock);
         try {
             mock.floatReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
         try {
             mock.floatReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void doubleAndCount() {
-        control.expectAndThrow(mock.doubleReturningMethod(4), EXCEPTION, 2);
-        control.replay();
+        expect(mock.doubleReturningMethod(4)).andThrow(EXCEPTION).times(2);
+        replay(mock);
         try {
             mock.doubleReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
         try {
             mock.doubleReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void objectAndCount() {
-        control.expectAndThrow(mock.objectReturningMethod(4), EXCEPTION, 2);
-        control.replay();
+        expect(mock.objectReturningMethod(4)).andThrow(EXCEPTION).times(2);
+        replay(mock);
         try {
             mock.objectReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
         try {
             mock.objectReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void booleanAndMinMax() {
-        control.expectAndThrow(mock.booleanReturningMethod(4), EXCEPTION, 2, 3);
-        control.replay();
+        expect(mock.booleanReturningMethod(4)).andThrow(EXCEPTION).times(2, 3);
+        replay(mock);
         try {
             mock.booleanReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
         try {
             mock.booleanReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
         try {
             mock.booleanReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void longAndMinMax() {
-        control.expectAndThrow(mock.longReturningMethod(4), EXCEPTION, 2, 3);
-        control.replay();
+        expect(mock.longReturningMethod(4)).andThrow(EXCEPTION).times(2, 3);
+        replay(mock);
         try {
             mock.longReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
         try {
             mock.longReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
         try {
             mock.longReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void floatAndMinMax() {
-        control.expectAndThrow(mock.floatReturningMethod(4), EXCEPTION, 2, 3);
-        control.replay();
+        expect(mock.floatReturningMethod(4)).andThrow(EXCEPTION).times(2, 3);
+        replay(mock);
         try {
             mock.floatReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
         try {
             mock.floatReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
         try {
             mock.floatReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void doubleAndMinMax() {
-        control.expectAndThrow(mock.doubleReturningMethod(4), EXCEPTION, 2, 3);
-        control.replay();
+        expect(mock.doubleReturningMethod(4)).andThrow(EXCEPTION).times(2, 3);
+        replay(mock);
         try {
             mock.doubleReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
         try {
             mock.doubleReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
         try {
             mock.doubleReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void objectAndMinMax() {
-        control.expectAndThrow(mock.objectReturningMethod(4), EXCEPTION, 2, 3);
-        control.replay();
+        expect(mock.objectReturningMethod(4)).andThrow(EXCEPTION).times(2, 3);
+        replay(mock);
         try {
             mock.objectReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
         try {
             mock.objectReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
         try {
             mock.objectReturningMethod(4);
             fail();
-        } catch (RuntimeException exception) {
+        } catch (final RuntimeException exception) {
             assertSame(EXCEPTION, exception);
         }
-        control.verify();
+        verify(mock);
     }
 
 }

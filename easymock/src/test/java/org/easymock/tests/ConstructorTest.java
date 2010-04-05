@@ -16,15 +16,14 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Test;
 
 /**
  * @author Henri Tremblay
  */
-@SuppressWarnings("deprecation")
 public class ConstructorTest {
 
     public static class FooClass {
@@ -45,15 +44,13 @@ public class ConstructorTest {
     }
 
     private void testConstructor(Class<? extends FooClass> mockedClass) {
-        MockControl<? extends FooClass> ctrl = MockControl
-                .createControl(mockedClass);
-        FooClass mock = ctrl.getMock();
+        FooClass mock = createMock(mockedClass);
         assertTrue(mockedClass.isAssignableFrom(mock.getClass()));
         mock.foo();
-        ctrl.setVoidCallable();
-        ctrl.replay();
+        expectLastCall();
+        replay(mock);
         mock.foo();
-        ctrl.verify();
+        verify(mock);
     }
 
     /**

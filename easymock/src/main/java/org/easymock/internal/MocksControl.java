@@ -345,41 +345,4 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
      */
     public static final Range ZERO_OR_MORE = new Range(0, Integer.MAX_VALUE);
 
-    @SuppressWarnings("deprecation")
-    public void setLegacyDefaultMatcher(org.easymock.ArgumentsMatcher matcher) {
-        try {
-            state.setDefaultMatcher(matcher);
-        } catch (RuntimeExceptionWrapper e) {
-            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    public void setLegacyMatcher(org.easymock.ArgumentsMatcher matcher) {
-        try {
-            state.setMatcher(null, matcher);
-        } catch (RuntimeExceptionWrapper e) {
-            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
-        }
-    }
-
-    public void setLegacyDefaultReturnValue(Object value) {
-        try {
-            state.setDefaultReturnValue(value);
-        } catch (RuntimeExceptionWrapper e) {
-            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
-        }
-    }
-
-    public void setLegacyDefaultVoidCallable() {
-        state.setDefaultVoidCallable();
-    }
-
-    public void setLegacyDefaultThrowable(Throwable throwable) {
-        try {
-            state.setDefaultThrowable(throwable);
-        } catch (RuntimeExceptionWrapper e) {
-            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
-        }
-    }
 }

@@ -16,13 +16,12 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import org.easymock.MockControl;
 import org.easymock.internal.ClassExtensionHelper;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.MocksControl.MockType;
@@ -34,10 +33,7 @@ import org.junit.Test;
  * 
  * @author Henri Tremblay
  */
-@SuppressWarnings("deprecation")
 public class MockingTest {
-
-    private MockControl<?> ctrl;
 
     public static class ClassToMock {
         public int foo() {
@@ -54,12 +50,8 @@ public class MockingTest {
      */
     @Test
     public void testTwoMocks() {
-        MockControl<ClassToMock> transition1Control = MockControl
-                .createControl(ClassToMock.class);
-        ClassToMock transition1 = transition1Control.getMock();
-        MockControl<ClassToMock> transition2Control = MockControl
-                .createControl(ClassToMock.class);
-        ClassToMock transition2 = transition2Control.getMock();
+        ClassToMock transition1 = createMock(ClassToMock.class);
+        ClassToMock transition2 = createMock(ClassToMock.class);
 
         // Should have two different callbacks
         assertNotSame(ClassExtensionHelper.getInterceptor(transition2),
@@ -69,163 +61,88 @@ public class MockingTest {
         transition1.foo();
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testInterfaceMocking() {
-        MockControl<List> ctrl = MockControl.createControl(List.class);
-        checkInterfaceMock(ctrl, MockType.DEFAULT);
+        checkInterfaceMock(createMock(List.class), MockType.DEFAULT);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testNiceInterfaceMocking() {
-        MockControl<List> ctrl = MockControl.createNiceControl(List.class);
-        checkInterfaceMock(ctrl, MockType.NICE);
+        checkInterfaceMock(createNiceMock(List.class), MockType.NICE);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testStrictInterfaceMocking() {
-        MockControl<List> ctrl = MockControl
-                .createStrictControl(List.class);
-        checkInterfaceMock(ctrl, MockType.STRICT);
+        checkInterfaceMock(createStrictMock(List.class), MockType.STRICT);
     }
 
     @Test
     public void testClassMocking() {
-        MockControl<ClassToMock> ctrl = MockControl
-                .createControl(ClassToMock.class);
-        checkClassMocking(ctrl, MockType.DEFAULT);
+        checkClassMocking(createMock(ClassToMock.class), MockType.DEFAULT);
     }
 
     @Test
     public void testStrictClassMocking() {
-        MockControl<ClassToMock> ctrl = MockControl
-                .createStrictControl(ClassToMock.class);
-        checkClassMocking(ctrl, MockType.STRICT);
+        checkClassMocking(createStrictMock(ClassToMock.class), MockType.STRICT);
     }
 
     @Test
     public void testNiceClassMocking() {
-        MockControl<ClassToMock> ctrl = MockControl
-                .createNiceControl(ClassToMock.class);
-        checkClassMocking(ctrl, MockType.NICE);
+        checkClassMocking(createNiceMock(ClassToMock.class), MockType.NICE);
     }
 
-    private void checkInterfaceMock(MockControl<?> ctrl, MockType behavior) {
-        this.ctrl = ctrl;
-        checkBehavior(ctrl, behavior);
+    private void checkInterfaceMock(Object mock, MockType behavior) {
+        checkBehavior(mock, behavior);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testPartialClassMocking() {
-        MockControl<ClassToMock> ctrl = MockControl.createControl(
-                ClassToMock.class, getMethod());
-        checkPartialClassMocking(ctrl, MockType.DEFAULT);
+        ClassToMock mock = createMock(ClassToMock.class, getMethod());
+        checkPartialClassMocking(mock, MockType.DEFAULT);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testStrictPartialClassMocking() {
-        MockControl<ClassToMock> ctrl = MockControl.createStrictControl(
-                ClassToMock.class, getMethod());
-        checkPartialClassMocking(ctrl, MockType.STRICT);
+        ClassToMock mock = createStrictMock(ClassToMock.class, getMethod());
+        checkPartialClassMocking(mock, MockType.STRICT);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testNicePartialClassMocking() {
-        MockControl<ClassToMock> ctrl = MockControl.createNiceControl(
-                ClassToMock.class, getMethod());
-        checkPartialClassMocking(ctrl, MockType.NICE);
+        ClassToMock mock = createNiceMock(ClassToMock.class, getMethod());
+        checkPartialClassMocking(mock, MockType.NICE);
     }
 
-    @Test
-    public void testDeprecatedClassMocking() {
-        MockControl<ClassToMock> ctrl = MockControl.createControl(
-                ClassToMock.class, null, null);
-        checkClassMocking(ctrl, MockType.DEFAULT);
-    }
-
-    @Test
-    public void testDeprecatedStrictClassMocking() {
-        MockControl<ClassToMock> ctrl = MockControl.createStrictControl(
-                ClassToMock.class, null, null);
-        checkClassMocking(ctrl, MockType.STRICT);
-    }
-
-    @Test
-    public void testDeprecatedNiceClassMocking() {
-        MockControl<ClassToMock> ctrl = MockControl.createNiceControl(
-                ClassToMock.class, null, null);
-        checkClassMocking(ctrl, MockType.NICE);
-    }
-
-    @Test
-    public void testDeprecatedPartialClassMocking() {
-        MockControl<ClassToMock> ctrl = MockControl.createControl(
-                ClassToMock.class, null, null, getMethod());
-        checkPartialClassMocking(ctrl, MockType.DEFAULT);
-    }
-
-    @Test
-    public void testDeprecatedStrictPartialClassMocking() {
-        MockControl<ClassToMock> ctrl = MockControl.createStrictControl(
-                ClassToMock.class, null, null, getMethod());
-        checkPartialClassMocking(ctrl, MockType.STRICT);
-    }
-
-    @Test
-    public void testDeprecatedNicePartialClassMocking() {
-        MockControl<ClassToMock> ctrl = MockControl.createNiceControl(
-                ClassToMock.class, null, null, getMethod());
-        checkPartialClassMocking(ctrl, MockType.NICE);
-    }
-
-    private void checkPartialClassMocking(MockControl<ClassToMock> ctrl,
+    private void checkPartialClassMocking(ClassToMock mock,
             MockType behavior) {
-        checkClassMocking(ctrl, behavior);
-        ClassToMock mock = ctrl.getMock();
+        checkClassMocking(mock, behavior);
         assertEquals(10, mock.foo());
-        ctrl.expectAndReturn(mock.method(), 30);
-        ctrl.replay();
+        expect(mock.method()).andReturn(30);
+        replay(mock);
         assertEquals(10, mock.foo());
         assertEquals(30, mock.method());
-        ctrl.verify();
+        verify(mock);
     }
 
-    private void checkClassMocking(MockControl<ClassToMock> ctrl,
-            MockType behavior) {
-        assertTrue(ctrl instanceof MockControl<?>);
-        checkBehavior(ctrl, behavior);
+    private void checkClassMocking(Object mock, MockType behavior) {
+        checkBehavior(mock, behavior);
     }
 
-    private void checkBehavior(MockControl<?> ctrl, MockType behavior) {
-        assertEquals(behavior, extractBehavior(ctrl));
+    private void checkBehavior(Object mock, MockType behavior) {
+        assertEquals(behavior, extractBehavior(mock));
     }
 
-    private MockType extractBehavior(MockControl<?> ctrl) {
-        try {
-            // Get the MocksControl
-            Field field = MockControl.class.getDeclaredField("ctrl");
-            field.setAccessible(true);
-            MocksControl mocksCtrl = (MocksControl) field.get(ctrl);
-            field.setAccessible(false);
-
-            // Get the MockType
-            field = MocksControl.class.getDeclaredField("type");
-            field.setAccessible(true);
-            MockType type = (MockType) field.get(mocksCtrl);
-            field.setAccessible(false);
-
-            return type;
-        } catch (Exception e) {
-            throw new RuntimeException("Can't find behavior field");
-        }
+    private MockType extractBehavior(Object mock) {
+        MocksControl ctrl = ClassExtensionHelper.getControl(mock);
+        return ctrl.getType();
     }
 
     private Method[] getMethod() {
         try {
-            return new Method[] { ClassToMock.class.getDeclaredMethod("method",
-                    (Class[]) null) };
+            return new Method[] { ClassToMock.class.getDeclaredMethod("method", (Class[]) null) };
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e.getMessage());
         }

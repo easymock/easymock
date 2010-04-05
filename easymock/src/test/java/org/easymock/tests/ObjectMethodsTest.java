@@ -16,11 +16,11 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Method;
 
-import org.easymock.MockControl;
 import org.easymock.internal.ObjectMethodsFilter;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,9 +28,7 @@ import org.junit.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class ObjectMethodsTest {
-    private MockControl<EmptyInterface> control;
 
     private EmptyInterface mock;
 
@@ -39,8 +37,7 @@ public class ObjectMethodsTest {
 
     @Before
     public void setup() {
-        control = MockControl.createControl(EmptyInterface.class);
-        mock = control.getMock();
+        mock = createMock(EmptyInterface.class);
     }
 
     @Test
@@ -51,7 +48,7 @@ public class ObjectMethodsTest {
 
     @Test
     public void equalsAfterActivation() {
-        control.replay();
+        replay(mock);
         assertEquals(mock, mock);
         assertTrue(!mock.equals(null));
     }
@@ -59,7 +56,7 @@ public class ObjectMethodsTest {
     @Test
     public void testHashCode() {
         int hashCodeBeforeActivation = mock.hashCode();
-        control.replay();
+        replay(mock);
         int hashCodeAfterActivation = mock.hashCode();
         assertEquals(hashCodeBeforeActivation, hashCodeAfterActivation);
     }
@@ -72,7 +69,7 @@ public class ObjectMethodsTest {
 
     @Test
     public void toStringAfterActivation() {
-        control.replay();
+        replay(mock);
         assertEquals("EasyMock for " + EmptyInterface.class.toString(), mock
                 .toString());
     }

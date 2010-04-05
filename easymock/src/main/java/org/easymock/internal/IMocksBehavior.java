@@ -19,7 +19,7 @@ package org.easymock.internal;
 /**
  * @author OFFIS, Tammo Freese
  */
-public interface IMocksBehavior extends ILegacyMatcherMethods {
+public interface IMocksBehavior {
 
     // record
     void addExpected(ExpectedInvocation expected, Result result, Range count);

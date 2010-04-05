@@ -16,67 +16,55 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageOverloadedDefaultValueTest {
-    MockControl<IMethods> control;
 
-    IMethods mock;
+    private IMethods mock;
 
     @Before
     public void setup() {
-        control = MockControl.createControl(IMethods.class);
-        mock = control.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
     public void overloading() {
 
-        mock.oneArg(true);
-        control.setReturnValue("true");
-        control.setDefaultReturnValue("false");
+        expect(mock.oneArg(true)).andReturn("true");
+        expect(mock.oneArg(anyBoolean())).andStubReturn("false");
 
-        mock.oneArg((byte) 0);
-        control.setReturnValue("byte 0");
-        control.setDefaultReturnValue("byte 1");
+        expect(mock.oneArg((byte) 0)).andReturn("byte 0");
+        expect(mock.oneArg(anyByte())).andStubReturn("byte 1");
 
-        mock.oneArg((short) 0);
-        control.setReturnValue("short 0");
-        control.setDefaultReturnValue("short 1");
+        expect(mock.oneArg((short) 0)).andReturn("short 0");
+        expect(mock.oneArg(anyShort())).andStubReturn("short 1");
 
-        mock.oneArg((char) 0);
-        control.setReturnValue("char 0");
-        control.setDefaultReturnValue("char 1");
+        expect(mock.oneArg((char) 0)).andReturn("char 0");
+        expect(mock.oneArg(anyChar())).andStubReturn("char 1");
 
-        mock.oneArg(0);
-        control.setReturnValue("int 0");
-        control.setDefaultReturnValue("int 1");
+        expect(mock.oneArg(0)).andReturn("int 0");
+        expect(mock.oneArg(anyInt())).andStubReturn("int 1");
 
-        mock.oneArg((long) 0);
-        control.setReturnValue("long 0");
-        control.setDefaultReturnValue("long 1");
+        expect(mock.oneArg(0L)).andReturn("long 0");
+        expect(mock.oneArg(anyLong())).andStubReturn("long 1");
 
-        mock.oneArg((float) 0);
-        control.setReturnValue("float 0");
-        control.setDefaultReturnValue("float 1");
+        expect(mock.oneArg(0.0f)).andReturn("float 0");
+        expect(mock.oneArg(anyFloat())).andStubReturn("float 1");
 
-        mock.oneArg(0.0);
-        control.setReturnValue("double 0");
-        control.setDefaultReturnValue("double 1");
+        expect(mock.oneArg(0.0)).andReturn("double 0");
+        expect(mock.oneArg(anyDouble())).andStubReturn("double 1");
 
-        mock.oneArg("Object 0");
-        control.setReturnValue("String 0");
-        control.setDefaultReturnValue("String 1");
+        expect(mock.oneArg("Object 0")).andReturn("String 0");
+        expect(mock.oneArg((String) anyObject())).andStubReturn("String 1");
 
-        control.replay();
+        replay(mock);
 
         assertEquals("true", mock.oneArg(true));
         assertEquals("false", mock.oneArg(false));
@@ -105,22 +93,21 @@ public class UsageOverloadedDefaultValueTest {
         assertEquals("String 0", mock.oneArg("Object 0"));
         assertEquals("String 1", mock.oneArg("Object 1"));
 
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void defaultThrowable() {
 
-        mock.oneArg("Object");
-        RuntimeException expected = new RuntimeException();
-        control.setDefaultThrowable(expected);
+        final RuntimeException expected = new RuntimeException();
+        expect(mock.oneArg((String) anyObject())).andStubThrow(expected);
 
-        control.replay();
+        replay(mock);
 
         try {
             mock.oneArg("Something else");
             fail("runtime exception expected");
-        } catch (RuntimeException expectedException) {
+        } catch (final RuntimeException expectedException) {
             assertSame(expected, expectedException);
         }
     }

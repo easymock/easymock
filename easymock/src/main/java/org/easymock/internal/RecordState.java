@@ -17,7 +17,6 @@
 package org.easymock.internal;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -143,34 +142,10 @@ public class RecordState implements IMocksControlState, Serializable {
         lastInvocationUsed = true;
     }
 
-    @SuppressWarnings("deprecation")
-    public void setDefaultReturnValue(Object value) {
-        requireMethodCall("default return value");
-        value = convertNumberClassIfNeccessary(value);
-        requireAssignable(value);
-        if (lastResult != null) {
-            times(MocksControl.ONCE);
-        }
-        behavior.addStub(lastInvocation
-                .withMatcher(org.easymock.MockControl.ALWAYS_MATCHER), Result
-                .createReturnResult(value));
-        lastInvocationUsed = true;
-    }
-
     public void asStub() {
         requireMethodCall("stub behavior");
         requireVoidMethod();
         behavior.addStub(lastInvocation, Result.createReturnResult(null));
-        lastInvocationUsed = true;
-    }
-
-    @SuppressWarnings("deprecation")
-    public void setDefaultVoidCallable() {
-        requireMethodCall("default void callable");
-        requireVoidMethod();
-        behavior.addStub(lastInvocation
-                .withMatcher(org.easymock.MockControl.ALWAYS_MATCHER), Result
-                .createReturnResult(null));
         lastInvocationUsed = true;
     }
 
@@ -181,19 +156,6 @@ public class RecordState implements IMocksControlState, Serializable {
             times(MocksControl.ONCE);
         }
         behavior.addStub(lastInvocation, Result.createThrowResult(throwable));
-        lastInvocationUsed = true;
-    }
-
-    @SuppressWarnings("deprecation")
-    public void setDefaultThrowable(Throwable throwable) {
-        requireMethodCall("default Throwable");
-        requireValidThrowable(throwable);
-        if (lastResult != null) {
-            times(MocksControl.ONCE);
-        }
-        behavior.addStub(lastInvocation
-                .withMatcher(org.easymock.MockControl.ALWAYS_MATCHER), Result
-                .createThrowResult(throwable));
         lastInvocationUsed = true;
     }
 
@@ -257,7 +219,6 @@ public class RecordState implements IMocksControlState, Serializable {
         return createNumberObject(o, returnType);
     }
 
-    @SuppressWarnings("deprecation")
     private void closeMethod() {
         if (lastInvocationUsed && lastResult == null) {
             return;
@@ -267,7 +228,7 @@ public class RecordState implements IMocksControlState, Serializable {
                     "missing behavior definition for the preceding method call "
                             + lastInvocation.toString()));
         }
-        this.times(org.easymock.MockControl.ONE);
+        this.times(MocksControl.ONCE);
     }
 
     public static Object emptyReturnValueFor(Class<?> type) {
@@ -389,16 +350,5 @@ public class RecordState implements IMocksControlState, Serializable {
 
     public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
         behavior.shouldBeUsedInOneThread(shouldBeUsedInOneThread);
-    }
-
-    @SuppressWarnings("deprecation")
-    public void setDefaultMatcher(org.easymock.ArgumentsMatcher matcher) {
-        behavior.setDefaultMatcher(matcher);
-    }
-
-    @SuppressWarnings("deprecation")
-    public void setMatcher(Method method, org.easymock.ArgumentsMatcher matcher) {
-        requireMethodCall("matcher");
-        behavior.setMatcher(lastInvocation.getMethod(), matcher);
     }
 }

@@ -16,9 +16,9 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.easymock.internal.RecordState;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,30 +26,26 @@ import org.junit.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class RecordStateInvalidStateChangeTest {
-    MockControl<IMethods> control;
 
-    IMethods mock;
+    private IMethods mock;
 
     @Before
     public void setup() {
-        control = MockControl.createControl(IMethods.class);
-        mock = control.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
     public void activateWithoutReturnValue() {
-        mock.oneArg(false);
+        expect(mock.oneArg(false));
         try {
-            control.replay();
+            replay(mock);
             fail("IllegalStateException expected");
-        } catch (IllegalStateException e) {
-            assertEquals(
-                    "missing behavior definition for the preceding method call oneArg(false)",
-                    e.getMessage());
-            assertTrue("stack trace must be cut", Util.getStackTrace(e)
-                    .indexOf(RecordState.class.getName()) == -1);
+        } catch (final IllegalStateException e) {
+            assertEquals("missing behavior definition for the preceding method call oneArg(false)", e
+                    .getMessage());
+            assertTrue("stack trace must be cut",
+                    Util.getStackTrace(e).indexOf(RecordState.class.getName()) == -1);
         }
     }
 
@@ -59,23 +55,21 @@ public class RecordStateInvalidStateChangeTest {
         try {
             mock.oneArg(false);
             fail("IllegalStateException expected");
-        } catch (IllegalStateException e) {
-            assertEquals(
-                    "missing behavior definition for the preceding method call oneArg(false)",
-                    e.getMessage());
-            assertTrue("stack trace must be cut", Util.getStackTrace(e)
-                    .indexOf(RecordState.class.getName()) == -1);
+        } catch (final IllegalStateException e) {
+            assertEquals("missing behavior definition for the preceding method call oneArg(false)", e
+                    .getMessage());
+            assertTrue("stack trace must be cut",
+                    Util.getStackTrace(e).indexOf(RecordState.class.getName()) == -1);
         }
     }
 
     @Test
     public void verifyWithoutActivation() {
         try {
-            control.verify();
+            verify(mock);
             fail("IllegalStateException expected");
-        } catch (IllegalStateException e) {
-            assertEquals("calling verify is not allowed in record state", e
-                    .getMessage());
+        } catch (final IllegalStateException e) {
+            assertEquals("calling verify is not allowed in record state", e.getMessage());
         }
     }
 }

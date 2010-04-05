@@ -16,11 +16,11 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.io.Serializable;
 
-import org.easymock.MockControl;
 import org.easymock.internal.ClassInstantiatorFactory;
 import org.easymock.internal.DefaultClassInstantiator;
 import org.junit.AfterClass;
@@ -35,7 +35,6 @@ import org.junit.Test;
  * 
  * @author Henri Tremblay
  */
-@SuppressWarnings("deprecation")
 public class DefaultClassInstantiatorTest {
 
     public static class PrimitiveParamClass {
@@ -113,50 +112,38 @@ public class DefaultClassInstantiatorTest {
 
     @Test
     public void emptyConstructor() throws Exception {
-        MockControl<DefaultClassInstantiator> ctrl = MockControl
-                .createControl(DefaultClassInstantiator.class);
-        assertTrue(ctrl.getMock() instanceof DefaultClassInstantiator);
+        checkInstatiation(DefaultClassInstantiator.class);
     }
 
     @Test
     public void primitiveType() throws Exception {
-        MockControl<PrimitiveParamClass> ctrl = MockControl
-                .createControl(PrimitiveParamClass.class);
-        assertTrue(ctrl.getMock() instanceof PrimitiveParamClass);
+        checkInstatiation(PrimitiveParamClass.class);
     }
 
     @Test
     public void finalType() throws Exception {
-        MockControl<FinalParamClass> ctrl = MockControl
-                .createControl(FinalParamClass.class);
-        assertTrue(ctrl.getMock() instanceof FinalParamClass);
+        checkInstatiation(FinalParamClass.class);
     }
 
     @Test
     public void protectedConstructor() throws Exception {
-        MockControl<ProtectedConstructorClass> ctrl = MockControl
-                .createControl(ProtectedConstructorClass.class);
-        assertTrue(ctrl.getMock() instanceof ProtectedConstructorClass);
+        checkInstatiation(ProtectedConstructorClass.class);
     }
 
     @Test
     public void protectedWithPrimitiveConstructor() throws Exception {
-        MockControl<ProtectedWithPrimitiveConstructorClass> ctrl = MockControl
-                .createControl(ProtectedWithPrimitiveConstructorClass.class);
-        assertTrue(ctrl.getMock() instanceof ProtectedWithPrimitiveConstructorClass);
+        checkInstatiation(ProtectedWithPrimitiveConstructorClass.class);
     }
 
     @Test
     public void objectParamRecusion() throws Exception {
-        MockControl<ObjectParamClass> ctrl = MockControl
-                .createControl(ObjectParamClass.class);
-        assertTrue(ctrl.getMock() instanceof ObjectParamClass);
+        checkInstatiation(ObjectParamClass.class);
     }
 
     @Test
     public void constructorWithCodeLimitation() {
         try {
-            MockControl.createControl(ConstructorWithCodeClass.class);
+            createMock(ConstructorWithCodeClass.class);
             fail("Shouldn't be possible to mock, code in constructor should crash");
         } catch (Exception e) {
         }
@@ -165,7 +152,7 @@ public class DefaultClassInstantiatorTest {
     @Test
     public void privateConstructorLimitation() {
         try {
-            MockControl.createControl(PrivateConstructorClass.class);
+            createMock(PrivateConstructorClass.class);
             fail("Shouldn't be able to mock a class with a private constructor using DefaultInstantiator");
         } catch (Exception e) {
         }
@@ -183,21 +170,22 @@ public class DefaultClassInstantiatorTest {
 
     @Test
     public void newInstance() throws Exception {
-        MockControl<DefaultClassInstantiator> ctrl = MockControl
-                .createControl(DefaultClassInstantiator.class);
-        assertTrue(ctrl.getMock() instanceof DefaultClassInstantiator);
+        checkInstatiation(DefaultClassInstantiator.class);
     }
 
     @Test
     public void serializable() {
-        MockControl<SerializableClass> ctrl = MockControl
-                .createControl(SerializableClass.class);
-        assertTrue(ctrl.getMock() instanceof SerializableClass);
+        checkInstatiation(SerializableClass.class);
     }
 
     @Test
     public void badSerializable() throws Exception {
         DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
         instantiator.newInstance(BadlyDoneSerializableClass.class);
+    }
+
+    private <T> void checkInstatiation(Class<T> clazz) {
+        T mock = createMock(clazz);
+        assertTrue(clazz.isAssignableFrom(mock.getClass()));
     }
 }

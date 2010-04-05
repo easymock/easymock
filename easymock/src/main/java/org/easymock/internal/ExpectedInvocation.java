@@ -34,23 +34,12 @@ public class ExpectedInvocation implements Serializable {
 
     private final Invocation invocation;
 
-    @SuppressWarnings("deprecation")
-    private final org.easymock.ArgumentsMatcher matcher;
-
     private final List<IArgumentMatcher> matchers;
 
     public ExpectedInvocation(Invocation invocation,
             List<IArgumentMatcher> matchers) {
-        this(invocation, matchers, null);
-    }
-
-    private ExpectedInvocation(Invocation invocation,
-            List<IArgumentMatcher> matchers, @SuppressWarnings("deprecation")
-            org.easymock.ArgumentsMatcher matcher) {
         this.invocation = invocation;
-        this.matcher = matcher;
-        this.matchers = (matcher == null) ? createMissingMatchers(invocation,
-                matchers) : null;
+        this.matchers = createMissingMatchers(invocation, matchers);
     }
 
     private List<IArgumentMatcher> createMissingMatchers(Invocation invocation,
@@ -79,8 +68,6 @@ public class ExpectedInvocation implements Serializable {
 
         ExpectedInvocation other = (ExpectedInvocation) o;
         return this.invocation.equals(other.invocation)
-                && ((this.matcher == null && other.matcher == null) || (this.matcher != null && this.matcher
-                        .equals(other.matcher)))
                 && ((this.matchers == null && other.matchers == null) || (this.matchers != null && this.matchers
                         .equals(other.matchers)));
     }
@@ -91,11 +78,10 @@ public class ExpectedInvocation implements Serializable {
     }
 
     public boolean matches(Invocation actual) {
-        return matchers != null ? this.invocation.getMock().equals(
+        return this.invocation.getMock().equals(
                 actual.getMock())
                 && this.invocation.getMethod().equals(actual.getMethod())
-                && matches(actual.getArguments()) : this.invocation.matches(
-                actual, matcher);
+                && matches(actual.getArguments());
     }
 
     private boolean matches(Object[] arguments) {
@@ -112,10 +98,6 @@ public class ExpectedInvocation implements Serializable {
 
     @Override
     public String toString() {
-        return matchers != null ? myToString() : invocation.toString(matcher);
-    }
-
-    private String myToString() {
         StringBuffer result = new StringBuffer();
         result.append(invocation.getMockAndMethodName());
         result.append("(");
@@ -131,10 +113,5 @@ public class ExpectedInvocation implements Serializable {
 
     public Method getMethod() {
         return invocation.getMethod();
-    }
-
-    public ExpectedInvocation withMatcher(@SuppressWarnings("deprecation")
-    org.easymock.ArgumentsMatcher matcher) {
-        return new ExpectedInvocation(invocation, null, matcher);
     }
 }

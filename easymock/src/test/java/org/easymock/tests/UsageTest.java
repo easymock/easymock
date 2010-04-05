@@ -16,35 +16,29 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageTest {
 
-    MockControl<IMethods> control;
-
-    IMethods mock;
+    private IMethods mock;
 
     @Before
     public void setup() {
-        control = MockControl.createControl(IMethods.class);
-        mock = control.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
     public void exactCallCountByLastCall() {
-        mock.oneArg(false);
-        control.setReturnValue("Test");
-        control.setReturnValue("Test2");
+        expect(mock.oneArg(false)).andReturn("Test").andReturn("Test2");
 
-        control.replay();
+        replay(mock);
 
         assertEquals("Test", mock.oneArg(false));
         assertEquals("Test2", mock.oneArg(false));
@@ -52,7 +46,7 @@ public class UsageTest {
         boolean failed = false;
         try {
             mock.oneArg(false);
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             failed = true;
         }
         if (!failed)
@@ -61,11 +55,9 @@ public class UsageTest {
 
     @Test
     public void openCallCountByLastCall() {
-        mock.oneArg(false);
-        control.setReturnValue("Test");
-        control.setReturnValue("Test2", MockControl.ONE_OR_MORE);
+        expect(mock.oneArg(false)).andReturn("Test").andReturn("Test2").atLeastOnce();
 
-        control.replay();
+        replay(mock);
 
         assertEquals("Test", mock.oneArg(false));
         assertEquals("Test2", mock.oneArg(false));
@@ -74,29 +66,27 @@ public class UsageTest {
 
     @Test
     public void exactCallCountByLastThrowable() {
-        mock.oneArg(false);
-        control.setReturnValue("Test");
-        control.setReturnValue("Test2");
-        control.setThrowable(new IndexOutOfBoundsException(), 1);
+        expect(mock.oneArg(false)).andReturn("Test").andReturn("Test2").andThrow(
+                new IndexOutOfBoundsException()).once();
 
-        control.replay();
+        replay(mock);
 
         assertEquals("Test", mock.oneArg(false));
         assertEquals("Test2", mock.oneArg(false));
 
         try {
             mock.oneArg(false);
-        } catch (IndexOutOfBoundsException expected) {
+        } catch (final IndexOutOfBoundsException expected) {
         }
 
         boolean failed = true;
         try {
             try {
                 mock.oneArg(false);
-            } catch (IndexOutOfBoundsException expected) {
+            } catch (final IndexOutOfBoundsException expected) {
             }
             failed = false;
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
         }
         if (!failed)
             fail("expected AssertionError");
@@ -104,45 +94,40 @@ public class UsageTest {
 
     @Test
     public void openCallCountByLastThrowable() {
-        mock.oneArg(false);
-        control.setReturnValue("Test");
-        control.setReturnValue("Test2");
-        control.setThrowable(new IndexOutOfBoundsException(),
-                MockControl.ONE_OR_MORE);
+        expect(mock.oneArg(false)).andReturn("Test").andReturn("Test2").andThrow(
+                new IndexOutOfBoundsException()).atLeastOnce();
 
-        control.replay();
+        replay(mock);
 
         assertEquals("Test", mock.oneArg(false));
         assertEquals("Test2", mock.oneArg(false));
 
         try {
             mock.oneArg(false);
-        } catch (IndexOutOfBoundsException expected) {
+        } catch (final IndexOutOfBoundsException expected) {
         }
         try {
             mock.oneArg(false);
-        } catch (IndexOutOfBoundsException expected) {
+        } catch (final IndexOutOfBoundsException expected) {
         }
     }
 
     @Test
     public void moreThanOneArgument() {
-        mock.threeArgumentMethod(1, "2", "3");
-        control.setReturnValue("Test", 2);
+        expect(mock.threeArgumentMethod(1, "2", "3")).andReturn("Test").times(2);
 
-        control.replay();
+        replay(mock);
 
         assertEquals("Test", mock.threeArgumentMethod(1, "2", "3"));
 
         boolean failed = true;
         try {
-            control.verify();
+            verify(mock);
             failed = false;
-        } catch (AssertionError expected) {
-            assertEquals(
-                    "\n  Expectation failure on verify:"
-                            + "\n    threeArgumentMethod(1, \"2\", \"3\"): expected: 2, actual: 1",
-                    expected.getMessage());
+        } catch (final AssertionError expected) {
+            assertEquals("\n  Expectation failure on verify:"
+                    + "\n    threeArgumentMethod(1, \"2\", \"3\"): expected: 2, actual: 1", expected
+                    .getMessage());
         }
         if (!failed) {
             fail("exception expected");
@@ -151,37 +136,29 @@ public class UsageTest {
 
     @Test
     public void unexpectedCallWithArray() {
-        control.reset();
-        control.setDefaultMatcher(MockControl.ARRAY_MATCHER);
-        control.replay();
-        boolean failed = false;
-        String[] strings = new String[] { "Test" };
+        reset(mock);
+        replay(mock);
+        final String[] strings = new String[] { "Test" };
         try {
             mock.arrayMethod(strings);
-        } catch (AssertionError expected) {
-            failed = true;
-            assertEquals("\n  Unexpected method call arrayMethod("
-                    + "[\"Test\"]" + "):", expected.getMessage());
-        }
-        if (!failed) {
             fail("exception expected");
+        } catch (final AssertionError expected) {
+            assertEquals("\n  Unexpected method call arrayMethod(" + "[\"Test\"]" + "):", expected
+                    .getMessage());
         }
-
     }
 
     @Test
     public void wrongArguments() {
         mock.simpleMethodWithArgument("3");
-        control.replay();
+        replay(mock);
 
         try {
             mock.simpleMethodWithArgument("5");
             fail();
-        } catch (AssertionError expected) {
-            assertEquals(
-                    "\n  Unexpected method call simpleMethodWithArgument(\"5\"):"
-                            + "\n    simpleMethodWithArgument(\"3\"): expected: 1, actual: 0",
-                    expected.getMessage());
+        } catch (final AssertionError expected) {
+            assertEquals("\n  Unexpected method call simpleMethodWithArgument(\"5\"):"
+                    + "\n    simpleMethodWithArgument(\"3\"): expected: 1, actual: 0", expected.getMessage());
         }
 
     }
@@ -190,16 +167,14 @@ public class UsageTest {
     public void summarizeSameObjectArguments() {
         mock.simpleMethodWithArgument("3");
         mock.simpleMethodWithArgument("3");
-        control.replay();
+        replay(mock);
 
         try {
             mock.simpleMethodWithArgument("5");
             fail();
-        } catch (AssertionError expected) {
-            assertEquals(
-                    "\n  Unexpected method call simpleMethodWithArgument(\"5\"):"
-                            + "\n    simpleMethodWithArgument(\"3\"): expected: 2, actual: 0",
-                    expected.getMessage());
+        } catch (final AssertionError expected) {
+            assertEquals("\n  Unexpected method call simpleMethodWithArgument(\"5\"):"
+                    + "\n    simpleMethodWithArgument(\"3\"): expected: 2, actual: 0", expected.getMessage());
         }
 
     }
@@ -211,20 +186,18 @@ public class UsageTest {
         mock.simpleMethodWithArgument("2");
         mock.simpleMethodWithArgument("0");
         mock.simpleMethodWithArgument("1");
-        control.replay();
+        replay(mock);
 
         try {
             mock.simpleMethodWithArgument("5");
             fail();
-        } catch (AssertionError expected) {
-            assertEquals(
-                    "\n  Unexpected method call simpleMethodWithArgument(\"5\"):"
-                            + "\n    simpleMethodWithArgument(\"4\"): expected: 1, actual: 0"
-                            + "\n    simpleMethodWithArgument(\"3\"): expected: 1, actual: 0"
-                            + "\n    simpleMethodWithArgument(\"2\"): expected: 1, actual: 0"
-                            + "\n    simpleMethodWithArgument(\"0\"): expected: 1, actual: 0"
-                            + "\n    simpleMethodWithArgument(\"1\"): expected: 1, actual: 0",
-                    expected.getMessage());
+        } catch (final AssertionError expected) {
+            assertEquals("\n  Unexpected method call simpleMethodWithArgument(\"5\"):"
+                    + "\n    simpleMethodWithArgument(\"4\"): expected: 1, actual: 0"
+                    + "\n    simpleMethodWithArgument(\"3\"): expected: 1, actual: 0"
+                    + "\n    simpleMethodWithArgument(\"2\"): expected: 1, actual: 0"
+                    + "\n    simpleMethodWithArgument(\"0\"): expected: 1, actual: 0"
+                    + "\n    simpleMethodWithArgument(\"1\"): expected: 1, actual: 0", expected.getMessage());
         }
 
     }

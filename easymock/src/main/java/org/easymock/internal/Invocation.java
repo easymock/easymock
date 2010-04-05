@@ -106,6 +106,11 @@ public class Invocation implements Serializable {
         throw new UnsupportedOperationException("hashCode() is not implemented");
     }
 
+    @Override
+    public String toString() {
+        return getMockAndMethodName() + "(" + ArgumentToString.argumentsToString(arguments) + ")";
+    }
+
     private boolean equalArguments(Object[] arguments) {
         if (this.arguments.length != arguments.length) {
             return false;
@@ -134,18 +139,6 @@ public class Invocation implements Serializable {
                     parameterTypes.length - 1);
         }
         return parameterTypes[parameterPosition].isPrimitive();
-    }
-
-    @SuppressWarnings("deprecation")
-    public boolean matches(Invocation actual, org.easymock.ArgumentsMatcher matcher) {
-        return this.mock.equals(actual.mock)
-                && this.method.equals(actual.method)
-                && matcher.matches(this.arguments, actual.arguments);
-    }
-
-    @SuppressWarnings("deprecation")
-    public String toString(org.easymock.ArgumentsMatcher matcher) {
-        return getMockAndMethodName() + "(" + matcher.toString(arguments) + ")";
     }
 
     public String getMockAndMethodName() {

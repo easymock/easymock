@@ -904,7 +904,7 @@ Mocks can be serialized at any time during their life. However, there are some o
 </ul>
 <h3>Multithreading</h3>
 <p>
-During recording, a mock is <b>not</b> thread-safe. So a giving mock (or mocks linked to the same <code>MockControl</code>)
+During recording, a mock is <b>not</b> thread-safe. So a giving mock (or mocks linked to the same <code>IMocksControl</code>)
 can only be recorded  from a single thread. However, different mocks can be recorded simultaneously in different threads.
 </p>
 <p>
@@ -980,7 +980,7 @@ in the <code>EasyMock</code> class
 </li>
 </ul>
 <h3>Backward Compatibility</h3>
-<p>EasyMock 3 still include the <code>classextension</code> package (although deprecated) to
+<p>EasyMock 3 still has a Class Extension project (although deprecated) to
 allow an easier migration from EasyMock 2 to EasyMock 3. It is a source not a binary 
 compatibility. So the code will need to be recompiled.
 </p>
@@ -1138,6 +1138,8 @@ New in version 3.0:
 <li>Return a specific error when null is recorded as return value on a method returning a primitive type (2936175)
 </li>
 <li>Can disable class mocking with <code>EasyMock.DISABLE_CLASS_MOCKING</code>
+</li>
+<li>Remove deprecated classes from EasyMock 1
 </li>
 </ul>
 <p>

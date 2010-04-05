@@ -16,42 +16,38 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 
-import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageThrowableTest {
-
-    private MockControl<IMethods> control;
 
     private IMethods mock;
 
     @Before
     public void setup() {
-        control = MockControl.createControl(IMethods.class);
-        mock = control.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
     public void noUpperLimit() {
         mock.simpleMethodWithArgument("1");
-        control.setVoidCallable(MockControl.ONE_OR_MORE);
+        expectLastCall().atLeastOnce();
         mock.simpleMethodWithArgument("2");
-        control.replay();
+        replay(mock);
         mock.simpleMethodWithArgument("1");
         mock.simpleMethodWithArgument("1");
         mock.simpleMethodWithArgument("2");
         mock.simpleMethodWithArgument("1");
         mock.simpleMethodWithArgument("1");
-        control.verify();
+        verify(mock);
     }
 
     @Test
@@ -78,18 +74,16 @@ public class UsageThrowableTest {
         });
     }
 
-    private void testThrowUncheckedException(Throwable throwable) {
-        mock.throwsNothing(true);
-        control.setReturnValue("true");
-        mock.throwsNothing(false);
-        control.setThrowable(throwable);
+    private void testThrowUncheckedException(final Throwable throwable) {
+        expect(mock.throwsNothing(true)).andReturn("true");
+        expect(mock.throwsNothing(false)).andThrow(throwable);
 
-        control.replay();
+        replay(mock);
 
         try {
             mock.throwsNothing(false);
             fail("Trowable expected");
-        } catch (Throwable expected) {
+        } catch (final Throwable expected) {
             assertSame(throwable, expected);
         }
 
@@ -108,20 +102,16 @@ public class UsageThrowableTest {
         });
     }
 
-    private void testThrowCheckedException(IOException expected)
-            throws IOException {
+    private void testThrowCheckedException(final IOException expected) throws IOException {
         try {
-            mock.throwsIOException(0);
-            control.setReturnValue("Value 0");
-            mock.throwsIOException(1);
-            control.setThrowable(expected);
-            mock.throwsIOException(2);
-            control.setReturnValue("Value 2");
-        } catch (IOException e) {
+            expect(mock.throwsIOException(0)).andReturn("Value 0");
+            expect(mock.throwsIOException(1)).andThrow(expected);
+            expect(mock.throwsIOException(2)).andReturn("Value 2");
+        } catch (final IOException e) {
             fail("Unexpected Exception");
         }
 
-        control.replay();
+        replay(mock);
 
         assertEquals("Value 0", mock.throwsIOException(0));
         assertEquals("Value 2", mock.throwsIOException(2));
@@ -129,30 +119,28 @@ public class UsageThrowableTest {
         try {
             mock.throwsIOException(1);
             fail("IOException expected");
-        } catch (IOException expectedException) {
+        } catch (final IOException expectedException) {
             assertSame(expectedException, expected);
         }
     }
 
     @Test
     public void throwAfterReturnValue() {
-        mock.throwsNothing(false);
-        control.setReturnValue("");
-        RuntimeException expectedException = new RuntimeException();
-        control.setThrowable(expectedException);
+        final RuntimeException expectedException = new RuntimeException();
+        expect(mock.throwsNothing(false)).andReturn("").andThrow(expectedException);
 
-        control.replay();
+        replay(mock);
 
         assertEquals("", mock.throwsNothing(false));
 
         try {
             mock.throwsNothing(false);
             fail("RuntimeException expected");
-        } catch (RuntimeException actualException) {
+        } catch (final RuntimeException actualException) {
             assertSame(expectedException, actualException);
         }
 
-        control.verify();
+        verify(mock);
     }
 
 }

@@ -19,59 +19,52 @@ package org.easymock.tests;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageDefaultReturnValueTest {
-    MockControl<IMethods> control;
 
-    IMethods mock;
+    private IMethods mock;
 
     @Before
     public void setup() {
-        control = MockControl.createControl(IMethods.class);
-        mock = control.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
     public void defaultReturnValue() {
-        mock.threeArgumentMethod(7, "", "test");
-        control.setReturnValue("test", 1);
+        expect(mock.threeArgumentMethod(7, "", "test")).andReturn("test");
 
-        mock.threeArgumentMethod(8, null, "test2");
-        control.setReturnValue("test2", 1);
+        expect(mock.threeArgumentMethod(8, null, "test2")).andReturn("test2");
 
-        Object defaultValue = new Object();
-        control.setDefaultReturnValue(defaultValue);
+        final Object defaultValue = new Object();
+        expect(mock.threeArgumentMethod(anyInt(), anyObject(), (String) anyObject())).andStubReturn(
+                defaultValue);
 
-        control.replay();
+        replay(mock);
         assertEquals("test", mock.threeArgumentMethod(7, "", "test"));
         assertEquals("test2", mock.threeArgumentMethod(8, null, "test2"));
-        assertSame(defaultValue, mock.threeArgumentMethod(7, new Object(),
-                "test"));
+        assertSame(defaultValue, mock.threeArgumentMethod(7, new Object(), "test"));
         assertSame(defaultValue, mock.threeArgumentMethod(7, "", "test"));
         assertSame(defaultValue, mock.threeArgumentMethod(8, null, "test"));
         assertSame(defaultValue, mock.threeArgumentMethod(9, null, "test"));
 
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void defaultVoidCallable() {
-
-        mock.twoArgumentMethod(1, 2);
-        control.setDefaultVoidCallable();
+        mock.twoArgumentMethod(anyInt(), anyInt());
+        expectLastCall().asStub();
 
         mock.twoArgumentMethod(1, 1);
-        RuntimeException expected = new RuntimeException();
-        control.setThrowable(expected);
+        final RuntimeException expected = new RuntimeException();
+        expectLastCall().andThrow(expected);
 
-        control.replay();
+        replay(mock);
         mock.twoArgumentMethod(2, 1);
         mock.twoArgumentMethod(1, 2);
         mock.twoArgumentMethod(3, 7);
@@ -79,63 +72,60 @@ public class UsageDefaultReturnValueTest {
         try {
             mock.twoArgumentMethod(1, 1);
             fail("RuntimeException expected");
-        } catch (RuntimeException actual) {
+        } catch (final RuntimeException actual) {
             assertSame(expected, actual);
         }
-
     }
 
     @Test
     public void defaultThrowable() {
         mock.twoArgumentMethod(1, 2);
-        control.setVoidCallable();
+        expectLastCall();
         mock.twoArgumentMethod(1, 1);
-        control.setVoidCallable();
+        expectLastCall();
 
-        RuntimeException expected = new RuntimeException();
-        control.setDefaultThrowable(expected);
+        final RuntimeException expected = new RuntimeException();
+        mock.twoArgumentMethod(anyInt(), anyInt());
+        expectLastCall().andStubThrow(expected);
 
-        control.replay();
+        replay(mock);
 
         mock.twoArgumentMethod(1, 2);
         mock.twoArgumentMethod(1, 1);
         try {
             mock.twoArgumentMethod(2, 1);
             fail("RuntimeException expected");
-        } catch (RuntimeException actual) {
+        } catch (final RuntimeException actual) {
             assertSame(expected, actual);
         }
     }
 
     @Test
     public void defaultReturnValueBoolean() {
-        mock.booleanReturningMethod(12);
-        control.setReturnValue(true);
-        control.setDefaultReturnValue(false);
+        expect(mock.booleanReturningMethod(12)).andReturn(true);
+        expect(mock.booleanReturningMethod(anyInt())).andStubReturn(false);
 
-        control.replay();
+        replay(mock);
 
         assertFalse(mock.booleanReturningMethod(11));
         assertTrue(mock.booleanReturningMethod(12));
         assertFalse(mock.booleanReturningMethod(13));
 
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void returnValueAndDefaultReturnValue() throws Exception {
 
-        mock.oneArg("");
+        expect(mock.oneArg("")).andReturn("1");
+        expect(mock.oneArg((String) anyObject())).andStubReturn("2");
 
-        expectLastCall().andReturn("1");
-        control.setDefaultReturnValue("2");
-
-        control.replay();
+        replay(mock);
 
         assertEquals("1", mock.oneArg(""));
         assertEquals("2", mock.oneArg(""));
         assertEquals("2", mock.oneArg("X"));
 
-        control.verify();
+        verify(mock);
     }
 }

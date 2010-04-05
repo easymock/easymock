@@ -16,76 +16,63 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.util.Iterator;
 
-import org.easymock.MockControl;
-import org.easymock.internal.Range;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageRangeTest {
 
     private Iterator<String> mock;
 
-    private MockControl<Iterator<String>> control;
-
     @SuppressWarnings("unchecked")
     @Before
     public void setup() {
-        control = MockControl.createStrictControl((Class)Iterator.class);
-        mock = control.getMock();
+        mock = createStrictMock(Iterator.class);
     }
 
     @Test
     public void zeroOrMoreNoCalls() {
-        mock.hasNext();
-        control.setReturnValue(false, MockControl.ZERO_OR_MORE);
-        control.replay();
-        control.verify();
+        expect(mock.hasNext()).andReturn(false).anyTimes();
+        replay(mock);
+        verify(mock);
     }
 
     @Test
     public void zeroOrMoreOneCall() {
-        mock.hasNext();
-        control.setReturnValue(false, MockControl.ZERO_OR_MORE);
-        control.replay();
+        expect(mock.hasNext()).andReturn(false).anyTimes();
+        replay(mock);
         assertFalse(mock.hasNext());
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void zeroOrMoreThreeCalls() {
-        mock.hasNext();
-        control.setReturnValue(false, MockControl.ZERO_OR_MORE);
-        control.replay();
+        expect(mock.hasNext()).andReturn(false).anyTimes();
+        replay(mock);
         assertFalse(mock.hasNext());
         assertFalse(mock.hasNext());
         assertFalse(mock.hasNext());
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void combination() {
-        mock.hasNext();
-        control.setReturnValue(true, MockControl.ONE_OR_MORE);
-        mock.next();
-        control.setReturnValue("1");
+        expect(mock.hasNext()).andReturn(true).atLeastOnce();
+        expect(mock.next()).andReturn("1");
 
-        mock.hasNext();
-        control.setReturnValue(true, MockControl.ONE_OR_MORE);
-        mock.next();
-        control.setReturnValue("2");
+        expect(mock.hasNext()).andReturn(true).atLeastOnce();
+        expect(mock.next()).andReturn("2");
 
-        mock.hasNext();
-        control.setReturnValue(false, MockControl.ONE_OR_MORE);
+        expect(mock.hasNext()).andReturn(false).atLeastOnce();
 
-        control.replay();
+        replay(mock);
 
         assertTrue(mock.hasNext());
         assertTrue(mock.hasNext());
@@ -96,7 +83,7 @@ public class UsageRangeTest {
         try {
             mock.next();
             fail();
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
         }
 
         assertTrue(mock.hasNext());
@@ -105,17 +92,7 @@ public class UsageRangeTest {
 
         assertFalse(mock.hasNext());
 
-        control.verify();
+        verify(mock);
 
-    }
-
-    @Test
-    public void withIllegalOwnRange() {
-        mock.hasNext();
-        try {
-            control.setReturnValue(true, new Range(2, 7));
-        } catch (IllegalArgumentException e) {
-            assertEquals("Unexpected Range", e.getMessage());
-        }
     }
 }

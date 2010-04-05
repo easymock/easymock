@@ -16,9 +16,9 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +29,6 @@ import org.junit.Test;
  * @author Henri Tremblay
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class MockClassControlTest {
 
     /**
@@ -72,8 +71,6 @@ public class MockClassControlTest {
         }
     }
 
-    private MockControl<?> ctrl;
-
     private Object mock;
 
     @Before
@@ -82,13 +79,11 @@ public class MockClassControlTest {
 
     @After
     public void tearDown() throws Exception {
-        ctrl = null;
         mock = null;
     }
 
     private void initMock(Class<?> toMock) {
-        ctrl = MockControl.createControl(toMock);
-        mock = ctrl.getMock();
+        mock = createMock(toMock);
     }
 
     @Test
@@ -107,7 +102,7 @@ public class MockClassControlTest {
     private void testEquals(Class<?> toMock) {
         initMock(toMock);
         assertEquals(mock, mock);
-        ctrl.replay();
+        replay(mock);
         assertEquals(mock, mock);
     }
 
@@ -128,7 +123,7 @@ public class MockClassControlTest {
     private void testHashCode(Class<?> toMock) {
         initMock(toMock);
         int code = mock.hashCode();
-        ctrl.replay();
+        replay(mock);
         assertEquals(code, mock.hashCode());
     }
 
@@ -154,7 +149,7 @@ public class MockClassControlTest {
         initMock(toMock);
         String expectedValue = "EasyMock for " + toMock.toString();
         assertEquals(expectedValue, mock.toString());
-        ctrl.replay();
+        replay(mock);
         assertEquals(expectedValue, mock.toString());
     }
 }

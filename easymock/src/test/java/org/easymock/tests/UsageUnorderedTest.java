@@ -16,15 +16,14 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageUnorderedTest {
 
     public interface Interface {
@@ -33,33 +32,29 @@ public class UsageUnorderedTest {
 
     @Test
     public void message() {
-        MockControl<Interface> control = MockControl
-                .createControl(Interface.class);
-        Interface mock = control.getMock();
+        final Interface mock = createMock(Interface.class);
 
-        mock.method(0);
-        control.setMatcher(MockControl.ALWAYS_MATCHER);
-        control.setVoidCallable(1);
-        mock.method(0);
-        control.setVoidCallable(2);
-        mock.method(1);
+        mock.method(anyInt());
+        expectLastCall().once();
+        mock.method(anyInt());
+        expectLastCall().times(2);
+        mock.method(42);
 
-        control.replay();
+        replay(mock);
 
         mock.method(6);
         mock.method(7);
         mock.method(1);
-        mock.method(25);
+        mock.method(42);
 
         try {
             mock.method(42);
-            fail();
-        } catch (AssertionError expected) {
-            assertEquals(
-                    "\n  Unexpected method call method(42). Possible matches are marked with (+1):"
+            fail("Should fail");
+        } catch (final AssertionError expected) {
+            System.out.println(expected.getMessage());
+            assertEquals("\n  Unexpected method call method(42). Possible matches are marked with (+1):"
                     + "\n    method(<any>): expected: 3, actual: 3 (+1)"
-                    + "\n    method(<any>): expected: 1, actual: 1 (+1)",
-                    expected.getMessage());
+                    + "\n    method(42): expected: 1, actual: 1 (+1)", expected.getMessage());
         }
     }
 }

@@ -16,77 +16,55 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageOverloadedMethodTest {
 
-    MockControl<IMethods> controller;
-
-    IMethods mock;
+    private IMethods mock;
 
     @Before
     public void setup() {
-        controller = MockControl.createControl(IMethods.class);
-        mock = controller.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
     public void overloading() {
 
-        mock.oneArg(true);
-        controller.setReturnValue("true");
-        mock.oneArg(false);
-        controller.setReturnValue("false");
+        expect(mock.oneArg(true)).andReturn("true");
+        expect(mock.oneArg(false)).andReturn("false");
 
-        mock.oneArg((byte) 0);
-        controller.setReturnValue("byte 0");
-        mock.oneArg((byte) 1);
-        controller.setReturnValue("byte 1");
+        expect(mock.oneArg((byte) 0)).andReturn("byte 0");
+        expect(mock.oneArg((byte) 1)).andReturn("byte 1");
 
-        mock.oneArg((short) 0);
-        controller.setReturnValue("short 0");
-        mock.oneArg((short) 1);
-        controller.setReturnValue("short 1");
+        expect(mock.oneArg((short) 0)).andReturn("short 0");
+        expect(mock.oneArg((short) 1)).andReturn("short 1");
 
-        mock.oneArg((char) 0);
-        controller.setReturnValue("char 0");
-        mock.oneArg((char) 1);
-        controller.setReturnValue("char 1");
+        expect(mock.oneArg((char) 0)).andReturn("char 0");
+        expect(mock.oneArg((char) 1)).andReturn("char 1");
 
-        mock.oneArg(0);
-        controller.setReturnValue("int 0");
-        mock.oneArg(1);
-        controller.setReturnValue("int 1");
+        expect(mock.oneArg(0)).andReturn("int 0");
+        expect(mock.oneArg(1)).andReturn("int 1");
 
-        mock.oneArg((long) 0);
-        controller.setReturnValue("long 0");
-        mock.oneArg((long) 1);
-        controller.setReturnValue("long 1");
+        expect(mock.oneArg((long) 0)).andReturn("long 0");
+        expect(mock.oneArg((long) 1)).andReturn("long 1");
 
-        mock.oneArg((float) 0);
-        controller.setReturnValue("float 0");
-        mock.oneArg((float) 1);
-        controller.setReturnValue("float 1");
+        expect(mock.oneArg((float) 0)).andReturn("float 0");
+        expect(mock.oneArg((float) 1)).andReturn("float 1");
 
-        mock.oneArg(0.0);
-        controller.setReturnValue("double 0");
-        mock.oneArg(1.0);
-        controller.setReturnValue("double 1");
+        expect(mock.oneArg(0.0)).andReturn("double 0");
+        expect(mock.oneArg(1.0)).andReturn("double 1");
 
-        mock.oneArg("Object 0");
-        controller.setReturnValue("1");
-        mock.oneArg("Object 1");
-        controller.setReturnValue("2");
+        expect(mock.oneArg("Object 0")).andReturn("1");
+        expect(mock.oneArg("Object 1")).andReturn("2");
 
-        controller.replay();
+        replay(mock);
 
         assertEquals("true", mock.oneArg(true));
         assertEquals("false", mock.oneArg(false));
@@ -115,16 +93,15 @@ public class UsageOverloadedMethodTest {
         assertEquals("1", mock.oneArg("Object 0"));
         assertEquals("2", mock.oneArg("Object 1"));
 
-        controller.verify();
+        verify(mock);
     }
 
     @Test
     public void nullReturnValue() {
 
-        mock.oneArg("Object");
-        controller.setReturnValue(null);
+        expect(mock.oneArg("Object")).andReturn(null);
 
-        controller.replay();
+        replay(mock);
 
         assertNull(mock.oneArg("Object"));
 
@@ -132,13 +109,11 @@ public class UsageOverloadedMethodTest {
 
     @Test
     public void moreThanOneResultAndOpenCallCount() {
-        mock.oneArg(true);
-        controller.setReturnValue("First Result", 4);
-        controller.setReturnValue("Second Result", 2);
-        controller.setThrowable(new RuntimeException("Third Result"), 3);
-        controller.setReturnValue("Following Result", MockControl.ONE_OR_MORE);
+        expect(mock.oneArg(true)).andReturn("First Result").times(4).andReturn("Second Result").times(2)
+                .andThrow(new RuntimeException("Third Result")).times(3).andReturn("Following Result")
+                .atLeastOnce();
 
-        controller.replay();
+        replay(mock);
 
         assertEquals("First Result", mock.oneArg(true));
         assertEquals("First Result", mock.oneArg(true));
@@ -151,21 +126,21 @@ public class UsageOverloadedMethodTest {
         try {
             mock.oneArg(true);
             fail("expected exception");
-        } catch (RuntimeException expected) {
+        } catch (final RuntimeException expected) {
             assertEquals("Third Result", expected.getMessage());
         }
 
         try {
             mock.oneArg(true);
             fail("expected exception");
-        } catch (RuntimeException expected) {
+        } catch (final RuntimeException expected) {
             assertEquals("Third Result", expected.getMessage());
         }
 
         try {
             mock.oneArg(true);
             fail("expected exception");
-        } catch (RuntimeException expected) {
+        } catch (final RuntimeException expected) {
             assertEquals("Third Result", expected.getMessage());
         }
 
@@ -175,6 +150,6 @@ public class UsageOverloadedMethodTest {
         assertEquals("Following Result", mock.oneArg(true));
         assertEquals("Following Result", mock.oneArg(true));
 
-        controller.verify();
+        verify(mock);
     }
 }

@@ -16,91 +16,31 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class RecordStateInvalidDefaultReturnValueTest {
-    MockControl<IMethods> control;
 
-    IMethods mock;
+    private IMethods mock;
 
     @Before
     public void setup() {
-        control = MockControl.createControl(IMethods.class);
-        mock = control.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
-    public void setInvalidDefaultBooleanReturnValue() {
-        mock.oneArg(false);
+    public void setInvalidStubReturnValue() {
         try {
-            control.setDefaultReturnValue(false);
+            expect((Object) mock.oneArg(false)).andStubReturn(false);
             fail("IllegalStateException expected");
-        } catch (IllegalStateException e) {
+        } catch (final IllegalStateException e) {
             assertEquals("incompatible return value type", e.getMessage());
-        }
-    }
-
-    @Test
-    public void setInvalidDefaultLongReturnValue() {
-        mock.oneArg(false);
-        try {
-            control.setDefaultReturnValue((long) 0);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException e) {
-            assertEquals("incompatible return value type", e.getMessage());
-        }
-    }
-
-    @Test
-    public void setInvalidDefaultFloatReturnValue() {
-        mock.oneArg(false);
-        try {
-            control.setDefaultReturnValue((float) 0);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException e) {
-            assertEquals("incompatible return value type", e.getMessage());
-        }
-    }
-
-    @Test
-    public void setInvalidDefaultDoubleReturnValue() {
-        mock.oneArg(false);
-        try {
-            control.setDefaultReturnValue((double) 0);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException e) {
-            assertEquals("incompatible return value type", e.getMessage());
-        }
-    }
-
-    @Test
-    public void setInvalidObjectDefaultReturnValue() {
-        mock.oneArg(false);
-        try {
-            control.setDefaultReturnValue(new Object());
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException e) {
-            assertEquals("incompatible return value type", e.getMessage());
-        }
-    }
-
-    @Test
-    public void setDefaultReturnValueWithoutMethodCall() {
-        try {
-            control.setDefaultReturnValue(new Object());
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException e) {
-            assertEquals(
-                    "method call on the mock needed before setting default return value",
-                    e.getMessage());
         }
     }
 }

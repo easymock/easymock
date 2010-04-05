@@ -17,7 +17,6 @@
 package org.easymock.internal;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.easymock.IAnswer;
@@ -133,16 +132,6 @@ public class ReplayState implements IMocksControlState, Serializable {
     }
 
     public void times(Range range) {
-        throwWrappedIllegalStateException();
-    }
-
-    @SuppressWarnings("deprecation")
-    public void setMatcher(Method method, org.easymock.ArgumentsMatcher matcher) {
-        throwWrappedIllegalStateException();
-    }
-
-    @SuppressWarnings("deprecation")
-    public void setDefaultMatcher(org.easymock.ArgumentsMatcher matcher) {
         throwWrappedIllegalStateException();
     }
 

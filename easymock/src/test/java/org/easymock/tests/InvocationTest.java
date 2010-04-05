@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
 
 import java.lang.reflect.Method;
 
-import org.easymock.internal.EqualsMatcher;
 import org.easymock.internal.Invocation;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,13 +89,11 @@ public class InvocationTest {
         Invocation invocation = new Invocation(new ToString("validJavaIdentifier"),
                 method, null);
 
-        assertEquals(invocation.toString(new EqualsMatcher()),
-                "validJavaIdentifier.aMethod()");
+        assertEquals(invocation.toString(), "validJavaIdentifier.aMethod()");
 
-        invocation = new Invocation(new ToString("no-valid-java-identifier"),
-                method, null);
+        invocation = new Invocation(new ToString("no-valid-java-identifier"), method, null);
 
-        assertEquals(invocation.toString(new EqualsMatcher()), "aMethod()");
+        assertEquals("aMethod()", invocation.toString());
 
     }
 }

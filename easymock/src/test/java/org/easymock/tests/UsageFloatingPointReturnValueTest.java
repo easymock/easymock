@@ -16,54 +16,49 @@
 
 package org.easymock.tests;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.MockControl;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
  */
-@SuppressWarnings("deprecation")
 public class UsageFloatingPointReturnValueTest {
-    MockControl<IMethods> control;
 
-    IMethods mock;
+    private IMethods mock;
 
     @Before
     public void setup() {
-        control = MockControl.createControl(IMethods.class);
-        mock = control.getMock();
+        mock = createMock(IMethods.class);
     }
 
     @Test
     public void returnFloat() {
-        mock.floatReturningMethod(0);
-        control.setReturnValue(25.0F);
-        control.setDefaultReturnValue(34.0F);
+        expect(mock.floatReturningMethod(0)).andReturn(25.0F);
+        expect(mock.floatReturningMethod(anyInt())).andStubReturn(34.0F);
 
-        control.replay();
+        replay(mock);
 
         assertEquals(25.0F, mock.floatReturningMethod(0), 0.0F);
         assertEquals(34.0F, mock.floatReturningMethod(-4), 0.0F);
         assertEquals(34.0F, mock.floatReturningMethod(12), 0.0F);
 
-        control.verify();
+        verify(mock);
     }
 
     @Test
     public void returnDouble() {
-        mock.doubleReturningMethod(0);
-        control.setReturnValue(25.0);
-        control.setDefaultReturnValue(34.0);
+        expect(mock.doubleReturningMethod(0)).andReturn(25.0);
+        expect(mock.doubleReturningMethod(anyInt())).andStubReturn(34.0);
 
-        control.replay();
+        replay(mock);
 
         assertEquals(25.0, mock.doubleReturningMethod(0), 0.0);
         assertEquals(34.0, mock.doubleReturningMethod(-4), 0.0);
         assertEquals(34.0, mock.doubleReturningMethod(12), 0.0);
 
-        control.verify();
+        verify(mock);
     }
 }
