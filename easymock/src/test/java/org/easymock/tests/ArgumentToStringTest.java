@@ -33,7 +33,7 @@ public class ArgumentToStringTest {
     public void setUp() {
         buffer = new StringBuffer();
     }
-    
+
     @Test
     public void testAppendArgument_null() {
         assertString("null", null);
@@ -56,24 +56,29 @@ public class ArgumentToStringTest {
 
     @Test
     public void testAppendArgument_Full() {
-        assertString("[3, 4, [\"a\", \"b\"], null]", new Object[] { 3, 4,
-                new String[] { "a", "b" }, null });
+        assertString("[3, 4, [\"a\", \"b\"], null]", new Object[] { 3, 4, new String[] { "a", "b" }, null });
     }
-    
-    private void assertString(String expected, Object actual) {
+
+    private void assertString(final String expected, final Object actual) {
         ArgumentToString.appendArgument(actual, buffer);
         assertEquals(expected, buffer.toString());
     }
 
     @Test
     public void testArgumentToString() {
-        String actual = ArgumentToString.argumentToString(Boolean.TRUE);
+        final String actual = ArgumentToString.argumentToString(Boolean.TRUE);
         assertEquals(Boolean.TRUE.toString(), actual);
     }
 
     @Test
     public void testArgumentsToString() {
-        String actual = ArgumentToString.argumentsToString(Boolean.TRUE, Boolean.FALSE);
+        final String actual = ArgumentToString.argumentsToString(Boolean.TRUE, Boolean.FALSE);
         assertEquals("true, false", actual);
+    }
+
+    @Test
+    public void testArgumentsToString_null() {
+        final String actual = ArgumentToString.argumentsToString((Object[]) null);
+        assertEquals("", actual);
     }
 }
