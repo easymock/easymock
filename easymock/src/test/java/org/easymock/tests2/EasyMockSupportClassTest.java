@@ -31,6 +31,7 @@ import org.junit.Test;
 /**
  * @author Henri Tremblay
  */
+@SuppressWarnings("deprecation")
 public class EasyMockSupportClassTest extends EasyMockSupport {
 
     public static class ToMock {
@@ -51,20 +52,80 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
 
     @Test
     public void testCreateStrictControl() {
-        IMocksControl ctrl = createStrictControl();
+        final IMocksControl ctrl = createStrictControl();
         assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
     public void testCreateControl() {
-        IMocksControl ctrl = createControl();
+        final IMocksControl ctrl = createControl();
         assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
     public void testCreateNiceControl() {
-        IMocksControl ctrl = createNiceControl();
+        final IMocksControl ctrl = createNiceControl();
         assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
+    }
+
+    @Test
+    public void testCreateStrictMockClassOfTMethodArray() {
+        assertThat(createStrictMock(ToMock.class, foo), is(ToMock.class));
+    }
+
+    @Test
+    public void testCreateStrictMockStringClassOfTMethodArray() {
+        assertThat(createStrictMock("myMock", ToMock.class, foo), is(ToMock.class));
+    }
+
+    @Test
+    public void testCreateStrictMockClassOfTConstructorArgsMethodArray() {
+        assertThat(createStrictMock(ToMock.class, args, foo), is(ToMock.class));
+    }
+
+    @Test
+    public void testCreateStrictMockStringClassOfTConstructorArgsMethodArray() {
+        assertThat(createStrictMock("myMock", ToMock.class, args, foo), is(ToMock.class));
+    }
+
+    @Test
+    public void testCreateMockClassOfTMethodArray() {
+        assertThat(createMock(ToMock.class, foo), is(ToMock.class));
+    }
+
+    @Test
+    public void testCreateMockStringClassOfTMethodArray() {
+        assertThat(createMock("myMock", ToMock.class, foo), is(ToMock.class));
+    }
+
+    @Test
+    public void testCreateMockClassOfTConstructorArgsMethodArray() {
+        assertThat(createMock(ToMock.class, args, foo), is(ToMock.class));
+    }
+
+    @Test
+    public void testCreateMockStringClassOfTConstructorArgsMethodArray() {
+        assertThat(createMock("myMock", ToMock.class, args, foo), is(ToMock.class));
+    }
+
+    @Test
+    public void testCreateNiceMockClassOfTMethodArray() {
+        assertThat(createNiceMock(ToMock.class, foo), is(ToMock.class));
+    }
+
+    @Test
+    public void testCreateNiceMockStringClassOfTMethodArray() {
+        assertThat(createNiceMock("myMock", ToMock.class, foo), is(ToMock.class));
+    }
+
+    @Test
+    public void testCreateNiceMockClassOfTConstructorArgsMethodArray() {
+        assertThat(createNiceMock(ToMock.class, args, foo), is(ToMock.class));
+    }
+
+    @Test
+    public void testCreateNiceMockStringClassOfTConstructorArgsMethodArray() {
+        assertThat(createNiceMock("myMock", ToMock.class, args, foo), is(ToMock.class));
     }
 
     @Test
@@ -99,7 +160,7 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
 
     @Test
     public void testAll() {
-        ToMock t = createMock(ToMock.class);
+        final ToMock t = createMock(ToMock.class);
         expect(t.foo()).andReturn(1);
         replayAll();
         t.foo();
@@ -112,8 +173,7 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
 
     @Test
     public void testCreateMockBuilder() {
-        ToMock t = createMockBuilder(ToMock.class).addMockedMethod(foo)
-                .createMock();
+        final ToMock t = createMockBuilder(ToMock.class).addMockedMethod(foo).createMock();
         expect(t.foo()).andReturn(1);
         replayAll();
         assertEquals(1, t.foo());
@@ -122,9 +182,8 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
 
     @Test
     public void testCreateMockBuilder_existingControl() {
-        IMocksControl ctrl = createControl(); // ctrl registered once here
-        ToMock t = createMockBuilder(ToMock.class).addMockedMethod(foo)
-                .createMock(ctrl); // should not be registered a second time here
+        final IMocksControl ctrl = createControl(); // ctrl registered once here
+        final ToMock t = createMockBuilder(ToMock.class).addMockedMethod(foo).createMock(ctrl); // should not be registered a second time here
         expect(t.foo()).andReturn(1);
         replayAll();
         assertEquals(1, t.foo());
@@ -133,12 +192,9 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
 
     @Test
     public void testAllMockBuilderFlavors() {
-        ToMock t1 = createMockBuilder(ToMock.class).addMockedMethod(foo)
-                .createMock();
-        ToMock t2 = createMockBuilder(ToMock.class).addMockedMethod(foo)
-                .createNiceMock();
-        ToMock t3 = createMockBuilder(ToMock.class).addMockedMethod(foo)
-                .createStrictMock();
+        final ToMock t1 = createMockBuilder(ToMock.class).addMockedMethod(foo).createMock();
+        final ToMock t2 = createMockBuilder(ToMock.class).addMockedMethod(foo).createNiceMock();
+        final ToMock t3 = createMockBuilder(ToMock.class).addMockedMethod(foo).createStrictMock();
         expect(t1.foo()).andReturn(1);
         expect(t2.foo()).andReturn(2);
         expect(t3.foo()).andReturn(3);
