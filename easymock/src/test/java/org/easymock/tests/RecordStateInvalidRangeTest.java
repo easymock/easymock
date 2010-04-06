@@ -47,6 +47,18 @@ public class RecordStateInvalidRangeTest {
     }
 
     @Test
+    public void setCloseCallAfterOpenOne() {
+        mock.simpleMethod();
+        try {
+            expectLastCall().atLeastOnce().once();
+            fail();
+        } catch (final IllegalStateException expected) {
+            assertEquals("last method called on mock already has a non-fixed count set.", expected
+                    .getMessage());
+        }
+    }
+
+    @Test
     public void setIllegalMinimumCount() {
         mock.simpleMethod();
         final int NEGATIVE = -1;
