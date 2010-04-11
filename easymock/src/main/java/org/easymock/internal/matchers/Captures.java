@@ -23,35 +23,37 @@ import org.easymock.IArgumentMatcher;
 import org.easymock.internal.LastControl;
 
 /**
+ * @param <T>
+ *            Type of the value captured
+ * 
  * @author Henri Tremblay
  */
 public class Captures<T> implements IArgumentMatcher, Serializable {
-    
+
     private static final long serialVersionUID = -5048595127450771363L;
 
     private final Capture<T> capture;
-    
+
     private T potentialValue;
 
-    public Captures(Capture<T> captured) {
+    public Captures(final Capture<T> captured) {
         this.capture = captured;
     }
 
-    public void appendTo(StringBuffer buffer) {
+    public void appendTo(final StringBuffer buffer) {
         buffer.append("capture(").append(capture).append(")");
     }
 
-    public void setPotentialValue(T potentialValue) {
+    public void setPotentialValue(final T potentialValue) {
         this.potentialValue = potentialValue;
     }
 
     @SuppressWarnings("unchecked")
-    public boolean matches(Object actual) {
-        LastControl.getCurrentInvocation().addCapture((Captures<Object>) this,
-                actual);
+    public boolean matches(final Object actual) {
+        LastControl.getCurrentInvocation().addCapture((Captures<Object>) this, actual);
         return true;
     }
-    
+
     public void validateCapture() {
         capture.setValue(potentialValue);
     }

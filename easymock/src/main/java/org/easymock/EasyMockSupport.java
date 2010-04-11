@@ -24,125 +24,305 @@ import org.easymock.internal.MockBuilder;
 
 /**
  * Helper class to be used to keep tracks of mocks easily. See EasyMock
- * documentation and SupportTest sample
+ * documentation and SupportTest sample.
+ * <p>
+ * Example of usage:
+ * 
+ * <pre>
+ * public class SupportTest extends EasyMockSupport {
+ *     &#064;Test
+ *     public void test() {
+ *         firstMock = createMock(A.class);
+ *         secondMock = createMock(B.class);
+ *         
+ *         replayAll(); // put both mocks in replay mode
+ *         
+ *         // ... use mocks ..
+ *         
+ *         verifyAll(); // verify both mocks
+ *     }
+ * }
+ * </pre>
  * 
  * @author Henri Tremblay
  */
 public class EasyMockSupport {
 
     /** List of all controls created */
-    protected final List<IMocksControl> controls = new ArrayList<IMocksControl>(
-            5);
+    protected final List<IMocksControl> controls = new ArrayList<IMocksControl>(5);
 
     /**
+     * Creates a mock object that extends the given class, order checking is
+     * enabled by default.
+     * 
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
      * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
-    public <T> T createStrictMock(Class<T> toMock, Method... mockedMethods) {
+    public <T> T createStrictMock(final Class<T> toMock, final Method... mockedMethods) {
         return createStrictControl().createMock(toMock, mockedMethods);
     }
 
     /**
+     * Creates a mock object that extends the given class, order checking is
+     * enabled by default.
+     * 
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
      * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
-    public <T> T createStrictMock(String name, Class<T> toMock,
-            Method... mockedMethods) {
+    public <T> T createStrictMock(final String name, final Class<T> toMock, final Method... mockedMethods) {
         return createStrictControl().createMock(name, toMock, mockedMethods);
     }
 
     /**
+     * Creates a mock object that extends the given class, order checking is
+     * enabled by default.
+     * 
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
      * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
-    public <T> T createStrictMock(Class<T> toMock,
-            ConstructorArgs constructorArgs, Method... mockedMethods) {
-        return createStrictControl().createMock(toMock, constructorArgs,
-                mockedMethods);
+    public <T> T createStrictMock(final Class<T> toMock, final ConstructorArgs constructorArgs,
+            final Method... mockedMethods) {
+        return createStrictControl().createMock(toMock, constructorArgs, mockedMethods);
     }
 
     /**
+     * Creates a mock object that extends the given class, order checking is
+     * enabled by default.
+     * 
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
      * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
-    public <T> T createStrictMock(String name, Class<T> toMock,
-            ConstructorArgs constructorArgs, Method... mockedMethods) {
-        return createStrictControl().createMock(name, toMock, constructorArgs,
-                mockedMethods);
+    public <T> T createStrictMock(final String name, final Class<T> toMock,
+            final ConstructorArgs constructorArgs, final Method... mockedMethods) {
+        return createStrictControl().createMock(name, toMock, constructorArgs, mockedMethods);
     }
 
     /**
+     * Creates a mock object that extends the given class, order checking is
+     * disabled by default.
+     * 
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
      * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
-    public <T> T createMock(Class<T> toMock, Method... mockedMethods) {
+    public <T> T createMock(final Class<T> toMock, final Method... mockedMethods) {
         return createControl().createMock(toMock, mockedMethods);
     }
 
     /**
+     * Creates a mock object that extends the given class, order checking is
+     * disabled by default.
+     * 
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
      * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
-    public <T> T createMock(String name, Class<T> toMock,
-            Method... mockedMethods) {
+    public <T> T createMock(final String name, final Class<T> toMock, final Method... mockedMethods) {
         return createControl().createMock(name, toMock, mockedMethods);
     }
 
     /**
+     * Creates a mock object that extends the given class, order checking is
+     * disabled by default.
+     * 
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
      * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
-    public <T> T createMock(Class<T> toMock, ConstructorArgs constructorArgs,
-            Method... mockedMethods) {
-        return createControl().createMock(toMock, constructorArgs,
-                mockedMethods);
+    public <T> T createMock(final Class<T> toMock, final ConstructorArgs constructorArgs,
+            final Method... mockedMethods) {
+        return createControl().createMock(toMock, constructorArgs, mockedMethods);
     }
 
     /**
+     * Creates a mock object that extends the given class, order checking is
+     * disabled by default.
+     * 
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
      * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
-    public <T> T createMock(String name, Class<T> toMock,
-            ConstructorArgs constructorArgs, Method... mockedMethods) {
-        return createControl().createMock(name, toMock, constructorArgs,
-                mockedMethods);
+    public <T> T createMock(final String name, final Class<T> toMock, final ConstructorArgs constructorArgs,
+            final Method... mockedMethods) {
+        return createControl().createMock(name, toMock, constructorArgs, mockedMethods);
     }
 
     /**
+     * Creates a mock object that extends the given class, order checking is
+     * disabled by default, and the mock object will return <code>0</code>,
+     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * 
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
      * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
-    public <T> T createNiceMock(Class<T> toMock, Method... mockedMethods) {
+    public <T> T createNiceMock(final Class<T> toMock, final Method... mockedMethods) {
         return createNiceControl().createMock(toMock, mockedMethods);
     }
 
     /**
+     * Creates a mock object that extends the given class, order checking is
+     * disabled by default, and the mock object will return <code>0</code>,
+     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * 
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
      * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
-    public <T> T createNiceMock(String name, Class<T> toMock,
-            Method... mockedMethods) {
+    public <T> T createNiceMock(final String name, final Class<T> toMock, final Method... mockedMethods) {
         return createNiceControl().createMock(name, toMock, mockedMethods);
     }
 
     /**
+     * Creates a mock object that extends the given class, order checking is
+     * disabled by default, and the mock object will return <code>0</code>,
+     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * 
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
      * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
-    public <T> T createNiceMock(Class<T> toMock,
-            ConstructorArgs constructorArgs, Method... mockedMethods) {
-        return createNiceControl().createMock(toMock, constructorArgs,
-                mockedMethods);
+    public <T> T createNiceMock(final Class<T> toMock, final ConstructorArgs constructorArgs,
+            final Method... mockedMethods) {
+        return createNiceControl().createMock(toMock, constructorArgs, mockedMethods);
     }
 
     /**
+     * Creates a mock object that extends the given class, order checking is
+     * disabled by default, and the mock object will return <code>0</code>,
+     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * 
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock.
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally
+     * @return the mock object.
+     * 
      * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
-    public <T> T createNiceMock(String name, Class<T> toMock,
-            ConstructorArgs constructorArgs, Method... mockedMethods) {
-        return createNiceControl().createMock(name, toMock, constructorArgs,
-                mockedMethods);
+    public <T> T createNiceMock(final String name, final Class<T> toMock,
+            final ConstructorArgs constructorArgs, final Method... mockedMethods) {
+        return createNiceControl().createMock(name, toMock, constructorArgs, mockedMethods);
     }
 
     /**
@@ -156,7 +336,7 @@ public class EasyMockSupport {
      *            implement.
      * @return the mock object.
      */
-    public <T> T createStrictMock(Class<T> toMock) {
+    public <T> T createStrictMock(final Class<T> toMock) {
         return createStrictControl().createMock(toMock);
     }
 
@@ -175,7 +355,7 @@ public class EasyMockSupport {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public <T> T createStrictMock(String name, Class<T> toMock) {
+    public <T> T createStrictMock(final String name, final Class<T> toMock) {
         return createStrictControl().createMock(name, toMock);
     }
 
@@ -190,7 +370,7 @@ public class EasyMockSupport {
      *            implement.
      * @return the mock object.
      */
-    public <T> T createMock(Class<T> toMock) {
+    public <T> T createMock(final Class<T> toMock) {
         return createControl().createMock(toMock);
     }
 
@@ -210,7 +390,7 @@ public class EasyMockSupport {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public <T> T createMock(String name, Class<T> toMock) {
+    public <T> T createMock(final String name, final Class<T> toMock) {
         return createControl().createMock(name, toMock);
     }
 
@@ -226,7 +406,7 @@ public class EasyMockSupport {
      *            implement.
      * @return the mock object.
      */
-    public <T> T createNiceMock(Class<T> toMock) {
+    public <T> T createNiceMock(final Class<T> toMock) {
         return createNiceControl().createMock(toMock);
     }
 
@@ -247,7 +427,7 @@ public class EasyMockSupport {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public <T> T createNiceMock(String name, Class<T> toMock) {
+    public <T> T createNiceMock(final String name, final Class<T> toMock) {
         return createNiceControl().createMock(name, toMock);
     }
 
@@ -257,7 +437,7 @@ public class EasyMockSupport {
      * @return the control.
      */
     public IMocksControl createStrictControl() {
-        IMocksControl ctrl = EasyMock.createStrictControl();
+        final IMocksControl ctrl = EasyMock.createStrictControl();
         controls.add(ctrl);
         return ctrl;
     }
@@ -273,7 +453,7 @@ public class EasyMockSupport {
      *            implement.
      * @return a mock builder to create a partial mock
      */
-    public <T> IMockBuilder<T> createMockBuilder(Class<T> toMock) {
+    public <T> IMockBuilder<T> createMockBuilder(final Class<T> toMock) {
         return new MockBuilder<T>(toMock, this);
     }
 
@@ -283,7 +463,7 @@ public class EasyMockSupport {
      * @return the control.
      */
     public IMocksControl createControl() {
-        IMocksControl ctrl = EasyMock.createControl();
+        final IMocksControl ctrl = EasyMock.createControl();
         controls.add(ctrl);
         return ctrl;
     }
@@ -296,7 +476,7 @@ public class EasyMockSupport {
      * @return the control.
      */
     public IMocksControl createNiceControl() {
-        IMocksControl ctrl = EasyMock.createNiceControl();
+        final IMocksControl ctrl = EasyMock.createNiceControl();
         controls.add(ctrl);
         return ctrl;
     }
@@ -307,7 +487,7 @@ public class EasyMockSupport {
      * documentation.
      */
     public void replayAll() {
-        for (IMocksControl c : controls) {
+        for (final IMocksControl c : controls) {
             c.replay();
         }
     }
@@ -317,7 +497,7 @@ public class EasyMockSupport {
      * mock objects). For details, see the EasyMock documentation.
      */
     public void resetAll() {
-        for (IMocksControl c : controls) {
+        for (final IMocksControl c : controls) {
             c.reset();
         }
     }
@@ -327,7 +507,7 @@ public class EasyMockSupport {
      * mock objects).
      */
     public void verifyAll() {
-        for (IMocksControl c : controls) {
+        for (final IMocksControl c : controls) {
             c.verify();
         }
     }
@@ -338,7 +518,7 @@ public class EasyMockSupport {
      * see the EasyMock documentation.
      */
     public void resetAllToNice() {
-        for (IMocksControl c : controls) {
+        for (final IMocksControl c : controls) {
             c.resetToNice();
         }
     }
@@ -349,7 +529,7 @@ public class EasyMockSupport {
      * see the EasyMock documentation.
      */
     public void resetAllToDefault() {
-        for (IMocksControl c : controls) {
+        for (final IMocksControl c : controls) {
             c.resetToDefault();
         }
     }
@@ -360,7 +540,7 @@ public class EasyMockSupport {
      * see the EasyMock documentation.
      */
     public void resetAllToStrict() {
-        for (IMocksControl c : controls) {
+        for (final IMocksControl c : controls) {
             c.resetToStrict();
         }
     }

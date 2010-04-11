@@ -35,7 +35,7 @@ public class MocksControlTest {
     public static class A {
         int i = 1;
 
-        public A(int i) {
+        public A(final int i) {
             this.i = i;
         }
 
@@ -47,7 +47,7 @@ public class MocksControlTest {
             return i;
         }
 
-        public boolean add(int i) {
+        public boolean add(final int i) {
             this.i += i;
             return true;
         }
@@ -55,142 +55,129 @@ public class MocksControlTest {
 
     @Test
     public void testMocksControl_Interface() {
-        IMocksControl ctrl = createControl();
-        List<?> list = ctrl.createMock(List.class);
+        final IMocksControl ctrl = createControl();
+        final List<?> list = ctrl.createMock(List.class);
         testList(ctrl, list);
     }
 
     @Test
     public void testMocksControl_Class() {
-        IMocksControl ctrl = createControl();
-        ArrayList<?> list = ctrl.createMock(ArrayList.class);
+        final IMocksControl ctrl = createControl();
+        final ArrayList<?> list = ctrl.createMock(ArrayList.class);
         testList(ctrl, list);
     }
 
     @Test
     public void testMocksControl_Class_WithName() {
-        IMocksControl ctrl = createControl();
-        ArrayList<?> list = ctrl.createMock("myMock", ArrayList.class);
+        final IMocksControl ctrl = createControl();
+        final ArrayList<?> list = ctrl.createMock("myMock", ArrayList.class);
         testList(ctrl, list);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
-    public void testMocksControl_PartialMock_NoConstructorCalled()
-            throws Exception {
-        IMocksControl ctrl = createControl();
-        A a = ctrl.createMock(A.class, A.class.getMethod("bar", new Class[0]),
-                A.class.getMethod("toString", new Class[0]));
+    public void testMocksControl_PartialMock_NoConstructorCalled() throws Exception {
+        final IMocksControl ctrl = createControl();
+        final A a = ctrl.createMock(A.class, A.class.getMethod("bar", new Class[0]), A.class.getMethod(
+                "toString", new Class[0]));
 
-        assertEquals("No constructor called so should not be initialized", 0,
-                a.i);
+        assertEquals("No constructor called so should not be initialized", 0, a.i);
         expect(a.bar()).andReturn(5);
         replay(a);
-        assertEquals("foo isn't mocked so it will call bar which return 5", 5,
-                a.foo());
+        assertEquals("foo isn't mocked so it will call bar which return 5", 5, a.foo());
         verify(a);
 
-        assertEquals(
-                "EasyMock for class org.easymock.tests2.MocksControlTest$A",
-                a.toString());
+        assertEquals("EasyMock for class org.easymock.tests2.MocksControlTest$A", a.toString());
     }
 
+    @SuppressWarnings("deprecation")
     @Test
-    public void testMocksControl_NamedPartialMock_NoConstructorCalled()
-            throws Exception {
-        IMocksControl ctrl = createControl();
-        A a = ctrl.createMock("myMock", A.class, A.class.getMethod("bar",
-                new Class[0]), A.class.getMethod("toString", new Class[0]));
+    public void testMocksControl_NamedPartialMock_NoConstructorCalled() throws Exception {
+        final IMocksControl ctrl = createControl();
+        final A a = ctrl.createMock("myMock", A.class, A.class.getMethod("bar", new Class[0]), A.class
+                .getMethod("toString", new Class[0]));
 
-        assertEquals("No constructor called so should not be initialized", 0,
-                a.i);
+        assertEquals("No constructor called so should not be initialized", 0, a.i);
         expect(a.bar()).andReturn(5);
         replay(a);
-        assertEquals("foo isn't mocked so it will call bar which return 5", 5,
-                a.foo());
+        assertEquals("foo isn't mocked so it will call bar which return 5", 5, a.foo());
         verify(a);
 
         assertEquals("myMock", a.toString());
     }
 
+    @SuppressWarnings("deprecation")
     @Test
-    public void testMocksControl_PartialMock_ConstructorCalled()
-            throws Exception {
-        IMocksControl ctrl = createControl();
+    public void testMocksControl_PartialMock_ConstructorCalled() throws Exception {
+        final IMocksControl ctrl = createControl();
 
-        ConstructorArgs args = new ConstructorArgs(A.class
-                .getConstructor(Integer.TYPE), 6);
+        final ConstructorArgs args = new ConstructorArgs(A.class.getConstructor(Integer.TYPE), 6);
 
-        A a = ctrl.createMock(A.class, args, A.class.getMethod("bar",
-                new Class[0]), A.class.getMethod("toString", new Class[0]));
+        final A a = ctrl.createMock(A.class, args, A.class.getMethod("bar", new Class[0]), A.class.getMethod(
+                "toString", new Class[0]));
 
         assertEquals("Constructor called so should be initialized", 6, a.i);
         expect(a.bar()).andReturn(5);
         replay(a);
-        assertEquals("foo isn't mocked so it will call bar which return 5", 5,
-                a.foo());
+        assertEquals("foo isn't mocked so it will call bar which return 5", 5, a.foo());
         verify(a);
 
-        assertEquals(
-                "EasyMock for class org.easymock.tests2.MocksControlTest$A",
-                a.toString());
+        assertEquals("EasyMock for class org.easymock.tests2.MocksControlTest$A", a.toString());
     }
 
+    @SuppressWarnings("deprecation")
     @Test
-    public void testMocksControl_NamedPartialMock_ConstructorCalled()
-            throws Exception {
-        IMocksControl ctrl = createControl();
+    public void testMocksControl_NamedPartialMock_ConstructorCalled() throws Exception {
+        final IMocksControl ctrl = createControl();
 
-        ConstructorArgs args = new ConstructorArgs(A.class
-                .getConstructor(Integer.TYPE), 6);
+        final ConstructorArgs args = new ConstructorArgs(A.class.getConstructor(Integer.TYPE), 6);
 
-        A a = ctrl.createMock("myMock", A.class, args, A.class.getMethod("bar",
-                new Class[0]), A.class.getMethod("toString", new Class[0]));
+        final A a = ctrl.createMock("myMock", A.class, args, A.class.getMethod("bar", new Class[0]), A.class
+                .getMethod("toString", new Class[0]));
 
         assertEquals("Constructor called so should be initialized", 6, a.i);
         expect(a.bar()).andReturn(5);
         replay(a);
-        assertEquals("foo isn't mocked so it will call bar which return 5", 5,
-                a.foo());
+        assertEquals("foo isn't mocked so it will call bar which return 5", 5, a.foo());
         verify(a);
 
         assertEquals("myMock", a.toString());
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testInterfaceForbidden_PartialMock() throws Exception {
-        ConstructorArgs args = new ConstructorArgs(ArrayList.class
-                .getConstructor(Integer.TYPE), 6);
-        Method[] methods = new Method[] { List.class.getMethod("size",
-                new Class[0]) };
+        final ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(Integer.TYPE), 6);
+        final Method[] methods = new Method[] { List.class.getMethod("size", new Class[0]) };
 
-        IMocksControl ctrl = createControl();
+        final IMocksControl ctrl = createControl();
 
         try {
             ctrl.createMock(List.class, methods);
             fail("partial mocking on interface shouln't be allowed");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
         }
 
         try {
             ctrl.createMock(List.class, args, methods);
             fail("partial mocking on interface shouln't be allowed");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
         }
 
         try {
             ctrl.createMock("myMock", List.class, methods);
             fail("partial mocking on interface shouln't be allowed");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
         }
 
         try {
             ctrl.createMock("myMock", List.class, args, methods);
             fail("partial mocking on interface shouln't be allowed");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
         }
     }
 
-    private void testList(IMocksControl ctrl, List<?> list) {
+    private void testList(final IMocksControl ctrl, final List<?> list) {
         expect(list.size()).andReturn(3);
         ctrl.replay();
         assertEquals(3, list.size());

@@ -17,13 +17,16 @@
 package org.easymock.internal.matchers;
 
 /**
+ * @param <T>
+ *            Type of the values compared
+ * 
  * @author OFFIS, Tammo Freese
  */
 public class LessThan<T extends Comparable<T>> extends CompareTo<T> {
 
     private static final long serialVersionUID = 6004888476822043880L;
 
-    public LessThan(Comparable<T> value) {
+    public LessThan(final Comparable<T> value) {
         super(value);
     }
 
@@ -33,7 +36,7 @@ public class LessThan<T extends Comparable<T>> extends CompareTo<T> {
     }
 
     @Override
-    protected boolean matchResult(int result) {
+    protected boolean matchResult(final int result) {
         return result < 0;
     }
 }

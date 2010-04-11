@@ -20,12 +20,14 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
 /**
+ * @param <T>
+ *            Type of the values compared
+ * 
  * @author OFFIS, Tammo Freese
  */
 public class JavaProxyFactory<T> implements IProxyFactory<T> {
     @SuppressWarnings("unchecked")
-    public T createProxy(Class<T> toMock, InvocationHandler handler) {
-        return (T) Proxy.newProxyInstance(toMock.getClassLoader(),
-                new Class[] { toMock }, handler);
+    public T createProxy(final Class<T> toMock, final InvocationHandler handler) {
+        return (T) Proxy.newProxyInstance(toMock.getClassLoader(), new Class[] { toMock }, handler);
     }
 }

@@ -23,6 +23,9 @@ import org.easymock.internal.*;
 import org.easymock.internal.matchers.*;
 
 /**
+ * Main EasyMock class. Contains methods to create, replay and verify mocks and
+ * a list of standard matchers.
+ * 
  * @author OFFIS, Tammo Freese
  * @author Henri Tremblay
  */
@@ -46,8 +49,9 @@ public class EasyMock {
     public static final String NOT_THREAD_SAFE_BY_DEFAULT = "easymock.notThreadSafeByDefault";
 
     /**
-     * Since EasyMock 3.0, EasyMock can perform class mocking directly without using the class
-     * extension. If you want to disable any class mocking, turn this to true.
+     * Since EasyMock 3.0, EasyMock can perform class mocking directly without
+     * using the class extension. If you want to disable any class mocking, turn
+     * this to true.
      */
     public static final String DISABLE_CLASS_MOCKING = "easymock.disableClassMocking";
 
@@ -69,14 +73,17 @@ public class EasyMock {
     /**
      * Creates a mock object that implements the given interface, order checking
      * is enabled by default.
-     * @param name the name of the mock object.     
+     * 
+     * @param name
+     *            the name of the mock object.
      * @param toMock
      *            the class of the interface that the mock object should
      *            implement.
      * @param <T>
      *            the interface that the mock object should implement.
      * @return the mock object.
-     * @throws IllegalArgumentException if the name is not a valid Java identifier.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
      */
     public static <T> T createStrictMock(final String name, final Class<T> toMock) {
         return createStrictControl().createMock(name, toMock);
@@ -100,7 +107,9 @@ public class EasyMock {
     /**
      * Creates a mock object that implements the given interface, order checking
      * is disabled by default.
-     * @param name the name of the mock object.
+     * 
+     * @param name
+     *            the name of the mock object.
      * @param toMock
      *            the class of the interface that the mock object should
      *            implement.
@@ -108,7 +117,8 @@ public class EasyMock {
      * @param <T>
      *            the interface that the mock object should implement.
      * @return the mock object.
-     * @throws IllegalArgumentException if the name is not a valid Java identifier.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
      */
     public static <T> T createMock(final String name, final Class<T> toMock) {
         return createControl().createMock(name, toMock);
@@ -152,21 +162,19 @@ public class EasyMock {
     }
 
     /**
-     * Creates a mock object that implements the given class, order checking is
+     * Creates a mock object that extends the given class, order checking is
      * enabled by default.
      * 
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class that the mock object should extend.
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
      *            normally
      * @return the mock object.
      * 
-     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
-     *             instead
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
     public static <T> T createStrictMock(final Class<T> toMock, final Method... mockedMethods) {
@@ -174,23 +182,21 @@ public class EasyMock {
     }
 
     /**
-     * Creates a mock object that implements the given class, order checking is
+     * Creates a mock object that extends the given class, order checking is
      * enabled by default.
      * 
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class that the mock object should extend.
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
      *            normally
      * @return the mock object.
      * 
-     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
-     *             instead
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
     public static <T> T createStrictMock(final String name, final Class<T> toMock,
@@ -199,14 +205,13 @@ public class EasyMock {
     }
 
     /**
-     * Creates a mock object that implements the given class, order checking is
+     * Creates a mock object that extends the given class, order checking is
      * enabled by default.
      * 
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class that the mock object should extend.
      * @param constructorArgs
      *            constructor and parameters used to instantiate the mock.
      * @param mockedMethods
@@ -214,8 +219,7 @@ public class EasyMock {
      *            normally
      * @return the mock object.
      * 
-     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
-     *             instead
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
     public static <T> T createStrictMock(final Class<T> toMock, final ConstructorArgs constructorArgs,
@@ -224,16 +228,15 @@ public class EasyMock {
     }
 
     /**
-     * Creates a mock object that implements the given class, order checking is
+     * Creates a mock object that extends the given class, order checking is
      * enabled by default.
      * 
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class that the mock object should extend.
      * @param constructorArgs
      *            constructor and parameters used to instantiate the mock.
      * @param mockedMethods
@@ -241,8 +244,7 @@ public class EasyMock {
      *            normally
      * @return the mock object.
      * 
-     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
-     *             instead
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
     public static <T> T createStrictMock(final String name, final Class<T> toMock,
@@ -251,21 +253,19 @@ public class EasyMock {
     }
 
     /**
-     * Creates a mock object that implements the given class, order checking is
+     * Creates a mock object that extends the given class, order checking is
      * disabled by default.
      * 
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class that the mock object should extend.
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
      *            normally
      * @return the mock object.
      * 
-     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
-     *             instead
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
     public static <T> T createMock(final Class<T> toMock, final Method... mockedMethods) {
@@ -273,23 +273,21 @@ public class EasyMock {
     }
 
     /**
-     * Creates a mock object that implements the given class, order checking is
+     * Creates a mock object that extends the given class, order checking is
      * disabled by default.
      * 
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class that the mock object should extend.
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
      *            normally
      * @return the mock object.
      * 
-     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
-     *             instead
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
     public static <T> T createMock(final String name, final Class<T> toMock, final Method... mockedMethods) {
@@ -297,14 +295,13 @@ public class EasyMock {
     }
 
     /**
-     * Creates a mock object that implements the given class, order checking is
+     * Creates a mock object that extends the given class, order checking is
      * disabled by default.
      * 
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class that the mock object should extend.
      * @param constructorArgs
      *            constructor and parameters used to instantiate the mock.
      * @param mockedMethods
@@ -312,8 +309,7 @@ public class EasyMock {
      *            normally
      * @return the mock object.
      * 
-     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
-     *             instead
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
     public static <T> T createMock(final Class<T> toMock, final ConstructorArgs constructorArgs,
@@ -322,16 +318,15 @@ public class EasyMock {
     }
 
     /**
-     * Creates a mock object that implements the given class, order checking is
+     * Creates a mock object that extends the given class, order checking is
      * disabled by default.
      * 
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class that the mock object should extend.
      * @param constructorArgs
      *            constructor and parameters used to instantiate the mock.
      * @param mockedMethods
@@ -339,8 +334,7 @@ public class EasyMock {
      *            normally
      * @return the mock object.
      * 
-     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
-     *             instead
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
     public static <T> T createMock(final String name, final Class<T> toMock,
@@ -349,22 +343,20 @@ public class EasyMock {
     }
 
     /**
-     * Creates a mock object that implements the given class, order checking is
+     * Creates a mock object that extends the given class, order checking is
      * disabled by default, and the mock object will return <code>0</code>,
      * <code>null</code> or <code>false</code> for unexpected invocations.
      * 
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class that the mock object should extend.
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
      *            normally
      * @return the mock object.
      * 
-     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
-     *             instead
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
     public static <T> T createNiceMock(final Class<T> toMock, final Method... mockedMethods) {
@@ -372,24 +364,22 @@ public class EasyMock {
     }
 
     /**
-     * Creates a mock object that implements the given class, order checking is
+     * Creates a mock object that extends the given class, order checking is
      * disabled by default, and the mock object will return <code>0</code>,
      * <code>null</code> or <code>false</code> for unexpected invocations.
      * 
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class that the mock object should extend.
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
      *            normally
      * @return the mock object.
      * 
-     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
-     *             instead
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
     public static <T> T createNiceMock(final String name, final Class<T> toMock,
@@ -398,15 +388,14 @@ public class EasyMock {
     }
 
     /**
-     * Creates a mock object that implements the given class, order checking is
+     * Creates a mock object that extends the given class, order checking is
      * disabled by default, and the mock object will return <code>0</code>,
      * <code>null</code> or <code>false</code> for unexpected invocations.
      * 
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class that the mock object should extend.
      * @param constructorArgs
      *            constructor and parameters used to instantiate the mock.
      * @param mockedMethods
@@ -414,8 +403,7 @@ public class EasyMock {
      *            normally
      * @return the mock object.
      * 
-     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
-     *             instead
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
     public static <T> T createNiceMock(final Class<T> toMock, final ConstructorArgs constructorArgs,
@@ -424,17 +412,16 @@ public class EasyMock {
     }
 
     /**
-     * Creates a mock object that implements the given class, order checking is
+     * Creates a mock object that extends the given class, order checking is
      * disabled by default, and the mock object will return <code>0</code>,
      * <code>null</code> or <code>false</code> for unexpected invocations.
      * 
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class that the mock object should extend.
      * @param constructorArgs
      *            constructor and parameters used to instantiate the mock.
      * @param mockedMethods
@@ -442,8 +429,7 @@ public class EasyMock {
      *            normally
      * @return the mock object.
      * 
-     * @deprecated Use {@link #org.easymock.EasyMock.createMockBuilder(Class)}
-     *             instead
+     * @deprecated Use {@link #createMockBuilder(Class)} instead
      */
     @Deprecated
     public static <T> T createNiceMock(final String name, final Class<T> toMock,
@@ -499,7 +485,8 @@ public class EasyMock {
      * Returns the expectation setter for the last expected invocation in the
      * current thread.
      * 
-     * @param <T> type returned by the expected method 
+     * @param <T>
+     *            type returned by the expected method
      * @param value
      *            the parameter is used to transport the type to the
      *            ExpectationSetter. It allows writing the expected call as
@@ -517,7 +504,8 @@ public class EasyMock {
      * current thread. This method is used for expected invocations on void
      * methods.
      * 
-     * @param <T> type returned by the expected method
+     * @param <T>
+     *            type returned by the expected method
      * @return the expectation setter.
      */
     public static <T> IExpectationSetters<T> expectLastCall() {
@@ -619,7 +607,8 @@ public class EasyMock {
     /**
      * Expects any Object argument. For details, see the EasyMock documentation.
      * 
-     * @param <T> type of the method argument to match 
+     * @param <T>
+     *            type of the method argument to match
      * @return <code>null</code>.
      */
     public static <T> T anyObject() {
@@ -628,10 +617,11 @@ public class EasyMock {
     }
 
     /**
-     * Expects a comparable argument greater than or equal the given value. For details, see
-     * the EasyMock documentation.
+     * Expects a comparable argument greater than or equal the given value. For
+     * details, see the EasyMock documentation.
      * 
-     * @param <T> type of the method argument to match
+     * @param <T>
+     *            type of the method argument to match
      * @param value
      *            the given value.
      * @return <code>null</code>.
@@ -720,10 +710,11 @@ public class EasyMock {
     }
 
     /**
-     * Expects a comparable argument less than or equal the given value. For details, see
-     * the EasyMock documentation.
+     * Expects a comparable argument less than or equal the given value. For
+     * details, see the EasyMock documentation.
      * 
-     * @param <T> type of the method argument to match
+     * @param <T>
+     *            type of the method argument to match
      * @param value
      *            the given value.
      * @return <code>null</code>.
@@ -812,10 +803,11 @@ public class EasyMock {
     }
 
     /**
-     * Expects a comparable argument greater than the given value. For details, see
-     * the EasyMock documentation.
+     * Expects a comparable argument greater than the given value. For details,
+     * see the EasyMock documentation.
      * 
-     * @param <T> type of the method argument to match
+     * @param <T>
+     *            type of the method argument to match
      * @param value
      *            the given value.
      * @return <code>null</code>.
@@ -907,7 +899,8 @@ public class EasyMock {
      * Expects a comparable argument less than the given value. For details, see
      * the EasyMock documentation.
      * 
-     * @param <T> type of the method argument to match
+     * @param <T>
+     *            type of the method argument to match
      * @param value
      *            the given value.
      * @return <code>null</code>.
@@ -1488,7 +1481,8 @@ public class EasyMock {
     /**
      * Expects an Object that is equal to the given value.
      * 
-     * @param <T> type of the method argument to match
+     * @param <T>
+     *            type of the method argument to match
      * @param value
      *            the given value.
      * @return <code>null</code>.
@@ -1620,7 +1614,8 @@ public class EasyMock {
     /**
      * Expects null.
      * 
-     * @param <T> type of the method argument to match
+     * @param <T>
+     *            type of the method argument to match
      * @return <code>null</code>.
      */
     public static <T> T isNull() {
@@ -1631,7 +1626,8 @@ public class EasyMock {
     /**
      * Expects not null.
      * 
-     * @param <T> type of the method argument to match
+     * @param <T>
+     *            type of the method argument to match
      * @return <code>null</code>.
      */
     public static <T> T notNull() {
@@ -1739,10 +1735,11 @@ public class EasyMock {
     }
 
     /**
-     * Expects a comparable argument equals to the given value according to their
-     * compareTo method. For details, see the EasMock documentation.
+     * Expects a comparable argument equals to the given value according to
+     * their compareTo method. For details, see the EasMock documentation.
      * 
-     * @param <T> type of the method argument to match
+     * @param <T>
+     *            type of the method argument to match
      * @param value
      *            the given value.
      * @return <code>null</code>.
@@ -1760,10 +1757,14 @@ public class EasyMock {
      * </p>
      * For details, see the EasyMock documentation.
      * 
-     * @param <T> type of the method argument to match
-     * @param value the given value.
-     * @param comparator Comparator used to compare the actual with expected value.
-     * @param operator The comparison operator.
+     * @param <T>
+     *            type of the method argument to match
+     * @param value
+     *            the given value.
+     * @param comparator
+     *            Comparator used to compare the actual with expected value.
+     * @param operator
+     *            The comparison operator.
      * @return <code>null</code>
      */
     public static <T> T cmp(final T value, final Comparator<? super T> comparator,
@@ -1782,9 +1783,11 @@ public class EasyMock {
 
     /**
      * Expect any object but captures it for later use.
-     *  
-     * @param <T> Type of the captured object
-     * @param captured Where the parameter is captured
+     * 
+     * @param <T>
+     *            Type of the captured object
+     * @param captured
+     *            Where the parameter is captured
      * @return <code>null</code>
      */
     public static <T> T capture(final Capture<T> captured) {
@@ -1794,8 +1797,9 @@ public class EasyMock {
 
     /**
      * Expect any boolean but captures it for later use.
-     *  
-     * @param captured Where the parameter is captured
+     * 
+     * @param captured
+     *            Where the parameter is captured
      * @return <code>false</code>
      */
     public static boolean capture(final Capture<Boolean> captured) {
@@ -1805,8 +1809,9 @@ public class EasyMock {
 
     /**
      * Expect any int but captures it for later use.
-     *  
-     * @param captured Where the parameter is captured
+     * 
+     * @param captured
+     *            Where the parameter is captured
      * @return <code>0</code>
      */
     public static int capture(final Capture<Integer> captured) {
@@ -1816,8 +1821,9 @@ public class EasyMock {
 
     /**
      * Expect any long but captures it for later use.
-     *  
-     * @param captured Where the parameter is captured
+     * 
+     * @param captured
+     *            Where the parameter is captured
      * @return <code>0</code>
      */
     public static long capture(final Capture<Long> captured) {
@@ -1827,8 +1833,9 @@ public class EasyMock {
 
     /**
      * Expect any float but captures it for later use.
-     *  
-     * @param captured Where the parameter is captured
+     * 
+     * @param captured
+     *            Where the parameter is captured
      * @return <code>0</code>
      */
     public static float capture(final Capture<Float> captured) {
@@ -1838,8 +1845,9 @@ public class EasyMock {
 
     /**
      * Expect any double but captures it for later use.
-     *  
-     * @param captured Where the parameter is captured
+     * 
+     * @param captured
+     *            Where the parameter is captured
      * @return <code>0</code>
      */
     public static double capture(final Capture<Double> captured) {
@@ -1849,8 +1857,9 @@ public class EasyMock {
 
     /**
      * Expect any byte but captures it for later use.
-     *  
-     * @param captured Where the parameter is captured
+     * 
+     * @param captured
+     *            Where the parameter is captured
      * @return <code>0</code>
      */
     public static byte capture(final Capture<Byte> captured) {
@@ -1860,8 +1869,9 @@ public class EasyMock {
 
     /**
      * Expect any char but captures it for later use.
-     *  
-     * @param captured Where the parameter is captured
+     * 
+     * @param captured
+     *            Where the parameter is captured
      * @return <code>0</code>
      */
     public static char capture(final Capture<Character> captured) {
@@ -1897,8 +1907,8 @@ public class EasyMock {
 
     /**
      * Resets the given mock objects (more exactly: the controls of the mock
-     * objects) and turn them to a mock with nice behavior. For details, see 
-     * the EasyMock documentation.
+     * objects) and turn them to a mock with nice behavior. For details, see the
+     * EasyMock documentation.
      * 
      * @param mocks
      *            the mock objects
@@ -1911,7 +1921,7 @@ public class EasyMock {
 
     /**
      * Resets the given mock objects (more exactly: the controls of the mock
-     * objects) and turn them to a mock with default behavior. For details, see 
+     * objects) and turn them to a mock with default behavior. For details, see
      * the EasyMock documentation.
      * 
      * @param mocks
@@ -1925,7 +1935,7 @@ public class EasyMock {
 
     /**
      * Resets the given mock objects (more exactly: the controls of the mock
-     * objects) and turn them to a mock with strict behavior. For details, see 
+     * objects) and turn them to a mock with strict behavior. For details, see
      * the EasyMock documentation.
      * 
      * @param mocks
@@ -1981,7 +1991,7 @@ public class EasyMock {
 
     /**
      * Returns the arguments of the current mock method call, if inside an
-     * <code>IAnswer</code> callback - be careful here, reordering parameters of  
+     * <code>IAnswer</code> callback - be careful here, reordering parameters of
      * method changes the semantics of your tests.
      * 
      * @return the arguments of the current mock method call.

@@ -19,6 +19,9 @@ package org.easymock.internal;
 import java.lang.reflect.InvocationHandler;
 
 /**
+ * @param <T>
+ *            Type of the values compared
+ * 
  * @author OFFIS, Tammo Freese
  */
 public interface IProxyFactory<T> {

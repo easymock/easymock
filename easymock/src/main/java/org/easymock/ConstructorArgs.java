@@ -37,7 +37,7 @@ public class ConstructorArgs {
      * @param initArgs
      *            Arguments passed to the constructor
      */
-    public ConstructorArgs(Constructor<?> constructor, Object... initArgs) {
+    public ConstructorArgs(final Constructor<?> constructor, final Object... initArgs) {
         this.constructor = constructor;
         this.initArgs = initArgs;
 
@@ -46,32 +46,30 @@ public class ConstructorArgs {
 
     private void validateArgs() {
 
-        Class<?>[] paramTypes = constructor.getParameterTypes();
+        final Class<?>[] paramTypes = constructor.getParameterTypes();
 
         if (initArgs.length != paramTypes.length) {
-            throw new IllegalArgumentException(
-                    "Number of provided arguments doesn't match constructor ones");
+            throw new IllegalArgumentException("Number of provided arguments doesn't match constructor ones");
         }
 
         for (int i = 0; i < initArgs.length; i++) {
 
-            Class<?> paramType = paramTypes[i];
-            Object arg = initArgs[i];
+            final Class<?> paramType = paramTypes[i];
+            final Object arg = initArgs[i];
 
             if (paramType.isPrimitive()) {
                 if (arg == null) {
-                    throw new IllegalArgumentException(
-                            "Null argument for primitive param " + i);
+                    throw new IllegalArgumentException("Null argument for primitive param " + i);
                 }
 
                 try {
-                    Field field = arg.getClass().getDeclaredField("TYPE");
-                    Class<?> argType = (Class<?>) field.get(null);
+                    final Field field = arg.getClass().getDeclaredField("TYPE");
+                    final Class<?> argType = (Class<?>) field.get(null);
 
                     if (paramType.equals(argType)) {
                         continue;
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     throw throwException(paramType, arg);
                 }
 
@@ -86,15 +84,20 @@ public class ConstructorArgs {
         }
     }
 
-    private IllegalArgumentException throwException(Class<?> paramType,
-            Object arg) {
+    private IllegalArgumentException throwException(final Class<?> paramType, final Object arg) {
         return new IllegalArgumentException(arg + " isn't of type " + paramType);
     }
 
+    /**
+     * @return arguments to be passed to the constructor
+     */
     public Object[] getInitArgs() {
         return initArgs;
     }
 
+    /**
+     * @return constructor to be called
+     */
     public Constructor<?> getConstructor() {
         return constructor;
     }
