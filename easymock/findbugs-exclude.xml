@@ -9,4 +9,14 @@
     <Method name="getArguments" />
     <Bug code="EI" />
   </Match>  
+  <Match>
+    <Class name="org.easymock.ConstructorArgs" />
+    <Method name="getInitArgs" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+    <Class name="org.easymock.ConstructorArgs" />
+    <Method name="validateArgs" />
+    <Bug pattern="REC_CATCH_EXCEPTION" />
+  </Match>  
 </FindBugsFilter>
