@@ -245,6 +245,7 @@
         <version>2.3</version>
         <configuration>
           <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
+          <xmlOutput>true</xmlOutput>
         </configuration>        
       </plugin>
       <plugin>
