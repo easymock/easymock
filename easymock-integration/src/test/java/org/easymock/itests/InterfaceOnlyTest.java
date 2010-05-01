@@ -26,10 +26,8 @@ import org.easymock.EasyMockSupport;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.MocksControl.MockType;
 import org.easymock.internal.matchers.Equals;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
 import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
-import org.springframework.osgi.util.OsgiStringUtils;
 
 /**
  * Test that we still can mock interfaces without cglib and objenesis as
@@ -75,21 +73,6 @@ public class InterfaceOnlyTest extends AbstractConfigurableBundleCreatorTests {
         return mf;
     }
 
-    public void testOsgiPlatformStarts() throws Exception {
-        System.out.println("Framework vendor: " + this.bundleContext.getProperty(Constants.FRAMEWORK_VENDOR));
-        System.out.println("Framework version: " + bundleContext.getProperty(Constants.FRAMEWORK_VERSION));
-        System.out.println("Execution environment: "
-                + bundleContext.getProperty(Constants.FRAMEWORK_EXECUTIONENVIRONMENT));
-
-        System.out.println("-----------------------------");
-
-        final Bundle[] bundles = bundleContext.getBundles();
-        for (final Bundle bundle : bundles) {
-            System.out.println(OsgiStringUtils.nullSafeName(bundle) + ": "
-                    + bundle.getHeaders().get(Constants.BUNDLE_VERSION));
-        }
-    }
-
     public void testCanMock() throws IOException {
         final Appendable mock = createMock(Appendable.class);
         expect(mock.append("test")).andReturn(mock);
@@ -104,5 +87,16 @@ public class InterfaceOnlyTest extends AbstractConfigurableBundleCreatorTests {
 
     public void testCanUseInternal() {
         final MocksControl ctrl = new MocksControl(MockType.DEFAULT);
+    }
+
+    public void testCannotMock() throws IOException {
+        try {
+            final InterfaceOnlyTest mock = createMock(InterfaceOnlyTest.class);
+            fail("Should throw an exception due to a NoClassDefFoundError");
+        } catch (final RuntimeException e) {
+            assertEquals("Class mocking requires to have cglib and objenesis librairies in the classpath", e
+                    .getMessage());
+            assertTrue(e.getCause() instanceof NoClassDefFoundError);
+        }
     }
 }
