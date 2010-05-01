@@ -45,23 +45,15 @@ EasyMock Benefits
 <h2>
 Requirements
 </h2>
-<p>
-EasyMock only works with Java 1.5.0 and above.
-</p>
+<ul>
+<li>EasyMock only works with Java 1.5.0 and above.</li>
+<li>cglib (2.2) and Objenesis (1.2) must be in the classpath to perform class mocking</li>
+</ul>
 <h2>
 Installation
 </h2>
-<ul>
-<li>Unzip the EasyMock zip file (<code>easymock${project.version}.zip</code>). It contains a directory
-<code>easymock${project.version}</code>. Add the EasyMock jar file (<code>easymock.jar</code>) 
-from this directory to your classpath.
-</li>
-<li>To execute the EasyMock tests, add <code>tests.zip</code> and the JUnit 4.5 jar 
-to your class path and start <code>'java org.easymock.tests.AllTests'</code>.
-</li>
-<li>The source code of EasyMock is stored in the zip file <code>src.zip</code>.
-</li>
-<li>EasyMock is also available in the Maven central repository. Add the following dependency to your pom.xml:
+<h3>Using Maven</h3>
+EasyMock is available in the Maven central repository. Just add the following dependency to your pom.xml:
 <pre>
     &lt;dependency&gt;
       &lt;groupId&gt;org.easymock&lt;/groupId&gt;
@@ -70,7 +62,17 @@ to your class path and start <code>'java org.easymock.tests.AllTests'</code>.
       &lt;scope&gt;test&lt;/scope&gt;
     &lt;/dependency&gt;
 </pre>
-</li>
+You can obviously use any other dependency tool compatible with the Maven repository.
+
+<h3>Manually</h3>
+<ul>
+<li>Unzip the EasyMock zip file (<code>easymock-${project.version}.zip</code>).</li>
+<li>Go into the <code>easymock-${project.version}</code> directory.</li>
+<li>Add the EasyMock jar file (<code>easymock.jar</code>) to your classpath.</li>
+<li>To perform class mocking, also add <a href="http://www.objenesis.org">Objenesis</a> and <a href="http://cglib.sourceforge.net/">Cglib</a> to your classpath.</li>
+<li>The tests are in <code>easymock-${project.version}-tests.jar</code> and can be launched with a JUnit TestRunner 
+having JUnit 4.7 on top of EasyMock, cglib and Objenesis in your classpath.</li>
+<li>The source code of EasyMock is stored in <code>easymock-${project.version}-sources.jar</code>.</li>
 </ul>
 <h2>
 Usage
@@ -964,7 +966,7 @@ at allowing to use a legacy behavior on a new version. Currently supported prope
 <dt><code>easymock.enableThreadSafetyCheckByDefault</code></dt>
 <dd>If true, thread-safety check feature will be on by default. Possible values are "true" or "false". Default is false</dd>
 <dt><code>easymock.disableClassMocking</code></dt>
-<dd>Do not allow class mocking (only allow interface mocking). Possible values are "true" or "false". Default is false</dd>
+<dd>Do not allow class mocking (only allow interface mocking). Possible values are "true" or "false". Default is false.</dd>
 </dl>
 <p>
 Properties can be set in three ways. Each step in the list can overwrite

@@ -53,24 +53,15 @@ Avantages d'EasyMock
 Environnement Requis
 </h2>
 <ul>
-<li>EasyMock 2 fonctionne uniquement avec Java 1.5.0 ou supérieur.
-</li>
+<li>EasyMock 2 fonctionne uniquement avec Java 1.5.0 ou supérieur.</li>
+<li>cglib (2.2) and Objenesis (1.2) doivent être présent dans le classpath pour faire du mocking de classes</li>
 </ul>
 <h2>
 Installation
 </h2>
-<ul>
-<li>Décompressez le fichier zip d'EasyMock (<code>easymock${project.version}.zip</code>). Il contient le répertoire
-<code>easymock${project.version}</code>. Ajoutez le jar d'EasyMock (<code>easymock.jar</code>) de ce répertoire dans votre 
-classpath.
-</li>
-<li>Pour exécuter les tests d'EasyMock, ajoutez <code>tests.zip</code> et le jar de JUnit 4.5
-à votre classpath and lancez <code>'java org.easymock.tests.AllTests'</code>.
-</li>
-<li>Le code source d'EasyMock est situé dans <code>src.zip</code>.
-</li>
-<li>EasyMock est aussi disponible dans le référentiel central de Maven. Ajoutez la
-dépendance suivate à votre pom.xml:
+<h3>Avec Maven</h3>
+EasyMock est disponible dans le référentiel central de Maven. Ajoutez la dépendance 
+suivante à votre pom.xml:
 <pre>
     &lt;dependency&gt;
       &lt;groupId&gt;org.easymock&lt;/groupId&gt;
@@ -79,7 +70,17 @@ dépendance suivate à votre pom.xml:
       &lt;scope&gt;test&lt;/scope&gt;
     &lt;/dependency&gt;
 </pre>
-</li>
+Vous pouvez, bien évidemment, n'importe quel outil de gestion de dépendances compatible
+avec le référentiel Maven.
+<h3>Manuellement</h3>
+<ul>
+<li>Décompressez le fichier zip d'EasyMock (<code>easymock-${project.version}.zip</code>).</li>
+<li>Allez dans le répertoire <code>easymock-${project.version}</code>.</li>
+<li>Ajoutez le jar d'EasyMock (<code>easymock.jar</code>) à votre classpath.</li>
+<li>Pour pouvoir mocker des classes, ajoutez aussi <a href="http://www.objenesis.org">Objenesis</a> et <a href="http://cglib.sourceforge.net/">Cglib</a> à votre classpath.</li>
+<li>Les tests sont dans <code>easymock-${project.version}-tests.jar</code> et peuvent être lancés à l'aide d'un JUnit TestRunner 
+en ayant JUnit 4.7, EasyMock, cglib et Objenesis dans votre classpath.</li>
+<li>Le code source d'EasyMock est situé dans <code>easymock-${project.version}-sources.jar</code>.</li>
 </ul>
 <h2>
 Utilisation
