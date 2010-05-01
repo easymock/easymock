@@ -39,38 +39,36 @@ public class Invocation implements Serializable {
     private transient Method method;
 
     private final Object[] arguments;
-    
-    private final Collection<Captures<?>> currentCaptures = new ArrayList<Captures<?>>(
-            0);
 
-    public Invocation(Object mock, Method method, Object[] args) {
+    private final Collection<Captures<?>> currentCaptures = new ArrayList<Captures<?>>(0);
+
+    public Invocation(final Object mock, final Method method, final Object[] args) {
         this.mock = mock;
         this.method = method;
         this.arguments = expandVarArgs(method.isVarArgs(), args);
     }
 
-    private static Object[] expandVarArgs(final boolean isVarArgs,
-            final Object[] args) {
+    private static Object[] expandVarArgs(final boolean isVarArgs, final Object[] args) {
         if (!isVarArgs) {
             return args == null ? new Object[0] : args;
         }
         if (args[args.length - 1] == null) {
             return args;
         }
-        Object[] varArgs = createObjectArray(args[args.length - 1]);
+        final Object[] varArgs = createObjectArray(args[args.length - 1]);
         final int nonVarArgsCount = args.length - 1;
         final int varArgsCount = varArgs.length;
-        Object[] newArgs = new Object[nonVarArgsCount + varArgsCount];
+        final Object[] newArgs = new Object[nonVarArgsCount + varArgsCount];
         System.arraycopy(args, 0, newArgs, 0, nonVarArgsCount);
         System.arraycopy(varArgs, 0, newArgs, nonVarArgsCount, varArgsCount);
         return newArgs;
     }
-    
-    private static Object[] createObjectArray(Object array) {
+
+    private static Object[] createObjectArray(final Object array) {
         if (array instanceof Object[]) {
             return (Object[]) array;
         }
-        Object[] result = new Object[Array.getLength(array)];
+        final Object[] result = new Object[Array.getLength(array)];
         for (int i = 0; i < Array.getLength(array); i++) {
             result[i] = Array.get(array, i);
         }
@@ -90,12 +88,12 @@ public class Invocation implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (o == null || !o.getClass().equals(this.getClass())) {
             return false;
         }
 
-        Invocation other = (Invocation) o;
+        final Invocation other = (Invocation) o;
 
         return this.mock.equals(other.mock) && this.method.equals(other.method)
                 && this.equalArguments(other.arguments);
@@ -111,13 +109,13 @@ public class Invocation implements Serializable {
         return getMockAndMethodName() + "(" + ArgumentToString.argumentsToString(arguments) + ")";
     }
 
-    private boolean equalArguments(Object[] arguments) {
+    private boolean equalArguments(final Object[] arguments) {
         if (this.arguments.length != arguments.length) {
             return false;
         }
         for (int i = 0; i < this.arguments.length; i++) {
-            Object myArgument = this.arguments[i];
-            Object otherArgument = arguments[i];
+            final Object myArgument = this.arguments[i];
+            final Object otherArgument = arguments[i];
 
             if (isPrimitiveParameter(i)) {
                 if (!myArgument.equals(otherArgument)) {
@@ -133,83 +131,82 @@ public class Invocation implements Serializable {
     }
 
     private boolean isPrimitiveParameter(int parameterPosition) {
-        Class<?>[] parameterTypes = method.getParameterTypes();
+        final Class<?>[] parameterTypes = method.getParameterTypes();
         if (method.isVarArgs()) {
-            parameterPosition = Math.min(parameterPosition,
-                    parameterTypes.length - 1);
+            parameterPosition = Math.min(parameterPosition, parameterTypes.length - 1);
         }
         return parameterTypes[parameterPosition].isPrimitive();
     }
 
     public String getMockAndMethodName() {
-        String mockName = mock.toString();
-        String methodName = method.getName();
+        final String mockName = mock.toString();
+        final String methodName = method.getName();
         if (toStringIsDefined(mock) && isJavaIdentifier(mockName)) {
             return mockName + "." + methodName;
         } else {
             return methodName;
         }
     }
-    
-    public void addCapture(Captures<Object> capture, Object value) {
+
+    public void addCapture(final Captures<Object> capture, final Object value) {
         capture.setPotentialValue(value);
         currentCaptures.add(capture);
     }
 
     public void validateCaptures() {
-        for (Captures<?> c : currentCaptures) {
+        for (final Captures<?> c : currentCaptures) {
             c.validateCapture();
         }
     }
 
     public void clearCaptures() {
-        for (Captures<?> c : currentCaptures) {
+        for (final Captures<?> c : currentCaptures) {
             c.setPotentialValue(null);
         }
         currentCaptures.clear();
-    }    
-    
-    private boolean toStringIsDefined(Object o) {
+    }
+
+    private boolean toStringIsDefined(final Object o) {
         try {
-            o.getClass().getDeclaredMethod("toString", (Class[]) null)
-                    .getModifiers();
+            o.getClass().getDeclaredMethod("toString", (Class[]) null).getModifiers();
             return true;
-        } catch (SecurityException ignored) {
+        } catch (final SecurityException ignored) {
             // ///CLOVER:OFF
             return false;
             // ///CLOVER:ON
-        } catch (NoSuchMethodException shouldNeverHappen) {
+        } catch (final NoSuchMethodException ignored) {
             // ///CLOVER:OFF
-            throw new RuntimeException("The toString() method could not be found!");
+            return false;
             // ///CLOVER:ON
         }
     }
 
-    public static boolean isJavaIdentifier(String mockName) {
+    public static boolean isJavaIdentifier(final String mockName) {
         if (mockName.length() == 0 || mockName.indexOf(' ') > -1
                 || !Character.isJavaIdentifierStart(mockName.charAt(0))) {
             return false;
         }
-        for (char c : mockName.substring(1).toCharArray()) {
+        for (final char c : mockName.substring(1).toCharArray()) {
             if (!isJavaIdentifierPart(c)) {
                 return false;
             }
         }
         return true;
     }
-    
-    private void readObject(java.io.ObjectInputStream stream) throws IOException, ClassNotFoundException {
+
+    private void readObject(final java.io.ObjectInputStream stream) throws IOException,
+            ClassNotFoundException {
         stream.defaultReadObject();
         try {
             method = ((MethodSerializationWrapper) stream.readObject()).getMethod();
-        } catch (NoSuchMethodException e) {
+        } catch (final NoSuchMethodException e) {
             // ///CLOVER:OFF
             throw new IOException(e.toString());
             // ///CLOVER:ON
         }
     }
-    
-    private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
+
+    private void writeObject(final java.io.ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
         stream.writeObject(new MethodSerializationWrapper(method));
     }
