@@ -96,22 +96,30 @@ class FilteringClassLoader extends ClassLoader {
 
     private Class<?> loadClass0(final String name) throws IOException {
         final String path = name.replace('.', '/') + ".class";
-        final InputStream in = getResourceAsStream(path);
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        InputStream in = null;
+        ByteArrayOutputStream out = null;
 
-        int one;
-        while ((one = in.read()) != -1) {
-            out.write((byte) one);
+        try {
+            in = getResourceAsStream(path);
+            out = new ByteArrayOutputStream();
+
+            int one;
+            while ((one = in.read()) != -1) {
+                out.write((byte) one);
+            }
+
+            out.flush();
+
+            final byte bytes[] = out.toByteArray();
+            return bytes == null ? null : defineClass(name, bytes, 0, bytes.length);
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+            if (out != null) {
+                out.close();
+            }
         }
-
-        out.flush();
-
-        final byte bytes[] = out.toByteArray();
-
-        in.close();
-        out.close();
-
-        return bytes == null ? null : defineClass(name, bytes, 0, bytes.length);
     }
 
     private boolean isIgnored(final String name) {
