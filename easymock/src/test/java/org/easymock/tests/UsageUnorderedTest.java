@@ -36,9 +36,9 @@ public class UsageUnorderedTest {
 
         mock.method(anyInt());
         expectLastCall().once();
+        mock.method(42);
         mock.method(anyInt());
         expectLastCall().times(2);
-        mock.method(42);
 
         replay(mock);
 

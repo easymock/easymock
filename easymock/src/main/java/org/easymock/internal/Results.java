@@ -46,6 +46,21 @@ public class Results implements Serializable {
         results.add(result);
     }
 
+    public boolean hasResults() {
+        int currentPosition = 0;
+        for (int i = 0; i < ranges.size(); i++) {
+            final Range interval = ranges.get(i);
+            if (interval.hasOpenCount()) {
+                return true;
+            }
+            currentPosition += interval.getMaximum();
+            if (currentPosition > callCount) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Result next() {
         int currentPosition = 0;
         for (int i = 0; i < ranges.size(); i++) {

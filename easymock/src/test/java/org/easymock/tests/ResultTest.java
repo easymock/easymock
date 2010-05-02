@@ -19,6 +19,7 @@ package org.easymock.tests;
 import static org.junit.Assert.*;
 
 import org.easymock.internal.Result;
+import org.easymock.internal.Results;
 import org.junit.Test;
 
 /**
@@ -46,5 +47,14 @@ public class ResultTest {
         final String value = "my value";
         final Result r = Result.createDelegatingResult(value);
         assertEquals("Delegated to " + value, r.toString());
+    }
+
+    @Test
+    public void emptyResults() {
+        // We never create a Results without at least one Range
+        // This test is only to unit test Results with this to cover the case anyway
+        final Results results = new Results();
+        assertFalse(results.hasResults());
+        assertNull(results.next());
     }
 }
