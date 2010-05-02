@@ -4,14 +4,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
     <groupId>org.easymock</groupId>
     <artifactId>easymock-parent</artifactId>
     <version>3.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
+    <relativePath>..</relativePath>
   </parent>
-  
+
   <artifactId>easymock</artifactId>
   <packaging>jar</packaging>
   <name>EasyMock</name>
@@ -45,17 +45,17 @@
       <groupId>org.objenesis</groupId>
       <artifactId>objenesis</artifactId>
       <version>1.2</version>
-    </dependency>  
+    </dependency>
   </dependencies>
   <build>
-    <plugins>         
+    <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
             <phase>generate-sources</phase>
             <configuration>
-              <tasks />
+              <tasks/>
               <testSourceRoot>${basedir}/src/samples/java</testSourceRoot>
             </configuration>
             <goals>
@@ -72,7 +72,7 @@
             <Export-Package>org.easymock.internal.*;poweruser=true;mandatory:=poweruser, org.easymock</Export-Package>
             <Import-Package>net.sf.cglib.core;resolution:=optional,net.sf.cglib.proxy;resolution:=optional,net.sf.cglib.reflect;resolution:=optional,org.easymock,org.easymock.internal;poweruser=true,org.objenesis;resolution:=optional</Import-Package>
           </instructions>
-        </configuration>        
+        </configuration>
         <executions>
           <execution>
             <id>bundle-manifest</id>
@@ -82,48 +82,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.atlassian.maven.plugins</groupId>
-        <artifactId>maven-clover2-plugin</artifactId>
-        <configuration>
-          <licenseLocation>${basedir}/clover.license</licenseLocation>
-          <targetPercentage>100.00%</targetPercentage>
-          <generateHtml>true</generateHtml>
-          <generateXml>false</generateXml>
-          <jdk>1.5</jdk>
-          <excludes>
-            <exclude>**/org/easymock/tests/IMethods.java</exclude>
-            <exclude>**/org/easymock/tests/IVarArgs.java</exclude>
-            <exclude>**/org/easymock/tests/Util.java</exclude>
-            <exclude>**/org/easymock/samples/*.java</exclude>
-          </excludes>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>instrument</goal>
-              <goal>clover</goal>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <!-- Run the tests with JDK 1.5 to be sure EasyMock is compliant -->
-          <jvm>${jdk1_5.jvm}</jvm>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-          </execution>
-      </executions>
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -136,10 +94,64 @@
           </descriptors>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>com.mycila.maven-license-plugin</groupId>
-        <artifactId>maven-license-plugin</artifactId>
-      </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>fullBuild</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>      
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.atlassian.maven.plugins</groupId>
+            <artifactId>maven-clover2-plugin</artifactId>
+            <configuration>
+              <licenseLocation>${basedir}/clover.license</licenseLocation>
+              <targetPercentage>100.00%</targetPercentage>
+              <generateHtml>true</generateHtml>
+              <generateXml>false</generateXml>
+              <jdk>1.5</jdk>
+              <excludes>
+                <exclude>**/org/easymock/tests/IMethods.java</exclude>
+                <exclude>**/org/easymock/tests/IVarArgs.java</exclude>
+                <exclude>**/org/easymock/tests/Util.java</exclude>
+                <exclude>**/org/easymock/samples/*.java</exclude>
+              </excludes>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>instrument</goal>
+                  <goal>clover</goal>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <!-- Run the tests with JDK 1.5 to be sure EasyMock is compliant -->
+              <jvm>${jdk1_5.jvm}</jvm>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>com.mycila.maven-license-plugin</groupId>
+            <artifactId>maven-license-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
