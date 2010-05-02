@@ -32,7 +32,7 @@ public interface IMocksControlState {
     void andThrow(Throwable throwable);
 
     void andAnswer(IAnswer<?> answer);
-    
+
     void andDelegateTo(Object answer);
 
     void andStubReturn(Object value);
@@ -40,7 +40,7 @@ public interface IMocksControlState {
     void andStubThrow(Throwable throwable);
 
     void andStubAnswer(IAnswer<?> answer);
-    
+
     void andStubDelegateTo(Object delegateTo);
 
     void asStub();
@@ -50,9 +50,9 @@ public interface IMocksControlState {
     void checkOrder(boolean value);
 
     void makeThreadSafe(boolean threadSafe);
-    
+
     void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread);
-    
+
     void replay();
 
     void verify();

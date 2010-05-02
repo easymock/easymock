@@ -40,7 +40,7 @@ public class LimitationsTest {
         private PrivateClass() {
         }
     }
-    
+
     public static class NativeClass {
         public native int foo();
     }
@@ -49,24 +49,24 @@ public class LimitationsTest {
         try {
             createMock(String.class);
             fail("Magic, we can mock a final class");
-        } catch (Exception e) {
+        } catch (final Exception e) {
         }
     }
 
     @Test
     public void abstractClass() {
-        Object o = createMock(AbstractList.class);
+        final Object o = createMock(AbstractList.class);
         assertTrue(o instanceof AbstractList<?>);
     }
 
     @Test
     public void mockFinalMethod() {
-        MyClass c = createMock(MyClass.class);
+        final MyClass c = createMock(MyClass.class);
 
         try {
             c.foo();
             fail("Final method shouldn't be mocked");
-        } catch (Exception e) {
+        } catch (final Exception e) {
         }
     }
 
@@ -74,10 +74,10 @@ public class LimitationsTest {
     public void privateConstructor() {
         createMock(PrivateClass.class);
     }
-    
+
     @Test
     public void mockNativeMethod() {
-        NativeClass mock = createMock(NativeClass.class);
+        final NativeClass mock = createMock(NativeClass.class);
         expect(mock.foo()).andReturn(1);
         replay(mock);
         assertEquals(1, mock.foo());

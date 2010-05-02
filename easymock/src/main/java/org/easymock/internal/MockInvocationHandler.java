@@ -26,26 +26,24 @@ import java.lang.reflect.Method;
 public final class MockInvocationHandler implements InvocationHandler, Serializable {
 
     private static final long serialVersionUID = -7799769066534714634L;
-    
+
     private final MocksControl control;
 
-    public MockInvocationHandler(MocksControl control) {
+    public MockInvocationHandler(final MocksControl control) {
         this.control = control;
     }
 
-    public Object invoke(Object proxy, Method method, Object[] args)
-            throws Throwable {
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         try {
             if (control.getState() instanceof RecordState) {
                 LastControl.reportLastControl(control);
             }
-            return control.getState().invoke(
-                    new Invocation(proxy, method, args));
-        } catch (RuntimeExceptionWrapper e) {
+            return control.getState().invoke(new Invocation(proxy, method, args));
+        } catch (final RuntimeExceptionWrapper e) {
             throw e.getRuntimeException().fillInStackTrace();
-        } catch (AssertionErrorWrapper e) {
+        } catch (final AssertionErrorWrapper e) {
             throw e.getAssertionError().fillInStackTrace();
-        } catch (ThrowableWrapper t) {
+        } catch (final ThrowableWrapper t) {
             throw t.getThrowable().fillInStackTrace();
         }
         // then let all unwrapped exceptions pass unmodified

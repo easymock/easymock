@@ -20,7 +20,8 @@ import java.lang.reflect.*;
 import java.util.*;
 
 /**
- * Code taken from the <a href="http://www.springframework.org">Spring framework</a>.
+ * Code taken from the <a href="http://www.springframework.org">Spring
+ * framework</a>.
  * 
  * Helper for resolving synthetic {@link Method#isBridge bridge Methods} to the
  * {@link Method} being bridged.
@@ -31,13 +32,12 @@ import java.util.*;
  * when extending a parameterized type whose methods have parameterized
  * arguments. During runtime invocation the bridge {@link Method} may be invoked
  * and/or used via reflection. When attempting to locate annotations on
- * {@link Method Methods}, it is wise to check for bridge
- * {@link Method Methods} as appropriate and find the bridged {@link Method}.
+ * {@link Method Methods}, it is wise to check for bridge {@link Method Methods}
+ * as appropriate and find the bridged {@link Method}.
  * 
  * <p>
- * See <a
- * href="http://java.sun.com/docs/books/jls/third_edition/html/expressions.html#15.12.4.5">
- * The Java Language Specification</a> for more details on the use of bridge
+ * See <a href="http://java.sun.com/docs/books/jls/third_edition/html/expressions.html#15.12.4.5"
+ * > The Java Language Specification</a> for more details on the use of bridge
  * methods.
  * 
  * @author Rob Harrop
@@ -48,7 +48,7 @@ public final class BridgeMethodResolver {
     // Hard to test all cases since bridges varies from JVM implementation
     // Plus, the code is taken from Spring so we consider it is working
     // So, don't check coverage over the class
-    
+
     // ///CLOVER:OFF
     private BridgeMethodResolver() {
     }
@@ -67,7 +67,7 @@ public final class BridgeMethodResolver {
      * @throws IllegalStateException
      *             if no bridged {@link Method} can be found
      */
-    public static Method findBridgedMethod(Method bridgeMethod) {
+    public static Method findBridgedMethod(final Method bridgeMethod) {
         assert bridgeMethod != null : "Method must not be null";
 
         if (!bridgeMethod.isBridge()) {
@@ -75,11 +75,9 @@ public final class BridgeMethodResolver {
         }
 
         // Gather all methods with matching name and parameter size.
-        List<Method> candidateMethods = new ArrayList<Method>();
-        Method[] methods = getAllDeclaredMethods(bridgeMethod
-                .getDeclaringClass());
-        for (int i = 0; i < methods.length; i++) {
-            Method candidateMethod = methods[i];
+        final List<Method> candidateMethods = new ArrayList<Method>();
+        final Method[] methods = getAllDeclaredMethods(bridgeMethod.getDeclaringClass());
+        for (final Method candidateMethod : methods) {
             if (isBridgedCandidateFor(candidateMethod, bridgeMethod)) {
                 candidateMethods.add(candidateMethod);
             }
@@ -94,9 +92,8 @@ public final class BridgeMethodResolver {
         }
 
         if (result == null) {
-            throw new IllegalStateException(
-                    "Unable to locate bridged method for bridge method '"
-                            + bridgeMethod + "'");
+            throw new IllegalStateException("Unable to locate bridged method for bridge method '"
+                    + bridgeMethod + "'");
         }
 
         return result;
@@ -111,14 +108,12 @@ public final class BridgeMethodResolver {
      *            the bridge method
      * @return the bridged method, or <code>null</code> if none found
      */
-    private static Method searchCandidates(List<Method> candidateMethods,
-            Method bridgeMethod) {
-        Map<TypeVariable<?>, Type> typeParameterMap = createTypeVariableMap(bridgeMethod
+    private static Method searchCandidates(final List<Method> candidateMethods, final Method bridgeMethod) {
+        final Map<TypeVariable<?>, Type> typeParameterMap = createTypeVariableMap(bridgeMethod
                 .getDeclaringClass());
         for (int i = 0; i < candidateMethods.size(); i++) {
-            Method candidateMethod = candidateMethods.get(i);
-            if (isBridgeMethodFor(bridgeMethod, candidateMethod,
-                    typeParameterMap)) {
+            final Method candidateMethod = candidateMethods.get(i);
+            if (isBridgeMethodFor(bridgeMethod, candidateMethod, typeParameterMap)) {
                 return candidateMethod;
             }
         }
@@ -128,14 +123,12 @@ public final class BridgeMethodResolver {
     /**
      * Return <code>true</code> if the supplied '<code>candidateMethod</code>'
      * can be consider a validate candidate for the {@link Method} that is
-     * {@link Method#isBridge() bridged} by the supplied
-     * {@link Method bridge Method}. This method performs inexpensive checks
-     * and can be used quickly filter for a set of possible matches.
+     * {@link Method#isBridge() bridged} by the supplied {@link Method bridge
+     * Method}. This method performs inexpensive checks and can be used quickly
+     * filter for a set of possible matches.
      */
-    private static boolean isBridgedCandidateFor(Method candidateMethod,
-            Method bridgeMethod) {
-        return (!candidateMethod.isBridge()
-                && !candidateMethod.equals(bridgeMethod)
+    private static boolean isBridgedCandidateFor(final Method candidateMethod, final Method bridgeMethod) {
+        return (!candidateMethod.isBridge() && !candidateMethod.equals(bridgeMethod)
                 && candidateMethod.getName().equals(bridgeMethod.getName()) && candidateMethod
                 .getParameterTypes().length == bridgeMethod.getParameterTypes().length);
     }
@@ -144,14 +137,13 @@ public final class BridgeMethodResolver {
      * Determine whether or not the bridge {@link Method} is the bridge for the
      * supplied candidate {@link Method}.
      */
-    private static boolean isBridgeMethodFor(Method bridgeMethod,
-            Method candidateMethod, Map<TypeVariable<?>, Type> typeVariableMap) {
+    private static boolean isBridgeMethodFor(final Method bridgeMethod, final Method candidateMethod,
+            final Map<TypeVariable<?>, Type> typeVariableMap) {
         if (isResolvedTypeMatch(candidateMethod, bridgeMethod, typeVariableMap)) {
             return true;
         }
-        Method method = findGenericDeclaration(bridgeMethod);
-        return (method != null ? isResolvedTypeMatch(method, candidateMethod,
-                typeVariableMap) : false);
+        final Method method = findGenericDeclaration(bridgeMethod);
+        return (method != null ? isResolvedTypeMatch(method, candidateMethod, typeVariableMap) : false);
     }
 
     /**
@@ -161,11 +153,11 @@ public final class BridgeMethodResolver {
      * @throws IllegalStateException
      *             if the generic declaration cannot be found
      */
-    private static Method findGenericDeclaration(Method bridgeMethod) {
+    private static Method findGenericDeclaration(final Method bridgeMethod) {
         // Search parent types for method that has same signature as bridge.
         Class<?> superclass = bridgeMethod.getDeclaringClass().getSuperclass();
         while (!Object.class.equals(superclass)) {
-            Method method = searchForMatch(superclass, bridgeMethod);
+            final Method method = searchForMatch(superclass, bridgeMethod);
             if (method != null && !method.isBridge()) {
                 return method;
             }
@@ -173,11 +165,9 @@ public final class BridgeMethodResolver {
         }
 
         // Search interfaces.
-        Class<?>[] interfaces = getAllInterfacesForClass(bridgeMethod
-                .getDeclaringClass());
-        for (int i = 0; i < interfaces.length; i++) {
-            Class<?> anInterface = interfaces[i];
-            Method method = searchForMatch(anInterface, bridgeMethod);
+        final Class<?>[] interfaces = getAllInterfacesForClass(bridgeMethod.getDeclaringClass());
+        for (final Class<?> anInterface : interfaces) {
+            final Method method = searchForMatch(anInterface, bridgeMethod);
             if (method != null && !method.isBridge()) {
                 return method;
             }
@@ -194,33 +184,30 @@ public final class BridgeMethodResolver {
      * {@link #createTypeVariableMap TypeVariable Map}, otherwise returns
      * <code>false</code>.
      */
-    private static boolean isResolvedTypeMatch(Method genericMethod,
-            Method candidateMethod, Map<TypeVariable<?>, Type> typeVariableMap) {
-        Type[] genericParameters = genericMethod.getGenericParameterTypes();
-        Class<?>[] candidateParameters = candidateMethod.getParameterTypes();
+    private static boolean isResolvedTypeMatch(final Method genericMethod, final Method candidateMethod,
+            final Map<TypeVariable<?>, Type> typeVariableMap) {
+        final Type[] genericParameters = genericMethod.getGenericParameterTypes();
+        final Class<?>[] candidateParameters = candidateMethod.getParameterTypes();
         if (genericParameters.length != candidateParameters.length) {
             return false;
         }
         for (int i = 0; i < genericParameters.length; i++) {
-            Type genericParameter = genericParameters[i];
-            Class<?> candidateParameter = candidateParameters[i];
+            final Type genericParameter = genericParameters[i];
+            final Class<?> candidateParameter = candidateParameters[i];
             if (candidateParameter.isArray()) {
                 // An array type: compare the component type.
-                Type rawType = getRawType(genericParameter, typeVariableMap);
+                final Type rawType = getRawType(genericParameter, typeVariableMap);
                 if (rawType instanceof GenericArrayType) {
-                    if (!candidateParameter.getComponentType()
-                            .equals(
-                                    getRawType(((GenericArrayType) rawType)
-                                            .getGenericComponentType(),
-                                            typeVariableMap))) {
+                    if (!candidateParameter.getComponentType().equals(
+                            getRawType(((GenericArrayType) rawType).getGenericComponentType(),
+                                    typeVariableMap))) {
                         return false;
                     }
                     break;
                 }
             }
             // A non-array type: compare the type itself.
-            if (!candidateParameter.equals(getRawType(genericParameter,
-                    typeVariableMap))) {
+            if (!candidateParameter.equals(getRawType(genericParameter, typeVariableMap))) {
                 return false;
             }
         }
@@ -230,11 +217,10 @@ public final class BridgeMethodResolver {
     /**
      * Determine the raw type for the given generic parameter type.
      */
-    private static Type getRawType(Type genericType,
-            Map<TypeVariable<?>, Type> typeVariableMap) {
+    private static Type getRawType(final Type genericType, final Map<TypeVariable<?>, Type> typeVariableMap) {
         if (genericType instanceof TypeVariable<?>) {
-            TypeVariable<?> tv = (TypeVariable<?>) genericType;
-            Type result = typeVariableMap.get(tv);
+            final TypeVariable<?> tv = (TypeVariable<?>) genericType;
+            final Type result = typeVariableMap.get(tv);
             return (result != null ? result : Object.class);
         } else if (genericType instanceof ParameterizedType) {
             return ((ParameterizedType) genericType).getRawType();
@@ -245,13 +231,11 @@ public final class BridgeMethodResolver {
 
     /**
      * If the supplied {@link Class} has a declared {@link Method} whose
-     * signature matches that of the supplied {@link Method}, then this
-     * matching {@link Method} is returned, otherwise <code>null</code> is
-     * returned.
+     * signature matches that of the supplied {@link Method}, then this matching
+     * {@link Method} is returned, otherwise <code>null</code> is returned.
      */
-    private static Method searchForMatch(Class<?> type, Method bridgeMethod) {
-        return findMethod(type, bridgeMethod.getName(), bridgeMethod
-                .getParameterTypes());
+    private static Method searchForMatch(final Class<?> type, final Method bridgeMethod) {
+        return findMethod(type, bridgeMethod.getName(), bridgeMethod.getParameterTypes());
     }
 
     /**
@@ -259,23 +243,21 @@ public final class BridgeMethodResolver {
      * concrete {@link Class} for the specified {@link Class}. Searches all
      * super types, enclosing types and interfaces.
      */
-    private static Map<TypeVariable<?>, Type> createTypeVariableMap(Class<?> cls) {
-        Map<TypeVariable<?>, Type> typeVariableMap = new HashMap<TypeVariable<?>, Type>();
+    private static Map<TypeVariable<?>, Type> createTypeVariableMap(final Class<?> cls) {
+        final Map<TypeVariable<?>, Type> typeVariableMap = new HashMap<TypeVariable<?>, Type>();
 
         // interfaces
-        extractTypeVariablesFromGenericInterfaces(cls.getGenericInterfaces(),
-                typeVariableMap);
+        extractTypeVariablesFromGenericInterfaces(cls.getGenericInterfaces(), typeVariableMap);
 
         // super class
         Type genericType = cls.getGenericSuperclass();
         Class<?> type = cls.getSuperclass();
         while (!Object.class.equals(type)) {
             if (genericType instanceof ParameterizedType) {
-                ParameterizedType pt = (ParameterizedType) genericType;
+                final ParameterizedType pt = (ParameterizedType) genericType;
                 populateTypeMapFromParameterizedType(pt, typeVariableMap);
             }
-            extractTypeVariablesFromGenericInterfaces(type
-                    .getGenericInterfaces(), typeVariableMap);
+            extractTypeVariablesFromGenericInterfaces(type.getGenericInterfaces(), typeVariableMap);
             genericType = type.getGenericSuperclass();
             type = type.getSuperclass();
         }
@@ -285,7 +267,7 @@ public final class BridgeMethodResolver {
         while (type.isMemberClass()) {
             genericType = type.getGenericSuperclass();
             if (genericType instanceof ParameterizedType) {
-                ParameterizedType pt = (ParameterizedType) genericType;
+                final ParameterizedType pt = (ParameterizedType) genericType;
                 populateTypeMapFromParameterizedType(pt, typeVariableMap);
             }
             type = type.getEnclosingClass();
@@ -294,22 +276,19 @@ public final class BridgeMethodResolver {
         return typeVariableMap;
     }
 
-    private static void extractTypeVariablesFromGenericInterfaces(
-            Type[] genericInterfaces, Map<TypeVariable<?>, Type> typeVariableMap) {
-        for (int i = 0; i < genericInterfaces.length; i++) {
-            Type genericInterface = genericInterfaces[i];
+    private static void extractTypeVariablesFromGenericInterfaces(final Type[] genericInterfaces,
+            final Map<TypeVariable<?>, Type> typeVariableMap) {
+        for (final Type genericInterface : genericInterfaces) {
             if (genericInterface instanceof ParameterizedType) {
-                ParameterizedType pt = (ParameterizedType) genericInterface;
+                final ParameterizedType pt = (ParameterizedType) genericInterface;
                 populateTypeMapFromParameterizedType(pt, typeVariableMap);
                 if (pt.getRawType() instanceof Class<?>) {
-                    extractTypeVariablesFromGenericInterfaces(((Class<?>) pt
-                            .getRawType()).getGenericInterfaces(),
-                            typeVariableMap);
+                    extractTypeVariablesFromGenericInterfaces(((Class<?>) pt.getRawType())
+                            .getGenericInterfaces(), typeVariableMap);
                 }
             } else if (genericInterface instanceof Class<?>) {
-                extractTypeVariablesFromGenericInterfaces(
-                        ((Class<?>) genericInterface).getGenericInterfaces(),
-                        typeVariableMap);
+                extractTypeVariablesFromGenericInterfaces(((Class<?>) genericInterface)
+                        .getGenericInterfaces(), typeVariableMap);
             }
         }
     }
@@ -332,32 +311,28 @@ public final class BridgeMethodResolver {
      * }
      * </pre>
      * 
-     * For '<code>FooImpl</code>' the following mappings would be added to
-     * the {@link Map}: {S=java.lang.String, T=java.lang.Integer}.
+     * For '<code>FooImpl</code>' the following mappings would be added to the
+     * {@link Map}: {S=java.lang.String, T=java.lang.Integer}.
      */
-    private static void populateTypeMapFromParameterizedType(
-            ParameterizedType type, Map<TypeVariable<?>, Type> typeVariableMap) {
+    private static void populateTypeMapFromParameterizedType(final ParameterizedType type,
+            final Map<TypeVariable<?>, Type> typeVariableMap) {
         if (type.getRawType() instanceof Class<?>) {
-            Type[] actualTypeArguments = type.getActualTypeArguments();
-            TypeVariable<?>[] typeVariables = ((Class<?>) type.getRawType())
-                    .getTypeParameters();
+            final Type[] actualTypeArguments = type.getActualTypeArguments();
+            final TypeVariable<?>[] typeVariables = ((Class<?>) type.getRawType()).getTypeParameters();
             for (int i = 0; i < actualTypeArguments.length; i++) {
-                Type actualTypeArgument = actualTypeArguments[i];
-                TypeVariable<?> variable = typeVariables[i];
+                final Type actualTypeArgument = actualTypeArguments[i];
+                final TypeVariable<?> variable = typeVariables[i];
                 if (actualTypeArgument instanceof Class<?>) {
                     typeVariableMap.put(variable, actualTypeArgument);
                 } else if (actualTypeArgument instanceof GenericArrayType) {
                     typeVariableMap.put(variable, actualTypeArgument);
                 } else if (actualTypeArgument instanceof ParameterizedType) {
-                    typeVariableMap.put(variable,
-                            ((ParameterizedType) actualTypeArgument)
-                                    .getRawType());
+                    typeVariableMap.put(variable, ((ParameterizedType) actualTypeArgument).getRawType());
                 } else if (actualTypeArgument instanceof TypeVariable<?>) {
                     // We have a type that is parameterized at instantiation time
                     // the nearest match on the bridge method will be the bounded type.
-                    TypeVariable<?> typeVariableArgument = (TypeVariable<?>) actualTypeArgument;
-                    Type resolvedType = typeVariableMap
-                            .get(typeVariableArgument);
+                    final TypeVariable<?> typeVariableArgument = (TypeVariable<?>) actualTypeArgument;
+                    Type resolvedType = typeVariableMap.get(typeVariableArgument);
                     if (resolvedType == null) {
                         resolvedType = extractClassForTypeVariable(typeVariableArgument);
                     }
@@ -370,15 +345,13 @@ public final class BridgeMethodResolver {
     }
 
     /**
-     * Extracts the bound '<code>Class</code>' for a give
-     * {@link TypeVariable}.
+     * Extracts the bound '<code>Class</code>' for a give {@link TypeVariable}.
      */
-    private static Class<?> extractClassForTypeVariable(
-            TypeVariable<?> typeVariable) {
-        Type[] bounds = typeVariable.getBounds();
+    private static Class<?> extractClassForTypeVariable(final TypeVariable<?> typeVariable) {
+        final Type[] bounds = typeVariable.getBounds();
         Type result = null;
         if (bounds.length > 0) {
-            Type bound = bounds[0];
+            final Type bound = bounds[0];
             if (bound instanceof ParameterizedType) {
                 result = ((ParameterizedType) bound).getRawType();
             } else if (bound instanceof Class<?>) {
@@ -405,10 +378,10 @@ public final class BridgeMethodResolver {
         if (clazz.isInterface()) {
             return new Class[] { clazz };
         }
-        List<Class<?>> interfaces = new ArrayList<Class<?>>();
+        final List<Class<?>> interfaces = new ArrayList<Class<?>>();
         while (clazz != null) {
             for (int i = 0; i < clazz.getInterfaces().length; i++) {
-                Class<?> ifc = clazz.getInterfaces()[i];
+                final Class<?> ifc = clazz.getInterfaces()[i];
                 if (!interfaces.contains(ifc)) {
                     interfaces.add(ifc);
                 }
@@ -433,19 +406,15 @@ public final class BridgeMethodResolver {
      *            the parameter types of the method
      * @return the Method object, or <code>null</code> if none found
      */
-    private static Method findMethod(Class<?> clazz, String name,
-            Class<?>[] paramTypes) {
+    private static Method findMethod(final Class<?> clazz, final String name, final Class<?>[] paramTypes) {
         assert clazz != null : "Class must not be null";
         assert name != null : "Method name must not be null";
         Class<?> searchType = clazz;
         while (!Object.class.equals(searchType) && searchType != null) {
-            Method[] methods = (searchType.isInterface() ? searchType
-                    .getMethods() : searchType.getDeclaredMethods());
-            for (int i = 0; i < methods.length; i++) {
-                Method method = methods[i];
-                if (name.equals(method.getName())
-                        && Arrays
-                                .equals(paramTypes, method.getParameterTypes())) {
+            final Method[] methods = (searchType.isInterface() ? searchType.getMethods() : searchType
+                    .getDeclaredMethods());
+            for (final Method method : methods) {
+                if (name.equals(method.getName()) && Arrays.equals(paramTypes, method.getParameterTypes())) {
                     return method;
                 }
             }
@@ -463,9 +432,9 @@ public final class BridgeMethodResolver {
 
         // Keep backing up the inheritance hierarchy.
         do {
-            Method[] methods = leafClass.getDeclaredMethods();
-            for (int i = 0; i < methods.length; i++) {
-                list.add(methods[i]);
+            final Method[] methods = leafClass.getDeclaredMethods();
+            for (final Method method : methods) {
+                list.add(method);
             }
             leafClass = leafClass.getSuperclass();
         } while (leafClass != null);

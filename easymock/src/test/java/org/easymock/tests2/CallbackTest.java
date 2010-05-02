@@ -34,9 +34,9 @@ public class CallbackTest {
     private static class Callback<T> implements IAnswer<T> {
         private int callCount;
 
-        private T result;
+        private final T result;
 
-        public Callback(T result) {
+        public Callback(final T result) {
             this.result = result;
         }
 
@@ -60,9 +60,9 @@ public class CallbackTest {
 
     @Test
     public void callback() {
-        Callback<String> c1 = new Callback<String>("1");
-        Callback<Object> c2 = new Callback<Object>(null);
-        Callback<Object> c3 = new Callback<Object>(null);
+        final Callback<String> c1 = new Callback<String>("1");
+        final Callback<Object> c2 = new Callback<Object>(null);
+        final Callback<Object> c3 = new Callback<Object>(null);
 
         expect(mock.oneArg("2")).andAnswer(c1).times(2);
         mock.simpleMethodWithArgument("One");
@@ -76,22 +76,22 @@ public class CallbackTest {
         mock.oneArg("2");
         try {
             mock.oneArg("2");
-        } catch (AssertionError ignored) {
+        } catch (final AssertionError ignored) {
         }
         try {
             mock.simpleMethodWithArgument("Two");
-        } catch (AssertionError ignored) {
+        } catch (final AssertionError ignored) {
         }
         mock.simpleMethodWithArgument("One");
         try {
             mock.simpleMethodWithArgument("One");
-        } catch (AssertionError ignored) {
+        } catch (final AssertionError ignored) {
         }
         mock.simpleMethodWithArgument("Two");
         mock.simpleMethodWithArgument("Two");
         try {
             mock.simpleMethodWithArgument("Two");
-        } catch (AssertionError ignored) {
+        } catch (final AssertionError ignored) {
         }
         verify(mock);
 

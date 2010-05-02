@@ -46,10 +46,9 @@ public class MockBuilderTest {
 
     @Test
     public void testAddMockedMethod() throws NoSuchMethodException {
-        builder.addMockedMethod(ArrayList.class.getMethod("size"))
-                .addMockedMethod("contains").addMockedMethod("add",
-                        Object.class).addMockedMethods("clear", "isEmpty")
-                .addMockedMethods(ArrayList.class.getMethod("get", int.class),
+        builder.addMockedMethod(ArrayList.class.getMethod("size")).addMockedMethod("contains")
+                .addMockedMethod("add", Object.class).addMockedMethods("clear", "isEmpty").addMockedMethods(
+                        ArrayList.class.getMethod("get", int.class),
                         ArrayList.class.getMethod("indexOf", Object.class));
 
         mock = builder.createMock();
@@ -91,7 +90,7 @@ public class MockBuilderTest {
         try {
             builder.createMock();
             fail("instantiation should fail because of negative");
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
         }
     }
 
@@ -103,10 +102,10 @@ public class MockBuilderTest {
     @Test
     public void testWithEmptyConstructor() throws Exception {
         mock = builder.withConstructor().createMock();
-        Field field = ArrayList.class.getDeclaredField("elementData");
+        final Field field = ArrayList.class.getDeclaredField("elementData");
         field.setAccessible(true);
-        int expected = ((Object[]) field.get(new ArrayList<String>())).length;
-        int actual = ((Object[]) field.get(mock)).length;
+        final int expected = ((Object[]) field.get(new ArrayList<String>())).length;
+        final int actual = ((Object[]) field.get(mock)).length;
         assertEquals(expected, actual);
     }
 
@@ -115,18 +114,17 @@ public class MockBuilderTest {
         try {
             createMockBuilder(Integer.class).withConstructor().createMock();
             fail("no empty constructor should be found");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
         }
     }
 
     @Test
     public void testWithConstructor() throws NoSuchMethodException {
-        builder.withConstructor(ArrayList.class.getConstructor(int.class))
-                .withArgs(-3);
+        builder.withConstructor(ArrayList.class.getConstructor(int.class)).withArgs(-3);
         try {
             builder.createMock();
             fail("instantiation should fail because of negative");
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
         }
     }
 
@@ -136,15 +134,14 @@ public class MockBuilderTest {
     }
 
     @Test
-    public void testWithConstructorConstructorArgs()
-            throws NoSuchMethodException {
-        ConstructorArgs args = new ConstructorArgs(ArrayList.class
-                .getConstructor(int.class), Integer.valueOf(-3));
+    public void testWithConstructorConstructorArgs() throws NoSuchMethodException {
+        final ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(int.class), Integer
+                .valueOf(-3));
         builder.withConstructor(args);
         try {
             builder.createMock();
             fail("instantiation should fail because of negative");
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
         }
     }
 
@@ -154,13 +151,12 @@ public class MockBuilderTest {
         try {
             builder.createMock();
             fail("instantiation should fail because of negative");
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
         }
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testWithConstructorWithArgs_NotExisting()
-            throws NoSuchMethodException {
+    public void testWithConstructorWithArgs_NotExisting() throws NoSuchMethodException {
         builder.withConstructor("string");
     }
 
@@ -169,10 +165,8 @@ public class MockBuilderTest {
         try {
             builder.withConstructor(int.class).withArgs(3).withArgs(2);
             fail("withArgs called twice");
-        } catch (IllegalStateException e) {
-            assertEquals(
-                    "Trying to define the constructor arguments more than once.",
-                    e.getMessage());
+        } catch (final IllegalStateException e) {
+            assertEquals("Trying to define the constructor arguments more than once.", e.getMessage());
         }
     }
 
@@ -181,36 +175,33 @@ public class MockBuilderTest {
         try {
             builder.withArgs(2);
             fail("withArgs without constructor");
-        } catch (IllegalStateException e) {
-            assertEquals(
-                    "Trying to define constructor arguments without first setting their type.",
-                    e.getMessage());
+        } catch (final IllegalStateException e) {
+            assertEquals("Trying to define constructor arguments without first setting their type.", e
+                    .getMessage());
         }
     }
 
     @Test
     public void testCreateMockIMocksControl() {
-        IMocksControl ctrl = createControl();
+        final IMocksControl ctrl = createControl();
         mock = builder.createMock(ctrl);
         assertSame(ClassExtensionHelper.getControl(mock), ctrl);
     }
 
     @Test
     public void testCreateMock() {
-        mock = builder.addMockedMethod("size").addMockedMethod("toString")
-                .createMock();
+        mock = builder.addMockedMethod("size").addMockedMethod("toString").createMock();
         replay(mock);
         try {
             mock.size();
             fail("Unexpected call");
-        } catch (AssertionError e) {
+        } catch (final AssertionError e) {
         }
     }
 
     @Test
     public void testCreateNiceMock() {
-        mock = builder.addMockedMethod("size").addMockedMethod("toString")
-                .createNiceMock();
+        mock = builder.addMockedMethod("size").addMockedMethod("toString").createNiceMock();
         replay(mock);
         assertEquals(0, mock.size());
         verify(mock);
@@ -218,8 +209,7 @@ public class MockBuilderTest {
 
     @Test
     public void testCreateStrictMock() {
-        mock = builder.addMockedMethod("size").addMockedMethod("clear")
-                .addMockedMethod("toString")
+        mock = builder.addMockedMethod("size").addMockedMethod("clear").addMockedMethod("toString")
                 .createStrictMock();
         expect(mock.size()).andReturn(1);
         mock.clear();
@@ -227,13 +217,13 @@ public class MockBuilderTest {
         try {
             mock.clear();
             fail("Unexpected call");
-        } catch (AssertionError e) {
+        } catch (final AssertionError e) {
         }
     }
 
     @Test
     public void testCreateMockStringIMocksControl() {
-        IMocksControl ctrl = createControl();
+        final IMocksControl ctrl = createControl();
         mock = builder.addMockedMethod("toString").createMock("myName", ctrl);
         assertSame(ClassExtensionHelper.getControl(mock), ctrl);
         assertTrue(mock.toString().contains("myName"));
@@ -241,21 +231,19 @@ public class MockBuilderTest {
 
     @Test
     public void testCreateMockString() {
-        mock = builder.addMockedMethod("size").addMockedMethod("toString")
-                .createMock("myName");
+        mock = builder.addMockedMethod("size").addMockedMethod("toString").createMock("myName");
         replay(mock);
         try {
             mock.size();
             fail("Unexpected call");
-        } catch (AssertionError e) {
+        } catch (final AssertionError e) {
             assertTrue(e.getMessage().contains("myName"));
         }
     }
 
     @Test
     public void testCreateNiceMockString() {
-        mock = builder.addMockedMethod("size").addMockedMethod("toString")
-                .createNiceMock("myName");
+        mock = builder.addMockedMethod("size").addMockedMethod("toString").createNiceMock("myName");
         replay(mock);
         assertEquals(0, mock.size());
         verify(mock);
@@ -264,15 +252,15 @@ public class MockBuilderTest {
 
     @Test
     public void testCreateStrictMockString() throws Throwable {
-        mock = builder.addMockedMethod("size").addMockedMethod("clear")
-                .addMockedMethod("toString").createStrictMock("myName");
+        mock = builder.addMockedMethod("size").addMockedMethod("clear").addMockedMethod("toString")
+                .createStrictMock("myName");
         expect(mock.size()).andReturn(1);
         mock.clear();
         replay(mock);
         try {
             mock.clear();
             fail("Unexpected call");
-        } catch (AssertionError e) {
+        } catch (final AssertionError e) {
             assertTrue(e.getMessage().contains("myName"));
         }
     }

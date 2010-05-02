@@ -30,10 +30,10 @@ public final class Result implements IAnswer<Object>, Serializable {
     private static final long serialVersionUID = 5476251941213917681L;
 
     private final IAnswer<?> value;
-    
+
     private final boolean shouldFillInStackTrace;
 
-    private Result(IAnswer<?> value, boolean shouldFillInStackTrace) {
+    private Result(final IAnswer<?> value, final boolean shouldFillInStackTrace) {
         this.value = value;
         this.shouldFillInStackTrace = shouldFillInStackTrace;
     }
@@ -78,18 +78,15 @@ public final class Result implements IAnswer<Object>, Serializable {
             private static final long serialVersionUID = -5699326678580460103L;
 
             public Object answer() throws Throwable {
-                Invocation invocation = LastControl.getCurrentInvocation();
+                final Invocation invocation = LastControl.getCurrentInvocation();
                 try {
-                    Method m = invocation.getMethod();
+                    final Method m = invocation.getMethod();
                     m.setAccessible(true);
-                    return m.invoke(value,
-                            invocation.getArguments());
-                } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException("Delegation to object ["
-                            + value
-                            + "] is not implementing the mocked method ["
-                            + invocation.getMethod() + "]", e);
-                } catch (InvocationTargetException e) {
+                    return m.invoke(value, invocation.getArguments());
+                } catch (final IllegalArgumentException e) {
+                    throw new IllegalArgumentException("Delegation to object [" + value
+                            + "] is not implementing the mocked method [" + invocation.getMethod() + "]", e);
+                } catch (final InvocationTargetException e) {
                     throw e.getCause();
                 }
             }
@@ -102,7 +99,7 @@ public final class Result implements IAnswer<Object>, Serializable {
         return new Result(new DelegatingAnswer(), false);
     }
 
-    public static Result createAnswerResult(IAnswer<?> answer) {
+    public static Result createAnswerResult(final IAnswer<?> answer) {
         return new Result(answer, false);
     }
 
@@ -113,7 +110,7 @@ public final class Result implements IAnswer<Object>, Serializable {
     public boolean shouldFillInStackTrace() {
         return shouldFillInStackTrace;
     }
-    
+
     @Override
     public String toString() {
         return value.toString();

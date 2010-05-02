@@ -32,11 +32,11 @@ public class Null implements IArgumentMatcher, Serializable {
     private Null() {
     }
 
-    public boolean matches(Object actual) {
+    public boolean matches(final Object actual) {
         return actual == null;
     }
 
-    public void appendTo(StringBuffer buffer) {
+    public void appendTo(final StringBuffer buffer) {
         buffer.append("isNull()");
     }
 }

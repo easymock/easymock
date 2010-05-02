@@ -35,7 +35,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
 
     @Test
     public void testCreateControl() {
-        IMocksControl ctrl = createControl();
+        final IMocksControl ctrl = createControl();
         mock1 = ctrl.createMock(IMethods.class);
         mock2 = ctrl.createMock(IMethods.class);
         testDefaultMock();
@@ -72,7 +72,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
 
     @Test
     public void testCreateNiceControl() {
-        IMocksControl ctrl = createNiceControl();
+        final IMocksControl ctrl = createNiceControl();
         mock1 = ctrl.createMock(IMethods.class);
         mock2 = ctrl.createMock(IMethods.class);
         testNiceMock();
@@ -107,7 +107,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
 
     @Test
     public void testCreateStrictControl() {
-        IMocksControl ctrl = createStrictControl();
+        final IMocksControl ctrl = createStrictControl();
         mock1 = ctrl.createMock(IMethods.class);
         mock2 = ctrl.createMock(IMethods.class);
         testStrictMock();
@@ -118,7 +118,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
         try {
             mock2.simpleMethod();
             fail("Should be ordered");
-        } catch (AssertionError e) {
+        } catch (final AssertionError e) {
         }
         mock1.simpleMethod();
         mock2.simpleMethod();
@@ -150,14 +150,14 @@ public class EasyMockSupportTest extends EasyMockSupport {
         try {
             mock1.oneArg(false);
             fail("Should be ordered");
-        } catch (AssertionError e) {
+        } catch (final AssertionError e) {
         }
         mock1.oneArg(true);
         mock1.oneArg(false);
         try {
             mock2.oneArg(true);
             fail("Should be ordered");
-        } catch (AssertionError e) {
+        } catch (final AssertionError e) {
         }
         mock2.oneArg(false);
         mock2.oneArg(true);
@@ -233,8 +233,8 @@ public class EasyMockSupportTest extends EasyMockSupport {
 
     @Test
     public void niceToStrict() {
-        IMethods mock1 = createNiceMock(IMethods.class);
-        IMethods mock2 = createNiceMock(IMethods.class);
+        final IMethods mock1 = createNiceMock(IMethods.class);
+        final IMethods mock2 = createNiceMock(IMethods.class);
 
         expect(mock1.oneArg(false)).andReturn("foo");
         expect(mock2.oneArg(false)).andReturn("foo");
@@ -256,12 +256,12 @@ public class EasyMockSupportTest extends EasyMockSupport {
         try {
             mock1.oneArg(true);
             fail("Should be strict");
-        } catch (AssertionError e) {
+        } catch (final AssertionError e) {
         }
         try {
             mock2.oneArg(true);
             fail("Should be strict");
-        } catch (AssertionError e) {
+        } catch (final AssertionError e) {
         }
 
         assertEquals("foo", mock1.oneArg(false));

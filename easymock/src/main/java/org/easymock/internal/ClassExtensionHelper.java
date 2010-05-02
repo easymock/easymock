@@ -37,7 +37,7 @@ public final class ClassExtensionHelper {
 
     // ///CLOVER:ON
 
-    public static void setCurrentConstructorArgs(ConstructorArgs args) {
+    public static void setCurrentConstructorArgs(final ConstructorArgs args) {
         currentConstructorArgs.set(args);
     }
 
@@ -45,29 +45,25 @@ public final class ClassExtensionHelper {
         return currentConstructorArgs.get();
     }
 
-    public static MockMethodInterceptor getInterceptor(Object mock) {
-        Factory factory = (Factory) mock;
+    public static MockMethodInterceptor getInterceptor(final Object mock) {
+        final Factory factory = (Factory) mock;
         return (MockMethodInterceptor) factory.getCallback(0);
     }
 
-    public static MocksControl getControl(Object mock) {
+    public static MocksControl getControl(final Object mock) {
         ObjectMethodsFilter handler;
 
         try {
             if (Enhancer.isEnhanced(mock.getClass())) {
-                handler = (ObjectMethodsFilter) getInterceptor(mock)
-                        .getHandler();
+                handler = (ObjectMethodsFilter) getInterceptor(mock).getHandler();
             } else if (Proxy.isProxyClass(mock.getClass())) {
-                handler = (ObjectMethodsFilter) Proxy
-                        .getInvocationHandler(mock);
+                handler = (ObjectMethodsFilter) Proxy.getInvocationHandler(mock);
             } else {
-                throw new IllegalArgumentException(
-                        "Not a mock: " + mock.getClass().getName());
+                throw new IllegalArgumentException("Not a mock: " + mock.getClass().getName());
             }
             return handler.getDelegate().getControl();
-        } catch (ClassCastException e) {
-            throw new IllegalArgumentException(
-                    "Not a mock: " + mock.getClass().getName());
+        } catch (final ClassCastException e) {
+            throw new IllegalArgumentException("Not a mock: " + mock.getClass().getName());
         }
     }
 }

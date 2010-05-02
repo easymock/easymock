@@ -29,14 +29,16 @@ import org.junit.Test;
 public class MethodSerializationWrapperTest {
 
     public static class A {
-        public void foo(String s, int i, String[] sArray, int[] iArray, String...varargs ) {            
+        public void foo(final String s, final int i, final String[] sArray, final int[] iArray,
+                final String... varargs) {
         }
     }
-    
+
     @Test
     public void testGetMethod() throws Exception {
-        Method foo = A.class.getMethod("foo", String.class, Integer.TYPE, String[].class, int[].class, String[].class);
-        MethodSerializationWrapper wrapper = new MethodSerializationWrapper(foo);
+        final Method foo = A.class.getMethod("foo", String.class, Integer.TYPE, String[].class, int[].class,
+                String[].class);
+        final MethodSerializationWrapper wrapper = new MethodSerializationWrapper(foo);
         assertEquals(foo, wrapper.getMethod());
     }
 

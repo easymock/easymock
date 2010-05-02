@@ -102,15 +102,13 @@ public class ExampleTest {
     public void voteForRemovals() {
         mock.documentAdded("Document 1");
         mock.documentAdded("Document 2");
-        expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn(
-                (byte) 42);
+        expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn((byte) 42);
         mock.documentRemoved("Document 1");
         mock.documentRemoved("Document 2");
         replay(mock);
         classUnderTest.addDocument("Document 1", new byte[0]);
         classUnderTest.addDocument("Document 2", new byte[0]);
-        assertTrue(classUnderTest.removeDocuments(new String[] { "Document 1",
-                "Document 2" }));
+        assertTrue(classUnderTest.removeDocuments(new String[] { "Document 1", "Document 2" }));
         verify(mock);
     }
 
@@ -118,19 +116,18 @@ public class ExampleTest {
     public void voteAgainstRemovals() {
         mock.documentAdded("Document 1");
         mock.documentAdded("Document 2");
-        expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn(
-                (byte) -42);
+        expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn((byte) -42);
         replay(mock);
         classUnderTest.addDocument("Document 1", new byte[0]);
         classUnderTest.addDocument("Document 2", new byte[0]);
         assertFalse(classUnderTest.removeDocuments("Document 1", "Document 2"));
         verify(mock);
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void answerVsDelegate() {
-        List<String> l = createMock(List.class);
+        final List<String> l = createMock(List.class);
 
         // andAnswer style
         expect(l.remove(10)).andAnswer(new IAnswer<String>() {
@@ -144,11 +141,11 @@ public class ExampleTest {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public String remove(int index) {
+            public String remove(final int index) {
                 return Integer.toString(index);
             }
         });
-        
+
         replay(l);
 
         assertEquals("10", l.remove(10));

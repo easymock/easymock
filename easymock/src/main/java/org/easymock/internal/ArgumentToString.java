@@ -28,9 +28,10 @@ public final class ArgumentToString {
     // ///CLOVER:OFF
     private ArgumentToString() {
     }
+
     // ///CLOVER:ON
-    
-    public static void appendArgument(Object value, StringBuffer buffer) {
+
+    public static void appendArgument(final Object value, final StringBuffer buffer) {
         if (value == null) {
             buffer.append("null");
         } else if (value instanceof String) {
@@ -45,7 +46,7 @@ public final class ArgumentToString {
             buffer.append("[");
             for (int i = 0; i < Array.getLength(value); i++) {
                 if (i > 0) {
-                    buffer.append(", ");   
+                    buffer.append(", ");
                 }
                 appendArgument(Array.get(value, i), buffer);
             }
@@ -56,23 +57,24 @@ public final class ArgumentToString {
     }
 
     /**
-     * Converts an argument to a String using {@link #appendArgument(Object, StringBuffer)}
+     * Converts an argument to a String using
+     * {@link #appendArgument(Object, StringBuffer)}
      * 
      * @param argument
      *            the argument to convert to a String.
      * @return a <code>String</code> representation of the argument.
      */
-    public static String argumentToString(Object argument) {
-        StringBuffer result = new StringBuffer();
+    public static String argumentToString(final Object argument) {
+        final StringBuffer result = new StringBuffer();
         ArgumentToString.appendArgument(argument, result);
         return result.toString();
     }
 
     /**
      * Returns a string representation of the arguments. This convenience
-     * implementation calls {@link #argumentToString(Object)}
-     * for every argument in the given array and returns the string representations
-     * of the arguments separated by commas.
+     * implementation calls {@link #argumentToString(Object)} for every argument
+     * in the given array and returns the string representations of the
+     * arguments separated by commas.
      * 
      * @param arguments
      *            the arguments to be used in the string representation.
@@ -83,7 +85,7 @@ public final class ArgumentToString {
             arguments = new Object[0];
         }
 
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < arguments.length; i++) {
             if (i > 0) {

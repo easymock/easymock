@@ -36,11 +36,11 @@ public class PartialMockingTest {
 
         public int i;
 
-        protected A(String s) {
+        protected A(final String s) {
             this.s = s;
         }
 
-        private A(int i) {
+        private A(final int i) {
             this.i = i;
         }
 
@@ -50,14 +50,13 @@ public class PartialMockingTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testPartialMock_PublicConstructor() throws Exception {
-        ArrayList<String> list = createMockBuilder(ArrayList.class)
-                .withConstructor(3).createMock();
+        final ArrayList<String> list = createMockBuilder(ArrayList.class).withConstructor(3).createMock();
         list.add("test"); // shouldn't crash since constructor was called
     }
 
     @Test
     public void testPartialMock_ProtectedConstructor() throws Exception {
-        A a = createMockBuilder(A.class).withConstructor("test").createMock();
+        final A a = createMockBuilder(A.class).withConstructor("test").createMock();
         assertEquals("test", a.s); // make sure constructor was called
 
         // Check that abstract method is mocked by default
@@ -69,37 +68,32 @@ public class PartialMockingTest {
 
     @Test(expected = RuntimeException.class)
     public void testPartialMock_ConstructorNotFound() throws Exception {
-        Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
-        ConstructorArgs constructorArgs = new ConstructorArgs(cstr, 2.0);
+        final Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
+        final ConstructorArgs constructorArgs = new ConstructorArgs(cstr, 2.0);
         try {
-            createMockBuilder(ArrayList.class).withConstructor(Integer.TYPE)
-                    .withArgs(2.0)
-                    .createMock();
-        } catch (RuntimeException e) {
-            assertEquals("Failed to find constructor for param types", e
-                    .getMessage());
+            createMockBuilder(ArrayList.class).withConstructor(Integer.TYPE).withArgs(2.0).createMock();
+        } catch (final RuntimeException e) {
+            assertEquals("Failed to find constructor for param types", e.getMessage());
             throw e;
         }
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testPartialMock_InvalidParams() throws Exception {
-        Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
-        ConstructorArgs constructorArgs = new ConstructorArgs(cstr, "test");
-        createMockBuilder(ArrayList.class).withConstructor(Integer.TYPE)
-                .withArgs("test");
+        final Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
+        final ConstructorArgs constructorArgs = new ConstructorArgs(cstr, "test");
+        createMockBuilder(ArrayList.class).withConstructor(Integer.TYPE).withArgs("test");
     }
 
     @Test(expected = RuntimeException.class)
     public void testPartialMock_ExceptionInConstructor() throws Exception {
-        Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
-        ConstructorArgs constructorArgs = new ConstructorArgs(cstr, -5);
+        final Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
+        final ConstructorArgs constructorArgs = new ConstructorArgs(cstr, -5);
         try {
             createMockBuilder(ArrayList.class).withConstructor(-5).createMock();
-        } catch (RuntimeException e) {
-            assertEquals(
-                    "Failed to instantiate mock calling constructor: Exception in constructor",
-                    e.getMessage());
+        } catch (final RuntimeException e) {
+            assertEquals("Failed to instantiate mock calling constructor: Exception in constructor", e
+                    .getMessage());
             throw e;
         }
     }

@@ -43,8 +43,7 @@ import org.easymock.ConstructorArgs;
  */
 public class ClassProxyFactory<T> implements IProxyFactory<T> {
 
-    public static class MockMethodInterceptor implements MethodInterceptor,
-            Serializable {
+    public static class MockMethodInterceptor implements MethodInterceptor, Serializable {
 
         private static final long serialVersionUID = -9054190871232972342L;
 
@@ -52,17 +51,17 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
 
         private transient Set<Method> mockedMethods;
 
-        public MockMethodInterceptor(InvocationHandler handler) {
+        public MockMethodInterceptor(final InvocationHandler handler) {
             this.handler = handler;
         }
 
-        public Object intercept(Object obj, Method method, Object[] args,
-                MethodProxy proxy) throws Throwable {
+        public Object intercept(final Object obj, final Method method, final Object[] args,
+                final MethodProxy proxy) throws Throwable {
 
             // Bridges should be called so they can forward to the real
             // method
             if (method.isBridge()) {
-                Method m = BridgeMethodResolver.findBridgedMethod(method);
+                final Method m = BridgeMethodResolver.findBridgedMethod(method);
                 return handler.invoke(obj, m, args);
             }
 
@@ -73,16 +72,14 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
 
             // Here I need to check if the fillInStackTrace was called by EasyMock inner code
             // If yes, invoke super. Otherwise, just behave normally
-            if (obj instanceof Throwable
-                    && method.getName().equals("fillInStackTrace")) {
-                Exception e = new Exception();
-                StackTraceElement[] elements = e.getStackTrace();
+            if (obj instanceof Throwable && method.getName().equals("fillInStackTrace")) {
+                final Exception e = new Exception();
+                final StackTraceElement[] elements = e.getStackTrace();
                 // ///CLOVER:OFF
                 if (elements.length > 2) {
                     // ///CLOVER:ON    
-                    StackTraceElement element = elements[2];
-                    if (element.getClassName().equals(
-                            "org.easymock.internal.MockInvocationHandler")
+                    final StackTraceElement element = elements[2];
+                    if (element.getClassName().equals("org.easymock.internal.MockInvocationHandler")
                             && element.getMethodName().equals("invoke")) {
                         return proxy.invokeSuper(obj, args);
                     }
@@ -100,26 +97,25 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
             return handler;
         }
 
-        public void setMockedMethods(Method... mockedMethods) {
-            this.mockedMethods = new HashSet<Method>(Arrays
-                    .asList(mockedMethods));
+        public void setMockedMethods(final Method... mockedMethods) {
+            this.mockedMethods = new HashSet<Method>(Arrays.asList(mockedMethods));
         }
 
         @SuppressWarnings("unchecked")
-        private void readObject(java.io.ObjectInputStream stream)
-                throws IOException, ClassNotFoundException {
+        private void readObject(final java.io.ObjectInputStream stream) throws IOException,
+                ClassNotFoundException {
             stream.defaultReadObject();
-            Set<MethodSerializationWrapper> methods = (Set<MethodSerializationWrapper>) stream
+            final Set<MethodSerializationWrapper> methods = (Set<MethodSerializationWrapper>) stream
                     .readObject();
             if (methods == null) {
                 return;
             }
 
             mockedMethods = new HashSet<Method>(methods.size());
-            for (MethodSerializationWrapper m : methods) {
+            for (final MethodSerializationWrapper m : methods) {
                 try {
                     mockedMethods.add(m.getMethod());
-                } catch (NoSuchMethodException e) {
+                } catch (final NoSuchMethodException e) {
                     // ///CLOVER:OFF
                     throw new IOException(e.toString());
                     // ///CLOVER:ON
@@ -127,8 +123,7 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
             }
         }
 
-        private void writeObject(java.io.ObjectOutputStream stream)
-                throws IOException {
+        private void writeObject(final java.io.ObjectOutputStream stream) throws IOException {
             stream.defaultWriteObject();
 
             if (mockedMethods == null) {
@@ -136,9 +131,9 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
                 return;
             }
 
-            Set<MethodSerializationWrapper> methods = new HashSet<MethodSerializationWrapper>(
+            final Set<MethodSerializationWrapper> methods = new HashSet<MethodSerializationWrapper>(
                     mockedMethods.size());
-            for (Method m : mockedMethods) {
+            for (final Method m : mockedMethods) {
                 methods.add(new MethodSerializationWrapper(m));
             }
 
@@ -147,7 +142,7 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public T createProxy(Class<T> toMock, final InvocationHandler handler) {
+    public T createProxy(final Class<T> toMock, final InvocationHandler handler) {
 
         // Dirty trick to fix ObjectMethodsFilter
         // It will replace the equals, hashCode, toString methods it kept that
@@ -156,51 +151,46 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
         // overloaded
         // in the mocked class.
         try {
-            updateMethod(handler, toMock.getMethod("equals",
-                    new Class[] { Object.class }));
+            updateMethod(handler, toMock.getMethod("equals", new Class[] { Object.class }));
             updateMethod(handler, toMock.getMethod("hashCode", new Class[0]));
             updateMethod(handler, toMock.getMethod("toString", new Class[0]));
-        } catch (NoSuchMethodException e) {
+        } catch (final NoSuchMethodException e) {
             // ///CLOVER:OFF
             throw new InternalError(
                     "We strangly failed to retrieve methods that always exist on an object...");
             // ///CLOVER:ON
         }
 
-        MethodInterceptor interceptor = new MockMethodInterceptor(handler);
+        final MethodInterceptor interceptor = new MockMethodInterceptor(handler);
 
         // Create the mock
-        Enhancer enhancer = new Enhancer() {
+        final Enhancer enhancer = new Enhancer() {
             /**
              * Filter all private constructors but do not check that there are
              * some left
              */
             @Override
-            protected void filterConstructors(Class sc, List constructors) {
-                CollectionUtils.filter(constructors, new VisibilityPredicate(
-                        sc, true));
+            protected void filterConstructors(final Class sc, final List constructors) {
+                CollectionUtils.filter(constructors, new VisibilityPredicate(sc, true));
             }
         };
         enhancer.setSuperclass(toMock);
         enhancer.setCallbackType(interceptor.getClass());
 
-        Class mockClass = enhancer.createClass();
+        final Class mockClass = enhancer.createClass();
         Enhancer.registerCallbacks(mockClass, new Callback[] { interceptor });
 
         if (ClassExtensionHelper.getCurrentConstructorArgs() != null) {
             // Really instantiate the class
-            ConstructorArgs args = ClassExtensionHelper
-                    .getCurrentConstructorArgs();
+            final ConstructorArgs args = ClassExtensionHelper.getCurrentConstructorArgs();
             Constructor cstr;
             try {
                 // Get the constructor with the same params
-                cstr = mockClass.getDeclaredConstructor(args.getConstructor()
-                        .getParameterTypes());
-            } catch (NoSuchMethodException e) {
+                cstr = mockClass.getDeclaredConstructor(args.getConstructor().getParameterTypes());
+            } catch (final NoSuchMethodException e) {
                 // Shouldn't happen, constructor is checked when ConstructorArgs is instantiated
                 // ///CLOVER:OFF
-                throw new RuntimeException(
-                        "Fail to find constructor for param types", e);
+                throw new RuntimeException("Fail to find constructor for param types", e);
                 // ///CLOVER:ON
             }
             T mock;
@@ -208,20 +198,18 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
                 cstr.setAccessible(true); // So we can call a protected
                 // constructor
                 mock = (T) cstr.newInstance(args.getInitArgs());
-            } catch (InstantiationException e) {
+            } catch (final InstantiationException e) {
                 // ///CLOVER:OFF
-                throw new RuntimeException(
-                        "Failed to instantiate mock calling constructor", e);
+                throw new RuntimeException("Failed to instantiate mock calling constructor", e);
                 // ///CLOVER:ON
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
                 // ///CLOVER:OFF
-                throw new RuntimeException(
-                        "Failed to instantiate mock calling constructor", e);
+                throw new RuntimeException("Failed to instantiate mock calling constructor", e);
                 // ///CLOVER:ON
-            } catch (InvocationTargetException e) {
+            } catch (final InvocationTargetException e) {
                 throw new RuntimeException(
-                        "Failed to instantiate mock calling constructor: Exception in constructor",
-                        e.getTargetException());
+                        "Failed to instantiate mock calling constructor: Exception in constructor", e
+                                .getTargetException());
             }
             return mock;
         } else {
@@ -229,13 +217,11 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
 
             Factory mock;
             try {
-                mock = (Factory) ClassInstantiatorFactory.getInstantiator()
-                        .newInstance(mockClass);
-            } catch (InstantiationException e) {
+                mock = (Factory) ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
+            } catch (final InstantiationException e) {
                 // ///CLOVER:OFF
-                throw new RuntimeException("Fail to instantiate mock for "
-                        + toMock + " on " + ClassInstantiatorFactory.getJVM()
-                        + " JVM");
+                throw new RuntimeException("Fail to instantiate mock for " + toMock + " on "
+                        + ClassInstantiatorFactory.getJVM() + " JVM");
                 // ///CLOVER:ON
             }
 
@@ -255,34 +241,30 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
         }
     }
 
-    private void updateMethod(InvocationHandler objectMethodsFilter,
-            Method correctMethod) {
-        Field methodField = retrieveField(ObjectMethodsFilter.class,
-                correctMethod.getName() + "Method");
+    private void updateMethod(final InvocationHandler objectMethodsFilter, final Method correctMethod) {
+        final Field methodField = retrieveField(ObjectMethodsFilter.class, correctMethod.getName() + "Method");
         updateField(objectMethodsFilter, correctMethod, methodField);
     }
 
-    private Field retrieveField(Class<?> clazz, String field) {
+    private Field retrieveField(final Class<?> clazz, final String field) {
         try {
             return clazz.getDeclaredField(field);
-        } catch (NoSuchFieldException e) {
+        } catch (final NoSuchFieldException e) {
             // ///CLOVER:OFF
-            throw new InternalError(
-                    "There must be some refactoring because the " + field
-                            + " field was there...");
+            throw new InternalError("There must be some refactoring because the " + field
+                    + " field was there...");
             // ///CLOVER:ON
         }
     }
 
-    private void updateField(Object instance, Object value, Field field) {
-        boolean accessible = field.isAccessible();
+    private void updateField(final Object instance, final Object value, final Field field) {
+        final boolean accessible = field.isAccessible();
         field.setAccessible(true);
         try {
             field.set(instance, value);
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             // ///CLOVER:OFF
-            throw new InternalError(
-                    "Should be accessible since we set it ourselves");
+            throw new InternalError("Should be accessible since we set it ourselves");
             // ///CLOVER:ON
         }
         field.setAccessible(accessible);

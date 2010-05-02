@@ -22,29 +22,31 @@ package org.easymock;
  * @author OFFIS, Tammo Freese
  */
 public interface IArgumentMatcher {
-    
+
     /**
-     * Returns whether this matcher accepts the given argument. 
+     * Returns whether this matcher accepts the given argument.
      * <p>
-     * Like Object.equals(), it should be aware that the argument passed might 
-     * be null and of any type. So you will usually start the method with an 
+     * Like Object.equals(), it should be aware that the argument passed might
+     * be null and of any type. So you will usually start the method with an
      * instanceof and/or null check.
      * <p>
      * The method should <b>never</b> assert if the argument doesn't match. It
      * should only return false. EasyMock will take care of asserting if the
      * call is really unexpected.
      * 
-     * @param argument the argument
+     * @param argument
+     *            the argument
      * @return whether this matcher accepts the given argument.
      */
     boolean matches(Object argument);
 
     /**
-     * Appends a string representation of this matcher to the given buffer. In case
-     * of failure, the printed message will show this string to allow to know which
-     * matcher was used for the failing call.
+     * Appends a string representation of this matcher to the given buffer. In
+     * case of failure, the printed message will show this string to allow to
+     * know which matcher was used for the failing call.
      * 
-     * @param buffer the buffer to which the string representation is appended.
+     * @param buffer
+     *            the buffer to which the string representation is appended.
      */
     void appendTo(StringBuffer buffer);
 }

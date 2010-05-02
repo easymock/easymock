@@ -26,15 +26,15 @@ public final class Util {
 
     private Util() {
     }
-    
-    public static String getStackTrace(Throwable throwable) {
-        StringWriter stackTrace = new StringWriter();
+
+    public static String getStackTrace(final Throwable throwable) {
+        final StringWriter stackTrace = new StringWriter();
         throwable.printStackTrace(new PrintWriter(stackTrace));
         return stackTrace.getBuffer().toString();
     }
-    
-    public static boolean startWithClass(Throwable throwable, Class<?> clazz) {
-        StackTraceElement[] elements = throwable.getStackTrace();
+
+    public static boolean startWithClass(final Throwable throwable, final Class<?> clazz) {
+        final StackTraceElement[] elements = throwable.getStackTrace();
         return elements[0].getClassName().equals(clazz.getName());
     }
 }

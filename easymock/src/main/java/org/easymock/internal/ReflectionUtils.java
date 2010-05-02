@@ -44,6 +44,7 @@ public final class ReflectionUtils {
     // ///CLOVER:OFF
     private ReflectionUtils() {
     }
+
     // ///CLOVER:ON
 
     /**
@@ -59,7 +60,7 @@ public final class ReflectionUtils {
      *            the name of the method
      * @return the Method object, or <code>null</code> if none found
      */
-    public static Method findMethod(Class<?> clazz, String name) {
+    public static Method findMethod(final Class<?> clazz, final String name) {
         return findMethod(clazz, name, (Class<?>[]) null);
     }
 
@@ -79,13 +80,12 @@ public final class ReflectionUtils {
      *            indicate any signature)
      * @return the Method object, or <code>null</code> if none found
      */
-    public static Method findMethod(Class<?> clazz, String name,
-            Class<?>... paramTypes) {
+    public static Method findMethod(final Class<?> clazz, final String name, final Class<?>... paramTypes) {
         Class<?> searchType = clazz;
         while (!Object.class.equals(searchType) && searchType != null) {
-            Method[] methods = searchType.getDeclaredMethods();
+            final Method[] methods = searchType.getDeclaredMethods();
             Method result = null;
-            for (Method method : methods) {
+            for (final Method method : methods) {
                 // Private methods can't be mocked so just skip them
                 if (Modifier.isPrivate(method.getModifiers())) {
                     continue;
@@ -93,13 +93,11 @@ public final class ReflectionUtils {
                 if (name.equals(method.getName())) {
                     if (paramTypes == null) {
                         if (result != null) {
-                            throw new RuntimeException(
-                                    "Ambiguous name: More than one method are named "
-                                            + name);
+                            throw new RuntimeException("Ambiguous name: More than one method are named "
+                                    + name);
                         }
                         result = method;
-                    } else if (Arrays.equals(paramTypes, method
-                            .getParameterTypes())) {
+                    } else if (Arrays.equals(paramTypes, method.getParameterTypes())) {
                         return method;
                     }
                 }
@@ -132,17 +130,15 @@ public final class ReflectionUtils {
      *             ambiguous
      */
     @SuppressWarnings("unchecked")
-    public static <T> Constructor<T> getConstructor(Class<T> clazz,
-            Object... objs)
+    public static <T> Constructor<T> getConstructor(final Class<T> clazz, final Object... objs)
             throws NoSuchMethodException {
         Constructor<T> ret = null;
-        for (Constructor<?> classConstructor : clazz.getDeclaredConstructors()) {
+        for (final Constructor<?> classConstructor : clazz.getDeclaredConstructors()) {
             if (isMatchingConstructor(classConstructor, objs)) {
                 if (ret != null) {
                     // We had already found a constructor, so this is ambiguous
-                    throw new IllegalArgumentException(
-                            "Ambiguity in the constructors for "
-                                    + clazz.getName() + ".");
+                    throw new IllegalArgumentException("Ambiguity in the constructors for " + clazz.getName()
+                            + ".");
                 }
 
                 // This unsafe cast is guaranteed to be correct by Class#getConstructors()
@@ -155,22 +151,20 @@ public final class ReflectionUtils {
         }
 
         // Not found
-        throw new NoSuchMethodException("Couldn't find constructor for class "
-                + clazz.getName());
+        throw new NoSuchMethodException("Couldn't find constructor for class " + clazz.getName());
     }
 
     /**
      * Returns true if objects in {@code objs} are eligible to be passed to
      * {@code classConstructor}.
      */
-    private static boolean isMatchingConstructor(
-            Constructor<?> classConstructor, Object... objs) {
-        
+    private static boolean isMatchingConstructor(final Constructor<?> classConstructor, final Object... objs) {
+
         if (Modifier.isPrivate(classConstructor.getModifiers())) {
             return false;
         }
-        
-        Class<?>[] parameterTypes = classConstructor.getParameterTypes();
+
+        final Class<?>[] parameterTypes = classConstructor.getParameterTypes();
         if (parameterTypes.length != objs.length) {
             return false;
         }
@@ -200,7 +194,7 @@ public final class ReflectionUtils {
      *            the primitive type
      * @return the boxed equivalent
      */
-    private static Class<?> wrapPrimitive(Class<?> parameterType) {
+    private static Class<?> wrapPrimitive(final Class<?> parameterType) {
         return primitiveToWrapperType.get(parameterType);
     }
 

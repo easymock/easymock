@@ -42,17 +42,14 @@ public class MatchableArgumentsTest {
 
     @Test
     public void testEquals() throws SecurityException, NoSuchMethodException {
-        Method toPreventNullPointerExceptionm = Object.class.getMethod(
-                "toString", new Class[] {});
+        final Method toPreventNullPointerExceptionm = Object.class.getMethod("toString", new Class[] {});
 
-        Object mock = new Object();
+        final Object mock = new Object();
 
-        ExpectedInvocation matchableArguments = new ExpectedInvocation(
-                new Invocation(mock, toPreventNullPointerExceptionm, arguments),
-                null);
-        ExpectedInvocation nonEqualMatchableArguments = new ExpectedInvocation(
-                new Invocation(mock, toPreventNullPointerExceptionm, arguments2),
-                null);
+        final ExpectedInvocation matchableArguments = new ExpectedInvocation(new Invocation(mock,
+                toPreventNullPointerExceptionm, arguments), null);
+        final ExpectedInvocation nonEqualMatchableArguments = new ExpectedInvocation(new Invocation(mock,
+                toPreventNullPointerExceptionm, arguments2), null);
 
         assertFalse(matchableArguments.equals(null));
         assertFalse(matchableArguments.equals(nonEqualMatchableArguments));

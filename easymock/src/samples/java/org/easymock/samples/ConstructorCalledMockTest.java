@@ -40,7 +40,7 @@ public class ConstructorCalledMockTest extends EasyMockSupport {
 
         private final BigDecimal[] values;
 
-        public TaxCalculator(BigDecimal... values) {
+        public TaxCalculator(final BigDecimal... values) {
             this.values = values;
         }
 
@@ -49,7 +49,7 @@ public class ConstructorCalledMockTest extends EasyMockSupport {
         public BigDecimal tax() {
             BigDecimal result = BigDecimal.ZERO;
 
-            for (BigDecimal d : values) {
+            for (final BigDecimal d : values) {
                 result = result.add(d);
             }
 
@@ -61,10 +61,8 @@ public class ConstructorCalledMockTest extends EasyMockSupport {
 
     @Before
     public void setUp() {
-        tc = createMockBuilder(TaxCalculator.class).withConstructor(
-                BigDecimal[].class).withArgs(
-                (Object) new BigDecimal[] { new BigDecimal("5"),
-                        new BigDecimal("15") }) // varargs are special since they are in fact arrays
+        tc = createMockBuilder(TaxCalculator.class).withConstructor(BigDecimal[].class).withArgs(
+                (Object) new BigDecimal[] { new BigDecimal("5"), new BigDecimal("15") }) // varargs are special since they are in fact arrays
                 .createMock(); // no need to mock any methods, abstract ones are mocked by default
     }
 

@@ -39,21 +39,19 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
 
     private final String name;
 
-    public ObjectMethodsFilter(Class<?> toMock, MockInvocationHandler delegate,
-            String name) {
+    public ObjectMethodsFilter(Class<?> toMock, final MockInvocationHandler delegate, final String name) {
         if (name != null && !Invocation.isJavaIdentifier(name)) {
             throw new IllegalArgumentException(String.format("'%s' is not a valid Java identifier.", name));
-            
+
         }
         try {
             if (toMock.isInterface()) {
                 toMock = Object.class;
             }
-            equalsMethod = toMock.getMethod("equals",
-                    new Class[] { Object.class });
+            equalsMethod = toMock.getMethod("equals", new Class[] { Object.class });
             hashCodeMethod = toMock.getMethod("hashCode", (Class[]) null);
             toStringMethod = toMock.getMethod("toString", (Class[]) null);
-        } catch (NoSuchMethodException e) {
+        } catch (final NoSuchMethodException e) {
             // ///CLOVER:OFF
             throw new RuntimeException("An Object method could not be found!");
             // ///CLOVER:ON
@@ -62,8 +60,7 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
         this.name = name;
     }
 
-    public final Object invoke(Object proxy, Method method, Object[] args)
-            throws Throwable {
+    public final Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         if (equalsMethod.equals(method)) {
             return Boolean.valueOf(proxy == args[0]);
         }
@@ -76,15 +73,14 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
         return delegate.invoke(proxy, method, args);
     }
 
-    private String mockToString(Object proxy) {
+    private String mockToString(final Object proxy) {
         return (name != null) ? name : "EasyMock for " + mockType(proxy);
     }
 
-    private String mockType(Object proxy) {
+    private String mockType(final Object proxy) {
         if (Proxy.isProxyClass(proxy.getClass())) {
             return proxy.getClass().getInterfaces()[0].toString();
-        }
-        else {
+        } else {
             return proxy.getClass().getSuperclass().toString();
         }
     }
@@ -92,21 +88,22 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
     public MockInvocationHandler getDelegate() {
         return delegate;
     }
-    
-    private void readObject(java.io.ObjectInputStream stream) throws IOException, ClassNotFoundException {
+
+    private void readObject(final java.io.ObjectInputStream stream) throws IOException,
+            ClassNotFoundException {
         stream.defaultReadObject();
         try {
             toStringMethod = ((MethodSerializationWrapper) stream.readObject()).getMethod();
             equalsMethod = ((MethodSerializationWrapper) stream.readObject()).getMethod();
             hashCodeMethod = ((MethodSerializationWrapper) stream.readObject()).getMethod();
-        } catch (NoSuchMethodException e) {
+        } catch (final NoSuchMethodException e) {
             // ///CLOVER:OFF
             throw new IOException(e.toString());
             // ///CLOVER:ON
         }
     }
-    
-    private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
+
+    private void writeObject(final java.io.ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
         stream.writeObject(new MethodSerializationWrapper(toStringMethod));
         stream.writeObject(new MethodSerializationWrapper(equalsMethod));

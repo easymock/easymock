@@ -30,12 +30,12 @@ public class ClassTested {
 
     private final Map<String, byte[]> documents = new HashMap<String, byte[]>();
 
-    public void addListener(Collaborator listener) {
+    public void addListener(final Collaborator listener) {
         listeners.add(listener);
     }
 
-    public void addDocument(String title, byte[] document) {
-        boolean documentChange = documents.containsKey(title);
+    public void addDocument(final String title, final byte[] document) {
+        final boolean documentChange = documents.containsKey(title);
         documents.put(title, document);
         if (documentChange) {
             notifyListenersDocumentChanged(title);
@@ -44,7 +44,7 @@ public class ClassTested {
         }
     }
 
-    public boolean removeDocument(String title) {
+    public boolean removeDocument(final String title) {
         if (!documents.containsKey(title)) {
             return true;
         }
@@ -59,47 +59,47 @@ public class ClassTested {
         return true;
     }
 
-    public boolean removeDocuments(String... titles) {
+    public boolean removeDocuments(final String... titles) {
         if (!listenersAllowRemovals(titles)) {
             return false;
         }
 
-        for (String title : titles) {
+        for (final String title : titles) {
             documents.remove(title);
             notifyListenersDocumentRemoved(title);
         }
         return true;
     }
 
-    private void notifyListenersDocumentAdded(String title) {
-        for (Collaborator listener : listeners) {
+    private void notifyListenersDocumentAdded(final String title) {
+        for (final Collaborator listener : listeners) {
             listener.documentAdded(title);
         }
     }
 
-    private void notifyListenersDocumentChanged(String title) {
-        for (Collaborator listener : listeners) {
+    private void notifyListenersDocumentChanged(final String title) {
+        for (final Collaborator listener : listeners) {
             listener.documentChanged(title);
         }
     }
 
-    private void notifyListenersDocumentRemoved(String title) {
-        for (Collaborator listener : listeners) {
+    private void notifyListenersDocumentRemoved(final String title) {
+        for (final Collaborator listener : listeners) {
             listener.documentRemoved(title);
         }
     }
 
-    private boolean listenersAllowRemoval(String title) {
+    private boolean listenersAllowRemoval(final String title) {
         int result = 0;
-        for (Collaborator listener : listeners) {
+        for (final Collaborator listener : listeners) {
             result += listener.voteForRemoval(title);
         }
         return result > 0;
     }
 
-    private boolean listenersAllowRemovals(String... titles) {
+    private boolean listenersAllowRemovals(final String... titles) {
         int result = 0;
-        for (Collaborator listener : listeners) {
+        for (final Collaborator listener : listeners) {
             result += listener.voteForRemovals(titles);
         }
         return result > 0;

@@ -58,28 +58,24 @@ public final class EasyMockProperties {
 
     private EasyMockProperties() {
         // Load the easymock.properties file
-        InputStream in = getClassLoader().getResourceAsStream(
-                "easymock.properties");
+        InputStream in = getClassLoader().getResourceAsStream("easymock.properties");
         if (in != null) {
             in = new BufferedInputStream(in);
             try {
                 properties.load(in);
-            } catch (IOException e) {
-                throw new RuntimeException(
-                        "Failed to read easymock.properties file");
+            } catch (final IOException e) {
+                throw new RuntimeException("Failed to read easymock.properties file");
             } finally {
                 try {
                     in.close();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     // Doesn't matter
                 }
             }
         }
         // Then overload it with system properties
-        for (Map.Entry<Object, Object> entry : System.getProperties()
-                .entrySet()) {
-            if (entry.getKey() instanceof String
-                    && entry.getKey().toString().startsWith(PREFIX)) {
+        for (final Map.Entry<Object, Object> entry : System.getProperties().entrySet()) {
+            if (entry.getKey() instanceof String && entry.getKey().toString().startsWith(PREFIX)) {
                 properties.put(entry.getKey(), entry.getValue());
             }
         }
@@ -95,7 +91,7 @@ public final class EasyMockProperties {
      *            the value to be returned if the key isn't found
      * @return the value found for the key or the default value
      */
-    public String getProperty(String key, String defaultValue) {
+    public String getProperty(final String key, final String defaultValue) {
         return properties.getProperty(key, defaultValue);
     }
 
@@ -107,7 +103,7 @@ public final class EasyMockProperties {
      *            key leading to the property
      * @return the value found for the key or null
      */
-    public String getProperty(String key) {
+    public String getProperty(final String key) {
         return properties.getProperty(key);
     }
 
@@ -121,7 +117,7 @@ public final class EasyMockProperties {
      *            the value corresponding to <tt>key</tt>.
      * @return the property previous value
      */
-    public String setProperty(String key, String value) {
+    public String setProperty(final String key, final String value) {
         if (!key.startsWith(PREFIX)) {
             throw new IllegalArgumentException("Invalid key (" + key
                     + "), an easymock property starts with \"" + PREFIX + "\"");
@@ -136,7 +132,7 @@ public final class EasyMockProperties {
         ClassLoader cl = null;
         try {
             cl = Thread.currentThread().getContextClassLoader();
-        } catch (Throwable ex) {
+        } catch (final Throwable ex) {
             // Cannot access thread context ClassLoader - falling back to system
             // class loader
         }

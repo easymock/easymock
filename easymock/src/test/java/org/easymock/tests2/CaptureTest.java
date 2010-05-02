@@ -34,7 +34,7 @@ import org.junit.Test;
 public class CaptureTest {
 
     public static class A {
-        public String foo(IMethods methods) {
+        public String foo(final IMethods methods) {
             return methods.oneArg(2);
         }
     }
@@ -46,11 +46,11 @@ public class CaptureTest {
     @After
     public void tearDown() throws Exception {
     }
-    
-    private Capture<Integer> testCaptureType(CaptureType type) {
-        IMethods mock = createMock(IMethods.class);
-        Capture<Integer> captured = new Capture<Integer>(type);
-                
+
+    private Capture<Integer> testCaptureType(final CaptureType type) {
+        final IMethods mock = createMock(IMethods.class);
+        final Capture<Integer> captured = new Capture<Integer>(type);
+
         expect(mock.oneArg(capture(captured))).andReturn("1");
         expect(mock.oneArg(anyInt())).andReturn("1");
         expect(mock.oneArg(capture(captured))).andReturn("2").times(2);
@@ -70,28 +70,28 @@ public class CaptureTest {
 
         return captured;
     }
-    
+
     @Test
     public void testCaptureFirst() {
-        Capture<Integer> captured = testCaptureType(CaptureType.FIRST);
+        final Capture<Integer> captured = testCaptureType(CaptureType.FIRST);
         assertEquals(0, (int) captured.getValue());
     }
 
     @Test
     public void testCaptureLast() {
-        Capture<Integer> captured = testCaptureType(CaptureType.LAST);
+        final Capture<Integer> captured = testCaptureType(CaptureType.LAST);
         assertEquals(7, (int) captured.getValue());
     }
 
     @Test
     public void testCaptureAll() {
-        Capture<Integer> captured = testCaptureType(CaptureType.ALL);
+        final Capture<Integer> captured = testCaptureType(CaptureType.ALL);
         assertEquals(Arrays.asList(0, 2, 3, 4, 6, 7), captured.getValues());
     }
 
     @Test
     public void testCaptureNone() {
-        Capture<Integer> captured = testCaptureType(CaptureType.NONE);
+        final Capture<Integer> captured = testCaptureType(CaptureType.NONE);
         assertFalse(captured.hasCaptured());
     }
 
@@ -100,11 +100,10 @@ public class CaptureTest {
 
     @Test
     public void testCaptureRightOne() {
-        Capture<String> captured = new Capture<String>();
-        IMethods mock = createMock(IMethods.class);
+        final Capture<String> captured = new Capture<String>();
+        final IMethods mock = createMock(IMethods.class);
 
-        expect(mock.oneArg(and(eq("test"), capture(captured)))).andReturn(
-                "answer1");
+        expect(mock.oneArg(and(eq("test"), capture(captured)))).andReturn("answer1");
         expect(mock.oneArg("a")).andReturn("answer2");
 
         replay(mock);
@@ -120,8 +119,8 @@ public class CaptureTest {
 
     @Test
     public void testPrimitiveVsObject() {
-        Capture<Integer> capture = new Capture<Integer>();
-        IMethods mock = createMock(IMethods.class);
+        final Capture<Integer> capture = new Capture<Integer>();
+        final IMethods mock = createMock(IMethods.class);
 
         expect(mock.oneArg(capture(capture))).andReturn("answer");
         expect(mock.oneArg((Integer) capture(capture))).andReturn("answer");
@@ -139,11 +138,10 @@ public class CaptureTest {
 
     @Test
     public void testAnd() {
-        Capture<String> captured = new Capture<String>();
-        IMethods mock = createMock(IMethods.class);
+        final Capture<String> captured = new Capture<String>();
+        final IMethods mock = createMock(IMethods.class);
 
-        expect(mock.oneArg(and(capture(captured), eq("test")))).andReturn(
-                "answer");
+        expect(mock.oneArg(and(capture(captured), eq("test")))).andReturn("answer");
 
         replay(mock);
 
@@ -152,18 +150,18 @@ public class CaptureTest {
 
         verify(mock);
     }
-    
+
     @Test
     public void testPrimitive() {
-        Capture<Integer> captureI = new Capture<Integer>();
-        Capture<Long> captureL = new Capture<Long>();
-        Capture<Float> captureF = new Capture<Float>();
-        Capture<Double> captureD = new Capture<Double>();
-        Capture<Byte> captureB = new Capture<Byte>();
-        Capture<Character> captureC = new Capture<Character>();
-        Capture<Boolean> captureBool = new Capture<Boolean>();
+        final Capture<Integer> captureI = new Capture<Integer>();
+        final Capture<Long> captureL = new Capture<Long>();
+        final Capture<Float> captureF = new Capture<Float>();
+        final Capture<Double> captureD = new Capture<Double>();
+        final Capture<Byte> captureB = new Capture<Byte>();
+        final Capture<Character> captureC = new Capture<Character>();
+        final Capture<Boolean> captureBool = new Capture<Boolean>();
 
-        IMethods mock = createMock(IMethods.class);
+        final IMethods mock = createMock(IMethods.class);
 
         expect(mock.oneArg(capture(captureI))).andReturn("answerI");
         expect(mock.oneArg(capture(captureL))).andReturn("answerL");
@@ -190,19 +188,18 @@ public class CaptureTest {
         assertEquals((byte) 5, captureB.getValue().byteValue());
         assertEquals((char) 6, captureC.getValue().charValue());
         assertEquals(true, captureBool.getValue().booleanValue());
-        
+
         verify(mock);
     }
-    
+
     @Test
     public void testCapture() {
-        Capture<String> capture = new Capture<String>();
+        final Capture<String> capture = new Capture<String>();
         assertFalse(capture.hasCaptured());
         try {
             capture.getValue();
             fail("Should not be allowed");
-        }
-        catch(AssertionError e) {
+        } catch (final AssertionError e) {
             assertEquals("Nothing captured yet", e.getMessage());
         }
         assertEquals("Nothing captured yet", capture.toString());
@@ -215,29 +212,26 @@ public class CaptureTest {
         try {
             capture.getValue();
             fail();
-        }
-        catch(AssertionError e) {
+        } catch (final AssertionError e) {
             assertEquals("Nothing captured yet", e.getMessage());
         }
-        
+
         capture.setValue(null);
         assertTrue(capture.hasCaptured());
         assertNull(capture.getValue());
         assertEquals("null", capture.toString());
     }
-    
+
     @Test
     public void testCaptureMultiple() {
-        Capture<String> capture = new Capture<String>(CaptureType.ALL);
+        final Capture<String> capture = new Capture<String>(CaptureType.ALL);
         capture.setValue("a");
         capture.setValue("b");
         try {
             capture.getValue();
             fail();
-        } catch (AssertionError e) {
-            assertEquals(
-                    "More than one value captured: " + capture.getValues(), e
-                            .getMessage());
+        } catch (final AssertionError e) {
+            assertEquals("More than one value captured: " + capture.getValues(), e.getMessage());
         }
         assertEquals(Arrays.asList("a", "b"), capture.getValues());
     }
@@ -245,30 +239,26 @@ public class CaptureTest {
     @Test
     public void testCapture_2617107() {
 
-        IMethods mock = createMock(IMethods.class);
+        final IMethods mock = createMock(IMethods.class);
 
-        Capture<String> cap1 = new Capture<String>();
-        Capture<String> cap2 = new Capture<String>();
-        Capture<String> cap3 = new Capture<String>();
-        Capture<String> cap4 = new Capture<String>();
+        final Capture<String> cap1 = new Capture<String>();
+        final Capture<String> cap2 = new Capture<String>();
+        final Capture<String> cap3 = new Capture<String>();
+        final Capture<String> cap4 = new Capture<String>();
 
-        mock.simpleMethodWithArgument(and(isA(String.class),
-                capture(cap1)));
-        mock.simpleMethodWithArgument(and(isA(String.class),
-                capture(cap2)));
-        mock.simpleMethodWithArgument(and(isA(String.class),
-                capture(cap3)));
-        mock.simpleMethodWithArgument(and(isA(String.class),
-                capture(cap4)));
+        mock.simpleMethodWithArgument(and(isA(String.class), capture(cap1)));
+        mock.simpleMethodWithArgument(and(isA(String.class), capture(cap2)));
+        mock.simpleMethodWithArgument(and(isA(String.class), capture(cap3)));
+        mock.simpleMethodWithArgument(and(isA(String.class), capture(cap4)));
 
         replay(mock);
 
         final String[] s = { "one", "two", "three", "four" };
 
-        for (int i = 0; i < s.length; i++) {
-            mock.simpleMethodWithArgument(s[i]);
+        for (final String element : s) {
+            mock.simpleMethodWithArgument(element);
         }
-        
+
         assertEquals("one", cap1.getValue());
         assertEquals("two", cap2.getValue());
         assertEquals("three", cap3.getValue());
@@ -276,7 +266,7 @@ public class CaptureTest {
 
         verify(mock);
     }
-    
+
     @Test
     public void testCaptureNonStrictControl_2133741() {
         testCaptureHelper(createMock(IMethods.class));
@@ -287,9 +277,9 @@ public class CaptureTest {
         testCaptureHelper(createStrictMock(IMethods.class));
     }
 
-    protected void testCaptureHelper(IMethods mock) {
-        Capture<String> capture1 = new Capture<String>();
-        Capture<String> capture2 = new Capture<String>();
+    protected void testCaptureHelper(final IMethods mock) {
+        final Capture<String> capture1 = new Capture<String>();
+        final Capture<String> capture2 = new Capture<String>();
 
         mock.simpleMethodWithArgument(capture(capture1));
         mock.simpleMethodWithArgument(capture(capture2));
@@ -302,25 +292,25 @@ public class CaptureTest {
         assertTrue(capture1.hasCaptured());
         assertTrue(capture2.hasCaptured());
         assertFalse(capture1.getValue() == capture2.getValue());
-    } 
-    
+    }
+
     @Test
     public void testCapture1_2446744() {
-        Capture<String> capture1 = new Capture<String>();
-        Capture<String> capture2 = new Capture<String>();
-        Capture<String> capture3 = new Capture<String>();
-        IMethods mock = createMock(IMethods.class);
+        final Capture<String> capture1 = new Capture<String>();
+        final Capture<String> capture2 = new Capture<String>();
+        final Capture<String> capture3 = new Capture<String>();
+        final IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg(capture(capture1))).andReturn("1").once();
         expect(mock.oneArg(capture(capture2))).andReturn("2").once();
         expect(mock.oneArg(capture(capture3))).andReturn("3").once();
-        
+
         replay(mock);
-        
+
         for (int i = 0; i < 3; i++) {
-            String string = "Run" + (i + 1);
+            final String string = "Run" + (i + 1);
             mock.oneArg(string);
         }
-        
+
         assertEquals("Run3", capture3.getValue());
         assertEquals("Run2", capture2.getValue());
         assertEquals("Run1", capture1.getValue());
@@ -328,16 +318,16 @@ public class CaptureTest {
 
     @Test
     public void testCapture2_2446744() {
-        Capture<String> capture = new Capture<String>(CaptureType.ALL);
-        IMethods mock = createMock(IMethods.class);
+        final Capture<String> capture = new Capture<String>(CaptureType.ALL);
+        final IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg(capture(capture))).andReturn("1").once();
         expect(mock.oneArg(capture(capture))).andReturn("2").once();
         expect(mock.oneArg(capture(capture))).andReturn("3").once();
-        
+
         replay(mock);
-        
+
         for (int i = 0; i < 3; i++) {
-            String string = "Run" + (i + 1);
+            final String string = "Run" + (i + 1);
             mock.oneArg(string);
         }
 
@@ -346,8 +336,8 @@ public class CaptureTest {
 
     @Test
     public void testCaptureFromStub() {
-        Capture<String> capture = new Capture<String>(CaptureType.ALL);
-        IMethods mock = createMock(IMethods.class);
+        final Capture<String> capture = new Capture<String>(CaptureType.ALL);
+        final IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg(capture(capture))).andStubReturn("1");
 
         replay(mock);

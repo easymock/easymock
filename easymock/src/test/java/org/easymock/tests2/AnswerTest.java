@@ -38,25 +38,22 @@ public class AnswerTest {
 
     @Test
     public void answer() {
-        IAnswer<Object> firstAnswer = new IAnswer<Object>() {
+        final IAnswer<Object> firstAnswer = new IAnswer<Object>() {
             public Object answer() {
-                assertArrayEquals(new Object[] { 1, "2", "3" },
-                        getCurrentArguments());
+                assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
                 return "Call answered";
             }
         };
 
-        IAnswer<Object> secondAnswer = new IAnswer<Object>() {
+        final IAnswer<Object> secondAnswer = new IAnswer<Object>() {
             public Object answer() {
-                assertArrayEquals(new Object[] { 1, "2", "3" },
-                        getCurrentArguments());
+                assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
                 throw new IllegalStateException("Call answered");
             }
         };
 
-        expect(mock.threeArgumentMethod(1, "2", "3")).andAnswer(firstAnswer)
-                .andReturn("Second call").andAnswer(secondAnswer).andReturn(
-                        "Fourth call");
+        expect(mock.threeArgumentMethod(1, "2", "3")).andAnswer(firstAnswer).andReturn("Second call")
+                .andAnswer(secondAnswer).andReturn("Fourth call");
 
         replay(mock);
 
@@ -65,7 +62,7 @@ public class AnswerTest {
         try {
             mock.threeArgumentMethod(1, "2", "3");
             fail();
-        } catch (IllegalStateException expected) {
+        } catch (final IllegalStateException expected) {
             assertEquals("Call answered", expected.getMessage());
         }
         assertEquals("Fourth call", mock.threeArgumentMethod(1, "2", "3"));
@@ -75,26 +72,22 @@ public class AnswerTest {
 
     @Test
     public void stubAnswer() {
-        IAnswer<Object> firstAnswer = new IAnswer<Object>() {
+        final IAnswer<Object> firstAnswer = new IAnswer<Object>() {
             public Object answer() {
-                assertArrayEquals(new Object[] { 1, "2", "3" },
-                        getCurrentArguments());
+                assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
                 return "Call answered";
             }
         };
 
-        IAnswer<Object> secondAnswer = new IAnswer<Object>() {
+        final IAnswer<Object> secondAnswer = new IAnswer<Object>() {
             public Object answer() {
-                assertArrayEquals(new Object[] { 1, "2", "4" },
-                        getCurrentArguments());
+                assertArrayEquals(new Object[] { 1, "2", "4" }, getCurrentArguments());
                 return "Call answered";
             }
         };
 
-        expect(mock.threeArgumentMethod(1, "2", "3")).andReturn(42)
-                .andStubAnswer(firstAnswer);
-        expect(mock.threeArgumentMethod(1, "2", "4")).andStubAnswer(
-                secondAnswer);
+        expect(mock.threeArgumentMethod(1, "2", "3")).andReturn(42).andStubAnswer(firstAnswer);
+        expect(mock.threeArgumentMethod(1, "2", "4")).andStubAnswer(secondAnswer);
 
         replay(mock);
 
@@ -112,9 +105,8 @@ public class AnswerTest {
         try {
             expect(mock.threeArgumentMethod(1, "2", "3")).andAnswer(null);
             fail();
-        } catch (NullPointerException expected) {
-            assertEquals("answer object must not be null", expected
-                    .getMessage());
+        } catch (final NullPointerException expected) {
+            assertEquals("answer object must not be null", expected.getMessage());
         }
     }
 
@@ -123,49 +115,51 @@ public class AnswerTest {
         try {
             expect(mock.threeArgumentMethod(1, "2", "3")).andStubAnswer(null);
             fail();
-        } catch (NullPointerException expected) {
-            assertEquals("answer object must not be null", expected
-                    .getMessage());
+        } catch (final NullPointerException expected) {
+            assertEquals("answer object must not be null", expected.getMessage());
         }
     }
 
-    public static class A {}
-    public static class B extends A{}
-    
+    public static class A {
+    }
+
+    public static class B extends A {
+    }
+
     public static interface C {
         A foo();
     }
-    
+
     @Test
     public void testGenericityFlexibility() {
-        
+
         final C c = createMock(C.class);
         final B b = new B();
-        
-        IAnswer<B> answer = new IAnswer<B>() {
+
+        final IAnswer<B> answer = new IAnswer<B>() {
 
             public B answer() throws Throwable {
                 return b;
             }
-            
+
         };
 
         expect(c.foo()).andAnswer(answer);
         expect(c.foo()).andStubAnswer(answer);
-        
+
         replay(c);
         assertSame(b, c.foo());
         assertSame(b, c.foo());
         verify(c);
     }
-    
+
     @Test
     public void answerOnVoidMethod() {
-        String[] array = new String[] { "a" };
+        final String[] array = new String[] { "a" };
         mock.arrayMethod(array);
         expectLastCall().andAnswer(new IAnswer<Object>() {
             public Object answer() throws Throwable {
-                String[] s = (String[]) getCurrentArguments()[0];
+                final String[] s = (String[]) getCurrentArguments()[0];
                 s[0] = "b";
                 return null;
             }
@@ -173,7 +167,7 @@ public class AnswerTest {
         replay(mock);
         mock.arrayMethod(array);
         verify(mock);
-        
+
         assertEquals("b", array[0]);
     }
 }

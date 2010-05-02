@@ -21,7 +21,8 @@ package org.easymock;
  * Implementations of this interface are returned by
  * {@link EasyMock#expect(Object)}, and by {@link EasyMock#expectLastCall()}.
  * 
- * @param <T> type of what should be returned by this expected call
+ * @param <T>
+ *            type of what should be returned by this expected call
  * 
  * @author OFFIS, Tammo Freese
  */
@@ -120,8 +121,8 @@ public interface IExpectationSetters<T> {
     IExpectationSetters<T> times(int count);
 
     /**
-     * Expect the last invocation between <code>min</code> and
-     * <code>max</code> times.
+     * Expect the last invocation between <code>min</code> and <code>max</code>
+     * times.
      * 
      * @param min
      *            the minimum number of invocations expected.

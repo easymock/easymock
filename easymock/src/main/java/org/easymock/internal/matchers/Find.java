@@ -30,16 +30,15 @@ public class Find implements IArgumentMatcher, Serializable {
 
     private final String regex;
 
-    public Find(String regex) {
+    public Find(final String regex) {
         this.regex = regex;
     }
 
-    public boolean matches(Object actual) {
-        return (actual instanceof String)
-                && Pattern.compile(regex).matcher((String) actual).find();
+    public boolean matches(final Object actual) {
+        return (actual instanceof String) && Pattern.compile(regex).matcher((String) actual).find();
     }
 
-    public void appendTo(StringBuffer buffer) {
+    public void appendTo(final StringBuffer buffer) {
         buffer.append("find(\"" + regex.replaceAll("\\\\", "\\\\\\\\") + "\")");
     }
 }

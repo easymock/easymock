@@ -32,21 +32,20 @@ public class DelegateToTest {
 
     @Test
     public void testDelegate() {
-        IMyInterface mock = createMock(IMyInterface.class);
-        IMyInterface delegateTo = new IMyInterface() {
+        final IMyInterface mock = createMock(IMyInterface.class);
+        final IMyInterface delegateTo = new IMyInterface() {
             private int i = 0;
 
-            public int getInt(int k) {
+            public int getInt(final int k) {
                 return i += k;
             }
         };
 
         expect(mock.getInt(10)).andDelegateTo(delegateTo);
-        expect(mock.getInt(5)).andDelegateTo(delegateTo).andDelegateTo(delegateTo)
-                .times(2);
+        expect(mock.getInt(5)).andDelegateTo(delegateTo).andDelegateTo(delegateTo).times(2);
 
         replay(mock);
-        
+
         assertEquals(10, mock.getInt(10));
         assertEquals(15, mock.getInt(5));
         assertEquals(20, mock.getInt(5));
@@ -57,11 +56,11 @@ public class DelegateToTest {
 
     @Test
     public void testStubDelegate() {
-        IMyInterface mock = createMock(IMyInterface.class);
-        IMyInterface delegateTo = new IMyInterface() {
+        final IMyInterface mock = createMock(IMyInterface.class);
+        final IMyInterface delegateTo = new IMyInterface() {
             private int i = 0;
 
-            public int getInt(int k) {
+            public int getInt(final int k) {
                 return ++i;
             }
         };
@@ -78,65 +77,63 @@ public class DelegateToTest {
 
         verify(mock);
     }
-    
+
     @Test
     public void testReturnException() {
-        IMyInterface m = createMock(IMyInterface.class);
-        IMyInterface delegateTo = new IMyInterface() {
-            public int getInt(int k) {
+        final IMyInterface m = createMock(IMyInterface.class);
+        final IMyInterface delegateTo = new IMyInterface() {
+            public int getInt(final int k) {
                 throw new ArithmeticException("Not good!");
             }
         };
         expect(m.getInt(5)).andDelegateTo(delegateTo);
-        
+
         replay(m);
 
         try {
             m.getInt(5);
             fail();
-        } catch (ArithmeticException e) {
+        } catch (final ArithmeticException e) {
             assertEquals("Not good!", e.getMessage());
         }
-        
+
         verify(m);
     }
 
     @Test
     public void testWrongClass() {
-        IMyInterface m = createMock(IMyInterface.class);
+        final IMyInterface m = createMock(IMyInterface.class);
         expect(m.getInt(0)).andDelegateTo("allo");
         replay(m);
         try {
             m.getInt(0);
             fail("Should throw an exception");
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             assertEquals(
                     "Delegation to object [allo] is not implementing the mocked method [public abstract int org.easymock.tests2.DelegateToTest$IMyInterface.getInt(int)]",
                     e.getMessage());
         }
     }
-    
+
     @Test
     public void nullDelegationNotAllowed() {
-        IMyInterface mock = createMock(IMyInterface.class);
+        final IMyInterface mock = createMock(IMyInterface.class);
         try {
             expect(mock.getInt(1)).andDelegateTo(null);
             fail();
-        } catch (NullPointerException expected) {
-            assertEquals("delegated to object must not be null", expected
-                    .getMessage());
+        } catch (final NullPointerException expected) {
+            assertEquals("delegated to object must not be null", expected.getMessage());
         }
     }
 
     @Test
     public void nullStubDelegationNotAllowed() {
-        IMyInterface mock = createMock(IMyInterface.class);
+        final IMyInterface mock = createMock(IMyInterface.class);
         try {
             expect(mock.getInt(1)).andStubDelegateTo(null);
             fail();
-        } catch (NullPointerException expected) {
-            assertEquals("delegated to object must not be null", expected
-                    .getMessage());
+        } catch (final NullPointerException expected) {
+            assertEquals("delegated to object must not be null", expected.getMessage());
         }
-    }    
+    }
 }

@@ -48,19 +48,19 @@ public class UsageConstraintsTest {
         try {
             mock.simpleMethodWithArgument(not("jkl"));
             fail();
-        } catch (IllegalStateException e) {
+        } catch (final IllegalStateException e) {
             assertEquals("no matchers found.", e.getMessage());
         }
         try {
             mock.simpleMethodWithArgument(or(eq("jkl"), "asd"));
             fail();
-        } catch (IllegalStateException e) {
+        } catch (final IllegalStateException e) {
             assertEquals("2 matchers expected, 1 recorded.", e.getMessage());
         }
         try {
             mock.threeArgumentMethod(1, "asd", eq("asd"));
             fail();
-        } catch (IllegalStateException e) {
+        } catch (final IllegalStateException e) {
             assertEquals("3 matchers expected, 1 recorded.", e.getMessage());
         }
 
@@ -84,21 +84,19 @@ public class UsageConstraintsTest {
         try {
             new Equals(null).hashCode();
             fail();
-        } catch (UnsupportedOperationException expected) {
+        } catch (final UnsupportedOperationException expected) {
         }
     }
 
     @Test
     public void constraints() {
-        expect(
-                mock.threeArgumentMethod(and(geq(7), leq(10)),
-                        isA(String.class), contains("123"))).andReturn("456")
-                .atLeastOnce();
+        expect(mock.threeArgumentMethod(and(geq(7), leq(10)), isA(String.class), contains("123"))).andReturn(
+                "456").atLeastOnce();
         replay(mock);
         boolean failed = false;
         try {
             mock.threeArgumentMethod(11, "", "01234");
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             failed = true;
         }
         if (!failed) {
@@ -107,7 +105,7 @@ public class UsageConstraintsTest {
         failed = false;
         try {
             mock.threeArgumentMethod(8, new Object(), "01234");
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             failed = true;
         }
         if (!failed) {
@@ -116,7 +114,7 @@ public class UsageConstraintsTest {
         failed = false;
         try {
             mock.threeArgumentMethod(8, "", "no match");
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             failed = true;
         }
         if (!failed) {
@@ -137,8 +135,7 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(and(eq((long) 1), eq((long) 1)))).andReturn("6");
         expect(mock.oneArg(and(eq((short) 1), eq((short) 1)))).andReturn("7");
         expect(mock.oneArg(and(contains("a"), contains("d")))).andReturn("8");
-        expect(mock.oneArg(and(isA(Class.class), eq(Object.class)))).andReturn(
-                "9");
+        expect(mock.oneArg(and(isA(Class.class), eq(Object.class)))).andReturn("9");
         replay(mock);
         assertEquals("9", mock.oneArg(Object.class));
         assertEquals("0", mock.oneArg(false));
@@ -164,8 +161,7 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(or(eq((long) 1), eq((long) 2)))).andReturn("6");
         expect(mock.oneArg(or(eq((short) 1), eq((short) 2)))).andReturn("7");
         expect(mock.oneArg(or(eq("asd"), eq("jkl")))).andReturn("8");
-        expect(mock.oneArg(or(eq(this.getClass()), eq(Object.class))))
-                .andReturn("9");
+        expect(mock.oneArg(or(eq(this.getClass()), eq(Object.class)))).andReturn("9");
         replay(mock);
         assertEquals("9", mock.oneArg(Object.class));
         assertEquals("0", mock.oneArg(true));
@@ -295,9 +291,9 @@ public class UsageConstraintsTest {
     }
 
     public static class A {
-        private int value;
+        private final int value;
 
-        public A(int value) {
+        public A(final int value) {
             this.value = value;
         }
 
@@ -309,13 +305,13 @@ public class UsageConstraintsTest {
     @Test
     public void compareWithComparator() {
         // Undertype just to make sure the generic typing works
-        Comparator<Object> comparator = new Comparator<Object>() {
-            private int compare(A a1, A a2) {
+        final Comparator<Object> comparator = new Comparator<Object>() {
+            private int compare(final A a1, final A a2) {
                 return a1.getValue() - a2.getValue();
             }
 
-            public int compare(Object o1, Object o2) {
-                return compare((A)o1, (A)o2);
+            public int compare(final Object o1, final Object o2) {
+                return compare((A) o1, (A) o2);
             }
         };
 
@@ -326,47 +322,40 @@ public class UsageConstraintsTest {
 
         // Now test EasyMock.cmp
         checkOrder(mock, true);
-        
-        expect(mock.oneArg(cmp(new A(5), comparator, 
-                LogicalOperator.EQUAL))).andReturn("0");
-        
-        expect(mock.oneArg(cmp(new A(5), comparator, 
-                LogicalOperator.GREATER))).andReturn("1");
-        
-        expect(mock.oneArg(cmp(new A(5), comparator, 
-                LogicalOperator.GREATER_OR_EQUAL))).andReturn("2");
-        expect(mock.oneArg(cmp(new A(5), comparator, 
-                LogicalOperator.GREATER_OR_EQUAL))).andReturn("2");
-        
-        expect(mock.oneArg(cmp(new A(5), comparator, 
-                LogicalOperator.LESS_OR_EQUAL))).andReturn("3");
-        expect(mock.oneArg(cmp(new A(5), comparator, 
-                LogicalOperator.LESS_OR_EQUAL))).andReturn("3");
-        
-        expect(mock.oneArg(cmp(new A(5), comparator, 
-                LogicalOperator.LESS_THAN))).andReturn("4");
-                
+
+        expect(mock.oneArg(cmp(new A(5), comparator, LogicalOperator.EQUAL))).andReturn("0");
+
+        expect(mock.oneArg(cmp(new A(5), comparator, LogicalOperator.GREATER))).andReturn("1");
+
+        expect(mock.oneArg(cmp(new A(5), comparator, LogicalOperator.GREATER_OR_EQUAL))).andReturn("2");
+        expect(mock.oneArg(cmp(new A(5), comparator, LogicalOperator.GREATER_OR_EQUAL))).andReturn("2");
+
+        expect(mock.oneArg(cmp(new A(5), comparator, LogicalOperator.LESS_OR_EQUAL))).andReturn("3");
+        expect(mock.oneArg(cmp(new A(5), comparator, LogicalOperator.LESS_OR_EQUAL))).andReturn("3");
+
+        expect(mock.oneArg(cmp(new A(5), comparator, LogicalOperator.LESS_THAN))).andReturn("4");
+
         replay(mock);
-        
+
         checkItFails(null); // null is not comparable so always return false
         try {
             mock.oneArg("");
             fail();
-        }
-        catch(AssertionError e) {} // different type isn't either
-        
+        } catch (final AssertionError e) {
+        } // different type isn't either
+
         checkItFails(new A(4));
         checkItFails(new A(6));
         assertEquals("0", mock.oneArg(new A(5)));
 
         checkItFails(new A(4));
-        checkItFails(new A(5));        
+        checkItFails(new A(5));
         assertEquals("1", mock.oneArg(new A(6)));
-        
+
         checkItFails(new A(4));
         assertEquals("2", mock.oneArg(new A(6)));
         assertEquals("2", mock.oneArg(new A(5)));
-        
+
         checkItFails(new A(6));
         assertEquals("3", mock.oneArg(new A(4)));
         assertEquals("3", mock.oneArg(new A(5)));
@@ -374,16 +363,16 @@ public class UsageConstraintsTest {
         checkItFails(new A(5));
         checkItFails(new A(6));
         assertEquals("4", mock.oneArg(new A(4)));
-        
+
         verify(mock);
     }
 
-    private void checkItFails(A a) {
+    private void checkItFails(final A a) {
         try {
             mock.oneArg(a);
             fail();
+        } catch (final AssertionError e) {
         }
-        catch(AssertionError e) {}
     }
 
     @Test
@@ -397,7 +386,7 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(anyLong())).andReturn("6");
         expect(mock.oneArg(anyShort())).andReturn("7");
         expect(mock.oneArg((String) anyObject())).andReturn("8");
-        expect(mock.oneArg((List<String>) EasyMock.<List<String>>anyObject())).andReturn("9"); // make sure there's no warning on the cast
+        expect(mock.oneArg((List<String>) EasyMock.<List<String>> anyObject())).andReturn("9"); // make sure there's no warning on the cast
         replay(mock);
         assertEquals("9", mock.oneArg(Collections.emptyList()));
         assertEquals("0", mock.oneArg(true));
@@ -410,7 +399,7 @@ public class UsageConstraintsTest {
         assertEquals("5", mock.oneArg((int) 1));
         assertEquals("6", mock.oneArg((long) 1));
         verify(mock);
-    }    
+    }
 
     @Test
     public void arrayEquals() {
@@ -518,10 +507,8 @@ public class UsageConstraintsTest {
 
     @Test
     public void testNull() {
-        expect(mock.threeArgumentMethod(eq(1), isNull(), eq("")))
-                .andReturn("1").atLeastOnce();
-        expect(mock.threeArgumentMethod(eq(1), not(isNull()), eq("")))
-                .andStubReturn("2");
+        expect(mock.threeArgumentMethod(eq(1), isNull(), eq(""))).andReturn("1").atLeastOnce();
+        expect(mock.threeArgumentMethod(eq(1), not(isNull()), eq(""))).andStubReturn("2");
 
         replay(mock);
 
@@ -533,10 +520,8 @@ public class UsageConstraintsTest {
 
     @Test
     public void testNotNull() {
-        expect(mock.threeArgumentMethod(eq(1), notNull(), eq(""))).andReturn(
-                "1").atLeastOnce();
-        expect(mock.threeArgumentMethod(eq(1), not(notNull()), eq("")))
-                .andStubReturn("2");
+        expect(mock.threeArgumentMethod(eq(1), notNull(), eq(""))).andReturn("1").atLeastOnce();
+        expect(mock.threeArgumentMethod(eq(1), not(notNull()), eq(""))).andStubReturn("2");
 
         replay(mock);
 
@@ -561,8 +546,7 @@ public class UsageConstraintsTest {
 
     @Test
     public void testMatches() {
-        expect(mock.oneArg(matches("[a-z]+\\d\\d"))).andReturn("1")
-                .atLeastOnce();
+        expect(mock.oneArg(matches("[a-z]+\\d\\d"))).andReturn("1").atLeastOnce();
         expect(mock.oneArg(matches("\\d\\d\\d"))).andStubReturn("2");
 
         replay(mock);
@@ -637,8 +621,8 @@ public class UsageConstraintsTest {
 
     @Test
     public void testSame() {
-        Object one = new String("1243");
-        Object two = new String("1243");
+        final Object one = new String("1243");
+        final Object two = new String("1243");
 
         assertNotSame(one, two);
         assertEquals(one, two);

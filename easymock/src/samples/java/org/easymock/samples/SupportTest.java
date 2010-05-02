@@ -57,7 +57,7 @@ public class SupportTest extends EasyMockSupport {
     @Test
     public void voteForRemovals() {
 
-        IMocksControl ctrl = createControl();
+        final IMocksControl ctrl = createControl();
         firstCollaborator = ctrl.createMock(Collaborator.class);
         secondCollaborator = ctrl.createMock(Collaborator.class);
         classUnderTest.addListener(firstCollaborator);
@@ -66,10 +66,8 @@ public class SupportTest extends EasyMockSupport {
         firstCollaborator.documentAdded("Document 1");
         secondCollaborator.documentAdded("Document 1");
 
-        expect(firstCollaborator.voteForRemovals("Document 1"))
-                .andReturn((byte) 20);
-        expect(secondCollaborator.voteForRemovals("Document 1"))
-                .andReturn((byte) -10);
+        expect(firstCollaborator.voteForRemovals("Document 1")).andReturn((byte) 20);
+        expect(secondCollaborator.voteForRemovals("Document 1")).andReturn((byte) -10);
 
         firstCollaborator.documentRemoved("Document 1");
         secondCollaborator.documentRemoved("Document 1");

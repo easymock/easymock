@@ -28,7 +28,7 @@ public class UsageMatchersTest {
     @Test(expected = IllegalStateException.class)
     public void additionalMatchersFailAtReplay() {
 
-        IMethods mock = createMock(IMethods.class);
+        final IMethods mock = createMock(IMethods.class);
         lt(5);
 
         replay(mock);

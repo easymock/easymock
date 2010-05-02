@@ -70,7 +70,7 @@ public class ConstraintsToStringTest {
 
     @Test
     public void sameToStringWithObject() {
-        Object o = new Object() {
+        final Object o = new Object() {
             @Override
             public String toString() {
                 return "X";
@@ -95,7 +95,7 @@ public class ConstraintsToStringTest {
 
     @Test
     public void equalsToStringWithObject() {
-        Object o = new Object() {
+        final Object o = new Object() {
             @Override
             public String toString() {
                 return "X";
@@ -107,14 +107,14 @@ public class ConstraintsToStringTest {
 
     @Test
     public void equalsToStringWithArray() {
-        String[] s = new String[] { "a", "b", null, "c" };
+        final String[] s = new String[] { "a", "b", null, "c" };
         new Equals(s).appendTo(buffer);
         assertEquals("[\"a\", \"b\", null, \"c\"]", buffer.toString());
     }
 
     @Test
     public void orToString() {
-        List<IArgumentMatcher> matchers = new ArrayList<IArgumentMatcher>();
+        final List<IArgumentMatcher> matchers = new ArrayList<IArgumentMatcher>();
         matchers.add(new Equals(1));
         matchers.add(new Equals(2));
         new Or(matchers).appendTo(buffer);
@@ -129,7 +129,7 @@ public class ConstraintsToStringTest {
 
     @Test
     public void andToString() {
-        List<IArgumentMatcher> matchers = new ArrayList<IArgumentMatcher>();
+        final List<IArgumentMatcher> matchers = new ArrayList<IArgumentMatcher>();
         matchers.add(new Equals(1));
         matchers.add(new Equals(2));
         new And(matchers).appendTo(buffer);
@@ -171,7 +171,7 @@ public class ConstraintsToStringTest {
         new EqualsWithDelta(2.1d, 0.2d).appendTo(buffer);
         assertEquals("eq(2.1, 0.2)", buffer.toString());
     }
-    
+
     @Test
     public void arrayEqualsToString() {
         new ArrayEquals(new Object[] { 1, "a", null }).appendTo(buffer);

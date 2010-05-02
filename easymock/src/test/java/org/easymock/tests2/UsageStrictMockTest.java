@@ -51,7 +51,7 @@ public class UsageStrictMockTest {
         boolean failed = false;
         try {
             mock.simpleMethodWithArgument("2");
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             failed = true;
         }
         if (!failed) {
@@ -67,7 +67,7 @@ public class UsageStrictMockTest {
         boolean failed = false;
         try {
             mock.simpleMethodWithArgument("2");
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             failed = true;
         }
         if (!failed) {
@@ -81,10 +81,10 @@ public class UsageStrictMockTest {
         boolean failed = false;
         try {
             verify(mock);
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             failed = true;
-            assertTrue("stack trace must be filled in", Util.getStackTrace(
-                    expected).indexOf(ReplayState.class.getName()) == -1);
+            assertTrue("stack trace must be filled in", Util.getStackTrace(expected).indexOf(
+                    ReplayState.class.getName()) == -1);
         }
         if (!failed) {
             fail("too few calls accepted");
@@ -111,14 +111,12 @@ public class UsageStrictMockTest {
         boolean failed = false;
         try {
             verify(mock);
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             failed = true;
-            assertEquals(
-                    "\n  Expectation failure on verify:"
-                            + "\n    simpleMethod(): expected: 1, actual: 1"
-                            + "\n    booleanReturningMethod(1): expected: between 2 and 3, actual: 0"
-                            + "\n    simpleMethod(): expected: at least 1, actual: 0",
-                    expected.getMessage());
+            assertEquals("\n  Expectation failure on verify:"
+                    + "\n    simpleMethod(): expected: 1, actual: 1"
+                    + "\n    booleanReturningMethod(1): expected: between 2 and 3, actual: 0"
+                    + "\n    simpleMethod(): expected: at least 1, actual: 0", expected.getMessage());
         }
         if (!failed) {
             fail("too few calls accepted");
@@ -129,12 +127,11 @@ public class UsageStrictMockTest {
         failed = false;
         try {
             mock.simpleMethod();
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             failed = true;
-            assertEquals(
-                    "\n  Unexpected method call simpleMethod():"
-                            + "\n    booleanReturningMethod(1): expected: between 2 and 3, actual: 1",
-                    expected.getMessage());
+            assertEquals("\n  Unexpected method call simpleMethod():"
+                    + "\n    booleanReturningMethod(1): expected: between 2 and 3, actual: 1", expected
+                    .getMessage());
         }
         if (!failed) {
             fail("wrong call accepted");
@@ -168,13 +165,11 @@ public class UsageStrictMockTest {
 
         try {
             mock.booleanReturningMethod(1);
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             failed = true;
-            assertEquals(
-                    "\n  Unexpected method call booleanReturningMethod(1):"
-                            + "\n    booleanReturningMethod(1): expected: between 2 and 3, actual: 4"
-                            + "\n    simpleMethod(): expected: at least 1, actual: 0",
-                    expected.getMessage());
+            assertEquals("\n  Unexpected method call booleanReturningMethod(1):"
+                    + "\n    booleanReturningMethod(1): expected: between 2 and 3, actual: 4"
+                    + "\n    simpleMethod(): expected: at least 1, actual: 0", expected.getMessage());
         }
         if (!failed) {
             fail("too many calls accepted");
@@ -201,12 +196,10 @@ public class UsageStrictMockTest {
         boolean failed = false;
         try {
             verify(mock);
-        } catch (AssertionError expected) {
+        } catch (final AssertionError expected) {
             failed = true;
-            assertEquals(
-                    "\n  Expectation failure on verify:"
-                            + "\n    booleanReturningMethod(1): expected: 3, actual: 2",
-                    expected.getMessage());
+            assertEquals("\n  Expectation failure on verify:"
+                    + "\n    booleanReturningMethod(1): expected: 3, actual: 2", expected.getMessage());
         }
         if (!failed) {
             fail("too few calls accepted");

@@ -43,8 +43,8 @@ public class ConstructorTest {
         }
     }
 
-    private void testConstructor(Class<? extends FooClass> mockedClass) {
-        FooClass mock = createMock(mockedClass);
+    private void testConstructor(final Class<? extends FooClass> mockedClass) {
+        final FooClass mock = createMock(mockedClass);
         assertTrue(mockedClass.isAssignableFrom(mock.getClass()));
         mock.foo();
         expectLastCall();

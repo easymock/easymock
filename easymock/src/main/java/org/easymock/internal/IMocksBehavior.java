@@ -29,12 +29,12 @@ public interface IMocksBehavior {
     void checkOrder(boolean value);
 
     void makeThreadSafe(boolean isThreadSafe);
-    
+
     void shouldBeUsedInOneThread(boolean shouldBeUsedInOneThread);
-    
+
     // replay
-    Result addActual(Invocation invocation);    
-    
+    Result addActual(Invocation invocation);
+
     boolean isThreadSafe();
 
     void checkThreadSafety();

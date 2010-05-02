@@ -36,20 +36,20 @@ public class GenericTest {
     }
 
     public class B implements C<Integer> {
-        public void doCMethod(Integer u) {
+        public void doCMethod(final Integer u) {
             fail("Should be mocked");
         }
     }
 
     @Test
     public void testBridgeUnmocked() {
-        B b = createMock(B.class);
+        final B b = createMock(B.class);
         b.doCMethod(new Integer(6));
         replay(b);
         ((C<Integer>) b).doCMethod(new Integer(6));
         verify(b);
     }
-    
+
     static abstract class AbstractFoo {
         public Collection<String> getSomeStrings() {
             return null;
@@ -57,23 +57,23 @@ public class GenericTest {
 
         public abstract Collection<Integer> getSomeIntegers();
     }
-    
+
     public class ConcreteFoo extends AbstractFoo {
         @Override
         public Collection<Integer> getSomeIntegers() {
             return null;
         }
     }
-    
+
     /**
-     * The JDK (and not Eclipse) creates a bridge in a concrete class
-     * extending a package scope one. In this case, the bridge contains
-     * a call to the super method. So we want to make sure the mocking 
-     * is forwarding correctly. 
+     * The JDK (and not Eclipse) creates a bridge in a concrete class extending
+     * a package scope one. In this case, the bridge contains a call to the
+     * super method. So we want to make sure the mocking is forwarding
+     * correctly.
      */
     @Test
     public void testPackageScope() {
-        ConcreteFoo b = createMock(ConcreteFoo.class);
+        final ConcreteFoo b = createMock(ConcreteFoo.class);
         expect(b.getSomeStrings()).andReturn(null);
         replay(b);
         ((AbstractFoo) b).getSomeStrings();

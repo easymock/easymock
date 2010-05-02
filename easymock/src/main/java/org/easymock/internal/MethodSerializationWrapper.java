@@ -28,8 +28,7 @@ public class MethodSerializationWrapper implements Serializable {
 
     private static final long serialVersionUID = 1775475200823842126L;
 
-    private static final Map<String, Class<?>> primitiveTypes = new HashMap<String, Class<?>>(
-            10);
+    private static final Map<String, Class<?>> primitiveTypes = new HashMap<String, Class<?>>(10);
 
     static {
         primitiveTypes.put(Boolean.TYPE.getName(), Boolean.TYPE);
@@ -42,17 +41,17 @@ public class MethodSerializationWrapper implements Serializable {
         primitiveTypes.put(Double.TYPE.getName(), Double.TYPE);
     }
 
-    private String className;
+    private final String className;
 
-    private String methodName;
+    private final String methodName;
 
-    private String[] parameterTypeNames;
+    private final String[] parameterTypeNames;
 
-    public MethodSerializationWrapper(Method m) {
+    public MethodSerializationWrapper(final Method m) {
         className = m.getDeclaringClass().getName();
         methodName = m.getName();
 
-        Class<?>[] parameterTypes = m.getParameterTypes();
+        final Class<?>[] parameterTypes = m.getParameterTypes();
 
         parameterTypeNames = new String[parameterTypes.length];
 
@@ -61,24 +60,22 @@ public class MethodSerializationWrapper implements Serializable {
         }
     }
 
-    public Method getMethod() throws ClassNotFoundException,
-            NoSuchMethodException {
-        Class<?> clazz = Class.forName(className, true, Thread.currentThread()
-                .getContextClassLoader());
+    public Method getMethod() throws ClassNotFoundException, NoSuchMethodException {
+        final Class<?> clazz = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
 
-        Class<?>[] parameterTypes = new Class[parameterTypeNames.length];
+        final Class<?>[] parameterTypes = new Class[parameterTypeNames.length];
 
         for (int i = 0; i < parameterTypeNames.length; i++) {
-            Class<?> primitiveType = primitiveTypes.get(parameterTypeNames[i]);
+            final Class<?> primitiveType = primitiveTypes.get(parameterTypeNames[i]);
             if (primitiveType != null) {
                 parameterTypes[i] = primitiveType;
             } else {
-                parameterTypes[i] = Class.forName(parameterTypeNames[i], true,
-                        Thread.currentThread().getContextClassLoader());
+                parameterTypes[i] = Class.forName(parameterTypeNames[i], true, Thread.currentThread()
+                        .getContextClassLoader());
             }
         }
 
-        Method m = clazz.getMethod(methodName, parameterTypes);
+        final Method m = clazz.getMethod(methodName, parameterTypes);
 
         return m;
     }

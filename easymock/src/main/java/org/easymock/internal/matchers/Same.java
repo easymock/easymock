@@ -27,18 +27,18 @@ import org.easymock.internal.ArgumentToString;
 public class Same implements IArgumentMatcher, Serializable {
 
     private static final long serialVersionUID = 1094930851962278376L;
-    
+
     private final Object expected;
 
-    public Same(Object expected) {
+    public Same(final Object expected) {
         this.expected = expected;
     }
 
-    public boolean matches(Object actual) {
+    public boolean matches(final Object actual) {
         return expected == actual;
     }
 
-    public void appendTo(StringBuffer buffer) {
+    public void appendTo(final StringBuffer buffer) {
         buffer.append("same(");
         ArgumentToString.appendArgument(expected, buffer);
         buffer.append(")");

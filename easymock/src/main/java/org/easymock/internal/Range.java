@@ -29,24 +29,21 @@ public class Range implements Serializable {
 
     private final int maximum;
 
-    public Range(int count) {
+    public Range(final int count) {
         this(count, count);
     }
 
-    public Range(int minimum, int maximum) {
+    public Range(final int minimum, final int maximum) {
         if (!(minimum <= maximum)) {
-            throw new RuntimeExceptionWrapper(new IllegalArgumentException(
-                    "minimum must be <= maximum"));
+            throw new RuntimeExceptionWrapper(new IllegalArgumentException("minimum must be <= maximum"));
         }
 
         if (!(minimum >= 0)) {
-            throw new RuntimeExceptionWrapper(new IllegalArgumentException(
-                    "minimum must be >= 0"));
+            throw new RuntimeExceptionWrapper(new IllegalArgumentException("minimum must be >= 0"));
         }
 
         if (!(maximum >= 1)) {
-            throw new RuntimeExceptionWrapper(new IllegalArgumentException(
-                    "maximum must be >= 1"));
+            throw new RuntimeExceptionWrapper(new IllegalArgumentException("maximum must be >= 1"));
         }
         this.minimum = minimum;
         this.maximum = maximum;
@@ -79,7 +76,7 @@ public class Range implements Serializable {
         return "expected: " + this.toString();
     }
 
-    public boolean contains(int count) {
+    public boolean contains(final int count) {
         return minimum <= count && count <= maximum;
     }
 

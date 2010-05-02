@@ -30,7 +30,7 @@ public class CompareToTest {
 
     @Test
     public void testNotComparable() {
-        CompareTo<Long> cmpTo = new CompareTo<Long>(5L) {
+        final CompareTo<Long> cmpTo = new CompareTo<Long>(5L) {
 
             private static final long serialVersionUID = 1L;
 
@@ -40,15 +40,16 @@ public class CompareToTest {
             }
 
             @Override
-            protected boolean matchResult(int result) {
+            protected boolean matchResult(final int result) {
                 fail("Shouldn't be called since the passed argument is not Comparable");
                 return true;
             }
-            
+
         };
-        
+
         assertFalse(cmpTo.matches(new Object()));
     }
+
     @Test
     public void testLessThan() {
         test(new LessThan<String>("b"), true, false, false, "lt");
@@ -75,19 +76,18 @@ public class CompareToTest {
 
         // Make sure it works when equals provide a different result than
         // compare
-        CompareEqual<BigDecimal> cmpEq = new CompareEqual<BigDecimal>(
-                new BigDecimal("5.00"));
+        final CompareEqual<BigDecimal> cmpEq = new CompareEqual<BigDecimal>(new BigDecimal("5.00"));
         assertTrue(cmpEq.matches(new BigDecimal("5")));
     }
 
-    private void test(CompareTo<String> cmpTo, boolean lower, boolean higher,
-            boolean equals, String name) {
+    private void test(final CompareTo<String> cmpTo, final boolean lower, final boolean higher,
+            final boolean equals, final String name) {
 
         assertEquals(lower, cmpTo.matches("a"));
         assertEquals(equals, cmpTo.matches("b"));
         assertEquals(higher, cmpTo.matches("c"));
 
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         cmpTo.appendTo(sb);
         assertEquals(name + "(b)", sb.toString());
     }

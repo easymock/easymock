@@ -38,12 +38,12 @@ import org.junit.Test;
 public class DefaultClassInstantiatorTest {
 
     public static class PrimitiveParamClass {
-        public PrimitiveParamClass(int i) {
+        public PrimitiveParamClass(final int i) {
         }
     }
 
     public static class FinalParamClass {
-        public FinalParamClass(String i) {
+        public FinalParamClass(final String i) {
         }
     }
 
@@ -53,17 +53,17 @@ public class DefaultClassInstantiatorTest {
     }
 
     public static class ProtectedWithPrimitiveConstructorClass {
-        protected ProtectedWithPrimitiveConstructorClass(int i) {
+        protected ProtectedWithPrimitiveConstructorClass(final int i) {
         }
     }
 
     public static class ParamClass {
-        public ParamClass(FinalParamClass f) {
+        public ParamClass(final FinalParamClass f) {
         }
     }
 
     public static class ObjectParamClass {
-        public ObjectParamClass(ParamClass c) {
+        public ObjectParamClass(final ParamClass c) {
         }
     }
 
@@ -100,8 +100,7 @@ public class DefaultClassInstantiatorTest {
     @BeforeClass
     public static void setUp() throws Exception {
         // Set the default instantiator
-        ClassInstantiatorFactory
-                .setInstantiator(new DefaultClassInstantiator());
+        ClassInstantiatorFactory.setInstantiator(new DefaultClassInstantiator());
     }
 
     @AfterClass
@@ -145,7 +144,7 @@ public class DefaultClassInstantiatorTest {
         try {
             createMock(ConstructorWithCodeClass.class);
             fail("Shouldn't be possible to mock, code in constructor should crash");
-        } catch (Exception e) {
+        } catch (final Exception e) {
         }
     }
 
@@ -154,17 +153,17 @@ public class DefaultClassInstantiatorTest {
         try {
             createMock(PrivateConstructorClass.class);
             fail("Shouldn't be able to mock a class with a private constructor using DefaultInstantiator");
-        } catch (Exception e) {
+        } catch (final Exception e) {
         }
     }
 
     @Test
     public void privateConstructor() {
-        DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
+        final DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
         try {
             instantiator.newInstance(PrivateConstructorClass.class);
             fail("Shouldn't be able to mock a class with a private constructor using DefaultInstantiator");
-        } catch (Exception e) {
+        } catch (final Exception e) {
         }
     }
 
@@ -180,12 +179,12 @@ public class DefaultClassInstantiatorTest {
 
     @Test
     public void badSerializable() throws Exception {
-        DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
+        final DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
         instantiator.newInstance(BadlyDoneSerializableClass.class);
     }
 
-    private <T> void checkInstatiation(Class<T> clazz) {
-        T mock = createMock(clazz);
+    private <T> void checkInstatiation(final Class<T> clazz) {
+        final T mock = createMock(clazz);
         assertTrue(clazz.isAssignableFrom(mock.getClass()));
     }
 }

@@ -26,18 +26,18 @@ import org.easymock.IArgumentMatcher;
 public final class Any implements IArgumentMatcher, Serializable {
 
     private static final long serialVersionUID = -3743894206806704049L;
-    
-    public static final Any ANY = new Any();    
-    
+
+    public static final Any ANY = new Any();
+
     private Any() {
-        
+
     }
-    
-    public boolean matches(Object actual) {
+
+    public boolean matches(final Object actual) {
         return true;
     }
 
-    public void appendTo(StringBuffer buffer) {
+    public void appendTo(final StringBuffer buffer) {
         buffer.append("<any>");
     }
 }

@@ -47,7 +47,7 @@ public class MockClassControlTest {
     public static class ClassToMockWithOverload {
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(final Object o) {
             return false;
         }
 
@@ -62,8 +62,7 @@ public class MockClassControlTest {
         }
     }
 
-    public static class ClassWithAnotherOverload extends
-            ClassToMockWithOverload {
+    public static class ClassWithAnotherOverload extends ClassToMockWithOverload {
 
         @Override
         public String toString() {
@@ -82,7 +81,7 @@ public class MockClassControlTest {
         mock = null;
     }
 
-    private void initMock(Class<?> toMock) {
+    private void initMock(final Class<?> toMock) {
         mock = createMock(toMock);
     }
 
@@ -99,7 +98,7 @@ public class MockClassControlTest {
     /**
      * Make sure that a mock is equals to itself
      */
-    private void testEquals(Class<?> toMock) {
+    private void testEquals(final Class<?> toMock) {
         initMock(toMock);
         assertEquals(mock, mock);
         replay(mock);
@@ -120,9 +119,9 @@ public class MockClassControlTest {
      * Make sure the hashCode doesn't need to be recorded and that it stays the
      * same after the replay
      */
-    private void testHashCode(Class<?> toMock) {
+    private void testHashCode(final Class<?> toMock) {
         initMock(toMock);
-        int code = mock.hashCode();
+        final int code = mock.hashCode();
         replay(mock);
         assertEquals(code, mock.hashCode());
     }
@@ -145,9 +144,9 @@ public class MockClassControlTest {
     /**
      * Check that the toString is the EasyMock one giving the mocked class
      */
-    private void testToString(Class<?> toMock) {
+    private void testToString(final Class<?> toMock) {
         initMock(toMock);
-        String expectedValue = "EasyMock for " + toMock.toString();
+        final String expectedValue = "EasyMock for " + toMock.toString();
         assertEquals(expectedValue, mock.toString());
         replay(mock);
         assertEquals(expectedValue, mock.toString());

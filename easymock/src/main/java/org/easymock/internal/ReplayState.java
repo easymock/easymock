@@ -29,24 +29,23 @@ public class ReplayState implements IMocksControlState, Serializable {
     private static final long serialVersionUID = 6314142602251047572L;
 
     private final IMocksBehavior behavior;
-    
+
     private final ReentrantLock lock = new ReentrantLock();
 
-    public ReplayState(IMocksBehavior behavior) {
+    public ReplayState(final IMocksBehavior behavior) {
         this.behavior = behavior;
     }
 
-    public Object invoke(Invocation invocation) throws Throwable {
+    public Object invoke(final Invocation invocation) throws Throwable {
 
         behavior.checkThreadSafety();
-        
+
         if (behavior.isThreadSafe()) {
             // If thread safe, synchronize the mock
             lock.lock();
             try {
                 return invokeInner(invocation);
-            }
-            finally {
+            } finally {
                 lock.unlock();
             }
         }
@@ -54,13 +53,13 @@ public class ReplayState implements IMocksControlState, Serializable {
         return invokeInner(invocation);
     }
 
-    private Object invokeInner(Invocation invocation) throws Throwable {
+    private Object invokeInner(final Invocation invocation) throws Throwable {
         LastControl.pushCurrentInvocation(invocation);
         try {
-            Result result = behavior.addActual(invocation);                
+            final Result result = behavior.addActual(invocation);
             try {
                 return result.answer();
-            } catch (Throwable t) {
+            } catch (final Throwable t) {
                 if (result.shouldFillInStackTrace()) {
                     throw new ThrowableWrapper(t);
                 }
@@ -79,67 +78,67 @@ public class ReplayState implements IMocksControlState, Serializable {
         throwWrappedIllegalStateException();
     }
 
-    public void callback(Runnable runnable) {
+    public void callback(final Runnable runnable) {
         throwWrappedIllegalStateException();
     }
 
-    public void checkOrder(boolean value) {
+    public void checkOrder(final boolean value) {
         throwWrappedIllegalStateException();
     }
 
-    public void makeThreadSafe(boolean threadSafe) {
-        throwWrappedIllegalStateException();
-    }
-    
-    public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
+    public void makeThreadSafe(final boolean threadSafe) {
         throwWrappedIllegalStateException();
     }
 
-    public void andReturn(Object value) {
+    public void checkIsUsedInOneThread(final boolean shouldBeUsedInOneThread) {
         throwWrappedIllegalStateException();
     }
 
-    public void andThrow(Throwable throwable) {
+    public void andReturn(final Object value) {
         throwWrappedIllegalStateException();
     }
 
-    public void andAnswer(IAnswer<?> answer) {
+    public void andThrow(final Throwable throwable) {
         throwWrappedIllegalStateException();
     }
 
-    public void andDelegateTo(Object answer) {
-        throwWrappedIllegalStateException();
-    }
-    
-    public void andStubReturn(Object value) {
+    public void andAnswer(final IAnswer<?> answer) {
         throwWrappedIllegalStateException();
     }
 
-    public void andStubThrow(Throwable throwable) {
+    public void andDelegateTo(final Object answer) {
         throwWrappedIllegalStateException();
     }
 
-    public void andStubAnswer(IAnswer<?> answer) {
+    public void andStubReturn(final Object value) {
         throwWrappedIllegalStateException();
     }
 
-    public void andStubDelegateTo(Object delegateTo) {
+    public void andStubThrow(final Throwable throwable) {
         throwWrappedIllegalStateException();
     }
-    
+
+    public void andStubAnswer(final IAnswer<?> answer) {
+        throwWrappedIllegalStateException();
+    }
+
+    public void andStubDelegateTo(final Object delegateTo) {
+        throwWrappedIllegalStateException();
+    }
+
     public void asStub() {
         throwWrappedIllegalStateException();
     }
 
-    public void times(Range range) {
+    public void times(final Range range) {
         throwWrappedIllegalStateException();
     }
 
-    public void setDefaultReturnValue(Object value) {
+    public void setDefaultReturnValue(final Object value) {
         throwWrappedIllegalStateException();
     }
 
-    public void setDefaultThrowable(Throwable throwable) {
+    public void setDefaultThrowable(final Throwable throwable) {
         throwWrappedIllegalStateException();
     }
 

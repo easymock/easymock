@@ -37,12 +37,11 @@ public class InvocationTest {
 
     @Before
     public void setup() throws SecurityException, NoSuchMethodException {
-        Object[] arguments1 = new Object[] { "" };
-        Object[] arguments2 = new Object[] { "" };
-        Object[] arguments3 = new Object[] { "X" };
-        Method m = Object.class.getMethod("equals",
-                new Class[] { Object.class });
-        Object mock = new Object();
+        final Object[] arguments1 = new Object[] { "" };
+        final Object[] arguments2 = new Object[] { "" };
+        final Object[] arguments3 = new Object[] { "X" };
+        final Method m = Object.class.getMethod("equals", new Class[] { Object.class });
+        final Object mock = new Object();
         call = new Invocation(mock, m, arguments1);
         equalCall = new Invocation(mock, m, arguments2);
         nonEqualCall = new Invocation(mock, m, arguments3);
@@ -61,18 +60,18 @@ public class InvocationTest {
         try {
             call.hashCode();
             fail();
-        } catch (UnsupportedOperationException expected) {
+        } catch (final UnsupportedOperationException expected) {
             assertEquals("hashCode() is not implemented", expected.getMessage());
         }
     }
 
     @Test
-    public void testShouldDisplayMocksToStringIfValidJavaIdentifier()
-            throws SecurityException, NoSuchMethodException {
+    public void testShouldDisplayMocksToStringIfValidJavaIdentifier() throws SecurityException,
+            NoSuchMethodException {
         class ToString {
             private final String name;
 
-            public ToString(String name) {
+            public ToString(final String name) {
                 this.name = name;
             }
 
@@ -85,9 +84,8 @@ public class InvocationTest {
             }
         }
 
-        Method method = ToString.class.getMethod("aMethod", new Class[0]);
-        Invocation invocation = new Invocation(new ToString("validJavaIdentifier"),
-                method, null);
+        final Method method = ToString.class.getMethod("aMethod", new Class[0]);
+        Invocation invocation = new Invocation(new ToString("validJavaIdentifier"), method, null);
 
         assertEquals(invocation.toString(), "validJavaIdentifier.aMethod()");
 

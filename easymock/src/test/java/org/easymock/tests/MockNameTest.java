@@ -28,9 +28,9 @@ public class MockNameTest {
 
     @Test
     public void defaultName() {
-        IMethods mock = createMock(IMethods.class);
-        String expected = "EasyMock for " + IMethods.class.toString();
-        String actual = mock.toString();
+        final IMethods mock = createMock(IMethods.class);
+        final String expected = "EasyMock for " + IMethods.class.toString();
+        final String actual = mock.toString();
         assertEquals(expected, actual);
     }
 }

@@ -50,10 +50,10 @@ public class Capture<T> implements Serializable {
      * @param type
      *            capture type
      */
-    public Capture(CaptureType type) {
+    public Capture(final CaptureType type) {
         this.type = type;
     }
-    
+
     /**
      * Will reset capture to a "nothing captured yet" state
      */
@@ -81,8 +81,7 @@ public class Capture<T> implements Serializable {
             throw new AssertionError("Nothing captured yet");
         }
         if (values.size() > 1) {
-            throw new AssertionError("More than one value captured: "
-                    + getValues());
+            throw new AssertionError("More than one value captured: " + getValues());
         }
         return values.get(values.size() - 1);
     }
@@ -103,7 +102,7 @@ public class Capture<T> implements Serializable {
      * @param value
      *            Value captured
      */
-    public void setValue(T value) {
+    public void setValue(final T value) {
         switch (type) {
         case NONE:
             break;
@@ -124,7 +123,7 @@ public class Capture<T> implements Serializable {
         // ///CLOVER:OFF
         default:
             throw new IllegalArgumentException("Unknown capture type: " + type);
-        // ///CLOVER:ON
+            // ///CLOVER:ON
         }
     }
 

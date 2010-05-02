@@ -22,15 +22,14 @@ import java.io.Serializable;
  * @author OFFIS, Tammo Freese
  */
 public class ExpectedInvocationAndResults implements Serializable {
-    
+
     private static final long serialVersionUID = 8189985418895395472L;
 
-    private ExpectedInvocation expectedInvocation;
+    private final ExpectedInvocation expectedInvocation;
 
-    private Results results;
+    private final Results results;
 
-    public ExpectedInvocationAndResults(ExpectedInvocation expectedInvocation,
-            Results results) {
+    public ExpectedInvocationAndResults(final ExpectedInvocation expectedInvocation, final Results results) {
         this.expectedInvocation = expectedInvocation;
         this.results = results;
     }

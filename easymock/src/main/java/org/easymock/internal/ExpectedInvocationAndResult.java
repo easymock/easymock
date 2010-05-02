@@ -25,12 +25,11 @@ public class ExpectedInvocationAndResult implements Serializable {
 
     private static final long serialVersionUID = -1951159588262854559L;
 
-    private ExpectedInvocation expectedInvocation;
+    private final ExpectedInvocation expectedInvocation;
 
-    private Result result;
+    private final Result result;
 
-    public ExpectedInvocationAndResult(ExpectedInvocation expectedInvocation,
-            Result result) {
+    public ExpectedInvocationAndResult(final ExpectedInvocation expectedInvocation, final Result result) {
         this.expectedInvocation = expectedInvocation;
         this.result = result;
     }

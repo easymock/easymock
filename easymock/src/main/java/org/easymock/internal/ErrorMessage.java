@@ -27,7 +27,7 @@ public class ErrorMessage {
 
     private final int actualCount;
 
-    public ErrorMessage(boolean matching, String message, int actualCount) {
+    public ErrorMessage(final boolean matching, final String message, final int actualCount) {
         this.matching = matching;
         this.message = message;
         this.actualCount = actualCount;
@@ -45,7 +45,7 @@ public class ErrorMessage {
         return actualCount;
     }
 
-    public void appendTo(StringBuilder buffer, int matches) {
+    public void appendTo(final StringBuilder buffer, final int matches) {
         buffer.append("\n    ").append(message).append(", actual: ");
         if (matching) {
             if (matches == 1) {
@@ -54,9 +54,8 @@ public class ErrorMessage {
                 buffer.append(getActualCount());
                 buffer.append(" (+1)");
             }
-        }
-        else {
+        } else {
             buffer.append(getActualCount());
-        }        
-    }    
+        }
+    }
 }

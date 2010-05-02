@@ -29,10 +29,9 @@ import org.easymock.tests.IMethods;
 import org.junit.Test;
 
 /**
- * Test that EasyMock works in replay state in a multithreaded
- * environment. Note that sadly this test isn't sure to fail all
- * the time. Only if there's a concurrency issue and we're lucky
- * enough to fell on it during testing.
+ * Test that EasyMock works in replay state in a multithreaded environment. Note
+ * that sadly this test isn't sure to fail all the time. Only if there's a
+ * concurrency issue and we're lucky enough to fell on it during testing.
  * 
  * @author Henri Tremblay
  */
@@ -45,71 +44,70 @@ public class ThreadingTest {
 
         final IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg("test")).andReturn("result").times(THREAD_COUNT);
-        
+
         replay(mock);
-        
-        Callable<String> replay = new Callable<String>() {
+
+        final Callable<String> replay = new Callable<String>() {
             public String call() throws Exception {
                 return mock.oneArg("test");
             }
         };
-        
-        ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
 
-        List<Callable<String>> tasks = Collections.nCopies(THREAD_COUNT, replay);
+        final ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
 
-        List<Future<String>> results = service.invokeAll(tasks);
+        final List<Callable<String>> tasks = Collections.nCopies(THREAD_COUNT, replay);
 
-        for (Future<String> future : results) {
+        final List<Future<String>> results = service.invokeAll(tasks);
+
+        for (final Future<String> future : results) {
             assertEquals("result", future.get());
         }
 
         verify(mock);
     }
-    
+
     @Test
     public void testThreadNotSafe() throws Throwable {
 
         final IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg("test")).andReturn("result").times(THREAD_COUNT);
-        
+
         makeThreadSafe(mock, false);
 
         checkIsUsedInOneThread(mock, true);
-        
+
         replay(mock);
-        
-        Callable<String> replay = new Callable<String>() {
+
+        final Callable<String> replay = new Callable<String>() {
             public String call() throws Exception {
                 return mock.oneArg("test");
             }
         };
-        
-        ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
 
-        List<Callable<String>> tasks = Collections.nCopies(THREAD_COUNT, replay);
+        final ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
 
-        List<Future<String>> results = service.invokeAll(tasks);
-        
+        final List<Callable<String>> tasks = Collections.nCopies(THREAD_COUNT, replay);
+
+        final List<Future<String>> results = service.invokeAll(tasks);
+
         boolean exceptionThrown = false;
 
-        for (Future<String> future : results) {
+        for (final Future<String> future : results) {
             try {
                 assertEquals("result", future.get());
-            }
-            catch(ExecutionException e) {
+            } catch (final ExecutionException e) {
                 // Since I don't know which one the lastThread is, that's the
                 // best assert I can do except doing
                 // a regular exception and I don't think it worth it
-                assertTrue(e.getCause().getMessage().startsWith(                        
+                assertTrue(e.getCause().getMessage().startsWith(
                         "\n Mock isn't supposed to be called from multiple threads. Last: "));
                 exceptionThrown = true;
             }
         }
-        
+
         assertTrue(exceptionThrown);
-    }    
-    
+    }
+
     @Test
     public void testMockUsedCorrectly() {
         final IMethods mock = createMock(IMethods.class);
@@ -127,16 +125,15 @@ public class ThreadingTest {
 
     @Test
     public void testChangeDefault() throws Throwable {
-        String previousThreadSafetyCheck = setEasyMockProperty(
-                ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT,
+        final String previousThreadSafetyCheck = setEasyMockProperty(ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT,
                 Boolean.TRUE.toString());
-        String previousThreadSafe = setEasyMockProperty(
-                NOT_THREAD_SAFE_BY_DEFAULT, Boolean.TRUE.toString());
+        final String previousThreadSafe = setEasyMockProperty(NOT_THREAD_SAFE_BY_DEFAULT, Boolean.TRUE
+                .toString());
         try {
             final MocksBehavior behavior = new MocksBehavior(true);
             assertFalse(behavior.isThreadSafe());
-            
-            Thread t = new Thread() {
+
+            final Thread t = new Thread() {
                 @Override
                 public void run() {
                     behavior.checkThreadSafety();
@@ -147,44 +144,41 @@ public class ThreadingTest {
             try {
                 behavior.checkThreadSafety();
                 fail("Shouldn't work");
-            } catch (AssertionErrorWrapper e) {
+            } catch (final AssertionErrorWrapper e) {
 
             }
-            
+
         } finally {
-            setEasyMockProperty(ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT,
-                    previousThreadSafetyCheck);
+            setEasyMockProperty(ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT, previousThreadSafetyCheck);
             setEasyMockProperty(NOT_THREAD_SAFE_BY_DEFAULT, previousThreadSafe);
         }
     }
-    
+
     @Test
-    public void testRecordingInMultipleThreads() throws InterruptedException,
-            ExecutionException {
-        
-        Callable<String> replay = new Callable<String>() {
+    public void testRecordingInMultipleThreads() throws InterruptedException, ExecutionException {
+
+        final Callable<String> replay = new Callable<String>() {
             public String call() throws Exception {
                 final IMethods mock = createMock(IMethods.class);
                 expect(mock.oneArg("test")).andReturn("result");
 
                 replay(mock);
 
-                String s = mock.oneArg("test");
+                final String s = mock.oneArg("test");
 
                 verify(mock);
-                
+
                 return s;
             }
         };
 
-        ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
+        final ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
 
-        List<Callable<String>> tasks = Collections
-                .nCopies(THREAD_COUNT, replay);
+        final List<Callable<String>> tasks = Collections.nCopies(THREAD_COUNT, replay);
 
-        List<Future<String>> results = service.invokeAll(tasks);
+        final List<Future<String>> results = service.invokeAll(tasks);
 
-        for (Future<String> future : results) {
+        for (final Future<String> future : results) {
             assertEquals("result", future.get());
         }
     }
@@ -197,7 +191,7 @@ public class ThreadingTest {
         // Mocking equals() doesn't work
         try {
             expect(mock.equals(eq(mock))).andReturn(true);
-        } catch (IllegalStateException e) {
+        } catch (final IllegalStateException e) {
 
         }
 
@@ -209,4 +203,3 @@ public class ThreadingTest {
         assertEquals(1, mock.compareTo(null));
     }
 }
-

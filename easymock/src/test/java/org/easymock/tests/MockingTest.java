@@ -50,12 +50,12 @@ public class MockingTest {
      */
     @Test
     public void testTwoMocks() {
-        ClassToMock transition1 = createMock(ClassToMock.class);
-        ClassToMock transition2 = createMock(ClassToMock.class);
+        final ClassToMock transition1 = createMock(ClassToMock.class);
+        final ClassToMock transition2 = createMock(ClassToMock.class);
 
         // Should have two different callbacks
-        assertNotSame(ClassExtensionHelper.getInterceptor(transition2),
-                ClassExtensionHelper.getInterceptor(transition1));
+        assertNotSame(ClassExtensionHelper.getInterceptor(transition2), ClassExtensionHelper
+                .getInterceptor(transition1));
 
         transition2.foo();
         transition1.foo();
@@ -91,33 +91,32 @@ public class MockingTest {
         checkClassMocking(createNiceMock(ClassToMock.class), MockType.NICE);
     }
 
-    private void checkInterfaceMock(Object mock, MockType behavior) {
+    private void checkInterfaceMock(final Object mock, final MockType behavior) {
         checkBehavior(mock, behavior);
     }
 
     @SuppressWarnings("deprecation")
     @Test
     public void testPartialClassMocking() {
-        ClassToMock mock = createMock(ClassToMock.class, getMethod());
+        final ClassToMock mock = createMock(ClassToMock.class, getMethod());
         checkPartialClassMocking(mock, MockType.DEFAULT);
     }
 
     @SuppressWarnings("deprecation")
     @Test
     public void testStrictPartialClassMocking() {
-        ClassToMock mock = createStrictMock(ClassToMock.class, getMethod());
+        final ClassToMock mock = createStrictMock(ClassToMock.class, getMethod());
         checkPartialClassMocking(mock, MockType.STRICT);
     }
 
     @SuppressWarnings("deprecation")
     @Test
     public void testNicePartialClassMocking() {
-        ClassToMock mock = createNiceMock(ClassToMock.class, getMethod());
+        final ClassToMock mock = createNiceMock(ClassToMock.class, getMethod());
         checkPartialClassMocking(mock, MockType.NICE);
     }
 
-    private void checkPartialClassMocking(ClassToMock mock,
-            MockType behavior) {
+    private void checkPartialClassMocking(final ClassToMock mock, final MockType behavior) {
         checkClassMocking(mock, behavior);
         assertEquals(10, mock.foo());
         expect(mock.method()).andReturn(30);
@@ -127,23 +126,23 @@ public class MockingTest {
         verify(mock);
     }
 
-    private void checkClassMocking(Object mock, MockType behavior) {
+    private void checkClassMocking(final Object mock, final MockType behavior) {
         checkBehavior(mock, behavior);
     }
 
-    private void checkBehavior(Object mock, MockType behavior) {
+    private void checkBehavior(final Object mock, final MockType behavior) {
         assertEquals(behavior, extractBehavior(mock));
     }
 
-    private MockType extractBehavior(Object mock) {
-        MocksControl ctrl = ClassExtensionHelper.getControl(mock);
+    private MockType extractBehavior(final Object mock) {
+        final MocksControl ctrl = ClassExtensionHelper.getControl(mock);
         return ctrl.getType();
     }
 
     private Method[] getMethod() {
         try {
             return new Method[] { ClassToMock.class.getDeclaredMethod("method", (Class[]) null) };
-        } catch (NoSuchMethodException e) {
+        } catch (final NoSuchMethodException e) {
             throw new RuntimeException(e.getMessage());
         }
     }

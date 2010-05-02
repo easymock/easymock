@@ -55,23 +55,21 @@ public class ObjectMethodsTest {
 
     @Test
     public void testHashCode() {
-        int hashCodeBeforeActivation = mock.hashCode();
+        final int hashCodeBeforeActivation = mock.hashCode();
         replay(mock);
-        int hashCodeAfterActivation = mock.hashCode();
+        final int hashCodeAfterActivation = mock.hashCode();
         assertEquals(hashCodeBeforeActivation, hashCodeAfterActivation);
     }
 
     @Test
     public void toStringBeforeActivation() {
-        assertEquals("EasyMock for " + EmptyInterface.class.toString(), mock
-                .toString());
+        assertEquals("EasyMock for " + EmptyInterface.class.toString(), mock.toString());
     }
 
     @Test
     public void toStringAfterActivation() {
         replay(mock);
-        assertEquals("EasyMock for " + EmptyInterface.class.toString(), mock
-                .toString());
+        assertEquals("EasyMock for " + EmptyInterface.class.toString(), mock.toString());
     }
 
     private static class MockedClass {
@@ -84,10 +82,10 @@ public class ObjectMethodsTest {
     // superclasses' name. This is needed for the class extension.
     @Test
     public void toStringForClasses() throws Throwable {
-        ObjectMethodsFilter filter = new ObjectMethodsFilter(Object.class, null, null);
-        Method toString = Object.class.getMethod("toString", new Class[0]);
-        assertEquals("EasyMock for " + MockedClass.class.toString(), filter
-                .invoke(new DummyProxy(), toString, new Object[0]));
+        final ObjectMethodsFilter filter = new ObjectMethodsFilter(Object.class, null, null);
+        final Method toString = Object.class.getMethod("toString", new Class[0]);
+        assertEquals("EasyMock for " + MockedClass.class.toString(), filter.invoke(new DummyProxy(),
+                toString, new Object[0]));
     }
 
 }

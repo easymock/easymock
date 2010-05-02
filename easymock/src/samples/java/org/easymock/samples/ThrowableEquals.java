@@ -16,7 +16,7 @@
 
 package org.easymock.samples;
 
-import static org.easymock.EasyMock.reportMatcher;
+import static org.easymock.EasyMock.*;
 
 import org.easymock.IArgumentMatcher;
 
@@ -24,22 +24,21 @@ import org.easymock.IArgumentMatcher;
  * @author OFFIS, Tammo Freese
  */
 public class ThrowableEquals implements IArgumentMatcher {
-    private Throwable expected;
+    private final Throwable expected;
 
-    public ThrowableEquals(Throwable expected) {
+    public ThrowableEquals(final Throwable expected) {
         this.expected = expected;
     }
 
-    public boolean matches(Object actual) {
+    public boolean matches(final Object actual) {
         if (!(actual instanceof Throwable)) {
             return false;
         }
-        String actualMessage = ((Throwable) actual).getMessage();
-        return expected.getClass().equals(actual.getClass())
-                && expected.getMessage().equals(actualMessage);
+        final String actualMessage = ((Throwable) actual).getMessage();
+        return expected.getClass().equals(actual.getClass()) && expected.getMessage().equals(actualMessage);
     }
 
-    public void appendTo(StringBuffer buffer) {
+    public void appendTo(final StringBuffer buffer) {
         buffer.append("<");
         buffer.append(expected.getClass().getName());
         buffer.append(" with message \"");
@@ -48,8 +47,8 @@ public class ThrowableEquals implements IArgumentMatcher {
 
     }
 
-    public static <T extends Throwable> T eqException(T in) {
+    public static <T extends Throwable> T eqException(final T in) {
         reportMatcher(new ThrowableEquals(in));
         return in;
-    }            
+    }
 }

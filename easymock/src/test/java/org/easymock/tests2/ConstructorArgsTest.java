@@ -32,18 +32,17 @@ public class ConstructorArgsTest {
 
         private static final Class<?> TYPE = null;
 
-        public A(String s, int i) {
+        public A(final String s, final int i) {
         }
     }
 
     @Test
     public void testConstructorArgs() {
-        ConstructorArgs args = new ConstructorArgs(
-                A.class.getConstructors()[0], "a", 4);
+        final ConstructorArgs args = new ConstructorArgs(A.class.getConstructors()[0], "a", 4);
         checkArgs(args);
     }
 
-    private void checkArgs(ConstructorArgs args) {
+    private void checkArgs(final ConstructorArgs args) {
         assertEquals(2, args.getInitArgs().length);
         assertEquals("a", args.getInitArgs()[0]);
         assertEquals(4, args.getInitArgs()[1]);
@@ -88,7 +87,6 @@ public class ConstructorArgsTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorArgs_TypeExistsButNotStatic() {
-        new ConstructorArgs(A.class.getConstructors()[0], "a",
-                new ConstructorArgsTest());
+        new ConstructorArgs(A.class.getConstructors()[0], "a", new ConstructorArgsTest());
     }
 }

@@ -59,8 +59,8 @@ public class StubTest {
     @Test
     public void stubWithReturnValue() {
         expect(mock.oneArg("1")).andReturn("A").andStubReturn("B");
-        expect(mock.oneArg("2")).andThrow(new IllegalArgumentException())
-                .andStubThrow(new IllegalStateException());
+        expect(mock.oneArg("2")).andThrow(new IllegalArgumentException()).andStubThrow(
+                new IllegalStateException());
 
         replay(mock);
 
@@ -69,17 +69,17 @@ public class StubTest {
         assertEquals("B", mock.oneArg("1"));
         try {
             mock.oneArg("2");
-        } catch (IllegalArgumentException ignored) {
+        } catch (final IllegalArgumentException ignored) {
         }
         assertEquals("B", mock.oneArg("1"));
         try {
             mock.oneArg("2");
-        } catch (IllegalStateException ignored) {
+        } catch (final IllegalStateException ignored) {
         }
         assertEquals("B", mock.oneArg("1"));
         try {
             mock.oneArg("2");
-        } catch (IllegalStateException ignored) {
+        } catch (final IllegalStateException ignored) {
         }
         verify(mock);
     }
