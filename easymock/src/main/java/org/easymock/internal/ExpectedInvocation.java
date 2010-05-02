@@ -45,8 +45,16 @@ public class ExpectedInvocation implements Serializable {
             final List<IArgumentMatcher> matchers) {
         if (matchers != null) {
             if (matchers.size() != invocation.getArguments().length) {
-                throw new IllegalStateException("" + invocation.getArguments().length
-                        + " matchers expected, " + matchers.size() + " recorded.");
+                throw new IllegalStateException(
+                        ""
+                                + invocation.getArguments().length
+                                + " matchers expected, "
+                                + matchers.size()
+                                + " recorded.\n"
+                                + "This exception usually occurs when matchers are mixed with raw values when recording a method:\n"
+                                + "\tfoo(5, eq(6));\t// wrong\n"
+                                + "You need to use no matcher at all or a matcher for every single param:\n"
+                                + "\tfoo(eq(5), eq(6));\t// right\n" + "\tfoo(5, 6);\t// also right");
             }
             return matchers;
         }

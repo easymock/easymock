@@ -61,7 +61,13 @@ public class UsageConstraintsTest {
             mock.threeArgumentMethod(1, "asd", eq("asd"));
             fail();
         } catch (final IllegalStateException e) {
-            assertEquals("3 matchers expected, 1 recorded.", e.getMessage());
+            assertEquals(
+                    "3 matchers expected, 1 recorded.\n"
+                            + "This exception usually occurs when matchers are mixed with raw values when recording a method:\n"
+                            + "\tfoo(5, eq(6));\t// wrong\n"
+                            + "You need to use no matcher at all or a matcher for every single param:\n"
+                            + "\tfoo(eq(5), eq(6));\t// right\n" + "\tfoo(5, 6);\t// also right", e
+                            .getMessage());
         }
 
     }
@@ -131,7 +137,7 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(and(eq('a'), eq('a')))).andReturn("2");
         expect(mock.oneArg(and(eq((double) 1), eq((double) 1)))).andReturn("3");
         expect(mock.oneArg(and(eq((float) 1), eq((float) 1)))).andReturn("4");
-        expect(mock.oneArg(and(eq((int) 1), eq((int) 1)))).andReturn("5");
+        expect(mock.oneArg(and(eq(1), eq(1)))).andReturn("5");
         expect(mock.oneArg(and(eq((long) 1), eq((long) 1)))).andReturn("6");
         expect(mock.oneArg(and(eq((short) 1), eq((short) 1)))).andReturn("7");
         expect(mock.oneArg(and(contains("a"), contains("d")))).andReturn("8");
@@ -145,7 +151,7 @@ public class UsageConstraintsTest {
         assertEquals("7", mock.oneArg((short) 1));
         assertEquals("8", mock.oneArg("abcde"));
         assertEquals("4", mock.oneArg((float) 1));
-        assertEquals("5", mock.oneArg((int) 1));
+        assertEquals("5", mock.oneArg(1));
         assertEquals("6", mock.oneArg((long) 1));
         verify(mock);
     }
@@ -157,7 +163,7 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(or(eq((char) 1), eq((char) 2)))).andReturn("2");
         expect(mock.oneArg(or(eq((double) 1), eq((double) 2)))).andReturn("3");
         expect(mock.oneArg(or(eq((float) 1), eq((float) 2)))).andReturn("4");
-        expect(mock.oneArg(or(eq((int) 1), eq((int) 2)))).andReturn("5");
+        expect(mock.oneArg(or(eq(1), eq(2)))).andReturn("5");
         expect(mock.oneArg(or(eq((long) 1), eq((long) 2)))).andReturn("6");
         expect(mock.oneArg(or(eq((short) 1), eq((short) 2)))).andReturn("7");
         expect(mock.oneArg(or(eq("asd"), eq("jkl")))).andReturn("8");
@@ -171,7 +177,7 @@ public class UsageConstraintsTest {
         assertEquals("7", mock.oneArg((short) 1));
         assertEquals("8", mock.oneArg("jkl"));
         assertEquals("4", mock.oneArg((float) 1));
-        assertEquals("5", mock.oneArg((int) 2));
+        assertEquals("5", mock.oneArg(2));
         assertEquals("6", mock.oneArg((long) 1));
         verify(mock);
     }
@@ -183,7 +189,7 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(not(eq('a')))).andReturn("2");
         expect(mock.oneArg(not(eq((double) 1)))).andReturn("3");
         expect(mock.oneArg(not(eq((float) 1)))).andReturn("4");
-        expect(mock.oneArg(not(eq((int) 1)))).andReturn("5");
+        expect(mock.oneArg(not(eq(1)))).andReturn("5");
         expect(mock.oneArg(not(eq((long) 1)))).andReturn("6");
         expect(mock.oneArg(not(eq((short) 1)))).andReturn("7");
         expect(mock.oneArg(not(contains("a")))).andReturn("8");
@@ -197,7 +203,7 @@ public class UsageConstraintsTest {
         assertEquals("7", mock.oneArg((short) 2));
         assertEquals("8", mock.oneArg("bcde"));
         assertEquals("4", mock.oneArg((float) 2));
-        assertEquals("5", mock.oneArg((int) 2));
+        assertEquals("5", mock.oneArg(2));
         assertEquals("6", mock.oneArg((long) 2));
         verify(mock);
     }
@@ -207,7 +213,7 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(leq((byte) 1))).andReturn("1");
         expect(mock.oneArg(leq((double) 1))).andReturn("3");
         expect(mock.oneArg(leq((float) 1))).andReturn("4");
-        expect(mock.oneArg(leq((int) 1))).andReturn("5");
+        expect(mock.oneArg(leq(1))).andReturn("5");
         expect(mock.oneArg(leq((long) 1))).andReturn("6");
         expect(mock.oneArg(leq((short) 1))).andReturn("7");
         expect(mock.oneArg(leq(new BigDecimal("1")))).andReturn("8");
