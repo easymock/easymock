@@ -1,4 +1,4 @@
-#Sun Apr 11 15:45:44 CEST 2010
+#Sun May 02 17:54:20 CEST 2010
 eclipse.preferences.version=1
 org.eclipse.jdt.core.builder.cleanOutputFolder=clean
 org.eclipse.jdt.core.builder.duplicateResourceTask=warning
@@ -321,7 +321,7 @@ org.eclipse.jdt.core.formatter.keep_imple_if_on_one_line=false
 org.eclipse.jdt.core.formatter.keep_then_statement_on_same_line=false
 org.eclipse.jdt.core.formatter.lineSplit=110
 org.eclipse.jdt.core.formatter.never_indent_block_comments_on_first_column=false
-org.eclipse.jdt.core.formatter.never_indent_line_comments_on_first_column=false
+org.eclipse.jdt.core.formatter.never_indent_line_comments_on_first_column=true
 org.eclipse.jdt.core.formatter.number_of_blank_lines_at_beginning_of_method_body=0
 org.eclipse.jdt.core.formatter.number_of_empty_lines_to_preserve=1
 org.eclipse.jdt.core.formatter.put_empty_statement_on_new_line=true
