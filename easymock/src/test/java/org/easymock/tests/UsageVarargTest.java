@@ -17,6 +17,7 @@
 package org.easymock.tests;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -181,4 +182,15 @@ public class UsageVarargTest {
         verify(mock);
     }
 
+    @Test
+    public void differentLength() {
+        mock.withVarargsInt(1, 2, 3);
+        replay(mock);
+        try {
+            mock.withVarargsInt(1, 2);
+            fail("not the same number of params");
+        } catch (final AssertionError e) {
+
+        }
+    }
 }

@@ -25,8 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.cglib.core.CollectionUtils;
-import net.sf.cglib.core.VisibilityPredicate;
+import net.sf.cglib.core.*;
 import net.sf.cglib.proxy.*;
 
 import org.easymock.ConstructorArgs;
@@ -141,6 +140,17 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
         }
     }
 
+    // ///CLOVER:OFF (I don't know how to test it automatically yet)
+    private static final NamingPolicy ALLOWS_MOCKING_CLASSES_IN_SIGNED_PACKAGES = new DefaultNamingPolicy() {
+        @Override
+        public String getClassName(final String prefix, final String source, final Object key,
+                final Predicate names) {
+            return "codegen." + super.getClassName(prefix, source, key, names);
+        }
+    };
+
+    // ///CLOVER:ON
+
     @SuppressWarnings("unchecked")
     public T createProxy(final Class<T> toMock, final InvocationHandler handler) {
 
@@ -161,23 +171,26 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
             // ///CLOVER:ON
         }
 
-        final MethodInterceptor interceptor = new MockMethodInterceptor(handler);
+        final Enhancer enhancer = createEnhancer(toMock);
 
-        // Create the mock
-        final Enhancer enhancer = new Enhancer() {
-            /**
-             * Filter all private constructors but do not check that there are
-             * some left
-             */
-            @Override
-            protected void filterConstructors(final Class sc, final List constructors) {
-                CollectionUtils.filter(constructors, new VisibilityPredicate(sc, true));
-            }
-        };
-        enhancer.setSuperclass(toMock);
+        final MethodInterceptor interceptor = new MockMethodInterceptor(handler);
         enhancer.setCallbackType(interceptor.getClass());
 
-        final Class mockClass = enhancer.createClass();
+        Class mockClass;
+        try {
+            mockClass = enhancer.createClass();
+        } catch (final CodeGenerationException e) {
+            // ///CLOVER:OFF (don't know how to test it automatically)
+            // Probably caused by a NoClassDefFoundError, let's try EasyMock class loader
+            // instead of the default one (which is the class to mock one
+            // This is required by Eclipse Plug-ins, the mock class loader doesn't see
+            // cglib most of the time. Using EasyMock class loader solves this
+            // See issue ID: 2994002
+            enhancer.setClassLoader(getClass().getClassLoader());
+            mockClass = enhancer.createClass();
+            // ///CLOVER:ON
+        }
+
         Enhancer.registerCallbacks(mockClass, new Callback[] { interceptor });
 
         if (ClassExtensionHelper.getCurrentConstructorArgs() != null) {
@@ -239,6 +252,31 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
 
             return (T) mock;
         }
+    }
+
+    private Enhancer createEnhancer(final Class<T> toMock) {
+        // Create the mock
+        final Enhancer enhancer = new Enhancer() {
+            /**
+             * Filter all private constructors but do not check that there are
+             * some left
+             */
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void filterConstructors(final Class sc, final List constructors) {
+                CollectionUtils.filter(constructors, new VisibilityPredicate(sc, true));
+            }
+        };
+        enhancer.setSuperclass(toMock);
+
+        // ///CLOVER:OFF (I don't know how to test it automatically yet)
+        // See issue ID: 2994002
+        if (toMock.getSigners() != null) {
+            enhancer.setNamingPolicy(ALLOWS_MOCKING_CLASSES_IN_SIGNED_PACKAGES);
+        }
+        // ///CLOVER:ON
+
+        return enhancer;
     }
 
     private void updateMethod(final InvocationHandler objectMethodsFilter, final Method correctMethod) {
