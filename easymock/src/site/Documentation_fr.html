@@ -686,7 +686,7 @@ Voici quelques comparateurs prédéfinis disponible:
 <dt><code>eq(X value)</code></dt>
 <dd>Vérifie que la valeur reçue égale la valeur attendue. Disponible pour tous les types primitifs et objets.</dd>
 
-<dt><code>anyBoolean()</code>, <code>anyByte()</code>, <code>anyChar()</code>, <code>anyDouble()</code>, <code>anyFloat()</code>, <code>anyInt()</code>, <code>anyLong()</code>, <code>anyObject()</code>, <code>anyShort()</code></dt>
+<dt><code>anyBoolean()</code>, <code>anyByte()</code>, <code>anyChar()</code>, <code>anyDouble()</code>, <code>anyFloat()</code>, <code>anyInt()</code>, <code>anyLong()</code>, <code>anyObject()</code>, <code>anyObject(Class clazz)</code>, <code>anyShort()</code></dt>
 <dd>Laisse passer n'importe quelle valeur. Disponible pour tous les types primitifs et objets.</dd>
 
 <dt><code>eq(X value, X delta)</code></dt>
@@ -695,10 +695,10 @@ Voici quelques comparateurs prédéfinis disponible:
 <dt><code>aryEq(X value)</code></dt>
 <dd>Vérifie que la valeur reçue égale la valeur attendue en s'appuyant sur <code>Arrays.equals()</code>. Disponible pour les tableaux d'objets et de types primitifs.</dd>
 
-<dt><code>isNull()</code></dt>
+<dt><code>isNull()</code>, <code>isNull(Class clazz)</code></dt>
 <dd>Vérifie que la valeur reçue est nulle. Disponible pour les objets.</dd>
 
-<dt><code>notNull()</code></dt>
+<dt><code>notNull()</code>, <code>notNull(Class clazz)</code></dt>
 <dd>Vérifie que la valeur reçue n'est pas nulle. Disponible pour les objets.</dd>
 
 <dt><code>same(X value)</code></dt>
@@ -1211,6 +1211,8 @@ Nouveau dans la version 3.0:
 <li>Vérifier s'il reste des résultats disponible dans un comportement enregistré avant de matcher avec celui-ci (2940400)
 </li>
 <li>Permettre les mocks de classes provenant d'un plugin Eclipse (2994002)
+</li>
+<li>Ajout de <code>isNull(Class&lt;T&gt;)</code>, <code>notNull(Class&lt;T&gt;)</code> et <code>anyObject(Class&lt;T&gt;)</code> pour faciliter la gestion des génériques (2958636)
 </li>
 </ul>
 <p>

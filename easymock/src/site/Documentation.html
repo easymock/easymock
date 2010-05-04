@@ -655,7 +655,7 @@ There are a couple of predefined argument matchers available.
 <dt><code>eq(X value)</code></dt>
 <dd>Matches if the actual value is equals the expected value. Available for all primitive types and for objects.</dd>
 
-<dt><code>anyBoolean()</code>, <code>anyByte()</code>, <code>anyChar()</code>, <code>anyDouble()</code>, <code>anyFloat()</code>, <code>anyInt()</code>, <code>anyLong()</code>, <code>anyObject()</code>, <code>anyShort()</code></dt>
+<dt><code>anyBoolean()</code>, <code>anyByte()</code>, <code>anyChar()</code>, <code>anyDouble()</code>, <code>anyFloat()</code>, <code>anyInt()</code>, <code>anyLong()</code>, <code>anyObject()</code>, <code>anyObject(Class clazz)</code>, <code>anyShort()</code></dt>
 <dd>Matches any value. Available for all primitive types and for objects.</dd>
 
 <dt><code>eq(X value, X delta)</code></dt>
@@ -664,10 +664,10 @@ There are a couple of predefined argument matchers available.
 <dt><code>aryEq(X value)</code></dt>
 <dd>Matches if the actual value is equal to the given value according to <code>Arrays.equals()</code>. Available for primitive and object arrays.</dd>
 
-<dt><code>isNull()</code></dt>
+<dt><code>isNull()</code>, <code>isNull(Class clazz)</code></dt>
 <dd>Matches if the actual value is null. Available for objects.</dd>
 
-<dt><code>notNull()</code></dt>
+<dt><code>notNull()</code>, <code>notNull(Class clazz)</code></dt>
 <dd>Matches if the actual value is not null. Available for objects.</dd>
 
 <dt><code>same(X value)</code></dt>
@@ -1150,6 +1150,8 @@ New in version 3.0:
 <li>Check there are still results available in a recorded behaviour before trying to match with it (2940400)
 </li>
 <li>Allow to mock classes from an Eclipse plugin (2994002)
+</li>
+<li>Add <code>isNull(Class&lt;T&gt;)</code>, <code>notNull(Class&lt;T&gt;)</code> and <code>anyObject(Class&lt;T&gt;)</code> for easier generic handling (2958636)
 </li>
 </ul>
 <p>

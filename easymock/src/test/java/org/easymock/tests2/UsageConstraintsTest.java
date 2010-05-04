@@ -392,6 +392,7 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(anyLong())).andReturn("6");
         expect(mock.oneArg(anyShort())).andReturn("7");
         expect(mock.oneArg((String) anyObject())).andReturn("8");
+        expect(mock.oneArg(anyObject(String.class))).andReturn("9");
         expect(mock.oneArg((List<String>) EasyMock.<List<String>> anyObject())).andReturn("9"); // make sure there's no warning on the cast
         replay(mock);
         assertEquals("9", mock.oneArg(Collections.emptyList()));
@@ -404,6 +405,7 @@ public class UsageConstraintsTest {
         assertEquals("4", mock.oneArg((float) 1));
         assertEquals("5", mock.oneArg((int) 1));
         assertEquals("6", mock.oneArg((long) 1));
+        assertEquals("9", mock.oneArg("Other Test"));
         verify(mock);
     }
 
@@ -513,26 +515,30 @@ public class UsageConstraintsTest {
 
     @Test
     public void testNull() {
-        expect(mock.threeArgumentMethod(eq(1), isNull(), eq(""))).andReturn("1").atLeastOnce();
-        expect(mock.threeArgumentMethod(eq(1), not(isNull()), eq(""))).andStubReturn("2");
+        expect(mock.threeArgumentMethod(eq(1), isNull(), eq(""))).andReturn("1");
+        expect(mock.threeArgumentMethod(eq(1), isNull(Object.class), eq(""))).andReturn("2");
+        expect(mock.threeArgumentMethod(eq(1), not(isNull()), eq(""))).andStubReturn("3");
 
         replay(mock);
 
         assertEquals("1", mock.threeArgumentMethod(1, null, ""));
-        assertEquals("2", mock.threeArgumentMethod(1, new Object(), ""));
+        assertEquals("2", mock.threeArgumentMethod(1, null, ""));
+        assertEquals("3", mock.threeArgumentMethod(1, new Object(), ""));
 
         verify(mock);
     }
 
     @Test
     public void testNotNull() {
-        expect(mock.threeArgumentMethod(eq(1), notNull(), eq(""))).andReturn("1").atLeastOnce();
-        expect(mock.threeArgumentMethod(eq(1), not(notNull()), eq(""))).andStubReturn("2");
+        expect(mock.threeArgumentMethod(eq(1), notNull(), eq(""))).andReturn("1");
+        expect(mock.threeArgumentMethod(eq(1), notNull(Object.class), eq(""))).andReturn("2");
+        expect(mock.threeArgumentMethod(eq(1), not(notNull()), eq(""))).andStubReturn("3");
 
         replay(mock);
 
         assertEquals("1", mock.threeArgumentMethod(1, new Object(), ""));
-        assertEquals("2", mock.threeArgumentMethod(1, null, ""));
+        assertEquals("2", mock.threeArgumentMethod(1, new Object(), ""));
+        assertEquals("3", mock.threeArgumentMethod(1, null, ""));
 
         verify(mock);
     }

@@ -606,12 +606,39 @@ public class EasyMock {
 
     /**
      * Expects any Object argument. For details, see the EasyMock documentation.
+     * This matcher (and {@link #anyObject(Class)}) can be used in these three
+     * ways:
+     * <ul>
+     * <li><code>(T)EasyMock.anyObject() // explicit cast</code></li>
+     * <li>
+     * <code>EasyMock.&lt;T&gt; anyObject() // fixing the returned generic</code>
+     * </li>
+     * <li>
+     * <code>EasyMock.anyObject(T.class) // pass the returned type in parameter</code>
+     * </li>
+     * </ul>
      * 
      * @param <T>
      *            type of the method argument to match
      * @return <code>null</code>.
      */
     public static <T> T anyObject() {
+        reportMatcher(Any.ANY);
+        return null;
+    }
+
+    /**
+     * Expects any Object argument. For details, see the EasyMock documentation.
+     * To work well with generics, this matcher can be used in three different
+     * ways. See {@link #anyObject()}.
+     * 
+     * @param <T>
+     *            type of the method argument to match
+     * @param clazz
+     *            the class of the argument to match
+     * @return <code>null</code>.
+     */
+    public static <T> T anyObject(final Class<T> clazz) {
         reportMatcher(Any.ANY);
         return null;
     }
@@ -1612,7 +1639,16 @@ public class EasyMock {
     }
 
     /**
-     * Expects null.
+     * Expects null. To work well with generics, this matcher (and
+     * {@link #isNull(Class)}) can be used in these three ways:
+     * <ul>
+     * <li><code>(T)EasyMock.isNull() // explicit cast</code></li>
+     * <li>
+     * <code>EasyMock.&lt;T&gt; isNull() // fixing the returned generic</code></li>
+     * <li>
+     * <code>EasyMock.isNull(T.class) // pass the returned type in parameter</code>
+     * </li>
+     * </ul>
      * 
      * @param <T>
      *            type of the method argument to match
@@ -1624,13 +1660,56 @@ public class EasyMock {
     }
 
     /**
-     * Expects not null.
+     * Expects null. To work well with generics, this matcher can be used in
+     * three different ways. See {@link #isNull()}.
+     * 
+     * @param <T>
+     *            type of the method argument to match
+     * @param clazz
+     *            the class of the argument to match
+     * @return <code>null</code>.
+     * 
+     * @see #isNull()
+     */
+    public static <T> T isNull(final Class<T> clazz) {
+        reportMatcher(Null.NULL);
+        return null;
+    }
+
+    /**
+     * Expects not null. To work well with generics, this matcher (and
+     * {@link #notNull(Class)}) can be used in these three ways:
+     * <ul>
+     * <li><code>(T)EasyMock.notNull() // explicit cast</code></li>
+     * <li>
+     * <code>EasyMock.&lt;T&gt; notNull() // fixing the returned generic</code></li>
+     * <li>
+     * <code>EasyMock.notNull(T.class) // pass the returned type in parameter</code>
+     * </li>
+     * </ul>
      * 
      * @param <T>
      *            type of the method argument to match
      * @return <code>null</code>.
      */
     public static <T> T notNull() {
+        reportMatcher(NotNull.NOT_NULL);
+        return null;
+    }
+
+    /**
+     * Expects not null. To work well with generics, this matcher can be used in
+     * three different ways. See {@link #notNull()}.
+     * 
+     * @param <T>
+     *            type of the method argument to match
+     * @param clazz
+     *            the class of the argument to match
+     * @return <code>null</code>.
+     * 
+     * @see #notNull()
+     */
+    public static <T> T notNull(final Class<T> clazz) {
         reportMatcher(NotNull.NOT_NULL);
         return null;
     }
