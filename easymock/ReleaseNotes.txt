@@ -1,6 +1,25 @@
 Notes:
 
 EasyMock is now able to merge classes by itself.
+Deprecated code from EasyMock 1 was removed.
+
+If you don't perform class mocking, you can remove cglib and objenesis from your dependencies.
+
+Migrating to EasyMock 3 should be painless. A deprecated class extension jar is available. So everything should
+work like before. To get rid of the class extension, just remove the ".classextension" part in all your imports.
+
+This new code base should allow quicker developments.
 
 Changes:
     * Merge EasyMock and EasyMock Class Extension (2325762)
+    * Add "boolean capture(...)" for completude (but I don't think it's useful)
+    * Can't answer by delegating to a protected method (2891256)
+    * Failure during recording phase can impact following tests (2914683)
+    * Return a specific error when null is recorded as return value on a method returning a primitive type (2936175)
+    * Can disable class mocking with EasyMock.DISABLE_CLASS_MOCKING
+    * Remove deprecated classes from EasyMock 1
+    * Should not fail on a mock not having a toString method (2937916)
+    * Improved error message when matchers are mixed with raw params during method recording (2860190)
+    * Check there are still results available in a recorded behaviour before trying to match with it (2940400)
+    * Allow to mock classes from an Eclipse plugin (2994002)
+    * Add isNull(Class<T>), notNull(Class<T>) and anyObject(Class<T>) for easier generic handling (2958636)

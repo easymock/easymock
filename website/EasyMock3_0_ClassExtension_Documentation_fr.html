@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>EasyMock Class Extension 3.0 Readme</title>
+<link rel="stylesheet" href="easymock.css" />
+</head>
+<body><div class="bodywidth">
+
+<h2>EasyMock Class Extension 3.0 Readme</h2>
+
+<p>Documentation de la version 3.0 (2010-05-08)<br />
+&copy; 2003-2010 <a href="http://www.offis.de">OFFIS</a>, Henri Tremblay.
+</p>
+<p><i>Documentation traduite originellement de l'anglais par <a href="http://violet.sourceforge.net">Alexandre de Pellegrin</a>.
+Maintenue par Henri Tremblay.</i></p>
+<p>
+EasyMock Class Extension permet de générer des Mock Objects à partir de classes.
+</p>
+<p>
+<b>EasyMock Class Extension est à partir de maintenant considérée comme dépréciée.</b> 
+</p>
+<p>
+Les mocks de classes peuvent et doivent être fait directement à l'aide d'EasyMock 
+classique. La documentation concernant les mocks de classes a été intégrée à 
+<a href="Documentation.html">celle d'EasyMock</a>.
+</p>
+
+<a id="Requirements"/><h2>Pré-requis</h2>
+<p>  
+EasyMock Class Extension nécessite 
+<a href="http://java.sun.com">Java 5 ou supérieur</a>,
+<a href="http://www.easymock.org">EasyMock 3.0</a>, 
+</p>
+
+<a id="Usage"/><h2>Utilisation</h2>
+<p>
+Au passage vers EasyMock et EasyMock CE 3.0, vos projets devraient fonctionner comme
+avant (à l'exception d'avertissement de dépréciation). Toutefois, vous devrez les
+recompiler.
+</p>
+
+<a id="Migration"/><h3>Migration</h3>
+<p>
+Migrer d'EasyMock CE vers EasyMock 3.0 est simple. Vous devez retirer la dépendance
+à EasyMock CE et remplacer tous les imports vers
+</p>
+<pre>org.easymock.classextension.*</pre>
+<p>
+par des imports vers
+</p>
+<pre>org.easymock.*</pre>
+<p>
+ce qui veut concrètement dire d'enlever <code>.classextension</code> de votre code.
+</p>
+
+<a id="Development"/><h2>Développement</h2>
+
+<a id="Authors"/><h2>Auteurs</h2>
+<p>
+EasyMock Class Extension est présentement maintenue par Henri Tremblay.
+</p>
+<p>
+Elle a été initialement développée par Joel Shellman, Chad Woolley et Henri Tremblay
+dans la section fichiers du of Yahoo!Groups.
+</p>
+<p>
+Remerciements à ceux qui nous ont fourni retour d'expérience et rustines, incluant
+Rodrigo Damazio, Bruno Fonseca, Ben Hutchison, et de nombreux autres.
+</p>
+
+<a id="Release_Notes"/><h3>Notes de mises à jour</h3>
+<p>
+Nouveau dans la version 3.0:
+</p>
+<ul>
+<li>Intégrer EasyMock CE à EasyMock classique
+</li>
+<li>Déprécier la class extension
+</li>
+</ul>
+<p>
+Nouveau dans la version 2.5.2:
+</p>
+<ul>
+<li>EasyMockSupport pour la Class Extension
+</li>
+</ul>
+<p>
+Nouveau dans la version 2.5.1:
+</p>
+<ul>
+<li>Passer la license de MIT à Apache 2.0
+</li>
+</ul>
+<p>
+Nouveau dans la version 2.5:
+</p>
+<ul>
+<li>Si EasyMock recoit en paramètre un object qui n'est pas un mock, l'exception retournée n'est emballée correctement</li>
+<li>Un mock d'une exception lance une NPE (2407137)</li>
+<li>Migrer vers Subversion</li>
+<li>Tout construire avec Maven</li>
+<li>Objenesis n'est plus incorporé</li>
+<li>Ajout de l'en-tête OSGi au MANIFEST.MF (2774873)</li>
+<li>Nouvelle interface IMockBuilder pour créer des mocks partiels facilement (2822905, 2788098, 2783949)</li>
+<li>Une class mockée est maintenant sérializable (1963458)</li>
+</ul>
+<p>
+Nouveau dans la version 2.4:
+</p>
+<ul>
+<li>Ajout des méthodes resetToNice/Default/Strict (1963442)</li>
+<li>Pouvoir rendre un Mock object thread-safe (1895644,1953275)</li>
+<li>Correction pour les méthodes bridge appelant super (merci à Barry Kaplan)</li>
+<li>Droits d'auteur étendus sur 2008</li>
+</ul>
+<p>
+Nouveau dans la version 2.3:
+</p>
+<ul>
+<li>Documentation française</li>
+<li>Pouvoir appeler un constructeur lors d'un mocking partiel</li>
+<li>Les Mock Objects peuvent maintenant être nommés</li>
+<li>Avoir un varargs pour le paramètre "mockedMethods" du mocking partiel</li>  
+<li>Version dans le manifeste du jar</li>
+<li>Objenesis 1.1 pour le support partiel d'Aonix</li>
+<li>Examples migrés vers JUnit 4</li>
+<li>Pom Maven plus complet</li>
+<li>Les méthodes abstraites sont mockées par défaut lors d'un mock partiel</li>
+</ul>
+<p>
+Nouveau dans la version 2.2.2:
+</p>
+<ul>
+<li>Utiliser le cache cglib. Augmente grandement les performances et diminue le permgen utilisé</li>
+<li>Instantiation des classes avec Objenesis pour une meilleure portabilité</li>
+<li>Possibilité d'utiliser votre propre instantiateur de classes</li>
+</ul>
+<p>
+Nouveau dans la version 2.2.1:
+</p>
+<ul>
+<li>Varargs pour record(), replay() et reset()</li>
+</ul>
+<p>
+Nouveau dans la version 2.1:
+</p>
+<ul>
+<li>Tests migrés vers JUnit 4</li>
+</ul>
+<p>
+Nouveau dans la version 2.0:
+</p>
+<ul>
+<li>Nouvelle implémentation compatible avec EasyMock 2</li>
+</ul>
+
+</div>
+</body>
+</html>
