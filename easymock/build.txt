@@ -28,6 +28,9 @@ To build EasyMock with Maven:
 - Then "mvn verify" or "mvn install"
 - Also do a "mvn verify" on easymock-integration (with its pom using the latest EasyMock version)
 
+To update the versions:
+- "mvn versions:set -DnewVersion=X.Y"
+- "mvn versions:commit" if everything is ok, "mvn versions:revert" otherwise
 To bundle EasyMock:
 - "mvn clean verify assembly:single"
 
@@ -40,6 +43,8 @@ To deploy to the EasyMock maven repository:
     <server>
       <id>easymock-release</id>
       <username>source_forge_login,easymock</username>
+	   <filePermissions>664</filePermissions>
+      <directoryPermissions>775</directoryPermission      
       <configuration>
         <sshExecutable>C:\putty\plink</sshExecutable>
         <scpExecutable>C:\putty\pscp</scpExecutable>
@@ -48,6 +53,8 @@ To deploy to the EasyMock maven repository:
     <server>
       <id>easymock-snapshot</id>
       <username>source_forge_login,easymock</username>
+	   <filePermissions>664</filePermissions>
+      <directoryPermissions>775</directoryPermission      
       <configuration>
         <sshExecutable>C:\putty\plink</sshExecutable>
         <scpExecutable>C:\putty\pscp</scpExecutable>
