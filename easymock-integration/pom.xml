@@ -150,6 +150,11 @@
   </build>
   <repositories>
     <repository>
+      <id>easymock-repository</id> <!-- This id should NOT match a server id from settings.xml -->
+      <name>EasyMock release Repository</name>
+      <url>http://easymock.org/maven/repository/</url>
+    </repository>  
+    <repository>
       <id>spring-ext</id>
       <name>Spring External Dependencies Repository</name>
       <url>http://springframework.svn.sourceforge.net/svnroot/springframework/repos/repo-ext/</url>
