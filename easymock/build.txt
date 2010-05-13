@@ -34,35 +34,28 @@ To update the versions:
 To bundle EasyMock:
 - "mvn clean verify assembly:single"
 
-To deploy to the EasyMock maven repository:
-- A shell might be needed so just do something like 'plink source_forge_login,easymock@shell.sf.net create'
+To deploy to the Sonatype maven repository:
 
 - You will first need to add something like this to your settings.xml
 
   <servers>
     <server>
-      <id>easymock-release</id>
-      <username>source_forge_login,easymock</username>
-      <filePermissions>664</filePermissions>
-      <directoryPermissions>775</directoryPermission      
-      <configuration>
-        <sshExecutable>C:\putty\plink</sshExecutable>
-        <scpExecutable>C:\putty\pscp</scpExecutable>
-      </configuration>
+      <id>sonatype-nexus-snapshots</id>
+      <username>sonatypeuser</username>
+      <password>sonatypepassword</password>      
     </server>
     <server>
-      <id>easymock-snapshot</id>
-      <username>source_forge_login,easymock</username>
-      <filePermissions>664</filePermissions>
-      <directoryPermissions>775</directoryPermission      
-      <configuration>
-        <sshExecutable>C:\putty\plink</sshExecutable>
-        <scpExecutable>C:\putty\pscp</scpExecutable>
-      </configuration>
-    </server>    
+      <id>sonatype-nexus-staging</id>
+      <username>sonatypeuser</username>
+      <password>sonatypepassword</password>
+    </server>      
   </servers>
 
-- Then just type 'mvn deploy -Dmaven.test.skip=true -Dmaven.clover.skip=true'
+- Then follow the instructions from the site below to create your key to sign the deployed items
+
+http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/
+
+- Finally just type 'mvn clean deploy -Dgpg.passphrase=yourpassphrase'
 
 To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS reports):
 - You will to give enough memory to maven with 'set MAVEN_OPTS=-Xmx512m' (or setting it as environment variable)
