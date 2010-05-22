@@ -150,9 +150,9 @@
   </build>
   <repositories>
     <repository>
-      <id>easymock-repository</id> <!-- This id should NOT match a server id from settings.xml -->
-      <name>EasyMock release Repository</name>
-      <url>http://easymock.org/maven/repository/</url>
+      <id>sonatype-staging</id>
+      <name>Sonatype Staging Repository</name>
+      <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>  
     <repository>
       <id>spring-ext</id>
