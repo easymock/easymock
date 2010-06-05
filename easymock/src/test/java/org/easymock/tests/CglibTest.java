@@ -16,10 +16,11 @@
 
 package org.easymock.tests;
 
+import static org.junit.Assert.*;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import junit.framework.TestCase;
 import net.sf.cglib.proxy.*;
 
 import org.easymock.internal.ClassInstantiatorFactory;
@@ -31,7 +32,7 @@ import org.junit.Test;
  * 
  * @author Henri Tremblay
  */
-public class CglibTest extends TestCase {
+public class CglibTest {
 
     /**
      * Check that an interceptor is used by only one instance of a class
