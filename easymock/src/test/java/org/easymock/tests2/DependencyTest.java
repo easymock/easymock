@@ -24,7 +24,9 @@ import org.easymock.tests.IMethods;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class DependencyTest extends EasyMockSupport {
+public class DependencyTest {
+
+    private final EasyMockSupport support = new EasyMockSupport();
 
     @Rule
     public FilteringRule rule = new FilteringRule("net.sf.cglib", "org.objenesis");
@@ -33,15 +35,36 @@ public class DependencyTest extends EasyMockSupport {
     public void testInterfaceMocking() {
         final IMethods mock = createMock(IMethods.class);
         expect(mock.booleanReturningMethod(1)).andReturn(true);
-        replayAll();
+        replay(mock);
         assertTrue(mock.booleanReturningMethod(1));
-        verifyAll();
+        verify(mock);
     }
 
     @Test
     public void testClassMocking() {
         try {
             final DependencyTest mock = createMock(DependencyTest.class);
+            fail("Should throw an exception due to a NoClassDefFoundError");
+        } catch (final RuntimeException e) {
+            assertEquals("Class mocking requires to have cglib and objenesis librairies in the classpath", e
+                    .getMessage());
+            assertTrue(e.getCause() instanceof NoClassDefFoundError);
+        }
+    }
+
+    @Test
+    public void testInterfaceMockingSupport() {
+        final IMethods mock = support.createMock(IMethods.class);
+        expect(mock.booleanReturningMethod(1)).andReturn(true);
+        support.replayAll();
+        assertTrue(mock.booleanReturningMethod(1));
+        support.verifyAll();
+    }
+
+    @Test
+    public void testClassMockingSupport() {
+        try {
+            final DependencyTest mock = support.createMock(DependencyTest.class);
             fail("Should throw an exception due to a NoClassDefFoundError");
         } catch (final RuntimeException e) {
             assertEquals("Class mocking requires to have cglib and objenesis librairies in the classpath", e

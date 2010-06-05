@@ -51,13 +51,13 @@ public final class ClassExtensionHelper {
     }
 
     public static MocksControl getControl(final Object mock) {
-        ObjectMethodsFilter handler;
-
         try {
-            if (Enhancer.isEnhanced(mock.getClass())) {
-                handler = (ObjectMethodsFilter) getInterceptor(mock).getHandler();
-            } else if (Proxy.isProxyClass(mock.getClass())) {
+            ObjectMethodsFilter handler;
+
+            if (Proxy.isProxyClass(mock.getClass())) {
                 handler = (ObjectMethodsFilter) Proxy.getInvocationHandler(mock);
+            } else if (Enhancer.isEnhanced(mock.getClass())) {
+                handler = (ObjectMethodsFilter) getInterceptor(mock).getHandler();
             } else {
                 throw new IllegalArgumentException("Not a mock: " + mock.getClass().getName());
             }
