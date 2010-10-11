@@ -1,0 +1,15 @@
+
+/.project
+/.settings
+/easymock-integration/.classpath
+/easymock-integration/.project
+/easymock-integration/.settings
+/easymock-integration/target
+/easymock-classextension/.classpath
+/easymock-classextension/.project
+/easymock-classextension/.settings
+/easymock-classextension/target
+/easymock/.classpath
+/easymock/.project
+/easymock/.settings
+/easymock/target
