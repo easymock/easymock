@@ -40,17 +40,19 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
           <execution>
-            <phase>generate-sources</phase>
-            <configuration>
-              <tasks/>
-              <testSourceRoot>${basedir}/src/samples/java</testSourceRoot>
-            </configuration>
+            <phase>generate-test-sources</phase>
             <goals>
-              <goal>run</goal>
+              <goal>add-test-source</goal>
             </goals>
+            <configuration>
+              <sources>
+                <source>${basedir}/src/samples/java</source>
+              </sources>
+            </configuration>
           </execution>
         </executions>
       </plugin>
