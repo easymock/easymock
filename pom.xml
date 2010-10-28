@@ -71,6 +71,7 @@
           <version>1.8.0</version>
           <configuration>
             <header>${basedir}/../header.txt</header>
+            <strictChecking>true</strictChecking>
             <includes>
               <!-- Only copyright the java -->
               <include>src/main/java/**</include>
