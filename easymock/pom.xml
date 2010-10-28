@@ -102,7 +102,7 @@
     <profile>
       <id>fullBuild</id>
       <activation>
-        <activeByDefault>true</activeByDefault>      
+        <activeByDefault>true</activeByDefault>
       </activation>
       <build>
         <plugins>
@@ -132,6 +132,13 @@
                 </goals>
               </execution>
             </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-resources</artifactId>
+                <version>1.0-alpha-7</version>
+              </dependency>
+            </dependencies>
           </plugin>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
@@ -154,7 +161,7 @@
           </plugin>
           <plugin>
             <artifactId>maven-gpg-plugin</artifactId>
-          </plugin>          
+          </plugin>
         </plugins>
       </build>
     </profile>

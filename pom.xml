@@ -103,7 +103,7 @@
               </goals>
             </execution>
           </executions>
-        </plugin>        
+        </plugin>
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
@@ -113,6 +113,13 @@
           <groupId>com.atlassian.maven.plugins</groupId>
           <artifactId>maven-clover2-plugin</artifactId>
           <version>3.0.2</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.codehaus.plexus</groupId>
+              <artifactId>plexus-resources</artifactId>
+              <version>1.0-alpha-7</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
@@ -136,7 +143,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.0-beta-3</version>
+          <version>2.1.1</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -249,7 +256,7 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
         <version>1.2</version>
-      </plugin>      
+      </plugin>
     </plugins>
     <extensions>
       <extension>
@@ -271,7 +278,7 @@
       <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2</version>
         <configuration>
           <jdk>1.5</jdk>
         </configuration>
