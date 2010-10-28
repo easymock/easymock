@@ -48,7 +48,6 @@ public class EasyMockPropertiesTest {
         System.setProperty("xxx.yyy", "6");
 
         // Be wicked, set an object
-        System.getProperties().put(System.class, System.class);
         System.getProperties().put("easymock.g", System.class);
 
         // Set manually a new one
