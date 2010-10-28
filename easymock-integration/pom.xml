@@ -80,19 +80,19 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>com.springsource.slf4j.org.apache.commons.logging</artifactId>
-      <version>1.5.10</version>
+      <version>1.6.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>com.springsource.slf4j.api</artifactId>
-      <version>1.5.10</version>
+      <version>1.6.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>com.springsource.slf4j.log4j</artifactId>
-      <version>1.5.10</version>
+      <version>1.6.1</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -108,7 +108,7 @@
     <dependency>
       <groupId>org.apache.log4j</groupId>
       <artifactId>com.springsource.org.apache.log4j</artifactId>
-      <version>1.2.15</version>
+      <version>1.2.16</version>
       <scope>test</scope>
     </dependency>
 
@@ -117,7 +117,7 @@
     <dependency>
       <groupId>org.eclipse.osgi</groupId>
       <artifactId>org.eclipse.osgi</artifactId>
-      <version>3.2.2</version>
+      <version>3.6.1.R36x_v20100806</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
