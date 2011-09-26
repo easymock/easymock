@@ -1,14 +1,17 @@
 I'm using:
-- Eclipse 3.6.1
-- Maven 3.0
+- Eclipse 3.5.2
+- Maven 3.0.3
 
 To compile EasyMock in Eclipse:
-- In the base directory do "mvn eclipse:eclipse -DdownloadSources=true"
-- Import the newly created Eclipse project to your Eclipse workspace
-- For the project to compile, you need to have a classpath variable named M2_REPO set to you maven repository directory.
-  Two ways to set it:
-  - Manually (Windows->Preferences->Classpath variables)
-  - Calling "mvn eclipse:configure-workspace -Declipse.workspace=path/to/your/eclipse/workspace" (Eclipse must be closed)
+- Install m2eclipse 
+  -> After restarting Eclipse, m2eclipse might complain to you need launch Eclipse with a JDK instead of a JRE
+     - Open the eclipse.ini
+     - Add these two lines at the beginning of it (with the javaw path matching yours)
+##########################
+-vm
+C:/Program Files/Java/jdk1.6.0_27/bin/javaw
+##########################
+- Import the EasyMock Maven parent project to your Eclipse workspace
 
 To build EasyMock with Maven:
 - Tests are ran over JDK 1.5. You need to add something like this in your settings.xml
