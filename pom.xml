@@ -68,10 +68,10 @@
         <plugin>
           <groupId>com.mycila.maven-license-plugin</groupId>
           <artifactId>maven-license-plugin</artifactId>
-          <version>1.8.0</version>
+          <version>1.10.b1</version>
           <configuration>
-            <header>${basedir}/../header.txt</header>
-            <strictChecking>true</strictChecking>
+            <header>file://../header.txt</header>
+            <strictCheck>true</strictCheck>
             <includes>
               <!-- Only copyright the java -->
               <include>src/main/java/**</include>
