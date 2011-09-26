@@ -1881,7 +1881,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>false</code>
      */
-    public static boolean capture(final Capture<Boolean> captured) {
+    public static boolean captureBoolean(final Capture<Boolean> captured) {
         reportMatcher(new Captures<Boolean>(captured));
         return false;
     }
@@ -1893,7 +1893,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>0</code>
      */
-    public static int capture(final Capture<Integer> captured) {
+    public static int captureInt(final Capture<Integer> captured) {
         reportMatcher(new Captures<Integer>(captured));
         return 0;
     }
@@ -1905,7 +1905,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>0</code>
      */
-    public static long capture(final Capture<Long> captured) {
+    public static long captureLong(final Capture<Long> captured) {
         reportMatcher(new Captures<Long>(captured));
         return 0;
     }
@@ -1917,7 +1917,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>0</code>
      */
-    public static float capture(final Capture<Float> captured) {
+    public static float captureFloat(final Capture<Float> captured) {
         reportMatcher(new Captures<Float>(captured));
         return 0;
     }
@@ -1929,7 +1929,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>0</code>
      */
-    public static double capture(final Capture<Double> captured) {
+    public static double captureDouble(final Capture<Double> captured) {
         reportMatcher(new Captures<Double>(captured));
         return 0;
     }
@@ -1941,7 +1941,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>0</code>
      */
-    public static byte capture(final Capture<Byte> captured) {
+    public static byte captureByte(final Capture<Byte> captured) {
         reportMatcher(new Captures<Byte>(captured));
         return 0;
     }
@@ -1953,9 +1953,114 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>0</code>
      */
-    public static char capture(final Capture<Character> captured) {
+    public static char captureChar(final Capture<Character> captured) {
         reportMatcher(new Captures<Character>(captured));
         return 0;
+    }
+
+    /**
+     * Expect any boolean but captures it for later use.
+     * 
+     * @param captured
+     *            Where the parameter is captured
+     * @return <code>0</code>
+     * 
+     * @deprecated Because of harder erasure enforcement, doesn't compile in
+     *             Java 7
+     */
+    @Deprecated
+    public static boolean capture(final Capture<Boolean> captured) {
+        return captureBoolean(captured);
+    }
+
+    /**
+     * Expect any int but captures it for later use.
+     * 
+     * @param captured
+     *            Where the parameter is captured
+     * @return <code>0</code>
+     * 
+     * @deprecated Because of harder erasure enforcement, doesn't compile in
+     *             Java 7
+     */
+    @Deprecated
+    public static int capture(final Capture<Integer> captured) {
+        return captureInt(captured);
+    }
+
+    /**
+     * Expect any long but captures it for later use.
+     * 
+     * @param captured
+     *            Where the parameter is captured
+     * @return <code>0</code>
+     * 
+     * @deprecated Because of harder erasure enforcement, doesn't compile in
+     *             Java 7
+     */
+    @Deprecated
+    public static long capture(final Capture<Long> captured) {
+        return captureLong(captured);
+    }
+
+    /**
+     * Expect any float but captures it for later use.
+     * 
+     * @param captured
+     *            Where the parameter is captured
+     * @return <code>0</code>
+     * 
+     * @deprecated Because of harder erasure enforcement, doesn't compile in
+     *             Java 7
+     */
+    @Deprecated
+    public static float capture(final Capture<Float> captured) {
+        return captureFloat(captured);
+    }
+
+    /**
+     * Expect any double but captures it for later use.
+     * 
+     * @param captured
+     *            Where the parameter is captured
+     * @return <code>0</code>
+     * 
+     * @deprecated Because of harder erasure enforcement, doesn't compile in
+     *             Java 7
+     */
+    @Deprecated
+    public static double capture(final Capture<Double> captured) {
+        return captureDouble(captured);
+    }
+
+    /**
+     * Expect any byte but captures it for later use.
+     * 
+     * @param captured
+     *            Where the parameter is captured
+     * @return <code>0</code>
+     * 
+     * @deprecated Because of harder erasure enforcement, doesn't compile in
+     *             Java 7
+     */
+    @Deprecated
+    public static byte capture(final Capture<Byte> captured) {
+        return captureByte(captured);
+    }
+
+    /**
+     * Expect any char but captures it for later use.
+     * 
+     * @param captured
+     *            Where the parameter is captured
+     * @return <code>0</code>
+     * 
+     * @deprecated Because of harder erasure enforcement, doesn't compile in
+     *             Java 7
+     */
+    @Deprecated
+    public static char capture(final Capture<Character> captured) {
+        return captureChar(captured);
     }
 
     /**
