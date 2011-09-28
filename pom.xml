@@ -32,8 +32,8 @@
     </developer>
   </developers>
   <issueManagement>
-    <system>SourceForge</system>
-    <url>http://sourceforge.net/tracker/?group_id=82958</url>
+    <system>Codehaus</system>
+    <url>http://jira.codehaus.org/browse/EASYMOCK</url>
   </issueManagement>
   <mailingLists>
     <mailingList>
