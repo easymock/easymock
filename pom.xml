@@ -195,6 +195,17 @@
               <timestampPattern>yyyy</timestampPattern>
             </configuration>
           </execution>
+          <execution>
+            <id>year-site</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+            <configuration>
+              <propertyName>year</propertyName>
+              <timestampPattern>yyyy</timestampPattern>
+            </configuration>
+          </execution>          
         </executions>
       </plugin>
       <plugin>
