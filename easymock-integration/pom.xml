@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
     <groupId>org.easymock</groupId>
     <artifactId>easymock-parent</artifactId>
     <version>3.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
-    
+
   <artifactId>easymock-integration</artifactId>
   <packaging>jar</packaging>
   <name>EasyMock Integration</name>
@@ -19,7 +18,7 @@
   <inceptionYear>2009</inceptionYear>
   <organization>
     <name>Henri Tremblay</name>
-  </organization>  
+  </organization>
   <developers>
     <developer>
       <id>henri</id>
@@ -41,15 +40,15 @@
           <groupId>cglib</groupId>
           <artifactId>cglib-nodep</artifactId>
         </exclusion>
-      </exclusions>	  
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymockclassextension</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope> 
+      <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.springframework.osgi</groupId>
       <artifactId>spring-osgi-test</artifactId>
@@ -68,14 +67,14 @@
       <version>1.2.1</version>
       <scope>test</scope>
     </dependency>
-    
+
     <!-- Osgi bundle for cglib -->
     <dependency>
       <groupId>net.sourceforge.cglib</groupId>
       <artifactId>com.springsource.net.sf.cglib</artifactId>
       <version>2.2.0</version>
     </dependency>
-    
+
     <!-- These are just to have a nice logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -112,12 +111,12 @@
       <scope>test</scope>
     </dependency>
 
-    
+
     <!-- And this is our equinox implementation -->
     <dependency>
       <groupId>org.eclipse.osgi</groupId>
       <artifactId>org.eclipse.osgi</artifactId>
-      <version>3.6.1.R36x_v20100806</version>
+      <version>3.6.0.v20100517</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -129,13 +128,7 @@
         <configuration>
           <forkMode>always</forkMode>
         </configuration>
-      </plugin>    
-      <plugin>
-        <artifactId>maven-eclipse-plugin</artifactId>
-        <configuration>
-          <useProjectReferences>false</useProjectReferences>
-        </configuration>        
-      </plugin>              
+      </plugin>
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
         <configuration>
@@ -145,37 +138,14 @@
       <plugin>
         <groupId>com.mycila.maven-license-plugin</groupId>
         <artifactId>maven-license-plugin</artifactId>
-      </plugin>      
-    </plugins>    
+      </plugin>
+    </plugins>
   </build>
   <repositories>
-    <repository>
-      <id>sonatype-staging</id>
-      <name>Sonatype Staging Repository</name>
-      <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>  
-    <repository>
-      <id>spring-ext</id>
-      <name>Spring External Dependencies Repository</name>
-      <url>http://springframework.svn.sourceforge.net/svnroot/springframework/repos/repo-ext/</url>
-    </repository>
-    <repository>
-      <id>com.springsource.repository.bundles.release</id>
-      <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
-      <url>http://repository.springsource.com/maven/bundles/release</url>
-    </repository>
     <repository>
       <id>com.springsource.repository.bundles.external</id>
       <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
       <url>http://repository.springsource.com/maven/bundles/external</url>
     </repository>
-    <repository>
-      <id>i21-s3-osgi-repo</id>
-      <name>i21 osgi artifacts repo</name>
-        <snapshots>
-          <enabled>true</enabled>
-        </snapshots>
-        <url>http://maven.springframework.org/osgi</url>
-    </repository>    
   </repositories>
 </project>
