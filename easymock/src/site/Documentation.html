@@ -700,7 +700,7 @@ There are a couple of predefined argument matchers available.
 <dt><code>cmp(X value, Comparator&lt;X&gt; comparator, LogicalOperator operator)</code></dt>
 <dd>Matches if <code>comparator.compare(actual, value) operator 0</code> where the operator is &lt;,&lt;=,&gt;,&gt;= or ==. Available for objects.</dd>
 
-<dt><code>capture(Capture&lt;T&gt; capture)</code></dt>
+<dt><code>capture(Capture&lt;T&gt; capture)</code>, <code>captureXXX(Capture&lt;T&gt; capture)</code></dt>
 <dd>Matches any value but captures it in the <code>Capture</code> parameter for later access. You can do <code>and(someMatcher(...), capture(c))</code> to 
 capture a parameter from a specific call to the method. You can also specify a <code>CaptureType</code> telling that a given <code>Capture</code> should keep 
 the first, the last, all or no captured values.</dd>

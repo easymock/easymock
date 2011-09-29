@@ -732,7 +732,7 @@ ou égale/supérieure à la valeur attendue. Disponible pour tous les types prim
 <dt><code>cmp(X value, Comparator&lt;X&gt; comparator, LogicalOperator operator)</code></dt>
 <dd>Vérifie que <code>comparator.compare(reçue, value) operator 0</code> où <code>operator</code> est &lt;,&lt;=,&gt;,&gt;= ou ==.</dd>
 
-<dt><code>capture(Capture&lt;T&gt; capture)</code></dt>
+<dt><code>capture(Capture&lt;T&gt; capture)</code>, <code>captureXXX(Capture&lt;T&gt; capture)</code></dt>
 <dd>Laisse passer n'importe quelle valeur mais la capture dans le paramètre <code>Capture</code> pour un usage ultérieurs. Vous pouvez utiliser <code>and(someMatcher(...), capture(c))</code> pour 
 capturer le paramètre d'un appel de méthode en particulier. Vous pouvez aussi spécifier le <code>CaptureType</code> pour indiquer à l'objet
 <code>Capture</code> de conserver le premier (<code>FIRST</code>), le dernier (<code>LAST</code>), tous (<code>ALL</code>) ou aucun (<code>NONE</code>) des objets capturés</dd>
