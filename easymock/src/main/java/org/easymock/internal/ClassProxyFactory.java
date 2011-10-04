@@ -33,10 +33,10 @@ import org.easymock.ConstructorArgs;
  * Factory generating a mock for a class.
  * <p>
  * Note that this class is stateful
- * 
+ *
  * @param <T>
  *            type of the proxy created
- * 
+ *
  * @author Henri Tremblay
  */
 public class ClassProxyFactory<T> implements IProxyFactory<T> {
@@ -54,7 +54,7 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
         }
 
         public Object intercept(final Object obj, final Method method, final Object[] args,
-                final MethodProxy proxy) throws Throwable {
+                                final MethodProxy proxy) throws Throwable {
 
             // Bridges should be called so they can forward to the real
             // method
@@ -143,7 +143,7 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
     private static final NamingPolicy ALLOWS_MOCKING_CLASSES_IN_SIGNED_PACKAGES = new DefaultNamingPolicy() {
         @Override
         public String getClassName(final String prefix, final String source, final Object key,
-                final Predicate names) {
+                                   final Predicate names) {
             return "codegen." + super.getClassName(prefix, source, key, names);
         }
     };
@@ -190,66 +190,71 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
             // ///CLOVER:ON
         }
 
-        Enhancer.registerCallbacks(mockClass, new Callback[] { interceptor });
+        try {
+            Enhancer.registerCallbacks(mockClass, new Callback[] { interceptor });
 
-        if (ClassExtensionHelper.getCurrentConstructorArgs() != null) {
-            // Really instantiate the class
-            final ConstructorArgs args = ClassExtensionHelper.getCurrentConstructorArgs();
-            Constructor cstr;
-            try {
-                // Get the constructor with the same params
-                cstr = mockClass.getDeclaredConstructor(args.getConstructor().getParameterTypes());
-            } catch (final NoSuchMethodException e) {
-                // Shouldn't happen, constructor is checked when ConstructorArgs is instantiated
-                // ///CLOVER:OFF
-                throw new RuntimeException("Fail to find constructor for param types", e);
-                // ///CLOVER:ON
+            if (ClassExtensionHelper.getCurrentConstructorArgs() != null) {
+                // Really instantiate the class
+                final ConstructorArgs args = ClassExtensionHelper.getCurrentConstructorArgs();
+                Constructor cstr;
+                try {
+                    // Get the constructor with the same params
+                    cstr = mockClass.getDeclaredConstructor(args.getConstructor().getParameterTypes());
+                } catch (final NoSuchMethodException e) {
+                    // Shouldn't happen, constructor is checked when ConstructorArgs is instantiated
+                    // ///CLOVER:OFF
+                    throw new RuntimeException("Fail to find constructor for param types", e);
+                    // ///CLOVER:ON
+                }
+                T mock;
+                try {
+                    cstr.setAccessible(true); // So we can call a protected
+                    // constructor
+                    mock = (T) cstr.newInstance(args.getInitArgs());
+                } catch (final InstantiationException e) {
+                    // ///CLOVER:OFF
+                    throw new RuntimeException("Failed to instantiate mock calling constructor", e);
+                    // ///CLOVER:ON
+                } catch (final IllegalAccessException e) {
+                    // ///CLOVER:OFF
+                    throw new RuntimeException("Failed to instantiate mock calling constructor", e);
+                    // ///CLOVER:ON
+                } catch (final InvocationTargetException e) {
+                    throw new RuntimeException(
+                            "Failed to instantiate mock calling constructor: Exception in constructor", e
+                                    .getTargetException());
+                }
+                return mock;
+            } else {
+                // Do not call any constructor
+
+                Factory mock;
+                try {
+                    mock = (Factory) ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
+                } catch (final InstantiationException e) {
+                    // ///CLOVER:OFF
+                    throw new RuntimeException("Fail to instantiate mock for " + toMock + " on "
+                            + ClassInstantiatorFactory.getJVM() + " JVM");
+                    // ///CLOVER:ON
+                }
+
+                // This call is required. CGlib has some "magic code" making sure a
+                // callback is used by only one instance of a given class. So only
+                // the
+                // instance created right after registering the callback will get
+                // it.
+                // However, this is done in the constructor which I'm bypassing to
+                // allow class instantiation without calling a constructor.
+                // Fortunately, the "magic code" is also called in getCallback which
+                // is
+                // why I'm calling it here mock.getCallback(0);
+                mock.getCallback(0);
+
+                return (T) mock;
             }
-            T mock;
-            try {
-                cstr.setAccessible(true); // So we can call a protected
-                // constructor
-                mock = (T) cstr.newInstance(args.getInitArgs());
-            } catch (final InstantiationException e) {
-                // ///CLOVER:OFF
-                throw new RuntimeException("Failed to instantiate mock calling constructor", e);
-                // ///CLOVER:ON
-            } catch (final IllegalAccessException e) {
-                // ///CLOVER:OFF
-                throw new RuntimeException("Failed to instantiate mock calling constructor", e);
-                // ///CLOVER:ON
-            } catch (final InvocationTargetException e) {
-                throw new RuntimeException(
-                        "Failed to instantiate mock calling constructor: Exception in constructor", e
-                                .getTargetException());
-            }
-            return mock;
-        } else {
-            // Do not call any constructor
-
-            Factory mock;
-            try {
-                mock = (Factory) ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
-            } catch (final InstantiationException e) {
-                // ///CLOVER:OFF
-                throw new RuntimeException("Fail to instantiate mock for " + toMock + " on "
-                        + ClassInstantiatorFactory.getJVM() + " JVM");
-                // ///CLOVER:ON
-            }
-
-            // This call is required. CGlib has some "magic code" making sure a
-            // callback is used by only one instance of a given class. So only
-            // the
-            // instance created right after registering the callback will get
-            // it.
-            // However, this is done in the constructor which I'm bypassing to
-            // allow class instantiation without calling a constructor.
-            // Fortunately, the "magic code" is also called in getCallback which
-            // is
-            // why I'm calling it here mock.getCallback(0);
-            mock.getCallback(0);
-
-            return (T) mock;
+        } finally {
+            // To avoid CGLib out of memory issues
+            Enhancer.registerCallbacks(mockClass, null);
         }
     }
 
