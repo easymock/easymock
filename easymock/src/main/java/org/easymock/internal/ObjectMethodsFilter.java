@@ -23,10 +23,11 @@ import java.lang.reflect.Proxy;
 
 /**
  * @author OFFIS, Tammo Freese
+ * @author Henri Tremblay
  */
 public class ObjectMethodsFilter implements InvocationHandler, Serializable {
 
-    private static final long serialVersionUID = -2120581954279966998L;
+    private static final long serialVersionUID = -1726286682930686024L;
 
     private transient Method equalsMethod;
 
@@ -34,22 +35,32 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
 
     private transient Method toStringMethod;
 
+    private transient Method finalizeMethod;
+
     private final MockInvocationHandler delegate;
 
     private final String name;
 
-    public ObjectMethodsFilter(Class<?> toMock, final MockInvocationHandler delegate, final String name) {
+    public ObjectMethodsFilter(final Class<?> toMock, final MockInvocationHandler delegate, final String name) {
         if (name != null && !Invocation.isJavaIdentifier(name)) {
             throw new IllegalArgumentException(String.format("'%s' is not a valid Java identifier.", name));
 
         }
         try {
             if (toMock.isInterface()) {
-                toMock = Object.class;
+                equalsMethod = ReflectionUtils.OBJECT_EQUALS;
+                hashCodeMethod = ReflectionUtils.OBJECT_HASHCODE;
+                toStringMethod = ReflectionUtils.OBJECT_TOSTRING;
+                finalizeMethod = ReflectionUtils.OBJECT_FINALIZE;
+            } else {
+                equalsMethod = toMock.getMethod("equals", new Class[] { Object.class });
+                hashCodeMethod = toMock.getMethod("hashCode", (Class[]) null);
+                toStringMethod = toMock.getMethod("toString", (Class[]) null);
+                finalizeMethod = ReflectionUtils.findMethod(toMock, "finalize", (Class[]) null);
+                if (finalizeMethod == null) {
+                    finalizeMethod = ReflectionUtils.OBJECT_FINALIZE;
+                }
             }
-            equalsMethod = toMock.getMethod("equals", new Class[] { Object.class });
-            hashCodeMethod = toMock.getMethod("hashCode", (Class[]) null);
-            toStringMethod = toMock.getMethod("toString", (Class[]) null);
         } catch (final NoSuchMethodException e) {
             // ///CLOVER:OFF
             throw new RuntimeException("An Object method could not be found!");
@@ -68,6 +79,9 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
         }
         if (toStringMethod.equals(method)) {
             return mockToString(proxy);
+        }
+        if (finalizeMethod.equals(method)) {
+            return null; // ignore finalize completely to prevent any unexpected side-effect from the GC
         }
         return delegate.invoke(proxy, method, args);
     }
@@ -95,6 +109,7 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
             toStringMethod = ((MethodSerializationWrapper) stream.readObject()).getMethod();
             equalsMethod = ((MethodSerializationWrapper) stream.readObject()).getMethod();
             hashCodeMethod = ((MethodSerializationWrapper) stream.readObject()).getMethod();
+            finalizeMethod = ((MethodSerializationWrapper) stream.readObject()).getMethod();
         } catch (final NoSuchMethodException e) {
             // ///CLOVER:OFF
             throw new IOException(e.toString());
@@ -107,5 +122,6 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
         stream.writeObject(new MethodSerializationWrapper(toStringMethod));
         stream.writeObject(new MethodSerializationWrapper(equalsMethod));
         stream.writeObject(new MethodSerializationWrapper(hashCodeMethod));
+        stream.writeObject(new MethodSerializationWrapper(finalizeMethod));
     }
 }

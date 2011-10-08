@@ -74,7 +74,7 @@ public class MethodSerializationWrapper implements Serializable {
             }
         }
 
-        final Method m = clazz.getMethod(methodName, parameterTypes);
+        final Method m = clazz.getDeclaredMethod(methodName, parameterTypes);
 
         return m;
     }

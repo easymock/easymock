@@ -827,8 +827,8 @@ appropriate empty values (<code>0</code>, <code>null</code> or <code>false</code
 
 <a id="Object_Methods"/><h3>Object Methods</h3>
 <p>
-The behavior for the three object methods <code>equals()</code>,
-<code>hashCode()</code> and <code>toString()</code>
+The behavior for the four Object methods <code>equals()</code>,
+<code>hashCode()</code>, <code>toString()</code> and <code>finalize()</code>
 cannot be changed for Mock Objects created with EasyMock,
 even if they are part of the interface for which the
 Mock Object is created.
@@ -1023,7 +1023,7 @@ behave as they used to. One exception: abstract methods are conveniently mocked 
 easily create a partial mock. Have a look at the javadoc.
 </p>
 <p>
-<b>Remark:</b> EasyMock provides a default behavior for Object's methods (<i>equals, hashCode, toString</i>).
+<b>Remark:</b> EasyMock provides a default behavior for Object's methods (<i>equals, hashCode, toString, finalize</i>).
 However, for a partial mock, if these methods are not mocked explicitly, they will have their normal behavior
 instead of EasyMock default's one.
 </p>
@@ -1073,7 +1073,7 @@ Also, de-serializing the mock in a different class loader than the serialization
 <h3>Class Mocking Limitations</h3>
 <ul> 
 <li>To be coherent with interface mocking, EasyMock provides a built-in behavior 
-for <code>equals()</code>, <code>toString()</code> and <code>hashCode()</code> 
+for <code>equals()</code>, <code>toString()</code>, <code>hashCode()</code> and <code>finalize()</code> 
 even for class mocking. It means that you cannot record your own behavior for 
 these methods. This limitation is considered to be a feature
 that prevents you from having to care about these methods.
@@ -1134,6 +1134,8 @@ New in version 3.1:
 <li>Can compile in Java 7 (capture methods for primitive types are renamed and deprecated) (EASYMOCK-100)
 </li>
 <li>Fix memory leak in cglib callback registration process (EASYMOCK-89)
+</li>
+<li>Ignore calls to finalize on a mock (EASYMOCK-21)
 </li>
 </ul>
 <p>

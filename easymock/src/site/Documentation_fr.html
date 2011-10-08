@@ -866,8 +866,8 @@ ou <code>false</code>), utilisez <code>create<i>Nice</i>Mock()</code> au lieu de
 
 <a id="Object_Methods"/><h3>Méthodes de la classe Object</h3>
 <p>
-Les comportements des trois méthodes <code>equals()</code>,
-<code>hashCode()</code> et <code>toString()</code>
+Les comportements des quatre méthodes <code>equals()</code>,
+<code>hashCode()</code>, <code>toString()</code> et <code>finalize()</code>
 ne peuvent être changés sur des Mock Objects créés avec EasyMock,
 même si elles font partie de l'interface duquel le Mock Object est créé.
 </p>
@@ -1077,7 +1077,7 @@ diverses méthodes pour facilement créer un mock partiel. Jettez un coup d'oeil
 pour en savoir plus.
 </p>
 <p><b>Remarque:</b> EasyMock fournit un comportement par défault pour les méthodes de la classe 
-Object (<i>equals, hashCode, toString</i>). Toutefois, pour un mock partiel, si ces méthodes ne sont pas
+Object (<i>equals, hashCode, toString, finalize</i>). Toutefois, pour un mock partiel, si ces méthodes ne sont pas
 mockées explicitement, elles auront leur comportement normal et non celui par défaut d'EasyMock.
 </p>
 <h3>Test interne d'une classe</h3>  
@@ -1129,7 +1129,7 @@ un class loader différent de la sérialization. Ce cas n'a pas été testé.
 <h3>Limitations du mocking de classes</h3>
 <p> 
 Pour être cohérent avec le mocking d'interfaces, EasyMock fournit aussi un comportement par défaut 
-pour <code>equals()</code>, <code>toString()</code> et <code>hashCode()</code> pour les classes mockées. 
+pour <code>equals()</code>, <code>toString()</code>, <code>hashCode()</code> et <code>finalize()</code> pour les classes mockées. 
 Cela signifie que vous ne pourrez enregistrer votre propre comportement pour ces méthodes. Cette 
 limitation être considérée comme une fonctionnalité permettant de ne pas s'occuper de ces
 méthodes.
@@ -1196,6 +1196,8 @@ Nouveau dans la version 3.1:
 </li>
 <li>Réparer la fuite mémoire lors de l'enregistrement du callback dans cglib (EASYMOCK-89)
 </li>
+<li>Ignorer les appels à <code>finalize</code> sur un Mock Object (EASYMOCK-21)
+</li>
 </ul>
 <p>
 Nouveau dans la version 3.0:
@@ -1224,8 +1226,6 @@ Nouveau dans la version 3.0:
 <li>Permettre les mocks de classes provenant d'un plugin Eclipse (2994002)
 </li>
 <li>Ajout de <code>isNull(Class&lt;T&gt;)</code>, <code>notNull(Class&lt;T&gt;)</code> et <code>anyObject(Class&lt;T&gt;)</code> pour faciliter la gestion des génériques (2958636)
-</li>
-<li>Corriger la fuite mémoire lors de l'enregistrement d'un callback cglib (EASYMOCK-89)
 </li>
 </ul>
 <p>

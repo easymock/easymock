@@ -40,6 +40,15 @@ public final class ReflectionUtils {
         primitiveToWrapperType.put(double.class, Double.class);
     }
 
+    public static final Method OBJECT_EQUALS = getDeclaredMethod(Object.class, "equals",
+            new Class[] { Object.class });
+
+    public static final Method OBJECT_HASHCODE = getDeclaredMethod(Object.class, "hashCode", (Class[]) null);
+
+    public static final Method OBJECT_TOSTRING = getDeclaredMethod(Object.class, "toString", (Class[]) null);
+
+    public static final Method OBJECT_FINALIZE = getDeclaredMethod(Object.class, "finalize", (Class[]) null);
+
     // ///CLOVER:OFF
     private ReflectionUtils() {
     }
@@ -197,4 +206,24 @@ public final class ReflectionUtils {
         return primitiveToWrapperType.get(parameterType);
     }
 
+    /**
+     * Basically calls getDeclaredMethod on a Class but wraps the
+     * NoSuchMethodException into a Runtime.
+     * 
+     * @param clazz
+     *            class on which the getDeclaredMethod is called
+     * @param name
+     *            method name
+     * @param paramTypes
+     *            method parameters
+     * @return the method searched
+     */
+    public static Method getDeclaredMethod(final Class<?> clazz, final String name,
+            final Class<?>[] paramTypes) {
+        try {
+            return clazz.getDeclaredMethod(name, paramTypes);
+        } catch (final NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -69,6 +69,13 @@ public class MockClassControlTest {
         }
     }
 
+    public static class ClassWithFinalize {
+
+        @Override
+        public void finalize() {
+        }
+    }
+
     private Object mock;
 
     @Before
@@ -149,5 +156,13 @@ public class MockClassControlTest {
         assertEquals(expectedValue, mock.toString());
         replay(mock);
         assertEquals(expectedValue, mock.toString());
+    }
+
+    @Test
+    public void testFinalize_AreIgnored() {
+        final ClassWithFinalize mock = createMock(ClassWithFinalize.class);
+        replay(mock);
+        mock.finalize();
+        verify(mock);
     }
 }

@@ -151,23 +151,6 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
     @SuppressWarnings("unchecked")
     public T createProxy(final Class<T> toMock, final InvocationHandler handler) {
 
-        // Dirty trick to fix ObjectMethodsFilter
-        // It will replace the equals, hashCode, toString methods it kept that
-        // are the ones
-        // from Object.class by the correct ones since they might have been
-        // overloaded
-        // in the mocked class.
-        try {
-            updateMethod(handler, toMock.getMethod("equals", new Class[] { Object.class }));
-            updateMethod(handler, toMock.getMethod("hashCode", new Class[0]));
-            updateMethod(handler, toMock.getMethod("toString", new Class[0]));
-        } catch (final NoSuchMethodException e) {
-            // ///CLOVER:OFF
-            throw new InternalError(
-                    "We strangly failed to retrieve methods that always exist on an object...");
-            // ///CLOVER:ON
-        }
-
         final Enhancer enhancer = createEnhancer(toMock);
 
         final MethodInterceptor interceptor = new MockMethodInterceptor(handler);
@@ -279,35 +262,5 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
         // ///CLOVER:ON
 
         return enhancer;
-    }
-
-    private void updateMethod(final InvocationHandler objectMethodsFilter, final Method correctMethod) {
-        final Field methodField = retrieveField(objectMethodsFilter.getClass(), correctMethod.getName()
-                + "Method");
-        updateField(objectMethodsFilter, correctMethod, methodField);
-    }
-
-    private Field retrieveField(final Class<?> clazz, final String field) {
-        try {
-            return clazz.getDeclaredField(field);
-        } catch (final NoSuchFieldException e) {
-            // ///CLOVER:OFF
-            throw new InternalError("There must be some refactoring because the " + field
-                    + " field was there...");
-            // ///CLOVER:ON
-        }
-    }
-
-    private void updateField(final Object instance, final Object value, final Field field) {
-        final boolean accessible = field.isAccessible();
-        field.setAccessible(true);
-        try {
-            field.set(instance, value);
-        } catch (final IllegalAccessException e) {
-            // ///CLOVER:OFF
-            throw new InternalError("Should be accessible since we set it ourselves");
-            // ///CLOVER:ON
-        }
-        field.setAccessible(accessible);
     }
 }
