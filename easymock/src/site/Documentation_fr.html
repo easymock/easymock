@@ -1190,9 +1190,11 @@ EasyMock Version ${project.version} (${date}), Notes de Mise à Jour
 Nouveau dans la version 3.1:
 </p>
 <ul>
-<li>NoClassDefFoundError en appelant EasyMock.replay/reset/verify sur un mock d'interface si cglib n'est pas dans le classpath (3011891)
+<li>NoClassDefFoundError en appelant EasyMock.replay/reset/verify sur un mock d'interface si cglib n'est pas dans le classpath (EASYMOCK-40)
 </li>
 <li>Il est possible de compiler en Java 7 (les méthodes de capture des types primitifs sont renommées et dépréciées) (EASYMOCK-100)
+</li>
+<li>Réparer la fuite mémoire lors de l'enregistrement du callback dans cglib (EASYMOCK-89)
 </li>
 </ul>
 <p>

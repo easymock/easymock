@@ -31,12 +31,10 @@ import org.easymock.ConstructorArgs;
 
 /**
  * Factory generating a mock for a class.
- * <p>
- * Note that this class is stateful
- *
+ * 
  * @param <T>
  *            type of the proxy created
- *
+ * 
  * @author Henri Tremblay
  */
 public class ClassProxyFactory<T> implements IProxyFactory<T> {
@@ -54,7 +52,7 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
         }
 
         public Object intercept(final Object obj, final Method method, final Object[] args,
-                                final MethodProxy proxy) throws Throwable {
+                final MethodProxy proxy) throws Throwable {
 
             // Bridges should be called so they can forward to the real
             // method
@@ -143,7 +141,7 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
     private static final NamingPolicy ALLOWS_MOCKING_CLASSES_IN_SIGNED_PACKAGES = new DefaultNamingPolicy() {
         @Override
         public String getClassName(final String prefix, final String source, final Object key,
-                                   final Predicate names) {
+                final Predicate names) {
             return "codegen." + super.getClassName(prefix, source, key, names);
         }
     };
@@ -284,7 +282,8 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
     }
 
     private void updateMethod(final InvocationHandler objectMethodsFilter, final Method correctMethod) {
-        final Field methodField = retrieveField(ObjectMethodsFilter.class, correctMethod.getName() + "Method");
+        final Field methodField = retrieveField(objectMethodsFilter.getClass(), correctMethod.getName()
+                + "Method");
         updateField(objectMethodsFilter, correctMethod, methodField);
     }
 
