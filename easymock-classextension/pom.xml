@@ -25,8 +25,8 @@
       <id>henri</id>
       <name>Henri Tremblay</name>
       <url>http://www.ossia-conseil.com/blog/henri</url>
-      <organization>Ossia Conseil</organization>
-      <organizationUrl>http://ossia-conseil.com</organizationUrl>
+      <organization>OCTO Technology</organization>
+      <organizationUrl>http://www.octo.com/</organizationUrl>
       <timezone>+1</timezone>
     </developer>
   </developers>
@@ -75,25 +75,11 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <finalName>${project.artifactId}-${project.version}</finalName>
-          <descriptors>
-            <descriptor>${basedir}/src/main/assembly/assembly-tests.xml</descriptor>
-            <descriptor>${basedir}/src/main/assembly/assembly-samples.xml</descriptor>
-            <descriptor>${basedir}/src/main/assembly/assembly.xml</descriptor>
-          </descriptors>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
   <profiles>
     <profile>
       <id>fullBuild</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <build>
         <plugins>
           <plugin>
@@ -139,11 +125,29 @@
             <groupId>com.mycila.maven-license-plugin</groupId>
             <artifactId>maven-license-plugin</artifactId>
           </plugin>
-          <plugin>
-            <artifactId>maven-gpg-plugin</artifactId>
-          </plugin>          
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>deployBuild</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <configuration>
+              <finalName>${project.artifactId}-${project.version}</finalName>
+              <descriptors>
+                <descriptor>${basedir}/src/main/assembly/assembly-tests.xml</descriptor>
+                <descriptor>${basedir}/src/main/assembly/assembly-samples.xml</descriptor>
+                <descriptor>${basedir}/src/main/assembly/assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>    
   </profiles>
 </project>

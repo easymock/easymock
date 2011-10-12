@@ -2,20 +2,23 @@ I'm using:
 - Eclipse 3.5.2
 - Maven 3.0.3
 
-To compile EasyMock in Eclipse:
-- Install m2eclipse 
-  -> After restarting Eclipse, m2eclipse might complain to you need launch Eclipse with a JDK instead of a JRE
-     - Open the eclipse.ini
-     - Add these two lines at the beginning of it (with the javaw path matching yours)
-##########################
--vm
-C:/Program Files/Java/jdk1.6.0_27/bin/javaw
-##########################
-- Import the EasyMock Maven parent project to your Eclipse workspace
+--------------------------------------------------------------------------------------
+To build EasyMock with Maven
+--------------------------------------------------------------------------------------
+There are three different levels of build.
 
-To build EasyMock with Maven:
-- Tests are ran over JDK 1.5. You need to add something like this in your settings.xml
-- The clover.license must be passed to Maven with -D or in the settins.xml
+1. Build without any active profile
+
+It is a basic compilation of the application.
+
+- "mvn install"
+
+2. Full build
+
+This build will run the tests over the JRE 1.5, check code coverage with Clover (must be 100%) and 
+validate that the license headers are correctly set.
+
+You need to add a section to your settings.xml in order to make it works
 
     <profile>
       <id>easymock</id>
@@ -28,17 +31,49 @@ To build EasyMock with Maven:
       </properties>
     </profile
 
-- Then "mvn verify" or "mvn install"
-- Also do a "mvn verify" on easymock-integration (with its pom using the latest EasyMock version)
+- maven.clover.licenseLocation will tell clover where to find its license
+- jdk1_5.jvm will tell surefire where is the JRE 1.5 installed
 
-To update the versions:
+Then launch with
+
+- "mvn install -PfullBuild"
+
+3. Deploy build
+
+This is the build to launch to deploy to the surefire repository. It assemble the application and add
+the gpg checksum. You will usually launch it on top of the full build.
+
+The command line will ask you to give the passphrase for the gpg private key.
+
+- "mvn install -PfullBuild,deploy"
+
+--------------------------------------------------------------------------------------
+To compile EasyMock in Eclipse
+--------------------------------------------------------------------------------------
+- Install m2eclipse 
+  -> After restarting Eclipse, m2eclipse might complain to you need launch Eclipse with a JDK instead of a JRE
+     - Open the eclipse.ini
+     - Add these two lines at the beginning of it (with the javaw path matching yours)
+##########################
+-vm
+C:/Program Files/Java/jdk1.6.0_27/bin/javaw
+##########################
+- Import the EasyMock Maven parent project to your Eclipse workspace
+
+--------------------------------------------------------------------------------------
+To update the versions
+--------------------------------------------------------------------------------------
 - "mvn versions:set -DnewVersion=X.Y"
 - "mvn versions:commit" if everything is ok, "mvn versions:revert" otherwise
-To bundle EasyMock:
+
+--------------------------------------------------------------------------------------
+To bundle EasyMock
+--------------------------------------------------------------------------------------
 - "mvn clean verify assembly:single"
 
+--------------------------------------------------------------------------------------
 To deploy to the Sonatype maven repository:
-
+--------------------------------------------------------------------------------------
 - You will first need to add something like this to your settings.xml
 
   <servers>
@@ -60,20 +95,30 @@ http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven
 
 - Finally just type 'mvn clean deploy -Dgpg.passphrase=yourpassphrase'
 
-To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS reports):
+--------------------------------------------------------------------------------------
+To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS reports)
+--------------------------------------------------------------------------------------
 - You will to give enough memory to maven with 'set MAVEN_OPTS=-Xmx512m' (or setting it as environment variable)
 - Then type 'mvn site'
 
-To check-in:
+--------------------------------------------------------------------------------------
+To check-in
+--------------------------------------------------------------------------------------
 - easymock/trunk/svn-config.txt should be used to handle mime types correctly
 
-To check dependencies and plugins versions:
+--------------------------------------------------------------------------------------
+To check dependencies and plugins versions
+--------------------------------------------------------------------------------------
 - mvn versions:display-dependency-updates versions:display-plugin-updates
 
-To update the license:
+--------------------------------------------------------------------------------------
+To update the license
+--------------------------------------------------------------------------------------
 - mvn validate license:format
 
-To release to SourceForge:
+--------------------------------------------------------------------------------------
+To release to SourceForge
+--------------------------------------------------------------------------------------
 - Update the Website
   - Update index.html to announce the new version
   - Update Download.html to add the new package
