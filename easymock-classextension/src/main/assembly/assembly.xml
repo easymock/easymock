@@ -1,4 +1,5 @@
 <assembly>
+  <id>bundle</id>
   <formats>
     <format>zip</format>
   </formats>
