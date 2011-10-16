@@ -33,6 +33,11 @@ import org.junit.Test;
  */
 public class MockBuilderTest {
 
+    private static class A {
+        public final void foo(final String s) {
+        }
+    }
+
     private MockBuilder<ArrayList<String>> builder;
 
     private ArrayList<String> mock;
@@ -81,6 +86,48 @@ public class MockBuilderTest {
     @Test(expected = IllegalArgumentException.class)
     public void testAddMethodWithParams_NotExisting() {
         builder.addMockedMethod("..", String.class);
+    }
+
+    @Test
+    public void testAddMethod_Final() throws Exception {
+        final String errorMessage = "Final methods can't be mocked";
+        final MockBuilder<A> builder = new MockBuilder<A>(A.class);
+        try {
+            builder.addMockedMethod(A.class.getMethod("foo", String.class));
+            fail("sholdn't be allowed to be mocked");
+        } catch (final IllegalArgumentException e) {
+            assertEquals(errorMessage, e.getMessage());
+        }
+        try {
+            builder.addMockedMethod("foo");
+            fail("sholdn't be allowed to be mocked");
+        } catch (final IllegalArgumentException e) {
+            assertEquals(errorMessage, e.getMessage());
+        }
+        try {
+            builder.addMockedMethod("foo", String.class);
+            fail("sholdn't be allowed to be mocked");
+        } catch (final IllegalArgumentException e) {
+            assertEquals(errorMessage, e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAddMethods_Final() throws Exception {
+        final String errorMessage = "Final methods can't be mocked";
+        final MockBuilder<A> builder = new MockBuilder<A>(A.class);
+        try {
+            builder.addMockedMethods(A.class.getMethod("foo", String.class));
+            fail("sholdn't be allowed to be mocked");
+        } catch (final IllegalArgumentException e) {
+            assertEquals(errorMessage, e.getMessage());
+        }
+        try {
+            builder.addMockedMethods("foo");
+            fail("sholdn't be allowed to be mocked");
+        } catch (final IllegalArgumentException e) {
+            assertEquals(errorMessage, e.getMessage());
+        }
     }
 
     @Test

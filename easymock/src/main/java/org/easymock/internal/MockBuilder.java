@@ -17,6 +17,7 @@ package org.easymock.internal;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -64,6 +65,9 @@ public class MockBuilder<T> implements IMockBuilder<T> {
     }
 
     public IMockBuilder<T> addMockedMethod(final Method method) {
+        if (Modifier.isFinal(method.getModifiers())) {
+            throw new IllegalArgumentException("Final methods can't be mocked");
+        }
         mockedMethods.add(method);
         return this;
     }
@@ -73,7 +77,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         if (m == null) {
             throw new IllegalArgumentException("Method not found (or private): " + methodName);
         }
-        mockedMethods.add(m);
+        addMockedMethod(m);
         return this;
     }
 
@@ -82,7 +86,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         if (m == null) {
             throw new IllegalArgumentException("Method not found (or private): " + methodName);
         }
-        mockedMethods.add(m);
+        addMockedMethod(m);
         return this;
     }
 
