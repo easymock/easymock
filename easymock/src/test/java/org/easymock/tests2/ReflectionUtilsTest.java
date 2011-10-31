@@ -147,4 +147,21 @@ public class ReflectionUtilsTest {
                 5l, 4.0f, 8.0);
         assertNotNull(c);
     }
+
+    @Test
+    public void testGetDeclareMethod_Found() throws Exception {
+        final Method expected = A.class.getDeclaredMethod("foo", new Class<?>[] { int.class });
+        final Method actual = ReflectionUtils.getDeclaredMethod(A.class, "foo", new Class<?>[] { int.class });
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testGetDeclareMethod_NotFound() {
+        try {
+            ReflectionUtils.getDeclaredMethod(A.class, "foo", new Class<?>[0]);
+            fail("Method should not be found");
+        } catch (final RuntimeException e) {
+            assertTrue(e.getCause() instanceof NoSuchMethodException);
+        }
+    }
 }

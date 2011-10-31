@@ -98,6 +98,10 @@ public final class ReflectionUtils {
                 if (Modifier.isPrivate(method.getModifiers())) {
                     continue;
                 }
+                // Skip bridges because we never mock them. We mock the method underneath
+                if (method.isBridge()) {
+                    continue;
+                }
                 if (name.equals(method.getName())) {
                     if (paramTypes == null) {
                         if (result != null) {
