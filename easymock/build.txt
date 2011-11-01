@@ -130,7 +130,7 @@ To release to SourceForge
 
 - Upload the bundle
   - Go to the File Manager on the EasyMock SF project 
-  - Create a folder named "EasyMock 2.x"
+  - Create a folder named "EasyMock 3.x"
   - Upload the bundle in the newly created directory
   - Add "ReleaseNotes.txt" containing the release notes
   - Click on "Release notes.txt" and specify it's a release note
