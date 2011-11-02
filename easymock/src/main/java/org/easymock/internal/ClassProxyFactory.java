@@ -75,7 +75,14 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
                 }
             }
 
-            // Bridges should delegate to their bridged method
+            // Bridges should delegate to their bridged method. It should be done before
+            // checking for mocked methods because only unbridged method are mocked
+            // It also make sure the method passed to the handler is not the bridge. Normally it
+            // shouldn't be necessary because bridges are never mocked so are never in the mockedMethods
+            // map. So the normal case is that is will call invokeSuper which will call the interceptor for
+            // the bridged method. The problem is that it doesn't happen. It looks like a cglib bug. For
+            // package scoped bridges (see GenericTest), the interceptor is not called for the bridged
+            // method. Not normal from my point of view.
             if (method.isBridge()) {
                 method = BridgeMethodResolver.findBridgedMethod(method);
             }
