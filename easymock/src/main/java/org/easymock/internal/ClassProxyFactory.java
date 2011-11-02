@@ -51,15 +51,8 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
             this.handler = handler;
         }
 
-        public Object intercept(final Object obj, final Method method, final Object[] args,
-                final MethodProxy proxy) throws Throwable {
-
-            // Bridges should be called so they can forward to the real
-            // method
-            if (method.isBridge()) {
-                final Method m = BridgeMethodResolver.findBridgedMethod(method);
-                return handler.invoke(obj, m, args);
-            }
+        public Object intercept(final Object obj, Method method, final Object[] args, final MethodProxy proxy)
+                throws Throwable {
 
             // We conveniently mock abstract methods be default
             if (Modifier.isAbstract(method.getModifiers())) {
@@ -80,6 +73,11 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
                         return proxy.invokeSuper(obj, args);
                     }
                 }
+            }
+
+            // Bridges should delegate to their bridged method
+            if (method.isBridge()) {
+                method = BridgeMethodResolver.findBridgedMethod(method);
             }
 
             if (mockedMethods != null && !mockedMethods.contains(method)) {

@@ -41,27 +41,33 @@ public class GenericTest {
     }
 
     @Test
-    public void testBridgeUnmocked() {
+    public void testTheBridgeMethodIsRecordedNotTheBridge() {
         final B b = createMock(B.class);
-        b.doCMethod(new Integer(6));
+        b.doCMethod(Integer.valueOf(6));
         replay(b);
-        ((C<Integer>) b).doCMethod(new Integer(6));
+        ((C<Integer>) b).doCMethod(Integer.valueOf(6));
         verify(b);
+    }
+
+    /**
+     * Test cglib bug. See ClassProxyFactory.intercept for details
+     */
+    @Test
+    public void testPartialMockingSeesBridgeHasUnmocked() {
+        final ConcreteFoo b = createMockBuilder(ConcreteFoo.class).addMockedMethod("getSomeStrings")
+                .createMock();
+        final AbstractFoo c = b;
+        expect(c.getSomeStrings()).andReturn(null);
     }
 
     static abstract class AbstractFoo {
         public Collection<String> getSomeStrings() {
+            fail("Should be mocked");
             return null;
         }
-
-        public abstract Collection<Integer> getSomeIntegers();
     }
 
-    public class ConcreteFoo extends AbstractFoo {
-        @Override
-        public Collection<Integer> getSomeIntegers() {
-            return null;
-        }
+    public static class ConcreteFoo extends AbstractFoo {
     }
 
     /**
@@ -77,5 +83,33 @@ public class GenericTest {
         replay(b);
         ((AbstractFoo) b).getSomeStrings();
         verify(b);
+    }
+
+    static abstract class GenericHolder<T> {
+        abstract void set(T value);
+
+        void go(final T value) {
+            set(value);
+        }
+    }
+
+    static class StringHolder extends GenericHolder<String> {
+        private String value;
+
+        @Override
+        void set(final String value) {
+            this.value = value;
+        }
+    }
+
+    /**
+     * This test makes sure that a bridge method won't be considered mocked.
+     * Bridge are never mocked. Only the underlying method should be.
+     */
+    @Test
+    public void testPartialMockBridgeMethodAreUnmocked() {
+        final StringHolder holder = createMockBuilder(StringHolder.class).createMock();
+        holder.go("hello");
+        assertEquals("hello", holder.value);
     }
 }
