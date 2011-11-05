@@ -20,12 +20,10 @@ import static org.easymock.EasyMock.*;
 import java.util.ArrayList;
 import java.util.jar.Manifest;
 
-import org.easymock.EasyMockSupport;
 import org.easymock.internal.ClassExtensionHelper;
 import org.objenesis.Objenesis;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
-import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
 import org.springframework.osgi.util.OsgiStringUtils;
 
 /**
@@ -33,28 +31,10 @@ import org.springframework.osgi.util.OsgiStringUtils;
  * 
  * @author Henri Tremblay
  */
-public class OsgiClassExtensionTest extends AbstractConfigurableBundleCreatorTests {
+public class OsgiClassExtensionTest extends OsgiBaseTest {
 
     public static abstract class A {
         public abstract void foo();
-    }
-
-    private final EasyMockSupport support = new EasyMockSupport();
-
-    public <T> T createMock(final Class<T> toMock) {
-        return support.createMock(toMock);
-    }
-
-    public void replayAll() {
-        support.replayAll();
-    }
-
-    public void verifyAll() {
-        support.verifyAll();
-    }
-
-    private String getImplementationVersion(final Class<?> c) {
-        return c.getPackage().getImplementationVersion();
     }
 
     @Override
@@ -86,10 +66,10 @@ public class OsgiClassExtensionTest extends AbstractConfigurableBundleCreatorTes
         return mf;
     }
 
+    @Override
     public void testOsgiPlatformStarts() throws Exception {
         System.out.println("Framework vendor: " + this.bundleContext.getProperty(Constants.FRAMEWORK_VENDOR));
         System.out.println("Framework version: " + bundleContext.getProperty(Constants.FRAMEWORK_VERSION));
-        System.out.println("Require capability: " + bundleContext.getProperty(Constants.REQUIRE_CAPABILITY));
         System.out.println("-----------------------------");
 
         final Bundle[] bundles = bundleContext.getBundles();

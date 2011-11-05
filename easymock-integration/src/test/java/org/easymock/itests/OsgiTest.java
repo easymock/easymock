@@ -18,17 +18,17 @@ package org.easymock.itests;
 import static org.easymock.EasyMock.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.jar.Manifest;
 
 import org.easymock.EasyMock;
-import org.easymock.EasyMockSupport;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.MocksControl.MockType;
 import org.easymock.internal.matchers.Equals;
+import org.easymock.itests.OsgiClassExtensionTest.A;
 import org.objenesis.Objenesis;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
-import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
 import org.springframework.osgi.util.OsgiStringUtils;
 
 /**
@@ -36,49 +36,26 @@ import org.springframework.osgi.util.OsgiStringUtils;
  * 
  * @author Henri Tremblay
  */
-public class OsgiTest extends AbstractConfigurableBundleCreatorTests {
-
-    private final EasyMockSupport support = new EasyMockSupport();
-
-    public <T> T createMock(Class<T> toMock) {
-        return support.createMock(toMock);
-    }
-
-    public void replayAll() {
-        support.replayAll();
-    }
-
-    public void verifyAll() {
-        support.verifyAll();
-    }
+public class OsgiTest extends OsgiBaseTest {
 
     @Override
     protected String[] getTestBundlesNames() {
 
-        ClassLoader cl = String.class.getClassLoader();
-        final String ceVersion = EasyMock.class.getPackage()
-                .getImplementationVersion();
+        final ClassLoader cl = String.class.getClassLoader();
         final String cglibVersion = "2.2.0";
-        final String objenesisVersion = Objenesis.class.getPackage()
-                .getImplementationVersion();
-        final String easymockVersion = org.easymock.EasyMock.class.getPackage()
-                .getImplementationVersion();
+        final String objenesisVersion = getImplementationVersion(Objenesis.class);
+        final String easymockVersion = getImplementationVersion(EasyMock.class);
 
-        return new String[] {
-                "net.sourceforge.cglib, com.springsource.net.sf.cglib, "
-                        + cglibVersion,
-                "org.easymock, easymock, " + easymockVersion,
-                "org.objenesis, objenesis, " + objenesisVersion };
+        return new String[] { "net.sourceforge.cglib, com.springsource.net.sf.cglib, " + cglibVersion,
+                "org.easymock, easymock, " + easymockVersion, "org.objenesis, objenesis, " + objenesisVersion };
     }
 
     @Override
     protected Manifest getManifest() {
-        Manifest mf = super.getManifest();
+        final Manifest mf = super.getManifest();
 
-        String imports = mf.getMainAttributes().getValue(
-                Constants.IMPORT_PACKAGE);
-        imports = imports.replace("org.easymock.internal,",
-                "org.easymock.internal;poweruser=true,");
+        String imports = mf.getMainAttributes().getValue(Constants.IMPORT_PACKAGE);
+        imports = imports.replace("org.easymock.internal,", "org.easymock.internal;poweruser=true,");
         imports = imports.replace("org.easymock.internal.matchers,",
                 "org.easymock.internal.matchers;poweruser=true,");
 
@@ -89,26 +66,21 @@ public class OsgiTest extends AbstractConfigurableBundleCreatorTests {
         return mf;
     }
 
+    @Override
     public void testOsgiPlatformStarts() throws Exception {
-        System.out.println("Framework vendor: "
-                + this.bundleContext.getProperty(Constants.FRAMEWORK_VENDOR));
-        System.out.println("Framework version: "
-                + bundleContext.getProperty(Constants.FRAMEWORK_VERSION));
-        System.out.println("Execution environment: "
-                + bundleContext
-                        .getProperty(Constants.FRAMEWORK_EXECUTIONENVIRONMENT));
-
+        System.out.println("Framework vendor: " + this.bundleContext.getProperty(Constants.FRAMEWORK_VENDOR));
+        System.out.println("Framework version: " + bundleContext.getProperty(Constants.FRAMEWORK_VERSION));
         System.out.println("-----------------------------");
 
-        Bundle[] bundles = bundleContext.getBundles();
-        for (int i = 0; i < bundles.length; i++) {
-            System.out.println(OsgiStringUtils.nullSafeName(bundles[i]) + ": "
-                    + bundles[i].getHeaders().get(Constants.BUNDLE_VERSION));
+        final Bundle[] bundles = bundleContext.getBundles();
+        for (final Bundle bundle : bundles) {
+            System.out.println(OsgiStringUtils.nullSafeName(bundle) + ": "
+                    + bundle.getHeaders().get(Constants.BUNDLE_VERSION));
         }
     }
 
     public void testCanMock() throws IOException {
-        Appendable mock = createMock(Appendable.class);
+        final Appendable mock = createMock(Appendable.class);
         expect(mock.append("test")).andReturn(mock);
         replayAll();
         assertSame(mock, mock.append("test"));
@@ -116,10 +88,43 @@ public class OsgiTest extends AbstractConfigurableBundleCreatorTests {
     }
 
     public void testCanUseMatchers() {
-        Equals equals = new Equals(new Object());
+        final Equals equals = new Equals(new Object());
     }
 
     public void testCanUseInternal() {
-        MocksControl ctrl = new MocksControl(MockType.DEFAULT);
+        final MocksControl ctrl = new MocksControl(MockType.DEFAULT);
+    }
+
+    /**
+     * Class loaded in the bootstrap class loader have a null class loader. In
+     * this case, cglib creates the proxy in its own class loader. So I need to
+     * test this case is working
+     */
+    public void testCanMock_BootstrapClassLoader() {
+        final ArrayList<?> mock = createMock(ArrayList.class);
+        expect(mock.size()).andReturn(5);
+        replayAll();
+        assertEquals(5, mock.size());
+        verifyAll();
+    }
+
+    /**
+     * Normal case of a class in this class loader
+     */
+    public void testCanMock_OtherClassLoader() {
+        final A mock = createMock(A.class);
+        mock.foo();
+        replayAll();
+        mock.foo();
+        verifyAll();
+    }
+
+    public void testCanPartialMock() throws Exception {
+        final A mock = createMockBuilder(A.class).withConstructor().addMockedMethod("foo").createMock();
+
+        mock.foo();
+        replay(mock);
+        mock.foo();
+        verify(mock);
     }
 }
