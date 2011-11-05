@@ -25,11 +25,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.rules.MethodRule;
-import org.junit.runners.model.FrameworkMethod;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
-public class FilteringRule implements MethodRule {
+public class FilteringRule implements TestRule {
 
     private final String[] filteredPackages;
 
@@ -37,8 +37,8 @@ public class FilteringRule implements MethodRule {
         this.filteredPackages = filteredPackages;
     }
 
-    public Statement apply(final Statement base, final FrameworkMethod method, final Object target) {
-        return new FilteringStatement(base, method, target, filteredPackages);
+    public Statement apply(final Statement base, final Description description) {
+        return new FilteringStatement(base, description, filteredPackages);
     }
 
 }
@@ -135,26 +135,23 @@ class FilteringStatement extends Statement {
 
     private final Statement innerStatement;
 
-    private final FrameworkMethod method; // The tested method
-
-    private final Object target; // The test class
+    private final Description description; // Description of the tested method
 
     private final String[] filteredPackages;
 
-    public FilteringStatement(final Statement base, final FrameworkMethod method, final Object target,
+    public FilteringStatement(final Statement base, final Description description,
             final String[] filteredPackages) {
         this.innerStatement = base;
-        this.method = method;
-        this.target = target;
+        this.description = description;
         this.filteredPackages = filteredPackages;
     }
 
     @Override
     public void evaluate() throws Throwable {
         final FilteringClassLoader cl = new FilteringClassLoader(Arrays.asList(filteredPackages));
-        final Class<?> c = cl.loadClass(target.getClass().getName());
+        final Class<?> c = cl.loadClass(description.getTestClass().getName());
         final Object test = c.newInstance();
-        final Method m = c.getMethod(method.getName());
+        final Method m = c.getMethod(description.getMethodName());
         try {
             m.invoke(test);
         } catch (final InvocationTargetException e) {
