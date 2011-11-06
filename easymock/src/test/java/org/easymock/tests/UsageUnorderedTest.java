@@ -50,9 +50,11 @@ public class UsageUnorderedTest {
             mock.method(42);
             fail("Should fail");
         } catch (final AssertionError expected) {
-            assertEquals("\n  Unexpected method call method(42). Possible matches are marked with (+1):"
-                    + "\n    method(<any>): expected: 3, actual: 3 (+1)"
-                    + "\n    method(42): expected: 1, actual: 1 (+1)", expected.getMessage());
+            assertEquals(
+                    "\n  Unexpected method call Interface.method(42). Possible matches are marked with (+1):"
+                            + "\n    Interface.method(<any>): expected: 3, actual: 3 (+1)"
+                            + "\n    Interface.method(42): expected: 1, actual: 1 (+1)", expected
+                            .getMessage());
         }
     }
 }

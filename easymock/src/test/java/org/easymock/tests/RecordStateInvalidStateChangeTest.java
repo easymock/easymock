@@ -41,8 +41,8 @@ public class RecordStateInvalidStateChangeTest {
             replay(mock);
             fail("IllegalStateException expected");
         } catch (final IllegalStateException e) {
-            assertEquals("missing behavior definition for the preceding method call oneArg(false)", e
-                    .getMessage());
+            assertEquals("missing behavior definition for the preceding method call IMethods.oneArg(false)",
+                    e.getMessage());
             assertTrue("stack trace must be cut",
                     Util.getStackTrace(e).indexOf(RecordState.class.getName()) == -1);
         }
@@ -55,8 +55,8 @@ public class RecordStateInvalidStateChangeTest {
             mock.oneArg(false);
             fail("IllegalStateException expected");
         } catch (final IllegalStateException e) {
-            assertEquals("missing behavior definition for the preceding method call oneArg(false)", e
-                    .getMessage());
+            assertEquals("missing behavior definition for the preceding method call IMethods.oneArg(false)",
+                    e.getMessage());
             assertTrue("stack trace must be cut",
                     Util.getStackTrace(e).indexOf(RecordState.class.getName()) == -1);
         }

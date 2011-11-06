@@ -65,8 +65,7 @@ public class InvocationTest {
     }
 
     @Test
-    public void testShouldDisplayMocksToStringIfValidJavaIdentifier() throws SecurityException,
-            NoSuchMethodException {
+    public void testShouldDisplayMocksToStringIfValidJavaIdentifier() throws NoSuchMethodException {
         class ToString {
             private final String name;
 
@@ -89,6 +88,30 @@ public class InvocationTest {
         assertEquals(invocation.toString(), "validJavaIdentifier.aMethod()");
 
         invocation = new Invocation(new ToString("no-valid-java-identifier"), method, null);
+
+        assertEquals("Object.aMethod()", invocation.toString());
+
+    }
+
+    @Test
+    public void testShouldDisplayMocksToStringIfNoToStringMethod() throws NoSuchMethodException {
+        class NoToString {
+            private final String name;
+
+            public NoToString(final String name) {
+                this.name = name;
+            }
+
+            public void aMethod() {
+            }
+        }
+
+        final Method method = NoToString.class.getMethod("aMethod", new Class[0]);
+        Invocation invocation = new Invocation(new NoToString("validJavaIdentifier"), method, null);
+
+        assertEquals(invocation.toString(), "aMethod()");
+
+        invocation = new Invocation(new NoToString("no-valid-java-identifier"), method, null);
 
         assertEquals("aMethod()", invocation.toString());
 

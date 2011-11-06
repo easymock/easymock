@@ -123,7 +123,7 @@ public class UsageTest {
             failed = false;
         } catch (final AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
-                    + "\n    threeArgumentMethod(1, \"2\", \"3\"): expected: 2, actual: 1", expected
+                    + "\n    IMethods.threeArgumentMethod(1, \"2\", \"3\"): expected: 2, actual: 1", expected
                     .getMessage());
         }
         if (!failed) {
@@ -140,8 +140,9 @@ public class UsageTest {
             mock.simpleMethodWithArgument("5");
             fail();
         } catch (final AssertionError expected) {
-            assertEquals("\n  Unexpected method call simpleMethodWithArgument(\"5\"):"
-                    + "\n    simpleMethodWithArgument(\"3\"): expected: 1, actual: 0", expected.getMessage());
+            assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
+                    + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0", expected
+                    .getMessage());
         }
 
     }
@@ -156,8 +157,9 @@ public class UsageTest {
             mock.simpleMethodWithArgument("5");
             fail();
         } catch (final AssertionError expected) {
-            assertEquals("\n  Unexpected method call simpleMethodWithArgument(\"5\"):"
-                    + "\n    simpleMethodWithArgument(\"3\"): expected: 2, actual: 0", expected.getMessage());
+            assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
+                    + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 2, actual: 0", expected
+                    .getMessage());
         }
 
     }
@@ -175,12 +177,13 @@ public class UsageTest {
             mock.simpleMethodWithArgument("5");
             fail("exception expected");
         } catch (final AssertionError expected) {
-            assertEquals("\n  Unexpected method call simpleMethodWithArgument(\"5\"):"
-                    + "\n    simpleMethodWithArgument(\"4\"): expected: 1, actual: 0"
-                    + "\n    simpleMethodWithArgument(\"3\"): expected: 1, actual: 0"
-                    + "\n    simpleMethodWithArgument(\"2\"): expected: 1, actual: 0"
-                    + "\n    simpleMethodWithArgument(\"0\"): expected: 1, actual: 0"
-                    + "\n    simpleMethodWithArgument(\"1\"): expected: 1, actual: 0", expected.getMessage());
+            assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
+                    + "\n    IMethods.simpleMethodWithArgument(\"4\"): expected: 1, actual: 0"
+                    + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0"
+                    + "\n    IMethods.simpleMethodWithArgument(\"2\"): expected: 1, actual: 0"
+                    + "\n    IMethods.simpleMethodWithArgument(\"0\"): expected: 1, actual: 0"
+                    + "\n    IMethods.simpleMethodWithArgument(\"1\"): expected: 1, actual: 0", expected
+                    .getMessage());
         }
 
     }

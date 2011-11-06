@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -87,15 +86,7 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
     }
 
     private String mockToString(final Object proxy) {
-        return (name != null) ? name : "EasyMock for " + mockType(proxy);
-    }
-
-    private String mockType(final Object proxy) {
-        if (Proxy.isProxyClass(proxy.getClass())) {
-            return proxy.getClass().getInterfaces()[0].toString();
-        } else {
-            return proxy.getClass().getSuperclass().toString();
-        }
+        return (name != null) ? name : "EasyMock for " + ClassExtensionHelper.getMockedType(proxy);
     }
 
     public MockInvocationHandler getDelegate() {

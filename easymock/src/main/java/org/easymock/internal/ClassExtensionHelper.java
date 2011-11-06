@@ -65,4 +65,24 @@ public final class ClassExtensionHelper {
             throw new IllegalArgumentException("Not a mock: " + mock.getClass().getName());
         }
     }
+
+    /**
+     * Return the class of interface (depending on the mock type) that was
+     * mocked
+     * 
+     * @param <T>
+     *            Mocked class
+     * @param <V>
+     *            Mock class
+     * @param proxy
+     *            Mock object
+     * @return the mocked class or interface
+     */
+    @SuppressWarnings("unchecked")
+    public static <T, V extends T> Class<T> getMockedType(final V proxy) {
+        if (Proxy.isProxyClass(proxy.getClass())) {
+            return (Class<T>) proxy.getClass().getInterfaces()[0];
+        }
+        return (Class<T>) proxy.getClass().getSuperclass();
+    }
 }

@@ -55,7 +55,7 @@ public class PowermockTest {
             StaticService.say("world");
             fail("Should throw AssertionError!");
         } catch (final AssertionError e) {
-            assertEquals("\n  Unexpected method call say(\"world\"):", e.getMessage());
+            assertEquals("\n  Unexpected method call StaticService.say(\"world\"):", e.getMessage());
         }
     }
 

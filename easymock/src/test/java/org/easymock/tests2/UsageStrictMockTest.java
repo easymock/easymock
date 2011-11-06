@@ -113,9 +113,9 @@ public class UsageStrictMockTest {
         } catch (final AssertionError expected) {
             failed = true;
             assertEquals("\n  Expectation failure on verify:"
-                    + "\n    simpleMethod(): expected: 1, actual: 1"
-                    + "\n    booleanReturningMethod(1): expected: between 2 and 3, actual: 0"
-                    + "\n    simpleMethod(): expected: at least 1, actual: 0", expected.getMessage());
+                    + "\n    IMethods.simpleMethod(): expected: 1, actual: 1"
+                    + "\n    IMethods.booleanReturningMethod(1): expected: between 2 and 3, actual: 0"
+                    + "\n    IMethods.simpleMethod(): expected: at least 1, actual: 0", expected.getMessage());
         }
         if (!failed) {
             fail("too few calls accepted");
@@ -128,9 +128,9 @@ public class UsageStrictMockTest {
             mock.simpleMethod();
         } catch (final AssertionError expected) {
             failed = true;
-            assertEquals("\n  Unexpected method call simpleMethod():"
-                    + "\n    booleanReturningMethod(1): expected: between 2 and 3, actual: 1", expected
-                    .getMessage());
+            assertEquals("\n  Unexpected method call IMethods.simpleMethod():"
+                    + "\n    IMethods.booleanReturningMethod(1): expected: between 2 and 3, actual: 1",
+                    expected.getMessage());
         }
         if (!failed) {
             fail("wrong call accepted");
@@ -166,9 +166,9 @@ public class UsageStrictMockTest {
             mock.booleanReturningMethod(1);
         } catch (final AssertionError expected) {
             failed = true;
-            assertEquals("\n  Unexpected method call booleanReturningMethod(1):"
-                    + "\n    booleanReturningMethod(1): expected: between 2 and 3, actual: 4"
-                    + "\n    simpleMethod(): expected: at least 1, actual: 0", expected.getMessage());
+            assertEquals("\n  Unexpected method call IMethods.booleanReturningMethod(1):"
+                    + "\n    IMethods.booleanReturningMethod(1): expected: between 2 and 3, actual: 4"
+                    + "\n    IMethods.simpleMethod(): expected: at least 1, actual: 0", expected.getMessage());
         }
         if (!failed) {
             fail("too many calls accepted");
@@ -198,7 +198,8 @@ public class UsageStrictMockTest {
         } catch (final AssertionError expected) {
             failed = true;
             assertEquals("\n  Expectation failure on verify:"
-                    + "\n    booleanReturningMethod(1): expected: 3, actual: 2", expected.getMessage());
+                    + "\n    IMethods.booleanReturningMethod(1): expected: 3, actual: 2", expected
+                    .getMessage());
         }
         if (!failed) {
             fail("too few calls accepted");

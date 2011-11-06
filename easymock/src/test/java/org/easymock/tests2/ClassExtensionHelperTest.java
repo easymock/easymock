@@ -15,6 +15,7 @@
  */
 package org.easymock.tests2;
 
+import static org.easymock.EasyMock.*;
 import static org.easymock.internal.ClassExtensionHelper.*;
 import static org.junit.Assert.*;
 
@@ -84,5 +85,19 @@ public class ClassExtensionHelperTest {
         } catch (final IllegalArgumentException e) {
             assertEquals("Not a mock: " + String.class.getName(), e.getMessage());
         }
+    }
+
+    @Test
+    public void testMockType_Class() {
+        final Object o = createMock(ArrayList.class);
+        final Class<?> c = getMockedType(o);
+        assertEquals(ArrayList.class, c);
+    }
+
+    @Test
+    public void testMockType_Interface() {
+        final Object o = createMock(List.class);
+        final Class<?> c = getMockedType(o);
+        assertEquals(List.class, c);
     }
 }

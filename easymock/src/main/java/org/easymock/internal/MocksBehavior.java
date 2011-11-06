@@ -154,6 +154,7 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         for (final UnorderedBehavior behaviorList : behaviorLists.subList(position, behaviorLists.size())) {
             if (!behaviorList.verify()) {
                 verified = false;
+                break;
             }
         }
         if (verified) {

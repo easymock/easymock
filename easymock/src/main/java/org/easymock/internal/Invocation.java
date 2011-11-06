@@ -138,13 +138,22 @@ public class Invocation implements Serializable {
     }
 
     public String getMockAndMethodName() {
-        final String mockName = mock.toString();
         final String methodName = method.getName();
-        if (toStringIsDefined(mock) && isJavaIdentifier(mockName)) {
-            return mockName + "." + methodName;
-        } else {
+        // This can occur when using PowerMock. They do something that causes the mock
+        // to not implement toString. So I start by making sure it is really my to String
+        // that I call... There's probably a better solution
+        if (!toStringIsDefined(mock)) {
             return methodName;
         }
+        final String mockName = mock.toString();
+        // Cheap trick to check if the name is the default "EasyMock for ..." or a name 
+        // provided when creating the mock
+        if (isJavaIdentifier(mockName)) {
+            return mockName + "." + methodName;
+        }
+
+        final Class<?> clazz = ClassExtensionHelper.getMockedType(mock);
+        return clazz.getSimpleName() + "." + methodName;
     }
 
     public void addCapture(final Captures<Object> capture, final Object value) {
