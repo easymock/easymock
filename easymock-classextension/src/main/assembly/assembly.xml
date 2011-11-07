@@ -16,9 +16,5 @@
         <include>*.jar</include>
       </includes>
     </fileSet>
-    <fileSet>
-      <outputDirectory>clover</outputDirectory>
-      <directory>${project.reporting.outputDirectory}/clover</directory>
-    </fileSet>     
   </fileSets>
 </assembly>
