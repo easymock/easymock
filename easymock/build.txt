@@ -45,7 +45,7 @@ the gpg checksum. You will usually launch it on top of the full build.
 
 The command line will ask you to give the passphrase for the gpg private key.
 
-- "mvn install -PfullBuild,deploy"
+- "mvn install -PfullBuild,deployBuild"
 
 --------------------------------------------------------------------------------------
 To compile EasyMock in Eclipse
