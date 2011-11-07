@@ -220,7 +220,7 @@ public class RecordState implements IMocksControlState, Serializable {
         }
         if (!isLastResultOrVoidMethod()) {
             throw new RuntimeExceptionWrapper(new IllegalStateException(
-                    "missing behavior definition for the preceding method call: \n"
+                    "missing behavior definition for the preceding method call:\n"
                             + lastInvocation.toString() + "\nUsage is: expect(a.foo()).andXXX()"));
         }
         times(MocksControl.ONCE);
