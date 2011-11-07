@@ -67,12 +67,7 @@ To update the versions
 - "mvn versions:commit" if everything is ok, "mvn versions:revert" otherwise
 
 --------------------------------------------------------------------------------------
-To bundle EasyMock
---------------------------------------------------------------------------------------
-- "mvn clean verify assembly:single"
-
---------------------------------------------------------------------------------------
-To deploy to the Sonatype maven repository:
+Configure to deploy to the Sonatype maven repository
 --------------------------------------------------------------------------------------
 - You will first need to add something like this to your settings.xml
 
@@ -93,7 +88,13 @@ To deploy to the Sonatype maven repository:
 
 http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/
 
-- Finally just type 'mvn clean deploy -Dgpg.passphrase=yourpassphrase'
+--------------------------------------------------------------------------------------
+To bundle EasyMock and deploy
+--------------------------------------------------------------------------------------
+- "mvn clean deploy -PfullBuild,deployBuild"
+
+- You will need to enter your gp passphrase at some point during the build. You can 
+  also add -Dgpg.passphrase=yourpassphrase to your command line
 
 --------------------------------------------------------------------------------------
 To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS reports)

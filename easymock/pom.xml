@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.easymock</groupId>
     <artifactId>easymock-parent</artifactId>
-    <version>3.1-SNAPSHOT</version>
+    <version>3.1</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -164,6 +164,15 @@
                 <descriptor>${basedir}/src/main/assembly/assembly.xml</descriptor>
               </descriptors>
             </configuration>
+            <executions>
+              <execution>
+                <id>bundle</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
