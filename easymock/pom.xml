@@ -156,21 +156,9 @@
           </plugin>
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
-            <configuration>
-              <finalName>${project.artifactId}-${project.version}</finalName>
-              <descriptors>
-                <descriptor>${basedir}/src/main/assembly/assembly-tests.xml</descriptor>
-                <descriptor>${basedir}/src/main/assembly/assembly-samples.xml</descriptor>
-                <descriptor>${basedir}/src/main/assembly/assembly.xml</descriptor>
-              </descriptors>
-            </configuration>
             <executions>
               <execution>
-                <id>bundle</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>single</goal>
-                </goals>
+                <id>easymock-bundle</id>
               </execution>
             </executions>
           </plugin>

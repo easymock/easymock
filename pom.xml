@@ -113,6 +113,9 @@
           <groupId>com.atlassian.maven.plugins</groupId>
           <artifactId>maven-clover2-plugin</artifactId>
           <version>3.1.0</version>
+          <configuration>
+            <licenseLocation>${basedir}/clover.license</licenseLocation>
+          </configuration>
           <dependencies>
             <dependency>
               <groupId>org.codehaus.plexus</groupId>
@@ -124,6 +127,24 @@
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
           <version>2.2.1</version>
+          <executions>
+            <execution>
+              <id>easymock-bundle</id>
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+              <configuration>
+                <finalName>${project.artifactId}-${project.version}</finalName>
+                <attach>false</attach>
+                <descriptors>
+                  <descriptor>${basedir}/src/main/assembly/assembly-tests.xml</descriptor>
+                  <descriptor>${basedir}/src/main/assembly/assembly-samples.xml</descriptor>
+                  <descriptor>${basedir}/src/main/assembly/assembly.xml</descriptor>
+                </descriptors>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -366,5 +387,5 @@
       </build>
     </profile>
   </profiles>
-  
+
 </project>
