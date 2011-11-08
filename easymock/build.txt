@@ -96,6 +96,16 @@ To bundle EasyMock and deploy
 - You will need to enter your gp passphrase at some point during the build. You can 
   also add -Dgpg.passphrase=yourpassphrase to your command line
 
+Note: Due to a bug with the Clover plugin, the deployBuild doesn't execute the clover plugin. So
+the aggregated report should be done afterwards.
+
+--------------------------------------------------------------------------------------
+To generate the aggregated clover report
+--------------------------------------------------------------------------------------
+- After a fullBuild, at the EasyMock parent project level
+- Type 'mvn clover2:instrument clover2:aggregate'
+- Then 'mvn -N clover2:clover'
+
 --------------------------------------------------------------------------------------
 To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS reports)
 --------------------------------------------------------------------------------------

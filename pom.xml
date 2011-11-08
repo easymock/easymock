@@ -383,6 +383,15 @@
               </execution>
             </executions>
           </plugin>
+          <!-- Skip clover during deployment. It strangely installs an easymock-clover.jar
+               that we certainly do not want to deploy in the remote repository -->
+          <plugin>
+            <groupId>com.atlassian.maven.plugins</groupId>
+            <artifactId>maven-clover2-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
         </plugins>
       </build>
     </profile>
