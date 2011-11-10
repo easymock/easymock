@@ -1,0 +1,903 @@
+BODY {
+    FONT-FAMILY: verdana, arial, sans-serif;
+    background-color: #ffffff;
+}
+
+img {
+    border: none;
+}
+
+A {
+    text-decoration: none;
+}
+
+A:hover {
+    text-decoration: underline;
+}
+
+A.nolink:hover {
+    text-decoration: none;
+}
+
+TABLE {
+    FONT-SIZE: 10px
+}
+
+.navBar {
+    Font-weight: normal;
+    Font-size: 12px;
+}
+TD.alignTop {
+    vertical-align: top;
+}
+
+TD.itemList {
+    Font-weight: normal;
+    Font-size: 12px;
+    FONT-FAMILY: arial, sans-serif;
+    white-space: nowrap;
+}
+
+DIV.navBar {
+    padding: 4px;
+}
+
+DIV.navBarLink {
+    Font-weight: normal;
+    Font-size: 10px;
+    padding-top: 4px;
+}
+
+.navBarCurrent {
+    padding: 2px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #00008B;
+}
+
+TD.reportHeader {
+    BACKGROUND: #ddedff;
+    PADDING: 5px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 12px;
+    BORDER: #dcdcdc 1px solid;
+}
+
+.titleText {
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 12px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+a.titleText, a.titleText:visited {
+    color: #000;
+}
+
+.totalText {
+    FONT-WEIGHT: bold;
+}
+
+TD.titleText {
+    BACKGROUND: #ddedff;
+    PADDING-left: 5px;
+}
+
+div.headerBg {
+    BACKGROUND: #ddedff;
+}
+
+.overBG {
+    BACKGROUND: #ddedff;
+    color: black;
+    border: #dcdcdc 1px solid;
+}
+
+.overFG {
+    BACKGROUND: white;
+    color: black;
+    border: #dcdcdc 1px solid;
+}
+
+.overCaption {
+    BACKGROUND: #ddedff;
+    color: black;
+}
+
+.stOverBG {
+    BACKGROUND: #ffdddd;
+    color: black;
+    border: #dcdcdc 1px solid;
+}
+
+.stOverCaption {
+    BACKGROUND: #ffdddd;
+    color: black;
+}
+
+
+label.helpItem, label.helpItem:hover {
+    text-decoration:underline;cursor:help;
+}
+
+label.nonHelpItem, label.nonHelpItem:hover {
+    text-decoration: none;
+}
+
+.helpOverBG {
+    BACKGROUND: #ffffd3;
+    color: black;
+    border: #dcdcdc 1px solid;
+}
+
+.helpOverFG {
+    BACKGROUND: #ffffd3;
+    color: black;
+    border: none;
+}
+
+
+.closeFont {
+    color: black;
+    text-decoration: none;
+    text-align: right;
+}
+
+TD.headerStats {
+    BORDER-LEFT: #dcdcdc 1px solid;
+    background: #ddedff;
+}
+
+TD.chart {
+    padding: 4px;
+    border-bottom: #dcdcdc 1px solid;
+    border-left: #dcdcdc 1px solid;
+    border-right: #dcdcdc 1px solid;
+}
+
+TD.chartHeader {
+    padding: 4px;
+    BORDER: #dcdcdc 1px solid;
+    BACKGROUND: #ddedff;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 12px;
+}
+
+SPAN.subtitle {
+    FONT-SIZE: 9px;
+    font-weight: normal;
+}
+
+TD.graphHeaderLeft {
+    BACKGROUND: #ddedff;
+    BORDER: #dcdcdc 1px solid;
+    text-align:left;
+}
+
+TD.graphHeader {
+    BACKGROUND: #ddedff;
+    BORDER-BOTTOM: #dcdcdc 1px solid;
+    BORDER-TOP: #dcdcdc 1px solid;
+    BORDER-RIGHT: #dcdcdc 1px solid;
+}
+
+TD.testHeader, b.testHeader, div.testHeader {
+    background: #edffdd;
+}
+
+.icon, .icon:hover, a.icon:link, a.icon:visited {
+    color: white;
+    background-image: url( "img/back.gif" );
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+img.icon:hover {
+    cursor: pointer;
+    border: none;
+}
+
+img.icon {
+    border:none;
+    outline:none;
+    outline-width:0px;
+}
+
+TD.methodStart {
+    font-weight: normal;
+    background-repeat: no-repeat;
+    background-position: left;
+    height: 12px;
+}
+
+.collapse, .collapse:hover {
+    background-image: url( "img/collapse.gif" );
+    background-repeat: no-repeat;
+    cursor: pointer;
+    padding-left: 10px
+}
+
+.expand, .expand:hover {
+    background-image: url( "img/expand.gif" );
+    background-repeat: no-repeat;
+    cursor: pointer;
+    padding-left: 10px
+}
+
+.spacer {
+    padding-left: 10px;
+    background-image: url( "img/spacer.gif" );
+}
+
+.classlist {
+    padding-left: 4px
+}
+
+.methodlist {
+    padding-left: 18px;
+    font-size: 9px
+}
+
+.imgbg {
+    background-repeat: no-repeat;
+    cursor: pointer;
+    background-position: top right;
+}
+
+.more {
+    background-image: url( "img/more.gif" );
+}
+
+.more:hover {
+    background-image: url( "img/more_dark.gif" );
+}
+
+.less {
+    background-image: url( "img/less.gif" );
+}
+
+.less:hover {
+    background-image: url( "img/less_dark.gif" );
+}
+
+.sortable:hover {
+    background-color: bisque;
+    color:black;
+}
+
+.sortable {
+    cursor: pointer;
+    PADDING-RIGHT: 7px;
+}
+
+.selectable:hover {
+    background-color: #00008B;
+    color: white;
+}
+
+.selectable, .link {
+    cursor: pointer;
+}
+
+.link:hover {
+    text-decoration:underline;
+}
+
+.selected {
+    background-color: #00008B;
+    color: white;
+    font-weight: bold;
+}
+
+.unselected {
+    background-color: white;
+    color: black;
+}
+
+.testSelected {
+    background-color: #78FF55;
+}
+
+.testUnselected {
+
+}
+
+TD.arrowUp:hover, TD.arrowUp {
+    background-position: top right;
+    background-image: url( "img/icn_up.gif" );
+    background-repeat: no-repeat;
+}
+
+TD.arrowDown:hover, TD.arrowDown {
+    background-position: top right;
+    background-image: url( "img/icn_down.gif" );
+    background-repeat: no-repeat;
+}
+
+.headerTitle {
+    padding: 0 10px 0 3px;
+    text-align: center;
+}
+
+SPAN.sortValue {
+    display: none;
+}
+
+TD.graphItem, TD.graphItemGainer, TD.graphItemLoser, TD.methodSummary {
+	BACKGROUND: #ffffff;
+	BORDER-BOTTOM: #dcdcdc 1px solid;
+	BORDER-RIGHT: #dcdcdc 1px solid;
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 12px;
+}
+
+TD.graphItem, TD.graphItemGainer, TD.methodSummary {
+    BORDER-LEFT: #dcdcdc 1px solid;
+    PADDING-LEFT: 15px;
+    PADDING-RIGHT: 15px;
+}
+
+TD.graphItemGainer, TD.graphItemLoser {
+	WHITE-SPACE: nowrap;
+	WIDTH: 50%;
+}
+
+TD.graphItemLoser {
+	BORDER-LEFT: none;
+	PADDING-LEFT: 5px;
+	PADDING-RIGHT: 15px;
+	TEXT-ALIGN: right; 
+}
+
+TD.methodSummary {
+    FONT-SIZE: 11px;
+    font-weight:normal;
+}
+
+TD.coveredByTest, SPAN.coveredByTest {
+    BACKGROUND: #78ff55;
+}
+
+TD.coveredByTestUniq, SPAN.coveredByTestUniq {
+    BACKGROUND: #23c143;
+}
+
+TD.coveredByFailedTest, SPAN.coveredByFailedTest {
+    background-color: #ffc639;
+}
+
+TD.graphItemRight, TD.testCase {
+    BACKGROUND: #ffffff;
+    BORDER-BOTTOM: #dcdcdc 1px solid;
+    BORDER-RIGHT: #dcdcdc 1px solid;
+    PADDING-LEFT: 15px;
+    PADDING-RIGHT: 15px;
+}
+
+TD.testCase {
+    text-align:left;
+    font-size: 11px;
+    width :100%
+}
+
+TD.graphPercent, TD.graphPercentByTest, TD.graphPercentGainer, TD.graphPercentLoser {
+    BACKGROUND: #ffffff;
+    BORDER-BOTTOM: #dcdcdc 1px solid;
+    BORDER-RIGHT: #dcdcdc 1px solid;
+    PADDING-RIGHT: 15px;
+    padding-left: 5px;
+    text-align:right;
+}
+
+TD.graphPercentLoser {
+	BORDER-LEFT: #dcdcdc 1px solid;
+	PADDING-LEFT: 15px;
+	PADDING-RIGHT: 5px;
+}
+
+TD.graphPercentLoser, TD.graphPercentGainer, TD.gainerBarGraphFigure, TD.loserBarGraphFigure {
+	WHITE-SPACE: nowrap;
+	WIDTH:50%;
+}
+
+TD.gainerBarGraphFigure, TD.loserBarGraphFigure {
+	FONT-WEIGHT: bold;
+}
+
+TD.gainerBarGraphFigure {
+	TEXT-ALIGN: right;
+}
+
+TD.loserBarGraphFigure {
+	TEXT-ALIGN: left;
+}
+
+TD.graphPercentLeft {
+    border-left: #dcdcdc 1px solid;
+}
+
+TD.graphBarLeft {
+    BACKGROUND: #ffffff;
+    BORDER-BOTTOM: #dcdcdc 1px solid;
+}
+
+TD.graphBar {
+    BACKGROUND: #ffffff;
+    BORDER-BOTTOM: #dcdcdc 1px solid;
+    BORDER-RIGHT: #dcdcdc 1px solid;
+}
+
+.barNegative, .contribBarNegative, .testBarError, .barFiltered {
+    FONT-SIZE: 2px;
+    BACKGROUND: #DF0000;
+    BORDER: #9c9c9c 1px solid;
+    TEXT-ALIGN: left;
+    HEIGHT: 12px;
+    WIDTH: 100%;
+}
+
+.barPositive, .contribBarPositive, .testBarPass, .testBarFail, .barNonFiltered {
+    FONT-SIZE: 2px;
+    BACKGROUND: #00DF00;
+    HEIGHT: 12px;
+}
+
+.contribBarNegative {
+    background: white;
+}
+
+.contribBarPositive {
+    background: #87cefa;
+}
+
+.barFiltered {
+    background: #c0c0c0;
+    border: none;
+}
+
+.barNonFiltered {
+    background: white;
+    border: #9c9c9c 1px solid;
+}
+
+.barEmpty {
+    FONT-SIZE: 2px;
+    BACKGROUND: #c0c0c0;
+    BORDER: #9c9c9c 1px solid;
+    HEIGHT: 12px;
+    WIDTH: 100%;
+}
+
+TD.hspacer {
+    BORDER-BOTTOM: #dcdcdc 1px solid;
+    BORDER-TOP: #dcdcdc 1px solid;
+}
+
+TD.mover, DIV.mover {
+    BORDER: #dcdcdc 1px solid;
+}
+
+TABLE.barGraph {
+    width: 100%;
+}
+
+TD.tabText {
+    PADDING-RIGHT: 12px;
+}
+
+DIV.timestamp {
+    FONT-SIZE: 9px;
+    font-weight: normal;
+    padding-left: 1px;
+}
+
+SPAN.srcFile {
+    FONT-SIZE: 9px
+}
+
+TABLE.srcView {
+    FONT-SIZE: 12px;
+    BORDER-LEFT: #dcdcdc 1px solid;
+    BORDER-RIGHT: #dcdcdc 1px solid;
+    BORDER-BOTTOM: #dcdcdc 1px solid;
+    BORDER-TOP: #dcdcdc 1px solid;
+}
+
+TR.inlineStatsRow {
+    height: 7px;
+    font-size: 7px;
+}
+
+TD.inlineStat {
+    border-left: 1px solid #dcdcdc;
+    padding: 3px
+}
+
+TABLE.inlineStats {
+    FONT-SIZE: 12px;
+    font-family: sans-serif;
+    BACKGROUND: #ffffc9;
+    color: black;
+    border-width: 1px;
+    border-color: #dcdcdc;
+    border-style: solid;
+}
+
+TABLE.inlineStats:hover {
+    border-color: #8476A6;
+}
+
+TD.lineCount {
+    BORDER-RIGHT: #dcdcdc 1px solid;
+    PADDING-RIGHT: 3px;
+}
+
+.Good {
+    BACKGROUND: #78ff55;
+}
+
+.NoHilight {
+    BACKGROUND: #F0F0F0;
+}
+
+TD.classTitle {
+    PADDING-LEFT: 5px;
+}
+
+TD.coverageCount {
+    PADDING-RIGHT: 3px;
+}
+
+TD.Bad {
+    BACKGROUND: #F0C8C8;
+}
+
+TD.hitByTest, TD.hitByFailedTest {
+    border-right-color: #00cc33;
+    border-right-style: solid;
+    border-right-width: 7px;
+}
+
+TD.hitByFailedTest {    
+    border-right-color: #ffc639;
+}
+
+TD.hitByTest:hover, TD.hitByFailedTest:hover {
+    cursor: pointer;
+}
+
+TD.missedByTest {
+    border-right-color: #dcdcdc;
+    padding-right: 10px
+}
+
+.srcCell {
+    padding-right: 10px;
+    padding-left: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-family: Monospace;
+}
+
+.srcLine {
+    display: inline;
+    white-space: pre;
+    padding-left: 0px;
+    font-size:12px;
+}
+
+
+.srcFragment {
+    display: inline;
+    white-space: pre;
+    font-family: Monospace;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.srcLineHilight, span.srcLineFiltered {
+    background: #F0C8C8;
+    display: inline;
+    white-space: pre;
+}
+
+td.Filtered,
+span.srcLineFiltered,
+span.srcLineFiltered .keyword,
+span.srcLineFiltered .string
+span.srcLineFiltered .regexp {
+    background: #EEEEEE;
+    color: #999999;
+    font-weight: normal;
+}
+
+TD.lineWarning {
+    background: #FFFFA0;
+    border-right: #dcdcdc 1px solid;
+    padding-right: 3px;
+}
+
+.keyword, .regexp {
+    color:#000080; font-weight:bold;
+}
+
+.string {
+    color:#008000; font-weight:bold;
+}
+
+.javadoc {
+    color: #6060FF; font-style: normal;
+}
+
+.comment {
+    color:#666; font-style:italic;
+}
+
+.warning {
+    border: solid 1px #000000;
+    color: #000000;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: verdana, arial, sans-serif;
+    font-size: 12pt;
+    width: 80%;
+}
+
+.warning .title {
+    background-color: #ffff60;
+    padding: 5px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.warning .message {
+    background-color: #ffffe0;
+    color: #000000;
+    padding-left: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 30px;
+    text-align: left;
+}
+
+.left {
+    width:50%;
+    float:left;
+    padding-bottom:10px;
+}
+
+.left-third {
+    width:34%;
+    float:left;
+    padding-bottom:10px;
+}
+
+.right-twothirds {
+    width:66%;
+    float:right;
+    padding-bottom:10px;
+}
+
+.right {
+    width:50%;
+    float:left;
+    padding-bottom:10px;
+}
+
+td.thresholdAlert {
+    background-color: orangered;
+    color: white;
+}
+
+TD.footer {
+    BORDER-TOP: #dcdcdc 1px solid;
+    FONT-SIZE: 9px
+}
+
+.evalBar {
+    border: 1px solid #c30;
+    background-color: #FFE1E1;
+    text-align: center;
+    font-weight: bold;
+    color: #c30;
+    padding: 2px 0 3px 0;
+}
+
+.foldControl {
+    background: #ddd;
+    border: 1px solid #777;
+}
+
+.foldControl:hover {
+    cursor: pointer;
+}
+
+div.errorMessage {
+    display: inline;
+    white-space: pre;
+    font-size:9px;
+    text-align:left;
+    font-weight:normal;
+}
+
+.hint {
+    font-style:italic;
+    padding: 5px;
+}
+
+.methodToggle {
+    font-size:10px; 
+    padding-left:5px
+}
+
+#description {
+    font-size: 9px;
+    font-weight:normal;
+    color: #333;
+    position:absolute;
+    left:220px;
+    top:4px;
+    height:25px;
+    overflow:hidden;
+}
+
+.testResultSuccess, .testResultError, .testResultFailure {
+    color: white;
+    font-weight: bold;
+    font-size: 10px;
+    padding-left: 1px;
+    padding-right: 1px;
+    border: 1px solid white;
+}
+
+.testResultSuccess {
+    background-color: #0b0;
+}
+
+.testResultError, .testBarError {
+    background-color: #f00;
+}
+
+.testResultFailure, .testBarFail {
+    background-color: #b00;
+}
+
+td.testPasses, td.testFailures, td.testErrors {
+    font-weight: bold;
+}
+
+td.testPasses {
+}
+
+td.testFailures {
+    color: white;
+    background-color: #b00;
+}
+
+td.testErrors {
+    color: white;
+    background-color: #f00;
+}
+
+td.tabPanel {
+    border-top: none;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    font-size: 12px;
+}
+
+div.tags,
+    a.tag {
+    text-align: left;
+}
+
+.tags .cb2,
+.tags .cb3,
+.tags .cb4,
+.tags .roundedContent {
+    background-color: #f5f5f5;
+}
+
+a.tag:hover {
+    background-color: #ffffd3;
+    text-decoration: none;
+}
+
+.legend {
+    border:2px solid #dcdcdc;
+    padding:2px;
+    background:#FFFFC9;
+}
+
+.legendTitle {
+    text-align:center;
+    text-decoration:underline;
+}
+
+#cloudDepthForm {
+	border-bottom: 1px solid rgb(204, 204, 204);
+	padding-bottom: 3px;
+	margin-bottom: 3px;
+}
+
+#cloudDepthCheckbox {
+	vertical-align: middle;
+}
+
+div.cloudowner {
+	float: right;
+}
+
+div.cloudowner > a {
+    font-size: large;
+    white-space: nowrap;
+    margin-top: 5px
+}
+
+a.withCloudIcon {
+    background-position: center right;
+    padding-right: 19px;
+	background-image: url('img/cloud.png');
+	background-repeat: no-repeat;
+}
+
+a.withTreeIcon {
+    background-position: center right;
+    padding-right: 19px;
+	background-image: url('img/treemap.gif');
+	background-repeat: no-repeat;
+}
+
+
+.graphItem > a.cloudLink {
+    float: right;
+}
+                            
+.failureGutter {
+    padding-left:2px;
+    padding-right:2px;
+    text-align:center;
+    background:#DF0000;
+    color:white;
+    cursor: pointer;
+    font-size:smaller;
+    font-family:sans-serif;
+    font-weight:bold;
+    position:relative;
+    float:left;
+}
+
+div.errorTraceStrong {
+    font-weight:bold;
+    background: #ffdddd;
+}
+
+
+.center {
+    text-align: center;
+}
+
+.lineNumHref {
+    color: gray;
+}
+
+.subtle {
+    color: #858585;
+    text-align: right;
+    text-decoration:none;
+}
+
+.bold {
+    font-weight:bold;
+}
+
+.red {
+    color:red;
+}
+
+#treemap-loader {
+    text-align:center;
+    position: relative;
+    top: 200px; /* half the height of the tree */
+    color: white;
+}
