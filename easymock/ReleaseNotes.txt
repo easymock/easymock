@@ -1,25 +1,27 @@
-Notes:
+Release Notes - EasyMock - Version 3.1
 
-EasyMock is now able to merge classes by itself.
-Deprecated code from EasyMock 1 was removed.
+This release is mainly a bug fix release. It solves a series of long standing issues. 
 
-If you don't perform class mocking, you can remove cglib and objenesis from your dependencies.
+It is fully compatible with version 3.0 but capture methods of primitive types were deprecated
+and renamed to solve compilation issues. The deprecated methods will be removed from the next
+EasyMock version.
+  
+** Bug
+    * [EASYMOCK-21] - finalize() should be treated specially
+    * [EASYMOCK-39] - Bridge methods are always mocked, regardless of partial mock
+    * [EASYMOCK-40] - Can't replay a mock on interface without cglib
+    * [EASYMOCK-43] - Update maven-javadoc-plugin to 2.7 (Maven build broken)
+    * [EASYMOCK-47] - samples.zip file is missing
+    * [EASYMOCK-89] - Memory leaks in EasyMock
+    * [EASYMOCK-90] - Partial mocking: Difficulties with covariant return types
+    * [EASYMOCK-100] - EasyMock not compiling with JDK 7 or Eclipse Helios or later
 
-Migrating to EasyMock 3 should be painless. A deprecated class extension jar is available. So everything should
-work like before. To get rid of the class extension, just remove the ".classextension" part in all your imports.
+** Improvement
+    * [EASYMOCK-44] - MockBuilder.addMockedMethod should fail for final methods
 
-This new code base should allow quicker developments.
+** New Feature
+    * [EASYMOCK-88] - Make sure versions of EasyMock are compatible with Powermock
+    * [EASYMOCK-104] - Expectation failure
 
-Changes:
-    * Merge EasyMock and EasyMock Class Extension (2325762)
-    * Add "boolean capture(...)" for completude (but I don't think it's useful)
-    * Can't answer by delegating to a protected method (2891256)
-    * Failure during recording phase can impact following tests (2914683)
-    * Return a specific error when null is recorded as return value on a method returning a primitive type (2936175)
-    * Can disable class mocking with EasyMock.DISABLE_CLASS_MOCKING
-    * Remove deprecated classes from EasyMock 1
-    * Should not fail on a mock not having a toString method (2937916)
-    * Improved error message when matchers are mixed with raw params during method recording (2860190)
-    * Check there are still results available in a recorded behaviour before trying to match with it (2940400)
-    * Allow to mock classes from an Eclipse plugin (2994002)
-    * Add isNull(Class<T>), notNull(Class<T>) and anyObject(Class<T>) for easier generic handling (2958636)
+** Task
+    * [EASYMOCK-1] - Migrate build to Maven 3
