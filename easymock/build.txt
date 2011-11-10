@@ -40,7 +40,7 @@ Then launch with
 
 3. Deploy build
 
-This is the build to launch to deploy to the surefire repository. It assemble the application and add
+This is the build to launch to deploy to the surefire repository. It assembles the application and add
 the gpg checksum. You will usually launch it on top of the full build.
 
 The command line will ask you to give the passphrase for the gpg private key.
@@ -99,11 +99,42 @@ To bundle EasyMock and deploy
 Note: Due to a bug with the Clover plugin, the deployBuild doesn't execute the clover plugin. So
 the aggregated report should be done afterwards.
 
+More details on the deployment rules here:
+https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
+
+- Close the deployment at Sonatype Nexus UI (https://oss.sonatype.org/index.html#stagingRepositories)
+- Create a project having easymock as a dependency
+
+- Add the staging repository url found in Nexus
+
+  <repositories>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/orgeasymock-213/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories> 
+  
+- "mvn clean test"
+
+- Perform this checklist
+  -- Is EasyMock bundle created?
+  -- Are EasyMock binary, source, javadoc, sample and test jar are present?
+  -- As Clover site been generated?
+  
+- Release the repository. It will be synced with Maven Central Repository
+
 --------------------------------------------------------------------------------------
 To generate the aggregated clover report
 --------------------------------------------------------------------------------------
 - After a fullBuild, at the EasyMock parent project level
-- Type 'mvn clover2:instrument clover2:aggregate'
+- Type 'mvn verify clover2:aggregate -PfullBuild'
 - Then 'mvn -N clover2:clover'
 
 --------------------------------------------------------------------------------------
@@ -141,10 +172,9 @@ To release to SourceForge
 
 - Upload the bundle
   - Go to the File Manager on the EasyMock SF project 
-  - Create a folder named "EasyMock 3.x"
+  - In EasyMock, create a folder named "3.x"
   - Upload the bundle in the newly created directory
-  - Add "ReleaseNotes.txt" containing the release notes
-  - Click on "Release notes.txt" and specify it's a release note
-  - Client on the zip and select the release notes file
+  - Upload "ReleaseNotes.txt" containing the release notes
+  - Get the "Release notes.txt" details and rename it to readme.txt
   
 - DON'T FORGET: Tag in SVN!
