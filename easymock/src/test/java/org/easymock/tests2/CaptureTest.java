@@ -116,14 +116,13 @@ public class CaptureTest {
         verify(mock);
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testPrimitiveVsObject() {
         final Capture<Integer> capture = new Capture<Integer>();
         final IMethods mock = createMock(IMethods.class);
 
+        expect(mock.oneArg(captureInt(capture))).andReturn("answer");
         expect(mock.oneArg(capture(capture))).andReturn("answer");
-        expect(mock.oneArg((Integer) capture(capture))).andReturn("answer");
 
         replay(mock);
 
@@ -147,48 +146,6 @@ public class CaptureTest {
 
         assertEquals("answer", mock.oneArg("test"));
         assertEquals("test", captured.getValue());
-
-        verify(mock);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testPrimitiveDeprecated() {
-        final Capture<Integer> captureI = new Capture<Integer>();
-        final Capture<Long> captureL = new Capture<Long>();
-        final Capture<Float> captureF = new Capture<Float>();
-        final Capture<Double> captureD = new Capture<Double>();
-        final Capture<Byte> captureB = new Capture<Byte>();
-        final Capture<Character> captureC = new Capture<Character>();
-        final Capture<Boolean> captureBool = new Capture<Boolean>();
-
-        final IMethods mock = createMock(IMethods.class);
-
-        expect(mock.oneArg(capture(captureI))).andReturn("answerI");
-        expect(mock.oneArg(capture(captureL))).andReturn("answerL");
-        expect(mock.oneArg(capture(captureF))).andReturn("answerF");
-        expect(mock.oneArg(capture(captureD))).andReturn("answerD");
-        expect(mock.oneArg(capture(captureB))).andReturn("answerB");
-        expect(mock.oneArg(capture(captureC))).andReturn("answerC");
-        expect(mock.oneArg(capture(captureBool))).andReturn("answerZ");
-
-        replay(mock);
-
-        assertEquals("answerI", mock.oneArg(1));
-        assertEquals("answerL", mock.oneArg(2l));
-        assertEquals("answerF", mock.oneArg(3.0f));
-        assertEquals("answerD", mock.oneArg(4.0));
-        assertEquals("answerB", mock.oneArg((byte) 5));
-        assertEquals("answerC", mock.oneArg((char) 6));
-        assertEquals("answerZ", mock.oneArg(true));
-
-        assertEquals(1, captureI.getValue().intValue());
-        assertEquals(2l, captureL.getValue().longValue());
-        assertEquals(3.0f, captureF.getValue().floatValue(), 0.0);
-        assertEquals(4.0, captureD.getValue().doubleValue(), 0.0);
-        assertEquals((byte) 5, captureB.getValue().byteValue());
-        assertEquals((char) 6, captureC.getValue().charValue());
-        assertEquals(true, captureBool.getValue().booleanValue());
 
         verify(mock);
     }

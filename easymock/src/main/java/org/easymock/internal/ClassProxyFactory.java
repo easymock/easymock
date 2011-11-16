@@ -161,7 +161,7 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
         final MethodInterceptor interceptor = new MockMethodInterceptor(handler);
         enhancer.setCallbackType(interceptor.getClass());
 
-        Class mockClass;
+        Class<?> mockClass;
         try {
             mockClass = enhancer.createClass();
         } catch (final CodeGenerationException e) {
@@ -182,7 +182,7 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
             if (ClassExtensionHelper.getCurrentConstructorArgs() != null) {
                 // Really instantiate the class
                 final ConstructorArgs args = ClassExtensionHelper.getCurrentConstructorArgs();
-                Constructor cstr;
+                Constructor<?> cstr;
                 try {
                     // Get the constructor with the same params
                     cstr = mockClass.getDeclaredConstructor(args.getConstructor().getParameterTypes());
@@ -207,8 +207,8 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
                     // ///CLOVER:ON
                 } catch (final InvocationTargetException e) {
                     throw new RuntimeException(
-                            "Failed to instantiate mock calling constructor: Exception in constructor", e
-                                    .getTargetException());
+                            "Failed to instantiate mock calling constructor: Exception in constructor",
+                            e.getTargetException());
                 }
                 return mock;
             } else {
@@ -247,11 +247,12 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
     private Enhancer createEnhancer(final Class<T> toMock) {
         // Create the mock
         final Enhancer enhancer = new Enhancer() {
+
             /**
              * Filter all private constructors but do not check that there are
              * some left
              */
-            @SuppressWarnings("unchecked")
+            @SuppressWarnings("rawtypes")
             @Override
             protected void filterConstructors(final Class sc, final List constructors) {
                 CollectionUtils.filter(constructors, new VisibilityPredicate(sc, true));

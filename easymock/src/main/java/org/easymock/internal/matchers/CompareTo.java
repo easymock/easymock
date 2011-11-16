@@ -35,7 +35,7 @@ public abstract class CompareTo<T extends Comparable<T>> implements IArgumentMat
         this.expected = value;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public boolean matches(final Object actual) {
 
         if (!(actual instanceof Comparable)) {

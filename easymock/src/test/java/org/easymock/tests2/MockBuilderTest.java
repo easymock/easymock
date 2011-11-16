@@ -42,7 +42,7 @@ public class MockBuilderTest {
 
     private ArrayList<String> mock;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Before
     public void setUp() throws Exception {
         builder = new MockBuilder(ArrayList.class);
@@ -50,9 +50,11 @@ public class MockBuilderTest {
 
     @Test
     public void testAddMockedMethod() throws NoSuchMethodException {
-        builder.addMockedMethod(ArrayList.class.getMethod("size")).addMockedMethod("contains")
-                .addMockedMethod("add", Object.class).addMockedMethods("clear", "isEmpty").addMockedMethods(
-                        ArrayList.class.getMethod("get", int.class),
+        builder.addMockedMethod(ArrayList.class.getMethod("size"))
+                .addMockedMethod("contains")
+                .addMockedMethod("add", Object.class)
+                .addMockedMethods("clear", "isEmpty")
+                .addMockedMethods(ArrayList.class.getMethod("get", int.class),
                         ArrayList.class.getMethod("indexOf", Object.class));
 
         mock = builder.createMock();
@@ -181,8 +183,8 @@ public class MockBuilderTest {
 
     @Test
     public void testWithConstructorConstructorArgs() throws NoSuchMethodException {
-        final ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(int.class), Integer
-                .valueOf(-3));
+        final ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(int.class),
+                Integer.valueOf(-3));
         builder.withConstructor(args);
         try {
             builder.createMock();
@@ -222,8 +224,8 @@ public class MockBuilderTest {
             builder.withArgs(2);
             fail("withArgs without constructor");
         } catch (final IllegalStateException e) {
-            assertEquals("Trying to define constructor arguments without first setting their type.", e
-                    .getMessage());
+            assertEquals("Trying to define constructor arguments without first setting their type.",
+                    e.getMessage());
         }
     }
 
