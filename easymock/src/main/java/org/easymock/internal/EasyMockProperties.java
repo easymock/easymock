@@ -18,8 +18,9 @@ package org.easymock.internal;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import java.util.Properties;
+
+import org.easymock.EasyMock;
 
 /**
  * Contains properties used by EasyMock to change its default behavior. The
@@ -27,7 +28,7 @@ import java.util.Properties;
  * previous step):
  * <ul>
  * <li>easymock.properties in classpath default package</li>
- * <li>System properties</li>
+ * <li>System properties (at instantiation time)</li>
  * <li>explicit call to setProperty</li>
  * </ul>
  * 
@@ -56,14 +57,18 @@ public final class EasyMockProperties {
     }
 
     private EasyMockProperties() {
-        // Load the easymock.properties file
-        InputStream in = getClassLoader().getResourceAsStream("easymock.properties");
+        loadEasyMockProperties("easymock.properties");
+        overloadWithSystemProperties(properties);
+    }
+
+    private void loadEasyMockProperties(final String propertyFileName) {
+        InputStream in = getClassLoader().getResourceAsStream(propertyFileName);
         if (in != null) {
             in = new BufferedInputStream(in);
             try {
                 properties.load(in);
             } catch (final IOException e) {
-                throw new RuntimeException("Failed to read easymock.properties file");
+                throw new RuntimeException("Failed to read " + propertyFileName + " file");
             } finally {
                 try {
                     in.close();
@@ -72,11 +77,19 @@ public final class EasyMockProperties {
                 }
             }
         }
-        // Then overload it with system properties
-        for (final Map.Entry<Object, Object> entry : System.getProperties().entrySet()) {
-            if (entry.getKey() instanceof String && entry.getKey().toString().startsWith(PREFIX)) {
-                properties.put(entry.getKey(), entry.getValue());
-            }
+    }
+
+    private static void overloadWithSystemProperties(final Properties properties) {
+        // We currently have three supported properties. Look explicitly for them
+        overloadWithSystemProperty(EasyMock.DISABLE_CLASS_MOCKING, properties);
+        overloadWithSystemProperty(EasyMock.ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT, properties);
+        overloadWithSystemProperty(EasyMock.NOT_THREAD_SAFE_BY_DEFAULT, properties);
+    }
+
+    private static void overloadWithSystemProperty(final String key, final Properties properties) {
+        final String value = System.getProperty(key);
+        if (value != null) {
+            properties.put(key, value);
         }
     }
 

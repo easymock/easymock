@@ -18,11 +18,12 @@ package org.easymock.tests2;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 
+import org.easymock.EasyMock;
 import org.easymock.internal.EasyMockProperties;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -31,17 +32,32 @@ import org.junit.Test;
  */
 public class EasyMockPropertiesTest {
 
+    private static final File PROPERTIES_FILE = new File("target" + File.separatorChar + "test-classes",
+            "easymock.properties");
+
     @BeforeClass
     public static void setup() throws Exception {
         // Make sure to reset to prevent getting an already initialized
         // EasyMockProperties
         resetInstance();
 
+        // Create an EasyMock property file for the test
+        final BufferedWriter out = new BufferedWriter(new FileWriter(PROPERTIES_FILE));
+        out.write(EasyMock.ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT + "=" + true);
+        out.newLine();
+        out.write("easymock.a=1");
+        out.newLine();
+        out.write("easymock.b=2");
+        out.newLine();
+        out.write(EasyMock.NOT_THREAD_SAFE_BY_DEFAULT + "=" + true);
+        out.newLine();
+        out.close();
+
         // Overload before initializing easymock.properties
-        System.setProperty("easymock.b", "3");
+        System.setProperty(EasyMock.NOT_THREAD_SAFE_BY_DEFAULT, Boolean.FALSE.toString());
 
         // Set a value only in System properties
-        System.setProperty("easymock.f", "5");
+        System.setProperty(EasyMock.DISABLE_CLASS_MOCKING, Boolean.TRUE.toString());
 
         // Set a value not starting by "easymock."
         System.setProperty("xxx.yyy", "6");
@@ -59,16 +75,26 @@ public class EasyMockPropertiesTest {
         System.setProperty("easymock.h", "4");
     }
 
+    @AfterClass
+    public static void tearDown() throws Exception {
+        // Cleanup the mess
+        PROPERTIES_FILE.delete();
+        System.clearProperty(EasyMock.NOT_THREAD_SAFE_BY_DEFAULT);
+        System.clearProperty(EasyMock.DISABLE_CLASS_MOCKING);
+        resetInstance();
+    }
+
     @Test
     public void testGetInstance() {
         assertExpectedValue("1", "easymock.a");
-        assertExpectedValue("3", "easymock.b");
         assertExpectedValue("8", "easymock.c");
         assertExpectedValue("7", "easymock.e");
-        assertExpectedValue("5", "easymock.f");
         assertExpectedValue(null, "easymock.g");
         assertExpectedValue(null, "easymock.h");
         assertExpectedValue(null, "xxx.yyy");
+
+        assertExpectedValue(Boolean.FALSE.toString(), EasyMock.NOT_THREAD_SAFE_BY_DEFAULT);
+        assertExpectedValue(Boolean.TRUE.toString(), EasyMock.DISABLE_CLASS_MOCKING);
     }
 
     @Test
@@ -195,14 +221,13 @@ public class EasyMockPropertiesTest {
             Thread.currentThread().setContextClassLoader(cl);
 
             // This instance will try to load easymock.properties with our
-            // custom
-            // class loader and so won't find it
+            // custom class loader and so won't find it
             EasyMockProperties.getInstance();
 
             // And so it shouldn't find "easymock.a"
             assertExpectedValue(null, "easymock.a");
-            // But "easymock.b" is still there
-            assertExpectedValue("3", "easymock.b");
+            // But "easymock.b" is still there (System property)
+            assertExpectedValue(Boolean.TRUE.toString(), EasyMock.DISABLE_CLASS_MOCKING);
 
         } finally {
             // Whatever happens, set the initial class loader back or it'll get
