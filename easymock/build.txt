@@ -1,5 +1,5 @@
 I'm using:
-- Eclipse 3.5.2
+- Eclipse 3.7.1
 - Maven 3.0.3
 
 --------------------------------------------------------------------------------------
@@ -50,14 +50,7 @@ The command line will ask you to give the passphrase for the gpg private key.
 --------------------------------------------------------------------------------------
 To compile EasyMock in Eclipse
 --------------------------------------------------------------------------------------
-- Install m2eclipse 
-  -> After restarting Eclipse, m2eclipse might complain to you need launch Eclipse with a JDK instead of a JRE
-     - Open the eclipse.ini
-     - Add these two lines at the beginning of it (with the javaw path matching yours)
-##########################
--vm
-C:/Program Files/Java/jdk1.6.0_27/bin/javaw
-##########################
+- Install m2e 
 - Import the EasyMock Maven parent project to your Eclipse workspace
 
 --------------------------------------------------------------------------------------
