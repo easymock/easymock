@@ -20,15 +20,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.easymock.EasyMock;
-
 /**
  * Contains properties used by EasyMock to change its default behavior. The
  * loading order is (any step being able to overload the properties of the
  * previous step):
  * <ul>
  * <li>easymock.properties in classpath default package</li>
- * <li>System properties (at instantiation time)</li>
  * <li>explicit call to setProperty</li>
  * </ul>
  * 
@@ -58,7 +55,6 @@ public final class EasyMockProperties {
 
     private EasyMockProperties() {
         loadEasyMockProperties("easymock.properties");
-        overloadWithSystemProperties(properties);
     }
 
     private void loadEasyMockProperties(final String propertyFileName) {
@@ -76,20 +72,6 @@ public final class EasyMockProperties {
                     // Doesn't matter
                 }
             }
-        }
-    }
-
-    private static void overloadWithSystemProperties(final Properties properties) {
-        // We currently have three supported properties. Look explicitly for them
-        overloadWithSystemProperty(EasyMock.DISABLE_CLASS_MOCKING, properties);
-        overloadWithSystemProperty(EasyMock.ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT, properties);
-        overloadWithSystemProperty(EasyMock.NOT_THREAD_SAFE_BY_DEFAULT, properties);
-    }
-
-    private static void overloadWithSystemProperty(final String key, final Properties properties) {
-        final String value = System.getProperty(key);
-        if (value != null) {
-            properties.put(key, value);
         }
     }
 

@@ -969,16 +969,14 @@ at allowing to use a legacy behavior on a new version. Currently supported prope
 <dd>Do not allow class mocking (only allow interface mocking). Possible values are "true" or "false". Default is false.</dd>
 </dl>
 <p>
-Properties can be set in three ways. Each step in the list can overwrite
-previous ones.
+Properties can be set in two ways.
 </p>
 <ul>
 <li>In an <code>easymock.properties</code> file set in the classpath default package 
 </li>
-<li>As a system property 
-</li>
 <li>By calling <code>EasyMock.setEasyMockProperty</code>. Constants are available 
-in the <code>EasyMock</code> class
+in the <code>EasyMock</code> class. Setting properties in the code obviously override any property set
+in <code>easymock.properties</code>
 </li>
 </ul>
 <h3>Backward Compatibility</h3>

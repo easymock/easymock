@@ -1016,15 +1016,14 @@ actuellement supportées sont:
 <dd>Ne pas permettre le mocking de classes (permettre uniquement le mocking d'interfaces). Valeurs possibles: "true" ou "false". Défaut: false</dd>
 </dl>
 <p>
-Les propriétés peuvent être mise de trois façons. Chaque étape de la liste peut écraser une précédente.
+Les propriétés peuvent être fixées de deux façons.
 </p>
 <ul>
 <li>Dans le fichier <code>easymock.properties</code> mis dans le package défaut du classpath 
 </li>
-<li>Comme propriété système 
-</li>
 <li>En appelant <code>EasyMock.setEasyMockProperty</code>. Des constantes sont disponibles 
-dans la classe <code>EasyMock</code>
+dans la classe <code>EasyMock</code>. Évidemment, fixer une propriété dans le code écrase
+toute propriété mise dans <code>easymock.properties</code>
 </li>
 </ul>
 <h3>

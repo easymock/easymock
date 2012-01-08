@@ -53,18 +53,6 @@ public class EasyMockPropertiesTest {
         out.newLine();
         out.close();
 
-        // Overload before initializing easymock.properties
-        System.setProperty(EasyMock.NOT_THREAD_SAFE_BY_DEFAULT, Boolean.FALSE.toString());
-
-        // Set a value only in System properties
-        System.setProperty(EasyMock.DISABLE_CLASS_MOCKING, Boolean.TRUE.toString());
-
-        // Set a value not starting by "easymock."
-        System.setProperty("xxx.yyy", "6");
-
-        // Be wicked, set an object
-        System.getProperties().put("easymock.g", System.class);
-
         // Set manually a new one
         setEasyMockProperty("easymock.e", "7");
 
@@ -79,8 +67,6 @@ public class EasyMockPropertiesTest {
     public static void tearDown() throws Exception {
         // Cleanup the mess
         PROPERTIES_FILE.delete();
-        System.clearProperty(EasyMock.NOT_THREAD_SAFE_BY_DEFAULT);
-        System.clearProperty(EasyMock.DISABLE_CLASS_MOCKING);
         resetInstance();
     }
 
@@ -93,8 +79,8 @@ public class EasyMockPropertiesTest {
         assertExpectedValue(null, "easymock.h");
         assertExpectedValue(null, "xxx.yyy");
 
-        assertExpectedValue(Boolean.FALSE.toString(), EasyMock.NOT_THREAD_SAFE_BY_DEFAULT);
-        assertExpectedValue(Boolean.TRUE.toString(), EasyMock.DISABLE_CLASS_MOCKING);
+        assertExpectedValue(Boolean.TRUE.toString(), EasyMock.NOT_THREAD_SAFE_BY_DEFAULT);
+        assertExpectedValue(null, EasyMock.DISABLE_CLASS_MOCKING);
     }
 
     @Test
@@ -226,8 +212,6 @@ public class EasyMockPropertiesTest {
 
             // And so it shouldn't find "easymock.a"
             assertExpectedValue(null, "easymock.a");
-            // But "easymock.b" is still there (System property)
-            assertExpectedValue(Boolean.TRUE.toString(), EasyMock.DISABLE_CLASS_MOCKING);
 
         } finally {
             // Whatever happens, set the initial class loader back or it'll get
