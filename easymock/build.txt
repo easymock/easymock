@@ -1,6 +1,9 @@
 I'm using:
 - Eclipse 3.7.1
 - Maven 3.0.3
+- m2e with
+  - m2e connector for build-helper-maven-plugin
+  - m2e Tycho Project Configurators
 
 --------------------------------------------------------------------------------------
 To build EasyMock with Maven
