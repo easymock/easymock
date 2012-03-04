@@ -36,19 +36,47 @@ public final class ClassExtensionHelper {
 
     // ///CLOVER:ON
 
+    /**
+     * Save the arguments that would be passed to the constructor used to create
+     * the mock
+     * 
+     * @param args
+     *            the constructor arguments
+     */
     public static void setCurrentConstructorArgs(final ConstructorArgs args) {
         currentConstructorArgs.set(args);
     }
 
+    /**
+     * Get the arguments to pass to the constructor to create the partial mock
+     * 
+     * @return the constructor arguments
+     */
     public static ConstructorArgs getCurrentConstructorArgs() {
         return currentConstructorArgs.get();
     }
 
+    /**
+     * Get the proxy interceptor associated with a class mock
+     * 
+     * @param mock
+     *            the mock for which we want the interceptor
+     * @return the interceptor
+     */
     public static MockMethodInterceptor getInterceptor(final Object mock) {
         final Factory factory = (Factory) mock;
         return (MockMethodInterceptor) factory.getCallback(0);
     }
 
+    /**
+     * Get the control managing a given mock. Handles class and interface mocks
+     * 
+     * @param mock
+     *            the mock associated with the control
+     * @return the control
+     * @throws IllegalArgumentException
+     *             if the object in parameter is not a mock
+     */
     public static MocksControl getControl(final Object mock) {
         try {
             ObjectMethodsFilter handler;
