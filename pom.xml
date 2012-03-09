@@ -304,6 +304,14 @@
         <artifactId>versions-maven-plugin</artifactId>
         <version>1.2</version>
       </plugin>
+      <plugin>
+        <groupId>com.mycila.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
+        <inherited>false</inherited>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
     </plugins>
     <extensions>
       <extension>
