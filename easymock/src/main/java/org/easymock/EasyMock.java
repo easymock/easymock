@@ -643,6 +643,17 @@ public class EasyMock {
     }
 
     /**
+     * Expect any string whatever its content is. Exactly the same as
+     * {@link #anyObject()} but prevents typing issues for the much used String
+     * type. Consider this method to be a syntactic sugar.
+     * 
+     * @return <code>null</code>.
+     */
+    public static String anyString() {
+        return anyObject();
+    }
+
+    /**
      * Expects a comparable argument greater than or equal the given value. For
      * details, see the EasyMock documentation.
      * 

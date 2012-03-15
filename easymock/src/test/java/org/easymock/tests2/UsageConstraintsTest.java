@@ -65,8 +65,8 @@ public class UsageConstraintsTest {
                             + "This exception usually occurs when matchers are mixed with raw values when recording a method:\n"
                             + "\tfoo(5, eq(6));\t// wrong\n"
                             + "You need to use no matcher at all or a matcher for every single param:\n"
-                            + "\tfoo(eq(5), eq(6));\t// right\n" + "\tfoo(5, 6);\t// also right", e
-                            .getMessage());
+                            + "\tfoo(eq(5), eq(6));\t// right\n" + "\tfoo(5, 6);\t// also right",
+                    e.getMessage());
         }
 
     }
@@ -221,7 +221,7 @@ public class UsageConstraintsTest {
         assertEquals("3", mock.oneArg((double) 1));
         assertEquals("7", mock.oneArg((short) 0));
         assertEquals("4", mock.oneArg((float) -5));
-        assertEquals("5", mock.oneArg((int) -2));
+        assertEquals("5", mock.oneArg(-2));
         assertEquals("6", mock.oneArg((long) -3));
         assertEquals("8", mock.oneArg(new BigDecimal("0.5")));
         verify(mock);
@@ -232,7 +232,7 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(lt((byte) 1))).andReturn("1");
         expect(mock.oneArg(lt((double) 1))).andReturn("3");
         expect(mock.oneArg(lt((float) 1))).andReturn("4");
-        expect(mock.oneArg(lt((int) 1))).andReturn("5");
+        expect(mock.oneArg(lt(1))).andReturn("5");
         expect(mock.oneArg(lt((long) 1))).andReturn("6");
         expect(mock.oneArg(lt((short) 1))).andReturn("7");
         expect(mock.oneArg(lt(new BigDecimal("1")))).andReturn("8");
@@ -241,7 +241,7 @@ public class UsageConstraintsTest {
         assertEquals("3", mock.oneArg((double) 0));
         assertEquals("7", mock.oneArg((short) 0));
         assertEquals("4", mock.oneArg((float) -4));
-        assertEquals("5", mock.oneArg((int) -34));
+        assertEquals("5", mock.oneArg(-34));
         assertEquals("6", mock.oneArg((long) -6));
         assertEquals("8", mock.oneArg(new BigDecimal("0.5")));
         verify(mock);
@@ -252,7 +252,7 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(geq((byte) 1))).andReturn("1");
         expect(mock.oneArg(geq((double) 1))).andReturn("3");
         expect(mock.oneArg(geq((float) 1))).andReturn("4");
-        expect(mock.oneArg(geq((int) 1))).andReturn("5");
+        expect(mock.oneArg(geq(1))).andReturn("5");
         expect(mock.oneArg(geq((long) 1))).andReturn("6");
         expect(mock.oneArg(geq((short) 1))).andReturn("7");
         expect(mock.oneArg(geq(new BigDecimal("1")))).andReturn("8");
@@ -261,7 +261,7 @@ public class UsageConstraintsTest {
         assertEquals("3", mock.oneArg((double) 1));
         assertEquals("7", mock.oneArg((short) 2));
         assertEquals("4", mock.oneArg((float) 3));
-        assertEquals("5", mock.oneArg((int) 4));
+        assertEquals("5", mock.oneArg(4));
         assertEquals("6", mock.oneArg((long) 5));
         assertEquals("8", mock.oneArg(new BigDecimal("1.5")));
         verify(mock);
@@ -272,7 +272,7 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(gt((byte) 1))).andReturn("1");
         expect(mock.oneArg(gt((double) 1))).andReturn("3");
         expect(mock.oneArg(gt((float) 1))).andReturn("4");
-        expect(mock.oneArg(gt((int) 1))).andReturn("5");
+        expect(mock.oneArg(gt(1))).andReturn("5");
         expect(mock.oneArg(gt((long) 1))).andReturn("6");
         expect(mock.oneArg(gt((short) 1))).andReturn("7");
         expect(mock.oneArg(gt(new BigDecimal("1")))).andReturn("8");
@@ -281,7 +281,7 @@ public class UsageConstraintsTest {
         assertEquals("3", mock.oneArg((double) 2));
         assertEquals("7", mock.oneArg((short) 2));
         assertEquals("4", mock.oneArg((float) 3));
-        assertEquals("5", mock.oneArg((int) 2));
+        assertEquals("5", mock.oneArg(2));
         assertEquals("6", mock.oneArg((long) 5));
         assertEquals("8", mock.oneArg(new BigDecimal("1.5")));
         verify(mock);
@@ -392,7 +392,8 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(anyShort())).andReturn("7");
         expect(mock.oneArg((String) anyObject())).andReturn("8");
         expect(mock.oneArg(anyObject(String.class))).andReturn("9");
-        expect(mock.oneArg((List<String>) EasyMock.<List<String>> anyObject())).andReturn("9"); // make sure there's no warning on the cast
+        expect(mock.oneArg(EasyMock.<List<String>> anyObject())).andReturn("9"); // make sure there's no warning on the cast
+        expect(mock.oneArg(anyString())).andReturn("10");
         replay(mock);
         assertEquals("9", mock.oneArg(Collections.emptyList()));
         assertEquals("0", mock.oneArg(true));
@@ -402,9 +403,10 @@ public class UsageConstraintsTest {
         assertEquals("7", mock.oneArg((short) 1));
         assertEquals("8", mock.oneArg("Test"));
         assertEquals("4", mock.oneArg((float) 1));
-        assertEquals("5", mock.oneArg((int) 1));
+        assertEquals("5", mock.oneArg(1));
         assertEquals("6", mock.oneArg((long) 1));
         assertEquals("9", mock.oneArg("Other Test"));
+        assertEquals("10", mock.oneArg(""));
         verify(mock);
     }
 

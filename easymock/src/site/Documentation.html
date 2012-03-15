@@ -655,7 +655,7 @@ There are a couple of predefined argument matchers available.
 <dt><code>eq(X value)</code></dt>
 <dd>Matches if the actual value is equals the expected value. Available for all primitive types and for objects.</dd>
 
-<dt><code>anyBoolean()</code>, <code>anyByte()</code>, <code>anyChar()</code>, <code>anyDouble()</code>, <code>anyFloat()</code>, <code>anyInt()</code>, <code>anyLong()</code>, <code>anyObject()</code>, <code>anyObject(Class clazz)</code>, <code>anyShort()</code></dt>
+<dt><code>anyBoolean()</code>, <code>anyByte()</code>, <code>anyChar()</code>, <code>anyDouble()</code>, <code>anyFloat()</code>, <code>anyInt()</code>, <code>anyLong()</code>, <code>anyObject()</code>, <code>anyObject(Class clazz)</code>, <code>anyShort()</code>, <code>anyString()</code></dt>
 <dd>Matches any value. Available for all primitive types and for objects.</dd>
 
 <dt><code>eq(X value, X delta)</code></dt>
@@ -1128,6 +1128,8 @@ New in version 3.1.1:
 </p>
 <ul>
 <li>Make sure accessing System properties is thread safe (EASYMOCK-106)
+</li>
+<li>Add <code>anyString</code> as a syntactic sugar (EASYMOCK-112)
 </li>
 </ul>
 <p>

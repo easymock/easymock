@@ -686,7 +686,7 @@ Voici quelques comparateurs prédéfinis disponible:
 <dt><code>eq(X value)</code></dt>
 <dd>Vérifie que la valeur reçue égale la valeur attendue. Disponible pour tous les types primitifs et objets.</dd>
 
-<dt><code>anyBoolean()</code>, <code>anyByte()</code>, <code>anyChar()</code>, <code>anyDouble()</code>, <code>anyFloat()</code>, <code>anyInt()</code>, <code>anyLong()</code>, <code>anyObject()</code>, <code>anyObject(Class clazz)</code>, <code>anyShort()</code></dt>
+<dt><code>anyBoolean()</code>, <code>anyByte()</code>, <code>anyChar()</code>, <code>anyDouble()</code>, <code>anyFloat()</code>, <code>anyInt()</code>, <code>anyLong()</code>, <code>anyObject()</code>, <code>anyObject(Class clazz)</code>, <code>anyShort()</code>, <code>anyString()</code></dt>
 <dd>Laisse passer n'importe quelle valeur. Disponible pour tous les types primitifs et objets.</dd>
 
 <dt><code>eq(X value, X delta)</code></dt>
@@ -1190,6 +1190,8 @@ Nouveau dans la version 3.1.1:
 </p>
 <ul>
 <li>S'assurer que l'accès aux propriétés systèmes est thread safe (EASYMOCK-106)
+</li>
+<li>Ajout de <code>anyString</code> comme sucre syntaxique (EASYMOCK-112)
 </li>
 </ul>
 <p>
