@@ -572,7 +572,7 @@ that may be used instead of <code>times(int count)</code>:
 </dl>
 <p>
 If no call count is specified, one call is expected. If we would like to state this
-explicitely, <code>once()</code> or <code>times(1)</code> may be used.
+explicitly, <code>once()</code> or <code>times(1)</code> may be used.
 </p>
 <h3>
 Strict Mocks
@@ -797,7 +797,7 @@ Mock Objects may be reset by <code>reset(mock)</code>.
 </p>
 <p>
 If needed, a mock can also be converted from one type to another by calling <code>resetToNice(mock)</code>, 
-<code>resetToDefault(mock)</code> ou <code>resetToStrict(mock)</code>.
+<code>resetToDefault(mock)</code> or <code>resetToStrict(mock)</code>.
 </p>
 <h3>
 Using Stub Behavior for Methods
@@ -825,7 +825,7 @@ If you would like a "nice" Mock Object that by default allows all method calls a
 appropriate empty values (<code>0</code>, <code>null</code> or <code>false</code>), use <code>create<i>Nice</i>Mock()</code> instead.
 </p>
 
-<a id="Object_Methods"/><h3>Object Methods</h3>
+<h3>Object Methods</h3>
 <p>
 The behavior for the four Object methods <code>equals()</code>,
 <code>hashCode()</code>, <code>toString()</code> and <code>finalize()</code>
@@ -896,7 +896,7 @@ The names will be shown in exception failures.
 </p>
 <h3>Serializing Mocks</h3>
 <p>
-Mocks can be serialized at any time during their life. However, there are some obvious contraints:
+Mocks can be serialized at any time during their life. However, there are some obvious constraints:
 </p>
 <ul>
 <li>All used matchers should be serializable (all genuine EasyMock ones are)
@@ -957,7 +957,7 @@ public class SupportTest extends EasyMockSupport {
 </pre>
 <h3>Altering EasyMock default behavior</h3>
 <p>
-EasyMock provides a property mecanisim allowing to alter its behavior. It mainly aims
+EasyMock provides a property mechanism allowing to alter its behavior. It mainly aims
 at allowing to use a legacy behavior on a new version. Currently supported properties are:
 </p>
 <dl>
