@@ -4,7 +4,7 @@
 # To create a shell replace USERNAME with your username in the following snippet:
 # ssh -t USERNAME,easymock@shell.sourceforge.net create
 
-cd /home/groups/e/ea/easymock \
+cd /home/project-web/easymock \
 && rm -rf htdocs2 \
 && svn export http://easymock.svn.sourceforge.net/svnroot/easymock/trunk/website htdocs2  \
 && chmod -R g+w htdocs2 \
