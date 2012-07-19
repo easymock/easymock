@@ -1,6 +1,6 @@
 I'm using:
 - Eclipse 3.7.1
-- Maven 3.0.3
+- Maven 3.0.4
 - m2e with
   - m2e connector for build-helper-maven-plugin
   - m2e Tycho Project Configurators
