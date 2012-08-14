@@ -60,7 +60,9 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
             }
 
             // Here I need to check if the fillInStackTrace was called by EasyMock inner code
-            // If yes, invoke super. Otherwise, just behave normally
+            // If it's the case, just ignore the call. We ignore it for two reasons
+            // 1- In Java 7, the fillInStackTrace won't work because, since no constructor was called, the stackTrace attribute is null
+            // 2- There might be some unexpected side effect in the original fillInStackTrace. So it seems more logical to ignore the call 
             if (obj instanceof Throwable && method.getName().equals("fillInStackTrace")) {
                 final Exception e = new Exception();
                 final StackTraceElement[] elements = e.getStackTrace();
@@ -70,7 +72,7 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
                     final StackTraceElement element = elements[2];
                     if (element.getClassName().equals("org.easymock.internal.MockInvocationHandler")
                             && element.getMethodName().equals("invoke")) {
-                        return proxy.invokeSuper(obj, args);
+                        return obj;
                     }
                 }
             }

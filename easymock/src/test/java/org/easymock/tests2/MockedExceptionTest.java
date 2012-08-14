@@ -54,19 +54,33 @@ public class MockedExceptionTest {
         replay(c, expected);
 
         try {
-            c.length(); // fillInStackTrace will be called internally here
+            c.length(); // fillInStackTrace wont' be called internally
         } catch (final RuntimeException actual) {
-            assertSame(myException, actual.fillInStackTrace());
+            assertSame(myException, actual.fillInStackTrace()); // so the fillInStackTrace recording is still valid
             assertSame(expected, actual);
         }
 
         verify(c, expected);
     }
 
+    private static int check = 2;
+
+    private static class MyException extends RuntimeException {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public synchronized Throwable fillInStackTrace() {
+            check = 4;
+            return super.fillInStackTrace();
+        }
+
+    }
+
     @Test
     public void testNotMockedFillInStackTrace() {
 
-        final RuntimeException expected = createMockBuilder(RuntimeException.class).createNiceMock();
+        final RuntimeException expected = createMockBuilder(MyException.class)
+                .createNiceMock();
 
         final CharSequence c = createMock(CharSequence.class);
         expect(c.length()).andStubThrow(expected);
@@ -74,11 +88,12 @@ public class MockedExceptionTest {
         replay(c, expected);
 
         try {
-            c.length(); // fillInStackTrace will be called internally here
+            c.length(); // fillInStackTrace won't be called internally
         } catch (final RuntimeException actual) {
             assertSame(expected, actual);
-            assertEquals("fillInStackTrace should have been called normally", actual.getClass().getName(),
-                    actual.getStackTrace()[0].getClassName());
+            assertSame("fillInStackTrace should have been called normally since it isn't mocked", expected,
+                    actual.fillInStackTrace());
+            assertEquals("The original method was called", 4, check);
         }
 
         verify(c, expected);
