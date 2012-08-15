@@ -29,14 +29,14 @@ public class MockedExceptionTest {
 
     @Test
     public void testMockedException() {
-        RuntimeException expected = createNiceMock(RuntimeException.class);
-        CharSequence c = createMock(CharSequence.class);
+        final RuntimeException expected = createNiceMock(RuntimeException.class);
+        final CharSequence c = createMock(CharSequence.class);
         expect(c.length()).andStubThrow(expected);
         replay(c, expected);
 
         try {
             c.length(); // fillInStackTrace will be called internally here
-        } catch (RuntimeException actual) {
+        } catch (final RuntimeException actual) {
             assertSame(expected, actual);
         }
 
@@ -46,18 +46,18 @@ public class MockedExceptionTest {
     @Test
     public void testExplicitFillInStackTrace() {
 
-        RuntimeException expected = createNiceMock(RuntimeException.class);
-        RuntimeException myException = new RuntimeException();
+        final RuntimeException expected = createNiceMock(RuntimeException.class);
+        final RuntimeException myException = new RuntimeException();
         expect(expected.fillInStackTrace()).andReturn(myException);
 
-        CharSequence c = createMock(CharSequence.class);
+        final CharSequence c = createMock(CharSequence.class);
         expect(c.length()).andStubThrow(expected);
 
         replay(c, expected);
 
         try {
             c.length(); // fillInStackTrace will be called internally here
-        } catch (RuntimeException actual) {
+        } catch (final RuntimeException actual) {
             assertSame(myException, actual.fillInStackTrace());
             assertSame(expected, actual);
         }
@@ -65,24 +65,37 @@ public class MockedExceptionTest {
         verify(c, expected);
     }
 
+    private static int check = 2;
+
+    private static class MyException extends RuntimeException {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public synchronized Throwable fillInStackTrace() {
+            check = 4;
+            return super.fillInStackTrace();
+        }
+
+    }
+
     @Test
     public void testNotMockedFillInStackTrace() {
 
-        RuntimeException expected = createMockBuilder(RuntimeException.class)
+        final RuntimeException expected = createMockBuilder(MyException.class)
                 .createNiceMock();
 
-        CharSequence c = createMock(CharSequence.class);
+        final CharSequence c = createMock(CharSequence.class);
         expect(c.length()).andStubThrow(expected);
 
         replay(c, expected);
 
         try {
-            c.length(); // fillInStackTrace will be called internally here
-        } catch (RuntimeException actual) {
+            c.length(); // fillInStackTrace won't be called internally
+        } catch (final RuntimeException actual) {
             assertSame(expected, actual);
-            assertEquals("fillInStackTrace should have been called normally",
-                    actual.getClass().getName(), actual
-                            .getStackTrace()[0].getClassName());
+            assertSame("fillInStackTrace should have been called normally since it isn't mocked", expected,
+                    actual.fillInStackTrace());
+            assertEquals("The original method was called", 4, check);
         }
 
         verify(c, expected);
@@ -91,20 +104,20 @@ public class MockedExceptionTest {
     @Test
     public void testRealException() {
 
-        RuntimeException expected = new RuntimeException();
+        final RuntimeException expected = new RuntimeException();
 
-        CharSequence c = createMock(CharSequence.class);
+        final CharSequence c = createMock(CharSequence.class);
         expect(c.length()).andStubThrow(expected);
 
         replay(c);
 
         try {
             c.length(); // fillInStackTrace will be called internally here
-        } catch (RuntimeException actual) {
+        } catch (final RuntimeException actual) {
             assertSame(expected, actual);
             assertEquals("fillInStackTrace should have been called normally",
                     "org.easymock.internal.MockInvocationHandler", actual
-                            .getStackTrace()[0].getClassName());
+                    .getStackTrace()[0].getClassName());
         }
 
         verify(c);
