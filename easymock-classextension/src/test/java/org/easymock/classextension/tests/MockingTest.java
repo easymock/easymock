@@ -34,8 +34,6 @@ import org.junit.Test;
 @SuppressWarnings("deprecation")
 public class MockingTest {
 
-    private IMocksControl ctrl;
-
     public static class ClassToMock {
         public int foo() {
             return 10;
@@ -51,8 +49,8 @@ public class MockingTest {
      */
     @Test
     public void testTwoMocks() {
-        ClassToMock transition1 = createMock(ClassToMock.class);
-        ClassToMock transition2 = createMock(ClassToMock.class);
+        final ClassToMock transition1 = createMock(ClassToMock.class);
+        final ClassToMock transition2 = createMock(ClassToMock.class);
 
         // Should have two different callbacks
         assertNotSame(ClassExtensionHelper.getInterceptor(transition2),
@@ -64,27 +62,27 @@ public class MockingTest {
 
     @Test
     public void testInterfaceMocking() {
-        IMocksControl ctrl = createControl();
+        final IMocksControl ctrl = createControl();
         checkBehavior(ctrl, MockType.DEFAULT);
     }
 
     @Test
     public void testNiceInterfaceMocking() {
-        IMocksControl ctrl = createNiceControl();
+        final IMocksControl ctrl = createNiceControl();
         checkBehavior(ctrl, MockType.NICE);
     }
 
     @Test
     public void testStrictInterfaceMocking() {
-        IMocksControl ctrl = createStrictControl();
+        final IMocksControl ctrl = createStrictControl();
         checkBehavior(ctrl, MockType.STRICT);
     }
 
-    private void checkBehavior(IMocksControl ctrl, MockType behavior) {
+    private void checkBehavior(final IMocksControl ctrl, final MockType behavior) {
         assertEquals(behavior, extractBehavior(ctrl));
     }
 
-    private MockType extractBehavior(IMocksControl ctrl) {
+    private MockType extractBehavior(final IMocksControl ctrl) {
         return ((MocksClassControl) ctrl).getType();
     }
 }

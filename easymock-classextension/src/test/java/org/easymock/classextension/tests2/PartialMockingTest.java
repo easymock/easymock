@@ -37,11 +37,12 @@ public class PartialMockingTest {
 
         public int i;
 
-        protected A(String s) {
+        protected A(final String s) {
             this.s = s;
         }
 
-        private A(int i) {
+        @SuppressWarnings("unused")
+        private A(final int i) {
             this.i = i;
         }
 
@@ -51,18 +52,18 @@ public class PartialMockingTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testPartialMock_PublicConstructor() throws Exception {
-        Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
-        ConstructorArgs constructorArgs = new ConstructorArgs(cstr, 3);
-        ArrayList<String> list = createMock(ArrayList.class, constructorArgs,
+        final Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
+        final ConstructorArgs constructorArgs = new ConstructorArgs(cstr, 3);
+        final ArrayList<String> list = createMock(ArrayList.class, constructorArgs,
                 new Method[0]);
         list.add("test"); // shouldn't crash since constructor was called
     }
 
     @Test
     public void testPartialMock_ProtectedConstructor() throws Exception {
-        Constructor<?> cstr = A.class.getDeclaredConstructor(String.class);
-        ConstructorArgs constructorArgs = new ConstructorArgs(cstr, "test");
-        A a = createMock(A.class, constructorArgs, new Method[0]);
+        final Constructor<?> cstr = A.class.getDeclaredConstructor(String.class);
+        final ConstructorArgs constructorArgs = new ConstructorArgs(cstr, "test");
+        final A a = createMock(A.class, constructorArgs, new Method[0]);
         assertEquals("test", a.s); // make sure constructor was called
 
         // Check that abstract method is mocked by default
@@ -74,11 +75,11 @@ public class PartialMockingTest {
 
     @Test(expected = RuntimeException.class)
     public void testPartialMock_ConstructorNotFound() throws Exception {
-        Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
-        ConstructorArgs constructorArgs = new ConstructorArgs(cstr, 2.0);
+        final Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
+        final ConstructorArgs constructorArgs = new ConstructorArgs(cstr, 2.0);
         try {
             createMock(ArrayList.class, constructorArgs, new Method[0]);
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             assertEquals("Failed to find constructor for param types", e
                     .getMessage());
             throw e;
@@ -87,18 +88,18 @@ public class PartialMockingTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testPartialMock_InvalidParams() throws Exception {
-        Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
-        ConstructorArgs constructorArgs = new ConstructorArgs(cstr, "test");
+        final Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
+        final ConstructorArgs constructorArgs = new ConstructorArgs(cstr, "test");
         createMock(ArrayList.class, constructorArgs, new Method[0]);
     }
 
     @Test(expected = RuntimeException.class)
     public void testPartialMock_ExceptionInConstructor() throws Exception {
-        Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
-        ConstructorArgs constructorArgs = new ConstructorArgs(cstr, -5);
+        final Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
+        final ConstructorArgs constructorArgs = new ConstructorArgs(cstr, -5);
         try {
             createMock(ArrayList.class, constructorArgs, new Method[0]);
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             assertEquals(
                     "Failed to instantiate mock calling constructor: Exception in constructor",
                     e.getMessage());
@@ -111,5 +112,5 @@ public class PartialMockingTest {
      * 
      * @Override protected int foo() { return i; } }); replay(a);
      * assertEquals(5, a.foo()); verify(a); }
-     */    
+     */
 }

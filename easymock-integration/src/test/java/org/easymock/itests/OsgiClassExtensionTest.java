@@ -15,7 +15,10 @@
  */
 package org.easymock.itests;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMockBuilder;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import java.util.ArrayList;
 import java.util.jar.Manifest;
@@ -40,7 +43,6 @@ public class OsgiClassExtensionTest extends OsgiBaseTest {
     @Override
     protected String[] getTestBundlesNames() {
 
-        final ClassLoader cl = String.class.getClassLoader();
         final String cglibVersion = "2.2.0";
         final String objenesisVersion = getImplementationVersion(Objenesis.class);
         final String easymockVersion = getImplementationVersion(org.easymock.EasyMock.class);

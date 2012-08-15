@@ -30,20 +30,21 @@ public class ConstructorArgsTest {
 
     public static class A {
 
+        @SuppressWarnings("unused")
         private static final Class<?> TYPE = null;
 
-        public A(String s, int i) {
+        public A(final String s, final int i) {
         }
     }
 
     @Test
     public void testConstructorArgs() {
-        ConstructorArgs args = new ConstructorArgs(
+        final ConstructorArgs args = new ConstructorArgs(
                 A.class.getConstructors()[0], "a", 4);
         checkArgs(args);
     }
 
-    private void checkArgs(ConstructorArgs args) {
+    private void checkArgs(final ConstructorArgs args) {
         assertEquals(2, args.getInitArgs().length);
         assertEquals("a", args.getInitArgs()[0]);
         assertEquals(4, args.getInitArgs()[1]);

@@ -27,10 +27,13 @@ public class NopInvocationHandler implements InvocationHandler {
 
     public static final InvocationHandler NOP = new NopInvocationHandler();
 
+    @SuppressWarnings("unused")
     private transient Method equalsMethod;
 
+    @SuppressWarnings("unused")
     private transient Method hashCodeMethod;
 
+    @SuppressWarnings("unused")
     private transient Method toStringMethod;
 
     private NopInvocationHandler() {
