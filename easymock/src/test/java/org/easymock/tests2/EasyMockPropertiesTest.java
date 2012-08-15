@@ -24,6 +24,7 @@ import java.lang.reflect.Field;
 import org.easymock.EasyMock;
 import org.easymock.internal.EasyMockProperties;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -36,11 +37,7 @@ public class EasyMockPropertiesTest {
             "easymock.properties");
 
     @BeforeClass
-    public static void setup() throws Exception {
-        // Make sure to reset to prevent getting an already initialized
-        // EasyMockProperties
-        resetInstance();
-
+    public static void beforeClass() throws Exception {
         // Create an EasyMock property file for the test
         final BufferedWriter out = new BufferedWriter(new FileWriter(PROPERTIES_FILE));
         out.write(EasyMock.ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT + "=" + true);
@@ -52,6 +49,22 @@ public class EasyMockPropertiesTest {
         out.write(EasyMock.NOT_THREAD_SAFE_BY_DEFAULT + "=" + true);
         out.newLine();
         out.close();
+    }
+
+    @AfterClass
+    public static void afterClass() throws Exception {
+        // Cleanup the mess
+        PROPERTIES_FILE.delete();
+
+        // Make sure we reset all our mess at the end
+        resetInstance();
+    }
+
+    @Before
+    public void setup() throws Exception {
+        // Make sure to reset to prevent getting an already initialized
+        // EasyMockProperties
+        resetInstance();
 
         // Set manually a new one
         setEasyMockProperty("easymock.e", "7");
@@ -63,15 +76,8 @@ public class EasyMockPropertiesTest {
         System.setProperty("easymock.h", "4");
     }
 
-    @AfterClass
-    public static void tearDown() throws Exception {
-        // Cleanup the mess
-        PROPERTIES_FILE.delete();
-        resetInstance();
-    }
-
     @Test
-    public void testGetInstance() {
+    public void testGetInstance() throws Exception {
         assertExpectedValue("1", "easymock.a");
         assertExpectedValue("8", "easymock.c");
         assertExpectedValue("7", "easymock.e");
