@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.jar.Manifest;
 
-import org.easymock.EasyMock;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.MocksControl.MockType;
 import org.easymock.internal.matchers.Equals;
@@ -41,10 +40,9 @@ public class OsgiTest extends OsgiBaseTest {
     @Override
     protected String[] getTestBundlesNames() {
 
-        final ClassLoader cl = String.class.getClassLoader();
         final String cglibVersion = "2.2.0";
         final String objenesisVersion = getImplementationVersion(Objenesis.class);
-        final String easymockVersion = getImplementationVersion(EasyMock.class);
+        final String easymockVersion = getEasyMockVersion();
 
         return new String[] { "net.sourceforge.cglib, com.springsource.net.sf.cglib, " + cglibVersion,
                 "org.easymock, easymock, " + easymockVersion, "org.objenesis, objenesis, " + objenesisVersion };
@@ -88,11 +86,11 @@ public class OsgiTest extends OsgiBaseTest {
     }
 
     public void testCanUseMatchers() {
-        final Equals equals = new Equals(new Object());
+        new Equals(new Object());
     }
 
     public void testCanUseInternal() {
-        final MocksControl ctrl = new MocksControl(MockType.DEFAULT);
+        new MocksControl(MockType.DEFAULT);
     }
 
     /**

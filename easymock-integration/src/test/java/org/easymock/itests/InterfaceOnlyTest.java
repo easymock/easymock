@@ -18,15 +18,13 @@ package org.easymock.itests;
 import static org.easymock.EasyMock.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.jar.Manifest;
 
-import org.easymock.EasyMock;
-import org.easymock.EasyMockSupport;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.MocksControl.MockType;
 import org.easymock.internal.matchers.Equals;
 import org.osgi.framework.Constants;
-import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
 
 /**
  * Test that we still can mock interfaces without cglib and objenesis as
@@ -34,26 +32,12 @@ import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
  * 
  * @author Henri Tremblay
  */
-public class InterfaceOnlyTest extends AbstractConfigurableBundleCreatorTests {
-
-    private final EasyMockSupport support = new EasyMockSupport();
-
-    public <T> T createMock(final Class<T> toMock) {
-        return support.createMock(toMock);
-    }
-
-    public void replayAll() {
-        support.replayAll();
-    }
-
-    public void verifyAll() {
-        support.verifyAll();
-    }
+public class InterfaceOnlyTest extends OsgiBaseTest {
 
     @Override
     protected String[] getTestBundlesNames() {
 
-        final String easymockVersion = EasyMock.class.getPackage().getImplementationVersion();
+        final String easymockVersion = getEasyMockVersion();
 
         return new String[] { "org.easymock, easymock, " + easymockVersion };
     }
@@ -81,16 +65,16 @@ public class InterfaceOnlyTest extends AbstractConfigurableBundleCreatorTests {
     }
 
     public void testCanUseMatchers() {
-        final Equals equals = new Equals(new Object());
+        new Equals(new Object());
     }
 
     public void testCanUseInternal() {
-        final MocksControl ctrl = new MocksControl(MockType.DEFAULT);
+        new MocksControl(MockType.DEFAULT);
     }
 
-    public void testCannotMock() throws IOException {
+    public void testCannotMock() throws Exception {
         try {
-            final InterfaceOnlyTest mock = createMock(InterfaceOnlyTest.class);
+            createMock(ArrayList.class);
             fail("Should throw an exception due to a NoClassDefFoundError");
         } catch (final RuntimeException e) {
             assertEquals("Class mocking requires to have cglib and objenesis librairies in the classpath", e
