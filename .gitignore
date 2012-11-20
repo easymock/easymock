@@ -6,3 +6,5 @@ clover.license
 target
 /easymock-integration/eclipse_config
 *.patch
+.idea/
+*.iml
