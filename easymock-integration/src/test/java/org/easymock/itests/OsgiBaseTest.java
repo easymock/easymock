@@ -88,10 +88,10 @@ public abstract class OsgiBaseTest extends AbstractConfigurableBundleCreatorTest
 
     protected String getEasyMockVersion() {
         String version = getImplementationVersion(EasyMock.class);
-        // Null means we are in Eclipse, not in Maven. So we have an Eclipse project dependency instead
-        // or a Maven dependency with the jar. Which explains why the version is null (no Manifest since
-        // there's no jars. In that case we get the version from the pom.xml and hope the Maven jar is
-        // up-to-date in the local repository
+        // Null means we are an IDE, not in Maven. So we have an IDE project dependency instead
+        // of a Maven dependency with the jar. Which explains why the version is null (no Manifest
+        // since there's no jar. In that case we get the version from the pom.xml and hope the Maven
+        // jar is up-to-date in the local repository
         if (version == null) {
             try {
                 final XPath xPath = xPathFactory.newXPath();
