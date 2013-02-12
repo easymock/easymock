@@ -8,3 +8,4 @@ target
 *.patch
 .idea/
 *.iml
+sys$command
