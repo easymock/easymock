@@ -103,6 +103,7 @@ public class SerializationTest implements Serializable {
 
     @Test
     @Ignore
+    // to code one day to make sure we can recreate a mock in another class loader
     public void testChangingClassLoader() {
 
     }

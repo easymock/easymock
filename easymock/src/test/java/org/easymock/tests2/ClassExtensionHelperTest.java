@@ -15,27 +15,36 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.easymock.internal.ClassExtensionHelper.*;
-import static org.junit.Assert.*;
-
+import com.google.dexmaker.stock.ProxyBuilder;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
-
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
-
 import org.easymock.EasyMock;
+import static org.easymock.EasyMock.createMock;
+import org.easymock.internal.AndroidSupport;
+import static org.easymock.internal.MocksControl.getControl;
+import static org.easymock.internal.MocksControl.getMockedType;
 import org.easymock.internal.MocksControl;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 
 /**
  * @author Henri Tremblay
  */
 public class ClassExtensionHelperTest {
+
+    private static final InvocationHandler NOOP_INVOCATION_HANDLER = new InvocationHandler() {
+        public Object invoke(Object proxy, Method method, Object[] args) {
+            return null;
+        }
+    };
 
     @Test
     public void testGetControl_EasyMock() {
@@ -50,8 +59,15 @@ public class ClassExtensionHelperTest {
     }
 
     @Test
-    public void testGetControl_EnhancedButNotAMock() {
-        final Object o = Enhancer.create(ArrayList.class, NoOp.INSTANCE);
+    public void testGetControl_EnhancedButNotAMock() throws Exception {
+        final Object o;
+        if (AndroidSupport.isAndroid()) {
+            o = ProxyBuilder.forClass(ArrayList.class)
+                    .handler(NOOP_INVOCATION_HANDLER)
+                    .build();
+        } else {
+            o = Enhancer.create(ArrayList.class, NoOp.INSTANCE);
+        }
         try {
             getControl(o);
             fail();
@@ -82,8 +98,7 @@ public class ClassExtensionHelperTest {
         try {
             getControl("");
             fail();
-        } catch (final IllegalArgumentException e) {
-            assertEquals("Not a mock: " + String.class.getName(), e.getMessage());
+        } catch (final IllegalArgumentException expected) {
         }
     }
 

@@ -2067,7 +2067,7 @@ public class EasyMock {
     }
 
     private static MocksControl getControl(final Object mock) {
-        return ClassExtensionHelper.getControl(mock);
+        return MocksControl.getControl(mock);
     }
 
     /**

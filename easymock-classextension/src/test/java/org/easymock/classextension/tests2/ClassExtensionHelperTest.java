@@ -15,7 +15,7 @@
  */
 package org.easymock.classextension.tests2;
 
-import static org.easymock.internal.ClassExtensionHelper.*;
+import static org.easymock.internal.MocksControl.*;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Proxy;

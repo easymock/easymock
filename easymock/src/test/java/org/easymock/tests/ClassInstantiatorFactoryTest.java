@@ -22,7 +22,6 @@ import org.easymock.internal.DefaultClassInstantiator;
 import org.easymock.internal.IClassInstantiator;
 import org.easymock.internal.ObjenesisClassInstantiator;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -30,12 +29,10 @@ import org.junit.Test;
  */
 public class ClassInstantiatorFactoryTest {
 
-    @Before
-    public void setUp() throws Exception {
-    }
-
     @After
     public void tearDown() throws Exception {
+        // put back the default to prevent side effects on other tests
+        ClassInstantiatorFactory.setDefaultInstantiator();
     }
 
     @Test

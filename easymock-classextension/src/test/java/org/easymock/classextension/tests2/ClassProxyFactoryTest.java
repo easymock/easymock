@@ -29,13 +29,13 @@ import org.junit.Test;
  */
 public class ClassProxyFactoryTest {
 
-    private final ClassProxyFactory<ClassProxyFactoryTest> factory = new ClassProxyFactory<ClassProxyFactoryTest>();
+    private final ClassProxyFactory factory = new ClassProxyFactory();
 
     @SuppressWarnings("unchecked")
     @Test
     public void testRegisterClassNotLeaking() throws Exception {
         final ClassProxyFactoryTest mock = factory.createProxy(ClassProxyFactoryTest.class,
-                NopInvocationHandler.NOP);
+                NopInvocationHandler.NOP, null, null);
         // Go deep in the cglib implementation to make sure the callback was released on the mocked class
         final Field field = mock.getClass().getDeclaredField("CGLIB$THREAD_CALLBACKS");
         field.setAccessible(true);

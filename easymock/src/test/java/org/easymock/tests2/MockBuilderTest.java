@@ -18,13 +18,12 @@ package org.easymock.tests2;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import org.easymock.ConstructorArgs;
 import org.easymock.IMocksControl;
-import org.easymock.internal.ClassExtensionHelper;
 import org.easymock.internal.MockBuilder;
+import org.easymock.internal.MocksControl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -149,12 +148,17 @@ public class MockBuilderTest {
 
     @Test
     public void testWithEmptyConstructor() throws Exception {
-        mock = builder.withConstructor().createMock();
-        final Field field = ArrayList.class.getDeclaredField("elementData");
-        field.setAccessible(true);
-        final int expected = ((Object[]) field.get(new ArrayList<String>())).length;
-        final int actual = ((Object[]) field.get(mock)).length;
-        assertEquals(expected, actual);
+        final EmptyConstructor instance = new MockBuilder<EmptyConstructor>(EmptyConstructor.class)
+                .withConstructor().createMock();
+        assertEquals("foo", instance.setByConstructor);
+    }
+
+    public static class EmptyConstructor {
+        private final String setByConstructor;
+
+        public EmptyConstructor() {
+            this.setByConstructor = "foo";
+        }
     }
 
     @Test
@@ -233,7 +237,7 @@ public class MockBuilderTest {
     public void testCreateMockIMocksControl() {
         final IMocksControl ctrl = createControl();
         mock = builder.createMock(ctrl);
-        assertSame(ClassExtensionHelper.getControl(mock), ctrl);
+        assertSame(MocksControl.getControl(mock), ctrl);
     }
 
     @Test
@@ -273,7 +277,7 @@ public class MockBuilderTest {
     public void testCreateMockStringIMocksControl() {
         final IMocksControl ctrl = createControl();
         mock = builder.addMockedMethod("toString").createMock("myName", ctrl);
-        assertSame(ClassExtensionHelper.getControl(mock), ctrl);
+        assertSame(MocksControl.getControl(mock), ctrl);
         assertTrue(mock.toString().contains("myName"));
     }
 

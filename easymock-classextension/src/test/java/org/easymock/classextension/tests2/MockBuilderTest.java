@@ -15,8 +15,8 @@
  */
 package org.easymock.classextension.tests2;
 
-import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
+import org.easymock.internal.MocksControl;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import org.easymock.classextension.ConstructorArgs;
 import org.easymock.classextension.IMocksControl;
 import org.easymock.classextension.internal.MockBuilder;
-import org.easymock.internal.ClassExtensionHelper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -188,7 +187,7 @@ public class MockBuilderTest {
     public void testCreateMockIMocksControl() {
         final IMocksControl ctrl = createControl();
         mock = builder.createMock(ctrl);
-        assertSame(ClassExtensionHelper.getControl(mock), ctrl);
+        assertSame(MocksControl.getControl(mock), ctrl);
     }
 
     @Test
@@ -228,7 +227,7 @@ public class MockBuilderTest {
     public void testCreateMockStringIMocksControl() {
         final IMocksControl ctrl = createControl();
         mock = builder.addMockedMethod("toString").createMock("myName", ctrl);
-        assertSame(ClassExtensionHelper.getControl(mock), ctrl);
+        assertSame(MocksControl.getControl(mock), ctrl);
         assertTrue(mock.toString().contains("myName"));
     }
 

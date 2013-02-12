@@ -93,7 +93,7 @@ public class GenericTest {
         }
     }
 
-    static class StringHolder extends GenericHolder<String> {
+    public static class StringHolder extends GenericHolder<String> {
         private String value;
 
         @Override

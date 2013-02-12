@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 import org.easymock.classextension.IMocksControl;
 import org.easymock.classextension.internal.MocksClassControl;
-import org.easymock.internal.ClassExtensionHelper;
+import org.easymock.internal.MocksControl;
 import org.easymock.internal.MocksControl.MockType;
 import org.junit.Test;
 
@@ -53,8 +53,8 @@ public class MockingTest {
         final ClassToMock transition2 = createMock(ClassToMock.class);
 
         // Should have two different callbacks
-        assertNotSame(ClassExtensionHelper.getInterceptor(transition2),
-                ClassExtensionHelper.getInterceptor(transition1));
+        assertNotSame(MocksControl.getInvocationHandler(transition2),
+                MocksControl.getInvocationHandler(transition1));
 
         transition2.foo();
         transition1.foo();

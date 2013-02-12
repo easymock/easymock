@@ -16,17 +16,21 @@
 package org.easymock.internal;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import org.easymock.ConstructorArgs;
 
 /**
- * @param <T>
- *            Type of the values compared
- * 
  * @author OFFIS, Tammo Freese
  */
-public class JavaProxyFactory<T> implements IProxyFactory<T> {
+public class JavaProxyFactory implements IProxyFactory {
     @SuppressWarnings("unchecked")
-    public T createProxy(final Class<T> toMock, final InvocationHandler handler) {
+    public <T> T createProxy(Class<T> toMock, InvocationHandler handler,
+            Method[] mockedMethods, ConstructorArgs constructorArgs) {
         return (T) Proxy.newProxyInstance(toMock.getClassLoader(), new Class[] { toMock }, handler);
+    }
+
+    public InvocationHandler getInvocationHandler(Object mock) {
+        return Proxy.getInvocationHandler(mock);
     }
 }

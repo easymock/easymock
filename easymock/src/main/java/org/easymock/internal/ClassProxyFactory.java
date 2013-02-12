@@ -32,12 +32,9 @@ import org.easymock.ConstructorArgs;
 /**
  * Factory generating a mock for a class.
  * 
- * @param <T>
- *            type of the proxy created
- * 
  * @author Henri Tremblay
  */
-public class ClassProxyFactory<T> implements IProxyFactory<T> {
+public class ClassProxyFactory implements IProxyFactory {
 
     public static class MockMethodInterceptor implements MethodInterceptor, Serializable {
 
@@ -96,10 +93,6 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
             return handler.invoke(obj, method, args);
         }
 
-        public InvocationHandler getHandler() {
-            return handler;
-        }
-
         public void setMockedMethods(final Method... mockedMethods) {
             this.mockedMethods = new HashSet<Method>(Arrays.asList(mockedMethods));
         }
@@ -155,12 +148,22 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
 
     // ///CLOVER:ON
 
-    @SuppressWarnings("unchecked")
-    public T createProxy(final Class<T> toMock, final InvocationHandler handler) {
+    public static boolean isCallerMockInvocationHandlerInvoke(final Throwable e) throws Throwable {
+        final StackTraceElement[] elements = e.getStackTrace();
+        return elements.length > 2
+                && elements[2].getClassName().equals(MockInvocationHandler.class.getName())
+                && elements[2].getMethodName().equals("invoke");
+    }
 
+    @SuppressWarnings("unchecked")
+    public <T> T createProxy(final Class<T> toMock, final InvocationHandler handler,
+            final Method[] mockedMethods, final ConstructorArgs args) {
         final Enhancer enhancer = createEnhancer(toMock);
 
-        final MethodInterceptor interceptor = new MockMethodInterceptor(handler);
+        final MockMethodInterceptor interceptor = new MockMethodInterceptor(handler);
+        if (mockedMethods != null) {
+            interceptor.setMockedMethods(mockedMethods);
+        }
         enhancer.setCallbackType(interceptor.getClass());
 
         Class<?> mockClass;
@@ -181,9 +184,8 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
         try {
             Enhancer.registerCallbacks(mockClass, new Callback[] { interceptor });
 
-            if (ClassExtensionHelper.getCurrentConstructorArgs() != null) {
+            if (args != null) {
                 // Really instantiate the class
-                final ConstructorArgs args = ClassExtensionHelper.getCurrentConstructorArgs();
                 Constructor<?> cstr;
                 try {
                     // Get the constructor with the same params
@@ -246,7 +248,7 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
         }
     }
 
-    private Enhancer createEnhancer(final Class<T> toMock) {
+    private Enhancer createEnhancer(final Class<?> toMock) {
         // Create the mock
         final Enhancer enhancer = new Enhancer() {
 
@@ -270,5 +272,10 @@ public class ClassProxyFactory<T> implements IProxyFactory<T> {
         // ///CLOVER:ON
 
         return enhancer;
+    }
+
+    public InvocationHandler getInvocationHandler(final Object mock) {
+        final Factory factory = (Factory) mock;
+        return ((MockMethodInterceptor) factory.getCallback(0)).handler;
     }
 }

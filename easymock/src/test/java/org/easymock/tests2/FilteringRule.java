@@ -93,13 +93,16 @@ class FilteringClassLoader extends ClassLoader {
         return false;
     }
 
-    private Class<?> loadClass0(final String name) throws IOException {
+    private Class<?> loadClass0(final String name) throws IOException, ClassNotFoundException {
         final String path = name.replace('.', '/') + ".class";
         InputStream in = null;
         ByteArrayOutputStream out = null;
 
         try {
             in = getResourceAsStream(path);
+            if (in == null) {
+                throw new ClassNotFoundException(name);
+            }
             out = new ByteArrayOutputStream();
 
             int one;

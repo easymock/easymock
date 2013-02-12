@@ -15,10 +15,10 @@
  */
 package org.easymock.internal;
 
-import static org.easymock.internal.ClassExtensionHelper.*;
-
 import java.io.Serializable;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 import org.easymock.*;
 
@@ -28,6 +28,10 @@ import org.easymock.*;
 public class MocksControl implements IMocksControl, IExpectationSetters<Object>, Serializable {
 
     private static final long serialVersionUID = 443604921336702014L;
+
+    /** lazily created; the proxy factory for classes */
+    private static IProxyFactory classProxyFactory;
+    private static final IProxyFactory interfaceProxyFactory = new JavaProxyFactory();
 
     private IMocksControlState state;
 
@@ -53,93 +57,107 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     }
 
     public <T> T createMock(final Class<T> toMock) {
-        try {
-            state.assertRecordState();
-            final IProxyFactory<T> proxyFactory = createProxyFactory(toMock);
-            return proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
-                    new MockInvocationHandler(this), null));
-        } catch (final RuntimeExceptionWrapper e) {
-            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
-        }
+        return createMock(null, toMock, (Method[]) null);
     }
 
     public <T> T createMock(final String name, final Class<T> toMock) {
-        try {
-            state.assertRecordState();
-            final IProxyFactory<T> proxyFactory = createProxyFactory(toMock);
-            return proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
-                    new MockInvocationHandler(this), name));
-        } catch (final RuntimeExceptionWrapper e) {
-            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
-        }
+        return createMock(name, toMock, (Method[]) null);
     }
 
     public <T> T createMock(final String name, final Class<T> toMock, final Method... mockedMethods) {
-
-        if (toMock.isInterface()) {
-            throw new IllegalArgumentException("Partial mocking doesn't make sense for interface");
-        }
-
-        final T mock = createMock(name, toMock);
-
-        // Set the mocked methods on the interceptor
-        getInterceptor(mock).setMockedMethods(mockedMethods);
-
-        return mock;
+        return createMock(name, toMock, null, mockedMethods);
     }
 
     public <T> T createMock(final Class<T> toMock, final Method... mockedMethods) {
-
-        if (toMock.isInterface()) {
-            throw new IllegalArgumentException("Partial mocking doesn't make sense for interface");
-        }
-
-        final T mock = createMock(toMock);
-
-        // Set the mocked methods on the interceptor
-        getInterceptor(mock).setMockedMethods(mockedMethods);
-
-        return mock;
+        return createMock(null, toMock, null, mockedMethods);
     }
 
     public <T> T createMock(final Class<T> toMock, final ConstructorArgs constructorArgs,
             final Method... mockedMethods) {
-        // Trick to allow the ClassProxyFactory to access constructor args
-        setCurrentConstructorArgs(constructorArgs);
-        try {
-            return createMock(toMock, mockedMethods);
-        } finally {
-            setCurrentConstructorArgs(null);
-        }
+        return createMock(null, toMock, constructorArgs, mockedMethods);
     }
 
     public <T> T createMock(final String name, final Class<T> toMock, final ConstructorArgs constructorArgs,
             final Method... mockedMethods) {
-        // Trick to allow the ClassProxyFactory to access constructor args
-        setCurrentConstructorArgs(constructorArgs);
+        if (toMock.isInterface() && mockedMethods != null) {
+            throw new IllegalArgumentException("Partial mocking doesn't make sense for interface");
+        }
+
         try {
-            return createMock(name, toMock, mockedMethods);
-        } finally {
-            setCurrentConstructorArgs(null);
+            state.assertRecordState();
+            IProxyFactory proxyFactory = toMock.isInterface()
+                    ? interfaceProxyFactory
+                    : getClassProxyFactory();
+            return proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
+                    new MockInvocationHandler(this), name), mockedMethods, constructorArgs);
+        } catch (final RuntimeExceptionWrapper e) {
+            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    protected <T> IProxyFactory<T> createProxyFactory(final Class<T> toMock) {
-        if (toMock.isInterface()) {
-            return new JavaProxyFactory<T>();
-        }
+    public static IProxyFactory getProxyFactory(Object o) {
+        return Proxy.isProxyClass(o.getClass())
+                ? new JavaProxyFactory()
+                : getClassProxyFactory();
+    }
+
+    private static IProxyFactory getClassProxyFactory() {
         final String classMockingDisabled = EasyMockProperties.getInstance().getProperty(
                 EasyMock.DISABLE_CLASS_MOCKING);
         if (Boolean.valueOf(classMockingDisabled)) {
             throw new IllegalArgumentException("Class mocking is currently disabled. Change "
                     + EasyMock.DISABLE_CLASS_MOCKING + " to true do modify this behavior");
         }
+
+        IProxyFactory cached = classProxyFactory;
+        if (cached != null) {
+            return cached;
+        }
+
+        if (AndroidSupport.isAndroid()) {
+            return classProxyFactory = new AndroidClassProxyFactory();
+        }
+
         try {
-            return new ClassProxyFactory<T>();
+            return classProxyFactory = new ClassProxyFactory();
         } catch (final NoClassDefFoundError e) {
             throw new RuntimeException(
                     "Class mocking requires to have cglib and objenesis librairies in the classpath", e);
         }
+    }
+
+    public static MocksControl getControl(final Object mock) {
+        try {
+            IProxyFactory factory = getProxyFactory(mock);
+            ObjectMethodsFilter handler = (ObjectMethodsFilter) factory.getInvocationHandler(mock);
+            return handler.getDelegate().getControl();
+        } catch (final ClassCastException e) {
+            throw new IllegalArgumentException("Not a mock: " + mock.getClass().getName());
+        }
+    }
+
+    public static InvocationHandler getInvocationHandler(final Object mock) {
+        return getClassProxyFactory().getInvocationHandler(mock);
+    }
+
+    /**
+     * Return the class of interface (depending on the mock type) that was
+     * mocked
+     *
+     * @param <T>
+     *            Mocked class
+     * @param <V>
+     *            Mock class
+     * @param proxy
+     *            Mock object
+     * @return the mocked class or interface
+     */
+    @SuppressWarnings("unchecked")
+    public static <T, V extends T> Class<T> getMockedType(final V proxy) {
+        if (Proxy.isProxyClass(proxy.getClass())) {
+            return (Class<T>) proxy.getClass().getInterfaces()[0];
+        }
+        return (Class<T>) proxy.getClass().getSuperclass();
     }
 
     public final void reset() {

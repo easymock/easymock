@@ -67,7 +67,9 @@ public class ReflectionUtilsTest {
     @Test
     public void testFindMethod() {
         final Method m = ReflectionUtils.findMethod(String.class, "length");
-        assertEquals("public int java.lang.String.length()", m.toString());
+        assertEquals(String.class, m.getDeclaringClass());
+        assertEquals("length", m.getName());
+        assertEquals(int.class, m.getReturnType());
     }
 
     @Test

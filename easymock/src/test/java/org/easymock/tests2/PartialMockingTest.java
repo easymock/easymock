@@ -88,12 +88,6 @@ public class PartialMockingTest {
     public void testPartialMock_ExceptionInConstructor() throws Exception {
         final Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
         final ConstructorArgs constructorArgs = new ConstructorArgs(cstr, -5);
-        try {
-            createMockBuilder(ArrayList.class).withConstructor(-5).createMock();
-        } catch (final RuntimeException e) {
-            assertEquals("Failed to instantiate mock calling constructor: Exception in constructor", e
-                    .getMessage());
-            throw e;
-        }
+        createMockBuilder(ArrayList.class).withConstructor(-5).createMock();
     }
 }

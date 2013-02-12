@@ -180,7 +180,6 @@ public class RecordState implements IMocksControlState, Serializable {
     public void times(final Range range) {
         requireMethodCall("times");
         requireLastResultOrVoidMethod();
-
         behavior.addExpected(lastInvocation, lastResult != null ? lastResult : Result
                 .createReturnResult(null), range);
         lastInvocationUsed = true;

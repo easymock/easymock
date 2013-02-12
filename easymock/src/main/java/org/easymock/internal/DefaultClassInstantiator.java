@@ -86,7 +86,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
      *            Class in which constructor is searched
      * @return Constructor to use
      */
-    private Constructor<?> getConstructorToUse(final Class<?> clazz) {
+    public Constructor<?> getConstructorToUse(final Class<?> clazz) {
         // First try to use the empty constructor
         try {
             return clazz.getConstructor(new Class[0]);
@@ -105,8 +105,9 @@ public class DefaultClassInstantiator implements IClassInstantiator {
      * @param methodTypes
      *            Classes to instantiate
      * @return Instances of methodTypes in order
+     * @throws InstantiationException Thrown if the class instantiation fails
      */
-    private Object[] getArgsForTypes(final Class<?>[] methodTypes) throws InstantiationException {
+    public Object[] getArgsForTypes(final Class<?>[] methodTypes) throws InstantiationException {
         final Object[] methodArgs = new Object[methodTypes.length];
 
         for (int i = 0; i < methodTypes.length; i++) {

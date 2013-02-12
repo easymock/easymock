@@ -81,19 +81,20 @@ public class SerializationTest implements Serializable {
 
     @Test
     @Ignore
+    // to code one day to make sure we can recreate a mock in another class loader
     public void testChangingClassLoader() {
 
     }
 
     @SuppressWarnings("unchecked")
     private <T> T serialize(T o) throws IOException, ClassNotFoundException {
-        ByteArrayOutputStream bOut = new ByteArrayOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream(bOut);
+        final ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+        final ObjectOutputStream out = new ObjectOutputStream(bOut);
         out.writeObject(o);
         out.close();
 
-        ByteArrayInputStream bIn = new ByteArrayInputStream(bOut.toByteArray());
-        ObjectInputStream in = new ObjectInputStream(bIn);
+        final ByteArrayInputStream bIn = new ByteArrayInputStream(bOut.toByteArray());
+        final ObjectInputStream in = new ObjectInputStream(bIn);
         o = (T) in.readObject();
         in.close();
 

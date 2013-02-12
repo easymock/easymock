@@ -20,7 +20,7 @@ import static org.easymock.EasyMock.*;
 import java.util.ArrayList;
 import java.util.jar.Manifest;
 
-import org.easymock.internal.ClassExtensionHelper;
+import org.easymock.internal.MocksControl;
 import org.objenesis.Objenesis;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
@@ -28,7 +28,7 @@ import org.springframework.osgi.util.OsgiStringUtils;
 
 /**
  * Note: This is a JUnit 3 test because of the Spring OSGi test framework
- * 
+ *
  * @author Henri Tremblay
  */
 public class OsgiClassExtensionTest extends OsgiBaseTest {
@@ -113,7 +113,7 @@ public class OsgiClassExtensionTest extends OsgiBaseTest {
 
     public void testCanUseInternal() {
         final ArrayList<?> mock = createMock(ArrayList.class);
-        ClassExtensionHelper.getControl(mock);
+        MocksControl.getControl(mock);
     }
 
 }
