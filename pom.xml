@@ -48,11 +48,19 @@
     <developerConnection>scm:svn:https://easymock.svn.sourceforge.net/svnroot/easymock/trunk</developerConnection>
     <connection>scm:svn:http://easymock.svn.sourceforge.net/svnroot/easymock/trunk</connection>
   </scm>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.11</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.10</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
