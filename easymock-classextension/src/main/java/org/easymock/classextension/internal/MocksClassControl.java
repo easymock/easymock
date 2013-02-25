@@ -27,7 +27,7 @@ public class MocksClassControl extends MocksControl implements IMocksControl {
 
     private static final long serialVersionUID = 3968868667140288891L;
 
-    public MocksClassControl(MockType type) {
+    public MocksClassControl(final MockType type) {
         super(type);
     }
 }

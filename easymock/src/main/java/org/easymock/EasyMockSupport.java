@@ -15,6 +15,7 @@
  */
 package org.easymock;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -544,4 +545,32 @@ public class EasyMockSupport {
         }
     }
 
+    public static void injectMocks(final Object test) {
+        final Field[] fields = test.getClass().getDeclaredFields();
+        for (final Field f : fields) {
+            final Mock annotation = f.getAnnotation(Mock.class);
+            if (annotation == null) {
+                continue;
+            }
+            final Class<?> type = f.getType();
+            String name = annotation.name();
+            if (name != null) {
+                name = (name.length() == 0 ? null : name);
+            }
+            Object o;
+            if (test instanceof EasyMockSupport) {
+                o = ((EasyMockSupport) test).createMock(type);
+            }
+            else {
+                o = EasyMock.createMock(name, type);
+            }
+            f.setAccessible(true);
+            try {
+                f.set(test, o);
+            } catch (final IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
 }

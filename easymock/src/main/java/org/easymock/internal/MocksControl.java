@@ -64,19 +64,23 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         return createMock(name, toMock, (Method[]) null);
     }
 
+    @Deprecated
     public <T> T createMock(final String name, final Class<T> toMock, final Method... mockedMethods) {
         return createMock(name, toMock, null, mockedMethods);
     }
 
+    @Deprecated
     public <T> T createMock(final Class<T> toMock, final Method... mockedMethods) {
         return createMock(null, toMock, null, mockedMethods);
     }
 
+    @Deprecated
     public <T> T createMock(final Class<T> toMock, final ConstructorArgs constructorArgs,
             final Method... mockedMethods) {
         return createMock(null, toMock, constructorArgs, mockedMethods);
     }
 
+    @Deprecated
     public <T> T createMock(final String name, final Class<T> toMock, final ConstructorArgs constructorArgs,
             final Method... mockedMethods) {
         if (toMock.isInterface() && mockedMethods != null) {

@@ -23,7 +23,7 @@ import java.util.Collection;
 import org.junit.Test;
 
 /**
- * Bridges are generated method used for generics. They shouldn't be mocked to
+ * Bridges are generated methods used for generics. They shouldn't be mocked to
  * keep delegating correctly to the real implementation.
  * 
  * @author Henri Tremblay
@@ -111,5 +111,24 @@ public class GenericTest {
         final StringHolder holder = createMockBuilder(StringHolder.class).createMock();
         holder.go("hello");
         assertEquals("hello", holder.value);
+    }
+
+    static class A {
+        @Override
+        public boolean equals(final Object o) {
+            return super.equals(o);
+        }
+    }
+
+    public static class D extends A {
+        public String getString() {
+            return "x";
+        }
+    }
+
+    @Test
+    public void testBridgedEquals() {
+        final D d = createMock(D.class);
+        d.equals(d);
     }
 }
