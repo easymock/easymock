@@ -108,7 +108,6 @@
             <groupId>com.atlassian.maven.plugins</groupId>
             <artifactId>maven-clover2-plugin</artifactId>
             <configuration>
-              <licenseLocation>${basedir}/clover.license</licenseLocation>
               <targetPercentage>100.00%</targetPercentage>
               <generateHtml>true</generateHtml>
               <generateXml>false</generateXml>

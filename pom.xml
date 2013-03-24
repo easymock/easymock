@@ -121,9 +121,6 @@
           <groupId>com.atlassian.maven.plugins</groupId>
           <artifactId>maven-clover2-plugin</artifactId>
           <version>3.1.0</version>
-          <configuration>
-            <licenseLocation>${basedir}/clover.license</licenseLocation>
-          </configuration>
           <dependencies>
             <dependency>
               <groupId>org.codehaus.plexus</groupId>
