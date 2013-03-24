@@ -42,11 +42,9 @@ public class DefaultClassInstantiator implements IClassInstantiator {
                 return readObject(getSerializedBytes(c));
                 // ///CLOVER:OFF
             } catch (final IOException e) {
-                throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: "
-                        + e.getMessage());
+                throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
             } catch (final ClassNotFoundException e) {
-                throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: "
-                        + e.getMessage());
+                throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
             }
             // ///CLOVER:ON
         }
@@ -57,12 +55,12 @@ public class DefaultClassInstantiator implements IClassInstantiator {
             return constructor.newInstance(params);
             // ///CLOVER:OFF
         } catch (final IllegalArgumentException e) {
-            throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: " + e.getMessage());
+            throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
         } catch (final IllegalAccessException e) {
-            throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: " + e.getMessage());
+            throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
             // ///CLOVER:ON
         } catch (final InvocationTargetException e) {
-            throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: " + e.getMessage());
+            throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
         }
     }
 
