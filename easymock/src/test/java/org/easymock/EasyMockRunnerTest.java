@@ -16,7 +16,6 @@ public class EasyMockRunnerTest extends EasyMockSupport {
 
     @Test
     public void testApply() {
-        System.out.println(32 << 1);
         expect(mock.isEmpty()).andReturn(true);
         replayAll();
         assertEquals(true, mock.isEmpty());
