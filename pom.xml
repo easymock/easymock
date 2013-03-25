@@ -43,6 +43,9 @@
       <archive>http://tech.groups.yahoo.com/group/easymock/</archive>
     </mailingList>
   </mailingLists>
+  <properties>
+    <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>  
+  </properties>
   <scm>
     <url>http://easymock.svn.sourceforge.net/viewvc/easymock/trunk</url>
     <developerConnection>scm:svn:https://easymock.svn.sourceforge.net/svnroot/easymock/trunk</developerConnection>
