@@ -545,8 +545,17 @@ public class EasyMockSupport {
         }
     }
 
-    public static void injectMocks(final Object test) {
-        final Field[] fields = test.getClass().getDeclaredFields();
+    /**
+     * Inject a mock to every attributes annotated with {@link Mock} on the class passed
+     * in parameter
+     * <p>
+     * <b>Note:</b> If the parameter extends {@link EasyMockSupport}, the mocks will be created using it to allow
+     * <code>replayAll/verifyAll</code> to work afterwards
+     * @param obj the object on which to inject mocks
+     * @since 3.2
+     */
+    public static void injectMocks(final Object obj) {
+        final Field[] fields = obj.getClass().getDeclaredFields();
         for (final Field f : fields) {
             final Mock annotation = f.getAnnotation(Mock.class);
             if (annotation == null) {
@@ -558,15 +567,15 @@ public class EasyMockSupport {
                 name = (name.length() == 0 ? null : name);
             }
             Object o;
-            if (test instanceof EasyMockSupport) {
-                o = ((EasyMockSupport) test).createMock(type);
+            if (obj instanceof EasyMockSupport) {
+                o = ((EasyMockSupport) obj).createMock(type);
             }
             else {
                 o = EasyMock.createMock(name, type);
             }
             f.setAccessible(true);
             try {
-                f.set(test, o);
+                f.set(obj, o);
             } catch (final IllegalAccessException e) {
                 throw new RuntimeException(e);
             }

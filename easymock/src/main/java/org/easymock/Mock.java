@@ -18,6 +18,14 @@ package org.easymock;
 import java.lang.annotation.*;
 
 /**
+ * Annotation to set on the attribute of a test so that {@link EasyMockRunner} or {@link EasyMockSupport#injectMocks(Object)} 
+ * will inject a mock to it.
+ * <p>
+ * Doing<br>
+ * <code>@Mock private MyClass mock;</code><br> 
+ * is strictly identical to doing<br>
+ * <code>private MyClass mock = createMock(MyClass.class);</code>
+ * 
  * @author Henri Tremblay
  * @since 3.2
  */
@@ -26,5 +34,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface Mock {
 
+    /** Name of the mock to be created */
     String name() default "";
 }

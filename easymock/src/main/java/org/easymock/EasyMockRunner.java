@@ -21,7 +21,10 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 
 /**
+ * JUnit runner used to process {@link Mock} and {@link InjectMocks} annotations
+ * 
  * @author Henri Tremblay
+ * @since 3.2
  */
 public class EasyMockRunner extends BlockJUnit4ClassRunner {
 
