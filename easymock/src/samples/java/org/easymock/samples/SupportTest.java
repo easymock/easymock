@@ -28,9 +28,7 @@ import org.junit.Test;
  */
 public class SupportTest extends EasyMockSupport {
 
-    private Collaborator firstCollaborator;
-
-    private Collaborator secondCollaborator;
+    private Collaborator collaborator;
 
     private ClassTested classUnderTest;
 
@@ -41,13 +39,9 @@ public class SupportTest extends EasyMockSupport {
 
     @Test
     public void addDocument() {
-        firstCollaborator = createMock(Collaborator.class);
-        secondCollaborator = createMock(Collaborator.class);
-        classUnderTest.addListener(firstCollaborator);
-        classUnderTest.addListener(secondCollaborator);
-
-        firstCollaborator.documentAdded("New Document");
-        secondCollaborator.documentAdded("New Document");
+        collaborator = createMock(Collaborator.class);
+        classUnderTest.setListener(collaborator);
+        collaborator.documentAdded("New Document");
         replayAll();
         classUnderTest.addDocument("New Document", new byte[0]);
         verifyAll();
@@ -57,19 +51,14 @@ public class SupportTest extends EasyMockSupport {
     public void voteForRemovals() {
 
         final IMocksControl ctrl = createControl();
-        firstCollaborator = ctrl.createMock(Collaborator.class);
-        secondCollaborator = ctrl.createMock(Collaborator.class);
-        classUnderTest.addListener(firstCollaborator);
-        classUnderTest.addListener(secondCollaborator);
+        collaborator = ctrl.createMock(Collaborator.class);
+        classUnderTest.setListener(collaborator);
 
-        firstCollaborator.documentAdded("Document 1");
-        secondCollaborator.documentAdded("Document 1");
+        collaborator.documentAdded("Document 1");
 
-        expect(firstCollaborator.voteForRemovals("Document 1")).andReturn((byte) 20);
-        expect(secondCollaborator.voteForRemovals("Document 1")).andReturn((byte) -10);
+        expect(collaborator.voteForRemovals("Document 1")).andReturn((byte) 20);
 
-        firstCollaborator.documentRemoved("Document 1");
-        secondCollaborator.documentRemoved("Document 1");
+        collaborator.documentRemoved("Document 1");
 
         replayAll();
 

@@ -16,21 +16,19 @@
 package org.easymock.samples;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author OFFIS, Tammo Freese
  */
 public class ClassTested {
 
-    private final Set<Collaborator> listeners = new HashSet<Collaborator>();
+    private Collaborator listener;
 
     private final Map<String, byte[]> documents = new HashMap<String, byte[]>();
 
-    public void addListener(final Collaborator listener) {
-        listeners.add(listener);
+    public void setListener(final Collaborator listener) {
+        this.listener = listener;
     }
 
     public void addDocument(final String title, final byte[] document) {
@@ -71,37 +69,23 @@ public class ClassTested {
     }
 
     private void notifyListenersDocumentAdded(final String title) {
-        for (final Collaborator listener : listeners) {
-            listener.documentAdded(title);
-        }
+        listener.documentAdded(title);
     }
 
     private void notifyListenersDocumentChanged(final String title) {
-        for (final Collaborator listener : listeners) {
-            listener.documentChanged(title);
-        }
+        listener.documentChanged(title);
     }
 
     private void notifyListenersDocumentRemoved(final String title) {
-        for (final Collaborator listener : listeners) {
-            listener.documentRemoved(title);
-        }
+        listener.documentRemoved(title);
     }
 
     private boolean listenersAllowRemoval(final String title) {
-        int result = 0;
-        for (final Collaborator listener : listeners) {
-            result += listener.voteForRemoval(title);
-        }
-        return result > 0;
+        return listener.voteForRemoval(title) > 0;
     }
 
     private boolean listenersAllowRemovals(final String... titles) {
-        int result = 0;
-        for (final Collaborator listener : listeners) {
-            result += listener.voteForRemovals(titles);
-        }
-        return result > 0;
+        return listener.voteForRemovals(titles) > 0;
     }
 
 }

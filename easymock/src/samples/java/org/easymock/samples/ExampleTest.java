@@ -38,7 +38,7 @@ public class ExampleTest {
     public void setup() {
         mock = createMock(Collaborator.class);
         classUnderTest = new ClassTested();
-        classUnderTest.addListener(mock);
+        classUnderTest.setListener(mock);
     }
 
     @Test
