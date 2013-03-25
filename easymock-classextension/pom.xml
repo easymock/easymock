@@ -106,16 +106,47 @@
           </plugin>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <!-- Run the tests with JDK 1.5 to be sure EasyMock is compliant -->
-              <jvm>${jdk1_5.jvm}</jvm>
-            </configuration>
+            <!-- Run the tests on every JDK to be sure EasyMock is compliant -->
             <executions>
               <execution>
+                <id>JDK1.5</id>
                 <phase>verify</phase>
                 <goals>
                   <goal>test</goal>
                 </goals>
+                <configuration>
+                  <jvm>${jdk1_5.jvm}</jvm>
+                </configuration>
+              </execution>
+              <execution>
+                <id>JDK1.6</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <jvm>${jdk1_6.jvm}</jvm>
+                </configuration>
+              </execution>
+              <execution>
+                <id>JDK1.7</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <jvm>${jdk1_7.jvm}</jvm>
+                </configuration>
+              </execution>
+              <execution>
+                <id>JDK1.8</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <jvm>${jdk1_8.jvm}</jvm>
+                </configuration>
               </execution>
             </executions>
           </plugin>
