@@ -18,7 +18,7 @@
   <organization>
     <name>Henri Tremblay</name>
   </organization>
-  
+
   <developers>
     <developer>
       <id>henri</id>
@@ -29,14 +29,25 @@
       <timezone>+1</timezone>
     </developer>
   </developers>
-  
+
   <properties>
     <!-- These versions are also used to filter boot-bundles.properties -->
     <log4j.version>1.2.16</log4j.version>
     <spring.osgi.version>1.2.1</spring.osgi.version>
     <slf4j.version>1.6.1</slf4j.version>
   </properties>
-  
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Lower the javassist version because 3.17.1-GA is compiled for JDK6 -->
+      <dependency>
+        <groupId>org.javassist</groupId>
+        <artifactId>javassist</artifactId>
+        <version>3.16.1-GA</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.easymock</groupId>
@@ -142,11 +153,11 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  
+
   <build>
     <testResources>
       <testResource>
-        <directory>src/test/resources</directory>   
+        <directory>src/test/resources</directory>
         <filtering>true</filtering>
       </testResource>
     </testResources>
@@ -199,6 +210,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile> 
-  </profiles> 
+    </profile>
+  </profiles>
 </project>
