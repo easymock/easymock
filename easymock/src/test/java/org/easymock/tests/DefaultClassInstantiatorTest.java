@@ -24,6 +24,7 @@ import org.easymock.internal.ClassInstantiatorFactory;
 import org.easymock.internal.DefaultClassInstantiator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -119,6 +120,7 @@ public class DefaultClassInstantiatorTest {
     }
 
     @Test
+    @Ignore
     public void finalType() throws Exception {
         checkInstatiation(FinalParamClass.class);
     }
@@ -134,6 +136,7 @@ public class DefaultClassInstantiatorTest {
     }
 
     @Test
+    @Ignore
     public void objectParamRecusion() throws Exception {
         checkInstatiation(ObjectParamClass.class);
     }
