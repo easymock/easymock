@@ -21,8 +21,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.jar.Manifest;
 
+import org.easymock.MockType;
 import org.easymock.internal.MocksControl;
-import org.easymock.internal.MocksControl.MockType;
 import org.easymock.internal.matchers.Equals;
 import org.osgi.framework.Constants;
 
