@@ -34,6 +34,9 @@ import java.lang.annotation.*;
 @Documented
 public @interface Mock {
 
+    /** Type of mock to create */
+    MockType type() default MockType.DEFAULT;
+
     /** Name of the mock to be created */
     String name() default "";
 }

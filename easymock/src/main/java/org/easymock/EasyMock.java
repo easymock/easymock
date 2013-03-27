@@ -55,14 +55,49 @@ public class EasyMock {
     public static final String DISABLE_CLASS_MOCKING = "easymock.disableClassMocking";
 
     /**
+     * Creates a mock object, of the requested type, that implements the given interface
+     * or extends the given class
+     * 
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param type 
+     *            the type of the mock to be created.
+     * @param toMock
+     *            the class or interface that should be mocked.
+     * @return the mock object.
+     * @since 3.2
+     */
+    public static <T> T createMock(final MockType type, final Class<T> toMock) {
+        return createControl(type).createMock(toMock);
+    }
+
+    /**
+     * Creates a mock object, of the requested type and name, that implements the given interface
+     * or extends the given class
+     * 
+     * @param <T> 
+     *            the class or interface that should be mocked.
+     * @param name 
+     *            the name of the mock object.
+     * @param type 
+     *            the type of the mock to be created.
+     * @param toMock
+     *            the class or interface that should be mocked.
+     * @return the mock object.
+     * @since 3.2
+     */
+    public static <T> T createMock(final String name, final MockType type, final Class<T> toMock) {
+        return createControl(type).createMock(name, toMock);
+    }
+
+    /**
      * Creates a mock object that implements the given interface, order checking
      * is enabled by default.
      * 
      * @param <T>
      *            the interface that the mock object should implement.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class or interface that should be mocked.
      * @return the mock object.
      */
     public static <T> T createStrictMock(final Class<T> toMock) {
@@ -76,8 +111,7 @@ public class EasyMock {
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class or interface that should be mocked.
      * @param <T>
      *            the interface that the mock object should implement.
      * @return the mock object.
@@ -95,8 +129,7 @@ public class EasyMock {
      * @param <T>
      *            the interface that the mock object should implement.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class or interface that should be mocked.
      * @return the mock object.
      */
     public static <T> T createMock(final Class<T> toMock) {
@@ -110,8 +143,7 @@ public class EasyMock {
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class or interface that should be mocked.
      * 
      * @param <T>
      *            the interface that the mock object should implement.
@@ -131,8 +163,7 @@ public class EasyMock {
      * @param <T>
      *            the interface that the mock object should implement.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class or interface that should be mocked.
      * @return the mock object.
      */
     public static <T> T createNiceMock(final Class<T> toMock) {
@@ -147,8 +178,7 @@ public class EasyMock {
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class or interface that should be mocked.
      * 
      * @param <T>
      *            the interface that the mock object should implement.
@@ -165,9 +195,9 @@ public class EasyMock {
      * enabled by default.
      * 
      * @param <T>
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param toMock
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
      *            normally
@@ -185,11 +215,11 @@ public class EasyMock {
      * enabled by default.
      * 
      * @param <T>
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
      *            normally
@@ -208,9 +238,9 @@ public class EasyMock {
      * enabled by default.
      * 
      * @param <T>
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param toMock
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param constructorArgs
      *            constructor and parameters used to instantiate the mock.
      * @param mockedMethods
@@ -231,11 +261,11 @@ public class EasyMock {
      * enabled by default.
      * 
      * @param <T>
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param constructorArgs
      *            constructor and parameters used to instantiate the mock.
      * @param mockedMethods
@@ -256,9 +286,9 @@ public class EasyMock {
      * disabled by default.
      * 
      * @param <T>
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param toMock
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
      *            normally
@@ -276,11 +306,11 @@ public class EasyMock {
      * disabled by default.
      * 
      * @param <T>
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
      *            normally
@@ -298,9 +328,9 @@ public class EasyMock {
      * disabled by default.
      * 
      * @param <T>
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param toMock
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param constructorArgs
      *            constructor and parameters used to instantiate the mock.
      * @param mockedMethods
@@ -321,11 +351,11 @@ public class EasyMock {
      * disabled by default.
      * 
      * @param <T>
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param constructorArgs
      *            constructor and parameters used to instantiate the mock.
      * @param mockedMethods
@@ -347,9 +377,9 @@ public class EasyMock {
      * <code>null</code> or <code>false</code> for unexpected invocations.
      * 
      * @param <T>
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param toMock
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
      *            normally
@@ -368,11 +398,11 @@ public class EasyMock {
      * <code>null</code> or <code>false</code> for unexpected invocations.
      * 
      * @param <T>
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
      *            normally
@@ -392,9 +422,9 @@ public class EasyMock {
      * <code>null</code> or <code>false</code> for unexpected invocations.
      * 
      * @param <T>
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param toMock
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param constructorArgs
      *            constructor and parameters used to instantiate the mock.
      * @param mockedMethods
@@ -416,11 +446,11 @@ public class EasyMock {
      * <code>null</code> or <code>false</code> for unexpected invocations.
      * 
      * @param <T>
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param name
      *            the name of the mock object.
      * @param toMock
-     *            the class that the mock object should extend.
+     *            the class or interface that should be mocked.
      * @param constructorArgs
      *            constructor and parameters used to instantiate the mock.
      * @param mockedMethods
@@ -443,12 +473,22 @@ public class EasyMock {
      * @param <T>
      *            the interface that the mock object should implement.
      * @param toMock
-     *            the class of the interface that the mock object should
-     *            implement.
+     *            the class or interface that should be mocked.
      * @return a mock builder to create a partial mock
      */
     public static <T> IMockBuilder<T> createMockBuilder(final Class<T> toMock) {
         return new MockBuilder<T>(toMock);
+    }
+
+    /**
+     * Creates a control of the requested type.
+     * 
+     * @param type the mock type
+     * @return the control.
+     * @since 3.2
+     */
+    public static IMocksControl createControl(final MockType type) {
+        return new MocksControl(type);
     }
 
     /**
@@ -457,7 +497,7 @@ public class EasyMock {
      * @return the control.
      */
     public static IMocksControl createStrictControl() {
-        return new MocksControl(MocksControl.MockType.STRICT);
+        return createControl(MockType.STRICT);
     }
 
     /**
@@ -466,7 +506,7 @@ public class EasyMock {
      * @return the control.
      */
     public static IMocksControl createControl() {
-        return new MocksControl(MocksControl.MockType.DEFAULT);
+        return createControl(MockType.DEFAULT);
     }
 
     /**
@@ -477,7 +517,7 @@ public class EasyMock {
      * @return the control.
      */
     public static IMocksControl createNiceControl() {
-        return new MocksControl(MocksControl.MockType.NICE);
+        return createControl(MockType.NICE);
     }
 
     /**

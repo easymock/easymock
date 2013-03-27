@@ -326,6 +326,46 @@ public class EasyMockSupport {
     }
 
     /**
+     * Creates a mock object of the requested type that implements the given interface or extends
+     * the given class
+     * 
+     * @param type
+     *            the type of the mock to be created.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @return the mock object.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
+     */
+    public <T> T createMock(final MockType type, final Class<T> toMock) {
+        return createControl(type).createMock(toMock);
+    }
+
+    /**
+     * Creates a mock object of the requested type that implements the given interface or extends
+     * the given class
+     * 
+     * @param name
+     *            the name of the mock object.
+     * @param type
+     *            the type of the mock to be created.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @return the mock object.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
+     */
+    public <T> T createMock(final String name, final MockType type, final Class<T> toMock) {
+        return createControl(type).createMock(name, toMock);
+    }
+
+    /**
      * Creates a mock object that implements the given interface, order checking
      * is enabled by default.
      * 
@@ -458,14 +498,25 @@ public class EasyMockSupport {
     }
 
     /**
+     * Creates a control of the given type.
+     * 
+     * @param type the mock type.
+     * @return the control.
+     * @since 3.2
+     */
+    public IMocksControl createControl(final MockType type) {
+        final IMocksControl ctrl = EasyMock.createControl(type);
+        controls.add(ctrl);
+        return ctrl;
+    }
+
+    /**
      * Creates a control, order checking is disabled by default.
      * 
      * @return the control.
      */
     public IMocksControl createControl() {
-        final IMocksControl ctrl = EasyMock.createControl();
-        controls.add(ctrl);
-        return ctrl;
+        return createControl(MockType.DEFAULT);
     }
 
     /**

@@ -38,7 +38,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
 
     private final Class<T> toMock;
 
-    private final Set<Method> mockedMethods = new HashSet<Method>();
+    private Set<Method> mockedMethods;
 
     private Constructor<T> constructor;
 
@@ -67,6 +67,9 @@ public class MockBuilder<T> implements IMockBuilder<T> {
     public IMockBuilder<T> addMockedMethod(final Method method) {
         if (Modifier.isFinal(method.getModifiers())) {
             throw new IllegalArgumentException("Final methods can't be mocked");
+        }
+        if (mockedMethods == null) {
+            mockedMethods = new HashSet<Method>();
         }
         mockedMethods.add(method);
         return this;
@@ -165,6 +168,18 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         return this;
     }
 
+    public T createMock(final MockType type) {
+        final IMocksControl control = (support == null ? EasyMock.createControl(type) : support
+                .createControl(type));
+        return createMock(null, control);
+    }
+
+    public T createMock(final String name, final MockType type) {
+        final IMocksControl control = (support == null ? EasyMock.createControl(type) : support
+                .createControl(type));
+        return createMock(name, control);
+    }
+
     public T createMock(final IMocksControl control) {
         return createMock(null, control);
     }
@@ -183,9 +198,12 @@ public class MockBuilder<T> implements IMockBuilder<T> {
 
     @SuppressWarnings("deprecation")
     public T createMock(final String name, final IMocksControl control) {
+        final Method[] mockedMethodArray = (mockedMethods == null ? new Method[0] : mockedMethods
+                .toArray(new Method[mockedMethods.size()]));
+
         // Create a mock with no default {@code withConstructor} was not called.
         if (constructor == null) {
-            return control.createMock(name, toMock, mockedMethods.toArray(new Method[mockedMethods.size()]));
+            return control.createMock(name, toMock, mockedMethodArray);
         }
 
         // If the constructor is defined, so must be its arguments
@@ -193,8 +211,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
             throw new IllegalStateException("Picked a constructor but didn't pass arguments to it");
         }
 
-        return control.createMock(name, toMock, constructorArgs, mockedMethods
-                .toArray(new Method[mockedMethods.size()]));
+        return control.createMock(name, toMock, constructorArgs, mockedMethodArray);
     }
 
     public T createMock(final String name) {

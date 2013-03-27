@@ -39,6 +39,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     private IMocksBehavior behavior;
 
     /**
+     * This class was kept here for compabitility reason with frameworks using EasyMock
      * @deprecated Use org.easymock.MockType
      */
     @Deprecated

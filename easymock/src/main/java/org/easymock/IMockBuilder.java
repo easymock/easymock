@@ -236,6 +236,16 @@ public interface IMockBuilder<T> {
     IMockBuilder<T> withArgs(Object... initArgs);
 
     /**
+     * Create mock of the request type from this builder. The same builder can be called to
+     * create multiple mocks.
+     * 
+     * @param type the mock type
+     * @return the newly created mock
+     * @since 3.2
+     */
+    T createMock(MockType type);
+
+    /**
      * Create a strict mock from this builder. The same builder can be called to
      * create multiple mocks.
      * 
@@ -268,6 +278,19 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      */
     T createMock(IMocksControl control);
+
+    /**
+     * Create a named mock of the request type from this builder. The same builder can be 
+     * called to create multiple mocks.
+     * 
+     * @param name
+     *            the mock name
+     * @param type
+     *            the mock type
+     * @return the newly created mock
+     * @since 3.2
+     */
+    T createMock(String name, MockType type);
 
     /**
      * Create a named strict mock from this builder. The same builder can be
