@@ -33,6 +33,8 @@ public class Invocation implements Serializable {
 
     private static final long serialVersionUID = 1604995470419943411L;
 
+    private static final Object[] NO_ARGS = {};
+
     private final Object mock;
 
     private transient Method method;
@@ -49,7 +51,7 @@ public class Invocation implements Serializable {
 
     private static Object[] expandVarArgs(final boolean isVarArgs, final Object[] args) {
         if (!isVarArgs) {
-            return args == null ? new Object[0] : args;
+            return args == null ? NO_ARGS : args;
         }
         if (args[args.length - 1] == null) {
             return args;
