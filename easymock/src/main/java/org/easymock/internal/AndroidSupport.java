@@ -19,12 +19,13 @@ package org.easymock.internal;
  * Android-specific support.
  */
 public final class AndroidSupport {
+    // ///CLOVER:OFF
     private static boolean isAndroid;
     static {
         try {
             Class.forName("dalvik.system.PathClassLoader");
             isAndroid = true;
-        } catch (ClassNotFoundException e) {
+        } catch (final ClassNotFoundException e) {
             isAndroid = false;
         }
     }
@@ -32,4 +33,5 @@ public final class AndroidSupport {
     public static boolean isAndroid() {
         return isAndroid;
     }
+    // ///CLOVER:ON    
 }
