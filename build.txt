@@ -151,6 +151,11 @@ To check dependencies and plugins versions
 - mvn versions:display-dependency-updates versions:display-plugin-updates
 
 --------------------------------------------------------------------------------------
+To download the sources associated to our dependencies
+--------------------------------------------------------------------------------------
+- mvn dependency:resolve -Dclassifier=sources
+
+--------------------------------------------------------------------------------------
 To update the license
 --------------------------------------------------------------------------------------
 - mvn validate license:format
