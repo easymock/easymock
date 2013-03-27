@@ -178,7 +178,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     @SuppressWarnings("unchecked")
     public static <T, V extends T> Class<T> getMockedType(final V proxy) {
         if (Proxy.isProxyClass(proxy.getClass())) {
-            return proxy.getClass().getInterfaces()[0];
+            return (Class<T>) proxy.getClass().getInterfaces()[0];
         }
         return (Class<T>) proxy.getClass().getSuperclass();
     }
