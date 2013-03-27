@@ -31,24 +31,42 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
 
     /** lazily created; the proxy factory for classes */
     private static IProxyFactory classProxyFactory;
+
     private static final IProxyFactory interfaceProxyFactory = new JavaProxyFactory();
 
     private IMocksControlState state;
 
     private IMocksBehavior behavior;
 
+    /**
+     * @deprecated Use org.easymock.MockType
+     */
+    @Deprecated
     public enum MockType {
-        NICE, DEFAULT, STRICT
+        NICE(org.easymock.MockType.NICE),
+        DEFAULT(org.easymock.MockType.DEFAULT),
+        STRICT(org.easymock.MockType.STRICT);
+
+        org.easymock.MockType realType;
+
+        MockType(final org.easymock.MockType realType) {
+            this.realType = realType;
+        }
     }
 
-    private MockType type;
+    private org.easymock.MockType type;
 
-    public MocksControl(final MockType type) {
+    public MocksControl(final org.easymock.MockType type) {
         this.type = type;
         reset();
     }
 
-    public MockType getType() {
+    public MocksControl(final MockType type) {
+        this.type = type.realType;
+        reset();
+    }
+
+    public org.easymock.MockType getType() {
         return type;
     }
 
@@ -89,7 +107,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
 
         try {
             state.assertRecordState();
-            IProxyFactory proxyFactory = toMock.isInterface()
+            final IProxyFactory proxyFactory = toMock.isInterface()
                     ? interfaceProxyFactory
                     : getClassProxyFactory();
             return proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
@@ -99,7 +117,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
-    public static IProxyFactory getProxyFactory(Object o) {
+    public static IProxyFactory getProxyFactory(final Object o) {
         return Proxy.isProxyClass(o.getClass())
                 ? new JavaProxyFactory()
                 : getClassProxyFactory();
@@ -113,7 +131,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
                     + EasyMock.DISABLE_CLASS_MOCKING + " to true do modify this behavior");
         }
 
-        IProxyFactory cached = classProxyFactory;
+        final IProxyFactory cached = classProxyFactory;
         if (cached != null) {
             return cached;
         }
@@ -132,8 +150,8 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
 
     public static MocksControl getControl(final Object mock) {
         try {
-            IProxyFactory factory = getProxyFactory(mock);
-            ObjectMethodsFilter handler = (ObjectMethodsFilter) factory.getInvocationHandler(mock);
+            final IProxyFactory factory = getProxyFactory(mock);
+            final ObjectMethodsFilter handler = (ObjectMethodsFilter) factory.getInvocationHandler(mock);
             return handler.getDelegate().getControl();
         } catch (final ClassCastException e) {
             throw new IllegalArgumentException("Not a mock: " + mock.getClass().getName());
@@ -159,30 +177,30 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     @SuppressWarnings("unchecked")
     public static <T, V extends T> Class<T> getMockedType(final V proxy) {
         if (Proxy.isProxyClass(proxy.getClass())) {
-            return (Class<T>) proxy.getClass().getInterfaces()[0];
+            return proxy.getClass().getInterfaces()[0];
         }
         return (Class<T>) proxy.getClass().getSuperclass();
     }
 
     public final void reset() {
-        behavior = new MocksBehavior(type == MockType.NICE);
-        behavior.checkOrder(type == MockType.STRICT);
+        behavior = new MocksBehavior(type == org.easymock.MockType.NICE);
+        behavior.checkOrder(type == org.easymock.MockType.STRICT);
         state = new RecordState(behavior);
         LastControl.reportLastControl(null);
     }
 
     public void resetToNice() {
-        type = MockType.NICE;
+        type = org.easymock.MockType.NICE;
         reset();
     }
 
     public void resetToDefault() {
-        type = MockType.DEFAULT;
+        type = org.easymock.MockType.DEFAULT;
         reset();
     }
 
     public void resetToStrict() {
-        type = MockType.STRICT;
+        type = org.easymock.MockType.STRICT;
         reset();
     }
 

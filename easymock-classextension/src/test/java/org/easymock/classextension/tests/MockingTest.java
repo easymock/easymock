@@ -19,10 +19,10 @@ import static org.easymock.EasyMock.*;
 import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
+import org.easymock.MockType;
 import org.easymock.classextension.IMocksControl;
 import org.easymock.classextension.internal.MocksClassControl;
 import org.easymock.internal.MocksControl;
-import org.easymock.internal.MocksControl.MockType;
 import org.junit.Test;
 
 /**

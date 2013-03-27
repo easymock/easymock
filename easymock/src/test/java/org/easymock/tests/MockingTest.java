@@ -21,8 +21,8 @@ import static org.junit.Assert.*;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import org.easymock.MockType;
 import org.easymock.internal.MocksControl;
-import org.easymock.internal.MocksControl.MockType;
 import org.junit.Test;
 
 /**
