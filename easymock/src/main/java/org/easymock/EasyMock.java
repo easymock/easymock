@@ -1534,7 +1534,7 @@ public class EasyMock {
      * have the same length, and each element has to be equal.
      * 
      * @param value
-     *            the given arry.
+     *            the given array.
      * @return <code>null</code>.
      */
     public static boolean[] aryEq(final boolean[] value) {
@@ -1547,7 +1547,7 @@ public class EasyMock {
      * have the same length, and each element has to be equal.
      * 
      * @param value
-     *            the given arry.
+     *            the given array.
      * @return <code>null</code>.
      */
     public static byte[] aryEq(final byte[] value) {
@@ -1560,7 +1560,7 @@ public class EasyMock {
      * have the same length, and each element has to be equal.
      * 
      * @param value
-     *            the given arry.
+     *            the given array.
      * @return <code>null</code>.
      */
     public static char[] aryEq(final char[] value) {
@@ -1573,7 +1573,7 @@ public class EasyMock {
      * have the same length, and each element has to be equal.
      * 
      * @param value
-     *            the given arry.
+     *            the given array.
      * @return <code>null</code>.
      */
     public static double[] aryEq(final double[] value) {
@@ -1586,7 +1586,7 @@ public class EasyMock {
      * have the same length, and each element has to be equal.
      * 
      * @param value
-     *            the given arry.
+     *            the given array.
      * @return <code>null</code>.
      */
     public static float[] aryEq(final float[] value) {
@@ -1599,7 +1599,7 @@ public class EasyMock {
      * have the same length, and each element has to be equal.
      * 
      * @param value
-     *            the given arry.
+     *            the given array.
      * @return <code>null</code>.
      */
     public static int[] aryEq(final int[] value) {
@@ -1612,7 +1612,7 @@ public class EasyMock {
      * have the same length, and each element has to be equal.
      * 
      * @param value
-     *            the given arry.
+     *            the given array.
      * @return <code>null</code>.
      */
     public static long[] aryEq(final long[] value) {
@@ -1625,7 +1625,7 @@ public class EasyMock {
      * have the same length, and each element has to be equal.
      * 
      * @param value
-     *            the given arry.
+     *            the given array.
      * @return <code>null</code>.
      */
     public static short[] aryEq(final short[] value) {
@@ -1640,7 +1640,7 @@ public class EasyMock {
      * @param <T>
      *            the type of the array, it is passed through to prevent casts.
      * @param value
-     *            the given arry.
+     *            the given array.
      * @return <code>null</code>.
      */
     public static <T> T[] aryEq(final T[] value) {
