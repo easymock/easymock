@@ -15,12 +15,13 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import org.easymock.tests2.ChildEquals;
+import org.junit.Test;
 
 import java.util.Collection;
 
-import org.junit.Test;
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * Bridges are generated methods used for generics. They shouldn't be mocked to
@@ -113,22 +114,10 @@ public class GenericTest {
         assertEquals("hello", holder.value);
     }
 
-    static class A {
-        @Override
-        public boolean equals(final Object o) {
-            return super.equals(o);
-        }
-    }
-
-    public static class D extends A {
-        public String getString() {
-            return "x";
-        }
-    }
-
     @Test
     public void testBridgedEquals() {
-        final D d = createMock(D.class);
-        d.equals(d);
+        ChildEquals c = createMock(ChildEquals.class);
+        assertTrue(c.equals(c));
+
     }
 }

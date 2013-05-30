@@ -52,9 +52,9 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
                 toStringMethod = ReflectionUtils.OBJECT_TOSTRING;
                 finalizeMethod = ReflectionUtils.OBJECT_FINALIZE;
             } else {
-                equalsMethod = toMock.getMethod("equals", new Class[] { Object.class });
-                hashCodeMethod = toMock.getMethod("hashCode", (Class[]) null);
-                toStringMethod = toMock.getMethod("toString", (Class[]) null);
+                equalsMethod = extractMethod(toMock, "equals", Object.class);
+                hashCodeMethod = extractMethod(toMock, "hashCode", (Class[]) null);
+                toStringMethod = extractMethod(toMock, "toString", (Class[]) null);
                 finalizeMethod = ReflectionUtils.findMethod(toMock, "finalize", (Class[]) null);
                 if (finalizeMethod == null) {
                     finalizeMethod = ReflectionUtils.OBJECT_FINALIZE;
@@ -67,6 +67,16 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
         }
         this.delegate = delegate;
         this.name = name;
+    }
+
+    private static Method extractMethod(Class<?> toMock, String name, Class<?>... params) throws NoSuchMethodException {
+        Method m = toMock.getMethod(name, params);
+        // It can occur that the method was bridged. Usually, this means the method was in package scope on a parent class
+        // When that occurs, we need to resolve the bridge to always extract the real method
+        if(m.isBridge()) {
+            m = BridgeMethodResolver.findBridgedMethod(m);
+        }
+        return m;
     }
 
     public final Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
