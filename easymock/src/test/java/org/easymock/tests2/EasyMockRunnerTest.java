@@ -15,29 +15,46 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
-import java.util.List;
-
 import org.easymock.EasyMockRunner;
-import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
+import org.easymock.MockType;
+import org.easymock.tests.BaseEasyMockRunnerTest;
+import org.easymock.tests.IMethods;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
+
 @RunWith(EasyMockRunner.class)
-public class EasyMockRunnerTest extends EasyMockSupport {
+public class EasyMockRunnerTest extends BaseEasyMockRunnerTest {
 
     @Mock
-    private List<?> mock;
+    private IMethods standardMock;
+
+    @Mock(type = MockType.NICE)
+    private IMethods typedMock;
+
+    @Mock(name = "name1")
+    private IMethods namedMock;
+
+    @Mock(name = "name2", type = MockType.NICE)
+    private IMethods namedAndTypedMock;
 
     @Test
     public void testApply() {
-        expect(mock.isEmpty()).andReturn(true);
+        expect(standardMock.oneArg(true)).andReturn("1");
+        expect(namedMock.oneArg(true)).andReturn("2");
         replayAll();
-        assertEquals(true, mock.isEmpty());
+        assertNull(typedMock.oneArg("0"));
+        assertNull(namedAndTypedMock.oneArg("0"));
+        assertEquals("1", standardMock.oneArg(true));
+        assertEquals("2", namedMock.oneArg(true));
         verifyAll();
+        assertEquals("EasyMock for interface org.easymock.tests.IMethods", standardMock.toString());
+        assertEquals("name1", namedMock.toString());
+        assertEquals("EasyMock for interface org.easymock.tests.IMethods", typedMock.toString());
+        assertEquals("name2", namedAndTypedMock.toString());
     }
 
 }

@@ -606,7 +606,15 @@ public class EasyMockSupport {
      * @since 3.2
      */
     public static void injectMocks(final Object obj) {
-        final Field[] fields = obj.getClass().getDeclaredFields();
+        Class<?> c = obj.getClass();
+        while(c != Object.class) {
+            injectMocksToClass(c, obj);
+            c = c.getSuperclass();
+        }
+    }
+
+    private static void injectMocksToClass(Class<?> clazz, Object obj) {
+        final Field[] fields = clazz.getDeclaredFields();
         for (final Field f : fields) {
             final Mock annotation = f.getAnnotation(Mock.class);
             if (annotation == null) {
@@ -617,12 +625,13 @@ public class EasyMockSupport {
             if (name != null) {
                 name = (name.length() == 0 ? null : name);
             }
+            MockType mockType = annotation.type();
             Object o;
             if (obj instanceof EasyMockSupport) {
-                o = ((EasyMockSupport) obj).createMock(type);
+                o = ((EasyMockSupport) obj).createMock(name, mockType, type);
             }
             else {
-                o = EasyMock.createMock(name, type);
+                o = EasyMock.createMock(name, mockType, type);
             }
             f.setAccessible(true);
             try {
@@ -631,6 +640,5 @@ public class EasyMockSupport {
                 throw new RuntimeException(e);
             }
         }
-
     }
 }
