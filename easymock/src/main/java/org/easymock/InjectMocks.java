@@ -18,6 +18,11 @@ package org.easymock;
 import java.lang.annotation.*;
 
 /**
+ * Annotation to set on a field so that {@link EasyMockRunner} or {@link EasyMockSupport#injectMocks(Object)}
+ * will inject mocks created with {@link Mock} on its fields.
+ * <p>
+ * See {@link EasyMockSupport#injectMocks(Object)} for the injection rules.
+ *
  * @author Henri Tremblay
  * @since 3.2
  */

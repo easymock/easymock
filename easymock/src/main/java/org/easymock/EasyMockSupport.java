@@ -17,6 +17,7 @@ package org.easymock;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -597,8 +598,17 @@ public class EasyMockSupport {
     }
 
     /**
-     * Inject a mock to every attributes annotated with {@link Mock} on the class passed
-     * in parameter
+     * Inject a mock to every fields annotated with {@link Mock} on the class passed
+     * in parameter. Then, inject these mocks to the fields of every class annotated with {@link InjectMocks}.
+     * <p>
+     * The rules are
+     * <ul>
+     *     <li>Static and final fields are ignored</li>
+     *     <li>If a mock can be assigned to a field, do it. The same mock an be assigned more than once</li>
+     *     <li>If no mock can be assigned to a field, skip it silently</li>
+     *     <li>If two mocks can be assigned to the same field, return an error</li>
+     * </ul>
+     * Fields are searched recursively on the superclasses
      * <p>
      * <b>Note:</b> If the parameter extends {@link EasyMockSupport}, the mocks will be created using it to allow
      * <code>replayAll/verifyAll</code> to work afterwards
@@ -606,16 +616,83 @@ public class EasyMockSupport {
      * @since 3.2
      */
     public static void injectMocks(final Object obj) {
+        List<Field> injectMockFields = new ArrayList<Field>(1);
+        List<Object> mocks = new ArrayList<Object>(5);
+
         Class<?> c = obj.getClass();
         while(c != Object.class) {
-            injectMocksToClass(c, obj);
+            createMocksForAnnotations(c, obj, mocks, injectMockFields);
             c = c.getSuperclass();
+        }
+
+        for(Field f : injectMockFields) {
+            f.setAccessible(true);
+            Object o;
+            try {
+                o = f.get(obj);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+            c = o.getClass();
+            while(c != Object.class) {
+                injectMocksOnClass(c, o, mocks);
+                c = c.getSuperclass();
+            }
         }
     }
 
-    private static void injectMocksToClass(Class<?> clazz, Object obj) {
+    /**
+     * Try to inject a mock to every fields in the class
+     *
+     * @param clazz class where the fields are taken
+     * @param obj object being a instance of clazz
+     * @param mocks list of possible mocks
+     */
+    private static void injectMocksOnClass(Class<?> clazz, Object obj, List<Object> mocks) {
         final Field[] fields = clazz.getDeclaredFields();
         for (final Field f : fields) {
+            // Skip final or static fields
+            if((f.getModifiers() & (Modifier.STATIC + Modifier.FINAL)) != 0) {
+                continue;
+            }
+            final Class<?> type = f.getType();
+            Object toAssign = null;
+            for(Object mock : mocks) {
+                if(type.isAssignableFrom(mock.getClass())) {
+                    if(toAssign != null) {
+                        throw new RuntimeException("At least two mocks can be assigned to " + f + ": " + toAssign + " and " + mock);
+                    }
+                    toAssign = mock;
+                }
+            }
+            if(toAssign == null) {
+                continue;
+            }
+            f.setAccessible(true);
+            try {
+                f.set(obj, toAssign);
+            } catch (final IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
+     * Create the mocks and find the fields annotated with {@link InjectMocks}
+     *
+     * @param clazz class to search
+     * @param obj object of the class
+     * @param mocks output parameter where the created mocks are added
+     * @param injectMockFields output parameter where the fields to inject are added
+     */
+    private static void createMocksForAnnotations(Class<?> clazz, Object obj, List<Object> mocks, List<Field> injectMockFields) {
+        final Field[] fields = clazz.getDeclaredFields();
+        for (final Field f : fields) {
+            final InjectMocks ima = f.getAnnotation(InjectMocks.class);
+            if(ima != null) {
+                injectMockFields.add(f);
+                continue;
+            }
             final Mock annotation = f.getAnnotation(Mock.class);
             if (annotation == null) {
                 continue;
@@ -639,6 +716,7 @@ public class EasyMockSupport {
             } catch (final IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
+            mocks.add(o);
         }
     }
 }

@@ -16,10 +16,13 @@
 package org.easymock.tests2;
 
 import org.easymock.EasyMockRunner;
+import org.easymock.EasyMockSupport;
+import org.easymock.InjectMocks;
 import org.easymock.Mock;
 import org.easymock.MockType;
 import org.easymock.tests.BaseEasyMockRunnerTest;
 import org.easymock.tests.IMethods;
+import org.easymock.tests.IVarArgs;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -42,7 +45,7 @@ public class EasyMockRunnerTest extends BaseEasyMockRunnerTest {
     private IMethods namedAndTypedMock;
 
     @Test
-    public void testApply() {
+    public void testMocksWithSupport() {
         expect(standardMock.oneArg(true)).andReturn("1");
         expect(namedMock.oneArg(true)).andReturn("2");
         replayAll();
@@ -57,4 +60,33 @@ public class EasyMockRunnerTest extends BaseEasyMockRunnerTest {
         assertEquals("name2", namedAndTypedMock.toString());
     }
 
+    private static class ToInject {
+        protected IMethods m1;
+        protected IMethods m2;
+        protected IVarArgs v;
+        protected String a;
+        protected final IVarArgs f = null;
+        protected static IVarArgs s;
+    }
+
+    private static class ToInjectTest {
+        @Mock
+        protected IMethods m;
+        @Mock
+        protected IVarArgs v;
+        @InjectMocks
+        protected ToInject toInject = new ToInject();
+    }
+
+    @Test
+    public void testInjectMocks() {
+        ToInjectTest test = new ToInjectTest();
+        EasyMockSupport.injectMocks(test);
+        assertSame(test.m, test.toInject.m1);
+        assertSame(test.m, test.toInject.m2);
+        assertSame(test.v, test.toInject.v);
+        assertNull(test.toInject.a);
+        assertNull(test.toInject.f);
+        assertNull(ToInject.s);
+    }
 }

@@ -18,7 +18,7 @@ package org.easymock;
 import java.lang.annotation.*;
 
 /**
- * Annotation to set on the attribute of a test so that {@link EasyMockRunner} or {@link EasyMockSupport#injectMocks(Object)} 
+ * Annotation to set on a field so that {@link EasyMockRunner} or {@link EasyMockSupport#injectMocks(Object)}
  * will inject a mock to it.
  * <p>
  * Doing<br>

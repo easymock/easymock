@@ -38,7 +38,6 @@ public class AnnotatedMockTest extends EasyMockSupport {
 
     @Test
     public void addDocument() {
-        classUnderTest.setListener(collaborator);
         collaborator.documentAdded("New Document");
         replayAll();
         classUnderTest.addDocument("New Document", new byte[0]);
