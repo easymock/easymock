@@ -105,9 +105,11 @@ Implementors of this interface are collaborators
 </p>
 <pre>
 public class ClassUnderTest {
-    // ...    
-    public void addListener(Collaborator listener) {
-        // ... 
+
+    private Collaborator listener;
+    // ...
+    public void setListener(Collaborator listener) {
+        this.listener = listener;
     }
     public void addDocument(String title, byte[] document) { 
         // ... 
@@ -153,7 +155,7 @@ public class ExampleTest {
     @Before
     public void setUp() {
         classUnderTest = new ClassUnderTest();
-        classUnderTest.addListener(mock);
+        classUnderTest.setListener(mock);
     }
 
     @Test
@@ -198,7 +200,7 @@ Here is a first example:
     public void setUp() {
         mock = createMock(Collaborator.class); // 1
         classUnderTest = new ClassUnderTest();
-        classUnderTest.addListener(mock);
+        classUnderTest.setListener(mock);
     }
 
     @Test
@@ -228,6 +230,42 @@ java.lang.AssertionError:
     ...
 </pre>
 
+<h3>
+    Using annotations
+</h3>
+<p>
+Since EasyMock 3.2, it is now possible to create mocks using annotations. This is a nice and shorter way to create your
+mocks and inject them to the tested class. Here is the example above, now using annotations:
+</p>
+<pre>
+import static org.easymock.EasyMock.*;
+
+import org.easymock.EasyMockRunner;
+import org.easymock.InjectMocks;
+import org.easymock.Mock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(EasyMockRunner.class)
+public class ExampleTest {
+
+    @InjectMocks
+    private ClassUnderTest classUnderTest = new ClassUnderTest(); // 2
+
+    @Mock
+    private Collaborator mock; // 1
+
+    @Test
+    public void testRemoveNonExistingDocument() {
+        replay(mock);
+        classUnderTest.removeDocument("Does not exist");
+    }
+}
+</pre>
+<p>
+The <code>mock</code> is instantiated by the runner at step 1. It is then set by the runner, to the <code>listener</code>
+field on step 2. The <code>setUp</code> method can be removed since all the initialisation was done by the runner.
+</p>
 <h3>
    Adding Behavior
 </h3>

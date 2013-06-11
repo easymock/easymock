@@ -117,9 +117,11 @@ objets liés (des listeners dans ce cas) à la classe nommée <code>ClassUnderTe
 </p>
 <pre>
 public class ClassUnderTest {
-    // ...    
-    public void addListener(Collaborator listener) {
-        // ... 
+
+    private Collaborator listener;
+    // ...
+    public void setListener(Collaborator listener) {
+        this.listener = listener;
     }
     public void addDocument(String title, byte[] document) { 
         // ... 
@@ -164,7 +166,7 @@ public class ExampleTest {
     @Before
     public void setUp() {
         classUnderTest = new ClassUnderTest();
-        classUnderTest.addListener(mock);
+        classUnderTest.setListener(mock);
     }
 
     @Test
@@ -240,6 +242,44 @@ java.lang.AssertionError:
     ...
 </pre>
 
+<h3>
+    Utiliser les annotations
+</h3>
+<p>
+Depuis EasyMock 3.2, il est maintenant possible de créer un Mock Object à l'aide d'annotations. C'est une méthode
+à la fois simple et rapide pour créer vos Mock Objects et les injecter à la classe testée. Reprenons l'exemple
+ci-dessus en utilisant les annotations:
+</p>
+<pre>
+import static org.easymock.EasyMock.*;
+
+import org.easymock.EasyMockRunner;
+import org.easymock.InjectMocks;
+import org.easymock.Mock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(EasyMockRunner.class)
+public class ExampleTest {
+
+    @InjectMocks
+    private ClassUnderTest classUnderTest = new ClassUnderTest(); // 2
+
+    @Mock
+    private Collaborator mock; // 1
+
+    @Test
+    public void testRemoveNonExistingDocument() {
+        replay(mock);
+        classUnderTest.removeDocument("Does not exist");
+    }
+}
+</pre>
+<p>
+Le <code>mock</code> est instancié par le runner à l'étape 1. Il est ensuite assigné, toujours par le runner,
+au champs <code>listener</code> de <code>classUnderTest</code> à l'étape 2. La méthode <code>setUp</code> n'est
+donc plus nécessaire étant donné que toute l'initialisation a déjà été effectuée par le runner.
+</p>
 <h3>
    Ajouter un comportement
 </h3>
