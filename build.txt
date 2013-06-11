@@ -19,7 +19,7 @@ It is a basic compilation of the application.
 
 2. Full build
 
-This build will run the tests over Java 5,6,7 and 8, check code coverage with Clover (must be 100%) and 
+This build will check code coverage with Clover (must be 100%) and
 validate that the license headers are correctly set.
 
 You need to add a section to your settings.xml in order to make it works
@@ -28,15 +28,10 @@ You need to add a section to your settings.xml in order to make it works
       <id>easymock</id>
       <properties>
         <maven.clover.licenseLocation>${user.home}/clover.license</maven.clover.licenseLocation>
-        <jdk1_5.jvm>C:\Program Files\Java\jdk1.5.0_22\bin\java.exe</jdk1_5.jvm>
-        <jdk1_6.jvm>C:\Program Files\Java\jdk1.6.0_38\bin\java.exe</jdk1_6.jvm>
-        <jdk1_7.jvm>C:\Program Files\Java\jdk1.7.0_13\bin\java.exe</jdk1_7.jvm>
-        <jdk1_8.jvm>C:\Program Files\Java\jdk1.8.0\bin\java.exe</jdk1_8.jvm>
       </properties>
     </profile
 
-- maven.clover.licenseLocation will tell clover where to find its license
-- jdk1_x.jvm will tell surefire where is the corresponding JRE is installed
+To tell clover where to find its license
 
 Then launch with
 
@@ -50,6 +45,11 @@ the gpg checksum. You will usually launch it on top of the full build.
 The command line will ask you to give the passphrase for the gpg private key.
 
 - "mvn install -PfullBuild,deployBuild"
+
+4. Continuous integration
+
+A continuous integration is provided by Cloudbees. You will find the following builds:
+- https://henri.ci.cloudbees.com/job/easymock-commit/ : Build launch on commit
 
 --------------------------------------------------------------------------------------
 To compile EasyMock in Eclipse
