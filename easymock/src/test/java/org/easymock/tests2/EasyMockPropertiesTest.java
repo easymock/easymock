@@ -15,10 +15,11 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 
 import org.easymock.EasyMock;
@@ -28,13 +29,29 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
+
 /**
  * @author Henri Tremblay
  */
 public class EasyMockPropertiesTest {
 
-    private static final File PROPERTIES_FILE = new File("target" + File.separatorChar + "test-classes",
-            "easymock.properties");
+    private static final String NORMAL_PATH = "target" + File.separatorChar + "test-classes";
+    private static final String CLOVER_PATH = "target" + File.separatorChar + "clover" + File.separatorChar + "test-classes";
+    private static final File PROPERTIES_FILE = new File(isCloverBuild() ? CLOVER_PATH : NORMAL_PATH, "easymock.properties");
+
+    /**
+     * Check that the test execution isn't ran by Clover. Because it it's the case, we need to generate the easymock.properties
+     * file in a different directory
+     */
+    private static boolean isCloverBuild() {
+        String surefireClasspath = System.getProperty("surefire.test.class.path");
+        if(surefireClasspath != null) {
+            return surefireClasspath.contains("target" + File.separatorChar + "clover");
+        }
+        return false;
+    }
 
     @BeforeClass
     public static void beforeClass() throws Exception {
