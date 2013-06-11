@@ -17,7 +17,7 @@ package org.easymock.tests2;
 
 import org.easymock.EasyMockRunner;
 import org.easymock.EasyMockSupport;
-import org.easymock.InjectMocks;
+import org.easymock.TestSubject;
 import org.easymock.Mock;
 import org.easymock.MockType;
 import org.easymock.tests.BaseEasyMockRunnerTest;
@@ -74,7 +74,7 @@ public class EasyMockRunnerTest extends BaseEasyMockRunnerTest {
         protected IMethods m;
         @Mock
         protected IVarArgs v;
-        @InjectMocks
+        @TestSubject
         protected ToInject toInject = new ToInject();
     }
 

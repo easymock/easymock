@@ -17,20 +17,20 @@ package org.easymock.samples;
 
 import org.easymock.EasyMockRunner;
 import org.easymock.EasyMockSupport;
-import org.easymock.InjectMocks;
+import org.easymock.TestSubject;
 import org.easymock.Mock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Example of how to use <code>@Mock</code> and <code>@InjectMocks</code> annotations
+ * Example of how to use <code>@Mock</code> and <code>@TestSubject</code> annotations
  * 
  * @author Henri Tremblay
  */
 @RunWith(EasyMockRunner.class)
 public class AnnotatedMockTest extends EasyMockSupport {
 
-    @InjectMocks
+    @TestSubject
     private final ClassTested classUnderTest = new ClassTested();
 
     @Mock

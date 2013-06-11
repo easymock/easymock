@@ -21,7 +21,7 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 
 /**
- * JUnit runner used to process {@link Mock} and {@link InjectMocks} annotations
+ * JUnit runner used to process {@link Mock} and {@link TestSubject} annotations
  * 
  * @author Henri Tremblay
  * @since 3.2

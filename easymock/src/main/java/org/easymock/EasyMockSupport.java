@@ -599,7 +599,7 @@ public class EasyMockSupport {
 
     /**
      * Inject a mock to every fields annotated with {@link Mock} on the class passed
-     * in parameter. Then, inject these mocks to the fields of every class annotated with {@link InjectMocks}.
+     * in parameter. Then, inject these mocks to the fields of every class annotated with {@link TestSubject}.
      * <p>
      * The rules are
      * <ul>
@@ -678,7 +678,7 @@ public class EasyMockSupport {
     }
 
     /**
-     * Create the mocks and find the fields annotated with {@link InjectMocks}
+     * Create the mocks and find the fields annotated with {@link TestSubject}
      *
      * @param clazz class to search
      * @param obj object of the class
@@ -688,7 +688,7 @@ public class EasyMockSupport {
     private static void createMocksForAnnotations(Class<?> clazz, Object obj, List<Object> mocks, List<Field> injectMockFields) {
         final Field[] fields = clazz.getDeclaredFields();
         for (final Field f : fields) {
-            final InjectMocks ima = f.getAnnotation(InjectMocks.class);
+            final TestSubject ima = f.getAnnotation(TestSubject.class);
             if(ima != null) {
                 injectMockFields.add(f);
                 continue;

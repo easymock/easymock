@@ -254,7 +254,7 @@ ci-dessus en utilisant les annotations:
 import static org.easymock.EasyMock.*;
 
 import org.easymock.EasyMockRunner;
-import org.easymock.InjectMocks;
+import org.easymock.TestSubject;
 import org.easymock.Mock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -262,7 +262,7 @@ import org.junit.runner.RunWith;
 @RunWith(EasyMockRunner.class)
 public class ExampleTest {
 
-    @InjectMocks
+    @TestSubject
     private ClassUnderTest classUnderTest = new ClassUnderTest(); // 2
 
     @Mock
