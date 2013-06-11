@@ -47,9 +47,9 @@
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>  
   </properties>
   <scm>
-    <url>http://easymock.svn.sourceforge.net/viewvc/easymock/trunk</url>
-    <developerConnection>scm:svn:https://easymock.svn.sourceforge.net/svnroot/easymock/trunk</developerConnection>
-    <connection>scm:svn:http://easymock.svn.sourceforge.net/svnroot/easymock/trunk</connection>
+    <url>https://github.com/easymock/easymock</url>
+    <developerConnection>scm:git:git@github.com:easymock/easymock.git</developerConnection>
+    <connection>scm:git:git://github.com/easymock/easymock.git</connection>
   </scm>
   <dependencyManagement>
     <dependencies>
