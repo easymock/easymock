@@ -48,7 +48,7 @@ public class EasyMockPropertiesTest {
     private static boolean isCloverBuild() {
         String surefireClasspath = System.getProperty("surefire.test.class.path");
         if(surefireClasspath != null) {
-            return surefireClasspath.contains("target" + File.separatorChar + "clover");
+            return surefireClasspath.contains(CLOVER_PATH);
         }
         return false;
     }
