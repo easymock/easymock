@@ -129,13 +129,6 @@
                 </goals>
               </execution>
             </executions>
-            <dependencies>
-              <dependency>
-                <groupId>org.codehaus.plexus</groupId>
-                <artifactId>plexus-resources</artifactId>
-                <version>1.0-alpha-7</version>
-              </dependency>
-            </dependencies>
           </plugin>
           <plugin>
             <groupId>com.mycila.maven-license-plugin</groupId>

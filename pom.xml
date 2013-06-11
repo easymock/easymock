@@ -123,14 +123,7 @@
         <plugin>
           <groupId>com.atlassian.maven.plugins</groupId>
           <artifactId>maven-clover2-plugin</artifactId>
-          <version>3.1.0</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.codehaus.plexus</groupId>
-              <artifactId>plexus-resources</artifactId>
-              <version>1.0-alpha-7</version>
-            </dependency>
-          </dependencies>
+          <version>3.1.11</version>
         </plugin>
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
@@ -342,7 +335,7 @@
       <plugin>
         <groupId>com.atlassian.maven.plugins</groupId>
         <artifactId>maven-clover2-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.11</version>
         <configuration>
           <jdk>1.5</jdk>
         </configuration>
