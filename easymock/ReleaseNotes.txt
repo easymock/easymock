@@ -2,7 +2,7 @@ Release Notes - EasyMock - Version 3.2
 
 This release contains two important features:
 * A support for Android. EasyMock now works on Dalvik
-* New @Mock and @InjectMocks annotations
+* New @Mock and @TestSubject annotations
 
 And the complete release notes:
 
