@@ -87,7 +87,7 @@ public class DefaultClassInstantiatorTest {
 
     public static class SerializableWithUIDClass implements Serializable {
 
-        private static  final long serialVersionUDI = -1;
+        private static final long serialVersionUID = -1;
 
         public SerializableWithUIDClass() {
             throw new RuntimeException();
