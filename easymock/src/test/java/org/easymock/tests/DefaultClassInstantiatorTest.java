@@ -62,6 +62,11 @@ public class DefaultClassInstantiatorTest {
         }
     }
 
+    public static class ObjectClass {
+        public ObjectClass(final Object c) {
+        }
+    }
+
     public static class ObjectParamClass {
         public ObjectParamClass(final ParamClass c) {
         }
@@ -107,46 +112,51 @@ public class DefaultClassInstantiatorTest {
     private final String vendor = null;
 
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() {
         // Set the default instantiator
         ClassInstantiatorFactory.setInstantiator(new DefaultClassInstantiator());
     }
 
     @AfterClass
-    public static void tearDown() throws Exception {
+    public static void tearDown() {
         // Set the value back to be clean
         ClassInstantiatorFactory.setDefaultInstantiator();
     }
 
     @Test
-    public void emptyConstructor() throws Exception {
+    public void emptyConstructor() {
         checkInstantiation(DefaultClassInstantiator.class);
     }
 
     @Test
-    public void primitiveType() throws Exception {
+    public void primitiveType() {
         checkInstantiation(PrimitiveParamClass.class);
     }
 
     @Test
-    @Ignore
-    public void finalType() throws Exception {
+    @Ignore // Fails on Java 7 for a currently unknown reason
+    public void finalType() {
         checkInstantiation(FinalParamClass.class);
     }
 
     @Test
-    public void protectedConstructor() throws Exception {
+    public void protectedConstructor() {
         checkInstantiation(ProtectedConstructorClass.class);
     }
 
     @Test
-    public void protectedWithPrimitiveConstructor() throws Exception {
+    public void protectedWithPrimitiveConstructor() {
         checkInstantiation(ProtectedWithPrimitiveConstructorClass.class);
     }
 
     @Test
-    @Ignore
-    public void objectParamRecursion() throws Exception {
+    public void object() {
+        checkInstantiation(ObjectClass.class);
+    }
+
+    @Test
+    @Ignore // Fails on Java 7 for a currently unknown reason
+    public void objectParamRecursion() {
         checkInstantiation(ObjectParamClass.class);
     }
 
@@ -179,7 +189,7 @@ public class DefaultClassInstantiatorTest {
     }
 
     @Test
-    public void newInstance() throws Exception {
+    public void newInstance() {
         checkInstantiation(DefaultClassInstantiator.class);
     }
 
@@ -191,7 +201,7 @@ public class DefaultClassInstantiatorTest {
     @Test
     public void badSerializable() throws Exception {
         final DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
-        instantiator.newInstance(BadlyDoneSerializableClass.class);
+        assertTrue(instantiator.newInstance(BadlyDoneSerializableClass.class) instanceof BadlyDoneSerializableClass);
     }
 
     @Test
