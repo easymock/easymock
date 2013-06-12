@@ -5,8 +5,10 @@
 # ssh -t USERNAME,easymock@shell.sourceforge.net create
 
 cd /home/project-web/easymock \
-&& rm -rf htdocs2 \
-&& svn export http://easymock.svn.sourceforge.net/svnroot/easymock/trunk/website htdocs2  \
-&& chmod -R g+w htdocs2 \
-&& rm -rf htdocs \
-&& mv htdocs2 htdocs
+&& rm -rf htdocs-bak \
+&& git clone https://github.com/easymock/easymock.git htdocs2  \
+&& chmod -R g+w htdocs2/website \
+&& mv htdocs htdocs-bak \
+&& mv htdocs2/website htdocs \
+&& rm -rf htdocs2
+
