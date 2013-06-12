@@ -631,7 +631,9 @@ public class EasyMockSupport {
             try {
                 o = f.get(obj);
             } catch (IllegalAccessException e) {
+                // ///CLOVER:OFF
                 throw new RuntimeException(e);
+                // ///CLOVER:ON
             }
             c = o.getClass();
             while(c != Object.class) {
@@ -672,7 +674,9 @@ public class EasyMockSupport {
             try {
                 f.set(obj, toAssign);
             } catch (final IllegalAccessException e) {
+                // ///CLOVER:OFF
                 throw new RuntimeException(e);
+                // ///CLOVER:ON
             }
         }
     }
@@ -714,7 +718,9 @@ public class EasyMockSupport {
             try {
                 f.set(obj, o);
             } catch (final IllegalAccessException e) {
+                // ///CLOVER:OFF
                 throw new RuntimeException(e);
+                // ///CLOVER:ON
             }
             mocks.add(o);
         }
