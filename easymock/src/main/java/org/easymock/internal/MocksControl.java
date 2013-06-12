@@ -137,9 +137,11 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
             return cached;
         }
 
+        // ///CLOVER:OFF
         if (AndroidSupport.isAndroid()) {
             return classProxyFactory = new AndroidClassProxyFactory();
         }
+        // ///CLOVER:ON
 
         try {
             return classProxyFactory = new ClassProxyFactory();
