@@ -190,7 +190,7 @@
           <configuration>
             <targetPercentage>100.00%</targetPercentage>
             <generateHtml>true</generateHtml>
-            <generatePdf>true</generatePdf>
+            <generatePdf>false</generatePdf>
             <generateXml>true</generateXml>
             <jdk>1.5</jdk>
           </configuration>
