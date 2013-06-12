@@ -17,17 +17,29 @@ package org.easymock.internal;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.cglib.core.*;
-import net.sf.cglib.proxy.*;
-
 import org.easymock.ConstructorArgs;
+
+import net.sf.cglib.core.CodeGenerationException;
+import net.sf.cglib.core.CollectionUtils;
+import net.sf.cglib.core.DefaultNamingPolicy;
+import net.sf.cglib.core.NamingPolicy;
+import net.sf.cglib.core.Predicate;
+import net.sf.cglib.core.VisibilityPredicate;
+import net.sf.cglib.proxy.Callback;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.Factory;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 
 /**
  * Factory generating a mock for a class.
@@ -61,16 +73,8 @@ public class ClassProxyFactory implements IProxyFactory {
             // 1- In Java 7, the fillInStackTrace won't work because, since no constructor was called, the stackTrace attribute is null
             // 2- There might be some unexpected side effect in the original fillInStackTrace. So it seems more logical to ignore the call 
             if (obj instanceof Throwable && method.getName().equals("fillInStackTrace")) {
-                final Exception e = new Exception();
-                final StackTraceElement[] elements = e.getStackTrace();
-                // ///CLOVER:OFF
-                if (elements.length > 2) {
-                    // ///CLOVER:ON    
-                    final StackTraceElement element = elements[2];
-                    if (element.getClassName().equals("org.easymock.internal.MockInvocationHandler")
-                            && element.getMethodName().equals("invoke")) {
+                if(isCallerMockInvocationHandlerInvoke(new Throwable())) {
                         return obj;
-                    }
                 }
             }
 
