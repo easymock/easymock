@@ -15,7 +15,6 @@
  */
 package org.easymock.internal;
 
-import com.google.dexmaker.stock.ProxyBuilder;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
@@ -24,8 +23,12 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.easymock.ConstructorArgs;
 
+import com.google.dexmaker.stock.ProxyBuilder;
+
+// ///CLOVER:OFF (sadly not possible to test android with clover)
 /**
  * Mocks concrete classes for Android's runtime by generating dex files.
  */
@@ -95,3 +98,4 @@ public final class AndroidClassProxyFactory implements IProxyFactory {
         }
     }
 }
+// ///CLOVER:ON
