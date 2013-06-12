@@ -15,17 +15,19 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
 import org.easymock.ConstructorArgs;
+import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
+import org.easymock.MockType;
 import org.easymock.internal.MockBuilder;
 import org.easymock.internal.MocksControl;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
@@ -321,4 +323,33 @@ public class MockBuilderTest {
     public void testCreateMock_ConstructorWithoutArgs() {
         builder.withConstructor(int.class).createMock();
     }
+
+    @Test
+    public void testWithMockSupport() {
+        EasyMockSupport support = new EasyMockSupport();
+        MockBuilderTest a = support.createMockBuilder(MockBuilderTest.class).addMockedMethods("myMethod", "toString").createMock(MockType.NICE);
+        expect(a.myMethod(2)).andReturn(1);
+        support.replayAll();
+        assertEquals(a.myMethod(2), 1);
+        assertEquals(a.myMethod(3), 0);
+        support.verifyAll();
+        assertEquals("EasyMock for class org.easymock.tests2.MockBuilderTest", a.toString());
+    }
+
+    @Test
+    public void testWithMockSupportNamed() {
+        EasyMockSupport support = new EasyMockSupport();
+        MockBuilderTest a = support.createMockBuilder(MockBuilderTest.class).addMockedMethods("myMethod", "toString").createMock("foo", MockType.NICE);
+        expect(a.myMethod(2)).andReturn(1);
+        support.replayAll();
+        assertEquals(a.myMethod(2), 1);
+        assertEquals(a.myMethod(3), 0);
+        support.verifyAll();
+        assertEquals("foo", a.toString());
+    }
+
+    public int myMethod(int i) {
+        return i;
+    }
+
 }

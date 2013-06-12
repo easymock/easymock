@@ -90,7 +90,7 @@ public final class ReflectionUtils {
      */
     public static Method findMethod(final Class<?> clazz, final String name, final Class<?>... paramTypes) {
         Class<?> searchType = clazz;
-        while (!Object.class.equals(searchType) && searchType != null) {
+        while (searchType != null) {
             final Method[] methods = searchType.getDeclaredMethods();
             Method result = null;
             for (final Method method : methods) {
