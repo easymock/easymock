@@ -87,7 +87,8 @@
             <configuration>
               <targetPercentage>100.00%</targetPercentage>
               <generateHtml>true</generateHtml>
-              <generateXml>false</generateXml>
+              <generatePdf>true</generatePdf>
+              <generateXml>true</generateXml>
               <jdk>1.5</jdk>
               <excludes>
                 <exclude>**/org/easymock/classextension/samples/*.java</exclude>
