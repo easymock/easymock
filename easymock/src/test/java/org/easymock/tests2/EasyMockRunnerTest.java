@@ -89,4 +89,24 @@ public class EasyMockRunnerTest extends BaseEasyMockRunnerTest {
         assertNull(test.toInject.f);
         assertNull(ToInject.s);
     }
+
+    private static class ToInjectDuplicateTest {
+        @Mock(name="a")
+        protected IMethods m;
+        @Mock(name="b")
+        protected IMethods v;
+        @TestSubject
+        protected ToInject toInject = new ToInject();
+    }
+
+    @Test
+    public void testInjectDuplicate() {
+        ToInjectDuplicateTest test = new ToInjectDuplicateTest();
+        try {
+            EasyMockSupport.injectMocks(test);
+        }
+        catch (RuntimeException e) {
+            assertEquals("At least two mocks can be assigned to protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockRunnerTest$ToInject.m1: a and b", e.getMessage());
+        }
+    }
 }
