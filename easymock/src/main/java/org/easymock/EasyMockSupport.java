@@ -703,9 +703,9 @@ public class EasyMockSupport {
             }
             final Class<?> type = f.getType();
             String name = annotation.name();
-            if (name != null) {
-                name = (name.length() == 0 ? null : name);
-            }
+            // Empty string means we are on the default value which we means no name (aka null) from the EasyMock point of view
+            name = (name.length() == 0 ? null : name);
+
             MockType mockType = annotation.type();
             Object o;
             if (obj instanceof EasyMockSupport) {
