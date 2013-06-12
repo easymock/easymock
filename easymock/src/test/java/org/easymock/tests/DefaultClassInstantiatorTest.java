@@ -15,9 +15,6 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
 import java.io.Serializable;
 
 import org.easymock.internal.ClassInstantiatorFactory;
@@ -26,6 +23,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * Class testing the default instantiator. I'm cheating a little bit here since
@@ -85,6 +85,15 @@ public class DefaultClassInstantiatorTest {
         }
     }
 
+    public static class SerializableWithUIDClass implements Serializable {
+
+        private static  final long serialVersionUDI = -1;
+
+        public SerializableWithUIDClass() {
+            throw new RuntimeException();
+        }
+    }
+
     @SuppressWarnings("serial")
     public static class BadlyDoneSerializableClass implements Serializable {
 
@@ -111,34 +120,34 @@ public class DefaultClassInstantiatorTest {
 
     @Test
     public void emptyConstructor() throws Exception {
-        checkInstatiation(DefaultClassInstantiator.class);
+        checkInstantiation(DefaultClassInstantiator.class);
     }
 
     @Test
     public void primitiveType() throws Exception {
-        checkInstatiation(PrimitiveParamClass.class);
+        checkInstantiation(PrimitiveParamClass.class);
     }
 
     @Test
     @Ignore
     public void finalType() throws Exception {
-        checkInstatiation(FinalParamClass.class);
+        checkInstantiation(FinalParamClass.class);
     }
 
     @Test
     public void protectedConstructor() throws Exception {
-        checkInstatiation(ProtectedConstructorClass.class);
+        checkInstantiation(ProtectedConstructorClass.class);
     }
 
     @Test
     public void protectedWithPrimitiveConstructor() throws Exception {
-        checkInstatiation(ProtectedWithPrimitiveConstructorClass.class);
+        checkInstantiation(ProtectedWithPrimitiveConstructorClass.class);
     }
 
     @Test
     @Ignore
-    public void objectParamRecusion() throws Exception {
-        checkInstatiation(ObjectParamClass.class);
+    public void objectParamRecursion() throws Exception {
+        checkInstantiation(ObjectParamClass.class);
     }
 
     @Test
@@ -171,12 +180,12 @@ public class DefaultClassInstantiatorTest {
 
     @Test
     public void newInstance() throws Exception {
-        checkInstatiation(DefaultClassInstantiator.class);
+        checkInstantiation(DefaultClassInstantiator.class);
     }
 
     @Test
     public void serializable() {
-        checkInstatiation(SerializableClass.class);
+        checkInstantiation(SerializableClass.class);
     }
 
     @Test
@@ -185,7 +194,13 @@ public class DefaultClassInstantiatorTest {
         instantiator.newInstance(BadlyDoneSerializableClass.class);
     }
 
-    private <T> void checkInstatiation(final Class<T> clazz) {
+    @Test
+    public void serializableWithUID() throws Exception {
+        final DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
+        assertTrue(instantiator.newInstance(SerializableWithUIDClass.class) instanceof SerializableWithUIDClass);
+    }
+
+    private <T> void checkInstantiation(final Class<T> clazz) {
         final T mock = createMock(clazz);
         assertTrue(clazz.isAssignableFrom(mock.getClass()));
     }
