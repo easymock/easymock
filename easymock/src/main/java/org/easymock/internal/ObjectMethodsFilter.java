@@ -45,26 +45,25 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
             throw new IllegalArgumentException(String.format("'%s' is not a valid Java identifier.", name));
 
         }
-        try {
-            if (toMock.isInterface()) {
-                equalsMethod = ReflectionUtils.OBJECT_EQUALS;
-                hashCodeMethod = ReflectionUtils.OBJECT_HASHCODE;
-                toStringMethod = ReflectionUtils.OBJECT_TOSTRING;
-                finalizeMethod = ReflectionUtils.OBJECT_FINALIZE;
-            } else {
+
+        if (toMock.isInterface()) {
+            equalsMethod = ReflectionUtils.OBJECT_EQUALS;
+            hashCodeMethod = ReflectionUtils.OBJECT_HASHCODE;
+            toStringMethod = ReflectionUtils.OBJECT_TOSTRING;
+            finalizeMethod = ReflectionUtils.OBJECT_FINALIZE;
+        } else {
+            try {
                 equalsMethod = extractMethod(toMock, "equals", Object.class);
                 hashCodeMethod = extractMethod(toMock, "hashCode", (Class[]) null);
                 toStringMethod = extractMethod(toMock, "toString", (Class[]) null);
                 finalizeMethod = ReflectionUtils.findMethod(toMock, "finalize", (Class[]) null);
-                if (finalizeMethod == null) {
-                    finalizeMethod = ReflectionUtils.OBJECT_FINALIZE;
-                }
+            } catch (final NoSuchMethodException e) {
+                // ///CLOVER:OFF
+                throw new RuntimeException("An Object method could not be found!", e);
+                // ///CLOVER:ON
             }
-        } catch (final NoSuchMethodException e) {
-            // ///CLOVER:OFF
-            throw new RuntimeException("An Object method could not be found!");
-            // ///CLOVER:ON
         }
+
         this.delegate = delegate;
         this.name = name;
     }
