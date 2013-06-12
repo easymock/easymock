@@ -85,11 +85,6 @@
             <groupId>com.atlassian.maven.plugins</groupId>
             <artifactId>maven-clover2-plugin</artifactId>
             <configuration>
-              <targetPercentage>100.00%</targetPercentage>
-              <generateHtml>true</generateHtml>
-              <generatePdf>true</generatePdf>
-              <generateXml>true</generateXml>
-              <jdk>1.5</jdk>
               <excludes>
                 <exclude>**/org/easymock/classextension/samples/*.java</exclude>
               </excludes>

@@ -188,6 +188,17 @@
             <xmlOutput>true</xmlOutput>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>com.atlassian.maven.plugins</groupId>
+          <artifactId>maven-clover2-plugin</artifactId>
+          <configuration>
+            <targetPercentage>100.00%</targetPercentage>
+            <generateHtml>true</generateHtml>
+            <generatePdf>true</generatePdf>
+            <generateXml>true</generateXml>
+            <jdk>1.5</jdk>
+          </configuration>
+        </plugin>
         <!--This plugin configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
