@@ -170,7 +170,7 @@ To release to SourceForge
   - Copy the javadoc to website/api
   - Copy Documentation.html and Documentation_fr.html from the zip bundle to the website (rename them)
   - Check-in everything
-  - Log to the shell and launch refresh-website.sh
+  - Log to the shell (ssh -t USERNAME,easymock@shell.sourceforge.net create) and launch refresh-website.sh
 
 - Upload the bundle
   - Go to the File Manager on the EasyMock SF project 
