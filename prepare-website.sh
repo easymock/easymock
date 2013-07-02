@@ -74,7 +74,3 @@ echo
 echo --- Add Announcements ---
 echo
 sed -i -e "s/<!--StartE-->\(.\+\)<strong>\(.\+\)<\/strong>\(.\+\)<\/li><li>\(.\+\)<strong>\(.\+\)<\/strong>\(.\+\)<!--EndE-->/<!--StartE--><li>${DATE}: <strong>EasyMock ${VERSION} is available<\/strong>. ${ANNOUNCEMENT}.<\/li><li>${DATE}: <strong>EasyMock ${VERSION} Class Extension is available<\/strong>. Just following EasyMock versionning. Still deprecated.<\/li><!--EndE-->\n  \1\2\3<\/li>\n  <li>\4\5\6/" "website/index.html"
-
-echo
-echo --- Add change log ---
-echo
