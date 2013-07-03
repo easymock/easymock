@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.easymock</groupId>
+    <artifactId>easymock-parent</artifactId>
+    <version>3.2-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>easymock-android-tck</artifactId>
+  <packaging>apk</packaging>
+  <name>EasyMock Android TCK</name>
+  <description>EasyMock Android Technology Compatibility Kit</description>
+  <inceptionYear>2013</inceptionYear>
+  <organization>
+    <name>Henri Tremblay</name>
+  </organization>
+  
+  <developers>
+    <developer>
+      <id>henri</id>
+      <name>Henri Tremblay</name>
+      <url>http://henritremblay.blogspot.fr/</url>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>${project.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>cglib</groupId>
+          <artifactId>cglib-nodep</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.google.dexmaker</groupId>
+      <artifactId>dexmaker</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.android</groupId>
+      <artifactId>android</artifactId>
+      <version>1.5_r3</version>
+      <scope>provided</scope>
+    </dependency>  
+  </dependencies>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+          <artifactId>android-maven-plugin</artifactId>
+          <version>3.6.0</version>
+          <extensions>true</extensions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+        <artifactId>android-maven-plugin</artifactId>
+        <configuration>
+          <sdk>
+            <platform>17</platform>
+          </sdk>
+        </configuration>
+        <extensions>true</extensions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <id>install</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>adb</executable>
+              <arguments>
+                <argument>install</argument>
+                <argument>-r</argument>
+                <argument>${project.build.directory}\${project.build.finalName}.apk</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>execute</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>adb</executable>
+              <arguments>
+                <argument>shell</argument>
+                <argument>am</argument>
+                <argument>instrument</argument>
+                <argument>-w</argument>
+                <argument>org.easymock.android/.AndroidTck</argument>
+              </arguments>
+            </configuration>
+          </execution>          
+        </executions>
+      </plugin>      
+    </plugins>
+  </build>
+
+</project>

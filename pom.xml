@@ -468,6 +468,12 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>android</id>
+      <modules>
+        <module>easymock-android-tck</module>
+      </modules>
+    </profile>
   </profiles>
 
 </project>

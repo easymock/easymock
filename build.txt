@@ -181,3 +181,11 @@ To release to SourceForge
   - Show the detailled information and rename it to readme.txt
   
 - DON'T FORGET: Tag in SVN!
+
+--------------------------------------------------------------------------------------
+Android
+--------------------------------------------------------------------------------------
+- Install the Android SDK
+- Configure a device (real or simulated)
+- Activate the debug mode if it's a real device
+- mvn install -Pandroid
