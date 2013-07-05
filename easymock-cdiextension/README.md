@@ -1,4 +1,4 @@
-easymock-cdi
+easymock-cdiextension
 ============
 
 This project is an Easymock CDI extension.
@@ -6,7 +6,7 @@ This project is an Easymock CDI extension.
 It provides mock injection in test classes and fields explicitly annotated with @TestSubject.
 Each test class in execution has its own test context, so you can have the same CDI bean behaving as a strict mock in one test and as a nice mock in another one.
 
-Browse the unit tests to see how the tests looks like.
+Browse the unit tests to see how the tests looks like (https://github.com/marciopd/easymock/blob/master/easymock-cdiextension/src/test/java/org/easymock/cdi/HelloWorldBusinessTest.java).
 
 
 This work was inspired by the question in 
