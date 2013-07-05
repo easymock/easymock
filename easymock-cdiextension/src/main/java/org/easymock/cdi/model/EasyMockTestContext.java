@@ -146,15 +146,7 @@ public final class EasyMockTestContext {
      * @return <code>true</code>, if yes. Otherwise, <code>false</code>.
      */
     public boolean isContext(final Class<?> candidate) {
-        return getContexts().contains(candidate);
-    }
-
-    /**
-     * Returns all contexts.
-     * @return contexts
-     */
-    private Set<Class<?>> getContexts() {
-        return mockDefinitionsPerContext.keySet();
+        return testSubjectsPerContext.containsKey(candidate);
     }
 
     /**
