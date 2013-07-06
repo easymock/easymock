@@ -33,7 +33,7 @@ public class HelloWorldFacadeNiceMockTest {
     }
 
     @Test
-    public void testSay() {
+    public void testSayHelloWorldBusinessNiceMock() {
 
         replay(helloWorldBusinessMock);
 

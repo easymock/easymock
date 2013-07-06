@@ -81,14 +81,6 @@ public final class EasyMockTestContext {
     }
 
     /**
-     * Returns current test execution context.
-     * @return context
-     */
-    public Class<?> getCurrentExecutionContext() {
-        return currentExecutionContext;
-    }
-
-    /**
      * Set the test subject class in a test context.
      *
      * @param context
@@ -223,8 +215,9 @@ public final class EasyMockTestContext {
      */
     public boolean isCurrentContextTestSubject(
         final Class<?> candidate) {
-        final Class<?> injectMocks = testSubjectsPerContext
+        final Class<?> contextTestSubject = testSubjectsPerContext
                 .get(currentExecutionContext);
-        return injectMocks != null && injectMocks.equals(candidate);
+        return contextTestSubject != null
+                && contextTestSubject.equals(candidate);
     }
 }

@@ -34,6 +34,7 @@
     </developer>
   </developers>
   <dependencies>
+    <!-- runtime -->
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
@@ -42,7 +43,7 @@
     <dependency>
        <groupId>javax.enterprise</groupId>
        <artifactId>cdi-api</artifactId>
-       <version>1.0-SP4</version>
+       <version>1.1</version>
     </dependency>
     <dependency>
       <groupId>org.powermock</groupId>
@@ -50,6 +51,7 @@
       <version>1.5.1</version>
     </dependency>
 
+    <!-- tests -->
     <dependency>
       <groupId>br.gov.frameworkdemoiselle.component</groupId>
       <artifactId>demoiselle-junit</artifactId>
@@ -61,7 +63,7 @@
       <artifactId>slf4j-log4j12</artifactId>
       <version>1.6.1</version>
       <scope>test</scope>
-     </dependency>
+     </dependency>  
   </dependencies>
   <build>
     <plugins>

@@ -31,7 +31,7 @@ public class HelloWorldBusinessTest {
     }
 
     @Test
-    public void testSay() {
+    public void testSayHelloWorldDaoDefaultMock() {
 
         helloWorldDaoMock.doSomething();
         replay(helloWorldDaoMock);

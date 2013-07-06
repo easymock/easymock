@@ -7,15 +7,21 @@ import java.util.Set;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AnnotatedField;
 import javax.enterprise.inject.spi.AnnotatedType;
+import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeShutdown;
 import javax.enterprise.inject.spi.Extension;
+import javax.enterprise.inject.spi.InjectionTarget;
+import javax.enterprise.inject.spi.Interceptor;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
+import javax.enterprise.inject.spi.ProcessBean;
 import javax.enterprise.inject.spi.ProcessInjectionTarget;
 
 import org.easymock.Mock;
 import org.easymock.TestSubject;
 import org.easymock.cdi.model.EasyMockTestContext;
 import org.easymock.cdi.model.MockDefinition;
+import org.powermock.reflect.Whitebox;
 
 /**
  * Easymock CDI extension.
@@ -94,6 +100,40 @@ public class EasymockCdiExtension implements Extension {
     private <T, X> void setTestSubject(final Class<T> context,
             final Class<X> testSubject) {
         easyMockTestContext.setTestSubject(context, testSubject);
+    }
+
+    /**
+     * Processes enabled interceptors.
+     * @param event enabled bean event
+     * @param manager bean mnager
+     */
+    public void processEnabledInterceptor(
+        @Observes final ProcessBean<Object> event,
+        final BeanManager manager) {
+        final Bean<Object> bean = event.getBean();
+        if (bean instanceof Interceptor) {
+            final Interceptor<Object> interceptor = (Interceptor<Object>) bean;
+            wrapInterceptorInjectionTarget(interceptor);
+        }
+    }
+
+    /**
+     * Wraps interceptor injection target.
+     * @param interceptor interceptor
+     */
+    private void wrapInterceptorInjectionTarget(
+        final Interceptor<Object> interceptor) {
+        try {
+            @SuppressWarnings("unchecked")
+            final InjectionTarget<Object> injectionTarget =
+                Whitebox.getInternalState(interceptor,InjectionTarget.class);
+            Whitebox.setInternalState(interceptor,
+                    new TestSubjectInjectionTarget<Object>(injectionTarget));
+        } catch (final RuntimeException e) {
+            System.err.println("[WARN] " + getClass().getName()
+                + ": Couldn't wrap interceptor "
+                + interceptor.getBeanClass() + ".");
+        }
     }
 
     /**
