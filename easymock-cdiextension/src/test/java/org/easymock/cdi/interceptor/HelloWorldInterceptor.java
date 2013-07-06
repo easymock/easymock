@@ -5,19 +5,21 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
+import org.slf4j.Logger;
+
 @Interceptor
 @HelloWorldInterceptorBinding
 public class HelloWorldInterceptor {
 
     @Inject
-    private HelloWorldInterceptorFacade helloWorldInterceptorFacade;
+    private Logger logger;
 
-    public HelloWorldInterceptor() {
-        System.out.println("New interceptor instance.");
-    }
+    @Inject
+    private HelloWorldInterceptorFacade helloWorldInterceptorFacade;
 
     @AroundInvoke
     public Object aroundInvoke(final InvocationContext ctx) throws Exception {
+        logger.info(getClass().getName() + " interceptor running.");
         helloWorldInterceptorFacade.say();
         return ctx.proceed();
     }
