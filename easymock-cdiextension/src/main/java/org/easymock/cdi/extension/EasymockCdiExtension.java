@@ -8,7 +8,6 @@ import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AnnotatedField;
 import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Bean;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeShutdown;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.InjectionTarget;
@@ -105,11 +104,9 @@ public class EasymockCdiExtension implements Extension {
     /**
      * Processes enabled interceptors.
      * @param event enabled bean event
-     * @param manager bean mnager
      */
     public void processEnabledInterceptor(
-        @Observes final ProcessBean<Object> event,
-        final BeanManager manager) {
+        @Observes final ProcessBean<Object> event) {
         final Bean<Object> bean = event.getBean();
         if (bean instanceof Interceptor) {
             final Interceptor<Object> interceptor = (Interceptor<Object>) bean;
