@@ -31,7 +31,7 @@ public class HelloWorldEasyMockSupportTest {
     }
 
     @Test
-    public void testSayHelloWorldDaoDefaultMock() {
+    public void testEasyMockSupportExample() {
 
         helloWorldDaoMock.doSomething();
         easyMockSupport.replayAll();
