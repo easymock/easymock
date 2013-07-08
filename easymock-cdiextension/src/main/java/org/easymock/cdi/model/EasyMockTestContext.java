@@ -1,15 +1,13 @@
 package org.easymock.cdi.model;
 
-import static org.easymock.EasyMock.createControl;
-import static org.easymock.EasyMock.createNiceControl;
-import static org.easymock.EasyMock.createStrictControl;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.easymock.EasyMockSupport;
 
 /**
  * Holds data about the tests context.
@@ -73,6 +71,19 @@ public final class EasyMockTestContext {
         new HashMap<Class<?>, Set<Object>>();
 
     /**
+     * Easymock support for mocks.
+     */
+    private final EasyMockSupport easyMockSupport = new EasyMockSupport();
+
+    /**
+     * Returns test context easymock support.
+     * @return easy mock support
+     */
+    public EasyMockSupport getEasyMockSupport() {
+        return easyMockSupport;
+    }
+
+    /**
      * Sets current execution context.
      * @param context context
      */
@@ -87,6 +98,8 @@ public final class EasyMockTestContext {
      *            context (test class)
      * @param testSubject
      *            class where mocks should be used
+     * @throws RuntimeException if there is already a test subject in the
+     * context
      */
     public void setTestSubject(
             final Class<?> context,
@@ -177,13 +190,15 @@ public final class EasyMockTestContext {
      */
     private Object createMock(final MockDefinition mockDefinition) {
         if (mockDefinition.isNiceType()) {
-            return createNiceControl().createMock(mockDefinition.getJavaType());
+            return easyMockSupport.createNiceControl().
+                createMock(mockDefinition.getJavaType());
         } else if (mockDefinition.isStrictType()) {
-            return createStrictControl().createMock(
-                    mockDefinition.getJavaType());
+            return easyMockSupport.createStrictControl().
+                createMock(mockDefinition.getJavaType());
         }
 
-        return createControl().createMock(mockDefinition.getJavaType());
+        return easyMockSupport.createControl().createMock(
+                mockDefinition.getJavaType());
     }
 
     /**
