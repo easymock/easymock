@@ -1188,7 +1188,31 @@ L'instantiation des classes est faite par
 <a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>.
 Les JVMs supportées sont listées <a href="http://code.google.com/p/objenesis/wiki/ListOfCurrentlySupportedVMs">ici</a>.
 </p>
-
+<h3>Support Android</h3>
+<p>
+    Depuis la version 3.2, EasyMock peut être utilisé sur une VM Android (Dalvik). Il suffit d'ajouter la dépendance à
+    votre projet apk utilisé pour les tests de votre applicaiton. Il est aussi préférable d'exclure cglib étant donné
+    que dexmaker sera de toute façon utiliser en remplacement. Vous devrez aussi ajouter dexmaker explicitement étant
+    donné qu'il s'agit d'une dépendance optionnelle. Si vous utilisez Maven, vous finirez avec les dépendances suivantes
+</p>
+<pre>
+&lt;dependency&gt;
+  &lt;groupId&gt;org.easymock&lt;/groupId&gt;
+  &lt;artifactId&gt;easymock&lt;/artifactId&gt;
+  &lt;version&gt;${project.version}&lt;/version&gt;
+  &lt;exclusions&gt;
+    &lt;exclusion&gt;
+      &lt;groupId&gt;cglib&lt;/groupId&gt;
+      &lt;artifactId&gt;cglib-nodep&lt;/artifactId&gt;
+    &lt;/exclusion&gt;
+  &lt;/exclusions&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.google.dexmaker&lt;/groupId&gt;
+  &lt;artifactId&gt;dexmaker&lt;/artifactId&gt;
+  &lt;version&gt;1.0&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
 <h2>
 Développement d'EasyMock
 </h2>
