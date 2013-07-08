@@ -5,6 +5,7 @@ I'm using:
   - buildhelper (for build-helper-maven-plugin)
   - Tycho Project Configurator bridges tycho based projects and PDE (for maven-bundle-plugin)
   - mavenarchiver basic support
+- IntelliJ 12.1.4 (in replacement to Eclipse)
 
 --------------------------------------------------------------------------------------
 To build EasyMock with Maven
