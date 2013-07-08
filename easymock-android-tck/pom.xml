@@ -113,6 +113,21 @@
             </configuration>
           </execution>          
         </executions>
+      </plugin>
+      <!-- Won't be deployed in the Central repository -->
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <!-- No clover on this Android project -->
+      <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-clover2-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
       </plugin>      
     </plugins>
   </build>
