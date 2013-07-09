@@ -12,9 +12,11 @@ This extension also supports:
 - CDI interceptors unit testing (Ex: https://github.com/marciopd/easymock/blob/master/easymock-cdiextension/src/test/java/org/easymock/cdi/interceptor/HelloWorldInterceptorTest.java).
 - EasyMockSupport injection (Ex: https://github.com/marciopd/easymock/blob/master/easymock-cdiextension/src/test/java/org/easymock/cdi/HelloWorldEasyMockSupportTest.java).
 
+JIRA feature request linked with this fork at: https://jira.codehaus.org/browse/EASYMOCK-126 .
+If you agree, please vote.
 
 
 This work was inspired by the question in 
-http://stackoverflow.com/questions/16761905/unit-test-with-cdi-unit-and-easymock/16814237#16814237 and has the following projects as references:
+http://stackoverflow.com/questions/16761905/unit-test-with-cdi-unit-and-easymock/16814237#16814237 and has the following projects as initial references:
 - http://junitcdi.sandbox.seasar.org/junitcdi-easymock/index.html
 - http://docs.mockito.googlecode.com/hg/latest/org/mockito/InjectMocks.html
