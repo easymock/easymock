@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.easymock</groupId>
   <artifactId>easymock-parent</artifactId>
-  <version>3.2-SNAPSHOT</version>
+  <version>3.2</version>
   <packaging>pom</packaging>
   <name>EasyMock Parent</name>
   <url>http://www.easymock.org</url>
