@@ -14,8 +14,6 @@ And the complete release notes:
     * [EASYMOCK-121] - Upgrade to Objenesis 1.3
     * [EASYMOCK-124] - Website text gets badly truncate on certain screens
 
-
-
 ** Improvement
     * [EASYMOCK-107] - Remove the possibility to override easymock.properties with system properties
     * [EASYMOCK-108] - Android support
