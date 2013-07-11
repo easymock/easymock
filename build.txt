@@ -126,6 +126,8 @@ Android
 To bundle EasyMock and deploy
 --------------------------------------------------------------------------------------
 - Update "easymock/ReleaseNotes.txt"
+  - Add a little speech on the features
+  - Retrieve the release notes in the textual format (http://jira.codehaus.org/browse/EASYMOCK#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel)
 - In local:
   mvn versions:set -DnewVersion=x.y -Pandroid
   mvn versions:commit -Pandroid
@@ -162,3 +164,12 @@ To bundle EasyMock and deploy
   - Repeat these step for EasyMock Class Extension
 - Launch easymock-site on Cloudbees
 - Release the Jira version (http://jira.codehaus.org/plugins/servlet/project-config/EASYMOCK/versions)
+- Announce to easymock@yahoogroups.com, twitter, blog
+
+--------------------------------------------------------------------------------------
+Start next version
+--------------------------------------------------------------------------------------
+In local:
+  - mvn versions:set -DnewVersion=X.Z-SNAPSHOT -Pandroid
+  - mvn versions:commit -Pandroid
+- Create next version in Jira (http://jira.codehaus.org/plugins/servlet/project-config/EASYMOCK/versions)
