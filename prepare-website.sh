@@ -2,7 +2,7 @@
 set -e
 
 # Launched from Jenkins to move documentation at the right place during a deployment
-# Usage: prepage-website.sh 2.1 - Launched from the easymock source root directory
+# Usage: prepage-website.sh 2.1 "This version contains something cool" - Launched from the easymock source root directory
 
 if [ "$#" = "0" ]; then
   echo "Usage: $0 version"; exit 1

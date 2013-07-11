@@ -8,12 +8,12 @@
   <parent>
     <groupId>org.easymock</groupId>
     <artifactId>easymock-parent</artifactId>
-    <version>3.2-SNAPSHOT</version>
+    <version>3.2</version>
   </parent>
 
   <artifactId>easymockclassextension</artifactId>
   <packaging>jar</packaging>
-  <name>EasyMock class extension</name>
+  <name>EasyMock Class extension</name>
   <description>The EasyMock Class Extension allows to generate Mock Objects for classes</description>
   <inceptionYear>2003</inceptionYear>
   <organization>
