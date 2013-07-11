@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.easymock</groupId>
+    <artifactId>easymock-parent</artifactId>
+    <version>3.2</version>
+  </parent>
+
+  <artifactId>easymock-test-deploy</artifactId>
+  <packaging>jar</packaging>
+  <name>EasyMock Test Deploy</name>
+  <description>EasyMock Test Deploy makes sure the binaries deployed to Sonartype are working correctly</description>
+  <inceptionYear>2013</inceptionYear>
+  <organization>
+    <name>Henri Tremblay</name>
+  </organization>
+
+  <developers>
+    <developer>
+      <id>henri</id>
+      <name>Henri Tremblay</name>
+      <url>http://henritremblay.blogspot.fr/</url>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymockclassextension</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-clover2-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.8</version>
+        <executions>
+          <execution>
+            <id>purge-local-dependencies</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>purge-local-repository</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <actTransitively>false</actTransitively>
+        </configuration>
+      </plugin>      
+    </plugins>
+  </build>
+  <repositories>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/orgeasymock-1002/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <profiles>
+    <profile>
+      <id>fullBuild</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.mycila.maven-license-plugin</groupId>
+            <artifactId>maven-license-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
