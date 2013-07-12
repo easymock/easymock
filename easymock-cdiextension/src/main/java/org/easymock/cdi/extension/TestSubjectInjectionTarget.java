@@ -6,7 +6,7 @@ import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.InjectionTarget;
 
 import org.easymock.cdi.model.EasyMockTestContext;
-import org.powermock.reflect.Whitebox;
+import org.easymock.cdi.model.ReflectionHelper;
 
 /**
  * Test subject {@link InjectionTarget} wrapper.
@@ -38,19 +38,7 @@ public final class TestSubjectInjectionTarget<T> extends
                 .getClass())) {
             final Set<Object> mocks = easyMockTestContext
                     .getCurrentExecutionMocks();
-            setInternalStateWithMocks(instance, mocks);
-        }
-    }
-
-    /**
-     * Sets mocks in bean.
-     * @param bean bean
-     * @param mocks mocks
-     */
-    private void setInternalStateWithMocks(
-            final T bean, final Set<Object> mocks) {
-        for (final Object mock : mocks) {
-            Whitebox.setInternalState(bean, mock);
+            ReflectionHelper.setInternalState(instance, mocks);
         }
     }
 }

@@ -6,7 +6,7 @@ import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.InjectionTarget;
 
 import org.easymock.cdi.model.EasyMockTestContext;
-import org.powermock.reflect.Whitebox;
+import org.easymock.cdi.model.ReflectionHelper;
 
 /**
  * Injection target wrapper to test classes.
@@ -56,8 +56,6 @@ public final class ContextInjectionTarget<T>
     @Override
     public void inject(final T instance, final CreationalContext<T> ctx) {
         getDelegate().inject(instance, ctx);
-        for (final Object mock : mocks) {
-            Whitebox.setInternalState(instance, mock);
-        }
+        ReflectionHelper.setInternalState(instance, mocks);
     }
 }

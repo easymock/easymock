@@ -20,7 +20,7 @@ import org.easymock.Mock;
 import org.easymock.TestSubject;
 import org.easymock.cdi.model.EasyMockTestContext;
 import org.easymock.cdi.model.MockDefinition;
-import org.powermock.reflect.Whitebox;
+import org.easymock.cdi.model.ReflectionHelper;
 
 /**
  * Easymock CDI extension.
@@ -118,13 +118,13 @@ public class EasymockCdiExtension implements Extension {
      * Wraps interceptor injection target.
      * @param interceptor interceptor
      */
+    @SuppressWarnings("unchecked")
     private void wrapInterceptorInjectionTarget(
         final Interceptor<Object> interceptor) {
         try {
-            @SuppressWarnings("unchecked")
-            final InjectionTarget<Object> injectionTarget =
-                Whitebox.getInternalState(interceptor,InjectionTarget.class);
-            Whitebox.setInternalState(interceptor,
+            final InjectionTarget<Object> injectionTarget = ReflectionHelper.
+                getInternalState(interceptor, InjectionTarget.class);
+            ReflectionHelper.setInternalState(interceptor,
                     new TestSubjectInjectionTarget<Object>(injectionTarget));
         } catch (final RuntimeException e) {
             System.err.println("[WARN] " + getClass().getName()
