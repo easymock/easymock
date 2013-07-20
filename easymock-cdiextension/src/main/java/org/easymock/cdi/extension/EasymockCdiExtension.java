@@ -3,6 +3,7 @@ package org.easymock.cdi.extension;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AnnotatedField;
@@ -26,6 +27,12 @@ import org.easymock.cdi.model.ReflectionHelper;
  * Easymock CDI extension.
  */
 public class EasymockCdiExtension implements Extension {
+
+    /**
+     * Logger.
+     */
+    private final static Logger LOGGER = Logger.
+            getLogger(EasymockCdiExtension.class.getName());
 
     /**
      * Tests context.
@@ -106,30 +113,31 @@ public class EasymockCdiExtension implements Extension {
      * @param event enabled bean event
      */
     public void processEnabledInterceptor(
-        @Observes final ProcessBean<Object> event) {
+            @Observes final ProcessBean<Object> event) {
         final Bean<Object> bean = event.getBean();
         if (bean instanceof Interceptor) {
-            final Interceptor<Object> interceptor = (Interceptor<Object>) bean;
-            wrapInterceptorInjectionTarget(interceptor);
+            wrapInterceptorTestSubjectInjectionTarget(bean);
         }
     }
 
     /**
      * Wraps interceptor injection target.
-     * @param interceptor interceptor
+     * @param bean interceptor bean
      */
     @SuppressWarnings("unchecked")
-    private void wrapInterceptorInjectionTarget(
-        final Interceptor<Object> interceptor) {
+    private void wrapInterceptorTestSubjectInjectionTarget(
+            final Bean<Object> bean) {
         try {
+            final Interceptor<Object> interceptor = (Interceptor<Object>) bean;
             final InjectionTarget<Object> injectionTarget = ReflectionHelper.
-                getInternalState(interceptor, InjectionTarget.class);
+                    getInternalState(interceptor, InjectionTarget.class);
+            final TestSubjectInjectionTarget<Object> testSubjectInjectionTarget =
+                    new TestSubjectInjectionTarget<Object>(injectionTarget);
             ReflectionHelper.setInternalState(interceptor,
-                    new TestSubjectInjectionTarget<Object>(injectionTarget));
+                    testSubjectInjectionTarget);
         } catch (final RuntimeException e) {
-            System.err.println("[WARN] " + getClass().getName()
-                + ": Couldn't wrap interceptor "
-                + interceptor.getBeanClass() + ".");
+            LOGGER.severe("Interceptor  " + bean.getBeanClass()
+                    + " could not be treated as a TestSubject.");
         }
     }
 
@@ -144,15 +152,31 @@ public class EasymockCdiExtension implements Extension {
 
         final Class<T> javaClass = annotatedType.getJavaClass();
         if (easyMockTestContext.isContext(javaClass)) {
-            pit.setInjectionTarget(new ContextInjectionTarget<T>(pit
-                    .getInjectionTarget()));
+            wrapContextInjectionTarget(pit);
+        } else if (easyMockTestContext.isTestSubject(javaClass)) {
+            wrapTestSubjectInjectionTarget(pit);
         }
 
-        if (easyMockTestContext.isTestSubject(javaClass)) {
-            pit.setInjectionTarget(new TestSubjectInjectionTarget<T>(pit
-                    .getInjectionTarget()));
-        }
+    }
 
+    /**
+     * Wraps injection target with {@link TestSubjectInjectionTarget}.
+     * @param pit process injection target
+     */
+    private <T> void wrapTestSubjectInjectionTarget(final ProcessInjectionTarget<T> pit) {
+        final TestSubjectInjectionTarget<T> testSubjectInjectionTarget =
+                new TestSubjectInjectionTarget<T>(pit.getInjectionTarget());
+        pit.setInjectionTarget(testSubjectInjectionTarget);
+    }
+
+    /**
+     * Wraps injection target with {@link ContextInjectionTarget}.
+     * @param pit process injection target
+     */
+    private <T> void wrapContextInjectionTarget(final ProcessInjectionTarget<T> pit) {
+        final ContextInjectionTarget<T> contextInjectionTarget =
+                new ContextInjectionTarget<T>(pit.getInjectionTarget());
+        pit.setInjectionTarget(contextInjectionTarget);
     }
 
     /**
