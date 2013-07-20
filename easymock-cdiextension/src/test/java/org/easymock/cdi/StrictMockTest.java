@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 import br.gov.frameworkdemoiselle.junit.DemoiselleRunner;
 
 @RunWith(DemoiselleRunner.class)
-public class HelloWorldFacadeTest {
+public class StrictMockTest {
 
     @Inject
     @TestSubject
@@ -24,21 +24,21 @@ public class HelloWorldFacadeTest {
 
     @Inject
     @Mock(type = MockType.STRICT)
-    private HelloWorldBusiness helloWorldBusinessMock;
+    private HelloWorldBusiness helloWorldBusinessStrictMock;
 
     @After
     public void afterTest() {
-        reset(helloWorldBusinessMock);
+        reset(helloWorldBusinessStrictMock);
     }
 
     @Test
     public void testSay() {
 
-        helloWorldBusinessMock.say();
-        replay(helloWorldBusinessMock);
+        helloWorldBusinessStrictMock.say();
+        replay(helloWorldBusinessStrictMock);
 
         helloWorldFacade.say();
 
-        verify(helloWorldBusinessMock);
+        verify(helloWorldBusinessStrictMock);
     }
 }

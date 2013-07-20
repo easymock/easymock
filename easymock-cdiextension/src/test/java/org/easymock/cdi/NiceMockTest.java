@@ -17,7 +17,7 @@ import org.junit.runner.RunWith;
 import br.gov.frameworkdemoiselle.junit.DemoiselleRunner;
 
 @RunWith(DemoiselleRunner.class)
-public class HelloWorldFacadeNiceMockTest {
+public class NiceMockTest {
 
     @Inject
     @TestSubject
@@ -25,21 +25,21 @@ public class HelloWorldFacadeNiceMockTest {
 
     @Inject
     @Mock(type = MockType.NICE)
-    private HelloWorldBusiness helloWorldBusinessMock;
+    private HelloWorldBusiness helloWorldBusinessNiceMock;
 
     @After
     public void afterTest() {
-        reset(helloWorldBusinessMock);
+        reset(helloWorldBusinessNiceMock);
     }
 
     @Test
-    public void testSayHelloWorldBusinessNiceMock() {
+    public void testNiceMock() {
 
-        replay(helloWorldBusinessMock);
+        replay(helloWorldBusinessNiceMock);
 
         final int niceMockIntReturn = 0;
         assertEquals(niceMockIntReturn, helloWorldFacade.sayNumber());
 
-        verify(helloWorldBusinessMock);
+        verify(helloWorldBusinessNiceMock);
     }
 }

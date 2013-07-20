@@ -1,11 +1,8 @@
 package org.easymock.cdi;
 
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.reset;
-import static org.easymock.EasyMock.verify;
-
 import javax.inject.Inject;
 
+import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
 import org.junit.After;
@@ -15,7 +12,7 @@ import org.junit.runner.RunWith;
 import br.gov.frameworkdemoiselle.junit.DemoiselleRunner;
 
 @RunWith(DemoiselleRunner.class)
-public class HelloWorldBusinessTest {
+public class EasyMockSupportTest {
 
     @Inject
     @TestSubject
@@ -25,19 +22,23 @@ public class HelloWorldBusinessTest {
     @Mock
     private HelloWorldDao helloWorldDaoMock;
 
+    @Inject
+    private EasyMockSupport easyMockSupport;
+
     @After
     public void afterTest() {
-        reset(helloWorldDaoMock);
+        easyMockSupport.resetAll();
     }
 
     @Test
-    public void testSayHelloWorldDaoDefaultMock() {
+    public void testEasyMockSupport() {
 
         helloWorldDaoMock.doSomething();
-        replay(helloWorldDaoMock);
+        easyMockSupport.replayAll();
 
         helloWorldBusiness.say();
 
-        verify(helloWorldDaoMock);
+        easyMockSupport.verifyAll();
     }
+
 }

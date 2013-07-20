@@ -17,20 +17,12 @@ public final class ContextInjectionTarget<T>
         extends AbstractDelegateInjectionTarget<T> {
 
     /**
-     * Mocks to be used.
-     */
-    private final Set<Object> mocks;
-
-    /**
      * Constructor with params.
      * @param injectionTarget injection target
-     * @param mockSet mocks to be used
      */
     public ContextInjectionTarget(
-            final InjectionTarget<T> injectionTarget,
-            final Set<Object> mockSet) {
+            final InjectionTarget<T> injectionTarget) {
         super(injectionTarget);
-        this.mocks = mockSet;
     }
 
     /**
@@ -56,6 +48,9 @@ public final class ContextInjectionTarget<T>
     @Override
     public void inject(final T instance, final CreationalContext<T> ctx) {
         getDelegate().inject(instance, ctx);
+        final EasyMockTestContext easyMockTestContext =
+                EasyMockTestContext.getInstance();
+        final Set<Object> mocks = easyMockTestContext.getMocks(instance.getClass());
         ReflectionHelper.setInternalState(instance, mocks);
     }
 }

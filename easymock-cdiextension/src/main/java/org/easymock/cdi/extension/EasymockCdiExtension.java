@@ -144,9 +144,8 @@ public class EasymockCdiExtension implements Extension {
 
         final Class<T> javaClass = annotatedType.getJavaClass();
         if (easyMockTestContext.isContext(javaClass)) {
-            final Set<Object> mocks = easyMockTestContext.getMocks(javaClass);
             pit.setInjectionTarget(new ContextInjectionTarget<T>(pit
-                    .getInjectionTarget(), mocks));
+                    .getInjectionTarget()));
         }
 
         if (easyMockTestContext.isTestSubject(javaClass)) {

@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 import br.gov.frameworkdemoiselle.junit.DemoiselleRunner;
 
 @RunWith(DemoiselleRunner.class)
-public class HelloWorldInterceptorTest {
+public class InterceptorTest {
 
     @SuppressWarnings("unused")
     @TestSubject
@@ -35,7 +35,7 @@ public class HelloWorldInterceptorTest {
     }
 
     @Test
-    public void testHelloWorldInterceptorMocked() {
+    public void testInterceptorWithMocks() {
 
         helloWorldInterceptorFacadeMock.say();
         replay(helloWorldInterceptorFacadeMock);
