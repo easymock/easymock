@@ -1,6 +1,7 @@
 package org.easymock.cdi.model;
 
 import java.util.Collection;
+import java.util.logging.Logger;
 
 import org.powermock.reflect.Whitebox;
 
@@ -8,6 +9,12 @@ import org.powermock.reflect.Whitebox;
  * Helper class.
  */
 public final class ReflectionHelper {
+
+    /**
+     * Logger.
+     */
+    private final static Logger LOGGER = Logger.
+            getLogger(ReflectionHelper.class.getName());
 
     /**
      * Not to be instantiated.
@@ -44,6 +51,11 @@ public final class ReflectionHelper {
      * @param value value
      */
     public static void setInternalState(final Object object, final Object value) {
-        Whitebox.setInternalState(object, value);
+        try {
+            Whitebox.setInternalState(object, value);
+        } catch (final RuntimeException e) {
+            LOGGER.info("Ignoring field type " + value.getClass()
+                + " in " + object.getClass() );
+        }
     }
 }

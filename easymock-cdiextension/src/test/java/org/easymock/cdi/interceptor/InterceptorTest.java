@@ -28,35 +28,39 @@ public class InterceptorTest {
 
     @Inject
     @Mock(type = MockType.STRICT)
-    private InterceptorFacade helloWorldInterceptorFacadeMock;
+    private InterceptorOneFacade interceptorOneFacadeMock;
+
+    @Inject
+    @Mock(type = MockType.STRICT)
+    private InterceptorTwoFacade interceptorTwoFacadeMock;
 
     @Inject
     private InterceptedBean helloWorldInterceptedBean;
 
     @After
     public void afterTest() {
-        reset(helloWorldInterceptorFacadeMock);
+        reset(interceptorOneFacadeMock);
     }
 
     @Test
     public void testInterceptorOne() {
 
-        helloWorldInterceptorFacadeMock.executedFromInterceptorOne();
-        replay(helloWorldInterceptorFacadeMock);
+        interceptorOneFacadeMock.executedFromInterceptorOne();
+        replay(interceptorOneFacadeMock);
 
         helloWorldInterceptedBean.doSomething();
 
-        verify(helloWorldInterceptorFacadeMock);
+        verify(interceptorOneFacadeMock);
     }
 
     @Test
     public void testInterceptorTwo() {
 
-        helloWorldInterceptorFacadeMock.executedFromInterceptorTwo();
-        replay(helloWorldInterceptorFacadeMock);
+        interceptorTwoFacadeMock.executedFromInterceptorTwo();
+        replay(interceptorOneFacadeMock);
 
         helloWorldInterceptedBean.doSomethingTwo();
 
-        verify(helloWorldInterceptorFacadeMock);
+        verify(interceptorOneFacadeMock);
     }
 }

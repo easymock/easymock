@@ -1,10 +1,6 @@
 package org.easymock.cdi.interceptor;
 
-public class InterceptorFacade {
-
-    public void executedFromInterceptorOne() {
-        throwRuntimeError();
-    }
+public class InterceptorTwoFacade {
 
     public void executedFromInterceptorTwo() {
         throwRuntimeError();

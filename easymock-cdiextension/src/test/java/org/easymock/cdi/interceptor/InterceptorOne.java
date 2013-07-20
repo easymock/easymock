@@ -15,12 +15,12 @@ public class InterceptorOne {
     private Logger logger;
 
     @Inject
-    private InterceptorFacade helloWorldInterceptorFacade;
+    private InterceptorOneFacade interceptorOneFacade;
 
     @AroundInvoke
     public Object aroundInvoke(final InvocationContext ctx) throws Exception {
         logger.info(getClass().getName() + " interceptor running.");
-        helloWorldInterceptorFacade.executedFromInterceptorOne();
+        interceptorOneFacade.executedFromInterceptorOne();
         return ctx.proceed();
     }
 }
