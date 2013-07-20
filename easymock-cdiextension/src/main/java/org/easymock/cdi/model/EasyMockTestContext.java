@@ -55,7 +55,7 @@ public final class EasyMockTestContext {
     /**
      * Class that will have mocks injected per context.
      */
-    private final Map<Class<?>, Class<?>> testSubjectsPerContext =
+    private final Map<Class<?>, Class<?>> testSubjectPerContext =
         new HashMap<Class<?>, Class<?>>();
 
     /**
@@ -89,6 +89,14 @@ public final class EasyMockTestContext {
      */
     public void setCurrentExecutionContext(final Class<?> context) {
         this.currentExecutionContext = context;
+        cleanAllCreatedMocks();
+    }
+
+    /**
+     * Clean mocks created (thread).
+     */
+    private void cleanAllCreatedMocks() {
+        this.mocksPerContext.clear();
     }
 
     /**
@@ -105,8 +113,8 @@ public final class EasyMockTestContext {
             final Class<?> context,
             final Class<?> testSubject) {
 
-        if (testSubjectsPerContext.containsKey(context)) {
-            final Class<?> existingTestSubject = testSubjectsPerContext
+        if (testSubjectPerContext.containsKey(context)) {
+            final Class<?> existingTestSubject = testSubjectPerContext
                     .get(context);
             throw new IllegalArgumentException(
                     "Context "
@@ -115,7 +123,7 @@ public final class EasyMockTestContext {
                     + existingTestSubject.getName());
         }
 
-        testSubjectsPerContext.put(context, testSubject);
+        testSubjectPerContext.put(context, testSubject);
     }
 
     /**
@@ -124,7 +132,7 @@ public final class EasyMockTestContext {
      * @return <code>true</code>, if yes. Otherwise, <code>false</code>.
      */
     public boolean isTestSubject(final Class<?> candidate) {
-        final Collection<Class<?>> testSubjectClasses = testSubjectsPerContext
+        final Collection<Class<?>> testSubjectClasses = testSubjectPerContext
                 .values();
         return testSubjectClasses.contains(candidate);
     }
@@ -151,7 +159,7 @@ public final class EasyMockTestContext {
      * @return <code>true</code>, if yes. Otherwise, <code>false</code>.
      */
     public boolean isContext(final Class<?> candidate) {
-        return testSubjectsPerContext.containsKey(candidate);
+        return testSubjectPerContext.containsKey(candidate);
     }
 
     /**
@@ -230,7 +238,7 @@ public final class EasyMockTestContext {
      */
     public boolean isCurrentContextTestSubject(
         final Class<?> candidate) {
-        final Class<?> contextTestSubject = testSubjectsPerContext
+        final Class<?> contextTestSubject = testSubjectPerContext
                 .get(currentExecutionContext);
         return contextTestSubject != null
                 && contextTestSubject.equals(candidate);
