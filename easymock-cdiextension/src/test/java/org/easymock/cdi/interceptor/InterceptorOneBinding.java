@@ -10,5 +10,5 @@ import javax.interceptor.InterceptorBinding;
 @InterceptorBinding
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface HelloWorldInterceptorBinding {
+public @interface InterceptorOneBinding {
 }

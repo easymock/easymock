@@ -8,19 +8,19 @@ import javax.interceptor.InvocationContext;
 import org.slf4j.Logger;
 
 @Interceptor
-@HelloWorldInterceptorBinding
-public class HelloWorldInterceptor {
+@InterceptorTwoBinding
+public class InterceptorTwo {
 
     @Inject
     private Logger logger;
 
     @Inject
-    private HelloWorldInterceptorFacade helloWorldInterceptorFacade;
+    private InterceptorFacade helloWorldInterceptorFacade;
 
     @AroundInvoke
     public Object aroundInvoke(final InvocationContext ctx) throws Exception {
         logger.info(getClass().getName() + " interceptor running.");
-        helloWorldInterceptorFacade.say();
+        helloWorldInterceptorFacade.executedFromInterceptorTwo();
         return ctx.proceed();
     }
 }

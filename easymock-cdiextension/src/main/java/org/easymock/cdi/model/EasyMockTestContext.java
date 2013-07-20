@@ -19,11 +19,11 @@ public final class EasyMockTestContext {
      */
     private static final ThreadLocal<EasyMockTestContext> THREAD_INSTANCE =
             new ThreadLocal<EasyMockTestContext>() {
-        @Override
-        protected EasyMockTestContext initialValue() {
-            return new EasyMockTestContext();
-        }
-    };
+                @Override
+                protected EasyMockTestContext initialValue() {
+                    return new EasyMockTestContext();
+                }
+            };
 
     /**
      * Private constructor.
@@ -55,20 +55,20 @@ public final class EasyMockTestContext {
     /**
      * Class that will have mocks injected per context.
      */
-    private final Map<Class<?>, Class<?>> testSubjectPerContext =
-        new HashMap<Class<?>, Class<?>>();
+    private final Map<Class<?>, Set<Class<?>>> testsSubjectPerContext =
+            new HashMap<Class<?>, Set<Class<?>>>();
 
     /**
      * Mock definitions per context.
      */
     private final Map<Class<?>, Set<MockDefinition>> mockDefinitionsPerContext =
-        new HashMap<Class<?>, Set<MockDefinition>>();
+            new HashMap<Class<?>, Set<MockDefinition>>();
 
     /**
      * Mocks per context.
      */
     private final Map<Class<?>, Set<Object>> mocksPerContext =
-        new HashMap<Class<?>, Set<Object>>();
+            new HashMap<Class<?>, Set<Object>>();
 
     /**
      * Easymock support for mocks.
@@ -113,17 +113,27 @@ public final class EasyMockTestContext {
             final Class<?> context,
             final Class<?> testSubject) {
 
-        if (testSubjectPerContext.containsKey(context)) {
-            final Class<?> existingTestSubject = testSubjectPerContext
-                    .get(context);
-            throw new IllegalArgumentException(
-                    "Context "
-                    + context.getName()
-                    + " already has a test subject"
-                    + existingTestSubject.getName());
+        final Set<Class<?>> testSubjects = getContextTestSubjects(context);
+        if (testSubjects.contains(testSubject)) {
+            throw new RuntimeException("Test subject " + testSubject +
+                    " already declared in " + context);
         }
+        testSubjects.add(testSubject);
+    }
 
-        testSubjectPerContext.put(context, testSubject);
+    /**
+     * Gets context test subjects.
+     * @param context context
+     * @return test subjects
+     */
+    private Set<Class<?>> getContextTestSubjects(final Class<?> context) {
+        Set<Class<?>> testSubjects = testsSubjectPerContext
+                .get(context);
+        if (testSubjects == null) {
+            testSubjects = new HashSet<Class<?>>();
+            testsSubjectPerContext.put(context, testSubjects);
+        }
+        return testSubjects;
     }
 
     /**
@@ -132,25 +142,62 @@ public final class EasyMockTestContext {
      * @return <code>true</code>, if yes. Otherwise, <code>false</code>.
      */
     public boolean isTestSubject(final Class<?> candidate) {
-        final Collection<Class<?>> testSubjectClasses = testSubjectPerContext
-                .values();
-        return testSubjectClasses.contains(candidate);
+        final Collection<Set<Class<?>>> testSubjectsAllContexts =
+                testsSubjectPerContext.values();
+        if (testSubjectsAllContexts != null) {
+            for (final Set<Class<?>> testSubjects : testSubjectsAllContexts) {
+                if (testSubjects.contains(candidate)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
      * Adds mock definition to context.
      * @param context context
-     * @param mockDefinition mock definition
+     * @param candidateMockDefinition mock definition
      */
     public void addMockDefinition(final Class<?> context,
-            final MockDefinition mockDefinition) {
+            final MockDefinition candidateMockDefinition) {
+        final Set<MockDefinition> mockDefinitions = getContextMockDefinitions(context);
+        validateCandidateMockDefinition(context, mockDefinitions,
+                candidateMockDefinition);
+        mockDefinitions.add(candidateMockDefinition);
+    }
+
+    /**
+     * Gets context mock definitions.
+     * @param context context
+     * @return mock definitions
+     */
+    private Set<MockDefinition> getContextMockDefinitions(final Class<?> context) {
         Set<MockDefinition> mockDefinitions = mockDefinitionsPerContext
                 .get(context);
         if (mockDefinitions == null) {
             mockDefinitions = new HashSet<MockDefinition>();
             mockDefinitionsPerContext.put(context, mockDefinitions);
         }
-        mockDefinitions.add(mockDefinition);
+        return mockDefinitions;
+    }
+
+    /**
+     * Validates if mock definition candidate can be added to context.
+     * @param context context
+     * @param existingMockDefinitions existing context mock definitions
+     * @param mockDefinitionCandidate mock definition candidate
+     */
+    private void validateCandidateMockDefinition(final Class<?> context,
+            final Set<MockDefinition> existingMockDefinitions, final MockDefinition mockDefinitionCandidate) {
+        for (final MockDefinition existingMockDefinition : existingMockDefinitions) {
+            final Class<?> mockJavaType = mockDefinitionCandidate.getJavaType();
+            final Class<?> existingMockJavaType = existingMockDefinition.getJavaType();
+            if (existingMockJavaType.equals(mockJavaType)) {
+                throw new RuntimeException(
+                        mockJavaType + " already is mocked in " + context);
+            }
+        }
     }
 
     /**
@@ -159,7 +206,7 @@ public final class EasyMockTestContext {
      * @return <code>true</code>, if yes. Otherwise, <code>false</code>.
      */
     public boolean isContext(final Class<?> candidate) {
-        return testSubjectPerContext.containsKey(candidate);
+        return testsSubjectPerContext.containsKey(candidate);
     }
 
     /**
@@ -199,10 +246,10 @@ public final class EasyMockTestContext {
     private Object createMock(final MockDefinition mockDefinition) {
         if (mockDefinition.isNiceType()) {
             return easyMockSupport.createNiceControl().
-                createMock(mockDefinition.getJavaType());
+                    createMock(mockDefinition.getJavaType());
         } else if (mockDefinition.isStrictType()) {
             return easyMockSupport.createStrictControl().
-                createMock(mockDefinition.getJavaType());
+                    createMock(mockDefinition.getJavaType());
         }
 
         return easyMockSupport.createControl().createMock(
@@ -237,10 +284,10 @@ public final class EasyMockTestContext {
      * @return <code>true</code>, if yes. Otherwise, <code>false</code>.
      */
     public boolean isCurrentContextTestSubject(
-        final Class<?> candidate) {
-        final Class<?> contextTestSubject = testSubjectPerContext
+            final Class<?> candidate) {
+        final Set<Class<?>> contextTestSubjects = testsSubjectPerContext
                 .get(currentExecutionContext);
-        return contextTestSubject != null
-                && contextTestSubject.equals(candidate);
+        return contextTestSubjects != null
+                && contextTestSubjects.contains(candidate);
     }
 }

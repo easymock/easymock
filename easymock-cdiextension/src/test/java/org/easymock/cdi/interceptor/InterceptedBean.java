@@ -4,13 +4,18 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-@HelloWorldInterceptorBinding
-public class HelloWorldInterceptedBean {
+public class InterceptedBean {
 
     @Inject
     private Logger logger;
 
+    @InterceptorOneBinding
     public void doSomething() {
+        logger.info("Executing " + this.getClass().getSimpleName());
+    }
+
+    @InterceptorTwoBinding
+    public void doSomethingTwo() {
         logger.info("Executing " + this.getClass().getSimpleName());
     }
 }

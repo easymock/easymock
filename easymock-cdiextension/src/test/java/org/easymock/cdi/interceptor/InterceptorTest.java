@@ -20,14 +20,18 @@ public class InterceptorTest {
 
     @SuppressWarnings("unused")
     @TestSubject
-    private HelloWorldInterceptor helloWorldInterceptor;
+    private InterceptorOne interceptorOne;
+
+    @SuppressWarnings("unused")
+    @TestSubject
+    private InterceptorTwo interceptorTwo;
 
     @Inject
     @Mock(type = MockType.STRICT)
-    private HelloWorldInterceptorFacade helloWorldInterceptorFacadeMock;
+    private InterceptorFacade helloWorldInterceptorFacadeMock;
 
     @Inject
-    private HelloWorldInterceptedBean helloWorldInterceptedBean;
+    private InterceptedBean helloWorldInterceptedBean;
 
     @After
     public void afterTest() {
@@ -35,12 +39,23 @@ public class InterceptorTest {
     }
 
     @Test
-    public void testInterceptorWithMocks() {
+    public void testInterceptorOne() {
 
-        helloWorldInterceptorFacadeMock.say();
+        helloWorldInterceptorFacadeMock.executedFromInterceptorOne();
         replay(helloWorldInterceptorFacadeMock);
 
         helloWorldInterceptedBean.doSomething();
+
+        verify(helloWorldInterceptorFacadeMock);
+    }
+
+    @Test
+    public void testInterceptorTwo() {
+
+        helloWorldInterceptorFacadeMock.executedFromInterceptorTwo();
+        replay(helloWorldInterceptorFacadeMock);
+
+        helloWorldInterceptedBean.doSomethingTwo();
 
         verify(helloWorldInterceptorFacadeMock);
     }
