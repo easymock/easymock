@@ -39,7 +39,7 @@ public class InterceptorTest {
 
     @After
     public void afterTest() {
-        reset(interceptorOneFacadeMock);
+        reset(interceptorOneFacadeMock, interceptorTwoFacadeMock);
     }
 
     @Test
@@ -57,10 +57,10 @@ public class InterceptorTest {
     public void testInterceptorTwo() {
 
         interceptorTwoFacadeMock.executedFromInterceptorTwo();
-        replay(interceptorOneFacadeMock);
+        replay(interceptorTwoFacadeMock);
 
         helloWorldInterceptedBean.doSomethingTwo();
 
-        verify(interceptorOneFacadeMock);
+        verify(interceptorTwoFacadeMock);
     }
 }
