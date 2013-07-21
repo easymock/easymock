@@ -35,7 +35,7 @@ public class InterceptorTest {
     private InterceptorTwoFacade interceptorTwoFacadeMock;
 
     @Inject
-    private InterceptedBean helloWorldInterceptedBean;
+    private InterceptedBean interceptedBean;
 
     @After
     public void afterTest() {
@@ -48,7 +48,7 @@ public class InterceptorTest {
         interceptorOneFacadeMock.executedFromInterceptorOne();
         replay(interceptorOneFacadeMock);
 
-        helloWorldInterceptedBean.doSomething();
+        interceptedBean.doSomething();
 
         verify(interceptorOneFacadeMock);
     }
@@ -59,7 +59,7 @@ public class InterceptorTest {
         interceptorTwoFacadeMock.executedFromInterceptorTwo();
         replay(interceptorTwoFacadeMock);
 
-        helloWorldInterceptedBean.doSomethingTwo();
+        interceptedBean.doSomethingTwo();
 
         verify(interceptorTwoFacadeMock);
     }
