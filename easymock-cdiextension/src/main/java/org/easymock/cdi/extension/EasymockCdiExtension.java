@@ -112,9 +112,10 @@ public class EasymockCdiExtension implements Extension {
      * Processes enabled interceptors.
      * @param event enabled bean event
      */
+    @SuppressWarnings("rawtypes")
     public void processEnabledInterceptor(
-            @Observes final ProcessBean<Object> event) {
-        final Bean<Object> bean = event.getBean();
+            @Observes final ProcessBean event) {
+        final Bean bean = event.getBean();
         if (bean instanceof Interceptor) {
             wrapInterceptorTestSubjectInjectionTarget(bean);
         }
@@ -124,9 +125,9 @@ public class EasymockCdiExtension implements Extension {
      * Wraps interceptor injection target.
      * @param bean interceptor bean
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void wrapInterceptorTestSubjectInjectionTarget(
-            final Bean<Object> bean) {
+            final Bean bean) {
         try {
             final Interceptor<Object> interceptor = (Interceptor<Object>) bean;
             final InjectionTarget<Object> injectionTarget = ReflectionHelper.
