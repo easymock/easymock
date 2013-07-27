@@ -5,13 +5,12 @@ import javax.inject.Inject;
 import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
+import org.easymock.cdi.junit.EasyMockCdiRunner;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import br.gov.frameworkdemoiselle.junit.DemoiselleRunner;
-
-@RunWith(DemoiselleRunner.class)
+@RunWith(EasyMockCdiRunner.class)
 public class EasyMockSupportTest {
 
     @Inject

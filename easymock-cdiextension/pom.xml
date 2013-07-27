@@ -33,31 +33,44 @@
       <timezone>-3</timezone>
     </developer>
   </developers>
+
+	<repositories>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
   <dependencies>
-    <!-- runtime -->
+    <!-- compile -->
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-       <groupId>javax.enterprise</groupId>
-       <artifactId>cdi-api</artifactId>
-       <version>1.1</version>
-    </dependency>
-    <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-reflect</artifactId>
       <version>1.5.1</version>
     </dependency>
-
-    <!-- tests -->
+	<dependency>
+	  <groupId>org.jboss.weld.se</groupId>
+	  <artifactId>weld-se</artifactId>
+	</dependency>   
     <dependency>
-      <groupId>br.gov.frameworkdemoiselle.component</groupId>
-      <artifactId>demoiselle-junit</artifactId>
-      <version>2.3.0</version>
-      <scope>test</scope>
-     </dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>   
+    
+    <!-- tests -->
      <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
@@ -150,6 +163,35 @@
           </plugin>
         </plugins>
       </build>
-    </profile>    
+    </profile>
+    
+    <!-- Profiles to test project with different weld implementations  -->
+    <profile>
+        <id>weld-1.1.5.AS71.Final</id>
+        <dependencyManagement>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.weld.se</groupId>
+                    <artifactId>weld-se</artifactId>
+                    <version>1.1.5.AS71.Final</version>
+                </dependency>               
+            </dependencies>
+        </dependencyManagement>
+    </profile>
+    <profile>
+        <id>weld-2.0.3.Final</id>
+        <activation>
+          <activeByDefault>true</activeByDefault>
+        </activation>
+        <dependencyManagement>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.weld.se</groupId>
+                    <artifactId>weld-se</artifactId>
+                    <version>2.0.3.Final</version>
+                </dependency>               
+            </dependencies>
+        </dependencyManagement>
+    </profile>        
   </profiles>
 </project>
