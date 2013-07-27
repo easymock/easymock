@@ -61,10 +61,10 @@
       <artifactId>powermock-reflect</artifactId>
       <version>1.5.1</version>
     </dependency>
-	<dependency>
-	  <groupId>org.jboss.weld.se</groupId>
-	  <artifactId>weld-se</artifactId>
-	</dependency>   
+    <dependency>
+      <groupId>org.jboss.weld.se</groupId>
+      <artifactId>weld-se</artifactId>
+    </dependency>   
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
