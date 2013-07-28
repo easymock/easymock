@@ -18,7 +18,7 @@ public class EasyMockCdiRunner extends BlockJUnit4ClassRunner {
     /**
      * CDI bootstrapper.
      */
-    private final CdiBootstrapper cdiBootstrapper = new WeldBootstrapper();
+    private final CdiBootstrapper cdiBootstrapper = new DeltaSpikeCdiBootstrapper();
 
     public EasyMockCdiRunner(final Class<?> testClass) throws InitializationError {
         super(testClass);
@@ -26,9 +26,9 @@ public class EasyMockCdiRunner extends BlockJUnit4ClassRunner {
 
     @Override
     public void run(final RunNotifier notifier) {
-        cdiBootstrapper.initialize();
+        getCdiBootstrapper().initialize();
         super.run(notifier);
-        cdiBootstrapper.shutdown();
+        getCdiBootstrapper().shutdown();
     }
 
     @Override
@@ -54,6 +54,10 @@ public class EasyMockCdiRunner extends BlockJUnit4ClassRunner {
     }
 
     private BeanManager getBeanManager() {
-        return cdiBootstrapper.getBeanManager();
+        return getCdiBootstrapper().getBeanManager();
+    }
+
+    private CdiBootstrapper getCdiBootstrapper() {
+        return cdiBootstrapper;
     }
 }

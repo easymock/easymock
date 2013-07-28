@@ -49,6 +49,10 @@
       </snapshots>
     </repository>
   </repositories>
+  
+  <properties>
+    <deltaspike.version>0.4</deltaspike.version>
+  </properties>
 
   <dependencies>
     <!-- compile -->
@@ -63,21 +67,22 @@
       <version>1.5.1</version>
     </dependency>
     <dependency>
-      <groupId>org.jboss.weld.se</groupId>
-      <artifactId>weld-se</artifactId>
-    </dependency>   
+        <groupId>org.apache.deltaspike.cdictrl</groupId>
+        <artifactId>deltaspike-cdictrl-api</artifactId>
+        <version>${deltaspike.version}</version>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-    </dependency>   
-    
+    </dependency>
+
     <!-- tests -->
-     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.6.1</version>
-      <scope>test</scope>
-     </dependency>  
+	<dependency>
+	  <groupId>org.slf4j</groupId>
+	  <artifactId>slf4j-simple</artifactId>
+	  <version>1.7.5</version>
+	  <scope>test</scope>
+	</dependency>
   </dependencies>
   <build>
     <plugins>
@@ -167,32 +172,105 @@
     </profile>
     
     <!-- Profiles to test project with different weld implementations  -->
+    <!-- weld -->    
     <profile>
         <id>weld-1.1.5.AS71.Final</id>
-        <dependencyManagement>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.weld.se</groupId>
-                    <artifactId>weld-se</artifactId>
-                    <version>1.1.5.AS71.Final</version>
-                </dependency>               
-            </dependencies>
-        </dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.deltaspike.cdictrl</groupId>
+                <artifactId>deltaspike-cdictrl-weld</artifactId>
+                <version>${deltaspike.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.jboss.weld.se</groupId>
+              <artifactId>weld-se</artifactId>
+              <version>1.1.5.AS71.Final</version>
+            </dependency>
+        </dependencies>
     </profile>
     <profile>
         <id>weld-2.0.3.Final</id>
         <activation>
           <activeByDefault>true</activeByDefault>
         </activation>
-        <dependencyManagement>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.weld.se</groupId>
-                    <artifactId>weld-se</artifactId>
-                    <version>2.0.3.Final</version>
-                </dependency>               
-            </dependencies>
-        </dependencyManagement>
-    </profile>        
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.deltaspike.cdictrl</groupId>
+                <artifactId>deltaspike-cdictrl-weld</artifactId>
+                <version>${deltaspike.version}</version>
+                <scope>runtime</scope>
+            </dependency>        
+            <dependency>
+              <groupId>org.jboss.weld.se</groupId>
+              <artifactId>weld-se</artifactId>
+              <version>2.0.3.Final</version>
+            </dependency>
+        </dependencies>
+    </profile>
+
+    <!-- openwebbeans -->
+    <profile>
+        <id>openwebbeans-1.1.6</id>
+        <properties>
+          <owb.version>1.1.6</owb.version>
+        </properties>
+        <dependencies>
+            <dependency>
+              <groupId>javax.enterprise</groupId>
+              <artifactId>cdi-api</artifactId>
+              <version>1.1</version>
+            </dependency>        
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-impl</artifactId>
+                <version>${owb.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-spi</artifactId>
+                <version>${owb.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.deltaspike.cdictrl</groupId>
+                <artifactId>deltaspike-cdictrl-owb</artifactId>
+                <version>${deltaspike.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+        </dependencies>
+    </profile>    
+    <profile>
+        <id>openwebbeans-1.2.0</id>
+        <properties>
+          <owb.version>1.2.0</owb.version>
+        </properties>
+        <dependencies>
+            <dependency>
+              <groupId>javax.enterprise</groupId>
+              <artifactId>cdi-api</artifactId>
+              <version>1.1</version>
+            </dependency>        
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-impl</artifactId>
+                <version>${owb.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-spi</artifactId>
+                <version>${owb.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.deltaspike.cdictrl</groupId>
+                <artifactId>deltaspike-cdictrl-owb</artifactId>
+                <version>${deltaspike.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+        </dependencies>
+    </profile>
   </profiles>
 </project>
