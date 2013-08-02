@@ -172,7 +172,23 @@
     </profile>
     
     <!-- Profiles to test project with different weld implementations  -->
-    <!-- weld -->    
+    <!-- weld -->
+    <profile>
+        <id>weld-1.1.3.SP1</id>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.deltaspike.cdictrl</groupId>
+                <artifactId>deltaspike-cdictrl-weld</artifactId>
+                <version>${deltaspike.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.jboss.weld.se</groupId>
+              <artifactId>weld-se</artifactId>
+              <version>1.1.3.SP1</version>
+            </dependency>
+        </dependencies>
+    </profile>
     <profile>
         <id>weld-1.1.5.AS71.Final</id>
         <dependencies>
