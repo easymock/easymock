@@ -8,10 +8,12 @@ Each test class in execution has its own test context, so you can have the same 
 
 Browse the unit tests to see how they look like (https://github.com/marciopd/easymock/blob/master/easymock-cdiextension/src/test/java/org/easymock/cdi/DefaultMockTest.java).
 
+You can run the tests using different CDI implementations: weld and openwebbeans.
+
 This extension also provides:
 - An EasyMock junit runner that bootstaps CDI (EasyMockCdiRunner).
 - EasyMockSupport injection (Ex: https://github.com/marciopd/easymock/blob/master/easymock-cdiextension/src/test/java/org/easymock/cdi/EasyMockSupportTest.java).
-- CDI interceptors unit testing (Ex: https://github.com/marciopd/easymock/blob/master/easymock-cdiextension/src/test/java/org/easymock/cdi/interceptor/InterceptorTest.java).
+- CDI interceptors unit testing (Ex: https://github.com/marciopd/easymock/blob/master/easymock-cdiextension/src/test/java/org/easymock/cdi/interceptor/InterceptorTest.java). PS: not working in openwebbeans.
 
 
 JIRA feature request linked with this fork at: https://jira.codehaus.org/browse/EASYMOCK-126 .
