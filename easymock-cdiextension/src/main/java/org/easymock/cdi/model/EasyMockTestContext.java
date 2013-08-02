@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.easymock.EasyMockSupport;
+import org.easymock.TestSubject;
 
 /**
  * Holds data about the tests context.
@@ -109,7 +110,7 @@ public final class EasyMockTestContext {
      * @throws RuntimeException if there is already a test subject in the
      * context
      */
-    public void setTestSubject(
+    public void addTestSubject(
             final Class<?> context,
             final Class<?> testSubject) {
 
@@ -206,7 +207,7 @@ public final class EasyMockTestContext {
      * @return <code>true</code>, if yes. Otherwise, <code>false</code>.
      */
     public boolean isContext(final Class<?> candidate) {
-        return testsSubjectPerContext.containsKey(candidate);
+        return !ReflectionHelper.getFieldsAnnotated(candidate, TestSubject.class).isEmpty();
     }
 
     /**

@@ -1,12 +1,10 @@
 package org.easymock.cdi.extension;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.Set;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.enterprise.event.Observes;
-import javax.enterprise.inject.spi.AnnotatedField;
 import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeforeShutdown;
@@ -48,36 +46,23 @@ public class EasymockCdiExtension implements Extension {
     public <T> void processAnnotatedType(
             @Observes final ProcessAnnotatedType<T> pat) {
         final AnnotatedType<T> annotatedType = pat.getAnnotatedType();
-        processContextOrTestSubject(annotatedType);
+        final Class<T> javaClass = annotatedType.getJavaClass();
+        processTestSubjectFields(javaClass);
+        processMockFields(javaClass);
     }
 
-    /**
-     * Process annotated type, if it's a test context or a
-     * easymock test subject.
-     * @param annotatedType annotated type
-     * @param <T> type
-     */
-    private <T> void processContextOrTestSubject(
-            final AnnotatedType<T> annotatedType) {
-        final Set<AnnotatedField<? super T>> javaClassFields = annotatedType
-                .getFields();
-        for (final AnnotatedField<? super T> annotatedField : javaClassFields) {
-            final Field javaField = annotatedField.getJavaMember();
-            final Annotation[] annotations = javaField.getDeclaredAnnotations();
-            if (annotations != null) {
-                for (final Annotation fieldAnnotation : annotations) {
-                    final Class<? extends Annotation> fieldAnnotationType =
-                            fieldAnnotation.annotationType();
-                    if (TestSubject.class.equals(fieldAnnotationType)) {
-                        final Class<T> context = annotatedType.getJavaClass();
-                        setTestSubject(context, javaField.getType());
-                    }
-                    if (Mock.class.equals(fieldAnnotationType)) {
-                        final Class<T> context = annotatedType.getJavaClass();
-                        addMockDefinition(context, javaField);
-                    }
-                }
-            }
+    private <T> void processMockFields(final Class<T> javaClass) {
+        final List<Field> mockFields = ReflectionHelper.getFieldsAnnotated(javaClass, Mock.class);
+        for (final Field mockField : mockFields) {
+            addMockDefinition(javaClass, mockField);
+        }
+    }
+
+    private <T> void processTestSubjectFields(final Class<T> javaClass) {
+        final List<Field> testSubjectFields = ReflectionHelper.getFieldsAnnotated(javaClass, TestSubject.class);
+        for (final Field testSubjectField : testSubjectFields) {
+            final Class<?> testSubjectClass = testSubjectField.getType();
+            easyMockTestContext.addTestSubject(javaClass, testSubjectClass);
         }
     }
 
@@ -94,18 +79,6 @@ public class EasymockCdiExtension implements Extension {
         final Mock easyMockAnnotation = javaField.getAnnotation(Mock.class);
         mockDefinition.setMockType(easyMockAnnotation.type());
         easyMockTestContext.addMockDefinition(context, mockDefinition);
-    }
-
-    /**
-     * Sets test subject to a context.
-     * @param context test subject
-     * @param testSubject test subject
-     * @param <T> context type
-     * @param <X> test subject type
-     */
-    private <T, X> void setTestSubject(final Class<T> context,
-            final Class<X> testSubject) {
-        easyMockTestContext.setTestSubject(context, testSubject);
     }
 
     /**
@@ -132,8 +105,8 @@ public class EasymockCdiExtension implements Extension {
             final Interceptor<Object> interceptor = (Interceptor<Object>) bean;
             final InjectionTarget<Object> injectionTarget = ReflectionHelper.
                     getInternalState(interceptor, InjectionTarget.class);
-            final TestSubjectInjectionTarget<Object> testSubjectInjectionTarget =
-                    new TestSubjectInjectionTarget<Object>(injectionTarget);
+            final TestSubjectCandidateInjectionTarget<Object> testSubjectInjectionTarget =
+                    new TestSubjectCandidateInjectionTarget<Object>(injectionTarget);
             ReflectionHelper.setInternalState(interceptor,
                     testSubjectInjectionTarget);
         } catch (final RuntimeException e) {
@@ -154,19 +127,19 @@ public class EasymockCdiExtension implements Extension {
         final Class<T> javaClass = annotatedType.getJavaClass();
         if (easyMockTestContext.isContext(javaClass)) {
             wrapContextInjectionTarget(pit);
-        } else if (easyMockTestContext.isTestSubject(javaClass)) {
-            wrapTestSubjectInjectionTarget(pit);
+        } else {
+            wrapTestSubjectCandidateInjectionTarget(pit);
         }
 
     }
 
     /**
-     * Wraps injection target with {@link TestSubjectInjectionTarget}.
+     * Wraps injection target with {@link TestSubjectCandidateInjectionTarget}.
      * @param pit process injection target
      */
-    private <T> void wrapTestSubjectInjectionTarget(final ProcessInjectionTarget<T> pit) {
-        final TestSubjectInjectionTarget<T> testSubjectInjectionTarget =
-                new TestSubjectInjectionTarget<T>(pit.getInjectionTarget());
+    private <T> void wrapTestSubjectCandidateInjectionTarget(final ProcessInjectionTarget<T> pit) {
+        final TestSubjectCandidateInjectionTarget<T> testSubjectInjectionTarget =
+                new TestSubjectCandidateInjectionTarget<T>(pit.getInjectionTarget());
         pit.setInjectionTarget(testSubjectInjectionTarget);
     }
 

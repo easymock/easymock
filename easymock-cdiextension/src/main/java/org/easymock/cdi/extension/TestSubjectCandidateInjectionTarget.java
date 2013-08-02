@@ -9,18 +9,18 @@ import org.easymock.cdi.model.EasyMockTestContext;
 import org.easymock.cdi.model.ReflectionHelper;
 
 /**
- * Test subject {@link InjectionTarget} wrapper.
+ * Test subject candidate {@link InjectionTarget} wrapper.
  *
  * @param <T> type
  */
-public final class TestSubjectInjectionTarget<T> extends
+public final class TestSubjectCandidateInjectionTarget<T> extends
         AbstractDelegateInjectionTarget<T> {
 
     /**
      * Constructor with args.
      * @param delegate delegate
      */
-    public TestSubjectInjectionTarget(final InjectionTarget<T> delegate) {
+    public TestSubjectCandidateInjectionTarget(final InjectionTarget<T> delegate) {
         super(delegate);
     }
 
