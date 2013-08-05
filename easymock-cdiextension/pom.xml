@@ -71,6 +71,11 @@
         <artifactId>deltaspike-cdictrl-api</artifactId>
         <version>${deltaspike.version}</version>
     </dependency>
+	<dependency>
+	  <groupId>javassist</groupId>
+	  <artifactId>javassist</artifactId>
+	  <version>3.12.1.GA</version>
+	</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -228,9 +233,6 @@
     <!-- openwebbeans -->
     <profile>
         <id>openwebbeans-1.1.6</id>
-        <properties>
-          <owb.version>1.1.6</owb.version>
-        </properties>
         <dependencies>
             <dependency>
               <groupId>javax.enterprise</groupId>
@@ -240,44 +242,13 @@
             <dependency>
                 <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-impl</artifactId>
-                <version>${owb.version}</version>
+                <version>1.1.6</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-spi</artifactId>
-                <version>${owb.version}</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.deltaspike.cdictrl</groupId>
-                <artifactId>deltaspike-cdictrl-owb</artifactId>
-                <version>${deltaspike.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-        </dependencies>
-    </profile>    
-    <profile>
-        <id>openwebbeans-1.2.0</id>
-        <properties>
-          <owb.version>1.2.0</owb.version>
-        </properties>
-        <dependencies>
-            <dependency>
-              <groupId>javax.enterprise</groupId>
-              <artifactId>cdi-api</artifactId>
-              <version>1.1</version>
-            </dependency>        
-            <dependency>
-                <groupId>org.apache.openwebbeans</groupId>
-                <artifactId>openwebbeans-impl</artifactId>
-                <version>${owb.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.openwebbeans</groupId>
-                <artifactId>openwebbeans-spi</artifactId>
-                <version>${owb.version}</version>
+                <version>1.1.6</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>

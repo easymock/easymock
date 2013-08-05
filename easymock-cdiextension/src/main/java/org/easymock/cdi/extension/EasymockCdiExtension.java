@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.BeforeShutdown;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.InjectionTarget;
@@ -19,6 +20,7 @@ import org.easymock.Mock;
 import org.easymock.TestSubject;
 import org.easymock.cdi.model.EasyMockTestContext;
 import org.easymock.cdi.model.MockDefinition;
+import org.easymock.cdi.model.OpenWebBeansInterceptorInjectionWrapper;
 import org.easymock.cdi.model.ReflectionHelper;
 
 /**
@@ -37,6 +39,15 @@ public class EasymockCdiExtension implements Extension {
      */
     private final EasyMockTestContext easyMockTestContext = EasyMockTestContext
             .getInstance();
+
+    /**
+     * OWB interceptor injection wrapper.
+     */
+    private static final OpenWebBeansInterceptorInjectionWrapper openWebBeansInterceptorInjectionWrapper = OpenWebBeansInterceptorInjectionWrapper.getInstance();
+
+    void beforeBeanDiscovery(@Observes final BeforeBeanDiscovery bbd) {
+        openWebBeansInterceptorInjectionWrapper.wrapSetInjectionsMethod();
+     }
 
     /**
      * Processes {@link ProcessAnnotatedType} event.
