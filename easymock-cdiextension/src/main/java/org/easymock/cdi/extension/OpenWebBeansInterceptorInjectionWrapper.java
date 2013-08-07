@@ -1,4 +1,4 @@
-package org.easymock.cdi.model;
+package org.easymock.cdi.extension;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,7 +9,7 @@ import javassist.CtMethod;
 import javassist.CtNewMethod;
 import javassist.NotFoundException;
 
-import org.easymock.cdi.extension.TestSubjectCandidateInjectionTarget;
+import org.easymock.cdi.model.EasyMockTestContext;
 
 /**
  * {@link org.apache.webbeans.intercept.webbeans.WebBeansInterceptor}
@@ -50,7 +50,8 @@ public class OpenWebBeansInterceptorInjectionWrapper {
     /**
      * Message.
      */
-    private static final String MSG_OWB_INTERCEPTOR_CLASS_FROZEN = WEB_BEANS_INTERCEPTOR_CLASSNAME + " class frozen to modifications.";
+    private static final String MSG_OWB_INTERCEPTOR_CLASS_FROZEN = WEB_BEANS_INTERCEPTOR_CLASSNAME
+            + " class frozen to modifications.";
 
     /**
      * Message.
@@ -102,6 +103,14 @@ public class OpenWebBeansInterceptorInjectionWrapper {
             return;
         }
 
+        wrapSetInjectionsMethod(webBeansInterceptorClass);
+    }
+
+    /**
+     * Wraps method.
+     * @param webBeansInterceptorClass web beans interceptor class.
+     */
+    private void wrapSetInjectionsMethod(final CtClass webBeansInterceptorClass) {
         try {
             final CtMethod setInjectionsMethod = webBeansInterceptorClass
                     .getDeclaredMethod(SET_INJECTIONS_METHOD_NAME);

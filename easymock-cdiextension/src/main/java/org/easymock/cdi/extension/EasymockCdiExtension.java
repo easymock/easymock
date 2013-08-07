@@ -20,7 +20,6 @@ import org.easymock.Mock;
 import org.easymock.TestSubject;
 import org.easymock.cdi.model.EasyMockTestContext;
 import org.easymock.cdi.model.MockDefinition;
-import org.easymock.cdi.model.OpenWebBeansInterceptorInjectionWrapper;
 import org.easymock.cdi.model.ReflectionHelper;
 
 /**
