@@ -27,3 +27,5 @@ http://stackoverflow.com/questions/16761905/unit-test-with-cdi-unit-and-easymock
 Project features tested successfully against:
 - Weld: 1.1.3.SP1, 1.1.5.AS71.Final and 2.0.3.Final.
 - OpenWebBeans: 1.1.6.
+
+https://buildhive.cloudbees.com/job/marciopd/job/easymock/badge/icon
