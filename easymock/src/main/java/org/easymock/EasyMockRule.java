@@ -16,26 +16,26 @@
 package org.easymock;
 
 import org.easymock.internal.EasyMockStatement;
-import org.junit.runners.BlockJUnit4ClassRunner;
-import org.junit.runners.model.FrameworkMethod;
-import org.junit.runners.model.InitializationError;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 /**
- * JUnit runner used to process {@link Mock} and {@link TestSubject} annotations
+ * JUnit Rule used to process {@link Mock} and {@link TestSubject} annotations.
  * 
- * @author Henri Tremblay
- * @since 3.2
+ * @author Alistair Todd
+ * @since 3.3
  */
-public class EasyMockRunner extends BlockJUnit4ClassRunner {
+public class EasyMockRule implements TestRule {
 
-    public EasyMockRunner(final Class<?> klass) throws InitializationError {
-        super(klass);
+    private final Object test;
+
+    public EasyMockRule(final Object test) {
+        this.test = test;
     }
 
-    @Override
-    protected Statement methodInvoker(final FrameworkMethod method, final Object test) {
-        return new EasyMockStatement(super.methodInvoker(method, test), test);
+    public Statement apply(final Statement base, final Description description) {
+        return new EasyMockStatement(base, test);
     }
 
 }
