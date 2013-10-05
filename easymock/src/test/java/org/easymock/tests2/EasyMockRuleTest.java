@@ -19,7 +19,7 @@ import org.easymock.EasyMockRule;
 import org.junit.Rule;
 
 /**
- * Runs annotation-driven tests with the EasyMockRule JUnit Rule.
+ * Runs annotation-driven tests from base class with the EasyMockRule JUnit Rule.
  * 
  * @author Alistair Todd
  */
@@ -28,5 +28,4 @@ public class EasyMockRuleTest extends EasyMockAnnotationsTest {
     @Rule
     public EasyMockRule mocks = new EasyMockRule(this);
 
-    // Execute tests in base class.
 }

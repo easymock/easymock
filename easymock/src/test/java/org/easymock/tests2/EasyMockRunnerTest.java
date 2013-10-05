@@ -19,11 +19,11 @@ import org.easymock.EasyMockRunner;
 import org.junit.runner.RunWith;
 
 /**
- * Runs annotation-driven tests with the EasyMockRunner JUnit Runner.
+ * Runs annotation-driven tests from base class with the EasyMockRunner JUnit Runner.
  * 
  * @author Henri Tremblay
  */
 @RunWith(EasyMockRunner.class)
 public class EasyMockRunnerTest extends EasyMockAnnotationsTest {
-    // Execute tests in base class.
+
 }
