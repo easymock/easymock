@@ -17,13 +17,13 @@ package org.easymock.samples;
 
 import org.easymock.EasyMockRunner;
 import org.easymock.EasyMockSupport;
-import org.easymock.TestSubject;
 import org.easymock.Mock;
+import org.easymock.TestSubject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Example of how to use <code>@Mock</code> and <code>@TestSubject</code> annotations
+ * Example of how to use <code>@Mock</code> and <code>@TestSubject</code> annotations with JUnit Runner.
  * 
  * @author Henri Tremblay
  */

@@ -15,15 +15,18 @@
  */
 package org.easymock.tests2;
 
-import org.easymock.EasyMockRunner;
-import org.junit.runner.RunWith;
+import org.easymock.EasyMockRule;
+import org.junit.Rule;
 
 /**
- * Runs annotation-driven tests with the EasyMockRunner JUnit Runner.
+ * Runs annotation-driven tests with the EasyMockRule JUnit Rule.
  * 
- * @author Henri Tremblay
+ * @author Alistair Todd
  */
-@RunWith(EasyMockRunner.class)
-public class EasyMockRunnerTest extends EasyMockAnnotationsTest {
+public class EasyMockRuleTest extends EasyMockAnnotationsTest {
+
+    @Rule
+    public EasyMockRule mocks = new EasyMockRule(this);
+
     // Execute tests in base class.
 }

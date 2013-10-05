@@ -13,17 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.easymock.tests2;
+package org.easymock;
 
-import org.easymock.EasyMockRunner;
-import org.junit.runner.RunWith;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 /**
- * Runs annotation-driven tests with the EasyMockRunner JUnit Runner.
+ * JUnit Rule used to process {@link Mock} and {@link TestSubject} annotations.
  * 
- * @author Henri Tremblay
+ * @author Alistair Todd
+ * @since 3.3
  */
-@RunWith(EasyMockRunner.class)
-public class EasyMockRunnerTest extends EasyMockAnnotationsTest {
-    // Execute tests in base class.
+public class EasyMockRule implements TestRule {
+
+    private final Object test;
+
+    public EasyMockRule(final Object test) {
+        this.test = test;
+    }
+
+    public Statement apply(final Statement base, final Description description) {
+        return new EasyMockStatement(base, test);
+    }
+
 }
