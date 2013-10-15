@@ -13,29 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.easymock;
+package org.easymock.internal;
 
-import org.easymock.internal.EasyMockStatement;
-import org.junit.runners.BlockJUnit4ClassRunner;
-import org.junit.runners.model.FrameworkMethod;
-import org.junit.runners.model.InitializationError;
+import org.easymock.EasyMockSupport;
+import org.easymock.Mock;
+import org.easymock.TestSubject;
 import org.junit.runners.model.Statement;
 
 /**
- * JUnit runner used to process {@link Mock} and {@link TestSubject} annotations
+ * JUnit Statement for use by JUnit Rule or JUnit Runner to process {@link Mock} and {@link TestSubject} annotations.
  * 
- * @author Henri Tremblay
- * @since 3.2
+ * @author Alistair Todd
+ * @since 3.3
  */
-public class EasyMockRunner extends BlockJUnit4ClassRunner {
+public class EasyMockStatement extends Statement {
 
-    public EasyMockRunner(final Class<?> klass) throws InitializationError {
-        super(klass);
+    private final Statement originalStatement;
+
+    private final Object test;
+
+    public EasyMockStatement(final Statement originalStatement, final Object test) {
+        this.originalStatement = originalStatement;
+        this.test = test;
     }
 
     @Override
-    protected Statement methodInvoker(final FrameworkMethod method, final Object test) {
-        return new EasyMockStatement(super.methodInvoker(method, test), test);
+    public void evaluate() throws Throwable {
+        EasyMockSupport.injectMocks(test);
+        originalStatement.evaluate();
     }
-
 }
