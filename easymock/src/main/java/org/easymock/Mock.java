@@ -39,4 +39,7 @@ public @interface Mock {
 
     /** Name of the mock to be created */
     String name() default "";
+
+    /** Name of target field in test subject */
+    String qualifier() default "";
 }

@@ -31,6 +31,7 @@ import org.junit.Test;
  * EasyMockRunner or EasyMockRule.
  * 
  * @author Henri Tremblay
+ * @author Alistair Todd
  */
 public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
@@ -120,5 +121,73 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
                     "At least two mocks can be assigned to protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1: a and b",
                     e.getMessage());
         }
+    }
+
+    private static class ToInjectQualifiedDuplicateTest {
+        @Mock(name = "a", qualifier = "m1")
+        protected IMethods a;
+
+        @Mock(name = "b", qualifier = "m2")
+        protected IMethods b;
+
+        @Mock(qualifier = "unmatched")
+        protected IVarArgs v;
+
+        @TestSubject
+        protected ToInject toInject = new ToInject();
+    }
+
+    @Test
+    public void testInjectQualifiedDuplicate() {
+        final ToInjectQualifiedDuplicateTest test = new ToInjectQualifiedDuplicateTest();
+        EasyMockSupport.injectMocks(test);
+        assertSame(test.a, test.toInject.m1);
+        assertSame(test.b, test.toInject.m2);
+        assertNull(test.toInject.v);
+    }
+
+    private static class ToInjectDuplicateQualifierTest {
+        @Mock(name = "a", qualifier = "m1")
+        protected IMethods a;
+
+        @Mock(name = "b", qualifier = "m1")
+        protected IMethods b;
+
+        @TestSubject
+        protected ToInject toInject = new ToInject();
+    }
+
+    @Test
+    public void testInjectDuplicateQualifier() {
+        final ToInjectDuplicateQualifierTest test = new ToInjectDuplicateQualifierTest();
+        try {
+            EasyMockSupport.injectMocks(test);
+        } catch (final RuntimeException e) {
+            assertEquals(
+                    "At least two mocks with qualifier 'm1' can be assigned to protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1: a and b",
+                    e.getMessage());
+        }
+    }
+
+    private static class ToInjectOneTarget {
+        protected IMethods m1;
+    }
+
+    private static class ToInjectQualifiedReplacementTest {
+        @Mock(name = "a")
+        protected IMethods a;
+
+        @Mock(name = "b", qualifier = "m1")
+        protected IMethods b;
+
+        @TestSubject
+        protected ToInjectOneTarget toInjectOneTarget = new ToInjectOneTarget();
+    }
+
+    @Test
+    public void testInjectQualifiedReplacement() {
+        final ToInjectQualifiedReplacementTest test = new ToInjectQualifiedReplacementTest();
+        EasyMockSupport.injectMocks(test);
+        assertSame(test.b, test.toInjectOneTarget.m1);
     }
 }

@@ -15,12 +15,11 @@
  */
 package org.easymock;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.easymock.internal.Injector;
 import org.easymock.internal.MockBuilder;
 
 /**
@@ -607,6 +606,7 @@ public class EasyMockSupport {
      *     <li>If a mock can be assigned to a field, do it. The same mock an be assigned more than once</li>
      *     <li>If no mock can be assigned to a field, skip it silently</li>
      *     <li>If two mocks can be assigned to the same field, return an error</li>
+     *     <li>A mock can be assigned if the type is compatible and, where a qualifier is set, the qualifier matches the field name
      * </ul>
      * Fields are searched recursively on the superclasses
      * <p>
@@ -616,113 +616,6 @@ public class EasyMockSupport {
      * @since 3.2
      */
     public static void injectMocks(final Object obj) {
-        List<Field> injectMockFields = new ArrayList<Field>(1);
-        List<Object> mocks = new ArrayList<Object>(5);
-
-        Class<?> c = obj.getClass();
-        while(c != Object.class) {
-            createMocksForAnnotations(c, obj, mocks, injectMockFields);
-            c = c.getSuperclass();
-        }
-
-        for(Field f : injectMockFields) {
-            f.setAccessible(true);
-            Object o;
-            try {
-                o = f.get(obj);
-            } catch (IllegalAccessException e) {
-                // ///CLOVER:OFF
-                throw new RuntimeException(e);
-                // ///CLOVER:ON
-            }
-            c = o.getClass();
-            while(c != Object.class) {
-                injectMocksOnClass(c, o, mocks);
-                c = c.getSuperclass();
-            }
-        }
-    }
-
-    /**
-     * Try to inject a mock to every fields in the class
-     *
-     * @param clazz class where the fields are taken
-     * @param obj object being a instance of clazz
-     * @param mocks list of possible mocks
-     */
-    private static void injectMocksOnClass(Class<?> clazz, Object obj, List<Object> mocks) {
-        final Field[] fields = clazz.getDeclaredFields();
-        for (final Field f : fields) {
-            // Skip final or static fields
-            if((f.getModifiers() & (Modifier.STATIC + Modifier.FINAL)) != 0) {
-                continue;
-            }
-            final Class<?> type = f.getType();
-            Object toAssign = null;
-            for(Object mock : mocks) {
-                if(type.isAssignableFrom(mock.getClass())) {
-                    if(toAssign != null) {
-                        throw new RuntimeException("At least two mocks can be assigned to " + f + ": " + toAssign + " and " + mock);
-                    }
-                    toAssign = mock;
-                }
-            }
-            if(toAssign == null) {
-                continue;
-            }
-            f.setAccessible(true);
-            try {
-                f.set(obj, toAssign);
-            } catch (final IllegalAccessException e) {
-                // ///CLOVER:OFF
-                throw new RuntimeException(e);
-                // ///CLOVER:ON
-            }
-        }
-    }
-
-    /**
-     * Create the mocks and find the fields annotated with {@link TestSubject}
-     *
-     * @param clazz class to search
-     * @param obj object of the class
-     * @param mocks output parameter where the created mocks are added
-     * @param injectMockFields output parameter where the fields to inject are added
-     */
-    private static void createMocksForAnnotations(Class<?> clazz, Object obj, List<Object> mocks, List<Field> injectMockFields) {
-        final Field[] fields = clazz.getDeclaredFields();
-        for (final Field f : fields) {
-            final TestSubject ima = f.getAnnotation(TestSubject.class);
-            if(ima != null) {
-                injectMockFields.add(f);
-                continue;
-            }
-            final Mock annotation = f.getAnnotation(Mock.class);
-            if (annotation == null) {
-                continue;
-            }
-            final Class<?> type = f.getType();
-            String name = annotation.name();
-            // Empty string means we are on the default value which we means no name (aka null) from the EasyMock point of view
-            name = (name.length() == 0 ? null : name);
-
-            MockType mockType = annotation.type();
-            Object o;
-            if (obj instanceof EasyMockSupport) {
-                o = ((EasyMockSupport) obj).createMock(name, mockType, type);
-            }
-            else {
-                o = EasyMock.createMock(name, mockType, type);
-            }
-            f.setAccessible(true);
-            try {
-                f.set(obj, o);
-            } catch (final IllegalAccessException e) {
-                // ///CLOVER:OFF
-                throw new RuntimeException(e);
-                // ///CLOVER:ON
-            }
-            mocks.add(o);
-        }
+        Injector.injectMocks(obj);
     }
 }
