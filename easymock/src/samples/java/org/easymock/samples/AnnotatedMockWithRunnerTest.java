@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
  * @author Henri Tremblay
  */
 @RunWith(EasyMockRunner.class)
-public class AnnotatedMockTest extends EasyMockSupport {
+public class AnnotatedMockWithRunnerTest extends EasyMockSupport {
 
     @TestSubject
     private final ClassTested classUnderTest = new ClassTested();
