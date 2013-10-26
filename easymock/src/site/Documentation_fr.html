@@ -280,6 +280,37 @@ Le <code>mock</code> est instancié par le runner à l'étape 1. Il est ensuite 
 au champs <code>listener</code> de <code>classUnderTest</code> à l'étape 2. La méthode <code>setUp</code> n'est
 donc plus nécessaire étant donné que toute l'initialisation a déjà été effectuée par le runner.
 </p>
+<p>
+De plus, depuis EasyMock 3.3., si vous préférez utiliser un autre runner for vos tests, une rule JUnit est mise à votre 
+disposition. Les deux ont exactement le même comportement. La suite est une question de goûts et de couleurs.
+</p>
+<pre>
+import static org.easymock.EasyMock.*;
+
+import org.easymock.EasyMockRule;
+import org.easymock.TestSubject;
+import org.easymock.Mock;
+import org.junit.Rule;
+import org.junit.Test;
+
+public class ExampleTest {
+
+    @Rule
+    public EasyMockRule mocks = new EasyMockRule(this);
+
+    @TestSubject
+    private ClassUnderTest classUnderTest = new ClassUnderTest();
+
+    @Mock
+    private Collaborator mock;
+
+    @Test
+    public void testRemoveNonExistingDocument() {
+        replay(mock);
+        classUnderTest.removeDocument("Does not exist");
+    }
+}
+</pre>
 <h3>
    Ajouter un comportement
 </h3>

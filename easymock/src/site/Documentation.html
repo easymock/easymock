@@ -264,8 +264,39 @@ public class ExampleTest {
 </pre>
 <p>
 The <code>mock</code> is instantiated by the runner at step 1. It is then set by the runner, to the <code>listener</code>
-field on step 2. The <code>setUp</code> method can be removed since all the initialisation was done by the runner.
+field on step 2. The <code>setUp</code> method can be removed since all the initialization was done by the runner.
 </p>
+<p>
+On top of that, since EasyMock 3.3, if you need to use another runner on you tests, a JUnit rule is also available to you. Both are having
+the exact same behavior. Choosing one of the other is a matter of taste.
+</p>
+<pre>
+import static org.easymock.EasyMock.*;
+
+import org.easymock.EasyMockRule;
+import org.easymock.TestSubject;
+import org.easymock.Mock;
+import org.junit.Rule;
+import org.junit.Test;
+
+public class ExampleTest {
+
+    @Rule
+    public EasyMockRule mocks = new EasyMockRule(this);
+
+    @TestSubject
+    private ClassUnderTest classUnderTest = new ClassUnderTest();
+
+    @Mock
+    private Collaborator mock;
+
+    @Test
+    public void testRemoveNonExistingDocument() {
+        replay(mock);
+        classUnderTest.removeDocument("Does not exist");
+    }
+}
+</pre>
 <h3>
    Adding Behavior
 </h3>
