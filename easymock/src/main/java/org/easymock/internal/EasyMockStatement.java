@@ -23,7 +23,7 @@ import org.junit.runners.model.Statement;
 /**
  * JUnit Statement for use by JUnit Rule or JUnit Runner to process {@link Mock} and {@link TestSubject} annotations.
  * 
- * @author Alistair Todd
+ * @author Henri Tremblay
  * @since 3.3
  */
 public class EasyMockStatement extends Statement {
