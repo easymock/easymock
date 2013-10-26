@@ -15,6 +15,9 @@
  */
 package org.easymock.tests2;
 
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +27,6 @@ import org.easymock.IMocksControl;
 import org.easymock.MockType;
 import org.easymock.internal.MocksControl;
 import org.junit.Test;
-
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
@@ -186,14 +186,15 @@ public class MocksControlTest {
     }
 
     @Test
-    @Deprecated
+    @SuppressWarnings("deprecation")
     public void testCreateOldMockTypeFromNewMockType() {
         assertSame(MockType.NICE, MocksControl.MockType.NICE.realType);
     }
 
     @Test
     public void testCreateMocksControlFromOldMockType() {
-        MocksControl c = new MocksControl(MocksControl.MockType.NICE);
+        @SuppressWarnings("deprecation")
+        final MocksControl c = new MocksControl(MocksControl.MockType.NICE);
         assertSame(MockType.NICE, c.getType());
     }
 }
