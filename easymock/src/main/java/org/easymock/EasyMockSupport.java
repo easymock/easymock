@@ -604,7 +604,7 @@ public class EasyMockSupport {
      * The rules are
      * <ul>
      *     <li>Static and final fields are ignored</li>
-     *     <li>If a mock can be assigned to a field, do it. The same mock an be assigned more than once</li>
+     *     <li>If a mock can be assigned to a field, do it. The same mock can be assigned more than once</li>
      *     <li>If no mock can be assigned to a field, skip it silently</li>
      *     <li>If two mocks can be assigned to the same field, return an error</li>
      * </ul>
