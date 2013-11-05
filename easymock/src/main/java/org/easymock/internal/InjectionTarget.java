@@ -81,7 +81,7 @@ public class InjectionTarget {
      */
     public void setInjection(final Injection injection) {
 
-        final String qualifier = injection.getAnnotation().qualifier();
+        final String qualifier = injection.getAnnotation().fieldName();
 
         if (qualifier.length() > 0) {
             if (qualifier.equals(targetField.getName())) {
@@ -96,7 +96,7 @@ public class InjectionTarget {
     private void assignQualified(final Injection injection) {
         if (qualified) {
             throw new RuntimeException(
-                    "At least two mocks with qualifier '" + injection.getAnnotation().qualifier()
+                    "At least two mocks with qualifier '" + injection.getAnnotation().fieldName()
                             + "' can be assigned to " + targetField + ": "
                             + toAssign + " and " + injection.getMock());
         }

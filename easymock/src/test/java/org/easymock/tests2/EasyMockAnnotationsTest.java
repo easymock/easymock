@@ -124,13 +124,13 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     private static class ToInjectQualifiedDuplicateTest {
-        @Mock(name = "a", qualifier = "m1")
+        @Mock(name = "a", fieldName = "m1")
         protected IMethods a;
 
-        @Mock(name = "b", qualifier = "m2")
+        @Mock(name = "b", fieldName = "m2")
         protected IMethods b;
 
-        @Mock(qualifier = "unmatched")
+        @Mock(fieldName = "unmatched")
         protected IVarArgs v;
 
         @TestSubject
@@ -147,10 +147,10 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     private static class ToInjectDuplicateQualifierTest {
-        @Mock(name = "a", qualifier = "m1")
+        @Mock(name = "a", fieldName = "m1")
         protected IMethods a;
 
-        @Mock(name = "b", qualifier = "m1")
+        @Mock(name = "b", fieldName = "m1")
         protected IMethods b;
 
         @TestSubject
@@ -177,7 +177,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         @Mock(name = "a")
         protected IMethods a;
 
-        @Mock(name = "b", qualifier = "m1")
+        @Mock(name = "b", fieldName = "m1")
         protected IMethods b;
 
         @TestSubject
