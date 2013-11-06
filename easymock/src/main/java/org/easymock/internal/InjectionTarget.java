@@ -28,10 +28,6 @@ public class InjectionTarget {
 
     private final Field targetField;
 
-    private Object toAssign = null;
-
-    private boolean qualified = false;
-
     /**
      * Create instance for injection to the given field.
      * @param f Field that will receive the {@link Injection}
@@ -43,74 +39,39 @@ public class InjectionTarget {
     /**
      * Can the given Injection be applied to this InjectionTarget?
      * @param injection candidate Injection
-     * @return true if injection is of a type that can b applied to this InjectionTarget
+     * @return true if injection represents a mock that can be applied to this InjectionTarget,
+     * false if the mock is of a type that cannot be assigned
      */
     public boolean accepts(final Injection injection) {
         return targetField.getType().isAssignableFrom(injection.getMock().getClass());
     }
 
     /**
-     * Perform the injection against the given object.
+     * Perform the injection against the given object set the "matched" status of the injection when successful.
      * @param obj Object instance on which to perform injection.
-     * @return true if injection succeeds, otherwise false.
+     * @param injection Injection containing mock to assign.
      */
-    public boolean inject(final Object obj) {
-
-        if (toAssign == null) {
-            return false;
-        }
+    public void inject(final Object obj, final Injection injection) {
 
         targetField.setAccessible(true);
 
         try {
-            targetField.set(obj, toAssign);
+            targetField.set(obj, injection.getMock());
         } catch (final IllegalAccessException e) {
             // ///CLOVER:OFF
             throw new RuntimeException(e);
             // ///CLOVER:ON
         }
 
-        return true;
+        injection.setMatched();
     }
 
     /**
-     * Set the Injection that will be applied to this target, if it is unqualified or if the qualifier
-     * matches the target field name. Throws RuntimeException if the injection is already set, unless
-     * the new injection has a qualifier matching the fieldname and the previous setting was unqualified.
-     * @param injection injection to apply.
+     * Get the field to which injections will be assigned.
+     * @return target field for injection assignment.
      */
-    public void setInjection(final Injection injection) {
-
-        final String qualifier = injection.getAnnotation().fieldName();
-
-        if (qualifier.length() > 0) {
-            if (qualifier.equals(targetField.getName())) {
-                assignQualified(injection);
-            }
-            return;
-        }
-
-        assignUnqualified(injection);
-    }
-
-    private void assignQualified(final Injection injection) {
-        if (qualified) {
-            throw new RuntimeException(
-                    "At least two mocks with qualifier '" + injection.getAnnotation().fieldName()
-                            + "' can be assigned to " + targetField + ": "
-                            + toAssign + " and " + injection.getMock());
-        }
-        toAssign = injection.getMock();
-        qualified = true;
-    }
-
-    private void assignUnqualified(final Injection injection) {
-        if (toAssign != null) {
-            throw new RuntimeException("At least two mocks can be assigned to " + targetField + ": "
-                    + toAssign + " and " + injection.getMock());
-        }
-
-        toAssign = injection.getMock();
+    public Field getTargetField() {
+        return targetField;
     }
 
 }

@@ -48,10 +48,10 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     private IMethods namedAndTypedMock;
 
     @Test
-    public void testMocksWithSupport() {
+    public void shouldCrateMocksUsingTestClassWhenExtendsEasyMockSupport() {
         expect(standardMock.oneArg(true)).andReturn("1");
         expect(namedMock.oneArg(true)).andReturn("2");
-        replayAll();
+        replayAll(); // Relies on this test class having been used for createMock calls.
         assertNull(typedMock.oneArg("0"));
         assertNull(namedAndTypedMock.oneArg("0"));
         assertEquals("1", standardMock.oneArg(true));
@@ -77,7 +77,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         protected static IVarArgs s;
     }
 
-    private static class ToInjectTest {
+    private static class ToInjectMocksTest {
         @Mock
         protected IMethods m;
 
@@ -89,8 +89,8 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     @Test
-    public void testInjectMocks() {
-        final ToInjectTest test = new ToInjectTest();
+    public void shouldInjectMocksWhereTypeCompatible() {
+        final ToInjectMocksTest test = new ToInjectMocksTest();
         EasyMockSupport.injectMocks(test);
         assertSame(test.m, test.toInject.m1);
         assertSame(test.m, test.toInject.m2);
@@ -100,7 +100,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         assertNull(ToInject.s);
     }
 
-    private static class ToInjectDuplicateTest {
+    private static class ToInjectDuplicateMocksTest {
         @Mock(name = "a")
         protected IMethods m;
 
@@ -112,18 +112,91 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     @Test
-    public void testInjectDuplicate() {
-        final ToInjectDuplicateTest test = new ToInjectDuplicateTest();
+    public void shouldErrorWhenDuplicateAssignmentPossible() {
+
         try {
-            EasyMockSupport.injectMocks(test);
+            EasyMockSupport.injectMocks(new ToInjectDuplicateMocksTest());
         } catch (final RuntimeException e) {
             assertEquals(
-                    "At least two mocks can be assigned to protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1: a and b",
-                    e.getMessage());
+                    e.getMessage(),
+                    "At least two mocks can be assigned to protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1: a and b");
+            return;
         }
+        fail();
     }
 
-    private static class ToInjectQualifiedDuplicateTest {
+    private static class ToInjectQualifiedMocksTest {
+        @Mock(name = "a", fieldName = "m1")
+        protected IMethods a;
+
+        @Mock(name = "b", fieldName = "m2")
+        protected IMethods b;
+
+        @TestSubject
+        protected ToInject toInject = new ToInject();
+    }
+
+    @Test
+    public void shouldInjectQualifiedMocksToNamedFields() {
+        final ToInjectQualifiedMocksTest test = new ToInjectQualifiedMocksTest();
+        EasyMockSupport.injectMocks(test);
+        assertSame(test.a, test.toInject.m1);
+        assertSame(test.b, test.toInject.m2);
+        assertNull(test.toInject.v);
+    }
+
+    private static class ToInjectExtension extends ToInject {
+        // Expecting assignments in superclass
+    }
+
+    private static class ToInjectQualifiedMocksToSuperClassTest {
+
+        @Mock(name = "a", fieldName = "m1")
+        protected IMethods a;
+
+        @Mock(name = "b", fieldName = "m2")
+        protected IMethods b;
+
+        @TestSubject
+        protected ToInjectExtension toInject = new ToInjectExtension();
+    }
+
+    @Test
+    public void shouldInjectQualifiedMocksToTestSubjectSuperClass() throws Exception {
+        final ToInjectQualifiedMocksToSuperClassTest test = new ToInjectQualifiedMocksToSuperClassTest();
+        EasyMockSupport.injectMocks(test);
+        assertSame(test.a, test.toInject.m1);
+        assertSame(test.b, test.toInject.m2);
+        assertNull(test.toInject.v);
+    }
+
+    private static class ToInjectQualifiedMocksMultipleTestSubjectsTest {
+        @Mock(name = "a", fieldName = "m1")
+        protected IMethods a;
+
+        @Mock(name = "b", fieldName = "m2")
+        protected IMethods b;
+
+        @TestSubject
+        protected ToInject toInject = new ToInject();
+
+        @TestSubject
+        protected ToInject toInject2 = new ToInject();
+    }
+
+    @Test
+    public void shouldInjectQualifiedMocksToAllMatchingTestSubjects() throws Exception {
+        final ToInjectQualifiedMocksMultipleTestSubjectsTest test = new ToInjectQualifiedMocksMultipleTestSubjectsTest();
+        EasyMockSupport.injectMocks(test);
+        assertSame(test.a, test.toInject.m1);
+        assertSame(test.b, test.toInject.m2);
+        assertNull(test.toInject.v);
+        assertSame(test.a, test.toInject2.m1);
+        assertSame(test.b, test.toInject2.m2);
+        assertNull(test.toInject2.v);
+    }
+
+    private static class ToInjectUnsatisfiedQualifierTest {
         @Mock(name = "a", fieldName = "m1")
         protected IMethods a;
 
@@ -138,12 +211,85 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     @Test
-    public void testInjectQualifiedDuplicate() {
-        final ToInjectQualifiedDuplicateTest test = new ToInjectQualifiedDuplicateTest();
-        EasyMockSupport.injectMocks(test);
-        assertSame(test.a, test.toInject.m1);
-        assertSame(test.b, test.toInject.m2);
-        assertNull(test.toInject.v);
+    public void shouldErrorWhenUnsatisfiedQualifier() {
+        try {
+            EasyMockSupport.injectMocks(new ToInjectUnsatisfiedQualifierTest());
+        } catch (final RuntimeException e) {
+            assertEquals(
+                    e.getMessage(), "Unsatisfied qualifier: 'unmatched'");
+            return;
+        }
+        fail();
+    }
+
+    private static class ToInjectTypeIncompatibleQualifierTest {
+        @Mock(name = "a", fieldName = "m1")
+        protected IMethods a;
+
+        @Mock(fieldName = "m2")
+        protected IVarArgs v;
+
+        @TestSubject
+        protected ToInject toInject = new ToInject();
+    }
+
+    @Test
+    public void shouldErrorForUnmatchedQualifierWhenTypeIncompatibleQualifier() throws Exception {
+        try {
+            EasyMockSupport.injectMocks(new ToInjectTypeIncompatibleQualifierTest());
+        } catch (final RuntimeException e) {
+            assertEquals(
+                    e.getMessage(), "Unsatisfied qualifier: 'm2'");
+            return;
+        }
+        fail();
+    }
+
+    private static class ToInjectUnassignableField extends ToInject {
+        final IMethods finalField = null;
+
+        static IMethods staticField;
+    }
+
+    private static class ToInjectUnassignableFinalFieldQualifierTest {
+        @Mock(name = "a", fieldName = "finalField")
+        protected IMethods a;
+
+        @TestSubject
+        protected ToInjectUnassignableField toInject = new ToInjectUnassignableField();
+    }
+
+    @Test
+    public void shouldErrorForUnmatchedQualifierWhenUnassignableFinalField() throws Exception {
+        try {
+            EasyMockSupport.injectMocks(new ToInjectUnassignableFinalFieldQualifierTest());
+        } catch (final RuntimeException e) {
+            assertEquals(
+                    e.getMessage(), "Unsatisfied qualifier: 'finalField'");
+            return;
+        }
+        fail();
+    }
+
+    private static class ToInjectUnassignableStaticFieldQualifierTest {
+        @Mock(name = "a", fieldName = "staticField")
+        protected IMethods a;
+
+        @TestSubject
+        protected ToInjectUnassignableField toInject = new ToInjectUnassignableField();
+    }
+
+    // TODO Should it be our "unmatched" error, or Java's "can not set" error, or our "can not set" error?
+    @Test
+    public void shouldErrorForUnmatchedQualifierWhenUnassignableStaticField() throws Exception {
+        try {
+            EasyMockSupport.injectMocks(new ToInjectUnassignableStaticFieldQualifierTest());
+        } catch (final RuntimeException e) {
+            assertEquals(
+                    e.getMessage(), "Unsatisfied qualifier: 'staticField'");
+            return;
+        }
+        fail();
     }
 
     private static class ToInjectDuplicateQualifierTest {
@@ -158,22 +304,22 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     @Test
-    public void testInjectDuplicateQualifier() {
-        final ToInjectDuplicateQualifierTest test = new ToInjectDuplicateQualifierTest();
+    public void shouldErrorWhenDuplicateQualifiers() {
         try {
-            EasyMockSupport.injectMocks(test);
+            EasyMockSupport.injectMocks(new ToInjectDuplicateQualifierTest());
         } catch (final RuntimeException e) {
             assertEquals(
-                    "At least two mocks with qualifier 'm1' can be assigned to protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1: a and b",
-                    e.getMessage());
+                    e.getMessage(), "At least two mocks have fieldName qualifier 'm1'");
+            return;
         }
+        fail();
     }
 
     private static class ToInjectOneTarget {
         protected IMethods m1;
     }
 
-    private static class ToInjectQualifiedReplacementTest {
+    private static class ToInjectQualifiedAndUnqualifiedTest {
         @Mock(name = "a")
         protected IMethods a;
 
@@ -185,8 +331,8 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     @Test
-    public void testInjectQualifiedReplacement() {
-        final ToInjectQualifiedReplacementTest test = new ToInjectQualifiedReplacementTest();
+    public void shouldNotAssignUnqualifiedMockWhereQualifiedMockAssigned() {
+        final ToInjectQualifiedAndUnqualifiedTest test = new ToInjectQualifiedAndUnqualifiedTest();
         EasyMockSupport.injectMocks(test);
         assertSame(test.b, test.toInjectOneTarget.m1);
     }

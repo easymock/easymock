@@ -603,10 +603,15 @@ public class EasyMockSupport {
      * The rules are
      * <ul>
      *     <li>Static and final fields are ignored</li>
-     *     <li>If a mock can be assigned to a field, do it. The same mock an be assigned more than once</li>
-     *     <li>If no mock can be assigned to a field, skip it silently</li>
-     *     <li>If two mocks can be assigned to the same field, return an error</li>
-     *     <li>A mock can be assigned if the type is compatible and, where a qualifier is set, the qualifier matches the field name
+     *     <li>If two mocks have the same field name, return an error</li>
+     *     <li>If a mock has a field name and no matching field is found, return an error</li>
+     * </ul>
+     * Then, ignoring all fields and mocks matched by field name
+     * <ul>
+     *     <li>If a mock without field name can be assigned to a field, do it. The same mock can be assigned more than once</li>
+     *     <li>If no mock can be assigned to a field, skip the field silently</li>
+     *     <li>If the mock cannot be assigned to any field, skip the mock silently</li>          
+     *     <li>If two mocks can be assigned to the same field, return an error</li>          
      * </ul>
      * Fields are searched recursively on the superclasses
      * <p>

@@ -29,8 +29,10 @@ public class Injection {
 
     private final Mock annotation;
 
+    private boolean matched = false;
+
     /**
-     * Crate immutable instance containing the given mock and annotation.
+     * Create instance containing the given mock and annotation.
      * @param mock a mock object instance
      * @param annotation Mock annotation describing the mock
      */
@@ -56,4 +58,28 @@ public class Injection {
     public Mock getAnnotation() {
         return annotation;
     }
+
+    /**
+     * Get the field name qualifier for this injection.
+     * @return the field name qualifier for this injection which may be empty string where not set.
+     */
+    public String getQualifier() {
+        return annotation.fieldName();
+    }
+
+    /**
+     * Change the status to indicate that this injection was matched to some target.
+     */
+    public void setMatched() {
+        matched = true;
+    }
+
+    /**
+     * Is this injection matched by some injection target?
+     * @return true if setMatched was called, indicating that a matching injection target was found
+     */
+    public boolean isMatched() {
+        return matched;
+    }
+
 }
