@@ -39,4 +39,12 @@ public @interface Mock {
 
     /** Name of the mock to be created */
     String name() default "";
+
+    /**
+     * Name of the test subject field to which this mock will be assigned. Use to disambiguate the case where a mock may be assigned to multiple fields of the same type.
+     * When set, this mock will be assigned to the given field name in any test subject with a matching field name.
+     * If not set, injection is to all type-compatible fields in all test subjects.
+     * A given field name may only be used once, and there must be a matching field in at least one test subject.
+     **/
+    String fieldName() default "";
 }
