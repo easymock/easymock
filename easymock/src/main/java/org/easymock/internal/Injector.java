@@ -87,8 +87,8 @@ public class Injector {
         // Check for unsatisfied qualified injections only after having scanned all TestSubjects and their superclasses
         for (final Injection injection : injectionPlan.getQualifiedInjections()) {
             if (!injection.isMatched()) {
-                throw new RuntimeException("Unsatisfied qualifier: '" + injection.getAnnotation().fieldName()
-                        + "'");
+                throw new RuntimeException(
+                        String.format("Unsatisfied qualifier: '%s'", injection.getAnnotation().fieldName()));
             }
         }
     }
@@ -230,9 +230,9 @@ public class Injector {
         for (final Injection injection : injections) {
             if (target.accepts(injection)) {
                 if (toAssign != null) {
-                    throw new RuntimeException("At least two mocks can be assigned to "
-                            + target.getTargetField()
-                            + ": " + toAssign.getMock() + " and " + injection.getMock());
+                    throw new RuntimeException(
+                            String.format("At least two mocks can be assigned to '%s': %s and %s",
+                                    target.getTargetField(), toAssign.getMock(), injection.getMock()));
                 }
                 toAssign = injection;
             }

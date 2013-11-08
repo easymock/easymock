@@ -58,7 +58,8 @@ public class InjectionPlan {
 
     private void blockDuplicateQualifiers(final String qualifier) {
         if (!qualifiers.add(qualifier)) {
-            throw new RuntimeException("At least two mocks have fieldName qualifier '" + qualifier + "'");
+            throw new RuntimeException(
+                    String.format("At least two mocks have fieldName qualifier '%s'", qualifier));
         }
     }
 

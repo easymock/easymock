@@ -119,10 +119,10 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         } catch (final RuntimeException e) {
             assertEquals(
                     e.getMessage(),
-                    "At least two mocks can be assigned to protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1: a and b");
+                    "At least two mocks can be assigned to 'protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1': a and b");
             return;
         }
-        fail();
+        fail("Expected an exception for at least two mocks can be assigned");
     }
 
     private static class ToInjectQualifiedMocksTest {
@@ -219,7 +219,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
                     e.getMessage(), "Unsatisfied qualifier: 'unmatched'");
             return;
         }
-        fail();
+        fail("Expected an exception for unsatisifed fieldName qualifier");
     }
 
     private static class ToInjectTypeIncompatibleQualifierTest {
@@ -242,7 +242,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
                     e.getMessage(), "Unsatisfied qualifier: 'm2'");
             return;
         }
-        fail();
+        fail("Expected an exception for unsatisifed fieldName qualifier");
     }
 
     private static class ToInjectUnassignableField extends ToInject {
@@ -268,7 +268,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
                     e.getMessage(), "Unsatisfied qualifier: 'finalField'");
             return;
         }
-        fail();
+        fail("Expected an exception for unsatisifed fieldName qualifier");
     }
 
     private static class ToInjectUnassignableStaticFieldQualifierTest {
@@ -279,7 +279,6 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         protected ToInjectUnassignableField toInject = new ToInjectUnassignableField();
     }
 
-    // TODO Should it be our "unmatched" error, or Java's "can not set" error, or our "can not set" error?
     @Test
     public void shouldErrorForUnmatchedQualifierWhenUnassignableStaticField() throws Exception {
         try {
@@ -289,7 +288,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
                     e.getMessage(), "Unsatisfied qualifier: 'staticField'");
             return;
         }
-        fail();
+        fail("Expected an exception for unsatisifed fieldName qualifier");
     }
 
     private static class ToInjectDuplicateQualifierTest {
@@ -312,7 +311,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
                     e.getMessage(), "At least two mocks have fieldName qualifier 'm1'");
             return;
         }
-        fail();
+        fail("Expected an exception for dupliacte fieldName qualifier");
     }
 
     private static class ToInjectOneTarget {
