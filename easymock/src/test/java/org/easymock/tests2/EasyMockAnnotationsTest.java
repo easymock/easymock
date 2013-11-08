@@ -118,8 +118,8 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
             EasyMockSupport.injectMocks(new ToInjectDuplicateMocksTest());
         } catch (final RuntimeException e) {
             assertEquals(
-                    e.getMessage(),
-                    "At least two mocks can be assigned to 'protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1': a and b");
+                    "At least two mocks can be assigned to 'protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1': a and b",
+                    e.getMessage());
             return;
         }
         fail("Expected an exception for at least two mocks can be assigned");
@@ -215,8 +215,8 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         try {
             EasyMockSupport.injectMocks(new ToInjectUnsatisfiedQualifierTest());
         } catch (final RuntimeException e) {
-            assertEquals(
-                    e.getMessage(), "Unsatisfied qualifier: 'unmatched'");
+            assertEquals("Unsatisfied qualifier: 'unmatched'",
+                    e.getMessage());
             return;
         }
         fail("Expected an exception for unsatisifed fieldName qualifier");
@@ -238,8 +238,8 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         try {
             EasyMockSupport.injectMocks(new ToInjectTypeIncompatibleQualifierTest());
         } catch (final RuntimeException e) {
-            assertEquals(
-                    e.getMessage(), "Unsatisfied qualifier: 'm2'");
+            assertEquals("Unsatisfied qualifier: 'm2'",
+                    e.getMessage());
             return;
         }
         fail("Expected an exception for unsatisifed fieldName qualifier");
@@ -264,8 +264,8 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         try {
             EasyMockSupport.injectMocks(new ToInjectUnassignableFinalFieldQualifierTest());
         } catch (final RuntimeException e) {
-            assertEquals(
-                    e.getMessage(), "Unsatisfied qualifier: 'finalField'");
+            assertEquals("Unsatisfied qualifier: 'finalField'",
+                    e.getMessage());
             return;
         }
         fail("Expected an exception for unsatisifed fieldName qualifier");
@@ -284,8 +284,8 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         try {
             EasyMockSupport.injectMocks(new ToInjectUnassignableStaticFieldQualifierTest());
         } catch (final RuntimeException e) {
-            assertEquals(
-                    e.getMessage(), "Unsatisfied qualifier: 'staticField'");
+            assertEquals("Unsatisfied qualifier: 'staticField'",
+                    e.getMessage());
             return;
         }
         fail("Expected an exception for unsatisifed fieldName qualifier");
@@ -307,8 +307,8 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         try {
             EasyMockSupport.injectMocks(new ToInjectDuplicateQualifierTest());
         } catch (final RuntimeException e) {
-            assertEquals(
-                    e.getMessage(), "At least two mocks have fieldName qualifier 'm1'");
+            assertEquals("At least two mocks have fieldName qualifier 'm1'",
+                    e.getMessage());
             return;
         }
         fail("Expected an exception for dupliacte fieldName qualifier");
