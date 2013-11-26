@@ -91,7 +91,7 @@
               <arguments>
                 <argument>install</argument>
                 <argument>-r</argument>
-                <argument>${project.build.directory}\${project.build.finalName}.apk</argument>
+                <argument>${project.build.directory}/${project.build.finalName}.apk</argument>
               </arguments>
             </configuration>
           </execution>
