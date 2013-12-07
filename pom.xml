@@ -42,7 +42,7 @@
     </mailingList>
   </mailingLists>
   <properties>
-    <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>  
+    <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
   </properties>
   <scm>
     <url>https://github.com/easymock/easymock</url>
