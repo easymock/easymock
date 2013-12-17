@@ -10,6 +10,10 @@
   <url>http://www.easymock.org</url>
   <description>EasyMock Parent is the parent pom of all EasyMock projects</description>
   <inceptionYear>2010</inceptionYear>
+  <prerequisites>
+	  <!-- required by android-maven-plugin 3.8.1 -->
+    <maven>3.1.0</maven>
+  </prerequisites>
   <licenses>
     <license>
       <name>Apache 2</name>
