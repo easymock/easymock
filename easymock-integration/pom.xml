@@ -137,6 +137,14 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- Some java.util.concurrent backport necessary for the old spring version this is using -->
+    <dependency>
+      <groupId>edu.emory.mathcs.backport</groupId>
+      <artifactId>com.springsource.edu.emory.mathcs.backport</artifactId>
+      <version>3.1.0</version>
+      <scope>test</scope>
+    </dependency>
+
     <!-- To make sure we are still compatible with powermock -->
     <dependency>
       <groupId>org.powermock</groupId>
