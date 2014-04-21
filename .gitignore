@@ -4,7 +4,7 @@ clover.license
 .classpath
 .settings
 target
-/easymock-integration/eclipse_config
+eclipse_config/
 *.patch
 .idea/
 *.iml
