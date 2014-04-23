@@ -59,8 +59,8 @@ To compile EasyMock in Eclipse
 --------------------------------------------------------------------------------------
 To update the versions
 --------------------------------------------------------------------------------------
-- "mvn versions:set -DnewVersion=X.Y -Pandroid"
-- "mvn versions:commit -Pandroid" if everything is ok, "mvn versions:revert -Pandroid" otherwise
+- "mvn versions:set -DnewVersion=X.Y -Pandroid,bench"
+- "mvn versions:commit -Pandroid,bench" if everything is ok, "mvn versions:revert -Pandroid,bench" otherwise
 
 --------------------------------------------------------------------------------------
 Configure to deploy to the Sonatype maven repository
@@ -129,8 +129,8 @@ To bundle EasyMock and deploy
   - Add a little speech on the features
   - Retrieve the release notes in the textual format (http://jira.codehaus.org/browse/EASYMOCK#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel)
 - In local:
-  mvn versions:set -DnewVersion=x.y -Pandroid
-  mvn versions:commit -Pandroid
+  mvn versions:set -DnewVersion=x.y -Pandroid,bench
+  mvn versions:commit -Pandroid,bench
   git commit -am "Move to version x.y"
   mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=xxxx
 - Close the deployment at Sonatype Nexus UI (https://oss.sonatype.org/index.html#stagingRepositories)
@@ -170,6 +170,6 @@ To bundle EasyMock and deploy
 Start next version
 --------------------------------------------------------------------------------------
 In local:
-  - mvn versions:set -DnewVersion=X.Z-SNAPSHOT -Pandroid
-  - mvn versions:commit -Pandroid
+  - mvn versions:set -DnewVersion=X.Z-SNAPSHOT -Pandroid,bench
+  - mvn versions:commit -Pandroid,bench
 - Create next version in Jira (http://jira.codehaus.org/plugins/servlet/project-config/EASYMOCK/versions)

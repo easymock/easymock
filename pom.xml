@@ -478,6 +478,12 @@
         <module>easymock-android-tck</module>
       </modules>
     </profile>
+    <profile>
+      <id>bench</id>
+      <modules>
+        <module>easymock-bench</module>
+      </modules>
+    </profile>
   </profiles>
 
 </project>
