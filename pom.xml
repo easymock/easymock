@@ -479,9 +479,11 @@
       </modules>
     </profile>
     <profile>
-      <id>bench</id>
+      <id>all</id>
       <modules>
+        <module>easymock-android-tck</module>
         <module>easymock-bench</module>
+        <module>easymock-test-deploy</module>
       </modules>
     </profile>
   </profiles>
