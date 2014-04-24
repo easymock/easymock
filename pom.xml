@@ -12,7 +12,7 @@
   <inceptionYear>2010</inceptionYear>
   <prerequisites>
 	  <!-- required by android-maven-plugin 3.8.1 -->
-    <maven>3.1.0</maven>
+    <maven>3.1.1</maven>
   </prerequisites>
   <licenses>
     <license>
@@ -75,7 +75,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>1.7</version>
+          <version>1.8</version>
         </plugin>
         <plugin>
           <groupId>com.mycila.maven-license-plugin</groupId>
@@ -106,7 +106,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.4</version>
+          <version>1.5</version>
           <executions>
             <execution>
               <id>sign-artifacts</id>
@@ -118,13 +118,8 @@
           </executions>
         </plugin>
         <plugin>
-          <groupId>org.apache.felix</groupId>
-          <artifactId>maven-bundle-plugin</artifactId>
-          <version>2.3.5</version>
-        </plugin>
-        <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.2.1</version>
+          <version>2.4</version>
           <executions>
             <execution>
               <id>easymock-bundle</id>
@@ -145,12 +140,17 @@
           </executions>
         </plugin>
         <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.17</version>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.4.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>2.5</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
@@ -159,6 +159,10 @@
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
           <version>2.5.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.9.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
@@ -173,13 +177,13 @@
           <version>2.2.1</version>
         </plugin>
         <plugin>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.9.1</version>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.17</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>findbugs-maven-plugin</artifactId>
-          <version>2.3.2</version>
+          <version>2.5.3</version>
           <configuration>
             <excludeFilterFile>${basedir}/findbugs-exclude.xml</excludeFilterFile>
             <xmlOutput>true</xmlOutput>
@@ -188,7 +192,7 @@
         <plugin>
           <groupId>com.atlassian.maven.plugins</groupId>
           <artifactId>maven-clover2-plugin</artifactId>
-          <version>3.1.11</version>
+          <version>3.3.0</version>
           <configuration>
             <targetPercentage>100.00%</targetPercentage>
             <generateHtml>true</generateHtml>
@@ -240,7 +244,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-remote-resources-plugin</artifactId>
-        <version>1.2.1</version>
+        <version>1.5</version>
         <executions>
           <execution>
             <goals>
@@ -294,7 +298,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.1</version>
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
@@ -321,7 +325,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
-        <version>1.2</version>
+        <version>2.1</version>
       </plugin>
       <plugin>
         <groupId>com.mycila.maven-license-plugin</groupId>
@@ -369,11 +373,11 @@
       </plugin>
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.7</version>
+        <version>2.12</version>
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>2.5</version>
+        <version>3.1</version>
         <configuration>
           <targetJdk>1.5</targetJdk>
         </configuration>
