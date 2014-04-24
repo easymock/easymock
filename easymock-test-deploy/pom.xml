@@ -13,7 +13,7 @@
   <artifactId>easymock-test-deploy</artifactId>
   <packaging>jar</packaging>
   <name>EasyMock Test Deploy</name>
-  <description>EasyMock Test Deploy makes sure the binaries deployed to Sonartype are working correctly</description>
+  <description>EasyMock Test Deploy makes sure the binaries deployed to Sonatype are working correctly</description>
   <inceptionYear>2013</inceptionYear>
   <organization>
     <name>Henri Tremblay</name>
