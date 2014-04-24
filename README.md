@@ -16,7 +16,11 @@ I'm using:
 - Maven 3.2.1
 - m2e with the following connectors:
   - buildhelper (for build-helper-maven-plugin)
-- IntelliJ 13.1.1 (instead of Eclipse)
+- IntelliJ 13.1.2 (instead of Eclipse)
+
+To configure your local workspace:
+- Import the Maven parent project to Eclipse or IntelliJ
+- Import the Eclipse formatting file `EasyMock-formatter.xml`
 
 To build EasyMock with Maven
 ----------------------------
