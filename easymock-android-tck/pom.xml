@@ -24,6 +24,10 @@
       <timezone>+1</timezone>
     </developer>
   </developers>
+
+  <properties>
+      <skipTests>false</skipTests>
+  </properties>
   
   <dependencies>
     <dependency>
