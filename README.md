@@ -111,7 +111,7 @@ To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS report
 
 To check dependencies and plugins versions
 --------------------------------------------------------------------------------------
-- mvn versions:display-dependency-updates versions:display-plugin-updates
+- mvn versions:display-dependency-updates versions:display-plugin-updates -Pall
 
 To download the sources associated to our dependencies
 --------------------------------------------------------------------------------------
@@ -136,8 +136,8 @@ To bundle EasyMock and deploy
   - Add a little speech on the features
   - Retrieve the release notes in the textual format (http://jira.codehaus.org/browse/EASYMOCK#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel)
 - In local:
-  mvn versions:set -DnewVersion=x.y -Pandroid,bench
-  mvn versions:commit -Pandroid,bench
+  mvn versions:set -DnewVersion=x.y -Pall
+  mvn versions:commit -Pall
   git commit -am "Move to version x.y"
   mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=xxxx
 - Close the deployment at Sonatype Nexus UI (https://oss.sonatype.org/index.html#stagingRepositories)
@@ -176,6 +176,6 @@ To bundle EasyMock and deploy
 Start next version
 --------------------------------------------------------------------------------------
 In local:
-  - mvn versions:set -DnewVersion=X.Z-SNAPSHOT -Pandroid,bench
-  - mvn versions:commit -Pandroid,bench
+  - mvn versions:set -DnewVersion=X.Z-SNAPSHOT -Pall
+  - mvn versions:commit -Pall
 - Create next version in Jira (http://jira.codehaus.org/plugins/servlet/project-config/EASYMOCK/versions)
