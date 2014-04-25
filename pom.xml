@@ -7,13 +7,15 @@
   <version>3.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>EasyMock Parent</name>
-  <url>http://www.easymock.org</url>
+  <url>http://easymock.org</url>
   <description>EasyMock Parent is the parent pom of all EasyMock projects</description>
   <inceptionYear>2010</inceptionYear>
+
   <prerequisites>
 	  <!-- required by android-maven-plugin 3.8.1 -->
     <maven>3.1.1</maven>
   </prerequisites>
+
   <licenses>
     <license>
       <name>Apache 2</name>
@@ -21,9 +23,11 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+
   <organization>
     <name>Henri Tremblay</name>
   </organization>
+
   <developers>
     <developer>
       <id>henri</id>
@@ -32,10 +36,12 @@
       <timezone>+1</timezone>
     </developer>
   </developers>
+
   <issueManagement>
     <system>Codehaus</system>
     <url>http://jira.codehaus.org/browse/EASYMOCK</url>
   </issueManagement>
+
   <mailingLists>
     <mailingList>
       <name>User List</name>
@@ -45,14 +51,17 @@
       <archive>http://tech.groups.yahoo.com/group/easymock/</archive>
     </mailingList>
   </mailingLists>
+
   <properties>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
   </properties>
+
   <scm>
     <url>https://github.com/easymock/easymock</url>
     <developerConnection>scm:git:git@github.com:easymock/easymock.git</developerConnection>
     <connection>scm:git:git://github.com/easymock/easymock.git</connection>
   </scm>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -62,6 +71,7 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -69,6 +79,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
   <build>
     <pluginManagement>
       <plugins>
@@ -344,6 +355,7 @@
       </extension>
     </extensions>
   </build>
+
   <reporting>
     <plugins>
       <plugin>
@@ -394,11 +406,13 @@
       </plugin>
     </plugins>
   </reporting>
+
   <modules>
     <module>easymock</module>
     <module>easymock-classextension</module>
     <module>easymock-integration</module>
   </modules>
+
   <distributionManagement>
     <repository>
       <id>sonatype-nexus-staging</id>
