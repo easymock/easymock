@@ -54,6 +54,8 @@
 
   <properties>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+    <!-- Fake year just to please intelliJ -->
+    <year>1977</year>
   </properties>
 
   <scm>
