@@ -465,9 +465,6 @@
           </plugin>
           <plugin>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <version>${project.version}</version>
-            </configuration>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
