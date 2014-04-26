@@ -16,11 +16,13 @@
 package org.easymock.test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test that everything is working fine after a deployment to Sonatype
@@ -30,11 +32,20 @@ import static org.junit.Assert.*;
 public class EasyMockTest {
 
     @Test
-    public void test() throws IOException {
+    public void testInterface() throws IOException {
         Appendable mock = createMock(Appendable.class);
         expect(mock.append("test")).andReturn(mock);
         replay(mock);
         assertSame(mock, mock.append("test"));
+        verify(mock);
+    }
+
+    @Test
+    public void testClass() throws IOException {
+        ArrayList<?> mock = createMock(ArrayList.class);
+        expect(mock.size()).andReturn(5);
+        replay(mock);
+        assertEquals(5, mock.size());
         verify(mock);
     }
 }

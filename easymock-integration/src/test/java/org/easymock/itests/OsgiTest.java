@@ -24,7 +24,6 @@ import java.util.jar.Manifest;
 import org.easymock.MockType;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.matchers.Equals;
-import org.easymock.itests.OsgiClassExtensionTest.A;
 import org.objenesis.Objenesis;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
@@ -36,6 +35,10 @@ import org.springframework.osgi.util.OsgiStringUtils;
  * @author Henri Tremblay
  */
 public class OsgiTest extends OsgiBaseTest {
+
+    public static abstract class A {
+        public abstract void foo();
+    }
 
     @Override
     protected String[] getTestBundlesNames() {

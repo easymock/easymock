@@ -411,7 +411,6 @@
 
   <modules>
     <module>easymock</module>
-    <module>easymock-classextension</module>
     <module>easymock-integration</module>
   </modules>
 
