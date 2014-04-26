@@ -23,6 +23,8 @@ import net.sf.cglib.proxy.*;
 import org.easymock.internal.ClassInstantiatorFactory;
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotSame;
+
 /**
  * This test case is used to make sure that the way cglib is used is providing
  * the expected behavior
@@ -34,15 +36,14 @@ public class CglibTest {
     /**
      * Check that an interceptor is used by only one instance of a class
      * 
-     * @throws Exception
+     * @throws Exception just a test
      */
     @Test
     public void test() throws Exception {
+        final Factory f1 = createMock();
+        final Factory f2 = createMock();
 
-//        final Factory f1 = createMock();
-//        final Factory f2 = createMock();
-//
-//        assertNotSame(f1.getCallback(0), f2.getCallback(0));
+        assertNotSame(f1.getCallback(0), f2.getCallback(0));
     }
 
     private Factory createMock() throws Exception {
