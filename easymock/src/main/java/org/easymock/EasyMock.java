@@ -529,8 +529,7 @@ public class EasyMock {
      * @param value
      *            the parameter is used to transport the type to the
      *            ExpectationSetter. It allows writing the expected call as
-     *            argument, i.e.
-     *            <code>expect(mock.getName()).andReturn("John Doe")<code>.
+     *            argument, i.e. expect(mock.getName()).andReturn("John Doe").
      * 
      * @return the expectation setter.
      */
@@ -2100,7 +2099,7 @@ public class EasyMock {
      * Reports an argument matcher. This method is needed to define own argument
      * matchers. For details, see the EasyMock documentation.
      * 
-     * @param matcher
+     * @param matcher the matcher to use to match currently mocked method argument
      */
     public static void reportMatcher(final IArgumentMatcher matcher) {
         LastControl.reportMatcher(matcher);

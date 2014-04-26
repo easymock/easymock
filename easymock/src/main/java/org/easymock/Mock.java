@@ -34,10 +34,10 @@ import java.lang.annotation.*;
 @Documented
 public @interface Mock {
 
-    /** Type of mock to create */
+    /** @return type of mock to create */
     MockType type() default MockType.DEFAULT;
 
-    /** Name of the mock to be created */
+    /** @return name of the mock to be created */
     String name() default "";
 
     /**
@@ -45,6 +45,8 @@ public @interface Mock {
      * When set, this mock will be assigned to the given field name in any test subject with a matching field name.
      * If not set, injection is to all type-compatible fields in all test subjects.
      * A given field name may only be used once, and there must be a matching field in at least one test subject.
+     *
+     * @return name of the field to inject to
      **/
     String fieldName() default "";
 }
