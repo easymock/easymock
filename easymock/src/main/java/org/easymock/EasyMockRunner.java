@@ -15,14 +15,14 @@
  */
 package org.easymock;
 
-import org.easymock.internal.EasyMockStatement;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 
 /**
- * JUnit runner used to process {@link Mock} and {@link TestSubject} annotations
+ * JUnit runner used to process {@link Mock} and {@link TestSubject} annotations. Note
+ * that this runner only works with JUnit 4.5 or higher
  * 
  * @author Henri Tremblay
  * @since 3.2
@@ -33,9 +33,21 @@ public class EasyMockRunner extends BlockJUnit4ClassRunner {
         super(klass);
     }
 
+    /**
+     * We are required to override a deprecated method because it's the only way the perform
+     * the mock injection before the {@code @Before} of our class being called. Using a statement
+     * wouldn't work.
+     *
+     * @param method test method class
+     * @param target test class instance
+     * @param statement current statement
+     * @return a statement to return to the caller
+     */
+    @SuppressWarnings("deprecation")
     @Override
-    protected Statement methodInvoker(final FrameworkMethod method, final Object test) {
-        return new EasyMockStatement(super.methodInvoker(method, test), test);
+    protected Statement withBefores(FrameworkMethod method, Object target,
+            Statement statement) {
+        EasyMockSupport.injectMocks(target);
+        return super.withBefores(method, target, statement);
     }
-
 }
