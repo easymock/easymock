@@ -24,6 +24,7 @@ import org.easymock.MockType;
 import org.easymock.TestSubject;
 import org.easymock.tests.IMethods;
 import org.easymock.tests.IVarArgs;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -46,6 +47,11 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
     @Mock(name = "name2", type = MockType.NICE)
     private IMethods namedAndTypedMock;
+
+    @Before
+    public void setup() {
+        assertNotNull(standardMock);
+    }
 
     @Test
     public void shouldCreateMocksUsingTestClassWhenExtendsEasyMockSupport() {
