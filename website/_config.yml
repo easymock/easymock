@@ -1,10 +1,5 @@
 name: "EasyMock"
 description: "EasyMock provides mock objects by generating them on the fly. With EasyMock, it's finally easy to mock."
 
-url: "http://easymock.org"
-
-paginate: 10
-
 markdown: rdiscount
-permalink: pretty
 pygments: true
