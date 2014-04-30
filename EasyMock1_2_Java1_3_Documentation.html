@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>EasyMock 1.2_Java1.3 Readme</title>
+<link rel="stylesheet" href="easymock.css" />
+</head>
+<body><div class="bodywidth">
+
+<h2>EasyMock 1.2_Java1.3 Readme</h2>
+ 
+<p>Documentation for release 1.2_Java1.3 (August 7 2005)<br />
+&copy; 2001-2005 <a href="http://www.offis.de">OFFIS</a>.
+</p>
+<p>
+EasyMock is a class library that provides an easy way to use Mock Objects for given
+interfaces. EasyMock is available under the terms of the <a href="License.html">MIT license</a>.
+</p>
+<p>
+Mock Objects simulate parts of the behavior of domain code,
+and are able to check whether they are used as defined.
+Domain classes can be tested in isolation
+by simulating their collaborators with Mock Objects.
+</p>
+<p>
+Writing and maintaining Mock Objects often is a tedious
+task that may introduce errors. EasyMock generates Mock Objects
+dynamically - no need to write them, and no generated code!
+</p>
+<h3>
+EasyMock Benefits
+</h3>
+<ul>
+<li>Hand-writing classes for Mock Objects is not needed.
+</li>
+<li>Supports return values and exceptions.
+</li>
+<li>Supports changing results for the same method call.
+</li>
+<li>Supports call count checking.
+</li>
+<li>Supports default values for method calls.
+</li>
+<li>Supports checking the order of method calls.
+</li>
+</ul>
+<h3>EasyMock Drawbacks
+</h3>
+<ul>
+<li>EasyMock does only work with Java 2, 1.3.1 and above.
+</li>
+</ul>
+<p>
+EasyMock by default supports the generation of Mock Objects
+for interfaces only. For those who would like to generate
+Mock Objects for classes, there is an extension
+available at the EasyMock home page.
+</p>
+<h2>
+Installation
+</h2>
+<ol>
+<li>Java (at least 1.3.1) is required.
+</li>
+<li>JUnit (at least 3.8.1) has to be in the class path.
+</li>
+<li>Unzip the EasyMock zip file (<code>easymock1.2_Java1.3.zip</code>). It contains a directory
+<code>easymock1.2_Java1.3</code>. Add the EasyMock jar file (<code>easymock.jar</code>) from this directory to your
+classpath.
+</li>
+</ol>
+To execute the EasyMock tests, add <code>tests.zip</code> to your class path and start
+<code>'java org.easymock.tests.AllTests'</code>.
+<p>
+The source code of EasyMock is stored in the zip file <code>src.zip</code>.
+</p>
+<h2>
+Usage
+</h2>
+<p>
+Most parts of a software system do not work in isolation, but collaborate
+with other parts to get their job done. In a lot of cases, we do not care
+about using collaborators in unit testing, as we trust these collaborators.
+If we <em>do</em> care about it, Mock Objects help us to test the unit under test
+in isolation. Mock Objects replace collaborators of the unit under
+test.
+</p>
+<p>
+The following examples use the interface <code>Collaborator</code>:
+</p>
+<pre>
+package org.easymock.samples;
+
+public interface Collaborator {
+    void documentAdded(String title);
+    void documentChanged(String title);
+    void documentRemoved(String title);
+    byte voteForRemoval(String title);
+    byte[] voteForRemovals(String[] title);
+}
+</pre>
+<p>
+Implementors of this interface are collaborators 
+(in this case listeners) of a class named <code>ClassUnderTest</code>:
+</p>
+<pre>
+public class ClassUnderTest {
+    // ...    
+    public void addListener(Collaborator listener) {
+        // ... 
+    }
+    public void addDocument(String title, byte[] document) { 
+        // ... 
+    }
+    public boolean removeDocument(String title) {
+        // ... 
+    }
+    public boolean removeDocuments(String[] titles) {
+        // ... 
+    }
+}
+</pre>
+<p>
+The code for both the class and the interface may be found 
+in the package
+<code>org.easymock.samples</code> in <code>samples.zip</code>.
+</p>
+<p>
+The following examples assume that you are familiar with the JUnit testing framework.
+</p>
+<h3>
+The first Mock Object
+</h3>
+<p>
+We will now build a test case and toy around with it to understand the
+functionality of the EasyMock package. <code>samples.zip</code>
+contains a modified version of this test. Our first test should check
+whether the removal of a non-existing document does not lead to a notification
+of the collaborator. Here is the test without the definition of the
+Mock Object:
+</p>
+<pre>
+package org.easymock.samples;
+
+import junit.framework.TestCase;
+
+public class ExampleTest extends TestCase {
+
+    private ClassUnderTest classUnderTest;
+    private Collaborator mock;
+
+    protected void setUp() {
+        classUnderTest = new ClassUnderTest();
+        classUnderTest.addListener(mock);
+    }
+
+    public void testRemoveNonExistingDocument() {    
+        // This call should not lead to any notification
+        // of the Mock Object: 
+        classUnderTest.removeDocument("Does not exist");
+    }
+}
+</pre>
+<p>
+For many tests using EasyMock, 
+we only need to import one class: <code>org.easymock.MockControl</code>
+(in fact, EasyMock has only two non-internal classes and one 
+non-internal interface!).
+</p>
+<pre>
+import org.easymock.MockControl;
+
+public class ExampleTest extends TestCase {
+
+    private ClassUnderTest classUnderTest;
+    private MockControl control;
+    private Collaborator mock;
+    
+}    
+</pre>
+<p>
+To get a usable Mock Object, we need to
+</p>
+<ol>
+<li>get a <code>MockControl</code> for the interface we would like to simulate,
+</li>
+<li>get the Mock Object from the <code>MockControl</code>,
+</li>
+<li>specify the behavior of the Mock Object (record state)
+</li>
+<li>activate the Mock Object via the control (replay state).
+</li>
+</ol>
+<p>
+Sounds difficult? It isn't:
+</p>
+<pre>
+    protected void setUp() {
+        control = MockControl.createControl(Collaborator.class); // 1
+        mock = (Collaborator) control.getMock(); // 2
+        classUnderTest = new ClassUnderTest();
+        classUnderTest.addListener(mock);
+    }
+
+    public void testRemoveNonExistingDocument() {
+        // 3 (we do not expect anything)
+        control.replay(); // 4
+        classUnderTest.removeDocument("Does not exist");
+    }
+</pre>
+<p>
+After activation in step 4, <code>mock</code>
+is a Mock Object for the <code>Collaborator</code>
+interface that expects no calls. This means that if we change
+our class under test to call
+any of the interface's methods, the Mock Object will throw
+an <code>AssertionFailedError</code>:
+</p>
+<pre>
+junit.framework.AssertionFailedError: 
+  Unexpected method call documentRemoved("Does not exist"):
+    documentRemoved("Does not exist"): expected: 0, actual: 1
+	at org.easymock.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:41)
+	at $Proxy0.documentRemoved(Unknown Source)
+	at org.easymock.samples.ClassUnderTest.notifyListenersDocumentRemoved
+(ClassUnderTest.java:78)
+	at org.easymock.samples.ClassUnderTest.removeDocument
+(ClassUnderTest.java:34)
+	at org.easymock.samples.ExampleTest.testRemoveNonExistingDocument
+(ExampleTest.java:27)
+    // ...
+</pre>
+
+<h3>
+   Adding Behavior
+</h3>
+<p>
+Now we write a second test. If a document
+is added on the class under test, we expect a call to <code>mock.documentAdded()</code>
+on the Mock Object with the title of the document as argument:
+</p>
+<pre>
+    public void testAddDocument() {
+        mock.documentAdded("New Document"); // 3
+        control.replay(); // 4
+        classUnderTest.addDocument("New Document", new byte[0]); 
+    }
+</pre>
+<p>
+So in the record state (before calling <code>replay</code>),
+the Mock Object does <em>not</em> behave like a Mock Object,
+but it records method calls. After calling <code>replay</code>,
+it behaves like a Mock Object, checking whether the expected
+method calls are really done.
+</p>
+<p>
+If <code>classUnderTest.addDocument("New Document", new byte[0])</code>
+calls the expected method with a wrong argument, the Mock Object will complain
+with an <code>AssertionFailedError</code>:
+</p>
+<pre>
+junit.framework.AssertionFailedError: 
+  Unexpected method call documentAdded("Wrong title"):
+    documentAdded("Wrong title"): expected: 0, actual: 1
+    documentAdded("New Document"): expected: 1, actual: 0
+    at org.easymock.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:41)
+    at $Proxy0.documentAdded(Unknown Source)
+    at org.easymock.samples.ClassUnderTest.notifyListenersDocumentAdded
+(ClassUnderTest.java:63)
+    at org.easymock.samples.ClassUnderTest.addDocument(ClassUnderTest.java:29)
+    at org.easymock.samples.ExampleTest.testAddDocument(ExampleTest.java:33)
+// ...
+</pre>
+<p>
+All missed expectations are shown, as well as all fulfilled
+expectations for the unexpected call (none in this case). If the method
+call is executed too often, the Mock Object complains, too:
+</p>
+<pre>
+junit.framework.AssertionFailedError: 
+  Unexpected method call documentAdded("New Document"):
+    documentAdded("New Document"): expected: 1, actual: 2
+    at org.easymock.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:41)
+    at $Proxy0.documentAdded(Unknown Source)
+    at org.easymock.samples.ClassUnderTest.notifyListenersDocumentAdded
+(ClassUnderTest.java:64)
+    at org.easymock.samples.ClassUnderTest.addDocument(ClassUnderTest.java:30)
+    at org.easymock.samples.ExampleTest.testAddDocument(ExampleTest.java:33)
+    // ...	
+</pre>
+<h3>
+Verifying Behavior
+</h3>
+<p>
+There is one error that we have not handled so far: If we specify
+behavior, we would like to verify that it is actually used. The current
+test would pass if no method on the Mock Object is called. To verify that the
+specified behavior has been used, we have to call
+<code>control.verify()</code>:
+</p>
+<pre>
+    public void testAddDocument() {
+        mock.documentAdded("New Document"); // 3 
+        control.replay(); // 4
+        classUnderTest.addDocument("New Document", new byte[0]);
+        control.verify();
+    }
+</pre>
+<p>
+If the method is not called on the Mock Object, we now get the 
+following exception:
+</p>
+<pre>
+junit.framework.AssertionFailedError: 
+  Expectation failure on verify:
+    documentAdded("New Document"): expected: 1, actual: 0
+    at org.easymock.AbstractBehavior.verify(AbstractBehavior.java:74)
+    at org.easymock.PlayState.verify(PlayState.java:23)
+    at org.easymock.MockControl.verify(MockControl.java:153)
+    at org.easymock.samples.ExampleTest.testAddDocument(ExampleTest.java:34)
+    // ...
+</pre>
+<p>
+The message of the exception lists all the missed expectations.
+</p>
+<h3>
+Expecting an Explicit Number of Calls
+</h3>
+<p>
+Up to now, our test has only considered a single method call. The next
+test should check whether the addition of an already existing
+document leads to a call to <code>mock.documentChanged()</code>
+with the appropriate argument. To be sure, we check this three
+times (hey, it is an example ;-)):
+</p>
+<pre>
+    public void testAddAndChangeDocument() {
+        mock.documentAdded("Document");
+        mock.documentChanged("Document");
+        mock.documentChanged("Document");
+        mock.documentChanged("Document");
+        control.replay();
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        control.verify();
+    }
+</pre>
+<p>
+To avoid the repetition of <code>mock.documentChanged("Document")</code>,
+EasyMock provides a shortcut. The method <code>setVoidCallable(int times)</code>
+on <code>MockControl</code> allows us to set the expected call count:
+</p>
+<pre>
+    public void testAddAndChangeDocument() {
+        mock.documentAdded("Document");
+        mock.documentChanged("Document");
+        control.setVoidCallable(3);
+        control.replay();
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        control.verify();
+    }
+</pre>
+<p>
+If the method is called too often, we get an exception that
+tells us that the method has been called too many times.
+The failure occurs immediately at the first method call
+exceeding the limit:
+</p>
+<pre>
+junit.framework.AssertionFailedError: 
+  Expectation failure on method call documentChanged("Document"):
+    documentChanged("Document"): expected: 3, actual: 4
+    at org.easymock.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:41)
+    at $Proxy0.documentChanged(Unknown Source)
+    at org.easymock.samples.ClassUnderTest.notifyListenersDocumentChanged
+(ClassUnderTest.java:71)
+    at org.easymock.samples.ClassUnderTest.addDocument(ClassUnderTest.java:23)
+    at org.easymock.samples.ExampleTest.testAddAndChangeDocument
+(ExampleTest.java:46)
+    // ...
+</pre>
+<p>
+If there are too few calls, <code>control.verify()</code> 
+throws an <code>AssertionFailedError</code>:
+</p>
+<pre>
+junit.framework.AssertionFailedError: 
+  Expectation failure on verify:
+    documentChanged("Document"): expected: 3, actual: 2
+    at org.easymock.PlayState.verify(PlayState.java:24)
+    at org.easymock.MockControl.verify(MockControl.java:153)
+    at org.easymock.samples.ExampleTest.testAddAndChangeDocument
+(ExampleTest.java:45)
+</pre>
+<h3>
+Strict Mocks
+</h3>
+<p>
+On a Mock Object returned by a <code>MockControl</code> created with <code>MockControl.createControl()</code>,
+the order of method calls is not checked.
+If you would like a "strict" Mock Object that checks the order of method calls,
+use <code>MockControl.create<i>Strict</i>Control()</code>
+to create its <code>MockControl</code>.
+</p>
+<p>
+If an unexpected method is called on a strict Mock Object,
+the message of the exception will show the method calls
+expected at this point followed by the first conflicting one. 
+<code>verify()</code> shows all missing method calls.
+</p>
+<h3>
+Specifying Return Values
+</h3>
+<p>
+For specifying return values, the <code>MockControl</code>
+provides the methods <code>setReturnValue([type] value)</code>
+and <code>setReturnValue([type] value, int times)</code>.
+<code>[type]</code> is either <code>Object</code>
+or a primitive type. These methods have to be called in record
+state after the call to the Mock Object for which they specify
+the return value.
+</p>
+<p>
+As an example, we check the workflow for document
+removal. If <code>classUnderTest</code> gets a call for document
+removal, it asks all collaborators for their vote for removal
+with calls to <code>byte voteForRemoval(String title)</code> value.
+Positive return values are a vote for
+removal. If the sum of all values is positive, the document is removed
+and <code>documentRemoved(String title)</code> is called on
+all collaborators:
+</p>
+<pre>
+    public void testVoteForRemoval() {
+        mock.documentAdded("Document");   // expect document addition
+        mock.voteForRemoval("Document");  // expect to be asked to vote ...
+        control.setReturnValue(42);       // ... and vote for it
+        mock.documentRemoved("Document"); // expect document removal
+        control.replay();
+        classUnderTest.addDocument("Document", new byte[0]);
+        assertTrue(classUnderTest.removeDocument("Document"));
+        control.verify();
+    }
+
+    public void testVoteAgainstRemoval() {
+        mock.documentAdded("Document");   // expect document addition
+        mock.voteForRemoval("Document");  // expect to be asked to vote ...
+        control.setReturnValue(-42);      // ... and vote against it
+        control.replay();
+        classUnderTest.addDocument("Document", new byte[0]);
+        assertFalse(classUnderTest.removeDocument("Document"));
+        control.verify();
+    }
+</pre>
+<h3>
+Working with Exceptions
+</h3>
+<p>
+For specifying exceptions (more exact: Throwables) to be thrown, the control
+provides the methods <code>setThrowable(Throwable throwable)</code> and
+<code>setThrowable(Throwable throwable, int times)</code>. These
+methods have to be called in record state after the call to the
+Mock Object for which they specify the <code>Throwable</code>
+to be thrown.
+</p>
+<p>
+Unchecked exceptions (that is, <code>RuntimeException</code>, <code>Error</code>
+and all their subclasses) can be thrown from every method. Checked exceptions can only be
+thrown from the methods that do actually throw them.
+</p>
+<h3>
+Relaxing Call Counts
+</h3>
+<p>
+The <code>MockControl</code> provides different methods for specifying
+expected call counts. To expect a fixed number of calls, we 
+already know
+</p>
+<ul>
+<li><code>setReturnValue([type], int times)</code>
+</li>
+<li><code>setThrowable(Throwable throwable, int times)</code>
+</li>
+<li><code>setVoidCallable(int times)</code>.
+</li>
+</ul>
+<p>
+To expect exactly one call, there are
+</p>
+<ul>
+<li><code>setReturnValue([type])</code>
+</li>
+<li><code>setThrowable(Throwable throwable)</code>
+</li>
+<li><code>setVoidCallable()</code>.
+</li>
+</ul>
+<p>
+The last method is implicitly assumed in record state for
+calls to methods with <code>void</code> return type which
+are followed by another method call on the Mock Object, or by 
+<code>control.replay()</code>.
+</p>
+<p>
+To relax the expected call counts, there are additional methods.
+The first group of them sets as expectation that a method
+is called between <code>minCount</code> and <code>maxCount</code> times:
+</p>
+<ul>
+<li><code>setReturnValue([type], int minCount, int maxCount)</code>
+</li>
+<li><code>setThrowable(Throwable throwable, int minCount, int maxCount)</code>
+</li>
+<li><code>setVoidCallable(int minCount, int maxCount)</code>.
+</li>
+</ul>
+<p>
+The second group allows to specify an expected <code>Range</code>
+of calls. Three <code>Range</code> objects are available: 
+<code>MockControl.ONE</code> expects exactly one call,
+<code>MockControl.ONE_OR_MORE</code> expects one or more calls and
+<code>MockControl.ZERO_OR_MORE</code> any number of calls:
+</p>
+<ul>
+<li><code>setReturnValue([type], Range range)</code>
+</li>
+<li><code>setThrowable(Throwable throwable, Range range)</code>
+</li>
+<li><code>setVoidCallable(Range range)</code>.
+</li>
+</ul>
+<h3>
+Changing Behavior for the Same Method Call
+</h3>
+<p>
+It is also possible to specify a changing behavior for a method.
+As an example, we define <code>voteForRemoval("Document")</code> to
+</p>
+<ul>
+<li>return 42 for the first three calls,
+</li>
+<li>throw a <code>RuntimeException</code> for the next four calls,
+</li>
+<li>return -42 for all subsequent calls:
+</li>
+</ul>
+<pre>
+    mock.voteForRemoval("Document");
+    control.setReturnValue(42, 3);
+    control.setThrowable(new RuntimeException(), 4);
+    control.setReturnValue(-42, MockControl.ZERO_OR_MORE);
+</pre>
+<h3>
+Convenience Methods for Return Values
+</h3>
+<p>
+Convenience methods allow to specify an expected method call and a return
+value in one line of code. Instead of writing
+</p>
+<pre>
+    mock.voteForRemoval("Document");
+    control.setReturnValue(42);
+</pre>
+<p>
+we may use
+</p>
+<pre>
+    control.expectAndReturn(mock.voteForRemoval("Document"), 42);
+</pre>
+<p>
+As the <code>setReturnValue()</code> methods, the convenience
+methods are available for unspecified call counts, for
+<code>Range</code> call counts, for call counts of type 
+<code>int</code> as well as for call counts between a minimum
+and a maximum.
+</p>
+<p>
+For the <code>setDefaultReturnValue()</code> methods, there
+are convenience methods named <code>expectAndDefaultReturn</code>.
+</p>
+<h3>
+Convenience Methods for Throwables
+</h3>
+<p>
+Convenience methods allow to specify an expected method call and a 
+throwable to throw in one line of code. Instead of writing
+</p>
+<pre>
+    mock.aMethod(12);
+    control.setThrowable(new Error());
+</pre>
+<p>
+we may use
+</p>
+<pre>
+    control.expectAndThrow(mock.aMethod(12), new Error());
+</pre>
+<p>
+However, this form does only work for methods with a return
+type other than <code>void</code>.
+</p>
+<p>
+As the <code>setThrowable()</code> methods, the convenience
+methods are available for unspecified call counts, for
+<code>Range</code> call counts, for call counts of type 
+<code>int</code> as well as for call counts between a minimum
+and a maximum.
+</p>
+<p>
+For the <code>setDefaultThrowable()</code> methods, there
+are convenience methods named <code>expectAndDefaultThrow</code>.
+</p>
+<h3>
+Arguments Matchers
+</h3>
+<p>
+To match an actual method call on the Mock Object with an 
+expectation, <code>Object</code> arguments are by default compared with
+<code>equals()</code>. This may lead to problems. As an example,
+we consider the following expectation:
+</p>
+<pre>
+    mock.voteForRemoval(new String[] {"Document 1", "Document 2"});
+    control.setReturnValue(12);
+</pre>
+<p>
+If the method is called with another array with the same contents,
+we get an exception, as <code>equals()</code> compares object
+identity for arrays: 
+</p>
+<pre>
+junit.framework.AssertionFailedError: 
+  Expectation failure on method call voteForRemovals([Ljava.lang.String;@b66cc):
+    voteForRemovals([Ljava.lang.String;@1546e25): expected: 1, actual: 0
+</pre>
+<p>
+To set another matcher, EasyMock provides the method
+<code>setMatcher(ArgumentsMatcher matcher)</code>
+on <code>MockControl</code>. To redefine a matcher for
+a method, we have to call <code>setMatcher()</code>
+immediately after the first call to the method.
+</p>
+<p>
+There are three predefined matchers in EasyMock:
+</p>	
+<ol>
+<li><code>MockControl.EQUALS_MATCHER</code>: The default matcher
+that uses <code>equals()</code> for object comparison, and 
+<code>==</code> for primitive type comparison.
+</li>
+<li><code>MockControl.ARRAY_MATCHER</code>: Matches array arguments
+with <code>Arrays.equals()</code>, behaves like
+<code>MockControl.EQUALS_MATCHER</code> for other arguments.
+</li>
+<li><code>MockControl.ALWAYS_MATCHER</code>: Matches always.
+</li>
+</ol>
+<p>
+To match our array expectation, we use
+<code>MockControl.ARRAY_MATCHER</code>:
+</p>
+<pre>
+    mock.voteForRemovals(new String[] {"Document 1", "Document 2"});
+    control.setMatcher(MockControl.ARRAY_MATCHER);
+    control.setReturnValue(42);	
+</pre>
+<p>
+To redefine the default matcher that is used
+for all methods on the Mock Object, we may call 
+<code>setDefaultMatcher(ArgumentsMatcher matcher)</code>
+on <code>MockControl</code> directly after Mock Object creation.
+</p>
+<pre>
+    control.setDefaultMatcher(MockControl.ARRAY_MATCHER);
+    mock.voteForRemovals(new String[] {"Document 1", "Document 2"});
+    control.setReturnValue(42);	
+</pre>
+<h3>
+Arguments Matchers and Error Messages
+</h3>
+<p>
+The interface <code>ArgumentsMatcher</code> has two methods:
+</p>
+<pre>
+    boolean matches(Object[] expected, Object[] actual);
+    String toString(Object[] arguments);
+</pre>
+<p>
+The first method is used to decide whether arguments match.
+The second method is called to provide a string representation
+of the arguments in case of an error. This allows us to provide
+better error messages. Here is an example for a comparison
+failure with <code>MockControl.ARRAY_MATCHER</code>:
+</p>
+<pre>
+junit.framework.AssertionFailedError: 
+  Unexpected method call voteForRemovals(["Document 1", "Document 3"]):
+    voteForRemovals(["Document 1", "Document 3"]): expected: 0, actual: 1
+    voteForRemovals(["Document 1", "Document 2"]): expected: 1, actual: 0
+</pre>
+<h3>
+Defining own Arguments Matchers
+</h3>
+<p>
+To define own arguments matchers, the abstract class 
+<code>AbstractMatcher</code> is provided. A subclass of it
+that does not redefine any method will behave like
+<code>MockControl.EQUALS_MATCHER</code>. The class provides
+two additional methods:
+</p>
+<pre>
+    protected boolean argumentMatches(Object expected, Object actual) {
+    protected String argumentToString(Object argument) {
+</pre>
+<p>
+These methods allow the redefinition of matching and string
+representation of each argument. As an example, we provide an
+implementation of a matcher that only compares the first char
+for each string argument. For each string, only the first char
+followed by dots is displayed:
+</p>
+<pre>
+public class FirstCharMatcher extends AbstractMatcher {
+    protected boolean argumentMatches(Object first, Object second) {
+        if (first instanceof String) {
+            first = first(first);
+        }
+        if (second instanceof String) {
+            second = first(second);
+        }
+        return super.argumentMatches(first, second);
+    }
+
+    protected String argumentToString(Object argument) {
+        if (argument instanceof String) {
+            argument = first(argument) + "...";
+        }
+        return super.argumentToString(argument);
+    }
+
+    private String first(Object string) {
+        String first = (String) string;
+        if (first == null || first.length() == 0) {
+            return first;
+        }
+        return first.substring(0, 1);
+    }
+}
+</pre>
+<h3>
+Incorrect EasyMock Usage
+</h3>
+<p>
+Our test may use the EasyMock library in an incorrect way.
+For example, it may specify a non-compatible return value,
+or call verify() in record state. In these cases, EasyMock
+will complain with an appropriate exception at runtime.
+</p>
+<h3>
+Reusing a Mock Object
+</h3>
+<p>
+Mock Objects may be reset by <code>control.reset()</code>.
+</p>
+<h3>
+Using Default Behavior for Methods
+</h3>
+<p>
+The default behavior for each method is to throw an <code>AssertionFailedError</code>.
+This can be changed by calling <code>setDefaultReturnValue()</code>,
+<code>setDefaultThrowable()</code> or <code>setDefaultVoidCallable()</code>
+in the record state. The following code configures the MockObject
+to answer 42 to <code>voteForRemoval("Document")</code> once
+and -1 for subsequent calls as well as all other arguments
+to <code>voteForRemoval()</code>:
+</p>
+<pre>
+    mock.voteForRemoval("Document");
+    control.setReturnValue(42);
+    control.setDefaultReturnValue(-1);
+</pre>
+<h3>
+Nice Mocks
+</h3>
+<p>
+On a Mock Object returned by a <code>MockControl</code> created with <code>MockControl.createControl()</code>,
+the default behavior for all methods is to throw an <code>AssertionFailedError</code>.
+If you would like a "nice" Mock Object that by default allows all method calls and returns appropriate empty values (0, null or false),
+use <code>MockControl.create<i>Nice</i>Control()</code>
+to create its <code>MockControl</code>.
+</p>
+<h3>
+Object Methods
+</h3>
+<p>
+The behavior for the three object methods <code>equals()</code>,
+<code>hashCode()</code> and <code>toString()</code>
+cannot be changed for Mock Objects created with EasyMock,
+even if they are part of the interface for which the
+Mock Object is created.
+</p>
+<h2>
+EasyMock Development
+</h2>
+<p>
+EasyMock 1.0 has been developed by Tammo Freese at OFFIS.
+The development of EasyMock is now hosted on SourceForge
+to allow other developers and companies to contribute.
+</p>
+<p>
+Thanks to the people who gave feedback:
+Nascif Abousalh-Neto, Dave Astels, Francois Beausoleil, George Dinwiddie, Shane Duan, 
+Wolfgang Frech, Steve Freeman, Oren Gross, John D. Heintz, Dale King, Brian Knorr,
+Dierk Koenig, Chris Kreussling, Robert Leftwich, Johannes Link, 
+Rex Madden, David McIntosh, Karsten Menne,
+Stephan Mikaty, Ivan Moore, Ilja Preuss, Justin Sampson, Richard Scott,
+Joel Shellman, 
+Shaun Smith, Marco Struck, Ralf Stuckert, Victor Szathmary, Henri Tremblay, Bill Uetrecht,
+Frank Westphal, Chad Woolley, Bernd Worsch, and numerous others.
+</p>
+<p>
+Please check the <a href="http://www.easymock.org">EasyMock home page</a> for new versions,
+and send bug reports and suggestions to the
+<a href="mailto:easymock@yahoogroups.com?subject=EasyMock 1.2_Java1.3 feedback">EasyMock Yahoo!Group</a>.
+If you would like to subscribe to the EasyMock Yahoo!Group, send a message to
+<a href="mailto:easymock-subscribe@yahoogroups.com">easymock-subscribe@yahoogroups.com</a>.
+</p>
+<p>
+EasyMock Version 1.2_Java1.3 (August 7 2005)
+</p>
+<p>
+Changes since 1.1:
+</p>
+<ul>
+<li>EasyMock is released in two versions: One for Java 1.3 
+and above, and one for Java 1.5 with VarArgs support and better type safety.
+</li>
+<li>order of arguments for ArgumentsMatcher is like in EasyMock 1.0 now
+</li>
+<li>stack traces are now only cut if the exception is
+thrown from EasyMock
+</li>
+<li>convenience methods <code>expectAndDefaultReturn()</code>
+and <code>expectAndDefaultThrow()</code> allow setting default
+return values and throwables in one line of code
+</li>
+<li><code>hashCode()</code> implementation is changed for
+better performance
+</li>
+<li>added Clover coverage reports
+</li>
+</ul>
+<p>
+Changes since 1.0.1b:
+</p>
+<ul>
+<li>
+A first extension for EasyMock is available. With
+the help of cglib, it allows generating mock objects
+for classes. It is available in an own jar file from
+the EasyMock home page.
+</li>
+<li>ParameterMatcher renamed to ArgumentsMatcher,
+since it matches arguments, not parameters
+</li>
+<li>parameterMatches() and parameterToString() on
+  AbstractMatcher renamed to
+  argumentMatches() and argumentToString(), since
+  they work on arguments, not parameters 
+</li>
+<li>tests extended to gain 100% clover coverage
+</li>
+<li>internal refactorings
+</li>
+</ul>
+<p>
+Changes since 1.0.1:
+</p>
+<ul>
+<li>src.zip now contains the classes of the package
+  org.easymock.internal
+</li>
+</ul>
+<p>
+Changes since 1.0:
+</p>
+<ul>
+<li>refactoring to open EasyMock for extensions
+</li>
+<li>convenience methods <code>expectAndReturn() and
+expectAndThrow()</code>
+</li>
+</ul>
+<p>
+Changes since 0.8:
+</p>
+<ul>
+<li>added strict EasyMocks that check order of method calls
+</li>
+<li>added Ranges that allow to specify a range of
+    allowed calls
+</li>
+<li>added ParameterMatcher that allows to specify how
+  parameters are matched
+</li>
+<li>Added JavaDoc
+</li>
+<li>Better error messages
+</li>
+<li>changed behavior for unspecified call count:
+instead of assuming one of more calls, exactly one is expected
+</li>
+<li>deprecated activate(), its name is now replay()
+</li>
+<li>MockControl is now an abstract class,
+  Deprecated EasyMock.controlFor(),
+  it is now MockControl.createControl(),
+  Deprecated EasyMock.niceControlFor(),
+  it is now MockControl.createNiceControl()
+</li>
+<li>InvalidMockUsageException replaced with appropriate exceptions from java:
+IllegalStateException, NullPointerException, IllegalArgumentException
+</li>
+<li>hashCode(), equals() and toString() now also work in setup state
+</li>
+<li>hashCode() returns the hashCode of the String returned by toString()
+</li>
+<li>many refactorings
+</li>
+</ul>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+

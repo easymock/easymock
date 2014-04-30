@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>EasyMock Class Extension 1.2.1 Readme</title>
+<link rel="stylesheet" href="easymock.css" />
+</head>
+<body><div class="bodywidth">
+
+<h2>EasyMock Class Extension 1.2.1 Readme</h2>
+
+<p>Documentation for release 1.2.1 (March 21 2007)<br />
+&copy; 2003-2007 <a href="http://www.offis.de">OFFIS</a>.
+</p>
+<p>
+The EasyMock Class Extension allows to generate
+Mock Objects for classes.
+</p>
+<h2>
+Requirements
+</h2>
+<p>The EasyMock Class Extension requires 
+<a href="http://java.sun.com">Java 1.3 or above</a>, 
+<a href="http://www.easymock.org">EasyMock 1.2</a>, 
+<a href="http://www.junit.org">JUnit 3.8.x</a>, 
+<a href="http://cglib.sourceforge.net">cglib 2.1_3</a> 
+(2.0.x also works but cannot mock a class without visible constructor) and
+<a href="http://forge.objectweb.org/projects/asm">asm</a> 
+(use the version that matches your cglib version, you can also use cglib-nodep-2.1 which includes asm)
+</p>
+<h2>
+Usage
+</h2>
+<p>
+To generate Mock Objects for classes and interfaces, 
+import<br/>
+<code>org.easymock.classextension.MockClassControl</code><br/>
+instead of<br/>
+<code>org.easymock.MockControl</code>. 
+</p>
+<p>
+You will then create a mock by doing something like this:
+</p>
+<pre>
+MockControl ctrl = MockClassControl.createControl(ToMock.class);
+ToMock mock = (ToMock) ctrl.getMock();
+</pre>
+<p>
+From now on, you will use your mock just like you use to do with
+EasyMock. Note that <code>createNiceControl</code> and 
+<code>createStrictControl</code> methods are also available.
+</p>
+<h2>
+Advanced
+</h2>
+<p>
+Sometimes you may need to mock only some methods of a class and keep
+the normal behavior of others. This usually happens when you want to
+test a method that calls some others in the same class. So you want to
+keep the normal behavior of the tested method and mock the others.
+</p>
+<p>
+In this case, the first thing to do is to consider a refactoring since
+most of the time this problem occurs because of a bad design. If it's not
+the case of if you can't do otherwise because of some development constraints,
+here's the solution.
+</p>
+<pre>
+MockControl ctrl = MockClassControl.createControl(ToMock.class, 
+   new Method[] { ToMock.class.getDeclaredMethod("mockedMethod", null) } );
+</pre>
+<p>
+In this case only the methods passed to <code>createControl</code> will be 
+mocked (<code>mockedMethod()</code> in the example). The others will still 
+behave as they used to.
+</p>
+<h3>
+Supported JVMs
+</h3>
+<p>
+Mocks are created without any constructor being called. This is done using a
+dedicated library called <a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>.
+It basically supports any 1.3+ JVM implementation. For more details, check their 
+<a href="http://objenesis.googlecode.com/svn/docs/index.html">website</a>.
+</p>
+<p>
+If Objenesis fails to create the mock a fallback method will be used and a constructor needs to
+be called on the mocked class. Here's how it works:
+</p>
+<ul>
+<li>Empty constructor is first called</li>
+<li>If no empty constructor, first constructor of the class is called</li>
+<li>Default values are provided for primitive type arguments</li>
+<li>Nice mocks are provided for object and interface arguments</li>
+<li>A final class argument will be directly instantiated (not mocked)</li>
+<li>Mocked arguments will also need to be instantiated like the currently mocked class</li>
+<li>A class with only private constructors cannot be instantiated</li>
+<li>Code in the constructor will be executed and might crash. In this case the class is not mockable</li>
+<li>The ability to provide it's own arguments to instantiate the class is not supported anymore</li>
+</ul>
+<p>
+There is one exception to the previous rule. If the class is Serializable no constructor will
+be called.
+</p>
+
+<h2>
+Limitations
+</h2>
+<p> 
+EasyMock Class Extension provides a built-in behavior for <code>equals()</code>, 
+<code>toString()</code> and <code>hashCode()</code>. It means that you cannot
+record your own behavior for these methods. It is coherent with 
+<a href="http://www.easymock.org/Documentation.html#Object_Methods">what
+EasyMock do</a>. This limitation is considered as a feature
+that prevents you from having to care about these methods.
+</p>
+<p>
+Final methods cannot be mocked. If called, their normal code will be executed.
+</p>
+<p>
+In the <a href="#Advanced">Advanced section</a>, it was explained how to do
+partial mocking. One important thing is that private methods are never mocked.
+So if your method under test is calling some private methods, you will need to
+test them as well since you cannot mock them.
+</p>
+<h2>
+EasyMock Class Extension Development
+</h2>
+<p>
+EasyMock CE is maintained by Henri Tremblay
+</p>
+<h2>
+Acknowledments
+</h2>
+<p>
+Joel Shellman and Chad Woolley for the initial version of the class extension on the files section of Yahoo!Groups.
+</p>
+</div>
+</body>
+</html>

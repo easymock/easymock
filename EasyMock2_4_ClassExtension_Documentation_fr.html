@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>EasyMock Class Extension 2.4 Readme</title>
+<link rel="stylesheet" href="easymock.css" />
+</head>
+<body><div class="bodywidth">
+
+<h2>EasyMock Class Extension 2.4 Readme</h2>
+
+<p>Documentation de la version 2.4 (August 30 2008)<br />
+&copy; 2003-2008 <a href="http://www.offis.de">OFFIS</a>, Henri Tremblay.
+</p>
+<p>Traduit originellement de l'anglais par <a href="http://violet.sourceforge.net">Alexandre de Pellegrin</a>.
+Maintenue par Henri Tremblay.</p>
+<p>
+EasyMock Class Extension permet de g&eacute;n&eacute;rer des Mock Objects &agrave; partir de classes.
+</p>
+
+<a id="Requirements"/><h2>Pr&eacute;-requis</h2>
+  
+EasyMock Class Extension n&eacute;cessite 
+<a href="http://java.sun.com">Java 5 ou sup&eacute;rieur</a>,
+<a href="http://www.easymock.org">EasyMock 2.4</a>, 
+<a href="http://cglib.sourceforge.net">cglib 2.1</a> 
+(2.0.x fonctionne &eacute;galement mais ne permet pas de "mocker" une classe sans constructeur visible),
+<a href="http://forge.objectweb.org/projects/asm">asm</a> 
+(utilisez la version appropri&eacute;e pour votre version de cglib; vous pouvez
+aussi prendre cglib-nodep-2.1.jar qui inclut asm)
+et <a href="http://www.junit.org">JUnit 4</a> pour &eacute;x&eacute;cuter les tests.
+
+<a id="Usage"/><h2>Utilisation</h2>
+  
+Pour g&eacute;n&eacute;rer des Mock Objects de classes <b>et</b> d'interfaces, utilisez
+<pre>
+import static org.easymock.classextension.EasyMock.*;
+</pre>
+au lieu de
+<pre>
+import static org.easymock.EasyMock.*;
+</pre>
+Vous pourrez ensuite cr&eacute;er un, de la m&ecirc;me fa&ccedil;on qu'avec EasyMock, en faisant quelque
+chose comme:
+<pre>
+ToMock mock = createMock(ToMock.class);
+</pre>
+A partir de l&agrave;, vous pouvez utiliser votre mock comme vous le faisiez avec EasyMock. Notez que les 
+m&eacute;thodes <code>createNiceMock</code>, <code>createStrictMock</code>, 
+<code>createStrictControl</code>, <code>createControl</code> and 
+<code>createNiceControl</code> sont aussi disponibles. Les m&eacute;thodes <code>create...Control()</code>
+retournent un object de type <code>org.easymock.classextension.IMocksControl</code>, une extension de
+la classe <code>IMocksControl</code> d'EasyMock.
+
+<a id="Advanced"/><h2>Utilisation avanc&eacute;e</h2>
+  
+<a id="Partial_mocking"/><h3>Mocking partiel</h3>
+<p>
+Dans certains cas, vous pouvez avoir besoin de "mocker" uniquement certaines
+m&eacute;thodes d'une classe et de conserver un comportement normal pour
+les autres. Cela arrive habituellement lorsque pour souhaitez tester une
+m&eacute;thode appelant d'autres m&eacute;thodes de la m&ecirc;me classe.
+Vous voulez donc garder le comportement normal de la m&eacute;thode test&eacute;e
+et "mocker" les autres.
+</p>
+<p>
+Dans ce cas, la premier r&eacute;flexe &agrave; avoir est
+d'envisager un refactoring car, bien souvent, ce probl&egrave;me est la
+cons&eacute;quence d'un mauvais design. Si ce n'est pas le cas ou si
+vous ne pouvez faire autrement pour une quelconque contrainte de 
+d&eacute;veloppement, voici la solution:
+</p>
+<pre>
+ToMock mock = createMock(ToMock.class, 
+   ToMock.class.getMethod("mockedMethod", null));
+</pre>
+<p>Seules les m&eacute;thodes pass&eacute;es &agrave; <code>createMock</code> seront
+"mock&eacute;es" (<code>mockedMethod()</code> dans l'exemple). Les autres conservent leur
+comportement habituel. Une exception: les méthodes abstraites sont "mock&eacute;es" par d&eacute;faut.
+</p>
+<p>La version d'<code>IMocksControl</code> d'EasyMock class extension fournit aussi une 
+m&eacute;thode <code>createMock()</code> pour cr&eacute;er des mocks partiels.
+</p>
+<p><b>Remarque:</b> EasyMock fournit un comportement par d&eacute;fault pour les m&eacute;thodes de la classe 
+Object (<i>equals, hashCode, toString</i>). Toutefois, pour un mock partiel, si ces m&eacute;thodes ne sont pas
+mock&eacute;es explicitement, elles auront leur comportement normal et non celui par d&eacute;faut d'EasyMock.
+</p>
+
+<a id="Self_testing"/><h3>Test interne d'une classe</h3>  
+<p>
+Il est possible de cr&eacute;er un mock en appelant un constructeur de la classe. Ceci
+peut &ecirc;tre utile lorsqu'une m&eacute;thode doit &ecirc;tre test&eacute;e mais d'autres
+dans la m&ecirc;me classe "mock&eacute;es". Pour cela vous appelez <code>createMock()</code>
+en passant un <code>ConstructorArgs</code>. Voir <code>ConstructorCalledMockTest</code> pour un exemple
+d'utilisation.
+</p>
+
+<a id="Replace_default_instantiator"/><h3>Remplacer l'instantiateur par d&eacute;faut</h3>
+<p>
+Parfois (habituellement &agrave; cause d'une JVM non support&eacute;e), il est possible
+que EasyMock CE ne soit pas capable de cr&eacute;er un mock dans votre environnement java.
+Sous le capot, l'instantiation de classes est impl&eacute;ment&eacute;e par un pattern "factory".
+En cas de probl&egrave;me, vous pouvez remplacer l'instantiateur par défaut avec:
+</p>
+<ul>
+<li>L'ancien <code>DefaultClassInstantiator</code> qui fonctionne tr&egrave;s bien avec les classes
+s&eacute;rializable et sinon tente de deviner quel constructeur appeler et quels param&egrave;tres lui passer.</li>
+<li>Votre propre instantiateur. Celui-ci doit impl&eacute;menter <code>IClassInstantiator</code>.</li>
+</ul>
+<p>
+Vous assignez ce nouvel instantiateur &agrave; l'aide de <code>ClassInstantiatorFactory.setInstantiator()</code>.
+Vous pouvez remettre celui par d&eacute;faut avec <code>setDefaultInstantiator()</code>.
+</p>
+<p>
+<b>Important:</b>
+L'instantiateur est gard&eacute; statiquement et reste donc entre deux tests. Assurez-vous
+de le r&eacute;initialiser si n&eacute;cessaire.
+</p>
+
+<a id="Limitations"/><h2>Limitations</h2>
+  
+<p> 
+EasyMock Class Extension fournit un comportement par d&eacute;faut pour <code>equals()</code>, 
+<code>toString()</code> et <code>hashCode()</code>. Cela signifie que vous ne pourrez
+enregistrer votre propre comportement pour ces m&eacute;thodes. Cette limitation est
+coh&eacute;rente avec <a href="http://www.easymock.org/EasyMock2_3_Documentation_fr.html#M&eacute;thodes_de_la_classe_Object">ce
+qu'EasyMock fait</a>. Elle doit &ecirc;tre consid&eacute;r&eacute;e comme une
+fonctionnalit&eacute; permettant ne ne pas s'occuper de ces
+m&eacute;thodes.
+</p>
+<p>
+Les m&eacute;thodes finales ne peuvent pas &ecirc;tre "mock&eacute;es". Si
+appel&eacute;es, leur code normal sera ex&eacute;cut&eacute;.
+</p>
+<p>
+L'instantiation des classes est faite par 
+<a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>.
+Les JVMs support&eacute;es sont list&eacute;esSupported
+<a href="http://code.google.com/p/objenesis/wiki/ListOfCurrentlySupportedVMs">ici</a>.
+</p>
+<p>
+Dans la section <a href="#Advanced">Utilisation avanc&eacute;e</a>, 
+il a &eacute;t&eacute; expliqu&eacute; comment faire un mock partiel. Une chose
+importante &agrave; savoir est que les m&eacute;thodes priv&eacute;es
+ne sont jamais "mock&eacute;es". De ce fait, si votre m&eacute;thode tester 
+appelle des m&eacute;thodes priv&eacute;es, vous devrez les tester dans
+la foul&eacute;e puisque vous ne pourrez pas les "mocker".
+</p>
+
+<a id="Development"/><h2>D&eacute;eveloppement</h2>
+
+<a id="Authors"/><h2>Auteurs</h2>
+<p>
+EasyMock Class Extension est pr&eacute;sentement maintenue par Henri Tremblay.
+</p>
+<p>
+Elle a &eacute;t&eacute; initialement d&eacute;velopp&eacute;e par Joel Shellman, Chad Woolley et Henri Tremblay
+dans la section fichiers du of Yahoo!Groups.
+</p>
+
+<a id="Release_Notes"/><h3>Notes de mises &agrave; jour</h3>
+<p>
+Nouveau dans la version 2.4:
+</p>
+<ul>
+<li>Ajout des m&eacute;thodes resetToNice/Default/Strict (1963442)</li>
+<li>Pouvoir rendre un Mock object thread-safe (1895644,1953275)</li>
+<li>Correction pour les m&eacute;thodes bridge appelant super (merci &agrave; Barry Kaplan)</li>
+<li>Droits d'auteur &eacute;tendus sur 2008</li>
+</ul>
+<p>
+Nouveau dans la version 2.3:
+</p>
+<ul>
+<li>Documentation fran&ccedil;aise</li>
+<li>Pouvoir appeler un constructeur lors d'un mocking partiel</li>
+<li>Les Mock Objects peuvent maintenant &ecirc;tre nomm&eacute;s</li>
+<li>Avoir un varargs pour le param&egrave;tre "mockedMethods" du mocking partiel</li>  
+<li>Version dans le manifeste du jar</li>
+<li>Objenesis 1.1 pour le support partiel d'Aonix</li>
+<li>Examples migr&eacute;s vers JUnit 4</li>
+<li>Pom Maven plus complet</li>
+<li>Les m&eacute;thodes abstraites sont mock&eacute;es par d&eacute;faut lors d'un mock partiel</li>
+</ul>
+<p>
+Nouveau dans la version 2.2.2:
+</p>
+<ul>
+<li>Utiliser le cache cglib. Augmente grandement les performances et diminue le permgen utilis&eacute;</li>
+<li>Instantiation des classes avec Objenesis pour une meilleure portabilit&eacute;</li>
+<li>Possibilit&eacute; d'utiliser votre propre instantiateur de classes</li>
+</ul>
+<p>
+Nouveau dans la version 2.2.1:
+</p>
+<ul>
+<li>Varargs pour record(), replay() et reset()</li>
+</ul>
+<p>
+Nouveau dans la version 2.1:
+</p>
+<ul>
+<li>Tests migr&eacute;s vers JUnit 4</li>
+</ul>
+<p>
+Nouveau dans la version 2.0:
+</p>
+<ul>
+<li>Nouvelle impl&eacute;mentation compatible avec EasyMock 2</li>
+</ul>
+
+</div>
+</body>
+</html>

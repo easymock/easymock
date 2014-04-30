@@ -1,0 +1,22 @@
+-classpath
+'D:/Programmation/easymock/easymock/target/classes'
+-encoding
+'Cp1252'
+-protected
+-sourcepath
+'D:/Programmation/easymock/easymock/src/main/java'
+-author
+-bottom
+'<i>Copyright &#169; 2001-2009 OFFIS, Tammo Freese, Henri Tremblay. This documentation is provided under the terms of the Apache 2 licence.</i>'
+-charset
+'UTF-8'
+-d
+'D:/Programmation/easymock/easymock/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'EasyMock 2.5.1 API'
+-use
+-version
+-windowtitle
+'EasyMock 2.5.1 API'

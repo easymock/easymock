@@ -1,0 +1,1000 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />	
+<title>EasyMock 2.3 Readme</title>
+<link rel="stylesheet" href="easymock.css" />
+</head>
+<body><div class="bodywidth">
+
+<h2>EasyMock 2.3 Readme</h2>
+ 
+<p>Documentation de la version 2.3 (July 9 2007)<br />
+&copy; 2001-2007 <a href="http://www.offis.de" title="OFFIS">OFFIS</a>, <a href="http://tammofreese.de" id="id" title="Tammo Freese">Tammo Freese</a>.
+</p>
+<p>Traduit originellement de l'anglais par <a href="http://alexdp.free.fr">Alexandre de Pellegrin</a>.
+Maintenue par Henri Tremblay.
+</p>
+<p>
+EasyMock 2 est une librairie fournissant un moyen simple d'utiliser des Mock Objects pour
+une interface donnée. EasyMock 2 est disponible sous&nbsp;<a href="License.html">licence MIT</a>.
+</p>
+<p>
+Les Mock Objects simulent le comportement du code
+m&eacute;tier et sont capables de v&eacute;rifier s'il est utilis&eacute;
+comme pr&eacute;vu.
+Les classes m&eacute;tier peuvent &ecirc;tre test&eacute;es
+de fa&ccedil;on isol&eacute;e en simulant leurs objets
+li&eacute;s par des Mock Objects.
+</p>
+<p>
+Ecrire et maintenir des Mock Objects est souvent une
+t&acirc;che p&eacute;nible et source d'erreurs. EasyMock 2
+g&eacute;n&egrave;re les
+Mock Objects dynamiquement - pas besoin de les &eacute;crire, pas
+de code g&eacute;n&eacute;r&eacute;!
+</p>
+<h3>
+Avantages d'EasyMock 2
+</h3>
+<ul>
+<li>Pas d'&eacute;criture manuelle des&nbsp;Mock Objects.
+</li>
+<li>Supporte le refactoring sur les&nbsp;Mock Objects : le code de test ne sera pas cass&eacute; au runtime lors du renommage de
+    m&eacute;thodes ou de la r&eacute;organisations de param&egrave;tres
+</li>
+<li>Supporte les valeurs de retour et les exceptions.
+</li>
+<li>Supporte la v&eacute;rification de l'ordre d'appel des m&eacute;thodes, sur un ou plusieurs&nbsp;Mock Objects.
+</li>
+</ul>
+<h3>Inconv&eacute;nients d'EasyMock 2
+</h3>
+<ul>
+<li>EasyMock 2 fonctionne uniquement avec Java 2 Version 5.0 ou version sup&eacute;rieure.
+</li>
+</ul>
+<p>
+Par d&eacute;faut, EasyMock supporte la g&eacute;n&eacute;ration de
+Mock Objects uniquement pour les interfaces. Pour ceux souhaitant
+g&eacute;n&eacute;rer des&nbsp;Mock Objects pour des&nbsp;
+classes, il existe une extension disponible sur la page d'accueil d'EasyMock.
+</p>
+<h2>
+Installation
+</h2>
+<ol>
+<li>Java 2 (minimum 5.0) est requis.
+</li>
+<li>D&eacute;compressez le fichier zip d'EasyMock (<code>easymock2.3.zip</code>). Il contient le r&eacute;pertoire
+<code>easymock2.3</code>. Ajoutez le jar d'EasyMock (<code>easymock.jar</code>) de ce r&eacute;pertoire dans votre 
+classpath.
+</li>
+</ol>
+<p>
+Pour ex&eacute;cuter les tests d'EasyMock, ajoutez <code>tests.zip</code> et le jar de JUnit 4.1
+&agrave; votre classpath and lancez&nbsp;
+<code>'java org.easymock.tests.AllTests'</code>.
+</p>
+<p>
+Le code source d'EasyMock est situé dans <code>src.zip</code>.
+</p>
+<h2>
+Utilisation
+</h2>
+<p>
+La plupart des &eacute;l&eacute;ments d'un logiciel ne fonctionnent
+pas de mani&egrave;re isol&eacute;e mais en collaboration avec
+d'autres &eacute;l&eacute;ments (objets li&eacute;s) pour effectuer leur
+t&acirc;che.
+Dans beaucoup de cas, nous ne nous soucions pas d'utiliser des objets
+li&eacute;s pour&nbsp;nos tests unitaires du&nbsp;moment
+que nous avons confiance en eux. Si
+ce n'est pas le cas, les Mock Objects peuvent nous aider &agrave;
+tester unitairement de fa&ccedil;on isol&eacute;e. Les Mock Objects
+remplacent les objets li&eacute;s de l'&eacute;l&eacute;ment test&eacute;.
+</p>
+<p>
+Les exemples suivants utilisent l'interface <code>Collaborator</code>:
+</p>
+<pre>
+package org.easymock.samples;
+
+public interface Collaborator {
+    void documentAdded(String title);
+    void documentChanged(String title);
+    void documentRemoved(String title);
+    byte voteForRemoval(String title);
+    byte[] voteForRemovals(String[] title);
+}
+</pre>
+<p>
+Les impl&eacute;mentations de cette interface sont des
+objets li&eacute;s (des listeners dans ce cas) &agrave; la classe nommée <code>ClassUnderTest</code>:
+</p>
+<pre>
+public class ClassUnderTest {
+    // ...    
+    public void addListener(Collaborator listener) {
+        // ... 
+    }
+    public void addDocument(String title, byte[] document) { 
+        // ... 
+    }
+    public boolean removeDocument(String title) {
+        // ... 
+    }
+    public boolean removeDocuments(String[] titles) {
+        // ... 
+    }
+}
+</pre>
+<p>
+Le code de la classe et de l'interface est disponible dans
+le package
+<code>org.easymock.samples</code> dans <code>samples.zip</code>.
+</p>
+<p>
+Les exemples qui suivent supposent que vous &ecirc;tes familier avec le framework de test JUnit.
+Bien que les tests montr&eacute;s ici utilisent JUnit version 3.8.1, vous pouvez &eacute;galement utiliser JUnit 4 ou TestNG.
+</p>
+<h3>
+Votre premier Mock Object
+</h3>
+<p>
+Nous allons maintenant construire un cas de test et jouer avec pour
+comprendre les fonctionnalit&eacute;s du package EasyMock. Le
+fichier <code>samples.zip</code> contient une version modifi&eacute;e de ce test. 
+Notre premier test devra v&eacute;rifier que la suppression d'un document non existant <strong>ne doit pas</strong>
+provoquer la notification de l'objet li&eacute;. Voici le test dans la d&eacute;finition du Mock Object:
+</p>
+<pre>
+package org.easymock.samples;
+
+import junit.framework.TestCase;
+
+public class ExampleTest extends TestCase {
+
+    private ClassUnderTest classUnderTest;
+    private Collaborator mock;
+
+    protected void setUp() {
+        classUnderTest = new ClassUnderTest();
+        classUnderTest.addListener(mock);
+    }
+
+    public void testRemoveNonExistingDocument() {    
+        // This call should not lead to any notification
+        // of the Mock Object: 
+        classUnderTest.removeDocument("Does not exist");
+    }
+}
+</pre>
+<p>
+Pour beaucoup de tests utilisant EasyMock 2, nous avons
+uniquement besoin de l'import statique des m&eacute;thodes de la classe
+<code>org.easymock.EasyMock</code>.
+Cette classe est la seule non interne et non d&eacute;pr&eacute;ci&eacute;e d'EasyMock 2.
+</p>
+<pre>
+import static org.easymock.EasyMock.*;
+import junit.framework.TestCase;
+
+public class ExampleTest extends TestCase {
+
+    private ClassUnderTest classUnderTest;
+    private Collaborator mock;
+    
+}    
+</pre>
+<p>
+Pour obtenir un Mock Object, il faut:
+</p>
+<ol>
+<li>cr&eacute;er un Mock Object pour l'interface &agrave; simuler,
+</li>
+<li>enregistrer le comportement attendu, puis
+</li>
+<li>basculer le Mock Object &agrave; l'&eacute;tat 'replay'.
+</li>
+</ol>
+<p>
+Voici le premier exemple:
+</p>
+<pre>
+    protected void setUp() {
+        mock = createMock(Collaborator.class); // 1
+        classUnderTest = new ClassUnderTest();
+        classUnderTest.addListener(mock);
+    }
+
+    public void testRemoveNonExistingDocument() {
+        // 2 (we do not expect anything)
+        replay(mock); // 3
+        classUnderTest.removeDocument("Does not exist");
+    }
+</pre>
+<p>
+Apr&egrave;s activation &agrave; l'&eacute;tape 3, <code>mock</code> 
+est un Mock Object de l'interface <code>Collaborator</code>
+qui n'attend aucun appel. Cela signifie que si nous changeons notre <code>ClassUnderTest</code> 
+pour appeler n'importe quelle m&eacute;thode de l'interface, le Mock Object l&eacute;vera 
+une&nbsp;<code>AssertionError</code>:
+</p>
+<pre>
+java.lang.AssertionError: 
+  Unexpected method call documentRemoved("Does not exist"):
+    at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
+    at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
+    at $Proxy0.documentRemoved(Unknown Source)
+    at org.easymock.samples.ClassUnderTest.notifyListenersDocumentRemoved(ClassUnderTest.java:74)
+    at org.easymock.samples.ClassUnderTest.removeDocument(ClassUnderTest.java:33)
+    at org.easymock.samples.ExampleTest.testRemoveNonExistingDocument(ExampleTest.java:24)
+    ...
+</pre>
+
+<h3>
+   Ajouter un comportement
+</h3>
+<p>
+Écrivons un second test. Si un document est ajout&eacute; &agrave;
+la classe test&eacute;e, nous nous attendons &agrave; un appel &agrave;
+<code>mock.documentAdded()</code>
+sur le Mock Object avec le titre du document en argument:
+</p>
+<pre>
+    public void testAddDocument() {
+        mock.documentAdded("New Document"); // 2
+        replay(mock); // 3
+        classUnderTest.addDocument("New Document", new byte[0]); 
+    }
+</pre>
+<p>
+Aussi, dans l'&eacute;tape d'enregistrement (avant d'appeler <code>replay</code>),
+le Mock Object ne se comporte pas comme<em></em> un Mock Object mais enregistre 
+les appels de m&eacute;thode. Apr&egrave;s l'appel &agrave; <code>replay</code>,
+il se comporte comme un Mock Object, v&eacute;rifiant que les appels 
+de m&eacute;thode attendus ont bien lieu.
+</p>
+<p>
+Si <code>classUnderTest.addDocument("New Document", new byte[0])</code>
+appelle la m&eacute;thode attendue avec un mauvais argument, le
+Mock Object l&egrave;vera une&nbsp;<code>AssertionError</code>:
+</p>
+<pre>
+java.lang.AssertionError: 
+  Unexpected method call documentAdded("Wrong title"):
+    documentAdded("New Document"): expected: 1, actual: 0
+    at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
+    at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
+    at $Proxy0.documentAdded(Unknown Source)
+    at org.easymock.samples.ClassUnderTest.notifyListenersDocumentAdded(ClassUnderTest.java:61)
+    at org.easymock.samples.ClassUnderTest.addDocument(ClassUnderTest.java:28)
+    at org.easymock.samples.ExampleTest.testAddDocument(ExampleTest.java:30)
+    ...
+</pre>
+<p>
+Tous les appels attendus n'ayant pas eu lieu sont montr&eacute;s, ainsi
+que tous les appels faits alors qu'ils &eacute;taient non attendus
+(aucun dans notre cas). Si l'appel &agrave; la m&eacute;thode est
+effectu&eacute; trop de fois, le Mock Object le signale
+&eacute;galement:
+</p>
+<pre>
+java.lang.AssertionError: 
+  Unexpected method call documentAdded("New Document"):
+    documentAdded("New Document"): expected: 1, actual: 1 (+1)
+    at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
+    at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
+    at $Proxy0.documentAdded(Unknown Source)
+    at org.easymock.samples.ClassUnderTest.notifyListenersDocumentAdded(ClassUnderTest.java:62)
+    at org.easymock.samples.ClassUnderTest.addDocument(ClassUnderTest.java:29)
+    at org.easymock.samples.ExampleTest.testAddDocument(ExampleTest.java:30)
+    ...
+</pre>
+<h3>
+V&eacute;rifier le comportement
+</h3>
+<p>
+Il y a un type d'erreur dont nous ne nous sommes pas
+pr&eacute;occup&eacute;s jusqu'&agrave; pr&eacute;sent: si nous d&eacute;crivons un
+comportement, nous voulons v&eacute;rifier qu'il est bien respect&eacute;. 
+Le test qui suit passe si une m&eacute;thode du Mock Object est appel&eacute;e. 
+Pour v&eacute;rifier cela, nous devons appeler <code>verify(mock)</code>:
+</p>
+<pre>
+    public void testAddDocument() {
+        mock.documentAdded("New Document"); // 2 
+        replay(mock); // 3
+        classUnderTest.addDocument("New Document", new byte[0]);
+        verify(mock);
+    }
+</pre>
+<p>
+Si la m&eacute;thode du Mock Object n'est pas appel&eacute;e, 
+l'exception suivante sera lev&eacute;e :
+</p>
+<pre>
+java.lang.AssertionError: 
+  Expectation failure on verify:
+    documentAdded("New Document"): expected: 1, actual: 0
+    at org.easymock.internal.MocksControl.verify(MocksControl.java:70)
+    at org.easymock.EasyMock.verify(EasyMock.java:536)
+    at org.easymock.samples.ExampleTest.testAddDocument(ExampleTest.java:31)
+    ...
+</pre>
+<p>
+Le message de l'exception liste tous les appels attendus qui n'ont pas eu lieu.
+</p>
+<h3>
+Attendre un nombre explicite d'appels
+</h3>
+<p>
+Jusqu'&agrave; maintenant, nos tests ont &eacute;t&eacute; faits&nbsp;uniquement
+sur un seul appel de m&eacute;thode. Le test suivant
+v&eacute;rifiera que l'ajout d'un document d&eacute;j&agrave; existant
+d&eacute;clenche l'appel &agrave; <code>mock.documentChanged()</code>
+avec l'argument appropri&eacute;. Pour en &ecirc;tre certain, nous
+v&eacute;rifions cela trois fois (apr&egrave;s tout, c'est un exemple
+;-)):
+</p>
+<pre>
+    public void testAddAndChangeDocument() {
+        mock.documentAdded("Document");
+        mock.documentChanged("Document");
+        mock.documentChanged("Document");
+        mock.documentChanged("Document");
+        replay(mock);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        verify(mock);
+    }
+</pre>
+<p>
+Afin d'&eacute;viter la r&eacute;p&eacute;tition de&nbsp; <code>mock.documentChanged("Document")</code>,
+EasyMock fournit un raccourci. Nous pouvons sp&eacute;cifier le nombre d'appel avec la m&eacute;thode
+<code>times(int times)</code> sur l'objet retourn&eacute; par&nbsp;<code>expectLastCall()</code>.
+Le code ressemble alors &agrave; cela:
+</p>
+<pre>
+    public void testAddAndChangeDocument() {
+        mock.documentAdded("Document");
+        mock.documentChanged("Document");
+        expectLastCall().times(3);
+        replay(mock);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        verify(mock);
+    }
+</pre>
+<p>
+Si la m&eacute;thode est appel&eacute;e un trop grand nombre de fois,
+une exception sera lev&eacute;e nous indiquant que la m&eacute;thode a
+&eacute;t&eacute; appel&eacute;e trop de fois.
+L'erreur est lev&eacute;e imm&eacute;diatement apr&egrave;s le premier
+appel d&eacute;passant la limite:
+</p>
+<pre>
+java.lang.AssertionError: 
+  Unexpected method call documentChanged("Document"):
+    documentChanged("Document"): expected: 3, actual: 3 (+1)
+	at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
+	at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
+	at $Proxy0.documentChanged(Unknown Source)
+	at org.easymock.samples.ClassUnderTest.notifyListenersDocumentChanged(ClassUnderTest.java:67)
+	at org.easymock.samples.ClassUnderTest.addDocument(ClassUnderTest.java:26)
+	at org.easymock.samples.ExampleTest.testAddAndChangeDocument(ExampleTest.java:43)
+    ...
+</pre>
+<p>
+S'il y a trop peu d'appels, <code>verify(mock)</code>
+l&egrave;ve une <code>AssertionError</code>:
+</p>
+<pre>
+java.lang.AssertionError: 
+  Expectation failure on verify:
+    documentChanged("Document"): expected: 3, actual: 2
+	at org.easymock.internal.MocksControl.verify(MocksControl.java:70)
+	at org.easymock.EasyMock.verify(EasyMock.java:536)
+	at org.easymock.samples.ExampleTest.testAddAndChangeDocument(ExampleTest.java:43)
+    ...
+</pre>
+<h3>
+Sp&eacute;cifier des valeurs de retour
+</h3>
+<p>
+Pour sp&eacute;cifier des valeurs de retour, nous encapsulons l'appel attendu dans
+<code>expect(T value)</code> et sp&eacute;cifions la valeur de retour avec la 
+m&eacute;thode <code>andReturn(Object returnValue)</code> sur l'objet retourn&eacute; par
+<code>expect(T value)</code>.
+</p>
+<p>
+Prenons par exemple la v&eacute;rification du workflow lors de la suppresion d'un document. 
+Si <code>ClassUnderTest</code> fait un appel pour supprimer un document, 
+il doit demander aux objets li&eacute;s de voter pour cette suppression 
+par appel &agrave; <code>byte voteForRemoval(String title)</code>.
+Une r&eacute;ponse positive approuve la suppression. Si la somme de
+toutes les r&eacute;ponses est positive, alors le document est
+supprim&eacute; et l'appel &agrave; <code>documentRemoved(String title)</code> 
+est effectu&eacute; sur les objets li&eacute;s:
+</p>
+<pre>
+    public void testVoteForRemoval() {
+        mock.documentAdded("Document");   // expect document addition
+        // expect to be asked to vote for document removal, and vote for it
+        expect(mock.voteForRemoval("Document")).andReturn((byte) 42);
+        mock.documentRemoved("Document"); // expect document removal
+        replay(mock);
+        classUnderTest.addDocument("Document", new byte[0]);
+        assertTrue(classUnderTest.removeDocument("Document"));
+        verify(mock);
+    }
+
+    public void testVoteAgainstRemoval() {
+        mock.documentAdded("Document");   // expect document addition
+        // expect to be asked to vote for document removal, and vote against it
+        expect(mock.voteForRemoval("Document")).andReturn((byte) -42);
+        replay(mock);
+        classUnderTest.addDocument("Document", new byte[0]);
+        assertFalse(classUnderTest.removeDocument("Document"));
+        verify(mock);
+    }
+</pre>
+<p>
+Le type de la valeur de retour est v&eacute;rifi&eacute; &agrave; la
+compilation. Par exemple, le code suivant ne compilera pas du fait que
+le type fourni ne correspond au type retourn&eacute; par la
+m&eacute;thode:
+</p>
+<pre>
+    expect(mock.voteForRemoval("Document")).andReturn("wrong type");
+</pre>
+<p>
+Au lieu d'appeler <code>expect(T value)</code> pour
+r&eacute;cuperer l'objet auquel affecter une valeur de retour, 
+nous pouvons aussi utiliser l'objet retourn&eacute; par <code>expectLastCall()</code>.
+Ainsi, au lieu de 
+</p>
+<pre>
+    expect(mock.voteForRemoval("Document")).andReturn((byte) 42);
+</pre>
+<p>
+nous pouvons &eacute;crire
+</p>
+<pre>
+    mock.voteForRemoval("Document");
+    expectLastCall().andReturn((byte) 42);
+</pre>
+<p>
+Ce type d'&eacute;criture doit uniquement &ecirc;tre utilis&eacute;
+si la ligne est trop longue car il n'inclut pas la v&eacute;rification
+du type &agrave; la compilation.
+</p>
+<h3>
+Travailler avec les exceptions
+</h3>
+<p>
+Afin de sp&eacute;cifier les exceptions (plus pr&eacute;cisemment:
+les Throwables) devant &ecirc;tre lev&eacute;es, l'objet
+retourn&eacute; par <code>expectLastCall()</code> et <code>expect(T value)</code> 
+fournit la m&eacute;thode <code>andThrow(Throwable throwable)</code>.
+Cette m&eacute;thode doit &ecirc;tre appel&eacute;e durant l'&eacute;tape
+d'enregistrement apr&egrave;s l'appel au Mock Object pour lequel le <code>Throwable</code>
+doit &ecirc;tre lev&eacute;.
+</p>
+<p>
+Les exception non "check&eacute;es" (comme <code>RuntimeException</code>,
+<code>Error</code> ainsi que toutes leurs sous classes) peuvent
+&ecirc;tre lev&eacute;es de n'importe quelle m&eacute;thode. Les
+exceptions "check&eacute;es" ne doivent &ecirc;tre lev&eacute;es que 
+pour methodes o&ugrave; cela est pr&eacute;vu.
+</p>
+<h3>
+Cr&eacute;er des valeurs de retour ou des exceptions
+</h3>
+<p>
+Parfois, nous voulons que notre Mock Object retourne une valeur ou
+l&egrave;ve une exception cr&eacute;&eacute;e au moment de l'appel.
+Depuis la version 2.2 d'EasyMock, l'objet retourn&eacute; 
+par <code>expectLastCall()</code> et <code>expect(T value)</code> fournit la m&eacute;thode
+<code>andAnswer(IAnswer answer)</code> permettant de sp&eacute;cifier une impl&eacute;mentation 
+de l'interface <code>IAnswer</code> utilis&eacute;e pour cr&eacute;er 
+une valeur de retour ou une exception.
+</p>
+<p>
+Au sein d'<code>IAnswer</code>, les arguments pass&eacute;s lors de l'appel au mock sont 
+disponibles via <code>EasyMock.getCurrentArguments()</code>.
+Si vous utilisez cela, les refactorings du type r&eacute;organisation
+de l'ordre des arguments brisseront vos tests. Vous &ecirc;tes pr&eacute;venu.
+</p>
+<h3>
+Changer de comportement sur le m&ecirc;me appel de m&eacute;thode
+</h3>
+<p>
+Il est &eacute;galement possible de sp&eacute;cifier un changement de comportement pour une m&eacute;thode.
+Les m&eacute;thodes <code>times</code>, <code>andReturn</code> et <code>andThrow</code>
+peuvent &ecirc;tre cha&icirc;n&eacute;es. Comme exemple, 
+nous d&eacute;finissons <code>voteForRemoval("Document")</code> pour
+</p>
+<ul>
+<li>retourner 42 pour les trois premiers appels,
+</li>
+<li>lever une <code>RuntimeException</code> sur le quatri&egrave;me appel,
+</li>
+<li>renvoyer -42 une fois.
+</li>
+</ul>
+<pre>
+    expect(mock.voteForRemoval("Document"))
+        .andReturn((byte) 42).times(3)
+        .andThrow(new RuntimeException(), 4)
+        .andReturn((byte) -42);
+</pre>
+<h3>
+Être plus permissif sur le nombre d'appels
+</h3>
+<p>
+Afin d'&ecirc;tre plus permissif sur le nombre d'appels attendus,
+des m&eacute;thodes additionnelles peuvent &ecirc;tre
+utilis&eacute;es &agrave; la place de <code>times(int count)</code>:
+</p>
+<dl>
+<dt><code>times(int min, int max)</code></dt> 
+<dd>pour attendre entre <code>min</code> and <code>max</code> appels,</dd>
+<dt><code>atLeastOnce()</code></dt>
+<dd>pour attendre au moins un appel, et</dd>
+<dt><code>anyTimes()</code></dt>
+<dd>pour attendre une quantit&eacute; non d&eacute;finie d'appels.</dd>
+</dl>
+<p>
+Si aucun nombre d'appels n'est explicitement d&eacute;fini,
+alors seul un appel est attendu. Pour le d&eacute;finir explicitement,
+vous pouvez utiliser <code>once()</code> ou <code>times(1)</code>.
+</p>
+<h3>
+Mocks stricts
+</h3>
+<p>
+Sur un Mock Object retourn&eacute; par <code>EasyMock.createMock()</code>,
+l'ordre d'appel des m&eacute;thodes n'est pas v&eacute;rifi&eacute;.
+Si vous souhaitez avoir un Mock Object 'strict' v&eacute;rifiant cet ordre,
+utilisez <code>EasyMock.create<i>Strict</i>Mock()</code>.</p>
+<p>
+Lorsqu'un appel inattendu &agrave; une m&eacute;thode est fait sur
+un Mock Object 'strict', le message de l'exception contient les appels 
+de m&eacute;thode attendus &agrave; ce moment, suivi du premier appel en
+conflit. <code>verify(mock)</code> montre tous les appels de m&eacute;thode manqu&eacute;s.
+</p>
+<h3>
+Activer/D&eacute;sactiver la v&eacute;rification de l'ordre d'appel des m&eacute;thodes
+</h3>
+<p>
+Il est parfois n&eacute;cessaire qu'un Mock Object v&eacute;rifie
+l'ordre d'appel sur certains appels uniquement. Pendant la phase
+d'enregistrement, vous pouvez activer la v&eacute;rification de l'ordre
+d'appel en utilisant <code>checkOrder(mock, true)</code> et la 
+d&eacute;sactiver en utilisant <code>checkOrder(mock, false)</code>.
+</p>
+<p>
+Il y a deux diff&eacute;rences entre un Mock Object 'strict' et un Mock Object 'normal':
+</p>
+<ol>
+	<li> Un mock 'strict' &agrave; la v&eacute;rification de l'order d'appel activ&eacute; &agrave; la cr&eacute;. </li>
+	<li> Un mock 'strict' &agrave; la v&eacute;rification de l'order d'appel activ&eacute; &egrave;s reset (voir <em>R&eacute;utilisation d'un Mock Object</em>). </li>
+</ol>
+<h3>
+D&eacute;finir des comparateurs d'arguments pour plus de souplesse
+</h3>
+<p>
+Pour v&eacute;rifier la correspondance &agrave; un appel de m&eacute;thode pr&eacute;vu sur un Mock Object, 
+les arguments<code> de type Object</code> sont compar&eacute;s, par d&eacute;faut, avec
+<code>equals()</code>. Cela peut introduire des probl&egrave;mes. Consid&eacute;rons l'exemple suivant:
+</p>
+<pre>
+String[] documents = new String[] { "Document 1", "Document 2" };
+expect(mock.voteForRemovals(documents)).andReturn(42);
+</pre>
+<p>
+Si la m&eacute;thode est appel&eacute;e avec un autre tableau ayant le m&ecirc;me contenu,
+cela provoque une exception du fait que <code>equals()</code> compare l'identit&eacute; 
+des objets pour les tableaux:
+</p>
+<pre>
+java.lang.AssertionError: 
+  Unexpected method call voteForRemovals([Ljava.lang.String;@9a029e):
+    voteForRemovals([Ljava.lang.String;@2db19d): expected: 1, actual: 0
+    documentRemoved("Document 1"): expected: 1, actual: 0
+    documentRemoved("Document 2"): expected: 1, actual: 0
+	at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
+	at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
+	at $Proxy0.voteForRemovals(Unknown Source)
+	at org.easymock.samples.ClassUnderTest.listenersAllowRemovals(ClassUnderTest.java:88)
+	at org.easymock.samples.ClassUnderTest.removeDocuments(ClassUnderTest.java:48)
+	at org.easymock.samples.ExampleTest.testVoteForRemovals(ExampleTest.java:83)
+    ...
+</pre>
+<p>
+Pour sp&eacute;cifier que seule l'&eacute;galit&eacute; de tableau
+est n&eacute;cessaire pour cet appel, utilisez la m&eacute;thode 
+<code>aryEq</code>, import&eacute;e statiquement de la classe <code>EasyMock</code>:
+</p>
+<pre>
+String[] documents = new String[] { "Document 1", "Document 2" };
+expect(mock.voteForRemovals(aryEq(documents))).andReturn(42);
+</pre>
+<p>
+Si vous souhaitez utiliser les comparateurs lors d'un appel, vous devez
+en utiliser pour chaque argument de la m&eacute;thode appel&eacute;e.
+</p>
+<p>
+Voici quelques comparateurs pr&eacute;d&eacute;finis disponible:
+</p>
+<dl>
+
+<dt><code>eq(X value)</code></dt>
+<dd>V&eacute;rifie que la valeur re&ccedil;ue &eacute;gale la valeur attendue. Disponible pour tous les types primitifs et objets.</dd>
+
+<dt><code>anyBoolean()</code>, <code>anyByte()</code>, <code>anyChar()</code>, <code>anyDouble()</code>, <code>anyFloat()</code>, <code>anyInt()</code>, <code>anyLong()</code>, <code>anyObject()</code>, <code>anyShort()</code></dt>
+<dd>Laisse passer n'importe quelle valeur. Disponible pour tous les types primitifs et objets.</dd>
+
+<dt><code>eq(X value, X delta)</code></dt>
+<dd>V&eacute;rifie que la valeur rec&ccedil;ue &eacute;gale la valeur attendue, plus ou moins un delta. Disponible pour les <code>float</code> et <code>double</code>.</dd>
+
+<dt><code>aryEq(X value)</code></dt>
+<dd>V&eacute;rifie que la valeur rec&ccedil;ue &eacute;gale la valeur attendue en s'appuyant sur <code>Arrays.equals()</code>. Disponible pour les tableaux d'objets et de types primitifs.</dd>
+
+<dt><code>isNull()</code></dt>
+<dd>V&eacute;rifie que la valeur re&ccedil;ue est nulle. Disponible pour les objets.</dd>
+
+<dt><code>notNull()</code></dt>
+<dd>V&eacute;rifie que la valeur re&ccedil;ue n'est pas nulle. Disponible pour les objets.</dd>
+
+<dt><code>same(X value)</code></dt>
+<dd>V&eacute;rifie que la valeur re&ccedil;ue est la m&ecirc;me que la value attendue. Disponible pour les objets.</dd>
+
+<dt><code>isA(Class clazz)</code></dt>
+<dd>V&eacute;rifie que la valeur re&ccedil;ue est une instance de clazz ou d'une classe h&eacute;rite ou impl&eacute;mente clazz. Disponible pour les objets.</dd>
+
+<dt><code>lt(X value)</code>, <code>leq(X value)</code>, <code>geq(X value)</code>, <code>gt(X value)</code></dt>
+<dd>V&eacute;rifie que la valeur re&ccedil;ue est inf&eacute;rieure/inf&eacute;rieure ou &eacute;gale/sup&eacute;rieure
+ou &eacute;gale/sup&eacute;rieure &agrave; la valeur attendue. Disponible pour tous les types primitifs num&eacute;riques et les impl&eacute;mentations de <code>Comparable</code>.</dd>
+
+<dt><code>startsWith(String prefix), contains(String substring), endsWith(String suffix)</code></dt>
+<dd>V&eacute;rifie que la valeur re&ccedil;ue commence par/contient/se termine par la valeur attendue. Disponible pour les <code>String</code>s.</dd>
+
+<dt><code>matches(String regex), find(String regex)</code></dt>
+<dd>V&eacute;rifie que la valeur re&ccedil;ue/une sous-cha&icirc;ne de la valeur re&ccedil;ue correspond &agrave; l'expression r&eacute;. Disponible pour les <code>String</code>s.</dd>
+
+<dt><code>and(X first, X second)</code></dt>
+<dd>Est valide si les r&eacute;sultats des deux comparateurs utilis&eacute;s en <code>first</code> et <code>second</code> sont v&eacute;rifi&eacute;s. Disponible pour tous les types primitifs et objets.</dd>
+
+<dt><code>or(X first, X second)</code></dt>
+<dd>Est valide si l'un des r&eacute;sultats des deux comparateurs utilis&eacute;s en <code>first</code> et <code>second</code> est v&eacute;rifi&eacute;. Disponible pour tous les types primitifs et objets.</dd>
+
+<dt><code>not(X value)</code></dt>
+<dd>Est valide si le r&eacute;sultat du comparateur utilis&eacute; dans <code>value</code> est n&eacute;gatif.</dd>
+
+<dt><code>cmpEq(X value)</code></dt>
+<dd>V&eacute;rifie que la valeur re&ccedil;ue &eacute;gale la valeur attendue du point de vue de <code>Comparable.compareTo(X o)</code>. Disponible pour tous les types primitifs num&eacute;riques et les impl&eacute;mentations de <code>Comparable</code>.</dd>
+
+<dt><code>cmp(X value, Comparator&lt;X&gt; comparator, LogicalOperator operator)</code></dt>
+<dd>V&eacute;rifie que <code>comparator.compare(re&ccedil;ue, value) operator 0</code> o&ugrave; <code>operator</code> est &lt;,&lt;=,&gt;,&gt;= ou ==.</dd>
+
+</dl>
+
+<h3>
+D&eacute;finir son propre comparateur d'arguments
+</h3>
+<p>
+Il peut &ecirc;tre int&eacute;ressant de d&eacute;finir son propre
+comparateur d'argument. Prenons un comparateur dont le r&ocirc;le
+serait de v&eacute;rifier une exception par rapport &agrave; son
+type et message. Il pourrait &ecirc;tre utilis&eacute; de la fa&ccedil;on suivante:
+</p>
+<pre>
+    IllegalStateException e = new IllegalStateException("Operation not allowed.")
+    expect(mock.logThrowable(eqException(e))).andReturn(true);
+</pre>
+<p>
+Deux &eacute;tapes sont n&eacute;cessaires pour r&eacute;aliser cela: le nouveau comparateur
+doit &ecirc;tre d&eacute;fini et la m&eacute;thode statique <code>eqException</code> 
+doit &ecirc;tre d&eacute;clar&eacute;e.
+</p>
+<p>
+Pour d&eacute;finir le nouveau comparateur d'argument, nous impl&eacute;mentons l'interface <code>org.easymock.IArgumentMatcher</code>.
+Cette interface contient deux m&eacute;thodes: <code>matches(Object actual)</code>, v&eacute;rifiant 
+que l'argument re&ccedil;u est bien celui attendu, et <code>appendTo(StringBuffer buffer)</code>,
+ajoutant au StringBuffer une chaine de caract&egrave;res repr&eacute;sentative du comparateur d'argument.
+L'impl&eacute;mentation est la suivante :
+</p>
+<pre>
+import org.easymock.IArgumentMatcher;
+
+public class ThrowableEquals implements IArgumentMatcher {
+    private Throwable expected;
+
+    public ThrowableEquals(Throwable expected) {
+        this.expected = expected;
+    }
+
+    public boolean matches(Object actual) {
+        if (!(actual instanceof Throwable)) {
+            return false;
+        }
+        String actualMessage = ((Throwable) actual).getMessage();
+        return expected.getClass().equals(actual.getClass())
+                &amp;&amp; expected.getMessage().equals(actualMessage);
+    }
+
+    public void appendTo(StringBuffer buffer) {
+        buffer.append("eqException(");
+        buffer.append(expected.getClass().getName());
+        buffer.append(" with message \"");
+        buffer.append(expected.getMessage());
+        buffer.append("\"")");
+
+    }
+}
+</pre>
+<p>
+La m&eacute;thode <code>eqException</code> doit instancier le
+comparateur d'argument avec l'objet Throwable donn&eacute;, le fournir
+&agrave; EasyMock via la m&eacute;thode statique <code>reportMatcher(IArgumentMatcher matcher)</code>
+et retourner une valeur afin d'&ecirc;tre utilis&eacute;e au sein de l'appel &agrave; la m&eacute;thode mock&eacute;e 
+(typiquement <code>0</code>, <code>null</code> ou <code>false</code>). Une premi&egrave;re tentative ressemblerait &agrave; ceci:
+</p>
+<pre>
+public static Throwable eqException(Throwable in) {
+    EasyMock.reportMatcher(new ThrowableEquals(in));
+    return null;
+}
+</pre>
+<p>
+Cependant, cela ne fonctionnerait que si la m&eacute;thode <code>logThrowable</code>
+de l'exemple acceptait <code>Throwable</code>s et quelque chose de plus sp&eacute;cifique du style de <code>RuntimeException</code>. 
+Dans ce dernier cas, le code de notre exemple ne compilerait pas:
+</p>
+<pre>
+    IllegalStateException e = new IllegalStateException("Operation not allowed.")
+    expect(mock.logThrowable(eqException(e))).andReturn(true);
+</pre>
+<p>
+Java 5.0 &agrave; la rescousse: Au lieu de d&eacute;finir&nbsp;<code>eqException</code>
+avec un <code>Throwable</code> en param&egrave;tre, nous utilisons un type g&eacute;n&eacute;rique 
+qui h&eacute;rite de <code>Throwable</code>:
+</p>
+<pre>
+public static &lt;T extends Throwable&gt; T eqException(T in) {
+    reportMatcher(new ThrowableEquals(in));
+    return null;
+}
+</pre>
+<h3>
+R&eacute;utilisation d'un Mock Object
+</h3>
+<p>
+Les Mock Objects peuvent &ecirc;tre r&eacute;initialis&eacute;s avec <code>reset(mock)</code>.
+</p>
+<h3>
+Utilisation d'un comportement de "stub" pour les m&eacute;thodes
+</h3>
+<p>
+Dans certains cas, nous voudrions que nos Mock Object r&eacute;pondent
+&agrave; certains appels, mais sans tenir compte du nombre de fois, de l'ordre
+ni m&ecirc;me s'ils ont &eacute;t&eacute; eu lieu.
+Ce comportement de "stub" peut &ecirc;tre d&eacute;fini en utilisant
+les m&eacute;thodes <code>andStubReturn(Object value)</code>, 
+<code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer&lt;T&gt; answer)</code>
+et <code>asStub()</code>. Le code suivant configure le Mock Object pour r&eacute;pondre 42 
+&agrave; <code>voteForRemoval("Document")</code> une fois et -1 pour tous les autres arguments:
+</p>
+<pre>
+    expect(mock.voteForRemoval("Document")).andReturn(42);
+    expect(mock.voteForRemoval(not(eq("Document")))).andStubReturn(-1);
+</pre>
+<h3>
+Cr&eacute;ation de mocks dits "gentils"
+</h3>
+<p>
+Pour un&nbsp;Mock Object retourn&eacute; par <code>createMock()</code>, le comportement par d&eacute;faut pour toutes 
+les m&eacute;thodes est de l&eacute;ver une <code>AssertionError</code> pour tous les appels non pr&eacute;vus.
+Si vous souhaitez avoir un Mock Object "gentil" autorisant, par d&eacute;faut, l'appel &agrave; 
+toutes les m&eacute;thodes et retournant la valeur vide appropri&eacute;e (<code>0</code>, <code>null</code>
+ou <code>false</code>), utilisez <code>create<i>Nice</i>Mock()</code> au lieu de <code>createMock()</code>.
+</p>
+
+<a id="Object_Methods"/><h3>M&eacute;thodes de la classe Object</h3>
+<p>
+Les comportements des trois m&eacute;thodes <code>equals()</code>,
+<code>hashCode()</code> et <code>toString()</code>
+ne peuvent &ecirc;tre chang&eacute;s sur des Mock Objects cr&eacute;&eacute;s avec EasyMock,
+m&ecirc;me si elles font partie de l'interface duquel le Mock Object est cr&eacute;&eacute;.
+</p>
+<h3>V&eacute;rifier l'ordre d'appel des m&eacute;thodes entre plusieurs Mocks</h3>
+<p>
+Jusqu'&agrave; pr&eacute;sent, nous avons vu un Mock Object comme &eacute;tant
+seul et configur&eacute; par les m&eacute;thodes statiques de la classe <code>EasyMock</code>. 
+Mais beaucoup de ces m&eacute;thodes statiques font r&eacute;f&eacute;rence &agrave; l'objet "control"
+cach&eacute; de chaque Mock Object et lui d&eacute;l&egrave;gue l'appel. Un
+Mock Control est un objet implementant l'interface <code>IMocksControl</code>.
+</p>
+<p>
+Du coup, au lieu de
+</p>
+<pre>
+    IMyInterface mock = createStrictMock(IMyInterface.class);
+    replay(mock);
+    verify(mock); 
+    reset(mock);
+</pre>
+<p>
+nous pourrions utiliser le code &eacute;quivalent:
+</p>
+<pre>
+    IMocksControl ctrl = createStrictControl();
+    IMyInterface mock = ctrl.createMock(IMyInterface.class);
+    ctrl.replay();
+    ctrl.verify(); 
+    ctrl.reset();
+</pre>
+<p>
+L'interface&nbsp;<code>IMocksControl</code> permet de cr&eacute;er plus d'un seul Mock Object. 
+Ainsi, il est possible de v&eacute;rifier l'ordre d'appel des m&eacute;thodes entre les mocks. 
+Par exemple, configurons deux mock objects pour l'interface <code>IMyInterface</code> pour lesquels 
+nous attendons respectivement les appels &agrave; <code>mock1.a()</code> et <code>mock2.a()</code>, 
+un nombre ind&eacute;fini d'appels &agrave; <code>mock1.c()</code> et <code>mock2.c()</code>, 
+et enfin <code>mock2.b()</code> et <code>mock1.b()</code>, dans cet ordre:
+</p>
+<pre>
+    IMocksControl ctrl = createStrictControl();
+    IMyInterface mock1 = ctrl.createMock(IMyInterface.class);
+    IMyInterface mock2 = ctrl.createMock(IMyInterface.class);
+
+    mock1.a();
+    mock2.a();
+
+    ctrl.checkOrder(false);
+
+    mock1.c();
+    expectLastCall().anyTimes();     
+    mock2.c();
+    expectLastCall().anyTimes();     
+
+    ctrl.checkOrder(true);
+
+    mock2.b();
+    mock1.b();
+
+    ctrl.replay();
+</pre>
+<h3>Nommer un Mock Object</h3>
+<p>
+Les Mock Objects peuvent &ecirc; nomm&eacute;s &agrave; leur cr&eacute;ation en utilisant 
+<code>createMock(String name, Class&lt;T&gt; toMock)</code>,
+<code>createStrictMock(String name, Class&lt;T&gt; toMock)</code> ou
+<code>createNiceMock(String name, Class&lt;T&gt; toMock)</code>.
+Les noms seront affich&eacute;s dans le message des <code>AssertionError</code>.
+</p>
+<h3>
+Compatibilit&eacute; avec les anciennes versions
+</h3>
+<p>
+EasyMock 2 contient une couche de compatibilit&eacute;. Ainsi, les
+tests utilisant EasyMock 1.2 en Java 1.5 fonctionneront sans aucune modification. 
+Les seules diff&eacute;rences connues sont visibles lorsque qu'un test est en erreur: il y a de
+l&eacute;gers changements dans les messages d'erreur, les stack traces et les erreurs 
+sont maintenant remont&eacute;es en utilisant <code>AssertionError</code> de Java 
+au lieu de <code>AssertionFailedError</code> de JUnit.
+</p>
+<p>EasyMock 2.1 introduisait une fonctionnalit&eacute; de callback
+qui a &eacute;t&eacute; retir&eacute;e dans EasyMock 2.2, car trop complexe. 
+Depuis EasyMock 2.2, l'interface <code>IAnswer</code>
+fournit la fonctionnalit&eacute; de callback. 
+</p>
+<h2>
+D&eacute;veloppement d'EasyMock
+</h2>
+<p>
+EasyMock 1.0 a &eacute;t&eacute; d&eacute;velopp&eacute; par Tammo Freese chef OFFIS.
+Le d&eacute;veloppement d'EasyMock est h&eacute;berg&eacute; par SourceForge
+pour permettre &agrave; d'autres d&eacute;veloppeurs et soci&eacute;t&eacute;s d'y contribuer.
+</p>
+<p>
+Rmerciements &agrave; ceux qui nous ont fourni retour d'exp&eacute;rience et rustines, incluant
+Nascif Abousalh-Neto, Dave Astels, Francois Beausoleil, George Dinwiddie, Shane Duan, 
+Wolfgang Frech, Steve Freeman, Oren Gross, John D. Heintz, Dale King, Brian Knorr,
+Dierk Koenig, Chris Kreussling, Robert Leftwich, Patrick Lightbody, Johannes Link, 
+Rex Madden, David McIntosh, Karsten Menne, Bill Michell,
+Stephan Mikaty, Ivan Moore, Ilja Preuss, Justin Sampson, Markus Schmidlin, Richard Scott,
+Joel Shellman, Jiří Mareš, Alexandre de Pellegrin
+Shaun Smith, Marco Struck, Ralf Stuckert, Victor Szathmary, Henri Tremblay, Bill Uetrecht,
+Frank Westphal, Chad Woolley, Bernd Worsch, et de nombreux autres.
+</p>
+<p>
+Merci de consulter la <a href="http://www.easymock.org">page d'accueil EasyMock</a> 
+pour &ecirc;tre inform&eacute; des nouvelles versions et transmettez vos bogues et suggestions &agrave;
+<a href="mailto:easymock@yahoogroups.com?subject=EasyMock 2.3 feedback">EasyMock Yahoo!Group</a> (en anglais SVP).
+Si vous souhaitez souscrire au EasyMock Yahoo!Group, envoyez un message &agrave;
+<a href="mailto:easymock-subscribe@yahoogroups.com">easymock-subscribe@yahoogroups.com</a>.
+</p>
+<h3>
+Notes de mise &agrave; jour
+</h3>
+<p>
+EasyMock Version 2.3 (July 9 2007)
+</p>
+<p>
+Changements depuis la version 2.2:
+</p>
+<ul>
+<li>Documentation en fran&ccedil;ais
+</li>
+<li>Comparateurs pour arguments de type Comparable
+</li>
+<li>Correction de la comparaison de nombres d&eacute;cimaux
+</li>
+<li>Les Mock Objects peuvent maintenant &ecirc;tre nomm&eacute;s
+</li>
+<li>Includ le fix de Bill Michell pour sur les ThreadLocals
+</li>
+<li>Migration des test unitaires d'EasyMock vers JUnit 4
+</li>
+</ul>
+<p>
+Changements depuis la version 2.1:
+</p>
+<ul>
+<li>la r&eacute;ponse aux appels peut &egrave;tre cr&eacute;&eacute;e au moment de l'appel via
+<code>andAnswer(IAnswer answer)</code> et <code>andStubAnswer(IAnswer answer)</code>
+</li>
+<li><code>callback(Runnable runnable)</code> a &eacute;t&eacute; retir&eacute;, pour un callback, veuillez 
+convertir &agrave;
+<code>andAnswer(IAnswer answer)</code> et <code>andStubAnswer(IAnswer answer)</code>
+</li>
+<li><code>replay()</code>, <code>verify()</code> et <code>reset()</code> acceptent maintenant
+plusieurs mock objects comme arguments
+</li>
+</ul>
+<p>
+Changements depuis la version 2.0:
+</p>
+<ul>
+<li>les arguments pass&eacute;s &agrave; un mock object sont &agrave; disponibles dans un callback via 
+<code>EasyMock.getCurrentArguments()</code>
+</li>
+<li>Correction du bogue report&eacute; par http://groups.yahoo.com/group/easymock/message/558
+</li>
+<li>remont&eacute;e plus rapide d'une erreur si des comparateurs ne sont pas utilis&eacute;s
+</li>
+</ul>
+<p>
+Changements depuis la version 1.2:
+</p>
+<ul>
+<li>support de comparateurs d'arguments souple et r&eacute; au refactoring-safe
+</li>
+<li>aucun mock control n'est n&eacute;cessaire pour un Mock Object solitaire
+</li>
+<li>le comportement de "stub" remplace le comportement "d&eacute;faut"
+</li>
+<li>support de la v&eacute;rification d'ordre d'appels entre plusieurs mocks 
+avec possibilit&eacute; d'activer/d&eacute;sactiver cette v&eacute;rification
+</li>
+<li>support de callbacks
+</li>
+<li>EasyMock l&egrave;ve d&eacute;sormais des <code>java.lang.AssertionError</code> au lieu 
+de <code>junit.framework.AssertionFailedError</code> ce qui permet d'&ecirc;tre ind&eacute;pendant 
+du framework de test. Vous pouvez l'utiliser avec JUnit 3.8.x, JUnit 4 et TestNG
+</li>
+<li>ancienne&nbsp;API d&eacute;pr&eacute;ci&eacute;e
+</li>
+</ul>
+</div>
+</body>
+</html>

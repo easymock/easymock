@@ -1,0 +1,790 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />	
+<title>EasyMock 2.3 기본문서</title>
+<link rel="stylesheet" href="easymock.css" />
+</head>
+<body><div class="bodywidth">
+
+<h2>EasyMock 2.3 기본문서</h2>
+ 
+<p>2.3버전을 위한 문서(2007년 7월 10일)<br />
+&copy; 2001-2007 <a href="http://www.offis.de" title="OFFIS">OFFIS</a>, <a href="http://tammofreese.de" id="id" title="Tammo Freese">Tammo Freese</a>, translated by <a href="mailto:fromm0@gmail.com">Lee DongGuk</a> 
+</p>
+<p>
+EasyMock 2는 인터페이스를 위한 모의 객체를 사용하도록 쉬운 방법을 제공하는 라이브러리이다. EasyMock 2는 <a href="License.html">MIT 라이센스</a>를 따른다..
+</p>
+<p>
+모의 객체는 도메인 코드의 행위 일부를 가장하고 정의된 것처럼 사용되고 있는지를 체크할수 있다. 도메인 클래스는 모의 객체의 협력자(collaborators)를 가장하여 격리되어 테스트될수 있다. 
+</p>
+<p>
+모의 객체를 작성하고 유지하는 것은 에러를 만드는 종종 지루한 작업이 되곤 한다. EasyMock 2는 동적으로 모의 객체를 생성한다. 그래서 모의 객체를 작성할 필요도 생성되는 코드도 없다. 
+</p>
+<h3>
+EasyMock 2 를 사용함으로 인해 얻는 이득
+</h3>
+<ul>
+<li>직접 손으로 작성한 모의 객체 클래스가 필요하지 않다.
+</li>
+<li>리팩토링 작업에도 안전한 모의 객체 지원 : 테스트 코드는 메소드명을 바꾸거나 메소드 파라미터를 재정렬하더라도 런타임시 문제가 발생하지 않는다. 
+</li>
+<li>리턴값과 예외 지원
+</li>
+<li>하나 이상의 모의 객체를 위해 메소드 호출의 순서를 체크하도록 지원
+</li>
+</ul>
+<h3>EasyMock 2 가 가지는 결점
+</h3>
+<ul>
+<li>EasyMock 2 는 JDK 5.0 이상에서만 작동한다. 
+</li>
+</ul>
+<p>
+EasyMock은 디폴트로 인터페이스를 위한 모의 객체의 생성만을 지원한다. 클래스를 위한 모의 객체를 생성하고자 하는 사람들을 위해 EasyMock 홈페이지에서 사용가능한 확장 패키지를 얻을수 있다. 
+</p>
+<h2>
+설치
+</h2>
+<ol>
+<li>Java 2 (최소한 5.0버전) 가 필요하다. 
+</li>
+<li>EasyMock zip(<code>easymock2.3.zip</code>) 파일의 압축을 해제한다. 이 압축파일은 <code>easymock2.3</code> 디렉토리를 가지고 있으며 이 디렉토리안의 EasyMock jar파일(<code>easymock.jar</code>)을 클래스패스에 추가한다. 
+</li>
+</ol>
+<p>
+EasyMock 테스트를 실행하기 위해, <code>tests.zip</code>과 JUnit 4.1 jar 파일을 클래스패스에 추가하고 <code>'java org.easymock.tests.AllTests'</code>를 시작한다. 
+</p>
+<p>
+EasyMock의 소스코드는 <code>src.zip</code> 파일내 저장되어 있다. 
+</p>
+<h2>
+사용법
+</h2>
+<p>
+소프트웨어 시스템의 대부분은 격리된체 작동하지 않지만 작업을 수행하기 위해 다른 부분과 협력한다. 대부분의 경우, 협력자를 신뢰하는 만큼 단위 테스트에서 협력자를 사용하는 것에 대해서는 고려하지 않는다. 우리가 협력자를 사용하는 것에 대해 <em>고려</em>한다면, 모의 객체는 격리된체 단위 테스트를 하도록 도와준다. 모의 객체는 테스트아래 단위의 협력자를 교체한다. 
+</p>
+<p>
+다음 예제는 <code>Collaborator</code> 인터페이스를 사용한다:
+</p>
+<pre>
+package org.easymock.samples;
+
+public interface Collaborator {
+    void documentAdded(String title);
+    void documentChanged(String title);
+    void documentRemoved(String title);
+    byte voteForRemoval(String title);
+    byte[] voteForRemovals(String[] title);
+}
+</pre>
+<p>
+이 인터페이스의 구현체는 <code>ClassUnderTest</code> 라는 이름의 클래스의 협력자이다:
+</p>
+<pre>
+public class ClassUnderTest {
+    // ...    
+    public void addListener(Collaborator listener) {
+        // ... 
+    }
+    public void addDocument(String title, byte[] document) { 
+        // ... 
+    }
+    public boolean removeDocument(String title) {
+        // ... 
+    }
+    public boolean removeDocuments(String[] titles) {
+        // ... 
+    }
+}
+</pre>
+<p>
+클래스와 인터페이스 모두를 위한 코드는 아마도 <code>samples.zip</code>안의 <code>org.easymock.samples</code> 패키지에서 찾을수 있을것이다.
+</p>
+<p>
+다음 예제들은 이 글을 읽는 사람이 JUnit 에 친숙하다고 가정하고 작성되었다. 비록 여기서는 3.8.1 버전의 JUnit를 사용하였지만 JUnit 4나 TestNG를 사용해도 잘 작동한다. 
+</p>
+<h3>
+첫 모의 객체
+</h3>
+<p>
+지금 테스트 케이스를 빌드하고 EasyMock 패키지의 기능을 이해하기 위해 이것저것 해볼것이다. <code>samples.zip</code>은 이 테스트를 변형한 형태의 소스를 가진다. 첫번째 테스트는 존재하지 않는 문서를 제거하는 것이 협력자의 알림(notification)을 이끌어 내지 <strong>않는지를</strong> 체크한다. 여기서는 모의 객체의 정의 없이 테스트한다:
+</p>
+<pre>
+package org.easymock.samples;
+
+import junit.framework.TestCase;
+
+public class ExampleTest extends TestCase {
+
+    private ClassUnderTest classUnderTest;
+    private Collaborator mock;
+
+    protected void setUp() {
+        classUnderTest = new ClassUnderTest();
+        classUnderTest.addListener(mock);
+    }
+
+    public void testRemoveNonExistingDocument() {    
+        // This call should not lead to any notification
+        // of the Mock Object: 
+        classUnderTest.removeDocument("Does not exist");
+    }
+}
+</pre>
+<p>
+EasyMock 2 를 사용하여 테스트 하기 위해 필요한 작업은 <code>org.easymock.EasyMock</code> 의 메소드를 정적 임포트(static import) 하는 것 뿐이다. 이 클래스는 EasyMock 2의 추상적이지 않고(non-internal) 비권장 되지 않은(non-deprecated) 클래스이다. 
+</p>
+<pre>
+import static org.easymock.EasyMock.*;
+import junit.framework.TestCase;
+
+public class ExampleTest extends TestCase {
+
+    private ClassUnderTest classUnderTest;
+    private Collaborator mock;
+    
+}    
+</pre>
+<p>
+모의 객체를 얻기 위해서 해야 할 작업은..
+</p>
+<ol>
+<li>모의실험 하고자 하는 인터페이스를 위한 모의 객체를 생성하고
+</li>
+<li>기대되는 행위를 기록한 뒤 
+</li>
+<li>모의 객체를 재생(replay) 상태로 전환한다. 
+</li>
+</ol>
+<p>
+첫번째 예제:
+</p>
+<pre>
+    protected void setUp() {
+        mock = createMock(Collaborator.class); // 1
+        classUnderTest = new ClassUnderTest();
+        classUnderTest.addListener(mock);
+    }
+
+    public void testRemoveNonExistingDocument() {
+        // 2 (we do not expect anything)
+        replay(mock); // 3
+        classUnderTest.removeDocument("Does not exist");
+    }
+</pre>
+<p>
+3 단계에서 활성화한 뒤, <code>mock</code>은 어떤 호출도 기대하지 않는 <code>Collaborator</code> 인터페이스를 위한 모의 객체이다. 이 말은 인터페이스의 어떤 메소드를 호출할려고 <code>ClassUnderTest</code>를 변경한다면, 모의 객체는 <code>AssertionError</code>를 던진다는 것을 의미한다:
+</p>
+<pre>
+java.lang.AssertionError: 
+  Unexpected method call documentRemoved("Does not exist"):
+    at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
+    at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
+    at $Proxy0.documentRemoved(Unknown Source)
+    at org.easymock.samples.ClassUnderTest.notifyListenersDocumentRemoved(ClassUnderTest.java:74)
+    at org.easymock.samples.ClassUnderTest.removeDocument(ClassUnderTest.java:33)
+    at org.easymock.samples.ExampleTest.testRemoveNonExistingDocument(ExampleTest.java:24)
+    ...
+</pre>
+
+<h3>
+행위 추가하기
+</h3>
+<p>
+두번째 테스트를 작성하자. 문서가 테스트하는 클래스에 추가되었다면, 인자로 문서의 제목을 가지는 모의 객체의 <code>mock.documentAdded()</code>를 호출하도록 기대한다:
+</p>
+<pre>
+    public void testAddDocument() {
+        mock.documentAdded("New Document"); // 2
+        replay(mock); // 3
+        classUnderTest.addDocument("New Document", new byte[0]); 
+    }
+</pre>
+<p>
+<code>replay</code> 를 호출하기 전 기록(record) 상태에서, 모의 객체는 모의 객체처럼 작동하지 <em>않지만</em> 메소드 호출을 기록한다. <code>replay</code>를 호출한 후에는 실제로 기대한 메소드가 호출되었는지 체크하도록  모의 객체처럼 작동한다. 
+</p>
+<p>
+<code>classUnderTest.addDocument("New Document", new byte[0])</code> 처럼 잘못된 인자를 가지는 메소드가 호출되었다면, 모의 객체는 <code>AssertionError</code>를 던질것이다:
+</p>
+<pre>
+java.lang.AssertionError: 
+  Unexpected method call documentAdded("Wrong title"):
+    documentAdded("New Document"): expected: 1, actual: 0
+    at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
+    at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
+    at $Proxy0.documentAdded(Unknown Source)
+    at org.easymock.samples.ClassUnderTest.notifyListenersDocumentAdded(ClassUnderTest.java:61)
+    at org.easymock.samples.ClassUnderTest.addDocument(ClassUnderTest.java:28)
+    at org.easymock.samples.ExampleTest.testAddDocument(ExampleTest.java:30)
+    ...
+</pre>
+<p>
+기대하지 않은 호출을 위한 기대값을 만족하는 만큼, 빗나간 기대값이 보여진다. 메소드 호출이 너무 자주 수행되어도 모의 객체또한 문제가 된다. 
+</p>
+<pre>
+java.lang.AssertionError: 
+  Unexpected method call documentAdded("New Document"):
+    documentAdded("New Document"): expected: 1, actual: 1 (+1)
+    at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
+    at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
+    at $Proxy0.documentAdded(Unknown Source)
+    at org.easymock.samples.ClassUnderTest.notifyListenersDocumentAdded(ClassUnderTest.java:62)
+    at org.easymock.samples.ClassUnderTest.addDocument(ClassUnderTest.java:29)
+    at org.easymock.samples.ExampleTest.testAddDocument(ExampleTest.java:30)
+    ...
+</pre>
+<h3>
+행위 검증하기
+</h3>
+<p>
+지금까지 다루지 않은 에러가 하나 있다. 행위를 선언한다면, 실제로 사용되는 것을 검증하고자 할것이다. 모의 객체의 호출되는 메소드가 없다면 현재 테스트는 진행될것이다. 선언된 행위가 사용되는지 검증하기 위해, <code>verify(mock)</code>를 호출해야만 한다:
+</p>
+<pre>
+    public void testAddDocument() {
+        mock.documentAdded("New Document"); // 2 
+        replay(mock); // 3
+        classUnderTest.addDocument("New Document", new byte[0]);
+        verify(mock);
+    }
+</pre>
+<p>
+메소드가 모의 객체에서 호출되지 않는다면, 다음 예외를 보게된다:
+</p>
+<pre>
+java.lang.AssertionError: 
+  Expectation failure on verify:
+    documentAdded("New Document"): expected: 1, actual: 0
+    at org.easymock.internal.MocksControl.verify(MocksControl.java:70)
+    at org.easymock.EasyMock.verify(EasyMock.java:536)
+    at org.easymock.samples.ExampleTest.testAddDocument(ExampleTest.java:31)
+    ...
+</pre>
+<p>
+예외 메시지는 빗나간 모든 기대값을 보여준다. 
+</p>
+<h3>
+명시적인 호출  횟수 기대하기
+</h3>
+<p>
+지금까지의 테스트는 하나의 메소드 호출만을 고려했다. 다음 테스트는 이미 존재하는 문서의 추가가 적절한 인자를 가지는 <code>mock.documentChanged()</code>를 호출하도록 이끄는지를 체크할것이다. 확실히하기 위해 세번 체크한다. 
+</p>
+<pre>
+    public void testAddAndChangeDocument() {
+        mock.documentAdded("Document");
+        mock.documentChanged("Document");
+        mock.documentChanged("Document");
+        mock.documentChanged("Document");
+        replay(mock);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        verify(mock);
+    }
+</pre>
+<p>
+<code>mock.documentChanged("Document")</code> 반복을 피하기 위해, EasyMock은 단축된 형태를 제공한다. <code>expectLastCall()</code>에 의해 리턴된 객체에서 <code>times(int times)</code> 메소드로 호출 횟수를 명시할것이다. 그럼 코드는 다음과 같을것이다:
+</p>
+<pre>
+    public void testAddAndChangeDocument() {
+        mock.documentAdded("Document");
+        mock.documentChanged("Document");
+        expectLastCall().times(3);
+        replay(mock);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", new byte[0]);
+        verify(mock);
+    }
+</pre>
+<p>
+메소드가 너무 자주 호출된다면, 메소드가 많은 횟수 호출된것을 알리는 예외를 얻게 된다. 첫번째 메소드 호출이 제한을 넘길때 즉시 실패하게 된다:
+</p>
+<pre>
+java.lang.AssertionError: 
+  Unexpected method call documentChanged("Document"):
+    documentChanged("Document"): expected: 3, actual: 3 (+1)
+	at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
+	at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
+	at $Proxy0.documentChanged(Unknown Source)
+	at org.easymock.samples.ClassUnderTest.notifyListenersDocumentChanged(ClassUnderTest.java:67)
+	at org.easymock.samples.ClassUnderTest.addDocument(ClassUnderTest.java:26)
+	at org.easymock.samples.ExampleTest.testAddAndChangeDocument(ExampleTest.java:43)
+    ...
+</pre>
+<p>
+너무 호출이 적다면, <code>verify(mock)</code> 는 <code>AssertionError</code>를 던진다:
+</p>
+<pre>
+java.lang.AssertionError: 
+  Expectation failure on verify:
+    documentChanged("Document"): expected: 3, actual: 2
+	at org.easymock.internal.MocksControl.verify(MocksControl.java:70)
+	at org.easymock.EasyMock.verify(EasyMock.java:536)
+	at org.easymock.samples.ExampleTest.testAddAndChangeDocument(ExampleTest.java:43)
+    ...
+</pre>
+<h3>
+리턴값을 명시하기
+</h3>
+<p>
+리턴값을 명시하기 위해, <code>expect(T value)</code> 로 기대되는 호출을 포장하고 <code>expect(T value)</code>에 의해 리턴된 객체의 <code>andReturn(Object returnValue)</code> 메소드를 사용하여 리턴값을 명시한다. 
+</p>
+<p>
+예제처럼, 문서 제거를 위한 작업량을 체크한다. <code>ClassUnderTest</code>가 문서 제거를 위한 호출이 이루어진다면, <code>byte voteForRemoval(String title)</code> 값을 위한 호출로 제거하기 위해 모든 협력자를 요청한다. 양수의 리턴값을 제거를 제안한다. 모든 값의 합이 양수라면, 문서는 제거되고 <code>documentRemoved(String title)</code>는 모든 협력자에게서 호출된다:
+</p>
+<pre>
+    public void testVoteForRemoval() {
+        mock.documentAdded("Document");   // expect document addition
+        // expect to be asked to vote for document removal, and vote for it
+        expect(mock.voteForRemoval("Document")).andReturn((byte) 42);
+        mock.documentRemoved("Document"); // expect document removal
+        replay(mock);
+        classUnderTest.addDocument("Document", new byte[0]);
+        assertTrue(classUnderTest.removeDocument("Document"));
+        verify(mock);
+    }
+
+    public void testVoteAgainstRemoval() {
+        mock.documentAdded("Document");   // expect document addition
+        // expect to be asked to vote for document removal, and vote against it
+        expect(mock.voteForRemoval("Document")).andReturn((byte) -42);
+        replay(mock);
+        classUnderTest.addDocument("Document", new byte[0]);
+        assertFalse(classUnderTest.removeDocument("Document"));
+        verify(mock);
+    }
+</pre>
+<p>
+리턴된 값의 타입은 컴파일시에 체크된다. 예제처럼, 다음 코드는 제공된 리턴값의 타입이 메소드의 리턴값과 일치하지 않는것처럼 컴파일되지 않을것이다:
+</p>
+<pre>
+    expect(mock.voteForRemoval("Document")).andReturn("wrong type");
+</pre>
+<p>
+리턴값을 셋팅하기 위한 객체를 가져오기 위해 <code>expect(T value)</code>를 호출하는 것 대신에, <code>expectLastCall()</code>에 의해 리턴된 객체를 사용하게 될것이다. .
+</p>
+<pre>
+    expect(mock.voteForRemoval("Document")).andReturn((byte) 42);
+</pre>
+<p>
+대신에 
+</p>
+<pre>
+    mock.voteForRemoval("Document");
+    expectLastCall().andReturn((byte) 42);
+</pre>
+<p>
+를 사용할것이다. 
+컴파일시 타입 체크를 지원하지 않는것처럼 명시 타입은 라인이 너무 길때만 사용해야만 한다. 
+</p>
+<h3>
+예외로 작업하기
+</h3>
+<p>
+던져질 예외를 명시(좀더 정확하게는 Throwables처리)하기 위해, <code>expectLastCall()</code> 과 <code>expect(T value)</code>에 의해 반환된 객체는 <code>andThrow(Throwable throwable)</code> 메소드를 제공한다. 던져질 <code>Throwable</code>를 명시하기 위한 모의 객체를 호출한 후 기록(record) 상태에서만 호출될수 있다. 
+</p>
+<p>
+체크되지 않은 예외(<code>RuntimeException</code>, <code>Error</code> 와 모든 하위 클래스)는 모든 메소드에서 던져질수 있다. 체크된 예외는 예외를 실제로 던지는 메소드로부터 던져질수 있다. 
+</p>
+<h3>
+리턴값이나 예외 만들기
+</h3>
+<p>
+때때로 값을 리턴하거나 실제 호출시 생성되는 예외를 던지기 위해 모의 객체를 선호할것이다. EasyMock 2.2부터, <code>expectLastCall()</code> 과 <code>expect(T value)</code>에 의해 리턴되는 객체는 리턴값이나 예외를 만들기 위해 사용되는 <code>IAnswer</code> 인터페이스의 구현체를 명시하도록 <code>andAnswer(IAnswer answer)</code> 메소드를 제공한다. 
+</p>
+<p>
+<code>IAnswer</code> 콜백내부에서, 모의 호출에 전달된 인자는 <code>EasyMock.getCurrentArguments()</code> 를 통해 사용가능하다. 전달된 인자를 사용한다면, 파라미터 재정렬과 같은 리팩토링이 테스트에 문제를 야기할지도 모른다. 
+</p>
+<h3>
+같은 메소드 호출을 위한 행위 변경하기
+</h3>
+<p>
+메소드를 위한 행위를 변경하는 것이 가능하다. <code>times</code>, <code>andReturn</code>, 과 <code>andThrow</code> 메소드는 연결(chain)될수 있다. 예를 들어, 다음 상황을 이루기 위해 <code>voteForRemoval("Document")</code>를 정의한다. 
+</p>
+<ul>
+<li>처음 세번의 호출로 42를 리턴한다. 
+</li>
+<li>그 다음 네번째 호출에서는 <code>RuntimeException</code>을 던진다. 
+</li>
+<li>-42를 리턴한다. 
+</li>
+</ul>
+<pre>
+    expect(mock.voteForRemoval("Document"))
+        .andReturn((byte) 42).times(3)
+        .andThrow(new RuntimeException(), 4)
+        .andReturn((byte) -42);
+</pre>
+<h3>
+호출 횟수 줄이기
+</h3>
+<p>
+기대한 호출 횟수를 줄이기 위해, <code>times(int count)</code> 대신에 사용할수 있는 추가적인 메소드가 있다:
+</p>
+<dl>
+<dt><code>times(int min, int max)</code></dt> 
+<dd><code>min</code> 과 <code>max</code> 값 사이의 횟수만큼 호출</dd>
+<dt><code>atLeastOnce()</code></dt>
+<dd>적어도 한번 호출</dd>
+<dt><code>anyTimes()</code></dt>
+<dd>호출횟수에 제한이 없는</dd>
+</dl>
+<p>
+호출 횟수를 명시하지 않았다면, 한번만 호출된다. 명시적으로 이 상태를 유지하고자 한다면 <code>once()</code> 나 <code>times(1)</code> 를 사용하면 된다. 
+</p>
+<h3>
+엄밀한(Strict) 모의 객체
+</h3>
+<p>
+<code>EasyMock.createMock()</code>에 의해 리턴되는 모의 객체에서, 메소드 호출의 순서는 체크되지 않는다. 메소드 호출의 순서를 체크하는 엄밀한 모의 객체를 원한다면, 모의 객체를 만들기 위해 <code>EasyMock.create<i>Strict</i>Mock()</code>를 사용하라. </p>
+<p>
+기대하지 않은 메소드가 엄밀한 모의 객체에서 호출된다면, 예외 메시지가 처음 충돌이 발생한 지점에서 기대한 메소드 호출을 보여줄것이다. <code>verify(mock)</code> 는 빗나간(missing) 모든 메소드 호출을 보여준다. 
+</p>
+<h3>
+순서 체크를 활성화하기 또는 비활성화하기
+</h3>
+<p>
+때때로 몇가지 호출의 순서만을 체크하는 모의 객체를 가질 필요가 있다. 기록(record) 상태에서, <code>checkOrder(mock, true)</code> 를 호출하여 순서 체크를 활성화하고 <code>checkOrder(mock, false)</code>를 호출하여 순서 체크를 비활성화할것이다. 
+</p>
+<p>
+엄밀한 모의 객체와 일반 모의 객체간에는 두가지 차이점이 존재한다:
+</p>
+<ol>
+	<li>엄밀한 모의 객체는 생성후 순서 체크가 가능해진다. </li>
+	<li>엄밀한 모의 객체는 리셋(reset)후 순서 체크가 가능해진다(<em>모의 객체 재사용하기</em>를 보라.). </li>
+</ol>
+<h3>
+인자 매처(Matchers)를 사용한 유연한 기대(Expectation)
+</h3>
+<p>
+모의 객체의 메소드 호출을 기대값과 일치시키기 위해, <code>Object</code> 인자는 <code>equals()</code> 메소드를 통해 비교된다. 이런 방법은 문제를 야기할수 있다. 예를 들어, 다음의 기대를 고려해보자:
+</p>
+<pre>
+String[] documents = new String[] { "Document 1", "Document 2" };
+expect(mock.voteForRemovals(documents)).andReturn(42);
+</pre>
+<p>
+메소드가 같은 내용을 가진 또 다른 배열로 호출된다면, <code>equals()</code>는 객체가 배열과 일치하는지 비교하는 것으로 예외를 보게 될것이다: 
+</p>
+<pre>
+java.lang.AssertionError: 
+  Unexpected method call voteForRemovals([Ljava.lang.String;@9a029e):
+    voteForRemovals([Ljava.lang.String;@2db19d): expected: 1, actual: 0
+    documentRemoved("Document 1"): expected: 1, actual: 0
+    documentRemoved("Document 2"): expected: 1, actual: 0
+	at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
+	at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
+	at $Proxy0.voteForRemovals(Unknown Source)
+	at org.easymock.samples.ClassUnderTest.listenersAllowRemovals(ClassUnderTest.java:88)
+	at org.easymock.samples.ClassUnderTest.removeDocuments(ClassUnderTest.java:48)
+	at org.easymock.samples.ExampleTest.testVoteForRemovals(ExampleTest.java:83)
+    ...
+</pre>
+<p>
+오직 배열 일치가 미 호출을 위해 필요하다는 것을 명시하기 위해, <code>EasyMock</code> 클래스로부터 정적으로 임포트되는 <code>aryEq</code> 메소드를 사용할수 있다:
+</p>
+<pre>
+String[] documents = new String[] { "Document 1", "Document 2" };
+expect(mock.voteForRemovals(aryEq(documents))).andReturn(42);
+</pre>
+<p>
+호출내 매처(matcher)를 사용하고자 한다면, 메소드 호출의 모든 인자를 위한 매처(matcher)를 명시해야만 한다. 
+</p>
+<p>
+사용가능한 두세개의 미리 정의된 인자 매처(matcher)가 있다. 
+</p>
+<dl>
+
+<dt><code>eq(X value)</code></dt>
+<dd>실제값이 기대값과 같다면 대응. 모든 원시타입과 객체타입에 사용가능.</dd>
+
+<dt><code>anyBoolean()</code>, <code>anyByte()</code>, <code>anyChar()</code>, <code>anyDouble()</code>, <code>anyFloat()</code>, <code>anyInt()</code>, <code>anyLong()</code>, <code>anyObject()</code>, <code>anyShort()</code></dt>
+<dd>어떤 값과도 대응. 모든 원시 타입과 객체타입에 사용가능.</dd>
+
+<dt><code>eq(X value, X delta)</code></dt>
+<dd>실제값이 델타값이 허용하는 값과 같다면 대응. <code>float</code> 과 <code>double</code> 타입의 값에서 사용가능.</dd>
+
+<dt><code>aryEq(X value)</code></dt>
+<dd>실제값이 <code>Arrays.equals()</code>에 따라 주어진 값과 같다면 대응. 원시타입 배열과 객체 타입 배열에 사용가능.</dd>
+
+<dt><code>isNull()</code></dt>
+<dd>실제 값이 null이라면 대응. 객체타입에 사용가능.</dd>
+
+<dt><code>notNull()</code></dt>
+<dd>실제값이 null이 아니라면 대응. 객체타입에 사용가능.</dd>
+
+<dt><code>same(X value)</code></dt>
+<dd>실제값이 주어진 값과 같다면(same) 대응 객체타입에 사용가능.</dd>
+
+<dt><code>isA(Class clazz)</code></dt>
+<dd>실제값이 주어진 클래스의 인스턴스이거나 주어진 클래스를 확장하거나 구현한 클래스의 인스턴스라면 대응. 객체타입에 사용가능.</dd>
+
+<dt><code>lt(X value)</code>, <code>leq(X value)</code>, <code>geq(X value)</code>, <code>gt(X value)</code></dt>
+<dd>실제값이 주어진 값보다 작다면/작거나 같다면/크거나 같다면/크다면 대응. 모든 숫자 원시 타입과 <code>Comparable</code> 인터페이스를 구현한 객체 타입에 사용가능.</dd>
+
+<dt><code>startsWith(String prefix), contains(String substring), endsWith(String suffix)</code></dt>
+<dd>실제값이 주어진 값으로 시작한다면/포함한다면/끝난다면 대응. <code>String</code> 타입에 사용가능.</dd>
+
+<dt><code>matches(String regex), find(String regex)</code></dt>
+<dd>실제값/실제값의 부분문자열이 주어진 정규표현식에 일치한다면 대응. <code>String</code> 타입에 사용가능.</dd>
+
+<dt><code>and(X first, X second)</code></dt>
+<dd><code>first</code> 와 <code>second</code>에 사용된 매처(matcher)가 모두 일치한다면대응. 원시타입과 객체타입에 사용가능.</dd>
+
+<dt><code>or(X first, X second)</code></dt>
+<dd><code>first</code> 와 <code>second</code>에 사용된 매처(matcher)중 하나가 일치한다면 대응. 원시타입과 객체타입에 사용가능.</dd>
+
+<dt><code>not(X value)</code></dt>
+<dd><code>value</code> 인자에 사용된 매처(matcher)가 일치하지 않는다면 대응.</dd>
+
+<dt><code>cmpEq(X value)</code></dt>
+<dd>실제값이 <code>Comparable.compareTo(X o)</code>에 따라 일치한다면 대응. 모든 숫자 형식의 원시 타입과 <code>Comparable</code> 인터페이스를 구현한 객체 타입에 사용가능.</dd>
+
+<dt><code>cmp(X value, Comparator&lt;X&gt; comparator, LogicalOperator operator)</code></dt>
+<dd>연산자가 &lt;,&lt;=,&gt;,&gt;= or ==인 <code>comparator.compare(actual, value) operator 0</code> 라면 대응. 객체 타입에 사용가능.</dd>
+
+</dl>
+
+<h3>
+스스로의 인자 매처(matcher) 정의하기
+</h3>
+<p>
+때때로 스스로의 인자 매처(matcher)를 정의하고자 바랄수 있다. 인자 매처(matcher)는 주어진 예외가 같은 타입을 가지고 동일한 메시지를 가진다면 예외가 일치할 필요가 있다는 것을 말해보자. 다음과 같은 방법으로 사용될수 있다:
+</p>
+<pre>
+    IllegalStateException e = new IllegalStateException("Operation not allowed.")
+    expect(mock.logThrowable(eqException(e))).andReturn(true);
+</pre>
+<p>
+이 기능을 위해서는 두가지 단계가 필요하다. 먼저 새로운 인자 매처(matcher)를 정의하고, 정적 메소드인 <code>eqException</code>를 선언해야 한다. 
+</p>
+<p>
+새로운 인자 매처(matcher)를 정의하기 위해, <code>org.easymock.IArgumentMatcher</code> 인터페이스를 구현한다. 이 인터페이스는 두개의 메소드를 가진다:<code>matches(Object actual)</code>는 실제 인자가 주어진 인자와 대응하는지를 체크한다. <code>appendTo(StringBuffer buffer)</code>는 주어진 문자열 버퍼에 인자 매처(matcher)의 문자열 표현을 뒤에 추가한다. 구현체는 일관적이다. 
+</p>
+<pre>
+import org.easymock.IArgumentMatcher;
+
+public class ThrowableEquals implements IArgumentMatcher {
+    private Throwable expected;
+
+    public ThrowableEquals(Throwable expected) {
+        this.expected = expected;
+    }
+
+    public boolean matches(Object actual) {
+        if (!(actual instanceof Throwable)) {
+            return false;
+        }
+        String actualMessage = ((Throwable) actual).getMessage();
+        return expected.getClass().equals(actual.getClass())
+                &amp;&amp; expected.getMessage().equals(actualMessage);
+    }
+
+    public void appendTo(StringBuffer buffer) {
+        buffer.append("eqException(");
+        buffer.append(expected.getClass().getName());
+        buffer.append(" with message \"");
+        buffer.append(expected.getMessage());
+        buffer.append("\"")");
+
+    }
+}
+</pre>
+<p>
+<code>eqException</code> 메소드는 주어진 Throwable으로 인자 매처(matcher)를 생성해야만 한다. 정적 메소드인 <code>reportMatcher(IArgumentMatcher matcher)</code>를 통해 EasyMock에 알리고 값(대개 <code>0</code>, <code>null</code> 또는 <code>false</code>)을 리턴한다. 첫번째 시도는 다음처럼 보일것이다:
+</p>
+<pre>
+public static Throwable eqException(Throwable in) {
+    EasyMock.reportMatcher(new ThrowableEquals(in));
+    return null;
+}
+</pre>
+<p>
+어쨌든, 예제 사용법의 <code>logThrowable</code> 메소드가 <code>Throwable</code>를 받는다면 작동한다. 그리고 <code>RuntimeException</code>처럼 명시된 어떤것도 요구하지 않는다. 후자의 경우 샘플 코드는 컴파일 되지 않을것이다:
+</p>
+<pre>
+    IllegalStateException e = new IllegalStateException("Operation not allowed.")
+    expect(mock.logThrowable(eqException(e))).andReturn(true);
+</pre>
+<p>
+구제(rescue)를 위한 Java 5.0: 파라미터와 리턴값으로 <code>Throwable</code>를 가지고 <code>eqException</code>를 정의하는 것 대신에, <code>Throwable</code>를 확장하는 일반적인 타입을 사용한다: 
+</p>
+<pre>
+public static &lt;T extends Throwable&gt; T eqException(T in) {
+    reportMatcher(new ThrowableEquals(in));
+    return null;
+}
+</pre>
+<h3>
+모의 객체 재사용하기
+</h3>
+<p>
+모의 객체는 <code>reset(mock)</code> 메소드에 의해 리셋될수 있다. 
+</p>
+<h3>
+메소드를 위한 스텁 행위 사용하기
+</h3>
+<p>
+때때로. 몇가지 메소드 호출에 응답하고자 모의 겍체를 바라지만 호출될때 호출되는 방법을 체크하고자 하지는 않는다. 스텁 행위는 <code>andStubReturn(Object value)</code>, <code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer&lt;T&gt; answer)</code> 그리고 <code>asStub()</code> 메소드를 사용하여 정의된다. 다음의 코드는 <code>voteForRemoval("Document")</code>를 위해 42를 반환하고 다른 모든 인자를 위해서는 -1을 응답하는 모의 객체를 설정한다:
+</p>
+<pre>
+    expect(mock.voteForRemoval("Document")).andReturn(42);
+    expect(mock.voteForRemoval(not(eq("Document")))).andStubReturn(-1);
+</pre>
+<h3>
+멋진(Nice) 모의 객체
+</h3>
+<p>
+<code>createMock()</code>에 의해 반환되는 모의 객체에서, 모든 메소드를 위한 디폴트 행위는 기대하지 않은 모든 메소드 호출을 위해 <code>AssertionError</code>를 던진다. 디폴트로 모든 메소드 호출을 허용하고 적절히 빈값(<code>0</code>, <code>null</code> or <code>false</code>)을 반환하는 "멋진(nice)" 모의 객체를 원한다면, 대신 <code>create<i>Nice</i>Mock()</code>를 사용하라. 
+</p>
+<h3>
+객체 메소드 
+</h3>
+<p>
+3개의 객체 메소드인 <code>equals()</code>, <code>hashCode()</code> 와 <code>toString()</code>을 위한 행위는 EasyMock 으로 생성된 모의 객체에서도 변경할수 없다. 
+</p>
+<h3>모의 객체 사이의 메소드 호출 순서 체크하기</h3>
+<p>
+이 시점에, <code>EasyMock</code> 클래스의 정적 메소드에 의해 설정된 하나의 객체로 모의 객체를 보았다. 하지만 이러한 많은 정적 메소드는 모의 객체의 숨겨진 제어를 확인하고 위임한다. 모의 제어(Mock Control)는 <code>IMocksControl</code> 인터페이스를 구현한 객체이다. 
+</p>
+<pre>
+    IMyInterface mock = createStrictMock(IMyInterface.class);
+    replay(mock);
+    verify(mock); 
+    reset(mock);
+</pre>
+<p>
+대신에 다음과 같은 동등한 코드를 사용하게 될것이다:
+</p>
+<pre>
+    IMocksControl ctrl = createStrictControl();
+    IMyInterface mock = ctrl.createMock(IMyInterface.class);
+    ctrl.replay();
+    ctrl.verify(); 
+    ctrl.reset();
+</pre>
+<p>
+IMocksControl은 하나 이상의 모의 객체를 생성하도록 하고 모의 객체 사이의 메소드 호출 순서를 체크하는 것이 가능하다. 예제처럼, <code>IMyInterface</code> 인터페이스를 위한 두개의 모의 객체를 셋업하고 <code>mock1.a()</code> 와 <code>mock2.a()</code> 를 순서대로 호출한다. 그리고 나서 <code>mock1.c()</code> 와 <code>mock2.c()</code> 호출한다. 마지막으로 <code>mock2.b()</code> 와 <code>mock1.b()</code>를 순서대로 호출한다:
+</p>
+<pre>
+    IMocksControl ctrl = createStrictControl();
+    IMyInterface mock1 = ctrl.createMock(IMyInterface.class);
+    IMyInterface mock2 = ctrl.createMock(IMyInterface.class);
+
+    mock1.a();
+    mock2.a();
+
+    ctrl.checkOrder(false);
+
+    mock1.c();
+    expectLastCall().anyTimes();     
+    mock2.c();
+    expectLastCall().anyTimes();     
+
+    ctrl.checkOrder(true);
+
+    mock2.b();
+    mock1.b();
+
+    ctrl.replay();
+</pre>
+<h3>모의 객체 명명하기</h3>
+<p>
+모의 객체는 <code>createMock(String name, Class&lt;T&gt; toMock)</code>, <code>createStrictMock(String name, Class&lt;T&gt; toMock)</code> 또는 <code>createNiceMock(String name, Class&lt;T&gt; toMock)</code> 를 사용하여 만드는 것으로 명명할수 있다. 그 이름은 예외 메시지에서 보여질것이다. 
+</p>
+<h3>
+이전버전과의 호환성
+</h3>
+<p>
+EasyMock 2는 Java 1.5를 위해 EasyMock 1.2를 사용한 테스트가 변경없이 작동하도록 하는 호환성 계층을 포함한다. 알려진 차이점은 실패할때 보일수 있다는 것이다. 실패 메시지와 스택 트레이스(stack trace)에 작은 변경사항이 있다. 실패는 JUnit의 <code>AssertionFailedError</code> 대신에 자바의 <code>AssertionError</code>를 사용하여 보고된다.
+</p>
+<p>EasyMock 2.1은 너무 복잡해서 EasyMock 2.2에서 제거된 콜백 기능을 소개했다. EasyMock 2.2이후 <code>IAnswer</code> 인터페이스가 콜백을 위한 기능을 제공한다. 
+</p>
+<h2>
+EasyMock 개발
+</h2>
+<p>
+EasyMock 1.0은 OFFIS의 Tammo Freese가 개발했다. EasyMock 개발은 다른 개발자와 기부회사를 허용하기 위해 소스포지에서 호스팅되고 있다. 
+</p>
+<p>다음에 나열된 분들을 포함하여 피드백이나 패치를 제공하는 수많은 분들에게 감사한다. 
+Nascif Abousalh-Neto, Dave Astels, Francois Beausoleil, George Dinwiddie, Shane Duan, 
+Wolfgang Frech, Steve Freeman, Oren Gross, John D. Heintz, Dale King, Brian Knorr,
+Dierk Koenig, Chris Kreussling, Robert Leftwich, Patrick Lightbody, Johannes Link, 
+Rex Madden, David McIntosh, Karsten Menne, Bill Michell,
+Stephan Mikaty, Ivan Moore, Ilja Preuss, Justin Sampson, Markus Schmidlin, Richard Scott,
+Joel Shellman, Ji?i Mare?, Alexandre de Pellegrin
+Shaun Smith, Marco Struck, Ralf Stuckert, Victor Szathmary, Henri Tremblay, Bill Uetrecht,
+Frank Westphal, Chad Woolley, Bernd Worsch.
+</p>
+<p>
+새로운 버전은 <a href="http://www.easymock.org">EasyMock 홈페이지</a>에서 체크하고 <a href="mailto:easymock@yahoogroups.com?subject=EasyMock 2.3 feedback">EasyMock 야후! 그룹</a>에 버그 리포팅이나 제안을 보내주세요. 
+EasyMock 야후!그룹에 가입하고자 한다면 <a href="mailto:easymock-subscribe@yahoogroups.com">easymock-subscribe@yahoogroups.com</a>로 메시지를 보내주세요. 
+</p>
+<p>
+EasyMock 버전 2.3 (2007년 7월 10일)
+</p>
+<p>
+2.2버전 이후 변경사항:
+</p>
+<ul>
+<li>프랑스어 문서
+</li>
+<li>비교가능한(Comparable) 파라미터를 위한 Matchers
+</li>
+<li>10진수 비교 버그 픽스
+</li>
+<li>모의 객체 명명가능
+</li>
+<li>빌 미쉘의 ThreadLocal 버그 픽스 포함
+</li>
+<li>EasyMock의 단위 테스트를 JUnit 4로 전환
+</li>
+</ul>
+<p>
+2.1 버전 이후 변경사항:
+</p>
+<ul>
+<li><code>andAnswer(IAnswer answer)</code> 와 <code>andStubAnswer(IAnswer answer)</code> 를 통해 호출시 기대한 호출을 위한 응답이 만들어질수 있다. 
+</li>
+<li><code>callback(Runnable runnable)</code> 은 제거되었다. 콜백을 위해 <code>andAnswer(IAnswer answer)</code> 와 <code>andStubAnswer(IAnswer answer)</code> 로 전환해 달라. 
+</li>
+<li><code>replay()</code>, <code>verify()</code> 그리고 <code>reset()</code>은 인자로 여러개의 모의 객체를 받을수 있다. 
+</li>
+</ul>
+<p>
+2.0 버전 이후 변경사항:
+</p>
+<ul>
+<li>모의 객체로 전달된 인자는 <code>EasyMock.getCurrentArguments()</code> 를 통해 콜백에서 사용가능하다. 
+</li>
+<li>http://groups.yahoo.com/group/easymock/message/558에서 보고된 버그 픽스
+</li>
+<li>쓰지 않는 matchers가 명시된다면 일찍 실패한다. 
+</li>
+</ul>
+<p>
+1.2 버전 이후 변경사항:
+</p>
+<ul>
+<li>유연하고 리팩토링에 안전한 인자 matchers 지원
+</li>
+<li>모의 제어(mock control)은 하나의 모의 객체를 위해서는 필요하지 않다.
+</li>
+<li>스텁 행위는 디폴트 행위를 대체한다. 
+</li>
+<li>하나 이상의 모의 객체를 위한 호출 순서 체크를 지원하고 순서 체크를 활성화하거나 비활성화할수 있다. 
+</li>
+<li>콜백 지원
+</li>
+<li>EasyMock 은 <code>junit.framework.AssertionFailedError</code> 대신에 <code>java.lang.AssertionError</code> 를 던진다. 그래서 테스팅 프레임워크에 의존적이지 않다. 테스팅 프레임워크로 JUnit 3.8.x, JUnit 4 그리고 TestNG를 사용할수 있다. 
+</li>
+<li>비권장된(deprecated) 오래된 API
+</li>
+</ul>
+</div>
+</body>
+</html>
+
+

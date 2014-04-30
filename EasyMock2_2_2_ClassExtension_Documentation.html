@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>EasyMock Class Extension 2.2.2 Readme</title>
+<link rel="stylesheet" href="easymock.css" />
+</head>
+<body><div class="bodywidth">
+
+<h2>EasyMock Class Extension 2.2.2 Readme</h2>
+
+<p>Documentation for release 2.2.2 (April 12 2007)<br />
+&copy; 2003-2007 <a href="http://www.offis.de">OFFIS</a>, Henri Tremblay.
+</p>
+<p>
+The EasyMock Class Extension allows to generate
+Mock Objects for classes.
+</p>
+<h2>
+Requirements
+</h2>
+The EasyMock Class Extension requires 
+<a href="http://java.sun.com">Java 5 or above</a>,
+<a href="http://www.easymock.org">EasyMock 2.1</a>, 
+<a href="http://cglib.sourceforge.net">cglib 2.1</a> 
+(2.0.x also works but cannot mock a class without visible constructor),
+<a href="http://forge.objectweb.org/projects/asm">asm</a> 
+(use the version that matches your cglib version, you can also use cglib-nodep-2.1.jar which includes asm)
+and <a href="http://www.junit.org">JUnit 4</a> to run the tests.
+<h2>
+Usage
+</h2>
+To generate Mock Objects for classes <b>and</b> interfaces, use
+<pre>
+import static org.easymock.classextension.EasyMock.*;
+</pre>
+instead of
+<pre>
+import static org.easymock.EasyMock.*;
+</pre>
+You will then create a mock just like with EasyMock by doing something like this:
+<pre>
+ToMock mock = createMock(ToMock.class);
+</pre>
+From now on, you will use your mock just like you use to do with
+EasyMock. Note that <code>createNiceMock</code>, <code>createStrictMock</code>, 
+<code>createStrictControl</code>, <code>createControl</code> and 
+<code>createNiceControl</code> methods are also available. The <code>create...Control()</code> methods
+return <code>org.easymock.classextension.IMocksControl</code>, an extension of EasyMock's <code>IMocksControl</code>.
+<h2>
+Advanced
+</h2>
+<h3>Partial mocking</h3>
+<p>
+Sometimes you may need to mock only some methods of a class and keep
+the normal behavior of others. This usually happens when you want to
+test a method that calls some others in the same class. So you want to
+keep the normal behavior of the tested method and mock the others.
+</p>
+<p>
+In this case, the first thing to do is to consider a refactoring since
+most of the time this problem caused by a bad design. If it's not
+the case or if you can't do otherwise because of some development constraints,
+here's the solution.
+</p>
+<pre>
+ToMock mock = createMock(ToMock.class, 
+   new Method[] { ToMock.class.getMethod("mockedMethod", null) } );
+</pre>
+<p>In this case only the methods passed to <code>createMock</code> will be 
+mocked (<code>mockedMethod()</code> in the example). The others will still 
+behave as they used to.
+</p>
+<p>The class extension's <code>IMocksControl</code> also provides a <code>createMock()</code> method
+to create partial mocks.
+</p>
+<h3>Replace default instantiator</h3>
+<p>
+For some reason (usually an unsupported JVM), it is possible that EasyMock CE isn't able to create
+a mock in your environment. Under the hood, class instantiation is implemented with a factory
+pattern. In case of failure, you can replace the default instantiator with:
+</p>
+<ul>
+<li>The good old <code>DefaultClassInstantiator</code> which works well with Serializable classes
+and otherwise tries to guess the best constructor and parameters to use.</li>
+<li>You own instantiator which only needs to implement <code>IClassInstantiator</code>.</li>
+</ul>
+<p>
+You set this new instantiator using <code>ClassInstantiatorFactory.setInstantiator()</code>.
+You can set back the default one with <code>setDefaultInstantiator()</code>.
+</p>
+<p>
+<b>Important:</b>
+The instantiator is kept statically so it will stick between your unit tests. Make sure you
+reset it if needed.
+</p>
+<h2>
+Limitations
+</h2>
+<p> 
+EasyMock Class Extension provides a built-in behavior for <code>equals()</code>, 
+<code>toString()</code> and <code>hashCode()</code>. It means that you cannot
+record your own behavior for these methods. It is coherent with 
+<a href="EasyMock2_3_Documentation.html#Object_Methods">what
+EasyMock do</a>. This limitation is considered to be a feature
+that prevents you from having to care about these methods.
+</p>
+<p>
+Final methods cannot be mocked. If called, their normal code will be executed.
+</p>
+<p>
+Class instantiation is performed using 
+<a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>.
+Supported JVMs are listed 
+<a href="http://code.google.com/p/objenesis/wiki/ListOfCurrentlySupportedVMs">here</a>.
+</p>
+<p>
+In the <a href="#Advanced">Advanced section</a>, it was explained how to do
+partial mocking. One important thing is that private methods are never mocked.
+So if your method under test is calling some private methods, you will need to
+test them as well since you cannot mock them.
+</p>
+<h2>
+Authors
+</h2>
+<p>
+The EasyMock Class Extension is currently maintained by Henri Tremblay.
+</p>
+<p>
+It was initially developed by Joel Shellman, Chad Woolley and Henri Tremblay
+on the files section of Yahoo!Groups.
+</p>
+</div>
+</body>
+</html>
