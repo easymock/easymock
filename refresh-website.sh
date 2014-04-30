@@ -7,8 +7,7 @@
 cd /home/project-web/easymock \
 && rm -rf htdocs-bak \
 && git clone https://github.com/easymock/easymock.git htdocs2  \
-&& chmod -R g+w htdocs2/website \
+&& chmod -R g+w htdocs2/website/_site \
 && mv htdocs htdocs-bak \
-&& mv htdocs2/website htdocs \
+&& mv htdocs2/website/_site htdocs \
 && rm -rf htdocs2
-
