@@ -1,0 +1,72 @@
+/*
+ * PAGE: INDEX
+ */
+
+.disclaimer {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.disclaimer small {
+  color: #4ea6ea;
+}
+.statistics {
+}
+
+.presentation h2 {
+  color : #003E7E;  
+}
+.presentation .lead {
+  color : #AD1F2B;
+}
+
+/*
+ * PAGE: RELEASE NOTES
+ */
+
+.releases {
+  margin: 20px 0;
+  padding: 0;
+}
+
+.release {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 30px;
+  min-height: 100px;
+}
+
+.release .release-version  {
+  padding-top: 30px;
+}
+.release .release-version > span {
+  background-color: #6E329D;
+  padding: 30px;
+  font-size: 1.1em;
+  color: #ffffff;
+}
+
+.release .release-type {
+  font-size: 1.5em;
+  margin-top: 0;
+  border-bottom: 1px solid #eeeeee;
+  padding-bottom: 5px;
+}
+
+.changes {
+  margin: 0;
+  padding: 0;
+}
+
+.change {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+/*
+ * PAGE: GETTING STARTED
+ */
+
