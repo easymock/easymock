@@ -1,0 +1,71 @@
+---
+layout: page
+title:  "Sample post"
+date:   2014-04-29 00:00:00
+published: true
+excerpt: This is a sample post
+---
+
+# Title H1
+
+## Title H2
+
+### Title H3
+
+#### Title 4
+
+This is a default text
+
+*This is an italic text*
+
+**This is a bold text**
+
+`This is an inlined text`
+
+~~This is a strikethroughed text~~
+
+[This is a link](http://agilespirit.github.io)
+
+> This is a blockquote text
+
+<!-- This is a comment text (not visible in the rendered page) -->
+
+Following is an unordered list (blank line is required) :
+
+* item 1
+  * subitem a
+  * subitem b
+  * subitem c
+* item 2
+* item 3
+
+Following is an ordered list (blank line is required) :
+
+1. item 1
+  1. subitem a
+  1. subitem b
+  1. subitem c
+1. item 2
+1. item 3
+
+Following is an image : ![Jekyll movie](/assets/img/jekyll.jpeg )
+
+Following is a sample Java code snippet :
+
+{% highlight java linenos %}
+public class Midfielder implements Player extends Infielder {
+
+  private final int number;
+
+  public Midfielder(final int number) {
+    super();
+    this.number = number;
+  }
+
+  public void shoot() {
+    // Does some awesome stuff !
+    Logger.getLogger(Midfielder.class).info("Player shooted !");
+  }
+}
+{% endhighlight %}
+

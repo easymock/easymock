@@ -1,0 +1,52 @@
+---
+layout: default
+title: Getting started
+---
+
+<div class="container">
+  <h2>If you have only 1 minute</h2>
+  <p>Add EasyMock and its dependencies to your POM file.</p>
+
+{% highlight xml %}
+<dependency>
+  <groupId>org.easymock</groupId>
+  <artifactId>easymock</artifactId>
+  <version>3.2</version>
+  <scope>test</scope>
+</dependency>
+{% endhighlight %}
+
+  <p>In your test case, create a Mock Object for the Interface / Class to be simulated, and replace the collaborator of class under test with the mock.</p>
+{% highlight java %}
+import static org.easymock.EasyMock.*;
+import org.junit.*;
+
+public class ExampleTest {
+
+  private ClassUnderTest classUnderTest;
+  private Collaborator mock;
+
+  @Before
+  public void setUp() {
+      mock = createMock(Collaborator.class);
+      classUnderTest = new ClassUnderTest();
+      classUnderTest.setCollaborator(mock);
+  }
+}
+{% endhighlight %}
+
+  <hr>
+
+  <h2>If you have 5 minutes</h2>
+  <p>
+    TODO
+  </p>
+
+  <hr>
+
+  <h2>EasyMock in 10 minutes</h2>
+  <p>
+    TODO
+  </p>
+
+</div>
