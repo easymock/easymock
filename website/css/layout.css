@@ -14,7 +14,17 @@ body > .wrapper > .container {
 /*
  * NAVBAR
  */
- .navbar-default {
+
+.navbar {
+  border-top: 5px solid #AD1F2B;
+  -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+  border-bottom: none;
+}
+
+.navbar .drop-shadow {
+}
+.navbar-default {
   background-color: #3592dd;
   background-color: #003E7E;
 }
@@ -180,5 +190,13 @@ pre.prettyprint {
   border: 1px solid #ccc;
   margin-bottom: 0;
   padding: 9.5px;
+}
+
+/*
+ * BOX-SHADOW
+ */
+.drop-shadow {
+    -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
 }
 

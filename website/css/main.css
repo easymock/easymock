@@ -3,8 +3,12 @@
  */
 
 .disclaimer {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.disclaimer .logo {
+  padding: 20px 0;
 }
 
 .disclaimer small {
@@ -70,3 +74,10 @@
  * PAGE: GETTING STARTED
  */
 
+/*
+ * PAGE: DEVELOPER GUIDE
+ */
+#developer-guide .affix {
+  position: fixed;
+  top: 20px;
+}
