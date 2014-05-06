@@ -147,3 +147,8 @@
   color: #AD1F2B;
   border-left: 5px solid #AD1F2B;
 }
+
+.developer-guide h2 {
+  border-bottom: 1px solid #EEE;
+  padding: 10px 0;
+}
