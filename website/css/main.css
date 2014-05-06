@@ -3,20 +3,53 @@
  */
 
 .disclaimer {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 90px;
+  padding-bottom: 50px;
 }
 
 .disclaimer .logo {
   padding: 20px 0;
 }
 
+
+.disclaimer .btn {
+  margin-left: 10px;
+  margin-right: 10px;
+  min-width: 160px;
+}
+
+.disclaimer .btn-getting-started {
+  border: 1px solid #003E7E;
+  color: #003E7E;
+}
+.disclaimer .btn-getting-started:hover,
+.disclaimer .btn-getting-started:focus {
+  background-color: #003E7E;
+  color: #ffffff;
+}
+
+.disclaimer .btn-download {
+  border: 1px solid #AD1F2B;
+  color: #AD1F2B;
+}
+.disclaimer .btn-download:hover,
+.disclaimer .btn-download:focus {
+  background-color: #AD1F2B;
+  color: #ffffff;
+}
+
 .disclaimer small {
   color: #003E7E;
 }
+
 .statistics {
+  padding: 30px 0;
 }
 
+.presentation {
+  padding: 40px 0;
+  background-color: #F8F8F8;
+}
 .presentation h2 {
   color : #003E7E;  
 }
@@ -77,7 +110,40 @@
 /*
  * PAGE: DEVELOPER GUIDE
  */
-#developer-guide .affix {
+.developer-guide .sidebar {
+  padding-top: 20px;
+}
+
+.developer-guide .sidebar.affix {
+  width: inherit; /* helped keep the content the same size on fluid layouts */
   position: fixed;
-  top: 20px;
+}
+.developer-guide .sidebar.affix-top {
+  width: inherit;
+  position: fixed;
+  top: auto;
+}
+.developer-guide .sidebar.affix-bottom {
+  width: inherit;
+  position: absolute;
+  top: auto;
+}
+
+.developer-guide .sidebar a {
+  color: #003E7E;
+  border-left: 5px solid #fff;
+}
+.developer-guide .sidebar a:focus,
+.developer-guide .sidebar a:hover {
+  color: #003E7E;
+  border-left: 5px solid #003E7E;
+  text-decoration: none;
+  background-color: #fff;
+}
+
+.developer-guide .sidebar li.active > a,
+.developer-guide .sidebar li.active > a:focus,
+.developer-guide .sidebar li.active > a:hover {
+  color: #AD1F2B;
+  border-left: 5px solid #AD1F2B;
 }
