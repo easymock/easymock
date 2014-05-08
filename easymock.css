@@ -7,10 +7,6 @@ body {
 }
 
 .bodywidth { 
-        width:880px;
-        position:absolute;
-        left:50%;
-        margin:0 0 0 -440px;
 }
 
 h1, h2, h3, .contentbar {
