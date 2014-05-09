@@ -120,7 +120,7 @@
 }
 
 .developer-guide .sidebar.affix {
-  width: inherit; /* helped keep the content the same size on fluid layouts */
+  width: inherit;
   position: fixed;
 }
 .developer-guide .sidebar.affix-top {
@@ -129,30 +129,76 @@
   top: auto;
 }
 .developer-guide .sidebar.affix-bottom {
-  width: inherit;
-  position: absolute;
+  width: 100%;
   top: auto;
 }
-
-.developer-guide .sidebar a {
-  color: #003E7E;
-  border-left: 5px solid #fff;
+/* Global nav */
+/* ---------- */
+.developer-guide .sidebar ul {
+  padding-left: 0;
 }
+.developer-guide .sidebar li {
+  list-style-type: none;
+}
+/* Par défaut, un lien n'a pas de style */
+.developer-guide .sidebar a {
+  border-left-width: 0;
+  border-left-style: solid;
+  border-left-color: white;
+  color: #003E7E;
+  text-decoration: none;
+}
+/* Par défaut, un lien hover ou focus a couleur bleue, une bordure gauche solide et bleue, et une couleur de fond gris-clair */
 .developer-guide .sidebar a:focus,
 .developer-guide .sidebar a:hover {
   color: #003E7E;
-  border-left: 5px solid #003E7E;
-  text-decoration: none;
-  background-color: #fff;
+  background-color: #F8F8F8;
+  border-left-color: #003E7E;
+}
+/* Par défaut, un élément actif est rouge, en gras, avec une bordure rouge */
+.developer-guide .sidebar .active > a,
+.developer-guide .sidebar .active > a:focus,
+.developer-guide .sidebar .active > a:hover {
+  border-left-color: #AD1F2B;
+  color: #AD1F2B;
+  font-weight: bold;
+  background-color: #F8F8F8;
 }
 
-.developer-guide .sidebar li.active > a,
-.developer-guide .sidebar li.active > a:focus,
-.developer-guide .sidebar li.active > a:hover {
-  color: #AD1F2B;
-  border-left: 5px solid #AD1F2B;
+/* Main nav */
+/* -------- */
+.developer-guide .sidebar .nav > li > a {
+  border-left-width: 3px;
+  padding-left: 12px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* Sub nav */
+/* ------- */
+.developer-guide .sidebar .nav > li > ul > li > a {
+  border-left-width: 1px;
+  padding-left: 24px;
+  font-size: 0.85em;
+}
+.developer-guide .sidebar .nav > li > ul > .active > a {
+  background-color: white;
+  font-weight: normal;
+}
+
+.developer-guide .sidebar .nav .nav {
+    display: none;
+}
+
+/* show sub menu when parent is active */
+.developer-guide .sidebar .nav > .active> ul {
+    display: block;
 }
 
 .developer-guide section {
   padding: 20px 0;
+}
+.developer-guide section:first-child {
+  margin-top: -20px;
+  padding-top: 0;
 }

@@ -21,15 +21,15 @@ project_version: 3.2
 
         <p>TODO : explain the issue of isolation in testing</p>
 
-        <h2 id="overview-double-object">Testing, isolation and Double Objects</h2>
+        <h2 id="overview-introduction">Introduction</h2>
 
         <p>TODO : talk about Doubles, Mocks, Stubs, Spies, Dummies, Fakes Objects</p>
 
-        <h2 id="overview-core-concepts">EasyMock core concepts</h2>
+        <h2 id="overview-concepts">Core concepts</h2>
 
         <p>TODO : present the record/replay approach</p>
 
-        <h2 id="overview-features-benefits">Features and Benefits</h2>
+        <h2 id="overview-features">Features and Benefits</h2>
 
         <ul>
           <li>Hand-writing classes for Mock Objects is not needed.</li>
@@ -95,8 +95,6 @@ public class ClassUnderTest {
       <section id="installation">
         <h1 class="page-header">Installation</h1>
 
-        <p>TODO : </p>
-
         <h2 id="installation-requirements">Requirements</h2>
         
         <ul>
@@ -139,7 +137,7 @@ public class ClassUnderTest {
       <section id="factory">
         <h1 class="page-header">Factory</h1>
 
-        <h2>The first Mock Object </h2>
+        <h2 id="factory-first">The first Mock Object </h2>
         
         <p>We will now build a test case and toy around with it to understand the functionality of the EasyMock package. <code>easymock-{{page.project_version}}-samples.jar</code> contains a modified version of this test. Our first test should check whether the removal of a non-existing document does <strong>not </strong> lead to a notification of the collaborator. Here is the test without the definition of the Mock Object:</p>
 
@@ -221,7 +219,7 @@ java.lang.AssertionError:
       ... 
 {% endhighlight %}
 
-        <h2>Using annotations</h2>
+        <h2 id="factory-annotations">Using annotations</h2>
 
         <p>Since EasyMock 3.2, it is now possible to create mocks using annotations. This is a nice and shorter way to create your mocks and inject them to the tested class. Here is the example above, now using annotations:</p>
       
@@ -291,13 +289,13 @@ private Collaborator mock;
 private Collaborator anotherMock; 
 {% endhighlight %}
 
-        <h2>Strict Mocks</h2>
+        <h2 id="factory-strict">Strict Mocks</h2>
 
         <p>On a Mock Object returned by a <code>EasyMock.createMock()</code>, the order of method calls is not checked. If you would like a strict Mock Object that checks the order of method calls, use <code>EasyMock.create<i>Strict</i>Mock()</code> to create it.</p>
 
         <p>If an unexpected method is called on a strict Mock Object, the message of the exception will show the method calls expected at this point followed by the first conflicting one. <code>verify(mock)</code> shows all missing method calls.</p>
 
-        <h2>Partial mocking</h2> 
+        <h2 id="factory-partial">Partial mocking</h2> 
 
         <p>Sometimes you may need to mock only some methods of a class and keep the normal behavior of others. This usually happens when you want to test a method that calls some others in the same class. So you want to keep the normal behavior of the tested method and mock the others.</p>
 
@@ -314,7 +312,7 @@ ToMock mock = createMockBuilder(ToMock.class)
 
         <p><b>Remark:</b> EasyMock provides a default behavior for Object's methods (<i>equals, hashCode, toString, finalize</i>). However, for a partial mock, if these methods are not mocked explicitly, they will have their normal behavior instead of EasyMock default's one.</p>
 
-        <h2>Self testing</h2>
+        <h2 id="factory-self">Self testing</h2>
 
         <p>It is possible to create a mock by calling one of its constructor. This can be handy when a class method needs to be tested but the class other methods, mocked. For that you should do something like</p>
 
@@ -325,7 +323,7 @@ ToMock mock = createMockBuilder(ToMock.class)
 
         <p>See the <code>ConstructorCalledMockTest</code> for an example.</p>
 
-        <h2>Replace default class instantiator</h2>
+        <h2 id="factory-replace">Replace default class instantiator</h2>
 
         <p>For some reason (usually an unsupported JVM), it is possible that EasyMock isn't able to mock a class mock in your environment. Under the hood, class instantiation is implemented with a factory pattern. In case of failure, you can replace the default instantiator with:</p>
 
@@ -338,13 +336,13 @@ ToMock mock = createMockBuilder(ToMock.class)
 
         <p><b>Important:</b>The instantiator is kept statically so it will stick between your unit tests. Make sure you reset it if needed.</p>
 
-        <h2>Serialize a class mock</h2>
+        <h2 id="factory-serialize">Serialize a class mock</h2>
 
         <p>A class mock can also be serialized. However, since it extends a serializable class, this class might have defined a special behavior using for instance <code>writeObject</code>. These methods will still be called when serializing the mock and might fail. The workaround is usually to call a constructor when creating the mock.</p>
 
         <p>Also, de-serializing the mock in a different class loader than the serialization might fail. It wasn't tested.</p>
       
-        <h2>Class Mocking Limitations</h2>
+        <h2 id="factory-limitations">Class Mocking Limitations</h2>
       
         <ul>
           <li>To be coherent with interface mocking, EasyMock provides a built-in behavior for <code>equals()</code>, <code>toString()</code>, <code>hashCode()</code> and <code>finalize()</code> even for class mocking. It means that you cannot record your own behavior for these methods. This limitation is considered to be a feature that prevents you from having to care about these methods.</li>
@@ -353,11 +351,11 @@ ToMock mock = createMockBuilder(ToMock.class)
           <li>Class instantiation is performed using <a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>. Supported JVMs are listed <a href="http://code.google.com/p/objenesis/wiki/ListOfCurrentlySupportedVMs">here</a>.</li>
         </ul>
 
-        <h2>Naming Mock Objects</h2>
+        <h2 id="factory-naming">Naming Mock Objects</h2>
 
         <p>Mock Objects can be named at creation using <code>createMock(String name, Class<T> toMock)</code>, <code>createStrictMock(String name, Class<T> toMock)</code> or <code>createNiceMock(String name, Class<T> toMock)</code>. The names will be shown in exception failures.</p>
 
-        <h2>Nice Mocks</h2>
+        <h2 id="factory-nice">Nice Mocks</h2>
       
           <p>On a Mock Object returned by <code>createMock()</code> the default behavior for all methods is to throw an <code>AssertionError</code> for all unexpected method calls. If you would like a "nice" Mock Object that by default allows all method calls and returns appropriate empty values (<code>0</code>, <code>null</code> or <code>false</code>), use <code>create<i>Nice</i>Mock()</code> instead.</p>
 
@@ -368,8 +366,8 @@ ToMock mock = createMockBuilder(ToMock.class)
       <!-- BEHAVIOR -->
       <!-- ******** -->
 
-      <section>
-        <h1 id="behavior" class="page-header">Behavior</h1>
+      <section id="behavior">
+        <h1 class="page-header">Behavior</h1>
         
         <p>Let us write a second test. If a document is added on the class under test, we expect a call to <code>mock.documentAdded()</code> on the Mock Object with the title of the document as argument:</p>
 
@@ -1023,15 +1021,57 @@ public class SupportTest extends EasyMockSupport {
 
     <!-- Aside menu -->
     <div class="col-md-2">
-      <div class="sidebar hidden-print" role="complementary" data-spy="affix" data-offset-top="75" data-offset-bottom="1000">
-        <ul class="nav ">
-          <li class="active"><a href="#overview">Overview</a></li>
-          <li><a href="#installation">Installation</a></li>
-          <li><a href="#factory">Factory</a></li>
-          <li><a href="#behavior">Behavior</a></li>
-          <li><a href="#verification">Verification</a></li>
-          <li><a href="#misc">Misc</a></li>
-          <li><a href="#project">Project</a></li>
+      <div id="sidebar" class="sidebar hidden-print visible-md visible-lg" role="complementary" data-spy="affix" data-offset-top="60" >
+        <ul class="nav">
+          <li class="active"><a href="#overview">Overview</a>
+            <ul class="nav">
+              <li><a href="#overview-introduction">Introduction</a></li>
+              <li><a href="#overview-concepts">Core concepts</a></li>
+              <li><a href="#overview-features">Features and benefits</a></li>
+              <li><a href="#overview-case-study">Case study</a></li>
+            </ul>
+          </li>
+          <li><a href="#installation">Installation</a>
+            <ul class="nav">
+              <li><a href="#installation-requirements">Requirements</a></li>
+              <li><a href="#installation-using-maven">Using Maven</a></li>
+              <li><a href="#installation-manually">Manually</a></li>
+            </ul>
+          </li>
+          <li><a href="#factory">Factory</a>
+            <ul class="nav">
+              <li><a href="#factory-first">The first Mock Object</a></li>
+              <li><a href="#factory-annotations">Using annotations</a></li>
+              <li><a href="#factory-strict">Strict Mocks</a></li>
+              <li><a href="#factory-partial">Partial mocking</a></li>
+              <li><a href="#factory-self">Self testing</a></li>
+              <li><a href="#factory-replace">Replace default class instantiator</a></li>
+              <li><a href="#factory-serialize">Serialize a class mock</a></li>
+              <li><a href="#factory-limitations">Class Mocking Limitations</a></li>
+              <li><a href="#factory-naming">Naming Mock Objects</a></li>
+              <li><a href="#factory-nice">Nice Mocks</a></li>
+            </ul>
+          </li>
+          <li><a href="#behavior">Behavior</a>
+            <ul class="nav">
+              <li><a href="#behavior-"></a></li>
+            </ul>
+          </li>
+          <li><a href="#verification">Verification</a>
+            <ul class="nav">
+              <li><a href="#verification-"></a></li>
+            </ul>
+          </li>
+          <li><a href="#misc">Misc</a>
+            <ul class="nav">
+              <li><a href="#misc-"></a></li>
+            </ul>
+          </li>
+          <li><a href="#project">Project</a>
+            <ul class="nav">
+              <li><a href="#project-"></a></li>
+            </ul>
+          </li>
         </ul>
         <a class="back-to-top" href="#top">Back to top</a>
       </div>
@@ -1040,4 +1080,3 @@ public class SupportTest extends EasyMockSupport {
 
   </div>
 </div>
-
