@@ -115,10 +115,10 @@
 /*
  * PAGE: DEVELOPER GUIDE
  */
+
 .developer-guide .sidebar {
-  margin-top: 0;
-  margin-bottom: 0;
   padding-top: 20px;
+  width: inherit;
 }
 
 .developer-guide .sidebar.affix {
@@ -128,12 +128,10 @@
 .developer-guide .sidebar.affix-top {
   width: inherit;
   position: fixed;
-  top: auto;
 }
 .developer-guide .sidebar.affix-bottom {
   width: inherit;
-  position: relative;
-  
+  position: absolute;
 }
 /* Global nav */
 /* ---------- */
