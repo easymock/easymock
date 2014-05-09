@@ -369,6 +369,8 @@ ToMock mock = createMockBuilder(ToMock.class)
       <section id="behavior">
         <h1 class="page-header">Behavior</h1>
         
+        <h2 id="behavior-second">A second test</h2>
+        
         <p>Let us write a second test. If a document is added on the class under test, we expect a call to <code>mock.documentAdded()</code> on the Mock Object with the title of the document as argument:</p>
 
 {% highlight java %}
@@ -412,7 +414,7 @@ java.lang.AssertionError:
       ... 
 {% endhighlight %}
 
-        <h2>Changing Behavior for the Same Method Call</h2>
+        <h2 id="behavior-same-method">Changing Behavior for the Same Method Call</h2>
 
         <p>It is also possible to specify a changing behavior for a method. The methods <code>times</code>, <code>andReturn</code>, and <code>andThrow</code> may be chained. As an example, we define <code>voteForRemoval("Document")</code> to</p>
 
@@ -429,7 +431,7 @@ expect(mock.voteForRemoval("Document"))
   .andReturn((byte) -42);
 {% endhighlight %}
 
-        <h2>Altering EasyMock default behavior</h2>
+        <h2 id="behavior-default">Altering EasyMock default behavior</h2>
 
         <p>EasyMock provides a property mecanisim allowing to alter its behavior. It mainly aims at allowing to use a legacy behavior on a new version. Currently supported properties are:</p>
 
@@ -451,11 +453,11 @@ expect(mock.voteForRemoval("Document"))
           <li>By calling <code>EasyMock.setEasyMockProperty</code>. Constants are available in the <code>EasyMock</code> class. Setting properties in the code obviously override any property set in <code>easymock.properties</code></li>
         </ul>
 
-        <h2>Object Methods</h2>
+        <h2 id="behavior-object">Object Methods</h2>
 
         <p>The behavior for the four Object methods <code>equals()</code>, <code>hashCode()</code>, <code>toString()</code> and <code>finalize()</code> cannot be changed for Mock Objects created with EasyMock, even if they are part of the interface for which the Mock Object is created.</p>
 
-        <h2>Using Stub Behavior for Methods</h2>
+        <h2 id="behavior-stub">Using Stub Behavior for Methods</h2>
 
         <p>Sometimes, we would like our Mock Object to respond to some method calls, but we do not want to check how often they are called, when they are called, or even if they are called at all. This stub behavoir may be defined by using the methods <code>andStubReturn(Object value)</code>, <code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer<T> answer)</code> and <code>asStub()</code>. The following code configures the MockObject to answer 42 to <code>voteForRemoval("Document")</code> once and -1 for all other arguments:</p>
               
@@ -475,7 +477,7 @@ expect(mock.voteForRemoval(not(eq("Document")))).andStubReturn(-1);
       <section id="verification">
         <h1 class="page-header">Verification</h1>
 
-        <h2>A first verification</h2>
+        <h2 id="verification-first">A first verification</h2>
 
         <p>There is one error that we have not handled so far: If we specify behavior, we would like to verify that it is actually used. The current test would pass if no method on the Mock Object is called. To verify that the specified behavior has been used, we have to call <code>verify(mock)</code>:</p>
 
@@ -503,7 +505,7 @@ java.lang.AssertionError:
 
         <p>The message of the exception lists all missed expectations.</p>
 
-        <h2>Expecting an Explicit Number of Calls</h2>
+        <h2 id="verification-calls">Expecting an Explicit Number of Calls</h2>
 
         <p>Up to now, our test has only considered a single method call. The next test should check whether the addition of an already existing document leads to a call to <code>mock.documentChanged()</code> with the appropriate argument. To be sure, we check this three times (hey, it is an example ;-)):</p>
       
@@ -566,7 +568,7 @@ java.lang.AssertionError:
       ...
 {% endhighlight %}
 
-        <h2>Specifying Return Values</h2>
+        <h2 id="verification-return">Specifying Return Values</h2>
 
         <p>For specifying return values, we wrap the expected call in <code>expect(T value)</code> and specify the return value with the method <code>andReturn(Object returnValue)</code> on the object returned by <code>expect(T value)</code>.</p>
 
@@ -621,13 +623,13 @@ expectLastCall().andReturn((byte) 42);
 
         <p>This type of specification should only be used if the line gets too long, as it does not support type checking at compile time.</p>
       
-        <h2>Working with Exceptions</h2>
+        <h2 id="verification-exceptions">Working with Exceptions</h2>
 
         <p>For specifying exceptions (more exactly: Throwables) to be thrown, the object returned by <code>expectLastCall()</code> and <code>expect(T value)</code> provides the method <code>andThrow(Throwable throwable)</code>. The method has to be called in record state after the call to the Mock Object for which it specifies the <code>Throwable</code> to be thrown.</p>
 
         <p>Unchecked exceptions (that is, <code>RuntimeException</code>, <code>Error</code> and all their subclasses) can be thrown from every method. Checked exceptions can only be thrown from the methods that do actually throw them.</p>
       
-        <h2>Creating Return Values or Exceptions</h2>
+        <h2 id="verification-creating">Creating Return Values or Exceptions</h2>
 
         <p>Sometimes we would like our mock object to return a value or throw an exception that is created at the time of the actual call. Since EasyMock 2.2, the object returned by <code>expectLastCall()</code> and <code>expect(T value)</code> provides the method <code>andAnswer(IAnswer answer)</code> which allows to specify an implementation of the interface <code>IAnswer</code> that is used to create the return value or exception.</p>
       
@@ -656,7 +658,7 @@ expect(l.remove(10)).andDelegateTo(new ArrayList&lt;String&gt;() {
 }); 
 {% endhighlight %}
 
-        <h2>Checking Method Call Order Between Mocks</h2>
+        <h2 id="verification-order">Checking Method Call Order Between Mocks</h2>
 
         <p>Up to this point, we have seen a mock object as a single object that is configured by static methods on the class <code>EasyMock</code>. But many of these static methods just identify the hidden control of the Mock Object and delegate to it. A Mock Control is an object implementing the <code>IMocksControl</code> interface.</p>
 
@@ -698,7 +700,7 @@ mock1.b();
 ctrl.replay();
 {% endhighlight %}
 
-        <h2>Relaxing Call Counts</h2>
+        <h2 id="verification-relaxing">Relaxing Call Counts</h2>
         <p>To relax the expected call counts, there are additional methods that may be used instead of <code>times(int count)</code>:</p>
         <dl>
           <dt><code>times(int min, int max)</code></dt> 
@@ -712,7 +714,7 @@ ctrl.replay();
         </dl>
         <p>If no call count is specified, one call is expected. If we would like to state this explicitely, <code>once()</code> or <code>times(1)</code> may be used.</p>
 
-        <h2>Switching Order Checking On and Off</h2>
+        <h2 id="verification-switching">Switching Order Checking On and Off</h2>
 
         <p>Sometimes, it is necessary to have a Mock Object that checks the order of only some calls. In record phase, you may switch order checking on by calling <code>checkOrder(mock, true)</code> and switch it off by calling <code>checkOrder(mock, false)</code>.</p>
 
@@ -722,7 +724,7 @@ ctrl.replay();
           <li>A strict Mock Object has order checking enabled after reset (see <em>Reusing a Mock Object</em>).</li>
         </ol>
 
-        <h2>Flexible Expectations with Argument Matchers</h2>
+        <h2 id="verification-expectations">Flexible Expectations with Argument Matchers</h2>
 
         <p>To match an actual method call on the Mock Object with an expectation, <code>Object</code> arguments are by default compared with <code>equals()</code>. This may lead to problems. As an example, we consider the following expectation:</p>
       
@@ -812,7 +814,7 @@ expect(mock.voteForRemovals(aryEq(documents))).andReturn(42);
           <dd>Matches any value but captures it in the <code>Capture</code> parameter for later access. You can do <code>and(someMatcher(...), capture(c))</code> to capture a parameter from a specific call to the method. You can also specify a <code>CaptureType</code> telling that a given <code>Capture</code> should keep the first, the last, all or no captured values.</dd>
         </dl>
 
-        <h2>Defining your own Argument Matchers</h2>
+        <h2 id="verification-matchers">Defining your own Argument Matchers</h2>
 
         <p>Sometimes it is desirable to define own argument matchers. Let's say that an argument matcher is needed that matches an exception if the given exception has the same type and an equal message. It should be used this way:</p>
 
@@ -890,7 +892,7 @@ public static&lt;T extends Throwable&gt;T eqException(T in) {
       <section id="misc">
         <h1 class="page-header">Miscellaneous</h1>
         
-        <h2>Serializing Mocks</h2>
+        <h2 id="misc-serializing">Serializing Mocks</h2>
 
         <p>Mocks can be serialized at any time during their life. However, there are some obvious contraints:</p>
 
@@ -899,13 +901,13 @@ public static&lt;T extends Throwable&gt;T eqException(T in) {
           <li>Recorded parameters should also be serializable</li>
         </ul>
 
-        <h2>Reusing a Mock Object</h2>
+        <h2 id="misc-reusing">Reusing a Mock Object</h2>
 
         <p>Mock Objects may be reset by <code>reset(mock)</code>.</p>
 
         <p>If needed, a mock can also be converted from one type to another by calling <code>resetToNice(mock)</code>, <code>resetToDefault(mock)</code> ou <code>resetToStrict(mock)</code>.</p>
 
-        <h2>Multithreading</h2>
+        <h2 id="misc-multithreading">Multithreading</h2>
 
         <p>During recording, a mock is <b>not</b> thread-safe. So a giving mock (or mocks linked to the same <code>IMocksControl</code>) can only be recorded from a single thread. However, different mocks can be recorded simultaneously in different threads.</p>
 
@@ -913,7 +915,7 @@ public static&lt;T extends Throwable&gt;T eqException(T in) {
 
         <p>Finally, calling <code>checkIsUsedInOneThread(mock, true)</code> on a mock will make sure the mock is used in only one thread and throw an exception otherwise. This can be handy to make sure a thread-unsafe mocked object is used correctly.</p>
 
-        <h2>EasyMockSupport</h2>
+        <h2 id="misc-support">EasyMockSupport</h2>
 
         <p><code>EasyMockSupport</code> is a class that meant to be used as a helper or base class to your test cases. It will automatically registers all created mocks (or in fact all created controls) and to replay, reset or verify them in batch instead of explicitly. Here's a JUnit example:</p>
 
@@ -949,17 +951,17 @@ public class SupportTest extends EasyMockSupport {
 }
 {% endhighlight %}
       
-        <h2>Backward Compatibility</h2>
+        <h2 id="misc-compatibility">Backward Compatibility</h2>
 
         <p>EasyMock 3 still has a Class Extension project (although deprecated) to allow an easier migration from EasyMock 2 to EasyMock 3. It is a source not a binary compatibility. So the code will need to be recompiled.</p>
 
         <p>EasyMock 2.1 introduced a callback feature that has been removed in EasyMock 2.2, as it was too complex. Since EasyMock 2.2, the <code>IAnswer</code> interface provides the functionality for callbacks.</p>
 
-        <h2>OSGi</h2>
+        <h2 id="misc-osgci">OSGi</h2>
 
         <p>EasyMock jar can be used as an OSGi bundle. It exports <code>org.easymock</code>, <code>org.easymock.internal</code> and <code>org.easymock.internal.matchers</code> packages. However, to import the two latter, you need to specify the <code>poweruser</code> attribute at true (<code>poweruser=true</code>). These packages are meant to be used to extend EasyMock so they usually don't need to be imported.</p>
 
-        <h2>Android support</h2>
+        <h2 id="misc-android">Android support</h2>
 
         <p>Since EasyMock 3.2, EasyMock can be used on Android VM (Dalvik). Just add a dependency to you apk project used to test your application. It is a good idea to exclude cglib since dexmaker is used instead. You should also add dexmaker explicitly because it's an optional dependency. If you use Maven, the final required dependencies will look like this</p>
 
@@ -992,7 +994,7 @@ public class SupportTest extends EasyMockSupport {
       <section id="project">
         <h1 class="page-header">EasyMock project development</h1>
 
-        <h2 id="project-license">License</h2>
+        <h2 id="project-licence">License</h2>
 
         <p>EasyMock is available under the terms of the <a href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache 2 license</a>.</p>
 
@@ -1021,7 +1023,7 @@ public class SupportTest extends EasyMockSupport {
 
     <!-- Aside menu -->
     <div class="col-md-2">
-      <div id="sidebar" class="sidebar hidden-print visible-md visible-lg" role="complementary" data-spy="affix" data-offset-top="60" >
+      <div id="sidebar" class="sidebar hidden-print visible-md visible-lg affix-top" role="complementary" data-spy="affix" data-offset-top="50" data-offset-bottom="1000">
         <ul class="nav">
           <li class="active"><a href="#overview">Overview</a>
             <ul class="nav">
@@ -1054,25 +1056,47 @@ public class SupportTest extends EasyMockSupport {
           </li>
           <li><a href="#behavior">Behavior</a>
             <ul class="nav">
-              <li><a href="#behavior-"></a></li>
+              <li><a href="#behavior-second">A second test</a></li>
+              <li><a href="#behavior-same-method">Changing Behavior for the Same Method Call</a></li>
+              <li><a href="#behavior-default">Altering EasyMock default behavior</a></li>
+              <li><a href="#behavior-object">Object Methods</a></li>
+              <li><a href="#behavior-stub">Using Stub Behavior for Methods</a></li>
             </ul>
           </li>
           <li><a href="#verification">Verification</a>
             <ul class="nav">
-              <li><a href="#verification-"></a></li>
+              <li><a href="#verification-first">A first verification</a></li>
+              <li><a href="#verification-calls">Expecting an Explicit Number of Calls</a></li>
+              <li><a href="#verification-return">Specifying Return Values</a></li>
+              <li><a href="#verification-exceptions">Working with Exceptions</a></li>
+              <li><a href="#verification-creating">Creating Return Values or Exceptions</a></li>
+              <li><a href="#verification-order">Checking Method Call Order Between Mocks</a></li>
+              <li><a href="#verification-relaxing">Relaxing Call Counts</a></li>
+              <li><a href="#verification-switching">Switching Order Checking On and Off</a></li>
+              <li><a href="#verification-expectations">Flexible Expectations with Argument Matchers</a></li>
+              <li><a href="#verification-matchers">Defining your own Argument Matchers</a></li>
             </ul>
           </li>
           <li><a href="#misc">Misc</a>
             <ul class="nav">
-              <li><a href="#misc-"></a></li>
+              <li><a href="#misc-serializing">Serializing Mocks</a></li>
+              <li><a href="#misc-reusing">Reusing a Mock Object</a></li>
+              <li><a href="#misc-multithreading">Multithreading</a></li>
+              <li><a href="#misc-support">EasyMockSupport</a></li>
+              <li><a href="#misc-compatibility">Backward Compatibility</a></li>
+              <li><a href="#misc-osgi">OSGi</a></li>
+              <li><a href="#misc-android">Android support</a></li>
             </ul>
           </li>
           <li><a href="#project">Project</a>
             <ul class="nav">
-              <li><a href="#project-"></a></li>
+              <li><a href="#project-licence">Licence</a></li>
+              <li><a href="#project-contributors">Contributors</a></li>
+              <li><a href="#project-alternatives">Alternatives</a></li>
             </ul>
           </li>
         </ul>
+        <br>
         <a class="back-to-top" href="#top">Back to top</a>
       </div>
     </div>

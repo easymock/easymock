@@ -116,6 +116,8 @@
  * PAGE: DEVELOPER GUIDE
  */
 .developer-guide .sidebar {
+  margin-top: 0;
+  margin-bottom: 0;
   padding-top: 20px;
 }
 
@@ -129,8 +131,9 @@
   top: auto;
 }
 .developer-guide .sidebar.affix-bottom {
-  width: 100%;
-  top: auto;
+  width: inherit;
+  position: relative;
+  
 }
 /* Global nav */
 /* ---------- */
@@ -202,3 +205,14 @@
   margin-top: -20px;
   padding-top: 0;
 }
+
+.developer-guide .sidebar a.back-to-top {
+  padding-left: 15px;
+  background-color: white;
+}
+.developer-guide .sidebar a.back-to-top:focus,
+.developer-guide .sidebar a.back-to-top:hover {
+  color: #AD1F2B;
+}
+
+
