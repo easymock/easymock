@@ -50,11 +50,16 @@
   padding: 40px 0;
   background-color: #F8F8F8;
 }
-.presentation h2 {
+.presentation .aspect h2 {
   color : #003E7E;  
 }
-.presentation .lead {
+.presentation .aspect .lead {
   color : #AD1F2B;
+}
+
+.presentation .aspect .description {
+  padding: 0 30px;
+  text-align: justify;
 }
 
 /*
@@ -148,7 +153,6 @@
   border-left: 5px solid #AD1F2B;
 }
 
-.developer-guide h2 {
-  border-bottom: 1px solid #EEE;
-  padding: 10px 0;
+.developer-guide section {
+  padding: 20px 0;
 }

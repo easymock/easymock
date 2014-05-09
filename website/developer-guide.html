@@ -10,76 +10,39 @@ project_version: 3.2
     <!-- Main content -->
     <div class="col-md-10">
 
-      <!-- Title -->
-      <h1>EasyMock {{page.project_version}}</h1>
+      <!-- ******** -->
+      <!-- OVERVIEW -->
+      <!-- ******** -->
 
-      <p class="lead">EasyMock is a library that provides an easy way to use Mock Objects for given interfaces or classes.</p>
+      <section id="overview">
+        <h1 class="page-header">Overview</h1>
 
-      <p>Mock Objects simulate parts of the behavior of domain code, and are able to check whether they are used as defined. Domain classes can be tested in isolation by simulating their collaborators with Mock Objects.</p>
+        <p class="lead">EasyMock is a library that provides an easy way to use Mock Objects for given interfaces or classes.</p>
 
-      <p>Writing and maintaining Mock Objects often is a tedious task that may introduce errors. EasyMock generates Mock Objects dynamically - no need to write them, and no generated code!</p>
+        <p>TODO : explain the issue of isolation in testing</p>
 
-      <hr>
-      <!-- #End Title -->
+        <h2 id="overview-double-object">Testing, isolation and Double Objects</h2>
 
-      <!-- Licence -->
-      <h2>Licence</h2>
-      <p>EasyMock is available under the terms of the <a href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache 2 license</a>.</p>
-      <!-- #End Licence -->
+        <p>TODO : talk about Doubles, Mocks, Stubs, Spies, Dummies, Fakes Objects</p>
 
-      <!-- Benefits -->
-      <h2>Benefits</h2>
-      <ul>
-        <li>Hand-writing classes for Mock Objects is not needed.</li>
-        <li>Supports refactoring-safe Mock Objects: test code will not break at runtime when renaming methods or reordering method parameters</li>
-        <li>Supports return values and exceptions.</li>
-        <li>Supports checking the order of method calls, for one or more Mock Objects.</li>
-      </ul>
-      <!-- #End Benefits -->
+        <h2 id="overview-core-concepts">EasyMock core concepts</h2>
 
-      <!-- Requirements -->
-      <h2>Requirements</h2>
-      <ul>
-        <li>EasyMock only works with Java 1.5.0 and above.</li>
-        <li>cglib (2.2) and Objenesis (1.2) must be in the classpath to perform class mocking</li>
-      </ul>
-      <!-- #End Requirements -->
+        <p>TODO : present the record/replay approach</p>
 
-      <!-- Installation -->
-      <h2>Installation</h2>
+        <h2 id="overview-features-benefits">Features and Benefits</h2>
 
-      <h3>Using Maven</h3>
-      
-      <p>EasyMock is available in the Maven central repository. Just add the following dependency to your pom.xml:</p>
+        <ul>
+          <li>Hand-writing classes for Mock Objects is not needed.</li>
+          <li>Supports refactoring-safe Mock Objects: test code will not break at runtime when renaming methods or reordering method parameters</li>
+          <li>Supports return values and exceptions.</li>
+          <li>Supports checking the order of method calls, for one or more Mock Objects.</li>
+        </ul>
 
-{% highlight xml %}
-<dependency>
-  <groupId>org.easymock</groupId>
-  <artifactId>easymock</artifactId>
-  <version>{{page.project_version}}</version>
-  <scope>test</scope>
-</dependency>
-{% endhighlight %}
+        <h2 id="overview-case-study">Case study</h2>
 
-      <p>You can obviously use any other dependency tool compatible with the Maven repository.</p>
+        <p>Most parts of a software system do not work in isolation, but collaborate with other parts to get their job done. In a lot of cases, we do not care about using collaborators in unit testing, as we trust these collaborators. If we <em>do</em> care about it, Mock Objects help us to test the unit under test in isolation. Mock Objects replace collaborators of the unit under test.</p>
 
-      <h3>Manually</h3>
-      <ul>
-        <li>Unzip the EasyMock zip file (<code>easymock-{{page.project_version}}.zip</code>).</li>
-        <li>Go into the <code>easymock-{{page.project_version}}</code> directory.</li>
-        <li>Add the EasyMock jar file (<code>easymock.jar</code>) to your classpath.</li>
-        <li>To perform class mocking, also add <a href="http://www.objenesis.org">Objenesis</a> and <a href="http://cglib.sourceforge.net/">Cglib</a> to your classpath.</li>
-        <li>The tests are in <code>easymock-{{page.project_version}}-tests.jar</code> and can be launched with a JUnit TestRunner having JUnit 4.7 on top of EasyMock, cglib and Objenesis in your classpath.</li>
-        <li>The source code of EasyMock is stored in <code>easymock-{{page.project_version}}-sources.jar</code>.</li>
-      </ul>
-      <!-- #End Installation -->
-
-      <!-- Usage -->
-      <h2>Usage</h2>
-
-      <p>Most parts of a software system do not work in isolation, but collaborate with other parts to get their job done. In a lot of cases, we do not care about using collaborators in unit testing, as we trust these collaborators. If we <em>do</em> care about it, Mock Objects help us to test the unit under test in isolation. Mock Objects replace collaborators of the unit under test.</p>
-      
-      <p>The following examples use the interface <code>Collaborator</code>:</p>
+        <p>The following examples use the interface <code>Collaborator</code>:</p>
 
 {% highlight java %}
 package org.easymock.samples;
@@ -93,7 +56,7 @@ public interface Collaborator {
 }
 {% endhighlight %}
 
-      <p>Implementors of this interface are collaborators (in this case listeners) of a class named <code>ClassUnderTest</code>:</p>
+        <p>Implementors of this interface are collaborators (in this case listeners) of a class named <code>ClassUnderTest</code>:</p>
 
 {% highlight java %}
 public class ClassUnderTest {
@@ -120,13 +83,65 @@ public class ClassUnderTest {
 } 
 {% endhighlight %}
 
-      <p>The code for both the class and the interface may be found in the package <code>org.easymock.samples</code> in <code>easymock-{{page.project_version}}-samples.jar</code> from the EasyMock zip delivery.</p>
+        <p>The code for both the class and the interface may be found in the package <code>org.easymock.samples</code> in <code>easymock-{{page.project_version}}-samples.jar</code> from the EasyMock zip delivery.</p>
+
+        <p>The following examples assume that you are familiar with the JUnit testing framework. Although the tests shown here use JUnit 4, you may as well use JUnit 3 or TestNG.</p>
+      </section>
+
+      <!-- ************ -->
+      <!-- INSTALLATION -->
+      <!-- ************ -->
+
+      <section id="installation">
+        <h1 class="page-header">Installation</h1>
+
+        <p>TODO : </p>
+
+        <h2 id="installation-requirements">Requirements</h2>
+        
+        <ul>
+          <li>EasyMock only works with Java 1.5.0 and above.</li>
+          <li>cglib (2.2) and Objenesis (1.2) must be in the classpath to perform class mocking</li>
+        </ul>
+
+        <h2 id="installation-using-maven">Using Maven</h2>
+        
+        <p>EasyMock is available in the Maven central repository. Just add the following dependency to your pom.xml:</p>
+
+{% highlight xml %}
+<dependency>
+  <groupId>org.easymock</groupId>
+  <artifactId>easymock</artifactId>
+  <version>{{page.project_version}}</version>
+  <scope>test</scope>
+</dependency>
+{% endhighlight %}
+
+        <p>You can obviously use any other dependency tool compatible with the Maven repository.</p>
+
+        <h2 id="installation-manually">Manual installation</h2>
+        
+        <ul>
+          <li>Unzip the EasyMock zip file (<code>easymock-{{page.project_version}}.zip</code>).</li>
+          <li>Go into the <code>easymock-{{page.project_version}}</code> directory.</li>
+          <li>Add the EasyMock jar file (<code>easymock.jar</code>) to your classpath.</li>
+          <li>To perform class mocking, also add <a href="http://www.objenesis.org">Objenesis</a> and <a href="http://cglib.sourceforge.net/">Cglib</a> to your classpath.</li>
+          <li>The tests are in <code>easymock-{{page.project_version}}-tests.jar</code> and can be launched with a JUnit TestRunner having JUnit 4.7 on top of EasyMock, cglib and Objenesis in your classpath.</li>
+          <li>The source code of EasyMock is stored in <code>easymock-{{page.project_version}}-sources.jar</code>.</li>
+        </ul>
+
+      </section>
       
-      <p>The following examples assume that you are familiar with the JUnit testing framework. Although the tests shown here use JUnit 4, you may as well use JUnit 3 or TestNG.</p>
+      <!-- ******* -->
+      <!-- FACTORY -->
+      <!-- ******* -->
 
-      <h3>The first Mock Object</h3>
+      <section id="factory">
+        <h1 class="page-header">Factory</h1>
 
-      <p>We will now build a test case and toy around with it to understand the functionality of the EasyMock package. <code>easymock-{{page.project_version}}-samples.jar</code> contains a modified version of this test. Our first test should check whether the removal of a non-existing document does <strong>not </strong> lead to a notification of the collaborator. Here is the test without the definition of the Mock Object:</p>
+        <h2>The first Mock Object </h2>
+        
+        <p>We will now build a test case and toy around with it to understand the functionality of the EasyMock package. <code>easymock-{{page.project_version}}-samples.jar</code> contains a modified version of this test. Our first test should check whether the removal of a non-existing document does <strong>not </strong> lead to a notification of the collaborator. Here is the test without the definition of the Mock Object:</p>
 
 {% highlight java %}
 package org.easymock.samples;
@@ -154,7 +169,7 @@ public class ExampleTest {
 } 
 {% endhighlight %}
 
-      <p>For many tests using EasyMock, we only need a static import of methods of <code>org.easymock.EasyMock</code>.</p>
+        <p>For many tests using EasyMock, we only need a static import of methods of <code>org.easymock.EasyMock</code>.</p>
 
 {% highlight java %}
 import static org.easymock.EasyMock.*;
@@ -166,14 +181,15 @@ public class ExampleTest {
 } 
 {% endhighlight %}
 
-      <p>To get a Mock Object, we need to</p>
+        <p>To get a Mock Object, we need to</p>
 
-      <ol>
-        <li>create a Mock Object for the interface we would like to simulate,</li>
-        <li>record the expected behavior, and</li>
-        <li>switch the Mock Object to replay state.</li>
-      </ol>
-      <p>Here is a first example:</p>
+        <ol>
+          <li>create a Mock Object for the interface we would like to simulate,</li>
+          <li>record the expected behavior, and</li>
+          <li>switch the Mock Object to replay state.</li>
+        </ol>
+
+        <p>Here is a first example:</p>
 
 {% highlight java %}
 @Before
@@ -191,7 +207,7 @@ public void testRemoveNonExistingDocument() {
 } 
 {% endhighlight %}
 
-      <p>After activation in step 3, <code>mock</code> is a Mock Object for the <code>Collaborator</code> interface that expects no calls. This means that if we change our <code>ClassUnderTest</code> to call any of the interface's methods, the Mock Object will throw an <code>AssertionError</code>:</p>
+        <p>After activation in step 3, <code>mock</code> is a Mock Object for the <code>Collaborator</code> interface that expects no calls. This means that if we change our <code>ClassUnderTest</code> to call any of the interface's methods, the Mock Object will throw an <code>AssertionError</code>:</p>
 
 {% highlight java %}
 java.lang.AssertionError: 
@@ -205,9 +221,9 @@ java.lang.AssertionError:
       ... 
 {% endhighlight %}
 
-      <h3>Using annotations</h3>
+        <h2>Using annotations</h2>
 
-      <p>Since EasyMock 3.2, it is now possible to create mocks using annotations. This is a nice and shorter way to create your mocks and inject them to the tested class. Here is the example above, now using annotations:</p>
+        <p>Since EasyMock 3.2, it is now possible to create mocks using annotations. This is a nice and shorter way to create your mocks and inject them to the tested class. Here is the example above, now using annotations:</p>
       
 {% highlight java %}
 import static org.easymock.EasyMock.*; 
@@ -234,9 +250,9 @@ public class ExampleTest {
 } 
 {% endhighlight %}
 
-      <p>The <code>mock</code> is instantiated by the runner at step 1. It is then set by the runner, to the <code>listener</code> field on step 2. The <code>setUp</code> method can be removed since all the initialization was done by the runner.</p>
+        <p>The <code>mock</code> is instantiated by the runner at step 1. It is then set by the runner, to the <code>listener</code> field on step 2. The <code>setUp</code> method can be removed since all the initialization was done by the runner.</p>
 
-      <p>On top of that, since EasyMock 3.3, if you need to use another runner on you tests, a JUnit rule is also available to you. Both have the exact same behavior. Choosing one of the other is a matter of taste.</p>
+        <p>On top of that, since EasyMock 3.3, if you need to use another runner on you tests, a JUnit rule is also available to you. Both have the exact same behavior. Choosing one of the other is a matter of taste.</p>
 
 {% highlight java %}
 import static org.easymock.EasyMock.*; 
@@ -265,7 +281,7 @@ public class ExampleTest {
 } 
 {% endhighlight %}
 
-      <p>The annotation has an optional element, 'type', to refine the mock as a 'nice' mock or a 'strict' mock. Another optional annotation, 'name', allows setting of a name for the mock that will be used in the createMock call, which will appear in expectation failure messages for example. Finally, an optional element, "fieldName", allows specifying the target field name where the mock should be injected. Mocks are injected to any field in any <code>@TestSubject</code> that is of compatible type. If more than one mock can be assigned to the same field then this is considered an error. The <code>fieldName</code> qualifier can be used in this scenario to disambiguate the assignments.</p>
+        <p>The annotation has an optional element, 'type', to refine the mock as a 'nice' mock or a 'strict' mock. Another optional annotation, 'name', allows setting of a name for the mock that will be used in the createMock call, which will appear in expectation failure messages for example. Finally, an optional element, "fieldName", allows specifying the target field name where the mock should be injected. Mocks are injected to any field in any <code>@TestSubject</code> that is of compatible type. If more than one mock can be assigned to the same field then this is considered an error. The <code>fieldName</code> qualifier can be used in this scenario to disambiguate the assignments.</p>
   
 {% highlight java %}
 @Mock(type = MockType.NICE, name = "mock", fieldName = "someField") 
@@ -274,9 +290,88 @@ private Collaborator mock;
 @Mock(type = MockType.STRICT, name = "anotherMock", fieldName = "someOtherField") 
 private Collaborator anotherMock; 
 {% endhighlight %}
+
+        <h2>Strict Mocks</h2>
+
+        <p>On a Mock Object returned by a <code>EasyMock.createMock()</code>, the order of method calls is not checked. If you would like a strict Mock Object that checks the order of method calls, use <code>EasyMock.create<i>Strict</i>Mock()</code> to create it.</p>
+
+        <p>If an unexpected method is called on a strict Mock Object, the message of the exception will show the method calls expected at this point followed by the first conflicting one. <code>verify(mock)</code> shows all missing method calls.</p>
+
+        <h2>Partial mocking</h2> 
+
+        <p>Sometimes you may need to mock only some methods of a class and keep the normal behavior of others. This usually happens when you want to test a method that calls some others in the same class. So you want to keep the normal behavior of the tested method and mock the others.</p>
+
+        <p>In this case, the first thing to do is to consider a refactoring since most of the time this problem caused by a bad design. If it's not the case or if you can't do otherwise because of some development constraints, here's the solution.</p>
+
+{% highlight java %}
+ToMock mock = createMockBuilder(ToMock.class)
+  .addMockedMethod("mockedMethod").createMock();
+{% endhighlight %}
       
-      <h3>Adding Behavior</h3>
-      <p>Let us write a second test. If a document is added on the class under test, we expect a call to <code>mock.documentAdded()</code> on the Mock Object with the title of the document as argument:</p>
+        <p>In this case only the methods added with <code>addMockedMethod(s)</code> will be mocked (<code>mockedMethod()</code> in the example). The others will still behave as they used to. One exception: abstract methods are conveniently mocked by default.</p>
+
+        <p><code>createMockBuilder</code> returns a <code>IMockBuilder</code> interface. It contains various methods to easily create a partial mock. Have a look at the javadoc.</p>
+
+        <p><b>Remark:</b> EasyMock provides a default behavior for Object's methods (<i>equals, hashCode, toString, finalize</i>). However, for a partial mock, if these methods are not mocked explicitly, they will have their normal behavior instead of EasyMock default's one.</p>
+
+        <h2>Self testing</h2>
+
+        <p>It is possible to create a mock by calling one of its constructor. This can be handy when a class method needs to be tested but the class other methods, mocked. For that you should do something like</p>
+
+{% highlight java %}
+ToMock mock = createMockBuilder(ToMock.class)
+  .withConstructor(1, 2, 3); // 1, 2, 3 are the constructor parameters
+{% endhighlight %}
+
+        <p>See the <code>ConstructorCalledMockTest</code> for an example.</p>
+
+        <h2>Replace default class instantiator</h2>
+
+        <p>For some reason (usually an unsupported JVM), it is possible that EasyMock isn't able to mock a class mock in your environment. Under the hood, class instantiation is implemented with a factory pattern. In case of failure, you can replace the default instantiator with:</p>
+
+        <ul>
+          <li>The good old <code>DefaultClassInstantiator</code> which works well with Serializable classes and otherwise tries to guess the best constructor and parameters to use.</li>
+          <li>You own instantiator which only needs to implement <code>IClassInstantiator</code>.</li>
+        </ul>
+
+        <p>You set this new instantiator using <code>ClassInstantiatorFactory.setInstantiator()</code>. You can set back the default one with <code>setDefaultInstantiator()</code>.</p>
+
+        <p><b>Important:</b>The instantiator is kept statically so it will stick between your unit tests. Make sure you reset it if needed.</p>
+
+        <h2>Serialize a class mock</h2>
+
+        <p>A class mock can also be serialized. However, since it extends a serializable class, this class might have defined a special behavior using for instance <code>writeObject</code>. These methods will still be called when serializing the mock and might fail. The workaround is usually to call a constructor when creating the mock.</p>
+
+        <p>Also, de-serializing the mock in a different class loader than the serialization might fail. It wasn't tested.</p>
+      
+        <h2>Class Mocking Limitations</h2>
+      
+        <ul>
+          <li>To be coherent with interface mocking, EasyMock provides a built-in behavior for <code>equals()</code>, <code>toString()</code>, <code>hashCode()</code> and <code>finalize()</code> even for class mocking. It means that you cannot record your own behavior for these methods. This limitation is considered to be a feature that prevents you from having to care about these methods.</li>
+          <li>Final methods cannot be mocked. If called, their normal code will be executed.</li>
+          <li>Private methods cannot be mocked. If called, their normal code will be executed. During partial mocking, if your method under test is calling some private methods, you will need to test them as well since you cannot mock them.</li>
+          <li>Class instantiation is performed using <a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>. Supported JVMs are listed <a href="http://code.google.com/p/objenesis/wiki/ListOfCurrentlySupportedVMs">here</a>.</li>
+        </ul>
+
+        <h2>Naming Mock Objects</h2>
+
+        <p>Mock Objects can be named at creation using <code>createMock(String name, Class<T> toMock)</code>, <code>createStrictMock(String name, Class<T> toMock)</code> or <code>createNiceMock(String name, Class<T> toMock)</code>. The names will be shown in exception failures.</p>
+
+        <h2>Nice Mocks</h2>
+      
+          <p>On a Mock Object returned by <code>createMock()</code> the default behavior for all methods is to throw an <code>AssertionError</code> for all unexpected method calls. If you would like a "nice" Mock Object that by default allows all method calls and returns appropriate empty values (<code>0</code>, <code>null</code> or <code>false</code>), use <code>create<i>Nice</i>Mock()</code> instead.</p>
+
+      </section>
+      <!-- #End Factory -->
+
+      <!-- ******** -->
+      <!-- BEHAVIOR -->
+      <!-- ******** -->
+
+      <section>
+        <h1 id="behavior" class="page-header">Behavior</h1>
+        
+        <p>Let us write a second test. If a document is added on the class under test, we expect a call to <code>mock.documentAdded()</code> on the Mock Object with the title of the document as argument:</p>
 
 {% highlight java %}
 @Test 
@@ -287,9 +382,9 @@ public void testAddDocument() {
 } 
 {% endhighlight %}
 
-      <p>So in the record state (before calling <code>replay</code>), the Mock Object does <em>not</em> behave like a Mock Object, but it records method calls. After calling <code>replay</code>, it behaves like a Mock Object, checking whether the expected method calls are really done.</p>
+        <p>So in the record state (before calling <code>replay</code>), the Mock Object does <em>not</em> behave like a Mock Object, but it records method calls. After calling <code>replay</code>, it behaves like a Mock Object, checking whether the expected method calls are really done.</p>
 
-      <p>If <code>classUnderTest.addDocument("New Document", new byte[0])</code> calls the expected method with a wrong argument, the Mock Object will complain with an <code>AssertionError</code>:</p>
+        <p>If <code>classUnderTest.addDocument("New Document", new byte[0])</code> calls the expected method with a wrong argument, the Mock Object will complain with an <code>AssertionError</code>:</p>
       
 {% highlight java %}
 java.lang.AssertionError: 
@@ -304,7 +399,7 @@ java.lang.AssertionError:
       ... 
 {% endhighlight %}
 
-      <p>All missed expectations are shown, as well as all fulfilled expectations for the unexpected call (none in this case). If the method call is executed too often, the Mock Object complains, too:</p>
+       <p>All missed expectations are shown, as well as all fulfilled expectations for the unexpected call (none in this case). If the method call is executed too often, the Mock Object complains, too:</p>
 
 {% highlight java %}
 java.lang.AssertionError: 
@@ -319,9 +414,72 @@ java.lang.AssertionError:
       ... 
 {% endhighlight %}
 
-      <h3>Verifying Behavior</h3>
+        <h2>Changing Behavior for the Same Method Call</h2>
 
-      <p>There is one error that we have not handled so far: If we specify behavior, we would like to verify that it is actually used. The current test would pass if no method on the Mock Object is called. To verify that the specified behavior has been used, we have to call <code>verify(mock)</code>:</p>
+        <p>It is also possible to specify a changing behavior for a method. The methods <code>times</code>, <code>andReturn</code>, and <code>andThrow</code> may be chained. As an example, we define <code>voteForRemoval("Document")</code> to</p>
+
+        <ul>
+          <li>return 42 for the first three calls,</li>
+          <li>throw a <code>RuntimeException</code> for the next four calls,</li>
+          <li>return -42 once.</li>
+        </ul>
+
+{% highlight java %}
+expect(mock.voteForRemoval("Document"))
+  .andReturn((byte) 42).times(3) 
+  .andThrow(new RuntimeException(), 4) 
+  .andReturn((byte) -42);
+{% endhighlight %}
+
+        <h2>Altering EasyMock default behavior</h2>
+
+        <p>EasyMock provides a property mecanisim allowing to alter its behavior. It mainly aims at allowing to use a legacy behavior on a new version. Currently supported properties are:</p>
+
+        <dl>
+          <dt><code>easymock.notThreadSafeByDefault</code></dt>
+          <dd>If true, a mock won't be thread-safe by default. Possible values are "true" or "false". Default is false</dd>
+
+          <dt><code>easymock.enableThreadSafetyCheckByDefault</code></dt>
+          <dd>If true, thread-safety check feature will be on by default. Possible values are "true" or "false". Default is false</dd>
+
+          <dt><code>easymock.disableClassMocking</code></dt>
+          <dd>Do not allow class mocking (only allow interface mocking). Possible values are "true" or "false". Default is false.</dd>
+        </dl>
+
+        <p>Properties can be set in two ways.</p>
+
+        <ul>
+          <li>In an <code>easymock.properties</code> file set in the classpath default package</li>
+          <li>By calling <code>EasyMock.setEasyMockProperty</code>. Constants are available in the <code>EasyMock</code> class. Setting properties in the code obviously override any property set in <code>easymock.properties</code></li>
+        </ul>
+
+        <h2>Object Methods</h2>
+
+        <p>The behavior for the four Object methods <code>equals()</code>, <code>hashCode()</code>, <code>toString()</code> and <code>finalize()</code> cannot be changed for Mock Objects created with EasyMock, even if they are part of the interface for which the Mock Object is created.</p>
+
+        <h2>Using Stub Behavior for Methods</h2>
+
+        <p>Sometimes, we would like our Mock Object to respond to some method calls, but we do not want to check how often they are called, when they are called, or even if they are called at all. This stub behavoir may be defined by using the methods <code>andStubReturn(Object value)</code>, <code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer<T> answer)</code> and <code>asStub()</code>. The following code configures the MockObject to answer 42 to <code>voteForRemoval("Document")</code> once and -1 for all other arguments:</p>
+              
+{% highlight java %}
+expect(mock.voteForRemoval("Document")).andReturn(42); 
+expect(mock.voteForRemoval(not(eq("Document")))).andStubReturn(-1);
+{% endhighlight %}
+
+
+      </section>
+      <!-- #End Behavior -->
+    
+      <!-- ************ -->
+      <!-- VERIFICATION -->
+      <!-- ************ -->
+
+      <section id="verification">
+        <h1 class="page-header">Verification</h1>
+
+        <h2>A first verification</h2>
+
+        <p>There is one error that we have not handled so far: If we specify behavior, we would like to verify that it is actually used. The current test would pass if no method on the Mock Object is called. To verify that the specified behavior has been used, we have to call <code>verify(mock)</code>:</p>
 
 {% highlight java %}
 @Test 
@@ -333,7 +491,7 @@ public void testAddDocument() {
 }
 {% endhighlight %}
       
-      <p>If the method is not called on the Mock Object, we now get the following exception:</p>
+        <p>If the method is not called on the Mock Object, we now get the following exception:</p>
 
 {% highlight java %}
 java.lang.AssertionError: 
@@ -345,11 +503,11 @@ java.lang.AssertionError:
       ... 
 {% endhighlight %}
 
-      <p>The message of the exception lists all missed expectations.</p>
+        <p>The message of the exception lists all missed expectations.</p>
 
-      <h3>Expecting an Explicit Number of Calls</h3>
+        <h2>Expecting an Explicit Number of Calls</h2>
 
-      <p>Up to now, our test has only considered a single method call. The next test should check whether the addition of an already existing document leads to a call to <code>mock.documentChanged()</code> with the appropriate argument. To be sure, we check this three times (hey, it is an example ;-)):</p>
+        <p>Up to now, our test has only considered a single method call. The next test should check whether the addition of an already existing document leads to a call to <code>mock.documentChanged()</code> with the appropriate argument. To be sure, we check this three times (hey, it is an example ;-)):</p>
       
 {% highlight java %}
 @Test 
@@ -367,7 +525,7 @@ public void testAddAndChangeDocument() {
 }
 {% endhighlight %}
 
-      <p>To avoid the repetition of <code>mock.documentChanged("Document")</code>, EasyMock provides a shortcut. We may specify the call count with the method <code>times(int times)</code> on the object returned by <code>expectLastCall()</code>. The code then looks like:</p>
+        <p>To avoid the repetition of <code>mock.documentChanged("Document")</code>, EasyMock provides a shortcut. We may specify the call count with the method <code>times(int times)</code> on the object returned by <code>expectLastCall()</code>. The code then looks like:</p>
       
 {% highlight java %}
 @Test
@@ -384,7 +542,7 @@ public void testAddAndChangeDocument() {
 }
 {% endhighlight %}
       
-      <p>If the method is called too often, we get an exception that tells us that the method has been called too many times. The failure occurs immediately at the first method call exceeding the limit:</p>
+        <p>If the method is called too often, we get an exception that tells us that the method has been called too many times. The failure occurs immediately at the first method call exceeding the limit:</p>
 
 {% highlight java %}
 java.lang.AssertionError:
@@ -399,9 +557,7 @@ java.lang.AssertionError:
       ... 
 {% endhighlight %}
 
-      <p>
-        If there are too few calls, <code>verify(mock)</code> throws an <code>AssertionError</code>:
-      </p>
+        <p>If there are too few calls, <code>verify(mock)</code> throws an <code>AssertionError</code>:</p>
 {% highlight java %}
 java.lang.AssertionError: 
   Expectation failure on verify: 
@@ -412,11 +568,11 @@ java.lang.AssertionError:
       ...
 {% endhighlight %}
 
-      <h3>Specifying Return Values</h3>
+        <h2>Specifying Return Values</h2>
 
-      <p>For specifying return values, we wrap the expected call in <code>expect(T value)</code> and specify the return value with the method <code>andReturn(Object returnValue)</code> on the object returned by <code>expect(T value)</code>.</p>
+        <p>For specifying return values, we wrap the expected call in <code>expect(T value)</code> and specify the return value with the method <code>andReturn(Object returnValue)</code> on the object returned by <code>expect(T value)</code>.</p>
 
-      <p>As an example, we check the workflow for document removal. If <code>ClassUnderTest</code> gets a call for document removal, it asks all collaborators for their vote for removal with calls to <code>byte voteForRemoval(String title)</code> value. Positive return values are a vote for removal. If the sum of all values is positive, the document is removed and <code>documentRemoved(String title)</code> is called on all collaborators:</p>
+        <p>As an example, we check the workflow for document removal. If <code>ClassUnderTest</code> gets a call for document removal, it asks all collaborators for their vote for removal with calls to <code>byte voteForRemoval(String title)</code> value. Positive return values are a vote for removal. If the sum of all values is positive, the document is removed and <code>documentRemoved(String title)</code> is called on all collaborators:</p>
 
 {% highlight java %}
 @Test 
@@ -446,42 +602,42 @@ public void testVoteAgainstRemoval() {
 }
 {% endhighlight %}
 
-      <p>The type of the returned value is checked at compile time. As an example, the following code will not compile, as the type of the provided return value does not match the method's return value:</p>
+        <p>The type of the returned value is checked at compile time. As an example, the following code will not compile, as the type of the provided return value does not match the method's return value:</p>
       
 {% highlight java %}
 expect(mock.voteForRemoval("Document")).andReturn("wrong type");
 {% endhighlight %}
 
-      <p>Instead of calling <code>expect(T value)</code> to retrieve the object for setting the return value, we may also use the object returned by <code>expectLastCall()</code>. Instead of</p>
+        <p>Instead of calling <code>expect(T value)</code> to retrieve the object for setting the return value, we may also use the object returned by <code>expectLastCall()</code>. Instead of</p>
 
 {% highlight java %}
 expect(mock.voteForRemoval("Document")).andReturn((byte) 42);
 {% endhighlight %}
 
-      <p>we may use</p>
+        <p>we may use</p>
 
 {% highlight java %}
 mock.voteForRemoval("Document"); 
 expectLastCall().andReturn((byte) 42);
 {% endhighlight %}
 
-      <p>This type of specification should only be used if the line gets too long, as it does not support type checking at compile time.</p>
+        <p>This type of specification should only be used if the line gets too long, as it does not support type checking at compile time.</p>
       
-      <h3>Working with Exceptions</h3>
+        <h2>Working with Exceptions</h2>
 
-      <p>For specifying exceptions (more exactly: Throwables) to be thrown, the object returned by <code>expectLastCall()</code> and <code>expect(T value)</code> provides the method <code>andThrow(Throwable throwable)</code>. The method has to be called in record state after the call to the Mock Object for which it specifies the <code>Throwable</code> to be thrown.</p>
+        <p>For specifying exceptions (more exactly: Throwables) to be thrown, the object returned by <code>expectLastCall()</code> and <code>expect(T value)</code> provides the method <code>andThrow(Throwable throwable)</code>. The method has to be called in record state after the call to the Mock Object for which it specifies the <code>Throwable</code> to be thrown.</p>
 
-      <p>Unchecked exceptions (that is, <code>RuntimeException</code>, <code>Error</code> and all their subclasses) can be thrown from every method. Checked exceptions can only be thrown from the methods that do actually throw them.</p>
+        <p>Unchecked exceptions (that is, <code>RuntimeException</code>, <code>Error</code> and all their subclasses) can be thrown from every method. Checked exceptions can only be thrown from the methods that do actually throw them.</p>
       
-      <h3>Creating Return Values or Exceptions</h3>
+        <h2>Creating Return Values or Exceptions</h2>
 
-      <p>Sometimes we would like our mock object to return a value or throw an exception that is created at the time of the actual call. Since EasyMock 2.2, the object returned by <code>expectLastCall()</code> and <code>expect(T value)</code> provides the method <code>andAnswer(IAnswer answer)</code> which allows to specify an implementation of the interface <code>IAnswer</code> that is used to create the return value or exception.</p>
+        <p>Sometimes we would like our mock object to return a value or throw an exception that is created at the time of the actual call. Since EasyMock 2.2, the object returned by <code>expectLastCall()</code> and <code>expect(T value)</code> provides the method <code>andAnswer(IAnswer answer)</code> which allows to specify an implementation of the interface <code>IAnswer</code> that is used to create the return value or exception.</p>
       
-      <p>Inside an <code>IAnswer</code> callback, the arguments passed to the mock call are available via <code>EasyMock.getCurrentArguments()</code>. If you use these, refactorings like reordering parameters may break your tests. You have been warned.</p>
+        <p>Inside an <code>IAnswer</code> callback, the arguments passed to the mock call are available via <code>EasyMock.getCurrentArguments()</code>. If you use these, refactorings like reordering parameters may break your tests. You have been warned.</p>
 
-      <p>An alternative to <code>IAnswer</code> are the <code>andDelegateTo</code> and <code>andStubDelegateTo</code> methods. They allow to delegate the call to a concrete implementation of the mocked interface that will then provide the answer. The pros are that the arguments found in <code>EasyMock.getCurrentArguments()</code> for <code>IAnswer</code> are now passed to the method of the concrete implementation. This is refactoring safe. The cons are that you have to provide an implementation which is kind of doing a mock manually... Which is what you try to avoid by using EasyMock. It can also be painful if the interface has many methods. Finally, the type of the concrete class can't be checked statically against the mock type. If for some reason, the concrete class isn't implementing the method that is delegated, you will get an exception during the replay only. However, this case should be quite rare.</p>
+        <p>An alternative to <code>IAnswer</code> are the <code>andDelegateTo</code> and <code>andStubDelegateTo</code> methods. They allow to delegate the call to a concrete implementation of the mocked interface that will then provide the answer. The pros are that the arguments found in <code>EasyMock.getCurrentArguments()</code> for <code>IAnswer</code> are now passed to the method of the concrete implementation. This is refactoring safe. The cons are that you have to provide an implementation which is kind of doing a mock manually... Which is what you try to avoid by using EasyMock. It can also be painful if the interface has many methods. Finally, the type of the concrete class can't be checked statically against the mock type. If for some reason, the concrete class isn't implementing the method that is delegated, you will get an exception during the replay only. However, this case should be quite rare.</p>
 
-      <p>To understand correctly the two options, here is an example:</p>
+        <p>To understand correctly the two options, here is an example:</p>
 
 {% highlight java %}
 List&lt;String&gt; l = createMock(List.class); 
@@ -502,63 +658,82 @@ expect(l.remove(10)).andDelegateTo(new ArrayList&lt;String&gt;() {
 }); 
 {% endhighlight %}
 
-      <h3>Changing Behavior for the Same Method Call</h3>
-            
-      <p>It is also possible to specify a changing behavior for a method. The methods <code>times</code>, <code>andReturn</code>, and <code>andThrow</code> may be chained. As an example, we define <code>voteForRemoval("Document")</code> to</p>
-            
-      <ul>
-        <li>return 42 for the first three calls,</li>
-        <li>throw a <code>RuntimeException</code> for the next four calls,</li>
-        <li>return -42 once.</li>
-      </ul>
+        <h2>Checking Method Call Order Between Mocks</h2>
 
+        <p>Up to this point, we have seen a mock object as a single object that is configured by static methods on the class <code>EasyMock</code>. But many of these static methods just identify the hidden control of the Mock Object and delegate to it. A Mock Control is an object implementing the <code>IMocksControl</code> interface.</p>
+
+        <p>So instead of</p>
+      
 {% highlight java %}
-expect(mock.voteForRemoval("Document"))
-  .andReturn((byte) 42).times(3) 
-  .andThrow(new RuntimeException(), 4) 
-  .andReturn((byte) -42);
+IMyInterface mock = createStrictMock(IMyInterface.class);
+replay(mock);
+verify(mock);
+reset(mock);
 {% endhighlight %}
 
-      <h3>Relaxing Call Counts</h3>
-      <p>To relax the expected call counts, there are additional methods that may be used instead of <code>times(int count)</code>:</p>
-      <dl>
-        <dt><code>times(int min, int max)</code></dt> 
-        <dd>to expect between <code>min</code> and <code>max</code> calls,</dd>
-        
-        <dt><code>atLeastOnce()</code></dt>
-        <dd>to expect at least one call, and</dd>
-        
-        <dt><code>anyTimes()</code></dt>
-        <dd>to expected an unrestricted number of calls.</dd>
-      </dl>
-      <p>If no call count is specified, one call is expected. If we would like to state this explicitely, <code>once()</code> or <code>times(1)</code> may be used.</p>
-
-      <h3>Strict Mocks</h3>
-
-      <p>On a Mock Object returned by a <code>EasyMock.createMock()</code>, the order of method calls is not checked. If you would like a strict Mock Object that checks the order of method calls, use <code>EasyMock.create<i>Strict</i>Mock()</code> to create it.</p>
+        <p>we may use the equivalent code:</p>
       
-      <p>If an unexpected method is called on a strict Mock Object, the message of the exception will show the method calls expected at this point followed by the first conflicting one. <code>verify(mock)</code> shows all missing method calls.</p>
-
-      <h3>Switching Order Checking On and Off</h3>
-
-      <p>Sometimes, it is necessary to have a Mock Object that checks the order of only some calls. In record phase, you may switch order checking on by calling <code>checkOrder(mock, true)</code> and switch it off by calling <code>checkOrder(mock, false)</code>.</p>
+{% highlight java %}
+IMocksControl ctrl = createStrictControl();
+IMyInterface mock = ctrl.createMock(IMyInterface.class);
+ctrl.replay();
+ctrl.verify();
+ctrl.reset();
+{% endhighlight %}
       
-      <p>There are two differences between a strict Mock Object and a normal Mock Object:</p>
-      <ol>
-        <li>A strict Mock Object has order checking enabled after creation.</li>
-        <li>A strict Mock Object has order checking enabled after reset (see <em>Reusing a Mock Object</em>).</li>
-      </ol>
-
-      <h3>Flexible Expectations with Argument Matchers</h3>
+        <p>The IMocksControl allows to create more than one Mock Object, and so it is possible to check the order of method calls between mocks. As an example, we set up two mock objects for the interface <code>IMyInterface</code>, and we expect the calls <code>mock1.a()</code> and <code>mock2.a()</code> ordered, then an open number of calls to <code>mock1.c()</code> and <code>mock2.c()</code>, and finally <code>mock2.b()</code> and <code>mock1.b()</code>, in this order:</p>
       
-      <p>To match an actual method call on the Mock Object with an expectation, <code>Object</code> arguments are by default compared with <code>equals()</code>. This may lead to problems. As an example, we consider the following expectation:</p>
+{% highlight java %}
+IMocksControl ctrl = createStrictControl();
+IMyInterface mock1 = ctrl.createMock(IMyInterface.class);
+IMyInterface mock2 = ctrl.createMock(IMyInterface.class);
+mock1.a();
+mock2.a();
+ctrl.checkOrder(false);
+mock1.c();
+expectLastCall().anyTimes();
+mock2.c();
+expectLastCall().anyTimes();
+ctrl.checkOrder(true);
+mock2.b();
+mock1.b();
+ctrl.replay();
+{% endhighlight %}
+
+        <h2>Relaxing Call Counts</h2>
+        <p>To relax the expected call counts, there are additional methods that may be used instead of <code>times(int count)</code>:</p>
+        <dl>
+          <dt><code>times(int min, int max)</code></dt> 
+          <dd>to expect between <code>min</code> and <code>max</code> calls,</dd>
+
+          <dt><code>atLeastOnce()</code></dt>
+          <dd>to expect at least one call, and</dd>
+
+          <dt><code>anyTimes()</code></dt>
+          <dd>to expected an unrestricted number of calls.</dd>
+        </dl>
+        <p>If no call count is specified, one call is expected. If we would like to state this explicitely, <code>once()</code> or <code>times(1)</code> may be used.</p>
+
+        <h2>Switching Order Checking On and Off</h2>
+
+        <p>Sometimes, it is necessary to have a Mock Object that checks the order of only some calls. In record phase, you may switch order checking on by calling <code>checkOrder(mock, true)</code> and switch it off by calling <code>checkOrder(mock, false)</code>.</p>
+
+        <p>There are two differences between a strict Mock Object and a normal Mock Object:</p>
+        <ol>
+          <li>A strict Mock Object has order checking enabled after creation.</li>
+          <li>A strict Mock Object has order checking enabled after reset (see <em>Reusing a Mock Object</em>).</li>
+        </ol>
+
+        <h2>Flexible Expectations with Argument Matchers</h2>
+
+        <p>To match an actual method call on the Mock Object with an expectation, <code>Object</code> arguments are by default compared with <code>equals()</code>. This may lead to problems. As an example, we consider the following expectation:</p>
       
 {% highlight java %}
 String[] documents = new String[] { "Document 1", "Document 2" };
 expect(mock.voteForRemovals(documents)).andReturn(42);
 {% endhighlight %}
 
-      <p>If the method is called with another array with the same contents, we get an exception, as <code>equals()</code> compares object identity for arrays:</p>
+        <p>If the method is called with another array with the same contents, we get an exception, as <code>equals()</code> compares object identity for arrays:</p>
 
 {% highlight java %}
 java.lang.AssertionError: 
@@ -575,82 +750,82 @@ java.lang.AssertionError:
       ...
 {% endhighlight %}
   
-      <p>To specify that only array equality is needed for this call, we may use the method <code>aryEq</code> that is statically imported from the <code>EasyMock</code> class:</p>
+        <p>To specify that only array equality is needed for this call, we may use the method <code>aryEq</code> that is statically imported from the <code>EasyMock</code> class:</p>
       
 {% highlight java %}
 String[] documents = new String[] { "Document 1", "Document 2" };
 expect(mock.voteForRemovals(aryEq(documents))).andReturn(42);
 {% endhighlight %}
       
-      <p>If you would like to use matchers in a call, you have to specify matchers for all arguments of the method call.</p>
-      
-      <p>There are a couple of predefined argument matchers available.</p>
-      
-      <dl>
-        <dt><code>eq(X value)</code></dt>
-        <dd>Matches if the actual value is equals the expected value. Available for all primitive types and for objects.</dd>
+        <p>If you would like to use matchers in a call, you have to specify matchers for all arguments of the method call.</p>
 
-        <dt><code>anyBoolean()</code>, <code>anyByte()</code>, <code>anyChar()</code>, <code>anyDouble()</code>, <code>anyFloat()</code>, <code>anyInt()</code>, <code>anyLong()</code>, <code>anyObject()</code>, <code>anyObject(Class clazz)</code>, <code>anyShort()</code>, <code>anyString()</code></dt>
-        <dd>Matches any value. Available for all primitive types and for objects.</dd>
+        <p>There are a couple of predefined argument matchers available.</p>
 
-        <dt><code>eq(X value, X delta)</code></dt>
-        <dd>Matches if the actual value is equal to the given value allowing the given delta. Available for <code>float</code> and <code>double</code>.</dd>
+        <dl>
+          <dt><code>eq(X value)</code></dt>
+          <dd>Matches if the actual value is equals the expected value. Available for all primitive types and for objects.</dd>
 
-        <dt><code>aryEq(X value)</code></dt>
-        <dd>Matches if the actual value is equal to the given value according to <code>Arrays.equals()</code>. Available for primitive and object arrays.</dd>
+          <dt><code>anyBoolean()</code>, <code>anyByte()</code>, <code>anyChar()</code>, <code>anyDouble()</code>, <code>anyFloat()</code>, <code>anyInt()</code>, <code>anyLong()</code>, <code>anyObject()</code>, <code>anyObject(Class clazz)</code>, <code>anyShort()</code>, <code>anyString()</code></dt>
+          <dd>Matches any value. Available for all primitive types and for objects.</dd>
 
-        <dt><code>isNull()</code>, <code>isNull(Class clazz)</code></dt>
-        <dd>Matches if the actual value is null. Available for objects.</dd>
+          <dt><code>eq(X value, X delta)</code></dt>
+          <dd>Matches if the actual value is equal to the given value allowing the given delta. Available for <code>float</code> and <code>double</code>.</dd>
 
-        <dt><code>notNull()</code>, <code>notNull(Class clazz)</code></dt>
-        <dd>Matches if the actual value is not null. Available for objects.</dd>
+          <dt><code>aryEq(X value)</code></dt>
+          <dd>Matches if the actual value is equal to the given value according to <code>Arrays.equals()</code>. Available for primitive and object arrays.</dd>
 
-        <dt><code>same(X value)</code></dt>
-        <dd>Matches if the actual value is the same as the given value. Available for objects.</dd>
+          <dt><code>isNull()</code>, <code>isNull(Class clazz)</code></dt>
+          <dd>Matches if the actual value is null. Available for objects.</dd>
 
-        <dt><code>isA(Class clazz)</code></dt>
-        <dd>Matches if the actual value is an instance of the given class, or if it is in instance of a class that extends or implements the given class. Null always return false. Available for objects.</dd>
+          <dt><code>notNull()</code>, <code>notNull(Class clazz)</code></dt>
+          <dd>Matches if the actual value is not null. Available for objects.</dd>
 
-        <dt><code>lt(X value)</code>, <code>leq(X value)</code>, <code>geq(X value)</code>, <code>gt(X value)</code></dt>
-        <dd>Matches if the actual value is less/less or equal/greater or equal/greater than the given value. Available for all numeric primitive types and <code>Comparable</code>.</dd>
+          <dt><code>same(X value)</code></dt>
+          <dd>Matches if the actual value is the same as the given value. Available for objects.</dd>
 
-        <dt><code>startsWith(String prefix), contains(String substring), endsWith(String suffix)</code></dt>
-        <dd>Matches if the actual value starts with/contains/ends with the given value. Available for <code>String</code>s.</dd>
+          <dt><code>isA(Class clazz)</code></dt>
+          <dd>Matches if the actual value is an instance of the given class, or if it is in instance of a class that extends or implements the given class. Null always return false. Available for objects.</dd>
 
-        <dt><code>matches(String regex), find(String regex)</code></dt>
-        <dd>Matches if the actual value/a substring of the actual value matches the given regular expression. Available for <code>String</code>s.</dd>
+          <dt><code>lt(X value)</code>, <code>leq(X value)</code>, <code>geq(X value)</code>, <code>gt(X value)</code></dt>
+          <dd>Matches if the actual value is less/less or equal/greater or equal/greater than the given value. Available for all numeric primitive types and <code>Comparable</code>.</dd>
 
-        <dt><code>and(X first, X second)</code></dt>
-        <dd>Matches if the matchers used in <code>first</code> and <code>second</code> both match. Available for all primitive types and for objects.</dd>
+          <dt><code>startsWith(String prefix), contains(String substring), endsWith(String suffix)</code></dt>
+          <dd>Matches if the actual value starts with/contains/ends with the given value. Available for <code>String</code>s.</dd>
 
-        <dt><code>or(X first, X second)</code></dt>
-        <dd>Matches if one of the matchers used in <code>first</code> and <code>second</code> match. Available for all primitive types and for objects.</dd>
+          <dt><code>matches(String regex), find(String regex)</code></dt>
+          <dd>Matches if the actual value/a substring of the actual value matches the given regular expression. Available for <code>String</code>s.</dd>
 
-        <dt><code>not(X value)</code></dt>
-        <dd>Matches if the matcher used in <code>value</code> does not match.</dd>
+          <dt><code>and(X first, X second)</code></dt>
+          <dd>Matches if the matchers used in <code>first</code> and <code>second</code> both match. Available for all primitive types and for objects.</dd>
 
-        <dt><code>cmpEq(X value)</code></dt>
-        <dd>Matches if the actual value is equals according to <code>Comparable.compareTo(X o)</code>. Available for all numeric primitive types and <code>Comparable</code>.</dd>
+          <dt><code>or(X first, X second)</code></dt>
+          <dd>Matches if one of the matchers used in <code>first</code> and <code>second</code> match. Available for all primitive types and for objects.</dd>
 
-        <dt><code>cmp(X value, Comparator<X> comparator, LogicalOperator operator)</code></dt>
-        <dd>Matches if <code>comparator.compare(actual, value) operator 0</code> where the operator is <,<=,>,>= or ==. Available for objects.</dd>
+          <dt><code>not(X value)</code></dt>
+          <dd>Matches if the matcher used in <code>value</code> does not match.</dd>
 
-        <dt><code>capture(Capture<T> capture)</code>, <code>captureXXX(Capture<T> capture)</code></dt>
-        <dd>Matches any value but captures it in the <code>Capture</code> parameter for later access. You can do <code>and(someMatcher(...), capture(c))</code> to capture a parameter from a specific call to the method. You can also specify a <code>CaptureType</code> telling that a given <code>Capture</code> should keep the first, the last, all or no captured values.</dd>
-      </dl>
+          <dt><code>cmpEq(X value)</code></dt>
+          <dd>Matches if the actual value is equals according to <code>Comparable.compareTo(X o)</code>. Available for all numeric primitive types and <code>Comparable</code>.</dd>
 
-      <h3>Defining your own Argument Matchers</h3>
-      
-      <p>Sometimes it is desirable to define own argument matchers. Let's say that an argument matcher is needed that matches an exception if the given exception has the same type and an equal message. It should be used this way:</p>
-            
+          <dt><code>cmp(X value, Comparator<X> comparator, LogicalOperator operator)</code></dt>
+          <dd>Matches if <code>comparator.compare(actual, value) operator 0</code> where the operator is <,<=,>,>= or ==. Available for objects.</dd>
+
+          <dt><code>capture(Capture<T> capture)</code>, <code>captureXXX(Capture<T> capture)</code></dt>
+          <dd>Matches any value but captures it in the <code>Capture</code> parameter for later access. You can do <code>and(someMatcher(...), capture(c))</code> to capture a parameter from a specific call to the method. You can also specify a <code>CaptureType</code> telling that a given <code>Capture</code> should keep the first, the last, all or no captured values.</dd>
+        </dl>
+
+        <h2>Defining your own Argument Matchers</h2>
+
+        <p>Sometimes it is desirable to define own argument matchers. Let's say that an argument matcher is needed that matches an exception if the given exception has the same type and an equal message. It should be used this way:</p>
+
 {% highlight java %}
 IllegalStateException e = new IllegalStateException("Operation not allowed.")
 expect(mock.logThrowable(eqException(e))).andReturn(true);
 {% endhighlight %}
       
-      <p>Two steps are necessary to achieve this: The new argument matcher has to be defined, and the static method <code>eqException</code> has to be declared.</p>
-      
-      <p>To define the new argument matcher, we implement the interface <code>org.easymock.IArgumentMatcher</code>. This interface contains two methods: <code>matches(Object actual)</code> checks whether the actual argument matches the given argument, and <code>appendTo(StringBuffer buffer)</code> appends a string representation of the argument matcher to the given string buffer. The implementation is straightforward:</p>
+        <p>Two steps are necessary to achieve this: The new argument matcher has to be defined, and the static method <code>eqException</code> has to be declared.</p>
+
+        <p>To define the new argument matcher, we implement the interface <code>org.easymock.IArgumentMatcher</code>. This interface contains two methods: <code>matches(Object actual)</code> checks whether the actual argument matches the given argument, and <code>appendTo(StringBuffer buffer)</code> appends a string representation of the argument matcher to the given string buffer. The implementation is straightforward:</p>
       
 {% highlight java %}
 import org.easymock.IArgumentMatcher; 
@@ -682,7 +857,7 @@ public class ThrowableEquals implements IArgumentMatcher {
 }
 {% endhighlight %}
 
-      <p>The method <code>eqException</code> must create the argument matcher with the given Throwable, report it to EasyMock via the static method <code>reportMatcher(IArgumentMatcher matcher)</code>, and return a value so that it may be used inside the call (typically <code>0</code>, <code>null</code> or <code>false</code>). A first attempt may look like:</p>
+        <p>The method <code>eqException</code> must create the argument matcher with the given Throwable, report it to EasyMock via the static method <code>reportMatcher(IArgumentMatcher matcher)</code>, and return a value so that it may be used inside the call (typically <code>0</code>, <code>null</code> or <code>false</code>). A first attempt may look like:</p>
 
 {% highlight java %}
 public static Throwable eqException(Throwable in) {
@@ -691,14 +866,14 @@ public static Throwable eqException(Throwable in) {
 }
 {% endhighlight %}
       
-      <p>However, this only works if the method <code>logThrowable</code> in the example usage accepts <code>Throwable</code>s, and does not require something more specific like a <code>RuntimeException</code>. In the latter case, our code sample would not compile:</p>
+        <p>However, this only works if the method <code>logThrowable</code> in the example usage accepts <code>Throwable</code>s, and does not require something more specific like a <code>RuntimeException</code>. In the latter case, our code sample would not compile:</p>
 
 {% highlight java %}
 IllegalStateException e = new IllegalStateException("Operation not allowed.")
 expect(mock.logThrowable(eqException(e))).andReturn(true);
 {% endhighlight %}
       
-      <p>Java 5.0 to the rescue: Instead of defining <code>eqException</code> with a <code>Throwable</code> as parameter and return value, we use a generic type that extends <code>Throwable</code>:</p>
+        <p>Java 5.0 to the rescue: Instead of defining <code>eqException</code> with a <code>Throwable</code> as parameter and return value, we use a generic type that extends <code>Throwable</code>:</p>
       
 {% highlight java %}
 public static&lt;T extends Throwable&gt;T eqException(T in) { 
@@ -707,95 +882,42 @@ public static&lt;T extends Throwable&gt;T eqException(T in) {
 }
 {% endhighlight %}
 
-      <h3>Reusing a Mock Object</h3>
-          
-      <p>Mock Objects may be reset by <code>reset(mock)</code>.</p>
+      </section>
+      <!-- #End Verification -->
       
-      <p>If needed, a mock can also be converted from one type to another by calling <code>resetToNice(mock)</code>, <code>resetToDefault(mock)</code> ou <code>resetToStrict(mock)</code>.</p>
+      <!-- **** -->
+      <!-- MISC -->
+      <!-- **** -->
 
-      <h3>Using Stub Behavior for Methods</h3>
-      
-      <p>Sometimes, we would like our Mock Object to respond to some method calls, but we do not want to check how often they are called, when they are called, or even if they are called at all. This stub behavoir may be defined by using the methods <code>andStubReturn(Object value)</code>, <code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer<T> answer)</code> and <code>asStub()</code>. The following code configures the MockObject to answer 42 to <code>voteForRemoval("Document")</code> once and -1 for all other arguments:</p>
-              
-{% highlight java %}
-expect(mock.voteForRemoval("Document")).andReturn(42); 
-expect(mock.voteForRemoval(not(eq("Document")))).andStubReturn(-1);
-{% endhighlight %}
+      <section id="misc">
+        <h1 class="page-header">Miscellaneous</h1>
+        
+        <h2>Serializing Mocks</h2>
 
-      <h3>Nice Mocks</h3>
-      
-      <p>On a Mock Object returned by <code>createMock()</code> the default behavior for all methods is to throw an <code>AssertionError</code> for all unexpected method calls. If you would like a "nice" Mock Object that by default allows all method calls and returns appropriate empty values (<code>0</code>, <code>null</code> or <code>false</code>), use <code>create<i>Nice</i>Mock()</code> instead.</p>
+        <p>Mocks can be serialized at any time during their life. However, there are some obvious contraints:</p>
 
-      <h3>Object Methods</h3>
-      
-      <p>The behavior for the four Object methods <code>equals()</code>, <code>hashCode()</code>, <code>toString()</code> and <code>finalize()</code> cannot be changed for Mock Objects created with EasyMock, even if they are part of the interface for which the Mock Object is created.</p>
+        <ul>
+          <li>All used matchers should be serializable (all genuine EasyMock ones are)</li>
+          <li>Recorded parameters should also be serializable</li>
+        </ul>
 
-      <h3>Checking Method Call Order Between Mocks</h3>
-      
-      <p>Up to this point, we have seen a mock object as a single object that is configured by static methods on the class <code>EasyMock</code>. But many of these static methods just identify the hidden control of the Mock Object and delegate to it. A Mock Control is an object implementing the <code>IMocksControl</code> interface.</p>
-      
-      <p>So instead of</p>
-      
-{% highlight java %}
-IMyInterface mock = createStrictMock(IMyInterface.class);
-replay(mock);
-verify(mock);
-reset(mock);
-{% endhighlight %}
+        <h2>Reusing a Mock Object</h2>
 
-      <p>we may use the equivalent code:</p>
-      
-{% highlight java %}
-IMocksControl ctrl = createStrictControl();
-IMyInterface mock = ctrl.createMock(IMyInterface.class);
-ctrl.replay();
-ctrl.verify();
-ctrl.reset();
-{% endhighlight %}
-      
-      <p>The IMocksControl allows to create more than one Mock Object, and so it is possible to check the order of method calls between mocks. As an example, we set up two mock objects for the interface <code>IMyInterface</code>, and we expect the calls <code>mock1.a()</code> and <code>mock2.a()</code> ordered, then an open number of calls to <code>mock1.c()</code> and <code>mock2.c()</code>, and finally <code>mock2.b()</code> and <code>mock1.b()</code>, in this order:</p>
-      
-{% highlight java %}
-IMocksControl ctrl = createStrictControl();
-IMyInterface mock1 = ctrl.createMock(IMyInterface.class);
-IMyInterface mock2 = ctrl.createMock(IMyInterface.class);
-mock1.a();
-mock2.a();
-ctrl.checkOrder(false);
-mock1.c();
-expectLastCall().anyTimes();
-mock2.c();
-expectLastCall().anyTimes();
-ctrl.checkOrder(true);
-mock2.b();
-mock1.b();
-ctrl.replay();
-{% endhighlight %}
+        <p>Mock Objects may be reset by <code>reset(mock)</code>.</p>
 
-      <h3>Naming Mock Objects</h3>
-      
-      <p>Mock Objects can be named at creation using <code>createMock(String name, Class<T> toMock)</code>, <code>createStrictMock(String name, Class<T> toMock)</code> or <code>createNiceMock(String name, Class<T> toMock)</code>. The names will be shown in exception failures.</p>
-      
-      <h3>Serializing Mocks</h3>
-      
-      <p>Mocks can be serialized at any time during their life. However, there are some obvious contraints:</p>
+        <p>If needed, a mock can also be converted from one type to another by calling <code>resetToNice(mock)</code>, <code>resetToDefault(mock)</code> ou <code>resetToStrict(mock)</code>.</p>
 
-      <ul>
-        <li>All used matchers should be serializable (all genuine EasyMock ones are)</li>
-        <li>Recorded parameters should also be serializable</li>
-      </ul>
-      
-      <h3>Multithreading</h3>
-      
-      <p>During recording, a mock is <b>not</b> thread-safe. So a giving mock (or mocks linked to the same <code>IMocksControl</code>) can only be recorded from a single thread. However, different mocks can be recorded simultaneously in different threads.</p>
-      
-      <p>During the replay phase, mocks are by default thread-safe. This can be change for a given mock if <code>makeThreadSafe(mock, false)</code> is called during the recording phase. This can prevent deadlocks in some rare situations.</p>
-      
-      <p>Finally, calling <code>checkIsUsedInOneThread(mock, true)</code> on a mock will make sure the mock is used in only one thread and throw an exception otherwise. This can be handy to make sure a thread-unsafe mocked object is used correctly.</p>
-      
-      <h3>EasyMockSupport</h3>
-      
-      <p><code>EasyMockSupport</code> is a class that meant to be used as a helper or base class to your test cases. It will automatically registers all created mocks (or in fact all created controls) and to replay, reset or verify them in batch instead of explicitly. Here's a JUnit example:</p>
+        <h2>Multithreading</h2>
+
+        <p>During recording, a mock is <b>not</b> thread-safe. So a giving mock (or mocks linked to the same <code>IMocksControl</code>) can only be recorded from a single thread. However, different mocks can be recorded simultaneously in different threads.</p>
+
+        <p>During the replay phase, mocks are by default thread-safe. This can be change for a given mock if <code>makeThreadSafe(mock, false)</code> is called during the recording phase. This can prevent deadlocks in some rare situations.</p>
+
+        <p>Finally, calling <code>checkIsUsedInOneThread(mock, true)</code> on a mock will make sure the mock is used in only one thread and throw an exception otherwise. This can be handy to make sure a thread-unsafe mocked object is used correctly.</p>
+
+        <h2>EasyMockSupport</h2>
+
+        <p><code>EasyMockSupport</code> is a class that meant to be used as a helper or base class to your test cases. It will automatically registers all created mocks (or in fact all created controls) and to replay, reset or verify them in batch instead of explicitly. Here's a JUnit example:</p>
 
 {% highlight java %}
 public class SupportTest extends EasyMockSupport {
@@ -829,98 +951,20 @@ public class SupportTest extends EasyMockSupport {
 }
 {% endhighlight %}
       
-      <h3>Altering EasyMock default behavior</h3>
-      
-      <p>EasyMock provides a property mecanisim allowing to alter its behavior. It mainly aims at allowing to use a legacy behavior on a new version. Currently supported properties are:</p>
-      
-      <dl>
-        <dt><code>easymock.notThreadSafeByDefault</code></dt>
-        <dd>If true, a mock won't be thread-safe by default. Possible values are "true" or "false". Default is false</dd>
-        
-        <dt><code>easymock.enableThreadSafetyCheckByDefault</code></dt>
-        <dd>If true, thread-safety check feature will be on by default. Possible values are "true" or "false". Default is false</dd>
-        
-        <dt><code>easymock.disableClassMocking</code></dt>
-        <dd>Do not allow class mocking (only allow interface mocking). Possible values are "true" or "false". Default is false.</dd>
-      </dl>
-      
-      <p>Properties can be set in two ways.</p>
-      
-      <ul>
-        <li>In an <code>easymock.properties</code> file set in the classpath default package</li>
-        <li>By calling <code>EasyMock.setEasyMockProperty</code>. Constants are available in the <code>EasyMock</code> class. Setting properties in the code obviously override any property set in <code>easymock.properties</code></li>
-      </ul>
-      
-      <h3>Backward Compatibility</h3>
-      
-      <p>EasyMock 3 still has a Class Extension project (although deprecated) to allow an easier migration from EasyMock 2 to EasyMock 3. It is a source not a binary compatibility. So the code will need to be recompiled.</p>
-      
-      <p>EasyMock 2.1 introduced a callback feature that has been removed in EasyMock 2.2, as it was too complex. Since EasyMock 2.2, the <code>IAnswer</code> interface provides the functionality for callbacks.</p>
-      
-      <h3>OSGi</h3>
-      
-      <p>EasyMock jar can be used as an OSGi bundle. It exports <code>org.easymock</code>, <code>org.easymock.internal</code> and <code>org.easymock.internal.matchers</code> packages. However, to import the two latter, you need to specify the <code>poweruser</code> attribute at true (<code>poweruser=true</code>). These packages are meant to be used to extend EasyMock so they usually don't need to be imported.</p>
-      
-      <h3>Partial mocking</h3> 
-      
-      <p>Sometimes you may need to mock only some methods of a class and keep the normal behavior of others. This usually happens when you want to test a method that calls some others in the same class. So you want to keep the normal behavior of the tested method and mock the others.</p>
-      
-      <p>In this case, the first thing to do is to consider a refactoring since most of the time this problem caused by a bad design. If it's not the case or if you can't do otherwise because of some development constraints, here's the solution.</p>
+        <h2>Backward Compatibility</h2>
 
-{% highlight java %}
-ToMock mock = createMockBuilder(ToMock.class)
-  .addMockedMethod("mockedMethod").createMock();
-{% endhighlight %}
-      
-      <p>In this case only the methods added with <code>addMockedMethod(s)</code> will be mocked (<code>mockedMethod()</code> in the example). The others will still behave as they used to. One exception: abstract methods are conveniently mocked by default.</p>
-      
-      <p><code>createMockBuilder</code> returns a <code>IMockBuilder</code> interface. It contains various methods to easily create a partial mock. Have a look at the javadoc.</p>
-      
-      <p><b>Remark:</b> EasyMock provides a default behavior for Object's methods (<i>equals, hashCode, toString, finalize</i>). However, for a partial mock, if these methods are not mocked explicitly, they will have their normal behavior instead of EasyMock default's one.</p>
-      
-      <h3>Self testing</h3>
-      
-      <p>It is possible to create a mock by calling one of its constructor. This can be handy when a class method needs to be tested but the class other methods, mocked. For that you should do something like</p>
+        <p>EasyMock 3 still has a Class Extension project (although deprecated) to allow an easier migration from EasyMock 2 to EasyMock 3. It is a source not a binary compatibility. So the code will need to be recompiled.</p>
 
-{% highlight java %}
-ToMock mock = createMockBuilder(ToMock.class)
-  .withConstructor(1, 2, 3); // 1, 2, 3 are the constructor parameters
-{% endhighlight %}
+        <p>EasyMock 2.1 introduced a callback feature that has been removed in EasyMock 2.2, as it was too complex. Since EasyMock 2.2, the <code>IAnswer</code> interface provides the functionality for callbacks.</p>
 
-      <p>See the <code>ConstructorCalledMockTest</code> for an example.</p>
-      
-      <h3>Replace default class instantiator</h3>
-      
-      <p>For some reason (usually an unsupported JVM), it is possible that EasyMock isn't able to mock a class mock in your environment. Under the hood, class instantiation is implemented with a factory pattern. In case of failure, you can replace the default instantiator with:</p>
-      
-      <ul>
-        <li>The good old <code>DefaultClassInstantiator</code> which works well with Serializable classes and otherwise tries to guess the best constructor and parameters to use.</li>
-        <li>You own instantiator which only needs to implement <code>IClassInstantiator</code>.</li>
-      </ul>
-      
-      <p>You set this new instantiator using <code>ClassInstantiatorFactory.setInstantiator()</code>. You can set back the default one with <code>setDefaultInstantiator()</code>.</p>
-      
-      <p><b>Important:</b>The instantiator is kept statically so it will stick between your unit tests. Make sure you reset it if needed.</p>
-      
-      <h3>Serialize a class mock</h3>
-      
-      <p>A class mock can also be serialized. However, since it extends a serializable class, this class might have defined a special behavior using for instance <code>writeObject</code>. These methods will still be called when serializing the mock and might fail. The workaround is usually to call a constructor when creating the mock.</p>
-      
-      <p>Also, de-serializing the mock in a different class loader than the serialization might fail. It wasn't tested.</p>
-      
-      <h3>Class Mocking Limitations</h3>
-      
-      <ul>
-        <li>To be coherent with interface mocking, EasyMock provides a built-in behavior for <code>equals()</code>, <code>toString()</code>, <code>hashCode()</code> and <code>finalize()</code> even for class mocking. It means that you cannot record your own behavior for these methods. This limitation is considered to be a feature that prevents you from having to care about these methods.</li>
-        <li>Final methods cannot be mocked. If called, their normal code will be executed.</li>
-        <li>Private methods cannot be mocked. If called, their normal code will be executed. During partial mocking, if your method under test is calling some private methods, you will need to test them as well since you cannot mock them.</li>
-        <li>Class instantiation is performed using <a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>. Supported JVMs are listed <a href="http://code.google.com/p/objenesis/wiki/ListOfCurrentlySupportedVMs">here</a>.</li>
-      </ul>
-      
-      <h3>Android support</h3>
+        <h2>OSGi</h2>
 
-      <p>Since EasyMock 3.2, EasyMock can be used on Android VM (Dalvik). Just add a dependency to you apk project used to test your application. It is a good idea to exclude cglib since dexmaker is used instead. You should also add dexmaker explicitly because it's an optional dependency. If you use Maven, the final required dependencies will look like this</p>
-      
+        <p>EasyMock jar can be used as an OSGi bundle. It exports <code>org.easymock</code>, <code>org.easymock.internal</code> and <code>org.easymock.internal.matchers</code> packages. However, to import the two latter, you need to specify the <code>poweruser</code> attribute at true (<code>poweruser=true</code>). These packages are meant to be used to extend EasyMock so they usually don't need to be imported.</p>
+
+        <h2>Android support</h2>
+
+        <p>Since EasyMock 3.2, EasyMock can be used on Android VM (Dalvik). Just add a dependency to you apk project used to test your application. It is a good idea to exclude cglib since dexmaker is used instead. You should also add dexmaker explicitly because it's an optional dependency. If you use Maven, the final required dependencies will look like this</p>
+
 {% highlight xml %}
 <dependency>
   <groupId>org.easymock</groupId>
@@ -940,15 +984,40 @@ ToMock mock = createMockBuilder(ToMock.class)
 </dependency>
 {% endhighlight %}
 
-      <h2>EasyMock Development</h2>
-      <p>EasyMock has been developed by Tammo Freese at OFFIS. It is maintained by Henri Tremblay since 2007. The development of EasyMock is hosted on <a href="http://sourceforge.net/projects/easymock/">SourceForge</a> to allow other developers and companies to contribute.</p>
+      </section>
+      <!-- #End Misc -->
       
-      <p>Class mocking (previously known as EasyMock Class Extension) was initially developed by Joel Shellman, Chad Woolley and Henri Tremblay on the files section of Yahoo!Groups.</p>
-      
-      <p>Thanks to the people who gave feedback or provided patches, including Nascif Abousalh-Neto, Dave Astels, Francois Beausoleil, George Dinwiddie, Shane Duan, Wolfgang Frech, Steve Freeman, Oren Gross, John D. Heintz, Dale King, Brian Knorr, Dierk Koenig, Chris Kreussling, Robert Leftwich, Patrick Lightbody, Johannes Link, Rex Madden, David McIntosh, Karsten Menne, Bill Michell, Stephan Mikaty, Ivan Moore, Ilja Preuss, Justin Sampson, Markus Schmidlin, Richard Scott, Joel Shellman, Jiří Mareš, Alexandre de Pellegrin Shaun Smith, Marco Struck, Ralf Stuckert, Victor Szathmary, Bill Uetrecht, Frank Westphal, Chad Woolley, Bernd Worsch, Rodrigo Damazio, Bruno Fonseca, Ben Hutchison and numerous others.</p>
-      
-      <p>Please check the <a href="http://www.easymock.org">EasyMock home page</a> for new versions, and send bug reports and suggestions to the <a href="mailto:easymock@yahoogroups.com?subject=EasyMock {{page.project_version}} feedback">EasyMock Yahoo!Group</a>. If you would like to subscribe to the EasyMock Yahoo!Group, send a message to <a href="mailto:easymock-subscribe@yahoogroups.com">easymock-subscribe@yahoogroups.com</a>.</p>
-      
+      <!-- ******* -->
+      <!-- PROJECT -->
+      <!-- ******* -->
+
+      <section id="project">
+        <h1 class="page-header">EasyMock project development</h1>
+
+        <h2 id="project-license">License</h2>
+
+        <p>EasyMock is available under the terms of the <a href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache 2 license</a>.</p>
+
+        <h2 id="project-contributors">Contributors</h2>
+        
+        <p>EasyMock has been developed by Tammo Freese at OFFIS. It is maintained by Henri Tremblay since 2007. The development of EasyMock is hosted on <a href="http://sourceforge.net/projects/easymock/">SourceForge</a> to allow other developers and companies to contribute.</p>
+
+        <p>Class mocking (previously known as EasyMock Class Extension) was initially developed by Joel Shellman, Chad Woolley and Henri Tremblay on the files section of Yahoo!Groups.</p>
+
+        <p>Thanks to the people who gave feedback or provided patches, including Nascif Abousalh-Neto, Dave Astels, Francois Beausoleil, George Dinwiddie, Shane Duan, Wolfgang Frech, Steve Freeman, Oren Gross, John D. Heintz, Dale King, Brian Knorr, Dierk Koenig, Chris Kreussling, Robert Leftwich, Patrick Lightbody, Johannes Link, Rex Madden, David McIntosh, Karsten Menne, Bill Michell, Stephan Mikaty, Ivan Moore, Ilja Preuss, Justin Sampson, Markus Schmidlin, Richard Scott, Joel Shellman, Jiří Mareš, Alexandre de Pellegrin Shaun Smith, Marco Struck, Ralf Stuckert, Victor Szathmary, Bill Uetrecht, Frank Westphal, Chad Woolley, Bernd Worsch, Rodrigo Damazio, Bruno Fonseca, Ben Hutchison and numerous others.</p>
+
+        <p>Please check the <a href="http://www.easymock.org">EasyMock home page</a> for new versions, and send bug reports and suggestions to the <a href="mailto:easymock@yahoogroups.com?subject=EasyMock {{page.project_version}} feedback">EasyMock Yahoo!Group</a>. If you would like to subscribe to the EasyMock Yahoo!Group, send a message to <a href="mailto:easymock-subscribe@yahoogroups.com">easymock-subscribe@yahoogroups.com</a>.</p>
+
+        <h2 id="project-alternatives">EasyMock alternatives</h2>
+
+        <ul>
+          <li>Mockito</li>
+          <li>PowerMock</li>
+          <li>JMock</li>
+          <li>JMockit</li>
+        </ul>
+      </section>
+
     </div>
     <!-- #End content -->
 
@@ -956,14 +1025,13 @@ ToMock mock = createMockBuilder(ToMock.class)
     <div class="col-md-2">
       <div class="sidebar hidden-print" role="complementary" data-spy="affix" data-offset-top="75" data-offset-bottom="1000">
         <ul class="nav ">
-          <li class="active"><a href="#">Overview</a>
-          </li>
-          <li><a href="#benefits">Benefits</a>
-          </li>
-          <li><a href="#requirements">Requirements</a>
-          </li>
-          <li><a href="#installation">Installation</a>
-          </li>
+          <li class="active"><a href="#overview">Overview</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#factory">Factory</a></li>
+          <li><a href="#behavior">Behavior</a></li>
+          <li><a href="#verification">Verification</a></li>
+          <li><a href="#misc">Misc</a></li>
+          <li><a href="#project">Project</a></li>
         </ul>
         <a class="back-to-top" href="#top">Back to top</a>
       </div>
