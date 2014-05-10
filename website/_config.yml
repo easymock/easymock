@@ -1,5 +1,6 @@
 name: EasyMock
 markdown: redcarpet
 highlighter: rouge
+pygments: false
 url: easymock.org
 exclude: ['bak']
