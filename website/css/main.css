@@ -50,11 +50,16 @@
   padding: 40px 0;
   background-color: #F8F8F8;
 }
-.presentation h2 {
+.presentation .aspect h2 {
   color : #003E7E;  
 }
-.presentation .lead {
+.presentation .aspect .lead {
   color : #AD1F2B;
+}
+
+.presentation .aspect .description {
+  padding: 0 30px;
+  text-align: justify;
 }
 
 /*
@@ -110,45 +115,102 @@
 /*
  * PAGE: DEVELOPER GUIDE
  */
+
 .developer-guide .sidebar {
   padding-top: 20px;
+  width: inherit;
 }
 
 .developer-guide .sidebar.affix {
-  width: inherit; /* helped keep the content the same size on fluid layouts */
+  width: inherit;
   position: fixed;
 }
 .developer-guide .sidebar.affix-top {
   width: inherit;
   position: fixed;
-  top: auto;
 }
 .developer-guide .sidebar.affix-bottom {
   width: inherit;
   position: absolute;
-  top: auto;
 }
-
+/* Global nav */
+/* ---------- */
+.developer-guide .sidebar ul {
+  padding-left: 0;
+}
+.developer-guide .sidebar li {
+  list-style-type: none;
+}
+/* Par défaut, un lien n'a pas de style */
 .developer-guide .sidebar a {
+  border-left-width: 0;
+  border-left-style: solid;
+  border-left-color: white;
   color: #003E7E;
-  border-left: 5px solid #fff;
+  text-decoration: none;
 }
+/* Par défaut, un lien hover ou focus a couleur bleue, une bordure gauche solide et bleue, et une couleur de fond gris-clair */
 .developer-guide .sidebar a:focus,
 .developer-guide .sidebar a:hover {
   color: #003E7E;
-  border-left: 5px solid #003E7E;
-  text-decoration: none;
-  background-color: #fff;
+  background-color: #F8F8F8;
+  border-left-color: #003E7E;
 }
-
-.developer-guide .sidebar li.active > a,
-.developer-guide .sidebar li.active > a:focus,
-.developer-guide .sidebar li.active > a:hover {
+/* Par défaut, un élément actif est rouge, en gras, avec une bordure rouge */
+.developer-guide .sidebar .active > a,
+.developer-guide .sidebar .active > a:focus,
+.developer-guide .sidebar .active > a:hover {
+  border-left-color: #AD1F2B;
   color: #AD1F2B;
-  border-left: 5px solid #AD1F2B;
+  font-weight: bold;
+  background-color: #F8F8F8;
 }
 
-.developer-guide h2 {
-  border-bottom: 1px solid #EEE;
-  padding: 10px 0;
+/* Main nav */
+/* -------- */
+.developer-guide .sidebar .nav > li > a {
+  border-left-width: 3px;
+  padding-left: 12px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
+
+/* Sub nav */
+/* ------- */
+.developer-guide .sidebar .nav > li > ul > li > a {
+  border-left-width: 1px;
+  padding-left: 24px;
+  font-size: 0.85em;
+}
+.developer-guide .sidebar .nav > li > ul > .active > a {
+  background-color: white;
+  font-weight: normal;
+}
+
+.developer-guide .sidebar .nav .nav {
+    display: none;
+}
+
+/* show sub menu when parent is active */
+.developer-guide .sidebar .nav > .active> ul {
+    display: block;
+}
+
+.developer-guide section {
+  padding: 20px 0;
+}
+.developer-guide section:first-child {
+  margin-top: -20px;
+  padding-top: 0;
+}
+
+.developer-guide .sidebar a.back-to-top {
+  padding-left: 15px;
+  background-color: white;
+}
+.developer-guide .sidebar a.back-to-top:focus,
+.developer-guide .sidebar a.back-to-top:hover {
+  color: #AD1F2B;
+}
+
+

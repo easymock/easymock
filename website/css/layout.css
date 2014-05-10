@@ -5,10 +5,9 @@ body {
 }
 body > .wrapper {
   background-color: #ffffff;
-/*  padding-bottom: 60px;
-*/}
+}
 body > .wrapper > .container {
-  padding-top: 60px;
+  margin-top: 54px;
 }
 
 /*
