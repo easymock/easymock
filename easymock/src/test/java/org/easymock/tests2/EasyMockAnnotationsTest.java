@@ -225,7 +225,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
                     e.getMessage());
             return;
         }
-        fail("Expected an exception for unsatisifed fieldName qualifier");
+        fail("Expected an exception for unsatisfied fieldName qualifier");
     }
 
     private static class ToInjectTypeIncompatibleQualifierTest {
@@ -248,7 +248,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
                     e.getMessage());
             return;
         }
-        fail("Expected an exception for unsatisifed fieldName qualifier");
+        fail("Expected an exception for unsatisfied fieldName qualifier");
     }
 
     private static class ToInjectUnassignableField extends ToInject {
@@ -274,7 +274,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
                     e.getMessage());
             return;
         }
-        fail("Expected an exception for unsatisifed fieldName qualifier");
+        fail("Expected an exception for unsatisfied fieldName qualifier");
     }
 
     private static class ToInjectUnassignableStaticFieldQualifierTest {
@@ -294,7 +294,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
                     e.getMessage());
             return;
         }
-        fail("Expected an exception for unsatisifed fieldName qualifier");
+        fail("Expected an exception for unsatisfied fieldName qualifier");
     }
 
     private static class ToInjectDuplicateQualifierTest {
@@ -317,7 +317,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
                     e.getMessage());
             return;
         }
-        fail("Expected an exception for dupliacte fieldName qualifier");
+        fail("Expected an exception for duplicate fieldName qualifier");
     }
 
     private static class ToInjectOneTarget {
