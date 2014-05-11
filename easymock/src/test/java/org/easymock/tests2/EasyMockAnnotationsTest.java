@@ -51,6 +51,9 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     @Before
     public void setup() {
         assertNotNull(standardMock);
+        assertNotNull(typedMock);
+        assertNotNull(namedMock);
+        assertNotNull(namedAndTypedMock);
     }
 
     @Test
