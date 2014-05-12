@@ -5,7 +5,7 @@ comments: true
 ---
 
 <div class="container">
-  <h2>If you have only 1 minute</h2>
+  <h2>If you have only 1 minute (and already know what a mock is)</h2>
   <p>Add EasyMock and its dependencies to your POM file.</p>
 
 {% highlight xml %}
@@ -33,19 +33,27 @@ public class ExampleTest {
       classUnderTest = new ClassUnderTest();
       classUnderTest.setCollaborator(mock);
   }
+  
+  @Test
+  public void addDocument() {
+      mock.documentAdded("New Document");
+      replay(mock);
+      classUnderTest.addDocument("New Document", new byte[0]);
+      verify(mock);
+  }  
 }
 {% endhighlight %}
 
   <hr>
 
-  <h2>If you have 5 minutes</h2>
+  <h2>If you have 5 minutes (and want to know what the heck a mock is)</h2>
   <p>
     TODO
   </p>
 
   <hr>
 
-  <h2>EasyMock in 10 minutes</h2>
+  <h2>EasyMock in 10 minutes (and your curious about the details)</h2>
   <p>
     TODO
   </p>
