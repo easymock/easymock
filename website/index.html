@@ -31,19 +31,24 @@ github_enabled: false
         <img src="img/easymock-presentation-why.png" height="80" alt="Why">
         <h2>Why</h2>
         <p class="lead">Great testing includes isolation</p>
-        <p class="description">Unit testing is the testing of software units in isolation. However, most units do not work alone, but they collaborate with other units. In the same way, configuring a complete operative context for integration testing (technical or functionnal) can quickly become a hard and long issue with few real value.</p>
+        <p class="description">Most parts of a software system do not work in isolation, but collaborate with other parts to get their job done. </p>
+        <p class="description">In a lot of cases, we do not care about using real collaborators implementation in unit testing, as we trust these collaborators.</p>
+        <p class="description">Mock Objects replace collaborators of the unit under test.</p>
       </div>
       <div class="aspect col-lg-4">
         <img src="img/easymock-presentation-how.png" height="80" alt="How">
         <h2>How</h2>
         <p class="lead">Isolation involves Mock Objects</p>
-        <p class="description">To test a unit in isolation or mount a sufficient environment, we have to simulate the collaborators in the test. A Mock Object is a test-oriented replacement for a collaborator. It is configured to simulate the object that it replaces in a simple way. In contrast to a stub, a Mock Object also verifies whether it is used as expected.</p>
+        <p class="description">To test a unit in isolation or mount a sufficient environment, we have to simulate the collaborators in the test.</p>
+        <p class="description">A Mock Object is a test-oriented replacement for a collaborator. It is configured to simulate the object that it replaces in a simple way.</p>
+        <p class="description">In contrast to a stub, a Mock Object also verifies whether it is used as expected.</p>
      </div>
       <div class="aspect col-lg-4">
         <img src="img/easymock-presentation-what.png" height="80" alt="What">
         <h2>What</h2>
         <p class="lead">EasyMock makes mocking easier</p>
-        <p class="description">EasyMock has been the first dynamic Mock Object generator, relieving users of hand-writing Mock Objects, or generating code for them. EasyMock provides Mock Objects for interfaces (and objects through the class extension) by generating them on the fly using Java's proxy mechanism.</p>
+        <p class="description">EasyMock has been the first dynamic Mock Object generator, relieving users of hand-writing Mock Objects, or generating code for them.</p>
+        <p class="description">EasyMock provides Mock Objects by generating them on the fly using Java's proxy mechanism.</p>
       </div>
     </div>
   </div>
