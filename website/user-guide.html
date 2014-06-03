@@ -2,7 +2,6 @@
 layout: default
 title: Developer guide
 comments: false
-project_version: 3.2 
 ---
 <div class="container developer-guide">
   <div class="row">
@@ -83,7 +82,7 @@ public class ClassUnderTest {
 } 
 {% endhighlight %}
 
-        <p>The code for both the class and the interface may be found in the package <code>org.easymock.samples</code> in <code>easymock-{{page.project_version}}-samples.jar</code> from the EasyMock zip delivery.</p>
+        <p>The code for both the class and the interface may be found in the package <code>org.easymock.samples</code> in <code>easymock-{{site.latest_version}}-samples.jar</code> from the EasyMock zip delivery.</p>
 
         <p>The following examples assume that you are familiar with the JUnit testing framework. Although the tests shown here use JUnit 4, you may as well use JUnit 3 or TestNG.</p>
       </section>
@@ -110,7 +109,7 @@ public class ClassUnderTest {
 <dependency>
   <groupId>org.easymock</groupId>
   <artifactId>easymock</artifactId>
-  <version>{{page.project_version}}</version>
+  <version>{{site.latest_version}}</version>
   <scope>test</scope>
 </dependency>
 {% endhighlight %}
@@ -120,12 +119,12 @@ public class ClassUnderTest {
         <h2 id="installation-manually">Manual installation</h2>
         
         <ul>
-          <li>Unzip the EasyMock zip file (<code>easymock-{{page.project_version}}.zip</code>).</li>
-          <li>Go into the <code>easymock-{{page.project_version}}</code> directory.</li>
+          <li>Unzip the EasyMock zip file (<code>easymock-{{site.latest_version}}.zip</code>).</li>
+          <li>Go into the <code>easymock-{{site.latest_version}}</code> directory.</li>
           <li>Add the EasyMock jar file (<code>easymock.jar</code>) to your classpath.</li>
           <li>To perform class mocking, also add <a href="http://www.objenesis.org">Objenesis</a> and <a href="http://cglib.sourceforge.net/">Cglib</a> to your classpath.</li>
-          <li>The tests are in <code>easymock-{{page.project_version}}-tests.jar</code> and can be launched with a JUnit TestRunner having JUnit 4.7 on top of EasyMock, cglib and Objenesis in your classpath.</li>
-          <li>The source code of EasyMock is stored in <code>easymock-{{page.project_version}}-sources.jar</code>.</li>
+          <li>The tests are in <code>easymock-{{site.latest_version}}-tests.jar</code> and can be launched with a JUnit TestRunner having JUnit 4.7 on top of EasyMock, cglib and Objenesis in your classpath.</li>
+          <li>The source code of EasyMock is stored in <code>easymock-{{site.latest_version}}-sources.jar</code>.</li>
         </ul>
 
       </section>
