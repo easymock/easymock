@@ -51,7 +51,7 @@ public class ExampleTest {
     public void addDocument() {
         mock.documentAdded("New Document");
         replay(mock);
-        classUnderTest.addDocument("New Document", new byte[0]);
+        classUnderTest.addDocument("New Document", "content");
         verify(mock);
     }
 
@@ -61,10 +61,10 @@ public class ExampleTest {
         mock.documentChanged("Document");
         expectLastCall().times(3);
         replay(mock);
-        classUnderTest.addDocument("Document", new byte[0]);
-        classUnderTest.addDocument("Document", new byte[0]);
-        classUnderTest.addDocument("Document", new byte[0]);
-        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", "content");
+        classUnderTest.addDocument("Document", "content");
+        classUnderTest.addDocument("Document", "content");
+        classUnderTest.addDocument("Document", "content");
         verify(mock);
     }
 
@@ -78,7 +78,7 @@ public class ExampleTest {
         mock.documentRemoved("Document");
 
         replay(mock);
-        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", "content");
         assertTrue(classUnderTest.removeDocument("Document"));
         verify(mock);
     }
@@ -92,7 +92,7 @@ public class ExampleTest {
         // document removal is *not* expected
 
         replay(mock);
-        classUnderTest.addDocument("Document", new byte[0]);
+        classUnderTest.addDocument("Document", "content");
         assertFalse(classUnderTest.removeDocument("Document"));
         verify(mock);
     }
@@ -105,8 +105,8 @@ public class ExampleTest {
         mock.documentRemoved("Document 1");
         mock.documentRemoved("Document 2");
         replay(mock);
-        classUnderTest.addDocument("Document 1", new byte[0]);
-        classUnderTest.addDocument("Document 2", new byte[0]);
+        classUnderTest.addDocument("Document 1", "content 1");
+        classUnderTest.addDocument("Document 2", "content 2");
         assertTrue(classUnderTest.removeDocuments(new String[] { "Document 1", "Document 2" }));
         verify(mock);
     }
@@ -117,8 +117,8 @@ public class ExampleTest {
         mock.documentAdded("Document 2");
         expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn((byte) -42);
         replay(mock);
-        classUnderTest.addDocument("Document 1", new byte[0]);
-        classUnderTest.addDocument("Document 2", new byte[0]);
+        classUnderTest.addDocument("Document 1", "content 1");
+        classUnderTest.addDocument("Document 2", "content 2");
         assertFalse(classUnderTest.removeDocuments("Document 1", "Document 2"));
         verify(mock);
     }

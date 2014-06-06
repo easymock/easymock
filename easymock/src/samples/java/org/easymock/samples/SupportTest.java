@@ -43,7 +43,7 @@ public class SupportTest extends EasyMockSupport {
         classUnderTest.setListener(collaborator);
         collaborator.documentAdded("New Document");
         replayAll();
-        classUnderTest.addDocument("New Document", new byte[0]);
+        classUnderTest.addDocument("New Document", "content");
         verifyAll();
     }
 
@@ -62,7 +62,7 @@ public class SupportTest extends EasyMockSupport {
 
         replayAll();
 
-        classUnderTest.addDocument("Document 1", new byte[0]);
+        classUnderTest.addDocument("Document 1", "content");
         assertTrue(classUnderTest.removeDocuments("Document 1"));
 
         verifyAll();
