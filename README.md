@@ -129,7 +129,7 @@ Android
 --------------------------------------------------------------------------------------
 - Install the Android SDK
 - Configure a device (real or simulated)
-- Add an ANDROID_HOME to tarket the Android SDK
+- Add an ANDROID_HOME to target the Android SDK
 - Add $ANDROID_HOME/platform-tools to your path 
 - Activate the debug mode if it's a real device
 - mvn install -Pandroid
@@ -170,8 +170,8 @@ To bundle EasyMock and deploy
 - Go to the File Manager on the EasyMock SF project (https://sourceforge.net/projects/easymock/files/?source=navbar)
   - In EasyMock, create a folder named "x.y"
   - Upload "easymock/target/easymock-x.y-bundle.zip" and "easymock/ReleaseNotes.txt" in the newly created directory
-  - Show the detailled information and rename it to remove the "-bundle" at the end
-  - Show the detailled information and rename it to readme.txt
+  - Show the detailed information and rename it to remove the "-bundle" at the end
+  - Show the detailed information and rename it to readme.txt
   - Repeat these step for EasyMock Class Extension
 - Launch easymock-site on Cloudbees
 - Release the Jira version (http://jira.codehaus.org/plugins/servlet/project-config/EASYMOCK/versions)
