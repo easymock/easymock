@@ -352,7 +352,7 @@ ToMock mock = createMockBuilder(ToMock.class)
 
         <h2 id="factory-naming">Naming Mock Objects</h2>
 
-        <p>Mock Objects can be named at creation using <code>createMock(String name, Class&lt;T&gt; toMock)</code>, <code>createStrictMock(String name, Class<T> toMock)</code> or <code>createNiceMock(String name, Class<T> toMock)</code>. The names will be shown in exception failures.</p>
+        <p>Mock Objects can be named at creation using <code>createMock(String name, Class&lt;T&gt; toMock)</code>, <code>createStrictMock(String name, Class&lt;T&gt; toMock)</code> or <code>createNiceMock(String name, Class&lt;T&gt; toMock)</code>. The names will be shown in exception failures.</p>
 
         <h2 id="factory-nice">Nice Mocks</h2>
       
@@ -458,7 +458,7 @@ expect(mock.voteForRemoval("Document"))
 
         <h2 id="behavior-stub">Using Stub Behavior for Methods</h2>
 
-        <p>Sometimes, we would like our Mock Object to respond to some method calls, but we do not want to check how often they are called, when they are called, or even if they are called at all. This stub behavoir may be defined by using the methods <code>andStubReturn(Object value)</code>, <code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer<T> answer)</code> and <code>asStub()</code>. The following code configures the MockObject to answer 42 to <code>voteForRemoval("Document")</code> once and -1 for all other arguments:</p>
+        <p>Sometimes, we would like our Mock Object to respond to some method calls, but we do not want to check how often they are called, when they are called, or even if they are called at all. This stub behavoir may be defined by using the methods <code>andStubReturn(Object value)</code>, <code>andStubThrow(Throwable throwable)</code>, <code>andStubAnswer(IAnswer&lt;T&gt; answer)</code> and <code>asStub()</code>. The following code configures the MockObject to answer 42 to <code>voteForRemoval("Document")</code> once and -1 for all other arguments:</p>
               
 {% highlight java %}
 expect(mock.voteForRemoval("Document")).andReturn(42); 
@@ -806,10 +806,10 @@ expect(mock.voteForRemovals(aryEq(documents))).andReturn(42);
           <dt><code>cmpEq(X value)</code></dt>
           <dd>Matches if the actual value is equals according to <code>Comparable.compareTo(X o)</code>. Available for all numeric primitive types and <code>Comparable</code>.</dd>
 
-          <dt><code>cmp(X value, Comparator<X> comparator, LogicalOperator operator)</code></dt>
-          <dd>Matches if <code>comparator.compare(actual, value) operator 0</code> where the operator is <,<=,>,>= or ==. Available for objects.</dd>
+          <dt><code>cmp(X value, Comparator&lt;X&gt; comparator, LogicalOperator operator)</code></dt>
+          <dd>Matches if <code>comparator.compare(actual, value) operator 0</code> where the operator is &lt;,&lt;=,&gt;,&gt;= or ==. Available for objects.</dd>
 
-          <dt><code>capture(Capture<T> capture)</code>, <code>captureXXX(Capture<T> capture)</code></dt>
+          <dt><code>capture(Capture&lt;T&gt; capture)</code>, <code>captureXXX(Capture&lt;T&gt; capture)</code></dt>
           <dd>Matches any value but captures it in the <code>Capture</code> parameter for later access. You can do <code>and(someMatcher(...), capture(c))</code> to capture a parameter from a specific call to the method. You can also specify a <code>CaptureType</code> telling that a given <code>Capture</code> should keep the first, the last, all or no captured values.</dd>
         </dl>
 
@@ -985,7 +985,7 @@ public class SupportTest extends EasyMockSupport {
 
       </section>
       <!-- #End Misc -->
-    
+
     </div>
     <!-- #End content -->
 
