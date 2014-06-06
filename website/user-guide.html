@@ -9,84 +9,6 @@ comments: false
     <!-- Main content -->
     <div class="col-md-10">
 
-      <!-- ******** -->
-      <!-- OVERVIEW -->
-      <!-- ******** -->
-
-      <section id="overview">
-        <h1 class="page-header">Overview</h1>
-
-        <p class="lead">EasyMock is a library that provides an easy way to use Mock Objects for given interfaces or classes.</p>
-
-        <p>TODO : explain the issue of isolation in testing</p>
-
-        <h2 id="overview-introduction">Introduction</h2>
-
-        <p>TODO : talk about Doubles, Mocks, Stubs, Spies, Dummies, Fakes Objects</p>
-
-        <h2 id="overview-concepts">Core concepts</h2>
-
-        <p>TODO : present the record/replay approach</p>
-
-        <h2 id="overview-features">Features and Benefits</h2>
-
-        <ul>
-          <li>Hand-writing classes for Mock Objects is not needed.</li>
-          <li>Supports refactoring-safe Mock Objects: test code will not break at runtime when renaming methods or reordering method parameters</li>
-          <li>Supports return values and exceptions.</li>
-          <li>Supports checking the order of method calls, for one or more Mock Objects.</li>
-        </ul>
-
-        <h2 id="overview-case-study">Case study</h2>
-
-        <p>Most parts of a software system do not work in isolation, but collaborate with other parts to get their job done. In a lot of cases, we do not care about using collaborators in unit testing, as we trust these collaborators. If we <em>do</em> care about it, Mock Objects help us to test the unit under test in isolation. Mock Objects replace collaborators of the unit under test.</p>
-
-        <p>The following examples use the interface <code>Collaborator</code>:</p>
-
-{% highlight java %}
-package org.easymock.samples;
-
-public interface Collaborator {
-  void documentAdded(String title); 
-  void documentChanged(String title); 
-  void documentRemoved(String title); 
-  byte voteForRemoval(String title); 
-  byte[] voteForRemovals(String[] title);
-}
-{% endhighlight %}
-
-        <p>Implementors of this interface are collaborators (in this case listeners) of a class named <code>ClassUnderTest</code>:</p>
-
-{% highlight java %}
-public class ClassUnderTest {
-
-  private Collaborator listener; 
-
-  // ... 
-
-  public void setListener(Collaborator listener) {
-    this.listener = listener; 
-  }
-  
-  public void addDocument(String title, byte[] document) {
-    // ... 
-  }
-  
-  public boolean removeDocument(String title) {
-    // ... 
-  }
-  
-  public boolean removeDocuments(String[] titles) { 
-    // ... 
-  }
-} 
-{% endhighlight %}
-
-        <p>The code for both the class and the interface may be found in the package <code>org.easymock.samples</code> in <code>easymock-{{site.latest_version}}-samples.jar</code> from the EasyMock zip delivery.</p>
-
-        <p>The following examples assume that you are familiar with the JUnit testing framework. Although the tests shown here use JUnit 4, you may as well use JUnit 3 or TestNG.</p>
-      </section>
-
       <!-- ************ -->
       <!-- INSTALLATION -->
       <!-- ************ -->
@@ -96,9 +18,9 @@ public class ClassUnderTest {
 
         <h2 id="installation-requirements">Requirements</h2>
         
-        <ul>
-          <li>EasyMock only works with Java 1.5.0 and above.</li>
-          <li>cglib (2.2) and Objenesis (1.2) must be in the classpath to perform class mocking</li>
+        <ul class="list-group">
+          <li class="list-group-item">EasyMock requires Java 1.5.0 and above</li>
+          <li class="list-group-item">Cglib (2.2+) and Objenesis (2.0+) must be in the classpath to perform class mocking</li>
         </ul>
 
         <h2 id="installation-using-maven">Using Maven</h2>
@@ -116,15 +38,13 @@ public class ClassUnderTest {
 
         <p>You can obviously use any other dependency tool compatible with the Maven repository.</p>
 
-        <h2 id="installation-manually">Manual installation</h2>
+        <h2 id="installation-standalone">Standalone</h2>
         
-        <ul>
-          <li>Unzip the EasyMock zip file (<code>easymock-{{site.latest_version}}.zip</code>).</li>
-          <li>Go into the <code>easymock-{{site.latest_version}}</code> directory.</li>
-          <li>Add the EasyMock jar file (<code>easymock.jar</code>) to your classpath.</li>
-          <li>To perform class mocking, also add <a href="http://www.objenesis.org">Objenesis</a> and <a href="http://cglib.sourceforge.net/">Cglib</a> to your classpath.</li>
-          <li>The tests are in <code>easymock-{{site.latest_version}}-tests.jar</code> and can be launched with a JUnit TestRunner having JUnit 4.7 on top of EasyMock, cglib and Objenesis in your classpath.</li>
-          <li>The source code of EasyMock is stored in <code>easymock-{{site.latest_version}}-sources.jar</code>.</li>
+        <ul class="list-group">
+          <li class="list-group-item">Download the <a href="http://sourceforge.net/projects/easymock/files/EasyMock/{{site.latest_version}}/easymock-{{site.latest_version}}.zip/download">EasyMock zip file</a></li>
+          <li class="list-group-item">It contains the <code>easymock.jar</code> to add to your classpath</li>
+          <li class="list-group-item">To perform class mocking, also add <a href="http://objenesis.org">Objenesis</a> and <a href="https://github.com/cglib/cglib/wiki">Cglib</a> to your classpath.</li>
+          <li class="list-group-item">The bundle also contains jars for the javadoc, the tests, the sources and the samples</li>
         </ul>
 
       </section>
@@ -993,19 +913,11 @@ public class SupportTest extends EasyMockSupport {
     <div class="col-md-2">
       <div id="sidebar" class="sidebar hidden-print visible-md visible-lg affix-top" role="complementary" data-spy="affix" data-offset-top="54">
         <ul class="nav">
-          <li class="active"><a href="#overview">Overview</a>
-            <ul class="nav">
-              <li><a href="#overview-introduction">Introduction</a></li>
-              <li><a href="#overview-concepts">Core concepts</a></li>
-              <li><a href="#overview-features">Features and benefits</a></li>
-              <li><a href="#overview-case-study">Case study</a></li>
-            </ul>
-          </li>
           <li><a href="#installation">Installation</a>
             <ul class="nav">
               <li><a href="#installation-requirements">Requirements</a></li>
               <li><a href="#installation-using-maven">Using Maven</a></li>
-              <li><a href="#installation-manually">Manually</a></li>
+              <li><a href="#installation-standalone">Standalone</a></li>
             </ul>
           </li>
           <li><a href="#factory">Factory</a>
