@@ -25,15 +25,15 @@ public class ClassTested {
 
     private Collaborator listener;
 
-    private final Map<String, byte[]> documents = new HashMap<String, byte[]>();
+    private final Map<String, String> documents = new HashMap<String, String>();
 
     public void setListener(final Collaborator listener) {
         this.listener = listener;
     }
 
-    public void addDocument(final String title, final byte[] document) {
+    public void addDocument(final String title, final String content) {
         final boolean documentChange = documents.containsKey(title);
-        documents.put(title, document);
+        documents.put(title, content);
         if (documentChange) {
             notifyListenersDocumentChanged(title);
         } else {

@@ -32,17 +32,17 @@ public class AnnotatedMockWithRuleTest extends EasyMockSupport {
     @Rule
     public EasyMockRule mocks = new EasyMockRule(this);
 
-    @TestSubject
-    private final ClassTested classUnderTest = new ClassTested();
-
     @Mock
     private Collaborator collaborator;
+
+    @TestSubject
+    private final ClassTested classUnderTest = new ClassTested();
 
     @Test
     public void addDocument() {
         collaborator.documentAdded("New Document");
         replayAll();
-        classUnderTest.addDocument("New Document", new byte[0]);
+        classUnderTest.addDocument("New Document", "content");
         verifyAll();
     }
 }

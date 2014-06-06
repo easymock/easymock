@@ -40,7 +40,7 @@ public class AnnotatedMockWithRunnerTest extends EasyMockSupport {
     public void addDocument() {
         collaborator.documentAdded("New Document");
         replayAll();
-        classUnderTest.addDocument("New Document", new byte[0]);
+        classUnderTest.addDocument("New Document", "content");
         verifyAll();
     }
 }
