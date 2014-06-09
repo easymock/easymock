@@ -1,7 +1,7 @@
 name: EasyMock
 markdown: redcarpet
 highlighter: rouge
-pygments: false
+pygments: true
 url: easymock.org
 exclude: ['bak']
 latest_version: 3.2
