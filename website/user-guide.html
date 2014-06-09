@@ -47,18 +47,42 @@ comments: false
           <li class="list-group-item">The bundle also contains jars for the javadoc, the tests, the sources and the samples</li>
         </ul>
 
+        <h2 id="installation-android">Android <span class="badge">Since 3.2</span></h2>
+
+        <p>EasyMock can be used on Android VM (Dalvik). Just add EasyMock and Dexmaker as dependencies of the apk project used to test your application. It is a good idea to exclude Cglib since Dexmaker is used instead.
+          If you use Maven, the final required dependencies will look like this:</p>
+
+        {% highlight xml %}
+<dependency>
+  <groupId>org.easymock</groupId>
+  <artifactId>easymock</artifactId>
+  <version>{{site.latest_version}}</version>
+  <exclusions>
+    <exclusion>
+      <groupId>cglib</groupId>
+      <artifactId>cglib-nodep</artifactId>
+    </exclusion>
+  </exclusions>
+</dependency>
+<dependency>
+  <groupId>com.google.dexmaker</groupId>
+  <artifactId>dexmaker</artifactId>
+  <version>1.1</version>
+</dependency>
+        {% endhighlight %}
+
       </section>
       
       <!-- ******* -->
-      <!-- FACTORY -->
+      <!-- MOCKING -->
       <!-- ******* -->
 
-      <section id="factory">
-        <h1 class="page-header">Factory</h1>
+      <section id="mocking">
+        <h1 class="page-header">Mocking</h1>
 
-        <h2 id="factory-first">The first Mock Object </h2>
+        <h2 id="mocking-first">The first Mock Object </h2>
         
-        <p>We will now build a test case and toy around with it to understand the functionality of the EasyMock package. <code>easymock-{{page.project_version}}-samples.jar</code> contains a modified version of this test. Our first test should check whether the removal of a non-existing document does <strong>not </strong> lead to a notification of the collaborator. Here is the test without the definition of the Mock Object:</p>
+        <p>We will now build a test case and toy around with it to understand the functionality of the EasyMock package. <code>easymock-{{site.latest_version}}-samples.jar</code> contains a modified version of this test. Our first test should check whether the removal of a non-existing document does <strong>not </strong> lead to a notification of the collaborator. Here is the test without the definition of the Mock Object:</p>
 
 {% highlight java %}
 package org.easymock.samples;
@@ -138,7 +162,7 @@ java.lang.AssertionError:
       ... 
 {% endhighlight %}
 
-        <h2 id="factory-annotations">Using annotations</h2>
+        <h2 id="mocking-annotations">Using annotations</h2>
 
         <p>Since EasyMock 3.2, it is now possible to create mocks using annotations. This is a nice and shorter way to create your mocks and inject them to the tested class. Here is the example above, now using annotations:</p>
       
@@ -208,13 +232,13 @@ private Collaborator mock;
 private Collaborator anotherMock; 
 {% endhighlight %}
 
-        <h2 id="factory-strict">Strict Mocks</h2>
+        <h2 id="mocking-strict">Strict Mocks</h2>
 
         <p>On a Mock Object returned by a <code>EasyMock.createMock()</code>, the order of method calls is not checked. If you would like a strict Mock Object that checks the order of method calls, use <code>EasyMock.create<i>Strict</i>Mock()</code> to create it.</p>
 
         <p>If an unexpected method is called on a strict Mock Object, the message of the exception will show the method calls expected at this point followed by the first conflicting one. <code>verify(mock)</code> shows all missing method calls.</p>
 
-        <h2 id="factory-partial">Partial mocking</h2> 
+        <h2 id="mocking-partial">Partial mocking</h2>
 
         <p>Sometimes you may need to mock only some methods of a class and keep the normal behavior of others. This usually happens when you want to test a method that calls some others in the same class. So you want to keep the normal behavior of the tested method and mock the others.</p>
 
@@ -231,7 +255,7 @@ ToMock mock = createMockBuilder(ToMock.class)
 
         <p><b>Remark:</b> EasyMock provides a default behavior for Object's methods (<i>equals, hashCode, toString, finalize</i>). However, for a partial mock, if these methods are not mocked explicitly, they will have their normal behavior instead of EasyMock default's one.</p>
 
-        <h2 id="factory-self">Self testing</h2>
+        <h2 id="mocking-self">Self testing</h2>
 
         <p>It is possible to create a mock by calling one of its constructor. This can be handy when a class method needs to be tested but the class other methods, mocked. For that you should do something like</p>
 
@@ -242,7 +266,7 @@ ToMock mock = createMockBuilder(ToMock.class)
 
         <p>See the <code>ConstructorCalledMockTest</code> for an example.</p>
 
-        <h2 id="factory-replace">Replace default class instantiator</h2>
+        <h2 id="mocking-replace">Replace default class instantiator</h2>
 
         <p>For some reason (usually an unsupported JVM), it is possible that EasyMock isn't able to mock a class mock in your environment. Under the hood, class instantiation is implemented with a factory pattern. In case of failure, you can replace the default instantiator with:</p>
 
@@ -255,13 +279,13 @@ ToMock mock = createMockBuilder(ToMock.class)
 
         <p><b>Important:</b>The instantiator is kept statically so it will stick between your unit tests. Make sure you reset it if needed.</p>
 
-        <h2 id="factory-serialize">Serialize a class mock</h2>
+        <h2 id="mocking-serialize">Serialize a class mock</h2>
 
         <p>A class mock can also be serialized. However, since it extends a serializable class, this class might have defined a special behavior using for instance <code>writeObject</code>. These methods will still be called when serializing the mock and might fail. The workaround is usually to call a constructor when creating the mock.</p>
 
         <p>Also, de-serializing the mock in a different class loader than the serialization might fail. It wasn't tested.</p>
       
-        <h2 id="factory-limitations">Class Mocking Limitations</h2>
+        <h2 id="mocking-limitations">Class Mocking Limitations</h2>
       
         <ul>
           <li>To be coherent with interface mocking, EasyMock provides a built-in behavior for <code>equals()</code>, <code>toString()</code>, <code>hashCode()</code> and <code>finalize()</code> even for class mocking. It means that you cannot record your own behavior for these methods. This limitation is considered to be a feature that prevents you from having to care about these methods.</li>
@@ -270,11 +294,11 @@ ToMock mock = createMockBuilder(ToMock.class)
           <li>Class instantiation is performed using <a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>. Supported JVMs are listed <a href="http://code.google.com/p/objenesis/wiki/ListOfCurrentlySupportedVMs">here</a>.</li>
         </ul>
 
-        <h2 id="factory-naming">Naming Mock Objects</h2>
+        <h2 id="mocking-naming">Naming Mock Objects</h2>
 
         <p>Mock Objects can be named at creation using <code>createMock(String name, Class&lt;T&gt; toMock)</code>, <code>createStrictMock(String name, Class&lt;T&gt; toMock)</code> or <code>createNiceMock(String name, Class&lt;T&gt; toMock)</code>. The names will be shown in exception failures.</p>
 
-        <h2 id="factory-nice">Nice Mocks</h2>
+        <h2 id="mocking-nice">Nice Mocks</h2>
       
           <p>On a Mock Object returned by <code>createMock()</code> the default behavior for all methods is to throw an <code>AssertionError</code> for all unexpected method calls. If you would like a "nice" Mock Object that by default allows all method calls and returns appropriate empty values (<code>0</code>, <code>null</code> or <code>false</code>), use <code>create<i>Nice</i>Mock()</code> instead.</p>
 
@@ -352,7 +376,7 @@ expect(mock.voteForRemoval("Document"))
 
         <h2 id="behavior-default">Altering EasyMock default behavior</h2>
 
-        <p>EasyMock provides a property mecanisim allowing to alter its behavior. It mainly aims at allowing to use a legacy behavior on a new version. Currently supported properties are:</p>
+        <p>EasyMock provides a property mechanisim allowing to alter its behavior. It mainly aims at allowing to use a legacy behavior on a new version. Currently supported properties are:</p>
 
         <dl>
           <dt><code>easymock.notThreadSafeByDefault</code></dt>
@@ -880,29 +904,6 @@ public class SupportTest extends EasyMockSupport {
 
         <p>EasyMock jar can be used as an OSGi bundle. It exports <code>org.easymock</code>, <code>org.easymock.internal</code> and <code>org.easymock.internal.matchers</code> packages. However, to import the two latter, you need to specify the <code>poweruser</code> attribute at true (<code>poweruser=true</code>). These packages are meant to be used to extend EasyMock so they usually don't need to be imported.</p>
 
-        <h2 id="misc-android">Android support</h2>
-
-        <p>Since EasyMock 3.2, EasyMock can be used on Android VM (Dalvik). Just add a dependency to you apk project used to test your application. It is a good idea to exclude cglib since dexmaker is used instead. You should also add dexmaker explicitly because it's an optional dependency. If you use Maven, the final required dependencies will look like this</p>
-
-{% highlight xml %}
-<dependency>
-  <groupId>org.easymock</groupId>
-  <artifactId>easymock</artifactId>
-  <version>{{page.project_version}}</version>
-  <exclusions>
-    <exclusion>
-      <groupId>cglib</groupId>
-      <artifactId>cglib-nodep</artifactId>
-    </exclusion>
-  </exclusions>
-</dependency>
-<dependency>
-  <groupId>com.google.dexmaker</groupId>
-  <artifactId>dexmaker</artifactId>
-  <version>1.0</version>
-</dependency>
-{% endhighlight %}
-
       </section>
       <!-- #End Misc -->
 
@@ -918,20 +919,21 @@ public class SupportTest extends EasyMockSupport {
               <li><a href="#installation-requirements">Requirements</a></li>
               <li><a href="#installation-using-maven">Using Maven</a></li>
               <li><a href="#installation-standalone">Standalone</a></li>
+              <li><a href="#installation-android">Android</a></li>
             </ul>
           </li>
-          <li><a href="#factory">Factory</a>
+          <li><a href="#mocking">Mocking</a>
             <ul class="nav">
-              <li><a href="#factory-first">The first Mock Object</a></li>
-              <li><a href="#factory-annotations">Using annotations</a></li>
-              <li><a href="#factory-strict">Strict Mocks</a></li>
-              <li><a href="#factory-partial">Partial mocking</a></li>
-              <li><a href="#factory-self">Self testing</a></li>
-              <li><a href="#factory-replace">Replace default class instantiator</a></li>
-              <li><a href="#factory-serialize">Serialize a class mock</a></li>
-              <li><a href="#factory-limitations">Class Mocking Limitations</a></li>
-              <li><a href="#factory-naming">Naming Mock Objects</a></li>
-              <li><a href="#factory-nice">Nice Mocks</a></li>
+              <li><a href="#mocking-first">The first Mock Object</a></li>
+              <li><a href="#mocking-annotations">Using annotations</a></li>
+              <li><a href="#mocking-strict">Strict Mocks</a></li>
+              <li><a href="#mocking-partial">Partial mocking</a></li>
+              <li><a href="#mocking-self">Self testing</a></li>
+              <li><a href="#mocking-replace">Replace default class instantiator</a></li>
+              <li><a href="#mocking-serialize">Serialize a class mock</a></li>
+              <li><a href="#mocking-limitations">Class Mocking Limitations</a></li>
+              <li><a href="#mocking-naming">Naming Mock Objects</a></li>
+              <li><a href="#mocking-nice">Nice Mocks</a></li>
             </ul>
           </li>
           <li><a href="#behavior">Behavior</a>
@@ -965,18 +967,9 @@ public class SupportTest extends EasyMockSupport {
               <li><a href="#misc-support">EasyMockSupport</a></li>
               <li><a href="#misc-compatibility">Backward Compatibility</a></li>
               <li><a href="#misc-osgi">OSGi</a></li>
-              <li><a href="#misc-android">Android support</a></li>
-            </ul>
-          </li>
-          <li><a href="#project">Project</a>
-            <ul class="nav">
-              <li><a href="#project-licence">Licence</a></li>
-              <li><a href="#project-contributors">Contributors</a></li>
-              <li><a href="#project-alternatives">Alternatives</a></li>
             </ul>
           </li>
         </ul>
-        <br>
         <a class="back-to-top" href="#top">Back to top</a>
       </div>
     </div>
