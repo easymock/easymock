@@ -82,10 +82,14 @@ comments: false
 
         <h2 id="mocking-first">The first Mock Object </h2>
         
-        <p>We will now build a test case and toy around with it to understand the functionality of the EasyMock package. <code>easymock-{{site.latest_version}}-samples.jar</code> contains a modified version of this test. Our first test should check whether the removal of a non-existing document does <strong>not </strong> lead to a notification of the collaborator. Here is the test without the definition of the Mock Object:</p>
+        <p>We will now build a test case and toy around with it to understand the functionalities of EasyMock.
+          You can also have a look at the <a href="https://github.com/easymock/easymock/tree/master/easymock/src/samples/java/org/easymock/samples">samples</a>
+          and the <a href="getting-started.html">Getting Started</a>.
+        </p>
+        <p>Our first test should check whether the removal of a non-existing document does <strong>not </strong> lead to a notification
+          of the collaborator. Here is the test without the definition of the Mock Object:</p>
 
 {% highlight java %}
-package org.easymock.samples;
 
 import org.junit.*; 
 
@@ -125,9 +129,9 @@ public class ExampleTest {
         <p>To get a Mock Object, we need to</p>
 
         <ol>
-          <li>create a Mock Object for the interface we would like to simulate,</li>
-          <li>record the expected behavior, and</li>
-          <li>switch the Mock Object to replay state.</li>
+          <li>create a Mock Object for the interface we would like to simulate</li>
+          <li>record the expected behavior</li>
+          <li>switch the Mock Object to replay state</li>
         </ol>
 
         <p>Here is a first example:</p>
@@ -162,13 +166,13 @@ java.lang.AssertionError:
       ... 
 {% endhighlight %}
 
-        <h2 id="mocking-annotations">Using annotations</h2>
+        <h2 id="mocking-annotations">Using annotations <span class="badge">Since 3.2</span></h2>
 
-        <p>Since EasyMock 3.2, it is now possible to create mocks using annotations. This is a nice and shorter way to create your mocks and inject them to the tested class. Here is the example above, now using annotations:</p>
+        <p>There is a nice and shorter way to create your mocks and inject them to the tested class. Here is the example above, now using annotations:</p>
       
 {% highlight java %}
 import static org.easymock.EasyMock.*; 
-import org.easymock.EasyMockRunner; 
+import org.easymock.EasyMockRunner;
 import org.easymock.TestSubject; 
 import org.easymock.Mock; 
 import org.junit.Test; 
@@ -191,7 +195,8 @@ public class ExampleTest {
 } 
 {% endhighlight %}
 
-        <p>The <code>mock</code> is instantiated by the runner at step 1. It is then set by the runner, to the <code>listener</code> field on step 2. The <code>setUp</code> method can be removed since all the initialization was done by the runner.</p>
+        <p>The <code>mock</code> is instantiated by the runner at step 1. It is then set by the runner, to the <code>listener</code> field on step 2.
+          The <code>setUp</code> method can be removed since all the initialization was done by the runner.</p>
 
         <p>On top of that, since EasyMock 3.3, if you need to use another runner on you tests, a JUnit rule is also available to you. Both have the exact same behavior. Choosing one of the other is a matter of taste.</p>
 
@@ -232,32 +237,86 @@ private Collaborator mock;
 private Collaborator anotherMock; 
 {% endhighlight %}
 
+        <h2 id="mocking-support">EasyMockSupport</h2>
+
+        <p><code>EasyMockSupport</code> is a class that exist to help you keeping track of your mock. Your test cases
+          should extend or delegate to it. It will automatically registers all created mocks and replay, reset
+          or verify them in batch instead of explicitly. Here's an example:</p>
+
+{% highlight java %}
+public class SupportTest extends EasyMockSupport {
+
+  private Collaborator firstCollaborator;
+  private Collaborator secondCollaborator;
+  private ClassTested classUnderTest;
+
+  @Before
+  public void setup() {
+    classUnderTest = new ClassTested();
+  }
+
+  @Test
+  public void addDocument() {
+    // creation phase
+    firstCollaborator = createMock(Collaborator.class);
+    secondCollaborator = createMock(Collaborator.class);
+    classUnderTest.addListener(firstCollaborator);
+    classUnderTest.addListener(secondCollaborator);
+
+    // recording phase
+    firstCollaborator.documentAdded("New Document");
+    secondCollaborator.documentAdded("New Document");
+    replayAll(); // replay all mocks at once
+
+    // test
+    classUnderTest.addDocument("New Document", new byte[0]);
+    verifyAll(); // verify all mocks at once
+  }
+}
+{% endhighlight %}
+
         <h2 id="mocking-strict">Strict Mocks</h2>
 
-        <p>On a Mock Object returned by a <code>EasyMock.createMock()</code>, the order of method calls is not checked. If you would like a strict Mock Object that checks the order of method calls, use <code>EasyMock.create<i>Strict</i>Mock()</code> to create it.</p>
+        <p>On a Mock Object returned by a <code>EasyMock.createMock()</code>, the order of method calls is not checked.
+          If you would like a strict Mock Object that checks the order of method calls, use <code>EasyMock.create<i>Strict</i>Mock()</code> to create it.</p>
 
-        <p>If an unexpected method is called on a strict Mock Object, the message of the exception will show the method calls expected at this point followed by the first conflicting one. <code>verify(mock)</code> shows all missing method calls.</p>
+        <p>If an unexpected method is called on a strict Mock Object, the message of the exception will show the method
+          calls expected at this point followed by the first conflicting one. <code>verify(mock)</code> shows all missing method calls.</p>
+
+        <h2 id="mocking-nice">Nice Mocks</h2>
+
+        <p>On a Mock Object returned by <code>createMock()</code> the default behavior for all methods is to throw an
+          <code>AssertionError</code> for all unexpected method calls. If you would like a "nice" Mock Object that by default
+          allows all method calls and returns appropriate empty values (<code>0</code>, <code>null</code> or <code>false</code>),
+          use <code>create<i>Nice</i>Mock()</code> instead.</p>
 
         <h2 id="mocking-partial">Partial mocking</h2>
 
-        <p>Sometimes you may need to mock only some methods of a class and keep the normal behavior of others. This usually happens when you want to test a method that calls some others in the same class. So you want to keep the normal behavior of the tested method and mock the others.</p>
+        <p>Sometimes you may need to mock only some methods of a class and keep the normal behavior of others. This usually
+          happens when you want to test a method that calls some others in the same class. So you want to keep the normal behavior
+          of the tested method and mock the others.</p>
 
-        <p>In this case, the first thing to do is to consider a refactoring since most of the time this problem caused by a bad design. If it's not the case or if you can't do otherwise because of some development constraints, here's the solution.</p>
+        <p>In this case, the first thing to do is to consider a refactoring since most of the time this problem caused by a
+          bad design. If it's not the case or if you can't do otherwise because of some development constraints, here's the solution.</p>
 
 {% highlight java %}
 ToMock mock = createMockBuilder(ToMock.class)
   .addMockedMethod("mockedMethod").createMock();
 {% endhighlight %}
       
-        <p>In this case only the methods added with <code>addMockedMethod(s)</code> will be mocked (<code>mockedMethod()</code> in the example). The others will still behave as they used to. One exception: abstract methods are conveniently mocked by default.</p>
+        <p>In this case only the methods added with <code>addMockedMethod(s)</code> will be mocked (<code>mockedMethod()</code> in the example).
+          The others will still behave as they used to. One exception: abstract methods are conveniently mocked by default.</p>
 
-        <p><code>createMockBuilder</code> returns a <code>IMockBuilder</code> interface. It contains various methods to easily create a partial mock. Have a look at the javadoc.</p>
+        <p><code>createMockBuilder</code> returns a <code>IMockBuilder</code> interface. It contains various methods to easily create a partial mock.
+          Have a look at the javadoc.</p>
 
-        <p><b>Remark:</b> EasyMock provides a default behavior for Object's methods (<i>equals, hashCode, toString, finalize</i>). However, for a partial mock, if these methods are not mocked explicitly, they will have their normal behavior instead of EasyMock default's one.</p>
+        <p><b>Remark:</b> EasyMock provides a default behavior for Object's methods (<i>equals, hashCode, toString, finalize</i>). However, for a
+          partial mock, if these methods are not mocked explicitly, they will have their normal behavior instead of EasyMock default's one.</p>
 
         <h2 id="mocking-self">Self testing</h2>
 
-        <p>It is possible to create a mock by calling one of its constructor. This can be handy when a class method needs to be tested but the class other methods, mocked. For that you should do something like</p>
+        <p>It is possible to create a mock by calling one of its constructor. This can be handy when a class method needs to be tested but
+          the class other methods, mocked. For that you should do something like</p>
 
 {% highlight java %}
 ToMock mock = createMockBuilder(ToMock.class)
@@ -268,20 +327,24 @@ ToMock mock = createMockBuilder(ToMock.class)
 
         <h2 id="mocking-replace">Replace default class instantiator</h2>
 
-        <p>For some reason (usually an unsupported JVM), it is possible that EasyMock isn't able to mock a class mock in your environment. Under the hood, class instantiation is implemented with a factory pattern. In case of failure, you can replace the default instantiator with:</p>
+        <p>For some reason (usually an unsupported JVM), it is possible that EasyMock isn't able to mock a class mock in your environment.
+          Under the hood, class instantiation is implemented with a factory pattern. In case of failure, you can replace the default instantiator with:</p>
 
         <ul>
-          <li>The good old <code>DefaultClassInstantiator</code> which works well with Serializable classes and otherwise tries to guess the best constructor and parameters to use.</li>
+          <li>The good old <code>DefaultClassInstantiator</code> which works well with Serializable classes and otherwise tries to guess
+            the best constructor and parameters to use.</li>
           <li>You own instantiator which only needs to implement <code>IClassInstantiator</code>.</li>
         </ul>
 
-        <p>You set this new instantiator using <code>ClassInstantiatorFactory.setInstantiator()</code>. You can set back the default one with <code>setDefaultInstantiator()</code>.</p>
+        <p>You set this new instantiator using <code>ClassInstantiatorFactory.setInstantiator()</code>. You can set back the default
+          one with <code>setDefaultInstantiator()</code>.</p>
 
         <p><b>Important:</b>The instantiator is kept statically so it will stick between your unit tests. Make sure you reset it if needed.</p>
 
         <h2 id="mocking-serialize">Serialize a class mock</h2>
 
-        <p>A class mock can also be serialized. However, since it extends a serializable class, this class might have defined a special behavior using for instance <code>writeObject</code>. These methods will still be called when serializing the mock and might fail. The workaround is usually to call a constructor when creating the mock.</p>
+        <p>A class mock can also be serialized. However, since it extends a serializable class, this class might have defined a special behavior
+          using for instance <code>writeObject</code>. These methods will still be called when serializing the mock and might fail. The workaround is usually to call a constructor when creating the mock.</p>
 
         <p>Also, de-serializing the mock in a different class loader than the serialization might fail. It wasn't tested.</p>
       
@@ -298,12 +361,8 @@ ToMock mock = createMockBuilder(ToMock.class)
 
         <p>Mock Objects can be named at creation using <code>createMock(String name, Class&lt;T&gt; toMock)</code>, <code>createStrictMock(String name, Class&lt;T&gt; toMock)</code> or <code>createNiceMock(String name, Class&lt;T&gt; toMock)</code>. The names will be shown in exception failures.</p>
 
-        <h2 id="mocking-nice">Nice Mocks</h2>
-      
-          <p>On a Mock Object returned by <code>createMock()</code> the default behavior for all methods is to throw an <code>AssertionError</code> for all unexpected method calls. If you would like a "nice" Mock Object that by default allows all method calls and returns appropriate empty values (<code>0</code>, <code>null</code> or <code>false</code>), use <code>create<i>Nice</i>Mock()</code> instead.</p>
-
       </section>
-      <!-- #End Factory -->
+      <!-- #End Mocking -->
 
       <!-- ******** -->
       <!-- BEHAVIOR -->
@@ -409,6 +468,11 @@ expect(mock.voteForRemoval("Document")).andReturn(42);
 expect(mock.voteForRemoval(not(eq("Document")))).andStubReturn(-1);
 {% endhighlight %}
 
+        <h2 id="behavior-reusing">Reusing a Mock Object</h2>
+
+        <p>Mock Objects may be reset by <code>reset(mock)</code>.</p>
+
+        <p>If needed, a mock can also be converted from one type to another by calling <code>resetToNice(mock)</code>, <code>resetToDefault(mock)</code> ou <code>resetToStrict(mock)</code>.</p>
 
       </section>
       <!-- #End Behavior -->
@@ -829,28 +893,22 @@ public static&lt;T extends Throwable&gt;T eqException(T in) {
       <!-- #End Verification -->
       
       <!-- **** -->
-      <!-- MISC -->
+      <!-- Advanced -->
       <!-- **** -->
 
-      <section id="misc">
-        <h1 class="page-header">Miscellaneous</h1>
+      <section id="advanced">
+        <h1 class="page-header">Advanced</h1>
         
-        <h2 id="misc-serializing">Serializing Mocks</h2>
+        <h2 id="advanced-serializing">Serializing Mocks</h2>
 
-        <p>Mocks can be serialized at any time during their life. However, there are some obvious contraints:</p>
+        <p>Mocks can be serialized at any time during their life. However, there are some obvious constraints:</p>
 
         <ul>
           <li>All used matchers should be serializable (all genuine EasyMock ones are)</li>
           <li>Recorded parameters should also be serializable</li>
         </ul>
 
-        <h2 id="misc-reusing">Reusing a Mock Object</h2>
-
-        <p>Mock Objects may be reset by <code>reset(mock)</code>.</p>
-
-        <p>If needed, a mock can also be converted from one type to another by calling <code>resetToNice(mock)</code>, <code>resetToDefault(mock)</code> ou <code>resetToStrict(mock)</code>.</p>
-
-        <h2 id="misc-multithreading">Multithreading</h2>
+        <h2 id="advanced-multithreading">Multithreading</h2>
 
         <p>During recording, a mock is <b>not</b> thread-safe. So a giving mock (or mocks linked to the same <code>IMocksControl</code>) can only be recorded from a single thread. However, different mocks can be recorded simultaneously in different threads.</p>
 
@@ -858,59 +916,23 @@ public static&lt;T extends Throwable&gt;T eqException(T in) {
 
         <p>Finally, calling <code>checkIsUsedInOneThread(mock, true)</code> on a mock will make sure the mock is used in only one thread and throw an exception otherwise. This can be handy to make sure a thread-unsafe mocked object is used correctly.</p>
 
-        <h2 id="misc-support">EasyMockSupport</h2>
+        <h2 id="advanced-osgci">OSGi</h2>
 
-        <p><code>EasyMockSupport</code> is a class that meant to be used as a helper or base class to your test cases. It will automatically registers all created mocks (or in fact all created controls) and to replay, reset or verify them in batch instead of explicitly. Here's a JUnit example:</p>
+        <p>EasyMock jar can be used as an OSGi bundle. It exports <code>org.easymock</code>, <code>org.easymock.internal</code> and <code>org.easymock.internal.matchers</code> packages. However, to import the two latter, you need to specify the <code>poweruser</code> attribute at true (<code>poweruser=true</code>). These packages are meant to be used to extend EasyMock so they usually don't need to be imported.</p>
 
-{% highlight java %}
-public class SupportTest extends EasyMockSupport {
-
-  private Collaborator firstCollaborator;
-  private Collaborator secondCollaborator;
-  private ClassTested classUnderTest;
-  
-  @Before
-  public void setup() {
-    classUnderTest = new ClassTested();
-  }
-  
-  @Test
-  public void addDocument() {
-    // creation phase 
-    firstCollaborator = createMock(Collaborator.class);
-    secondCollaborator = createMock(Collaborator.class);
-    classUnderTest.addListener(firstCollaborator);
-    classUnderTest.addListener(secondCollaborator);
-    
-    // recording phase
-    firstCollaborator.documentAdded("New Document");
-    secondCollaborator.documentAdded("New Document");
-    replayAll(); // replay all mocks at once 
-    
-    // test 
-    classUnderTest.addDocument("New Document", new byte[0]);
-    verifyAll(); // verify all mocks at once 
-  }
-}
-{% endhighlight %}
-      
-        <h2 id="misc-compatibility">Backward Compatibility</h2>
+        <h2 id="advanced-compatibility">Backward Compatibility</h2>
 
         <p>EasyMock 3 still has a Class Extension project (although deprecated) to allow an easier migration from EasyMock 2 to EasyMock 3. It is a source not a binary compatibility. So the code will need to be recompiled.</p>
 
         <p>EasyMock 2.1 introduced a callback feature that has been removed in EasyMock 2.2, as it was too complex. Since EasyMock 2.2, the <code>IAnswer</code> interface provides the functionality for callbacks.</p>
 
-        <h2 id="misc-osgci">OSGi</h2>
-
-        <p>EasyMock jar can be used as an OSGi bundle. It exports <code>org.easymock</code>, <code>org.easymock.internal</code> and <code>org.easymock.internal.matchers</code> packages. However, to import the two latter, you need to specify the <code>poweruser</code> attribute at true (<code>poweruser=true</code>). These packages are meant to be used to extend EasyMock so they usually don't need to be imported.</p>
-
       </section>
-      <!-- #End Misc -->
+      <!-- #End Advanced -->
 
     </div>
     <!-- #End content -->
 
-    <!-- Aside menu -->
+    <!-- side menu -->
     <div class="col-md-2">
       <div id="sidebar" class="sidebar hidden-print visible-md visible-lg affix-top" role="complementary" data-spy="affix" data-offset-top="54">
         <ul class="nav">
@@ -926,6 +948,7 @@ public class SupportTest extends EasyMockSupport {
             <ul class="nav">
               <li><a href="#mocking-first">The first Mock Object</a></li>
               <li><a href="#mocking-annotations">Using annotations</a></li>
+              <li><a href="#mocking-support">EasyMockSupport</a></li>
               <li><a href="#mocking-strict">Strict Mocks</a></li>
               <li><a href="#mocking-partial">Partial mocking</a></li>
               <li><a href="#mocking-self">Self testing</a></li>
@@ -943,6 +966,7 @@ public class SupportTest extends EasyMockSupport {
               <li><a href="#behavior-default">Altering EasyMock default behavior</a></li>
               <li><a href="#behavior-object">Object Methods</a></li>
               <li><a href="#behavior-stub">Using Stub Behavior for Methods</a></li>
+              <li><a href="#behavior-reusing">Reusing a Mock Object</a></li>
             </ul>
           </li>
           <li><a href="#verification">Verification</a>
@@ -959,21 +983,18 @@ public class SupportTest extends EasyMockSupport {
               <li><a href="#verification-matchers">Defining your own Argument Matchers</a></li>
             </ul>
           </li>
-          <li><a href="#misc">Misc</a>
+          <li><a href="#advanced">Advanced</a>
             <ul class="nav">
-              <li><a href="#misc-serializing">Serializing Mocks</a></li>
-              <li><a href="#misc-reusing">Reusing a Mock Object</a></li>
-              <li><a href="#misc-multithreading">Multithreading</a></li>
-              <li><a href="#misc-support">EasyMockSupport</a></li>
-              <li><a href="#misc-compatibility">Backward Compatibility</a></li>
-              <li><a href="#misc-osgi">OSGi</a></li>
+              <li><a href="#advanced-serializing">Serializing Mocks</a></li>
+              <li><a href="#advanced-multithreading">Multithreading</a></li>
+              <li><a href="#advanced-osgi">OSGi</a></li>
+              <li><a href="#advanced-compatibility">Backward Compatibility</a></li>
             </ul>
           </li>
         </ul>
         <a class="back-to-top" href="#top">Back to top</a>
       </div>
     </div>
-
 
   </div>
 </div>
