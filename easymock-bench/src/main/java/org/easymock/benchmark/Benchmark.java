@@ -1,4 +1,4 @@
-package pro.tremblay;
+package org.easymock.benchmark;
 
 import org.easymock.EasyMock;
 import org.openjdk.jmh.annotations.*;
