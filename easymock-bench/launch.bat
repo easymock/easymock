@@ -1,1 +1,1 @@
-java -jar target/microbenchmarks.jar ".*"
+java -jar target/benchmarks.jar ".*"
