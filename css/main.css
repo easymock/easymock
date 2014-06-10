@@ -1,0 +1,211 @@
+/*
+ * PAGE: INDEX
+ */
+
+.disclaimer {
+  padding-top: 90px;
+  padding-bottom: 50px;
+}
+
+.disclaimer .logo {
+  padding: 20px 0;
+}
+
+
+.disclaimer .btn {
+  margin-left: 10px;
+  margin-right: 10px;
+  min-width: 160px;
+}
+
+.disclaimer .btn-getting-started {
+  border: 1px solid #003E7E;
+  color: #003E7E;
+}
+.disclaimer .btn-getting-started:hover,
+.disclaimer .btn-getting-started:focus {
+  background-color: #003E7E;
+  color: #ffffff;
+}
+
+.disclaimer .btn-download {
+  border: 1px solid #AD1F2B;
+  color: #AD1F2B;
+}
+.disclaimer .btn-download:hover,
+.disclaimer .btn-download:focus {
+  background-color: #AD1F2B;
+  color: #ffffff;
+}
+
+.disclaimer small {
+  color: #003E7E;
+}
+
+.statistics {
+  padding: 30px 0;
+}
+
+.presentation {
+  padding: 40px 0;
+  background-color: #F8F8F8;
+}
+.presentation .aspect h2 {
+  color : #003E7E;  
+}
+.presentation .aspect .lead {
+  color : #AD1F2B;
+}
+
+.presentation .aspect .description {
+  padding: 0 30px;
+  text-align: justify;
+}
+
+/*
+ * PAGE: RELEASE NOTES
+ */
+
+.releases {
+  margin: 20px 0;
+  padding: 0;
+}
+
+.release {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 30px;
+  min-height: 100px;
+}
+
+.release .release-version  {
+  padding-top: 30px;
+}
+.release .release-version > span {
+  background-color: #6E329D;
+  padding: 30px;
+  font-size: 1.1em;
+  color: #ffffff;
+}
+
+.release .release-type {
+  font-size: 1.5em;
+  margin-top: 0;
+  border-bottom: 1px solid #eeeeee;
+  padding-bottom: 5px;
+}
+
+.changes {
+  margin: 0;
+  padding: 0;
+}
+
+.change {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+/*
+ * PAGE: GETTING STARTED
+ */
+
+/*
+ * PAGE: DEVELOPER GUIDE
+ */
+
+.developer-guide .sidebar {
+  padding-top: 20px;
+  width: inherit;
+}
+
+.developer-guide .sidebar.affix {
+  width: inherit;
+  position: fixed;
+}
+.developer-guide .sidebar.affix-top {
+  width: inherit;
+  position: fixed;
+}
+.developer-guide .sidebar.affix-bottom {
+  width: inherit;
+  position: absolute;
+}
+/* Global nav */
+/* ---------- */
+.developer-guide .sidebar ul {
+  padding-left: 0;
+}
+.developer-guide .sidebar li {
+  list-style-type: none;
+}
+/* By default, a link has no style */
+.developer-guide .sidebar a {
+  border-left-width: 0;
+  border-left-style: solid;
+  border-left-color: white;
+  color: #003E7E;
+  text-decoration: none;
+}
+/* By default, a link hovered or focused is blue, with a solid blue left border, and has a light grey background */
+.developer-guide .sidebar a:focus,
+.developer-guide .sidebar a:hover {
+  color: #003E7E;
+  background-color: #F8F8F8;
+  border-left-color: #003E7E;
+}
+/* By default, an active item is red, bold and with a red border */
+.developer-guide .sidebar .active > a,
+.developer-guide .sidebar .active > a:focus,
+.developer-guide .sidebar .active > a:hover {
+  border-left-color: #AD1F2B;
+  color: #AD1F2B;
+  font-weight: bold;
+  background-color: #F8F8F8;
+}
+
+/* Main nav */
+/* -------- */
+.developer-guide .sidebar .nav > li > a {
+  border-left-width: 3px;
+  padding-left: 12px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* Sub nav */
+/* ------- */
+.developer-guide .sidebar .nav > li > ul > li > a {
+  border-left-width: 1px;
+  padding-left: 24px;
+  font-size: 0.85em;
+}
+.developer-guide .sidebar .nav > li > ul > .active > a {
+  background-color: white;
+  font-weight: normal;
+}
+
+.developer-guide .sidebar .nav .nav {
+    display: none;
+}
+
+/* show sub menu when parent is active */
+.developer-guide .sidebar .nav > .active> ul {
+    display: block;
+}
+
+.developer-guide section:first-child {
+  margin-top: -20px;
+  padding-top: 0;
+}
+
+.developer-guide .sidebar a.back-to-top {
+  padding-left: 15px;
+  background-color: white;
+}
+.developer-guide .sidebar a.back-to-top:focus,
+.developer-guide .sidebar a.back-to-top:hover {
+  color: #AD1F2B;
+}

@@ -1,5 +1,7 @@
-name: "EasyMock"
-description: "EasyMock provides mock objects by generating them on the fly. With EasyMock, it's finally easy to mock."
-
-markdown: rdiscount
+name: EasyMock
+markdown: redcarpet
+highlighter: rouge
 pygments: true
+url: easymock.org
+exclude: ['bak']
+latest_version: 3.2
