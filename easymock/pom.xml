@@ -103,28 +103,6 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>com.atlassian.maven.plugins</groupId>
-            <artifactId>maven-clover2-plugin</artifactId>
-            <configuration>
-              <excludes>
-                <exclude>**/org/easymock/tests/IMethods.java</exclude>
-                <exclude>**/org/easymock/tests/IVarArgs.java</exclude>
-                <exclude>**/org/easymock/tests/Util.java</exclude>
-                <exclude>**/org/easymock/samples/*.java</exclude>
-              </excludes>
-            </configuration>
-            <executions>
-              <execution>
-                <phase>verify</phase>
-                <goals>
-                  <goal>instrument</goal>
-                  <goal>clover</goal>
-                  <goal>check</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
             <groupId>com.mycila.maven-license-plugin</groupId>
             <artifactId>maven-license-plugin</artifactId>
           </plugin>
