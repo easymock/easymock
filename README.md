@@ -67,18 +67,18 @@ Configure to deploy to the Sonatype maven repository
 ----------------------------------------------------
 - You will first need to add something like this to your settings.xml
 ```xml
-  <servers>
-    <server>
-      <id>sonatype-nexus-snapshots</id>
-      <username>sonatypeuser</username>
-      <password>sonatypepassword</password>
-    </server>
-    <server>
-      <id>sonatype-nexus-staging</id>
-      <username>sonatypeuser</username>
-      <password>sonatypepassword</password>
-    </server>
-  </servers>
+<servers>
+  <server>
+    <id>sonatype-nexus-snapshots</id>
+    <username>sonatypeuser</username>
+    <password>sonatypepassword</password>
+  </server>
+  <server>
+    <id>sonatype-nexus-staging</id>
+    <username>sonatypeuser</username>
+    <password>sonatypepassword</password>
+  </server>
+</servers>
 ```
 - Then follow the instructions from the site below to create your key to sign the deployed items
 
@@ -91,15 +91,15 @@ To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS report
 
 To check dependencies and plugins versions
 --------------------------------------------------------------------------------------
-- `mvn versions:display-dependency-updates versions:display-plugin-updates -Pall`
+`mvn versions:display-dependency-updates versions:display-plugin-updates -Pall`
 
 To download the sources associated to our dependencies
 --------------------------------------------------------------------------------------
-- `mvn dependency:resolve -Dclassifier=sources`
+`mvn dependency:resolve -Dclassifier=sources`
 
 To update the license
 --------------------------------------------------------------------------------------
-- `mvn validate license:format -Pall`
+`mvn validate license:format -Pall`
 
 Android
 --------------------------------------------------------------------------------------
@@ -117,36 +117,36 @@ To bundle EasyMock and deploy
   - Retrieve the release notes in the textual format (http://jira.codehaus.org/browse/EASYMOCK#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel)
 - In local:
 ```bash
-  mvn versions:set -DnewVersion=x.y -Pall
-  mvn versions:commit -Pall
-  git commit -am "Move to version x.y"
-  mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=xxxx
+mvn versions:set -DnewVersion=x.y -Pall
+mvn versions:commit -Pall
+git commit -am "Move to version x.y"
+mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=xxxx
 ```
 - Close the deployment at Sonatype Nexus UI (https://oss.sonatype.org/index.html#stagingRepositories)
   More details on the deployment rules here: https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
 - Add the staging repository url found in Nexus to easymock-test-deploy
 ```xml
-  <repositories>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Nexus Release Repository</name>
-      <url>https://oss.sonatype.org/content/repositories/orgeasymock-213/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
+<repositories>
+  <repository>
+    <id>sonatype-nexus-staging</id>
+    <name>Nexus Release Repository</name>
+    <url>https://oss.sonatype.org/content/repositories/orgeasymock-213/</url>
+    <releases>
+      <enabled>true</enabled>
+    </releases>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+  </repository>
+</repositories>
 ```
 - In local:
 ```bash
-  mvn -f easymock-test-deploy/pom.xml clean test
-  ./prepare-website.sh x.y "This version contains cool stuff"
-  git commit -am "Documentation for version x.y"
-  git tag -a easymock-x.y -m "EasyMock x.y"
-  git push --tags
+mvn -f easymock-test-deploy/pom.xml clean test
+./prepare-website.sh x.y "This version contains cool stuff"
+git commit -am "Documentation for version x.y"
+git tag -a easymock-x.y -m "EasyMock x.y"
+git push --tags
 ```
 - Release the repository. It will be synced with Maven Central Repository
 - Go to the File Manager on the EasyMock SF project (https://sourceforge.net/projects/easymock/files/?source=navbar)
@@ -163,7 +163,7 @@ Start next version
 --------------------------------------------------------------------------------------
 In local:
 ```bash
-  mvn versions:set -DnewVersion=X.Z-SNAPSHOT -Pall
-  mvn versions:commit -Pall
+mvn versions:set -DnewVersion=X.Z-SNAPSHOT -Pall
+mvn versions:commit -Pall
 ```
 - Create next version in Jira (http://jira.codehaus.org/plugins/servlet/project-config/EASYMOCK/versions)
