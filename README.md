@@ -39,21 +39,8 @@ It is a basic compilation of the application.
 
 2. Full build
 
-This build will check code coverage with Clover (must be 100%) and
+This build will check code coverage using Jacoco, run findbugs and
 validate that the license headers are correctly set.
-
-You need to add a section to your settings.xml in order to make it works
-
-    <profile>
-      <id>easymock</id>
-      <properties>
-        <maven.clover.licenseLocation>${user.home}/clover.license</maven.clover.licenseLocation>
-      </properties>
-    </profile
-
-To tell clover where to find its license
-
-Then launch with
 
 - "mvn install -PfullBuild"
 
@@ -101,12 +88,6 @@ Configure to deploy to the Sonatype maven repository
 - Then follow the instructions from the site below to create your key to sign the deployed items
 
 http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/
-
-To generate the aggregated clover report
---------------------------------------------------------------------------------------
-- After a fullBuild, at the EasyMock parent project level
-- Type 'mvn verify clover2:aggregate -PfullBuild'
-- Then 'mvn -N clover2:clover'
 
 To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS reports)
 --------------------------------------------------------------------------------------
