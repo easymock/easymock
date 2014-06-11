@@ -35,14 +35,14 @@ There are three different levels of build.
 
 It is a basic compilation of the application.
 
-- "mvn install"
+- `mvn install`
 
 2. Full build
 
 This build will check code coverage using Jacoco, run findbugs and
 validate that the license headers are correctly set.
 
-- "mvn install -PfullBuild"
+- `mvn install -PfullBuild`
 
 3. Deploy build
 
@@ -51,7 +51,7 @@ the gpg checksum. You will usually launch it on top of the full build.
 
 The command line will ask you to give the passphrase for the gpg private key.
 
-- "mvn install -PdeployBuild"
+- `mvn install -PdeployBuild`
 
 4. Continuous integration
 
@@ -65,8 +65,8 @@ To compile EasyMock in Eclipse
 
 To update the versions
 ----------------------
-- "mvn versions:set -DnewVersion=X.Y -Pandroid,bench"
-- "mvn versions:commit -Pandroid,bench" if everything is ok, "mvn versions:revert -Pandroid,bench" otherwise
+- `mvn versions:set -DnewVersion=X.Y -Pandroid,bench`
+- `mvn versions:commit -Pandroid,bench` if everything is ok, `mvn versions:revert -Pandroid,bench` otherwise
 
 Configure to deploy to the Sonatype maven repository
 ----------------------------------------------------
@@ -92,28 +92,28 @@ http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven
 To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS reports)
 --------------------------------------------------------------------------------------
 - You will to give enough memory to maven with 'set MAVEN_OPTS=-Xmx512m' (or setting it as environment variable)
-- Then type 'mvn site'
+- Then type `mvn site`
 
 To check dependencies and plugins versions
 --------------------------------------------------------------------------------------
-- mvn versions:display-dependency-updates versions:display-plugin-updates -Pall
+- `mvn versions:display-dependency-updates versions:display-plugin-updates -Pall`
 
 To download the sources associated to our dependencies
 --------------------------------------------------------------------------------------
-- mvn dependency:resolve -Dclassifier=sources
+- `mvn dependency:resolve -Dclassifier=sources`
 
 To update the license
 --------------------------------------------------------------------------------------
-- mvn validate license:format -Pall
+- `mvn validate license:format -Pall`
 
 Android
 --------------------------------------------------------------------------------------
 - Install the Android SDK
 - Configure a device (real or simulated)
-- Add an ANDROID_HOME to target the Android SDK
-- Add $ANDROID_HOME/platform-tools to your path 
+- Add an `ANDROID_HOME` to target the Android SDK
+- Add `$ANDROID_HOME/platform-tools` to your path 
 - Activate the debug mode if it's a real device
-- mvn install -Pandroid
+- `mvn install -Pandroid`
 
 To bundle EasyMock and deploy
 --------------------------------------------------------------------------------------
@@ -121,13 +121,16 @@ To bundle EasyMock and deploy
   - Add a little speech on the features
   - Retrieve the release notes in the textual format (http://jira.codehaus.org/browse/EASYMOCK#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel)
 - In local:
+```bash
   mvn versions:set -DnewVersion=x.y -Pall
   mvn versions:commit -Pall
   git commit -am "Move to version x.y"
   mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=xxxx
+```
 - Close the deployment at Sonatype Nexus UI (https://oss.sonatype.org/index.html#stagingRepositories)
   More details on the deployment rules here: https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
 - Add the staging repository url found in Nexus to easymock-test-deploy
+```xml
   <repositories>
     <repository>
       <id>sonatype-nexus-staging</id>
@@ -141,12 +144,15 @@ To bundle EasyMock and deploy
       </snapshots>
     </repository>
   </repositories>
+```
 - In local:
+```bash
   mvn -f easymock-test-deploy/pom.xml clean test
   ./prepare-website.sh x.y "This version contains cool stuff"
   git commit -am "Documentation for version x.y"
   git tag -a easymock-x.y -m "EasyMock x.y"
   git push --tags
+```
 - Release the repository. It will be synced with Maven Central Repository
 - Go to the File Manager on the EasyMock SF project (https://sourceforge.net/projects/easymock/files/?source=navbar)
   - In EasyMock, create a folder named "x.y"
@@ -161,6 +167,8 @@ To bundle EasyMock and deploy
 Start next version
 --------------------------------------------------------------------------------------
 In local:
-  - mvn versions:set -DnewVersion=X.Z-SNAPSHOT -Pall
-  - mvn versions:commit -Pall
+```bash
+  mvn versions:set -DnewVersion=X.Z-SNAPSHOT -Pall
+  mvn versions:commit -Pall
+```
 - Create next version in Jira (http://jira.codehaus.org/plugins/servlet/project-config/EASYMOCK/versions)
