@@ -31,32 +31,27 @@ To build EasyMock with Maven
 
 There are three different levels of build.
 
-1. Build without any active profile
+### Build without any active profile
 
 It is a basic compilation of the application.
 
-- `mvn install`
+`mvn install`
 
-2. Full build
+### Full build
 
 This build will check code coverage using Jacoco, run findbugs and
 validate that the license headers are correctly set.
 
-- `mvn install -PfullBuild`
+`mvn install -PfullBuild`
 
-3. Deploy build
+### Deploy build
 
 This is the build to launch to deploy to the surefire repository. It assembles the application and add
 the gpg checksum. You will usually launch it on top of the full build.
 
 The command line will ask you to give the passphrase for the gpg private key.
 
-- `mvn install -PdeployBuild`
-
-4. Continuous integration
-
-A continuous integration is provided by Cloudbees. You will find the following builds:
-- https://henri.ci.cloudbees.com/job/easymock-commit/ : Build launch on commit
+`mvn install -PdeployBuild`
 
 To compile EasyMock in Eclipse
 -----------------------------
@@ -71,7 +66,7 @@ To update the versions
 Configure to deploy to the Sonatype maven repository
 ----------------------------------------------------
 - You will first need to add something like this to your settings.xml
-
+```xml
   <servers>
     <server>
       <id>sonatype-nexus-snapshots</id>
@@ -84,7 +79,7 @@ Configure to deploy to the Sonatype maven repository
       <password>sonatypepassword</password>
     </server>
   </servers>
-
+```
 - Then follow the instructions from the site below to create your key to sign the deployed items
 
 http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/
