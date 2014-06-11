@@ -33,6 +33,9 @@
     <log4j.version>1.2.16</log4j.version>
     <spring.osgi.version>1.2.1</spring.osgi.version>
     <slf4j.version>1.7.7</slf4j.version>
+
+    <!-- No code coverage need on this project since it's only a test project -->
+    <jacoco.skip>true</jacoco.skip>
   </properties>
 
   <dependencyManagement>
@@ -164,13 +167,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>com.atlassian.maven.plugins</groupId>
-        <artifactId>maven-clover2-plugin</artifactId>
         <configuration>
           <skip>true</skip>
         </configuration>

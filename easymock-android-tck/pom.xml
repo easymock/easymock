@@ -26,7 +26,10 @@
   </developers>
 
   <properties>
-      <skipTests>false</skipTests>
+    <skipTests>false</skipTests>
+
+    <!-- No code coverage need on this project since it's only a test project -->
+    <jacoco.skip>true</jacoco.skip>
   </properties>
   
   <dependencies>
@@ -134,15 +137,7 @@
         <configuration>
           <skip>true</skip>
         </configuration>
-      </plugin>
-      <!-- No clover on this Android project -->
-      <plugin>
-        <groupId>com.atlassian.maven.plugins</groupId>
-        <artifactId>maven-clover2-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>      
+      </plugin>     
     </plugins>
   </build>
 
