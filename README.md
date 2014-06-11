@@ -123,7 +123,7 @@ To download the sources associated to our dependencies
 
 To update the license
 --------------------------------------------------------------------------------------
-- mvn validate license:format
+- mvn validate license:format -Pall
 
 Android
 --------------------------------------------------------------------------------------
