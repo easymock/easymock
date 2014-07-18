@@ -24,6 +24,12 @@ public final class AndroidSupport {
     static {
         try {
             Class.forName("dalvik.system.PathClassLoader");
+
+            // Also verify that dexmaker is present, if not we might
+            // be running under something like robolectric, which
+            // means we should not use dexmaker
+            Class.forName("com.google.dexmaker.Code");
+
             isAndroid = true;
         } catch (final ClassNotFoundException e) {
             isAndroid = false;
