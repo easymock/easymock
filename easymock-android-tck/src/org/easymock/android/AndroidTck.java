@@ -40,6 +40,10 @@ public class AndroidTck extends Instrumentation {
       PrintStream printStream = new PrintStream(outputStream);
       System.setOut(printStream);
 
+      System.setProperty(
+        "dexmaker.dexcache",
+        getTargetContext().getCacheDir().getPath());
+
       try {
           testInterface();
           testObject();
@@ -54,13 +58,13 @@ public class AndroidTck extends Instrumentation {
    }
    
    private void testObject() throws IOException {
-      Bundle mock = createMock(Bundle.class);
-      mock.clear();
-      expect(mock.size()).andReturn(10);
+      Activity mock = createMock(Activity.class);
+      mock.onLowMemory();
+      expect(mock.getTaskId()).andReturn(10);
       System.out.println("replay");
       replay(mock);
-      mock.clear();
-      if(mock.size() != 10) {
+      mock.onLowMemory();
+      if(mock.getTaskId() != 10) {
           throw new AssertionError("Should have been 10");
       }
       System.out.println("verify");
