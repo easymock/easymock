@@ -131,7 +131,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.4</version>
+          <version>2.4.1</version>
           <executions>
             <execution>
               <id>easymock-bundle</id>
