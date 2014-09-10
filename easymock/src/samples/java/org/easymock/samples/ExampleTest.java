@@ -25,11 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.easymock.*;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-@RunWith(EasyMockRunner.class)
 public class ExampleTest extends EasyMockSupport {
+
+    @Rule
+    public EasyMockRule rule = new EasyMockRule(this);
 
     @TestSubject
     private ClassTested classUnderTest = new ClassTested();
