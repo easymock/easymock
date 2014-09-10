@@ -64,12 +64,11 @@ public class ClassUnderTest {
 {% highlight java %}
 import static org.easymock.EasyMock.*;
 import org.easymock.*;
-import org.junit.*;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(EasyMockRunner.class)
 public class ExampleTest extends EasyMockSupport {
-
-    @Rule
-    public EasyMockRule mocks = new EasyMockRule(this);
 
     @Mock
     private Collaborator collaborator; // 1
