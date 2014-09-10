@@ -6,11 +6,6 @@
   <fileSets>
     <fileSet>
       <outputDirectory/>
-      <directory>${project.basedir}/src/site</directory>
-      <filtered>true</filtered>
-    </fileSet>
-    <fileSet>
-      <outputDirectory/>
       <directory>${project.basedir}</directory>
       <includes>
         <include>LICENSE.txt</include>
