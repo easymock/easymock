@@ -17,14 +17,14 @@ Environment setup
 
 I'm using:
 - Eclipse 4.3.2 (Kepler Service Release 2)
-- Maven 3.2.1
+- Maven 3.2.3
 - m2e with the following connectors:
   - buildhelper (for build-helper-maven-plugin)
-- IntelliJ 13.1.2 (instead of Eclipse)
+- IntelliJ 13.1.4 (instead of Eclipse)
 
 To configure your local workspace:
 - Import the Maven parent project to Eclipse or IntelliJ
-- Import the Eclipse formatting file `EasyMock-formatter.xml`
+- Import the Eclipse formatting file `EasyMock-formatter.xml` (usable in Eclipse or IntelliJ)
 
 To build EasyMock with Maven
 ----------------------------
@@ -57,6 +57,10 @@ To compile EasyMock in Eclipse
 -----------------------------
 - Install m2e
 - Import the EasyMock Maven parent project to your Eclipse workspace
+
+To compile EasyMock in IntelliJ
+-----------------------------
+- Import the EasyMock Maven parent project as an New IntelliJ project
 
 To update the versions
 ----------------------
