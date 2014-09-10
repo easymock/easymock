@@ -140,14 +140,6 @@ mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=xxxx
   </repository>
 </repositories>
 ```
-- In local:
-```bash
-mvn -f easymock-test-deploy/pom.xml clean test
-./prepare-website.sh x.y "This version contains cool stuff"
-git commit -am "Documentation for version x.y"
-git tag -a easymock-x.y -m "EasyMock x.y"
-git push --tags
-```
 - Release the repository. It will be synced with Maven Central Repository
 - Go to the File Manager on the EasyMock SF project (https://sourceforge.net/projects/easymock/files/?source=navbar)
   - In EasyMock, create a folder named "x.y"
@@ -155,9 +147,15 @@ git push --tags
   - Show the detailed information and rename it to remove the "-bundle" at the end
   - Show the detailed information and rename it to readme.txt
   - Repeat these step for EasyMock Class Extension
-- Launch easymock-site on Cloudbees
 - Release the Jira version (http://jira.codehaus.org/plugins/servlet/project-config/EASYMOCK/versions)
 - Announce to easymock@yahoogroups.com, twitter, blog
+
+Deploy the website
+--------------------------------------------------------------------------------------
+- In local:
+  - Go to the EasyMock root directory
+  - Make sure the website directory is clean
+  - `./deploy-website.sh`
 
 Start next version
 --------------------------------------------------------------------------------------
