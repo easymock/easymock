@@ -16,7 +16,7 @@
 package org.easymock.samples;
 
 /**
- * @author OFFIS, Tammo Freese
+ * @author OFFIS, Tammo Freese, Henri Tremblay
  */
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -24,35 +24,31 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.easymock.IAnswer;
-import org.junit.Before;
+import org.easymock.*;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ExampleTest {
+@RunWith(EasyMockRunner.class)
+public class ExampleTest extends EasyMockSupport {
 
-    private ClassTested classUnderTest;
+    @TestSubject
+    private ClassTested classUnderTest = new ClassTested();
 
+    @Mock
     private Collaborator mock;
-
-    @Before
-    public void setup() {
-        mock = createMock(Collaborator.class);
-        classUnderTest = new ClassTested();
-        classUnderTest.setListener(mock);
-    }
 
     @Test
     public void removeNonExistingDocument() {
-        replay(mock);
+        replayAll();
         classUnderTest.removeDocument("Does not exist");
     }
 
     @Test
     public void addDocument() {
         mock.documentAdded("New Document");
-        replay(mock);
+        replayAll();
         classUnderTest.addDocument("New Document", "content");
-        verify(mock);
+        verifyAll();
     }
 
     @Test
@@ -60,12 +56,12 @@ public class ExampleTest {
         mock.documentAdded("Document");
         mock.documentChanged("Document");
         expectLastCall().times(3);
-        replay(mock);
+        replayAll();
         classUnderTest.addDocument("Document", "content");
         classUnderTest.addDocument("Document", "content");
         classUnderTest.addDocument("Document", "content");
         classUnderTest.addDocument("Document", "content");
-        verify(mock);
+        verifyAll();
     }
 
     @Test
@@ -77,10 +73,10 @@ public class ExampleTest {
         // expect document removal
         mock.documentRemoved("Document");
 
-        replay(mock);
+        replayAll();
         classUnderTest.addDocument("Document", "content");
         assertTrue(classUnderTest.removeDocument("Document"));
-        verify(mock);
+        verifyAll();
     }
 
     @Test
@@ -91,10 +87,10 @@ public class ExampleTest {
         expect(mock.voteForRemoval("Document")).andReturn((byte) -42); // 
         // document removal is *not* expected
 
-        replay(mock);
+        replayAll();
         classUnderTest.addDocument("Document", "content");
         assertFalse(classUnderTest.removeDocument("Document"));
-        verify(mock);
+        verifyAll();
     }
 
     @Test
@@ -104,11 +100,11 @@ public class ExampleTest {
         expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn((byte) 42);
         mock.documentRemoved("Document 1");
         mock.documentRemoved("Document 2");
-        replay(mock);
+        replayAll();
         classUnderTest.addDocument("Document 1", "content 1");
         classUnderTest.addDocument("Document 2", "content 2");
         assertTrue(classUnderTest.removeDocuments(new String[] { "Document 1", "Document 2" }));
-        verify(mock);
+        verifyAll();
     }
 
     @Test
@@ -116,11 +112,11 @@ public class ExampleTest {
         mock.documentAdded("Document 1");
         mock.documentAdded("Document 2");
         expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn((byte) -42);
-        replay(mock);
+        replayAll();
         classUnderTest.addDocument("Document 1", "content 1");
         classUnderTest.addDocument("Document 2", "content 2");
         assertFalse(classUnderTest.removeDocuments("Document 1", "Document 2"));
-        verify(mock);
+        verifyAll();
     }
 
     @SuppressWarnings("unchecked")
@@ -145,11 +141,11 @@ public class ExampleTest {
             }
         });
 
-        replay(l);
+        replayAll();
 
         assertEquals("10", l.remove(10));
         assertEquals("10", l.remove(10));
 
-        verify(l);
+        verifyAll();
     }
 }
