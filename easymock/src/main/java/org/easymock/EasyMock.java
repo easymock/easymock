@@ -1902,6 +1902,27 @@ public class EasyMock {
     }
 
     /**
+     * Create a new capture instance that will keep only the last captured value.
+     *
+     * @param <T> type of the class to be captured
+     * @return the new capture object
+     */
+    public static <T> Capture<T> newCapture() {
+        return Capture.newInstance();
+    }
+
+    /**
+     * Create a new capture instance with a specific {@link org.easymock.CaptureType}
+     *
+     * @param type capture type wanted
+     * @param <T> type of the class to be captured
+     * @return the new capture object
+     */
+    public static <T> Capture<T> newCapture(CaptureType type) {
+        return Capture.newInstance(type);
+    }
+
+    /**
      * Expect any object but captures it for later use.
      * 
      * @param <T>
