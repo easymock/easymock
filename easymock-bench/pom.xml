@@ -14,9 +14,15 @@
     <name>EasyMock Benchmark</name>
     <description>EasyMock benchmark tests the performance of EasyMock</description>
     <inceptionYear>2014</inceptionYear>
-    <organization>
-      <name>Henri Tremblay</name>
-    </organization>
+
+    <developers>
+        <developer>
+            <id>henri</id>
+            <name>Henri Tremblay</name>
+            <url>http://blog.tremblay.pro/</url>
+            <timezone>-5</timezone>
+        </developer>
+    </developers>
 
     <dependencies>
         <dependency>

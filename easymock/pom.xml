@@ -15,9 +15,7 @@
   <name>EasyMock</name>
   <description>EasyMock provides an easy way to create Mock Objects for interfaces and classes generating them on the fly</description>
   <inceptionYear>2001</inceptionYear>
-  <organization>
-    <name>OFFIS, Tammo Freese, Henri Tremblay</name>
-  </organization>
+
   <developers>
     <developer>
       <id>tammo</id>
@@ -28,9 +26,10 @@
       <id>henri</id>
       <name>Henri Tremblay</name>
       <url>http://blog.tremblay.pro/</url>
-      <timezone>+1</timezone>
+      <timezone>-5</timezone>
     </developer>
   </developers>
+
   <dependencies>
     <!-- Used for class mocking -->
     <dependency>

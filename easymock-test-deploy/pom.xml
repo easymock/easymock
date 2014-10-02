@@ -15,16 +15,13 @@
   <name>EasyMock Test Deploy</name>
   <description>EasyMock Test Deploy makes sure the binaries deployed to Sonatype are working correctly</description>
   <inceptionYear>2013</inceptionYear>
-  <organization>
-    <name>Henri Tremblay</name>
-  </organization>
 
   <developers>
     <developer>
       <id>henri</id>
       <name>Henri Tremblay</name>
-      <url>http://henritremblay.blogspot.fr/</url>
-      <timezone>+1</timezone>
+      <url>http://blog.tremblay.pro/</url>
+      <timezone>-5</timezone>
     </developer>
   </developers>
 
