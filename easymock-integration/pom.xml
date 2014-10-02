@@ -15,16 +15,13 @@
   <name>EasyMock Integration</name>
   <description>EasyMock Integration is a test project making sure EasyMock is correctly packaged and OSGi compliant</description>
   <inceptionYear>2009</inceptionYear>
-  <organization>
-    <name>Henri Tremblay</name>
-  </organization>
 
   <developers>
     <developer>
       <id>henri</id>
       <name>Henri Tremblay</name>
-      <url>http://henritremblay.blogspot.fr/</url>
-      <timezone>+1</timezone>
+      <url>http://blog.tremblay.pro/</url>
+      <timezone>-5</timezone>
     </developer>
   </developers>
 
