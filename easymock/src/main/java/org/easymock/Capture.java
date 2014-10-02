@@ -98,7 +98,7 @@ public class Capture<T> implements Serializable {
     /**
      * Return captured value
      * 
-     * @throws AssertionErrorn
+     * @throws AssertionError
      *             if nothing was captured yet or if more than one value was
      *             captured
      * @return The last captured value
