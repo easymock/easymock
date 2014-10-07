@@ -289,6 +289,15 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    public IExpectationSetters<Object> andVoid() {
+        try {
+            state.andVoid();
+            return this;
+        } catch (final RuntimeExceptionWrapper e) {
+            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
+        }
+    }
+
     public void andStubReturn(final Object value) {
         try {
             state.andStubReturn(value);

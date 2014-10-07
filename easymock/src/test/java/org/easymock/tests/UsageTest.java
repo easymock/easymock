@@ -18,6 +18,7 @@ package org.easymock.tests;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
+import org.easymock.IAnswer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -204,4 +205,44 @@ public class UsageTest {
 
     }
 
+    @Test
+    public void chainVoidMethodCalls() {
+        mock.simpleMethodWithArgument("4");
+        expectLastCall().andThrow(new RuntimeException("Test")).andVoid();
+        replay(mock);
+        try {
+            mock.simpleMethodWithArgument("4");
+        }
+        catch(RuntimeException e) {
+            assertEquals("Test", e.getMessage());
+        }
+        mock.simpleMethodWithArgument("4");
+        verify(mock);
+    }
+
+    @Test
+    public void chainVoidMethodCallsVoidFirst() {
+        mock.simpleMethodWithArgument("4");
+        expectLastCall().andVoid().andThrow(new RuntimeException("Test"));
+        replay(mock);
+        mock.simpleMethodWithArgument("4");
+        try {
+            mock.simpleMethodWithArgument("4");
+        }
+        catch(RuntimeException e) {
+            assertEquals("Test", e.getMessage());
+        }
+        verify(mock);
+    }
+
+    @Test
+    public void chainVoidWithItself() {
+        mock.simpleMethodWithArgument("4");
+        expectLastCall().andVoid().times(2).andVoid();
+        replay(mock);
+        mock.simpleMethodWithArgument("4");
+        mock.simpleMethodWithArgument("4");
+        mock.simpleMethodWithArgument("4");
+        verify(mock);
+    }
 }

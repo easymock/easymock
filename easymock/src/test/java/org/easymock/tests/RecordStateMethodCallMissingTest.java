@@ -296,4 +296,14 @@ public class RecordStateMethodCallMissingTest {
         }
     }
 
+    @Test
+    public void andVoidWithNonVoidMethod() {
+        mock.booleanReturningMethod(1);
+        try {
+            expectLastCall().andVoid();
+            fail();
+        } catch (final IllegalStateException expected) {
+            assertEquals("last method called on mock is not a void method", expected.getMessage());
+        }
+    }
 }

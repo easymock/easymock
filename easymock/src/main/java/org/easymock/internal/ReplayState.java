@@ -109,6 +109,10 @@ public class ReplayState implements IMocksControlState, Serializable {
         throwWrappedIllegalStateException();
     }
 
+    public void andVoid() {
+        throwWrappedIllegalStateException();
+    }
+
     public void andStubReturn(final Object value) {
         throwWrappedIllegalStateException();
     }
