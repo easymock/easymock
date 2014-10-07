@@ -68,6 +68,16 @@ public interface IExpectationSetters<T> {
     IExpectationSetters<T> andDelegateTo(Object delegateTo);
 
     /**
+     * Records a call but returns nothing. Used to chain calls on void methods
+     * <code>
+     *     expectLastCall().andThrow(e).andVoid();
+     * </code>
+     *
+     * @return this object to allow method call chaining.
+     */
+    IExpectationSetters<T> andVoid();
+
+    /**
      * Sets a stub return value that will be returned for the expected
      * invocation.
      * 
@@ -114,7 +124,7 @@ public interface IExpectationSetters<T> {
      * Expect the last invocation <code>count</code> times.
      * 
      * @param count
-     *            the number of invocations expected.
+     *            the number of invocations expected
      * @return this object to allow method call chaining.
      */
     IExpectationSetters<T> times(int count);

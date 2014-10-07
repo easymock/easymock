@@ -131,6 +131,11 @@ public class ReplayStateInvalidCallsTest {
     }
 
     @Test(expected = RuntimeExceptionWrapper.class)
+    public void andVoid() {
+        control.andVoid();
+    }
+
+    @Test(expected = RuntimeExceptionWrapper.class)
     public void andDelegateTo() {
         control.andDelegateTo(null);
     }

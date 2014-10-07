@@ -34,6 +34,8 @@ public interface IMocksControlState {
 
     void andDelegateTo(Object answer);
 
+    void andVoid();
+
     void andStubReturn(Object value);
 
     void andStubThrow(Throwable throwable);

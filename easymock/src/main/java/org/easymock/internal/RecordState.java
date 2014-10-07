@@ -129,6 +129,15 @@ public class RecordState implements IMocksControlState, Serializable {
         lastResult = Result.createDelegatingResult(delegateTo);
     }
 
+    public void andVoid() {
+        requireMethodCall("void");
+        requireVoidMethod();
+        if (lastResult != null) {
+            times(MocksControl.ONCE);
+        }
+        lastResult = Result.createReturnResult(null);
+    }
+
     public void andStubReturn(Object value) {
         requireMethodCall("stub return value");
         value = convertNumberClassIfNeccessary(value);
