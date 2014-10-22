@@ -29,6 +29,21 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
 
     private static final long serialVersionUID = 443604921336702014L;
 
+    /**
+     * Exactly one call.
+     */
+    public static final Range ONCE = new Range(1);
+
+    /**
+     * One or more calls.
+     */
+    public static final Range AT_LEAST_ONCE = new Range(1, Integer.MAX_VALUE);
+
+    /**
+     * Zero or more calls.
+     */
+    public static final Range ZERO_OR_MORE = new Range(0, Integer.MAX_VALUE);
+    
     /** lazily created; the proxy factory for classes */
     private static IProxyFactory classProxyFactory;
 
@@ -39,7 +54,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     private IMocksBehavior behavior;
 
     /**
-     * This class was kept here for compabitility reason with frameworks using EasyMock
+     * This class was kept here for compatibility reason with frameworks using EasyMock
      * @deprecated Use org.easymock.MockType
      */
     @Deprecated
@@ -382,20 +397,5 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
-
-    /**
-     * Exactly one call.
-     */
-    public static final Range ONCE = new Range(1);
-
-    /**
-     * One or more calls.
-     */
-    public static final Range AT_LEAST_ONCE = new Range(1, Integer.MAX_VALUE);
-
-    /**
-     * Zero or more calls.
-     */
-    public static final Range ZERO_OR_MORE = new Range(0, Integer.MAX_VALUE);
 
 }

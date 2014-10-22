@@ -37,6 +37,28 @@ public class Capture<T> implements Serializable {
     private final List<T> values = new ArrayList<T>(2);
 
     /**
+     * Default constructor. Only the last element will be captured
+     *
+     * @deprecated Use {@link EasyMock#newCapture()} instead
+     */
+    @Deprecated
+    public Capture() {
+        this(CaptureType.LAST);
+    }
+
+    /**
+     * Constructor allowing to select the capture type
+     *
+     * @param type
+     *            capture type
+     * @deprecated Use {@link org.easymock.EasyMock#newCapture(CaptureType)} instead
+     */
+    @Deprecated
+    public Capture(final CaptureType type) {
+        this.type = type;
+    }
+
+    /**
      * Create a new capture instance that will keep only the last captured value
      *
      * @param <T> type of the class to be captured
@@ -57,28 +79,6 @@ public class Capture<T> implements Serializable {
     @SuppressWarnings("deprecation")
     public static <T> Capture<T> newInstance(CaptureType type) {
         return new Capture<T>(type);
-    }
-
-    /**
-     * Default constructor. Only the last element will be captured
-     *
-     * @deprecated Use {@link EasyMock#newCapture()} instead
-     */
-    @Deprecated
-    public Capture() {
-        this(CaptureType.LAST);
-    }
-
-    /**
-     * Constructor allowing to select the capture type
-     * 
-     * @param type
-     *            capture type
-     * @deprecated Use {@link org.easymock.EasyMock#newCapture(CaptureType)} instead
-     */
-    @Deprecated
-    public Capture(final CaptureType type) {
-        this.type = type;
     }
 
     /**
