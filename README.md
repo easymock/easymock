@@ -105,6 +105,10 @@ To update the license
 --------------------------------------------------------------------------------------
 `mvn validate license:format -Pall`
 
+To run Sonar
+--------------------------------------------------------------------------------------
+`mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test sonar:sonar`
+
 Android
 --------------------------------------------------------------------------------------
 - Install the Android SDK
