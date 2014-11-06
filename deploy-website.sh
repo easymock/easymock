@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# to exit in case of error
+set -e
+
+# make sure the script is launched from the project root directory
+if [ "$PWD" != "$(dirname $0)" ]
+    echo "The script should be launched from EasyMock root directory"
+    exit 1
+end
+
 # clone the website branch
 echo "************** CLONE ************************"
 git clone --depth=1 --branch gh-pages git@github.com:easymock/easymock.git site
@@ -12,7 +21,7 @@ ls -1 | xargs rm -rf
 # copy the new site to the branch
 cp -R ../website/* .
 
-# to help debugging in case of iissue
+# to help debugging in case of issue
 echo "************** STATUS************************"
 git status
 
