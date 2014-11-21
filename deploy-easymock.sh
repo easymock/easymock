@@ -73,7 +73,6 @@ pause
 
 echo "Update the Maven version"
 mvn versions:set -DnewVersion=${version} -Pall
-git diff
 
 pause
 
