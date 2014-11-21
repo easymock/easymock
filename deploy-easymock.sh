@@ -42,10 +42,11 @@ fi
 
 version=$1
 
+echo "Start clean"
+mvn clean -Pall
+
 echo "Make sure we have a target directory"
 test ! -d target && mkdir target
-
-pause
 
 echo "Retrieve Jira version id for version $version"
 escaped_version=$(echo $version | sed "s/\([0-9]*\)\.\([0-9]*\)/\1\\\.\2/")
@@ -77,7 +78,7 @@ mvn versions:set -DnewVersion=${version} -Pall
 pause
 
 echo "Build and deploy"
-mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=${gpg_passphrase}
+mvn -T 8.0C deploy -PfullBuild,deployBuild -Dgpg.passphrase=${gpg_passphrase}
 
 pause
 
