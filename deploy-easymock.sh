@@ -21,6 +21,13 @@ if [ "$1" == "" ]; then
     exit 1
 fi
 
+message="should be an environment variable"
+[ -z "$jira_user" ] && echo "jira_user $message" && exit 1
+[ -z "$jira_password" ] && echo "jira_user $message" && exit 1
+[ -z "$gpg_passphrase" ] && echo "jira_user $message" && exit 1
+[ -z "$sf_user" ] && echo "jira_user $message" && exit 1
+[ -z "$sf_api_key" ] && echo "jira_user $message" && exit 1
+
 # make sure all variables are set
 if [ -z "$jira_user" ] || [ -z "$jira_password" ] || [ -z "$gpg_passphrase" ] || [ -z "$sf_user" ] || [ -z "$sf_api_key" ]; then
     echo "Variables jira_user, jira_password, gpg_assphrase, sf_user and sf_api_key should be provided"
@@ -76,7 +83,7 @@ mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=${gpg_passphra
 pause
 
 echo "Test deployment"
-mvn package -f "easymock-test-deploy/pom.xml" -s "easymock-test-deploy/pom.xml"
+mvn package -f "easymock-test-deploy/pom.xml" -s "easymock-test-deploy/settings.xml"
 
 pause
 
