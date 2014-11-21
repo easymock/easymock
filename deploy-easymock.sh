@@ -140,7 +140,7 @@ git add website
 git commit -m "Upgrade website to version $version"
 
 echo "Update website"
-sh deploy-website.sh
+deploy-website.sh
 
 pause
 
