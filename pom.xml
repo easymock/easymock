@@ -446,12 +446,14 @@
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>findbugs-maven-plugin</artifactId>
             <executions>
+              <!-- Findbugs isn't working with Java 8 these days. Better disabling it
               <execution>
                 <id>findbugs</id>
                 <goals>
                   <goal>findbugs</goal>
                 </goals>
               </execution>
+              -->
             </executions>
           </plugin>
           <plugin>
