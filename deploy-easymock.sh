@@ -129,13 +129,15 @@ pause
 echo "Update Javadoc"
 git rm -rf website/api
 cp -r easymock/target/apidocs website/api
-git add website/api
-git commit -m "Upgrade javadoc to version $version"
 
 pause
 
 echo "Update the version on the website"
 sed -i '' "s/latest_version: .*/latest_version: $version/" 'website/_config.yml'
+
+echo "Commit the new website"
+git add website
+git commit -m "Upgrade website to version $version"
 
 echo "Update website"
 sh deploy-website.sh
