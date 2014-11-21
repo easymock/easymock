@@ -120,16 +120,10 @@ Android
 
 To bundle EasyMock and deploy
 --------------------------------------------------------------------------------------
-- Update "easymock/ReleaseNotes.txt"
-  - Add a little speech on the features
-  - Retrieve the release notes in the textual format (http://jira.codehaus.org/browse/EASYMOCK#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel)
-- In local:
-```bash
-mvn versions:set -DnewVersion=x.y -Pall
-mvn versions:commit -Pall
-git commit -am "Move to version x.y"
-mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=xxxx
-```
+- Add a little speech on the features in "ReleaseNotes.txt"
+- Set the jira_user, jira_password, gpg_passphrase, sf_user, sf_api_key as environment variables
+- Launch ./deploy-easymock.sh version
+
 - Close the deployment at Sonatype Nexus UI (https://oss.sonatype.org/index.html#stagingRepositories)
   More details on the deployment rules here: https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
 - Add the staging repository url found in Nexus to easymock-test-deploy
@@ -149,14 +143,7 @@ mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=xxxx
 </repositories>
 ```
 - Release the repository. It will be synced with Maven Central Repository
-- Go to the File Manager on the EasyMock SF project (https://sourceforge.net/projects/easymock/files/?source=navbar)
-  - In EasyMock, create a folder named "x.y"
-  - Upload "easymock/target/easymock-x.y-bundle.zip" and "easymock/ReleaseNotes.txt" in the newly created directory
-  - Show the detailed information and rename it to remove the "-bundle" at the end
-  - Show the detailed information and rename it to readme.txt
-  - Repeat these step for EasyMock Class Extension
-- Release the Jira version (http://jira.codehaus.org/plugins/servlet/project-config/EASYMOCK/versions)
-- Announce to easymock@yahoogroups.com, twitter, blog
+- Announce to easymock@yahoogroups.com, tweet and blog ;-)
 
 Deploy the website
 --------------------------------------------------------------------------------------

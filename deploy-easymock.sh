@@ -10,6 +10,11 @@
 # to exit in case of error
 set -e
 
+function pause {
+    echo
+    read -p "Press [enter]  to continue"
+}
+
 # make sure the version is passed in parameter
 if [ "$1" == "" ]; then
     echo "Version to deploy should be provided"
@@ -33,41 +38,63 @@ version=$1
 echo "Make sure we have a target directory"
 test ! -d target && mkdir target
 
-echo
+pause
 
 echo "Retrieve Jira version id for version $version"
 escaped_version=$(echo $version | sed "s/\([0-9]*\)\.\([0-9]*\)/\1\\\.\2/")
 jira_version_id=$(curl --silent "http://jira.codehaus.org/rest/api/2/project/EASYMOCK/versions" | grep -o "\"id\":\"[0-9]*\",\"description\":\"EasyMock $escaped_version\"" | cut -d'"' -f4)
 echo "Jira version id = ${jira_version_id}"
 
-echo
+pause
 
 echo "Check that the jira_version was correctly found"
 result=$(curl -s -o /dev/null -I -w "%{http_code}" "http://jira.codehaus.org/rest/api/2/version/${jira_version_id}")
 [ $result -eq 200 ]
 
-echo
+pause
 
 echo "Update Release Notes"
 release_notes_page="http://jira.codehaus.org/secure/ReleaseNote.jspa?version=${jira_version_id}&styleName=Text&projectId=12103"
 release_notes=$(curl --silent "$release_notes_page")
-echo "$release_notes" | sed -n "/<textarea rows=\"40\" cols=\"120\">/,/<\/textarea>/p" | grep -v "textarea" > "target/ReleaseNotes.txt"
+cp "ReleaseNotes.txt" "target/ReleaseNotes.txt"
+echo "$release_notes" | sed -n "/<textarea rows=\"40\" cols=\"120\">/,/<\/textarea>/p" | grep -v "textarea" >> "target/ReleaseNotes.txt"
 echo "For details, please see $release_notes_page" >> "target/ReleaseNotes.txt"
 release_notes=$(cat "target/ReleaseNotes.txt")
 echo "$release_notes"
 
-echo
+pause
+
+echo "Update the Maven version"
+mvn versions:set -DnewVersion=${version} -Pall
+git diff
+
+pause
 
 echo "Build and deploy"
 mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=${gpg_passphrase}
 
-echo
+pause
+
+echo "Test deployment"
+mvn package -f "easymock-test-deploy/pom.xml" -s "easymock-test-deploy/pom.xml"
+
+pause
+
+mvn versions:commit -Pall
+git commit -am "Move to version ${version}"
+git tag easymock-${version}
+git status
+git push
+git push --tags
+
+pause
 
 echo "Release the version in Jira"
 curl -D- -u $jira_user:$jira_password -X PUT --data '{ "released": true }' -H "Content-Type:application/json" https://jira.codehaus.org/rest/api/2/version/${jira_version_id}
 
-echo
+pause
 
+# https://sourceforge.net/p/forge/community-docs/Using%20the%20Release%20API/
 echo "Deploy the bundle to SourceForce"
 sf_url=${sf_user},easymock@shell.sourceforge.net
 sf_version_path=/home/frs/project/easymock/EasyMock/${version}
@@ -79,7 +106,7 @@ curl -H "Accept: application/json" -X PUT -d "default=windows&default=mac&defaul
 result=$(curl -s -o /dev/null -I -w "%{http_code}" "http://sourceforge.net/projects/easymock/files/EasyMock/$version/")
 [ $result -eq 200 ]
 
-echo
+pause
 
 echo "Close the deployment at Sonatype Nexus UI"
 
@@ -87,7 +114,7 @@ echo "Close the deployment at Sonatype Nexus UI"
   More details on the deployment rules here: https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
 - Release the repository. It will be synced with Maven Central Repository
 
-echo
+pause
 
 echo "Update Javadoc"
 git rm -rf website/api
@@ -95,7 +122,7 @@ cp -r easymock/target/apidocs website/api
 git add website/api
 git commit -m "Upgrade javadoc to version $version"
 
-echo
+pause
 
 echo "Update the version on the website"
 sed -i '' "s/latest_version: .*/latest_version: $version/" 'website/_config.yml'
@@ -103,7 +130,7 @@ sed -i '' "s/latest_version: .*/latest_version: $version/" 'website/_config.yml'
 echo "Update website"
 sh deploy-website.sh
 
-echo
+pause
 
 echo "Send new release mail"
 mail="$(cat mail.txt)"
