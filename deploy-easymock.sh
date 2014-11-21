@@ -35,10 +35,10 @@ if [ -z "$jira_user" ] || [ -z "$jira_password" ] || [ -z "$gpg_passphrase" ] ||
 fi
 
 # make sure the script is launched from the project root directory
-if [ "$PWD" != "$(dirname $0)" ]
+if [ "$PWD" != "$(dirname $0)" ]; then
     echo "The script should be launched from EasyMock root directory"
     exit 1
-end
+fi
 
 version=$1
 
