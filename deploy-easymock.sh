@@ -83,6 +83,9 @@ mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=${gpg_passphra
 pause
 
 echo "Test deployment"
+echo
+echo "Please modify easymock-test-deploy/settings.xml the add the right repository"
+pause
 mvn package -f "easymock-test-deploy/pom.xml" -s "easymock-test-deploy/settings.xml"
 
 pause
@@ -116,10 +119,9 @@ result=$(curl -s -o /dev/null -I -w "%{http_code}" "http://sourceforge.net/proje
 pause
 
 echo "Close the deployment at Sonatype Nexus UI"
-
- (https://oss.sonatype.org/index.html#stagingRepositories)
-  More details on the deployment rules here: https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
-- Release the repository. It will be synced with Maven Central Repository
+echo
+echo "Goto https://oss.sonatype.org/index.html#stagingRepositories"
+echo "Release the repository. It will be synced with Maven Central Repository"
 
 pause
 
@@ -141,7 +143,13 @@ pause
 
 echo "Send new release mail"
 mail="$(cat mail.txt)"
-mail="${mail//@version@/$version}"
+mail="${mail/@version@/$version}"
 mail="${mail/@release_notes@/$release_notes}"
 echo "$mail" > target/mail.txt
-sendmail easymock@yahoogroups.com < target/mail.txt
+echo "Please send a mail to easymock@yahoogroups.com using the content of target/mail.txt"
+
+pause
+
+echo
+echo "Job done!"
+echo
