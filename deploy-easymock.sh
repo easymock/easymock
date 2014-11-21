@@ -107,8 +107,8 @@ sf_url=${sf_user},easymock@shell.sourceforge.net
 sf_version_path=/home/frs/project/easymock/EasyMock/${version}
 ssh ${sf_url} create
 ssh ${sf_url} "mkdir -p ${sf_version_path}"
-scp easymock/target/easymock-${version}-bundle.zip $(sf_url}:$(sf_version_path}/easymock-${version}.zip
-scp target/ReleaseNotes.txt $(sf_url}:$(sf_version_path}/readme.txt
+scp easymock/target/easymock-${version}-bundle.zip ${sf_url}:${sf_version_path}/easymock-${version}.zip
+scp target/ReleaseNotes.txt ${sf_url}:${sf_version_path}/readme.txt
 curl -H "Accept: application/json" -X PUT -d "default=windows&default=mac&default=linux&default=bsd&default=solaris&default=others" -d "api_key=${sf_api_key}" http://sourceforge.net/projects/easymock/files/EasyMock/${version}/easymock-${version}.zip
 result=$(curl -s -o /dev/null -I -w "%{http_code}" "http://sourceforge.net/projects/easymock/files/EasyMock/$version/")
 [ $result -eq 200 ]
