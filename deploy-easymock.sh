@@ -81,11 +81,12 @@ mvn -T 8.0C clean deploy -PfullBuild,deployBuild -Dgpg.passphrase=${gpg_passphra
 
 pause
 
-echo "Test deployment"
-echo
-echo "Please modify easymock-test-deploy/settings.xml the add the right repository"
+echo "Please close the repository  at https://oss.sonatype.org"
+
 pause
-mvn package -f "easymock-test-deploy/pom.xml" -s "easymock-test-deploy/settings.xml"
+
+echo "Test release"
+mvn package -f "easymock-test-deploy/pom.xml"
 
 pause
 
