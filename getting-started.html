@@ -18,15 +18,11 @@ locale: en
 </dependency>
 {% endhighlight %}
 
-  <p>Then, you need a class to test and a collaborator used by this class. The collaborator can be a class or and interface. It doesn't matter. Please don't create an interface just for the pleasure of mocking it.</p>
+  <p>Then, you need a class to test and a collaborator used by this class. The collaborator can be a class or an interface. It doesn't matter. Please don't create an interface just for the pleasure of mocking it.</p>
 
 {% highlight java %}
 public interface Collaborator {
     void documentAdded(String title);
-    void documentChanged(String title);
-    void documentRemoved(String title);
-    byte voteForRemoval(String title);
-    byte[] voteForRemovals(String[] title);
 }
 
 public class ClassUnderTest {
@@ -37,12 +33,6 @@ public class ClassUnderTest {
         this.listener = listener;
     }
     public void addDocument(String title, byte[] document) { 
-        // ... 
-    }
-    public boolean removeDocument(String title) {
-        // ... 
-    }
-    public boolean removeDocuments(String[] titles) {
         // ... 
     }
 }
@@ -64,11 +54,13 @@ public class ClassUnderTest {
 {% highlight java %}
 import static org.easymock.EasyMock.*;
 import org.easymock.*;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-@RunWith(EasyMockRunner.class)
 public class ExampleTest extends EasyMockSupport {
+
+    @Rule
+    public EasyMockRule rule = new EasyMockRule(this);
 
     @Mock
     private Collaborator collaborator; // 1
@@ -94,7 +86,7 @@ public class ExampleTest extends EasyMockSupport {
         That's what we expect. Any other result means </li>
     </ul>
 
-    <p>From there, I will highly suggest you to have a look at the
+    <p>From there, I will highly suggest you have a look at the
         <a href="https://github.com/easymock/easymock/tree/master/easymock/src/samples/java/org/easymock/samples">samples</a>
         and the <a href="user-guide.html">full documentation</a> to get a fair overview of EasyMock.
     </p>
