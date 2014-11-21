@@ -4,10 +4,10 @@
 set -e
 
 # make sure the script is launched from the project root directory
-if [ "$PWD" != "$(dirname $0)" ]
+if [ "$(dirname $0)" != "." ]; then
     echo "The script should be launched from EasyMock root directory"
     exit 1
-end
+fi
 
 # clone the website branch
 echo "************** CLONE ************************"
