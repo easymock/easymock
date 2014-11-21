@@ -13,7 +13,7 @@
   <artifactId>easymock-test-deploy</artifactId>
   <packaging>jar</packaging>
   <name>EasyMock Test Deploy</name>
-  <description>EasyMock Test Deploy makes sure the binaries deployed to Sonatype are working correctly</description>
+  <description>EasyMock Test Deploy makes sure the binaries built are working correctly</description>
   <inceptionYear>2013</inceptionYear>
 
   <developers>
@@ -81,23 +81,6 @@
           <skip>true</skip>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.9</version>
-        <executions>
-          <execution>
-            <id>purge-local-dependencies</id>
-            <phase>process-sources</phase>
-            <goals>
-              <goal>purge-local-repository</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <actTransitively>false</actTransitively>
-        </configuration>
-      </plugin>      
     </plugins>
   </build>
 
