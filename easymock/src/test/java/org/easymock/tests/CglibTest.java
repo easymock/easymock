@@ -15,15 +15,17 @@
  */
 package org.easymock.tests;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import net.sf.cglib.proxy.*;
 
+import org.easymock.EasyMock;
 import org.easymock.internal.ClassInstantiatorFactory;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.*;
 
 /**
  * This test case is used to make sure that the way cglib is used is providing
@@ -67,5 +69,18 @@ public class CglibTest {
         f.getCallback(0);
 
         return f;
+    }
+
+    /**
+     * Mocking the File class isn't working when using an old ASM version. So we make sure our version works
+     * fine
+     */
+    @Test
+    public void testJava8() {
+        File file = EasyMock.createMock(File.class);
+        EasyMock.expect(file.canExecute()).andReturn(true);
+        EasyMock.replay(file);
+        assertTrue(file.canExecute());
+        EasyMock.verify(file);
     }
 }
