@@ -15,23 +15,25 @@
  */
 package org.itests;
 
-import static org.junit.Assert.*;
-import static org.powermock.api.easymock.PowerMock.*;
-
-import org.easymock.EasyMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import static org.easymock.EasyMock.expect;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.powermock.api.easymock.PowerMock.*;
+
 /**
  * Test doing a basic smoke test to make sure EasyMock is still compatible with
- * PowerMock. A complete means to run the PowerMock test suite using the latest
+ * PowerMock. A more complete test is to run the entire PowerMock test suite using the latest
  * EasyMock version.
  * <p>
- * They are in this package because PowerMock doesn't work on classes in the
- * org.easymock package.
- * 
+ * This test class is in the <code>org.itests</code> package instead of in a classical <code>org.easymock</code>
+ * package because Powermock ignores classes from the <code>org.easymock</code> to be able to work as
+ * expected (mocking itself is never a good idea)
+ *
  * @author Henri Tremblay
  */
 @RunWith(PowerMockRunner.class)
@@ -41,22 +43,26 @@ public class PowermockTest {
     @Test
     public void testMockStatic() throws Exception {
         mockStatic(StaticService.class);
-        final String expected = "Hello altered World";
-        EasyMock.expect(StaticService.say("hello")).andReturn("Hello altered World");
+
+        String expected = "Hello altered World";
+        expect(StaticService.say("hello")).andReturn(expected);
+
         replay(StaticService.class);
 
-        final String actual = StaticService.say("hello");
+        String actual = StaticService.say("hello");
 
         verify(StaticService.class);
-        assertEquals("Expected and actual did not match", expected, actual);
+
+        assertEquals(expected, actual);
 
         // Singleton still be mocked by now.
         try {
             StaticService.say("world");
             fail("Should throw AssertionError!");
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
             assertEquals("\n  Unexpected method call StaticService.say(\"world\"):", e.getMessage());
         }
     }
 
 }
+
