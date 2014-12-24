@@ -421,7 +421,8 @@
 
   <modules>
     <module>easymock</module>
-    <module>easymock-integration</module>
+    <module>easymock-test-integration</module>
+    <module>easymock-test-osgi</module>
   </modules>
 
   <distributionManagement>
