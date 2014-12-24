@@ -10,9 +10,9 @@
     <version>3.3.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>easymock-integration</artifactId>
+  <artifactId>easymock-test-osgi</artifactId>
   <packaging>jar</packaging>
-  <name>EasyMock Integration</name>
+  <name>EasyMock Test OSGi</name>
   <description>EasyMock Integration is a test project making sure EasyMock is correctly packaged and OSGi compliant</description>
   <inceptionYear>2009</inceptionYear>
 
@@ -55,7 +55,7 @@
       <exclusions>
         <exclusion>
           <groupId>cglib</groupId>
-          <artifactId>cglib-nodep</artifactId>
+          <artifactId>cglib</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -139,19 +139,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- To make sure we are still compatible with powermock -->
-    <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-api-easymock</artifactId>
-      <version>1.6.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-module-junit4</artifactId>
-      <version>1.6.0</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>
