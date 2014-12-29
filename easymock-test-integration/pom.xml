@@ -43,6 +43,13 @@
 
     <!-- To make sure we are still compatible with powermock -->
     <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <!-- Current powermock version doesn't work with 4.12 -->
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-api-easymock</artifactId>
       <version>${powermock.version}</version>
