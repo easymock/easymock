@@ -15,19 +15,19 @@
  */
 package org.easymock.samples;
 
-/**
- * @author OFFIS, Tammo Freese, Henri Tremblay
- */
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.easymock.*;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
+
+/**
+ * @author OFFIS, Tammo Freese, Henri Tremblay
+ */
 public class ExampleTest extends EasyMockSupport {
 
     @Rule
