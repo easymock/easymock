@@ -27,7 +27,7 @@ git status
 
 # push the site
 echo "************** COMMIT ***********************"
-git add .
+git add --ignore-removal .
 git commit -m "from master $(git log | head -n 1)"
 
 echo "************** PUSH ************************"
