@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.easymock</groupId>
     <artifactId>easymock-parent</artifactId>
-    <version>3.3.1-SNAPSHOT</version>
+    <version>3.3.1</version>
   </parent>
 
   <artifactId>easymock-test-osgi</artifactId>
@@ -159,8 +159,27 @@
           <skip>true</skip>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
   <repositories>
     <repository>
       <id>com.springsource.repository.bundles.external</id>
@@ -168,6 +187,7 @@
       <url>http://repository.springsource.com/maven/bundles/external</url>
     </repository>
   </repositories>
+
   <profiles>
     <profile>
       <id>fullBuild</id>
