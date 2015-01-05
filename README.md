@@ -20,7 +20,7 @@ I'm using:
 - Maven 3.2.3
 - m2e with the following connectors:
   - buildhelper (for build-helper-maven-plugin)
-- IntelliJ 13.1.4 (instead of Eclipse)
+- IntelliJ 14 Ultimate (thanks to JetBrains for the license)
 
 To configure your local workspace:
 - Import the Maven parent project to Eclipse or IntelliJ
