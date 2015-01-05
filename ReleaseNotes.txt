@@ -1,0 +1,1 @@
+This version is mainly a maintenance release to support Java 8 correctly.
