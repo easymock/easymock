@@ -51,13 +51,10 @@ test ! -d target && mkdir target
 echo "Retrieve Jira version id for version $version"
 escaped_version=$(echo $version | sed "s/\([0-9]*\)\.\([0-9]*\)/\1\\\.\2/")
 jira_version_id=$(curl --silent "http://jira.codehaus.org/rest/api/2/project/EASYMOCK/versions" | grep -o "\"id\":\"[0-9]*\",\"description\":\"EasyMock $escaped_version\"" | cut -d'"' -f4)
-echo "Jira version id = ${jira_version_id}"
-
-pause
-
 echo "Check that the jira_version was correctly found"
 result=$(curl -s -o /dev/null -I -w "%{http_code}" "http://jira.codehaus.org/rest/api/2/version/${jira_version_id}")
 [ $result -eq 200 ]
+echo "Jira version id = ${jira_version_id}"
 
 pause
 
