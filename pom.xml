@@ -336,7 +336,6 @@
         <configuration>
           <useDefaultManifestFile>true</useDefaultManifestFile>
           <archive>
-            <index>true</index>
             <addMavenDescriptor>false</addMavenDescriptor>
             <manifest>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
