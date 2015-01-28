@@ -15,12 +15,6 @@
  */
 package org.easymock.itests;
 
-import static org.easymock.EasyMock.*;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.jar.Manifest;
-
 import org.easymock.MockType;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.matchers.Equals;
@@ -28,6 +22,12 @@ import org.objenesis.Objenesis;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
 import org.springframework.osgi.util.OsgiStringUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.jar.Manifest;
+
+import static org.easymock.EasyMock.*;
 
 /**
  * Note: This is a JUnit 3 test because of the Spring OSGi test framework
@@ -43,11 +43,11 @@ public class OsgiTest extends OsgiBaseTest {
     @Override
     protected String[] getTestBundlesNames() {
 
-        final String cglibVersion = "2.2.0";
+        final String cglibVersion = "3.1_1";
         final String objenesisVersion = getImplementationVersion(Objenesis.class);
         final String easymockVersion = getEasyMockVersion();
 
-        return new String[] { "net.sourceforge.cglib, com.springsource.net.sf.cglib, " + cglibVersion,
+        return new String[] { "org.apache.servicemix.bundles, org.apache.servicemix.bundles.cglib, " + cglibVersion,
                 "org.easymock, easymock, " + easymockVersion, "org.objenesis, objenesis, " + objenesisVersion };
     }
 
