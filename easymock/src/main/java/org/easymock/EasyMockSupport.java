@@ -15,12 +15,12 @@
  */
 package org.easymock;
 
+import org.easymock.internal.Injector;
+import org.easymock.internal.MockBuilder;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.easymock.internal.Injector;
-import org.easymock.internal.MockBuilder;
 
 /**
  * Helper class to be used to keep tracks of mocks easily. See EasyMock
@@ -50,6 +50,185 @@ public class EasyMockSupport {
 
     /** List of all controls created */
     protected final List<IMocksControl> controls = new ArrayList<IMocksControl>(5);
+
+    /**
+     * Creates a mock object that implements the given interface, order checking
+     * is disabled by default.
+     *
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @return the mock object.
+     *
+     * @since ${project.version}
+     */
+    public <T> T mock(final Class<T> toMock) {
+        return createControl().createMock(toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the given interface, order checking
+     * is disabled by default.
+     *
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     *
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @return the mock object.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
+     *
+     * @since ${project.version}
+     */
+    public <T> T mock(final String name, final Class<T> toMock) {
+        return createControl().createMock(name, toMock);
+    }
+
+    /**
+     * Creates a mock object of the requested type that implements the given interface or extends
+     * the given class
+     *
+     * @param type
+     *            the type of the mock to be created.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @return the mock object.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
+     *
+     * @since ${project.version}
+     */
+    public <T> T mock(final MockType type, final Class<T> toMock) {
+        return createControl(type).createMock(toMock);
+    }
+
+    /**
+     * Creates a mock object of the requested type that implements the given interface or extends
+     * the given class
+     *
+     * @param name
+     *            the name of the mock object.
+     * @param type
+     *            the type of the mock to be created.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @return the mock object.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
+     *
+     * @since ${project.version}
+     */
+    public <T> T mock(final String name, final MockType type, final Class<T> toMock) {
+        return createControl(type).createMock(name, toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the given interface, order checking
+     * is enabled by default.
+     *
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @return the mock object.
+     *
+     * @since ${project.version}
+     */
+    public <T> T strictMock(final Class<T> toMock) {
+        return createStrictControl().createMock(toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the given interface, order checking
+     * is enabled by default.
+     *
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @return the mock object.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
+     *
+     * @since ${project.version}
+     */
+    public <T> T strictMock(final String name, final Class<T> toMock) {
+        return createStrictControl().createMock(name, toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the given interface, order checking
+     * is disabled by default, and the mock object will return <code>0</code>,
+     * <code>null</code> or <code>false</code> for unexpected invocations.
+     *
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @return the mock object.
+     *
+     * @since ${project.version}
+     */
+    public <T> T niceMock(final Class<T> toMock) {
+        return createNiceControl().createMock(toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the given interface, order checking
+     * is disabled by default, and the mock object will return <code>0</code>,
+     * <code>null</code> or <code>false</code> for unexpected invocations.
+     *
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     *
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @return the mock object.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
+     *
+     * @since ${project.version}
+     */
+    public <T> T niceMock(final String name, final Class<T> toMock) {
+        return createNiceControl().createMock(name, toMock);
+    }
+
+    /**
+     * Create a mock builder allowing to create a partial mock for the given
+     * class or interface.
+     *
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class of the interface that the mock object should
+     *            implement.
+     * @return a mock builder to create a partial mock
+     *
+     * @since ${project.version}
+     */
+    public <T> IMockBuilder<T> partialMockBuilder(final Class<T> toMock) {
+        return new MockBuilder<T>(toMock, this);
+    }
 
     /**
      * Creates a mock object that extends the given class, order checking is
@@ -341,7 +520,7 @@ public class EasyMockSupport {
      *             if the name is not a valid Java identifier.
      */
     public <T> T createMock(final MockType type, final Class<T> toMock) {
-        return createControl(type).createMock(toMock);
+        return mock(type, toMock);
     }
 
     /**
@@ -362,7 +541,7 @@ public class EasyMockSupport {
      *             if the name is not a valid Java identifier.
      */
     public <T> T createMock(final String name, final MockType type, final Class<T> toMock) {
-        return createControl(type).createMock(name, toMock);
+        return mock(name, type, toMock);
     }
 
     /**
@@ -377,7 +556,7 @@ public class EasyMockSupport {
      * @return the mock object.
      */
     public <T> T createStrictMock(final Class<T> toMock) {
-        return createStrictControl().createMock(toMock);
+        return strictMock(toMock);
     }
 
     /**
@@ -396,7 +575,7 @@ public class EasyMockSupport {
      *             if the name is not a valid Java identifier.
      */
     public <T> T createStrictMock(final String name, final Class<T> toMock) {
-        return createStrictControl().createMock(name, toMock);
+        return strictMock(name, toMock);
     }
 
     /**
@@ -411,7 +590,7 @@ public class EasyMockSupport {
      * @return the mock object.
      */
     public <T> T createMock(final Class<T> toMock) {
-        return createControl().createMock(toMock);
+        return mock(toMock);
     }
 
     /**
@@ -431,7 +610,7 @@ public class EasyMockSupport {
      *             if the name is not a valid Java identifier.
      */
     public <T> T createMock(final String name, final Class<T> toMock) {
-        return createControl().createMock(name, toMock);
+        return mock(name, toMock);
     }
 
     /**
@@ -447,7 +626,7 @@ public class EasyMockSupport {
      * @return the mock object.
      */
     public <T> T createNiceMock(final Class<T> toMock) {
-        return createNiceControl().createMock(toMock);
+        return niceMock(toMock);
     }
 
     /**
@@ -468,7 +647,7 @@ public class EasyMockSupport {
      *             if the name is not a valid Java identifier.
      */
     public <T> T createNiceMock(final String name, final Class<T> toMock) {
-        return createNiceControl().createMock(name, toMock);
+        return niceMock(name, toMock);
     }
 
     /**
@@ -494,7 +673,7 @@ public class EasyMockSupport {
      * @return a mock builder to create a partial mock
      */
     public <T> IMockBuilder<T> createMockBuilder(final Class<T> toMock) {
-        return new MockBuilder<T>(toMock, this);
+        return partialMockBuilder(toMock);
     }
 
     /**
