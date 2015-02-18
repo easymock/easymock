@@ -15,13 +15,13 @@
  */
 package org.easymock.samples;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
@@ -39,7 +39,7 @@ public class SupportTest extends EasyMockSupport {
 
     @Test
     public void addDocument() {
-        collaborator = createMock(Collaborator.class);
+        collaborator = mock(Collaborator.class);
         classUnderTest.setListener(collaborator);
         collaborator.documentAdded("New Document");
         replayAll();

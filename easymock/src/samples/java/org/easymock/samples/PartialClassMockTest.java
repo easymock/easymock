@@ -15,13 +15,13 @@
  */
 package org.easymock.samples;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
 import org.easymock.EasyMockSupport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * Example of how to perform partial mocking
@@ -61,7 +61,7 @@ public class PartialClassMockTest extends EasyMockSupport {
 
     @Before
     public void setUp() throws Exception {
-        rect = createMockBuilder(Rect.class).addMockedMethods("getX", "getY").createMock();
+        rect = partialMockBuilder(Rect.class).addMockedMethods("getX", "getY").createMock();
     }
 
     @After

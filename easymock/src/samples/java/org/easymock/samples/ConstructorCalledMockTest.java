@@ -15,15 +15,15 @@
  */
 package org.easymock.samples;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
-import java.math.BigDecimal;
-
 import org.easymock.EasyMockSupport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.math.BigDecimal;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * Example of how to partial mock with actually calling a constructor
@@ -60,7 +60,7 @@ public class ConstructorCalledMockTest extends EasyMockSupport {
 
     @Before
     public void setUp() {
-        tc = createMockBuilder(TaxCalculator.class).withConstructor(BigDecimal[].class).withArgs(
+        tc = partialMockBuilder(TaxCalculator.class).withConstructor(BigDecimal[].class).withArgs(
                 (Object) new BigDecimal[] { new BigDecimal("5"), new BigDecimal("15") }) // varargs are special since they are in fact arrays
                 .createMock(); // no need to mock any methods, abstract ones are mocked by default
     }
