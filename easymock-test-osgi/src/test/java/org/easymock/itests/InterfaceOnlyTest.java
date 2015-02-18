@@ -15,16 +15,16 @@
  */
 package org.easymock.itests;
 
-import static org.easymock.EasyMock.*;
+import org.easymock.MockType;
+import org.easymock.internal.MocksControl;
+import org.easymock.internal.matchers.Equals;
+import org.osgi.framework.Constants;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.jar.Manifest;
 
-import org.easymock.MockType;
-import org.easymock.internal.MocksControl;
-import org.easymock.internal.matchers.Equals;
-import org.osgi.framework.Constants;
+import static org.easymock.EasyMock.*;
 
 /**
  * Test that we still can mock interfaces without cglib and objenesis as
@@ -57,7 +57,7 @@ public class InterfaceOnlyTest extends OsgiBaseTest {
     }
 
     public void testCanMock() throws IOException {
-        final Appendable mock = createMock(Appendable.class);
+        final Appendable mock = mock(Appendable.class);
         expect(mock.append("test")).andReturn(mock);
         replayAll();
         assertSame(mock, mock.append("test"));
@@ -74,7 +74,7 @@ public class InterfaceOnlyTest extends OsgiBaseTest {
 
     public void testCannotMock() throws Exception {
         try {
-            createMock(ArrayList.class);
+            mock(ArrayList.class);
             fail("Should throw an exception due to a NoClassDefFoundError");
         } catch (final RuntimeException e) {
             assertEquals("Class mocking requires to have cglib and objenesis librairies in the classpath", e

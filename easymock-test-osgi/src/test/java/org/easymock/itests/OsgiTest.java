@@ -81,7 +81,7 @@ public class OsgiTest extends OsgiBaseTest {
     }
 
     public void testCanMock() throws IOException {
-        final Appendable mock = createMock(Appendable.class);
+        final Appendable mock = mock(Appendable.class);
         expect(mock.append("test")).andReturn(mock);
         replayAll();
         assertSame(mock, mock.append("test"));
@@ -102,7 +102,7 @@ public class OsgiTest extends OsgiBaseTest {
      * test this case is working
      */
     public void testCanMock_BootstrapClassLoader() {
-        final ArrayList<?> mock = createMock(ArrayList.class);
+        final ArrayList<?> mock = mock(ArrayList.class);
         expect(mock.size()).andReturn(5);
         replayAll();
         assertEquals(5, mock.size());
@@ -113,7 +113,7 @@ public class OsgiTest extends OsgiBaseTest {
      * Normal case of a class in this class loader
      */
     public void testCanMock_OtherClassLoader() {
-        final A mock = createMock(A.class);
+        final A mock = mock(A.class);
         mock.foo();
         replayAll();
         mock.foo();
@@ -121,7 +121,7 @@ public class OsgiTest extends OsgiBaseTest {
     }
 
     public void testCanPartialMock() throws Exception {
-        final A mock = createMockBuilder(A.class).withConstructor().addMockedMethod("foo").createMock();
+        final A mock = partialMockBuilder(A.class).withConstructor().addMockedMethod("foo").createMock();
 
         mock.foo();
         replay(mock);

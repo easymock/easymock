@@ -15,16 +15,6 @@
  */
 package org.easymock.itests;
 
-import java.io.File;
-import java.lang.reflect.Method;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
 import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.osgi.framework.Bundle;
@@ -33,6 +23,15 @@ import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
 import org.springframework.osgi.test.AbstractOsgiTests;
 import org.springframework.osgi.util.OsgiStringUtils;
 import org.w3c.dom.Document;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import java.io.File;
+import java.lang.reflect.Method;
 
 /**
  * Note: This is a JUnit 3 test because of the Spring OSGi test framework
@@ -45,8 +44,8 @@ public abstract class OsgiBaseTest extends AbstractConfigurableBundleCreatorTest
 
     private final EasyMockSupport support = new EasyMockSupport();
 
-    protected <T> T createMock(final Class<T> toMock) {
-        return support.createMock(toMock);
+    protected <T> T mock(final Class<T> toMock) {
+        return support.mock(toMock);
     }
 
     protected void replayAll() {
