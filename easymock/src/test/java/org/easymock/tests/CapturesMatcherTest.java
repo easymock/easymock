@@ -15,8 +15,6 @@
  */
 package org.easymock.tests;
 
-import static org.junit.Assert.*;
-
 import org.easymock.Capture;
 import org.easymock.CaptureType;
 import org.easymock.internal.Invocation;
@@ -26,12 +24,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 /**
  * @author Henri Tremblay
  */
 public class CapturesMatcherTest {
 
-    private final Capture<String> capture = new Capture<String>(CaptureType.ALL);
+    private final Capture<String> capture = Capture.newInstance(CaptureType.ALL);
 
     private final Captures<String> matcher = new Captures<String>(capture);
 
