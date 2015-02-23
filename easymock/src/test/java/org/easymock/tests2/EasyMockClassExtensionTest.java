@@ -15,8 +15,12 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import org.easymock.ConstructorArgs;
+import org.easymock.EasyMock;
+import org.easymock.IMockBuilder;
+import org.easymock.internal.EasyMockProperties;
+import org.easymock.tests2.MocksControlTest.A;
+import org.junit.Test;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -24,12 +28,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.easymock.ConstructorArgs;
-import org.easymock.EasyMock;
-import org.easymock.IMockBuilder;
-import org.easymock.internal.EasyMockProperties;
-import org.easymock.tests2.MocksControlTest.A;
-import org.junit.Test;
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
@@ -73,12 +73,9 @@ public class EasyMockClassExtensionTest {
 
     /** Types of all method flavors */
     /** Types of all method flavors */
-    private static final Class<?>[][] PARAMETER_TYPES = new Class<?>[][] { new Class[] { Class.class }, //
-            new Class[] { String.class, Class.class }, //
-            new Class[] { Class.class, Method[].class }, //
-            new Class[] { String.class, Class.class, Method[].class }, //
-            new Class[] { Class.class, ConstructorArgs.class, Method[].class }, //
-            new Class[] { String.class, Class.class, ConstructorArgs.class, Method[].class } //
+    private static final Class<?>[][] PARAMETER_TYPES = new Class<?>[][] {
+            new Class[] { Class.class }, //
+            new Class[] { String.class, Class.class } //
     };
 
     /** Values to pass to each method call */
@@ -104,12 +101,9 @@ public class EasyMockClassExtensionTest {
             throw new RuntimeException(e);
         }
 
-        PARAMETER_VALUES = new Object[][] { new Object[] { A.class }, //
-                new Object[] { "myMock", A.class }, //
-                new Object[] { A.class, methods }, //
-                new Object[] { "myMock", A.class, methods }, //
-                new Object[] { A.class, args, methods }, //
-                new Object[] { "myMock", A.class, args, methods } //
+        PARAMETER_VALUES = new Object[][] {
+                new Object[] { A.class }, //
+                new Object[] { "myMock", A.class } //
         };
 
         for (int i = 0; i < PARAMETERS.length; i++) {

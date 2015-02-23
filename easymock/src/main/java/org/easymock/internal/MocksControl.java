@@ -15,12 +15,12 @@
  */
 package org.easymock.internal;
 
+import org.easymock.*;
+
 import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-
-import org.easymock.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -91,30 +91,13 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     }
 
     public <T> T createMock(final Class<T> toMock) {
-        return createMock(null, toMock, (Method[]) null);
+        return createMock(null, toMock, null, (Method[]) null);
     }
 
     public <T> T createMock(final String name, final Class<T> toMock) {
-        return createMock(name, toMock, (Method[]) null);
+        return createMock(name, toMock, null, (Method[]) null);
     }
 
-    @Deprecated
-    public <T> T createMock(final String name, final Class<T> toMock, final Method... mockedMethods) {
-        return createMock(name, toMock, null, mockedMethods);
-    }
-
-    @Deprecated
-    public <T> T createMock(final Class<T> toMock, final Method... mockedMethods) {
-        return createMock(null, toMock, null, mockedMethods);
-    }
-
-    @Deprecated
-    public <T> T createMock(final Class<T> toMock, final ConstructorArgs constructorArgs,
-            final Method... mockedMethods) {
-        return createMock(null, toMock, constructorArgs, mockedMethods);
-    }
-
-    @Deprecated
     public <T> T createMock(final String name, final Class<T> toMock, final ConstructorArgs constructorArgs,
             final Method... mockedMethods) {
         if (toMock.isInterface() && mockedMethods != null) {

@@ -15,15 +15,15 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import org.easymock.MockType;
+import org.easymock.internal.MocksControl;
+import org.junit.Test;
 
 import java.lang.reflect.Method;
 import java.util.List;
 
-import org.easymock.MockType;
-import org.easymock.internal.MocksControl;
-import org.junit.Test;
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * Test all kind of mocking making sure the partial mocking and interface works
@@ -91,37 +91,6 @@ public class MockingTest {
 
     private void checkInterfaceMock(final Object mock, final MockType behavior) {
         checkBehavior(mock, behavior);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testPartialClassMocking() {
-        final ClassToMock mock = createMock(ClassToMock.class, getMethod());
-        checkPartialClassMocking(mock, MockType.DEFAULT);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testStrictPartialClassMocking() {
-        final ClassToMock mock = createStrictMock(ClassToMock.class, getMethod());
-        checkPartialClassMocking(mock, MockType.STRICT);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testNicePartialClassMocking() {
-        final ClassToMock mock = createNiceMock(ClassToMock.class, getMethod());
-        checkPartialClassMocking(mock, MockType.NICE);
-    }
-
-    private void checkPartialClassMocking(final ClassToMock mock, final MockType behavior) {
-        checkClassMocking(mock, behavior);
-        assertEquals(10, mock.foo());
-        expect(mock.method()).andReturn(30);
-        replay(mock);
-        assertEquals(10, mock.foo());
-        assertEquals(30, mock.method());
-        verify(mock);
     }
 
     private void checkClassMocking(final Object mock, final MockType behavior) {

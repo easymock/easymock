@@ -15,17 +15,17 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.hamcrest.core.Is.*;
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Method;
-
 import org.easymock.ConstructorArgs;
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
+
+import static org.easymock.EasyMock.*;
+import static org.hamcrest.core.Is.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
@@ -65,66 +65,6 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
     public void testCreateNiceControl() {
         final IMocksControl ctrl = createNiceControl();
         assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
-    }
-
-    @Test
-    public void testCreateStrictMockClassOfTMethodArray() {
-        assertThat(createStrictMock(ToMock.class, foo), is(ToMock.class));
-    }
-
-    @Test
-    public void testCreateStrictMockStringClassOfTMethodArray() {
-        assertThat(createStrictMock("myMock", ToMock.class, foo), is(ToMock.class));
-    }
-
-    @Test
-    public void testCreateStrictMockClassOfTConstructorArgsMethodArray() {
-        assertThat(createStrictMock(ToMock.class, args, foo), is(ToMock.class));
-    }
-
-    @Test
-    public void testCreateStrictMockStringClassOfTConstructorArgsMethodArray() {
-        assertThat(createStrictMock("myMock", ToMock.class, args, foo), is(ToMock.class));
-    }
-
-    @Test
-    public void testCreateMockClassOfTMethodArray() {
-        assertThat(createMock(ToMock.class, foo), is(ToMock.class));
-    }
-
-    @Test
-    public void testCreateMockStringClassOfTMethodArray() {
-        assertThat(createMock("myMock", ToMock.class, foo), is(ToMock.class));
-    }
-
-    @Test
-    public void testCreateMockClassOfTConstructorArgsMethodArray() {
-        assertThat(createMock(ToMock.class, args, foo), is(ToMock.class));
-    }
-
-    @Test
-    public void testCreateMockStringClassOfTConstructorArgsMethodArray() {
-        assertThat(createMock("myMock", ToMock.class, args, foo), is(ToMock.class));
-    }
-
-    @Test
-    public void testCreateNiceMockClassOfTMethodArray() {
-        assertThat(createNiceMock(ToMock.class, foo), is(ToMock.class));
-    }
-
-    @Test
-    public void testCreateNiceMockStringClassOfTMethodArray() {
-        assertThat(createNiceMock("myMock", ToMock.class, foo), is(ToMock.class));
-    }
-
-    @Test
-    public void testCreateNiceMockClassOfTConstructorArgsMethodArray() {
-        assertThat(createNiceMock(ToMock.class, args, foo), is(ToMock.class));
-    }
-
-    @Test
-    public void testCreateNiceMockStringClassOfTConstructorArgsMethodArray() {
-        assertThat(createNiceMock("myMock", ToMock.class, args, foo), is(ToMock.class));
     }
 
     @Test

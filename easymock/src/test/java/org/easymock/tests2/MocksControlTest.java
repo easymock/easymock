@@ -15,18 +15,18 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.easymock.ConstructorArgs;
 import org.easymock.IMocksControl;
 import org.easymock.MockType;
 import org.easymock.internal.MocksControl;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
@@ -79,8 +79,8 @@ public class MocksControlTest {
     @Test
     public void testMocksControl_PartialMock_NoConstructorCalled() throws Exception {
         final IMocksControl ctrl = createControl();
-        final A a = ctrl.createMock(A.class, A.class.getMethod("bar", new Class[0]), A.class.getMethod(
-                "toString", new Class[0]));
+        final A a = ctrl.createMock(null, A.class, null, A.class.getMethod("bar"), A.class.getMethod(
+                "toString"));
 
         assertEquals("No constructor called so should not be initialized", 0, a.i);
         expect(a.bar()).andReturn(5);
@@ -95,8 +95,8 @@ public class MocksControlTest {
     @Test
     public void testMocksControl_NamedPartialMock_NoConstructorCalled() throws Exception {
         final IMocksControl ctrl = createControl();
-        final A a = ctrl.createMock("myMock", A.class, A.class.getMethod("bar", new Class[0]), A.class
-                .getMethod("toString", new Class[0]));
+        final A a = ctrl.createMock("myMock", A.class, null, A.class.getMethod("bar"), A.class
+                .getMethod("toString"));
 
         assertEquals("No constructor called so should not be initialized", 0, a.i);
         expect(a.bar()).andReturn(5);
@@ -114,8 +114,8 @@ public class MocksControlTest {
 
         final ConstructorArgs args = new ConstructorArgs(A.class.getConstructor(Integer.TYPE), 6);
 
-        final A a = ctrl.createMock(A.class, args, A.class.getMethod("bar", new Class[0]), A.class.getMethod(
-                "toString", new Class[0]));
+        final A a = ctrl.createMock(null, A.class, args, A.class.getMethod("bar"), A.class.getMethod(
+                "toString"));
 
         assertEquals("Constructor called so should be initialized", 6, a.i);
         expect(a.bar()).andReturn(5);
@@ -133,8 +133,8 @@ public class MocksControlTest {
 
         final ConstructorArgs args = new ConstructorArgs(A.class.getConstructor(Integer.TYPE), 6);
 
-        final A a = ctrl.createMock("myMock", A.class, args, A.class.getMethod("bar", new Class[0]), A.class
-                .getMethod("toString", new Class[0]));
+        final A a = ctrl.createMock("myMock", A.class, args, A.class.getMethod("bar"), A.class
+                .getMethod("toString"));
 
         assertEquals("Constructor called so should be initialized", 6, a.i);
         expect(a.bar()).andReturn(5);
@@ -149,31 +149,31 @@ public class MocksControlTest {
     @Test
     public void testInterfaceForbidden_PartialMock() throws Exception {
         final ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(Integer.TYPE), 6);
-        final Method[] methods = new Method[] { List.class.getMethod("size", new Class[0]) };
+        final Method[] methods = new Method[] { List.class.getMethod("size") };
 
         final IMocksControl ctrl = createControl();
 
         try {
-            ctrl.createMock(List.class, methods);
-            fail("partial mocking on interface shouln't be allowed");
+            ctrl.createMock(null, List.class, null, methods);
+            fail("partial mocking on interface shouldn't be allowed");
         } catch (final IllegalArgumentException e) {
         }
 
         try {
-            ctrl.createMock(List.class, args, methods);
-            fail("partial mocking on interface shouln't be allowed");
+            ctrl.createMock(null, List.class, args, methods);
+            fail("partial mocking on interface shouldn't be allowed");
         } catch (final IllegalArgumentException e) {
         }
 
         try {
-            ctrl.createMock("myMock", List.class, methods);
-            fail("partial mocking on interface shouln't be allowed");
+            ctrl.createMock("myMock", List.class, null, methods);
+            fail("partial mocking on interface shouldn't be allowed");
         } catch (final IllegalArgumentException e) {
         }
 
         try {
             ctrl.createMock("myMock", List.class, args, methods);
-            fail("partial mocking on interface shouln't be allowed");
+            fail("partial mocking on interface shouldn't be allowed");
         } catch (final IllegalArgumentException e) {
         }
     }

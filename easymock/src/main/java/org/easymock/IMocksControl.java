@@ -56,63 +56,10 @@ public interface IMocksControl {
     <T> T createMock(String name, Class<T> toMock);
 
     /**
-     * Creates a mock object that implements the given class.
-     * 
-     * @param <T>
-     *            the class that the mock object should extend.
-     * @param toMock
-     *            the class that the mock object should extend.
-     * @param mockedMethods
-     *            methods that will be mocked, other methods will behave
-     *            normally
-     * @return the mock object.
-     * 
-     * @deprecated Use {@link EasyMock#createMockBuilder(Class)} instead
-     */
-    @Deprecated
-    <T> T createMock(Class<T> toMock, Method... mockedMethods);
-
-    /**
-     * Creates a mock object that implements the given class.
-     * 
-     * @param <T>
-     *            the class that the mock object should extend.
-     * @param toMock
-     *            the class that the mock object should extend.
-     * @param constructorArgs
-     *            constructor and parameters used to instantiate the mock.
-     * @param mockedMethods
-     *            methods that will be mocked, other methods will behave
-     *            normally
-     * @return the mock object.
-     * 
-     * @deprecated Use {@link EasyMock#createMockBuilder(Class)} instead
-     */
-    @Deprecated
-    <T> T createMock(Class<T> toMock, ConstructorArgs constructorArgs, Method... mockedMethods);
-
-    /**
-     * Creates a mock object that implements the given class.
-     * 
-     * @param <T>
-     *            the class that the mock object should extend.
-     * @param name
-     *            the name of the mock object.
-     * @param toMock
-     *            the class that the mock object should extend.
-     * @param mockedMethods
-     *            methods that will be mocked, other methods will behave
-     *            normally
-     * @return the mock object.
-     * 
-     * @deprecated Use {@link EasyMock#createMockBuilder(Class)} instead
-     */
-    @Deprecated
-    <T> T createMock(String name, Class<T> toMock, Method... mockedMethods);
-
-    /**
-     * Creates a mock object that implements the given class.
-     * 
+     * Creates a mock object that implements the given class. Using this method directly in a test class
+     * is not recommended. Only frameworks extending EasyMock should use it. Final users should use
+     * the more convenient {@link EasyMock#partialMockBuilder(Class)} method instead
+     *
      * @param <T>
      *            the class that the mock object should extend.
      * @param name
@@ -120,15 +67,12 @@ public interface IMocksControl {
      * @param toMock
      *            the class that the mock object should extend.
      * @param constructorArgs
-     *            constructor and parameters used to instantiate the mock.
+     *            constructor and parameters used to instantiate the mock. If null, no constructor will be called
      * @param mockedMethods
      *            methods that will be mocked, other methods will behave
-     *            normally
+     *            normally. If empty, all methods will be mocked
      * @return the mock object.
-     * 
-     * @deprecated Use {@link EasyMock#createMockBuilder(Class)} instead
      */
-    @Deprecated
     <T> T createMock(String name, Class<T> toMock, ConstructorArgs constructorArgs, Method... mockedMethods);
 
     /**

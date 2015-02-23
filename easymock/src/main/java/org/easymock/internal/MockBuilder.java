@@ -15,13 +15,13 @@
  */
 package org.easymock.internal;
 
+import org.easymock.*;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.easymock.*;
 
 /**
  * Default implementation of IMockBuilder.
@@ -203,7 +203,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
 
         // Create a mock with no default {@code withConstructor} was not called.
         if (constructor == null) {
-            return control.createMock(name, toMock, mockedMethodArray);
+            return control.createMock(name, toMock, null, mockedMethodArray);
         }
 
         // If the constructor is defined, so must be its arguments
