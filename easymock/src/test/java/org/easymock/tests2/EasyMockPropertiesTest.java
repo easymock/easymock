@@ -147,7 +147,7 @@ public class EasyMockPropertiesTest {
     @Test
     public void testBadPropertiesFile() throws Exception {
 
-        final Boolean[] close = new Boolean[1];
+        final boolean[] close = new boolean[1];
 
         // A ClassLoader that returns no easymock.properties
         ClassLoader cl = new ClassLoader(getClass().getClassLoader()) {
@@ -158,7 +158,7 @@ public class EasyMockPropertiesTest {
                     return new InputStream() {
                         @Override
                         public void close() throws IOException {
-                            close[0] = Boolean.TRUE;
+                            close[0] = true;
                         }
 
                         @Override
@@ -194,7 +194,7 @@ public class EasyMockPropertiesTest {
             } catch (RuntimeException e) {
                 assertEquals("Failed to read easymock.properties file", e.getMessage());
                 // Make sure the thread was closed
-                assertSame(Boolean.TRUE, close[0]);
+                assertTrue(close[0]);
             }
 
         } finally {
