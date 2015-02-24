@@ -65,7 +65,7 @@ public class EasyMock {
      *
      * @since ${project.version}
      */
-    public static <T> T mock(final Class<T> toMock) {
+    public static <T> T mock(Class<T> toMock) {
         return createControl().createMock(toMock);
     }
 
@@ -86,7 +86,7 @@ public class EasyMock {
      *
      * @since ${project.version}
      */
-    public static <T> T mock(final String name, final Class<T> toMock) {
+    public static <T> T mock(String name, Class<T> toMock) {
         return createControl().createMock(name, toMock);
     }
 
@@ -104,7 +104,7 @@ public class EasyMock {
      *
      * @since ${project.version}
      */
-    public static <T> T mock(final MockType type, final Class<T> toMock) {
+    public static <T> T mock(MockType type, Class<T> toMock) {
         return createControl(type).createMock(toMock);
     }
 
@@ -124,7 +124,7 @@ public class EasyMock {
      *
      * @since ${project.version}
      */
-    public static <T> T mock(final String name, final MockType type, final Class<T> toMock) {
+    public static <T> T mock(String name, MockType type, Class<T> toMock) {
         return createControl(type).createMock(name, toMock);
     }
 
@@ -140,7 +140,7 @@ public class EasyMock {
      *
      * @since ${project.version}
      */
-    public static <T> T strictMock(final Class<T> toMock) {
+    public static <T> T strictMock(Class<T> toMock) {
         return createStrictControl().createMock(toMock);
     }
 
@@ -160,7 +160,7 @@ public class EasyMock {
      *
      * @since ${project.version}
      */
-    public static <T> T strictMock(final String name, final Class<T> toMock) {
+    public static <T> T strictMock(String name, Class<T> toMock) {
         return createStrictControl().createMock(name, toMock);
     }
 
@@ -177,7 +177,7 @@ public class EasyMock {
      *
      * @since ${project.version}
      */
-    public static <T> T niceMock(final Class<T> toMock) {
+    public static <T> T niceMock(Class<T> toMock) {
         return createNiceControl().createMock(toMock);
     }
 
@@ -199,7 +199,7 @@ public class EasyMock {
      *
      * @since ${project.version}
      */
-    public static <T> T niceMock(final String name, final Class<T> toMock) {
+    public static <T> T niceMock(String name, Class<T> toMock) {
         return createNiceControl().createMock(name, toMock);
     }
 
@@ -215,7 +215,7 @@ public class EasyMock {
      *
      * @since ${project.version}
      */
-    public static <T> IMockBuilder<T> partialMockBuilder(final Class<T> toMock) {
+    public static <T> IMockBuilder<T> partialMockBuilder(Class<T> toMock) {
         return new MockBuilder<T>(toMock);
     }
 
@@ -232,7 +232,7 @@ public class EasyMock {
      * @return the mock object.
      * @since 3.2
      */
-    public static <T> T createMock(final MockType type, final Class<T> toMock) {
+    public static <T> T createMock(MockType type, Class<T> toMock) {
         return mock(type, toMock);
     }
 
@@ -251,7 +251,7 @@ public class EasyMock {
      * @return the mock object.
      * @since 3.2
      */
-    public static <T> T createMock(final String name, final MockType type, final Class<T> toMock) {
+    public static <T> T createMock(String name, MockType type, Class<T> toMock) {
         return mock(name, type, toMock);
     }
 
@@ -265,7 +265,7 @@ public class EasyMock {
      *            the class or interface that should be mocked.
      * @return the mock object.
      */
-    public static <T> T createStrictMock(final Class<T> toMock) {
+    public static <T> T createStrictMock(Class<T> toMock) {
         return strictMock(toMock);
     }
 
@@ -283,7 +283,7 @@ public class EasyMock {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public static <T> T createStrictMock(final String name, final Class<T> toMock) {
+    public static <T> T createStrictMock(String name, Class<T> toMock) {
         return strictMock(name, toMock);
     }
 
@@ -297,7 +297,7 @@ public class EasyMock {
      *            the class or interface that should be mocked.
      * @return the mock object.
      */
-    public static <T> T createMock(final Class<T> toMock) {
+    public static <T> T createMock(Class<T> toMock) {
         return mock(toMock);
     }
 
@@ -316,7 +316,7 @@ public class EasyMock {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public static <T> T createMock(final String name, final Class<T> toMock) {
+    public static <T> T createMock(String name, Class<T> toMock) {
         return mock(name, toMock);
     }
 
@@ -331,7 +331,7 @@ public class EasyMock {
      *            the class or interface that should be mocked.
      * @return the mock object.
      */
-    public static <T> T createNiceMock(final Class<T> toMock) {
+    public static <T> T createNiceMock(Class<T> toMock) {
         return niceMock(toMock);
     }
 
@@ -351,7 +351,7 @@ public class EasyMock {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public static <T> T createNiceMock(final String name, final Class<T> toMock) {
+    public static <T> T createNiceMock(String name, Class<T> toMock) {
         return niceMock(name, toMock);
     }
 
@@ -365,7 +365,7 @@ public class EasyMock {
      *            the class or interface that should be mocked.
      * @return a mock builder to create a partial mock
      */
-    public static <T> IMockBuilder<T> createMockBuilder(final Class<T> toMock) {
+    public static <T> IMockBuilder<T> createMockBuilder(Class<T> toMock) {
         return partialMockBuilder(toMock);
     }
 
@@ -376,7 +376,7 @@ public class EasyMock {
      * @return the control.
      * @since 3.2
      */
-    public static IMocksControl createControl(final MockType type) {
+    public static IMocksControl createControl(MockType type) {
         return new MocksControl(type);
     }
 
@@ -422,7 +422,7 @@ public class EasyMock {
      * 
      * @return the expectation setter.
      */
-    public static <T> IExpectationSetters<T> expect(final T value) {
+    public static <T> IExpectationSetters<T> expect(T value) {
         return EasyMock.getControlForLastCall();
     }
 
@@ -441,7 +441,7 @@ public class EasyMock {
 
     @SuppressWarnings("unchecked")
     private static <T> IExpectationSetters<T> getControlForLastCall() {
-        final MocksControl lastControl = LastControl.lastControl();
+        MocksControl lastControl = LastControl.lastControl();
         if (lastControl == null) {
             LastControl.pullMatchers(); // cleanup matchers to prevent impacting
             // other tests
@@ -565,7 +565,7 @@ public class EasyMock {
      *            the class of the argument to match
      * @return <code>null</code>.
      */
-    public static <T> T anyObject(final Class<T> clazz) {
+    public static <T> T anyObject(Class<T> clazz) {
         reportMatcher(Any.ANY);
         return null;
     }
@@ -591,7 +591,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>null</code>.
      */
-    public static <T extends Comparable<T>> T geq(final Comparable<T> value) {
+    public static <T extends Comparable<T>> T geq(Comparable<T> value) {
         reportMatcher(new GreaterOrEqual<T>(value));
         return null;
     }
@@ -604,7 +604,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static byte geq(final byte value) {
+    public static byte geq(byte value) {
         reportMatcher(new GreaterOrEqual<Byte>(value));
         return 0;
     }
@@ -617,7 +617,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static double geq(final double value) {
+    public static double geq(double value) {
         reportMatcher(new GreaterOrEqual<Double>(value));
         return 0;
     }
@@ -630,7 +630,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static float geq(final float value) {
+    public static float geq(float value) {
         reportMatcher(new GreaterOrEqual<Float>(value));
         return 0;
     }
@@ -643,7 +643,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static int geq(final int value) {
+    public static int geq(int value) {
         reportMatcher(new GreaterOrEqual<Integer>(value));
         return 0;
     }
@@ -656,7 +656,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static long geq(final long value) {
+    public static long geq(long value) {
         reportMatcher(new GreaterOrEqual<Long>(value));
         return 0;
     }
@@ -669,7 +669,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static short geq(final short value) {
+    public static short geq(short value) {
         reportMatcher(new GreaterOrEqual<Short>(value));
         return 0;
     }
@@ -684,7 +684,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>null</code>.
      */
-    public static <T extends Comparable<T>> T leq(final Comparable<T> value) {
+    public static <T extends Comparable<T>> T leq(Comparable<T> value) {
         reportMatcher(new LessOrEqual<T>(value));
         return null;
     }
@@ -697,7 +697,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static byte leq(final byte value) {
+    public static byte leq(byte value) {
         reportMatcher(new LessOrEqual<Byte>(value));
         return 0;
     }
@@ -710,7 +710,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static double leq(final double value) {
+    public static double leq(double value) {
         reportMatcher(new LessOrEqual<Double>(value));
         return 0;
     }
@@ -723,7 +723,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static float leq(final float value) {
+    public static float leq(float value) {
         reportMatcher(new LessOrEqual<Float>(value));
         return 0;
     }
@@ -736,7 +736,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static int leq(final int value) {
+    public static int leq(int value) {
         reportMatcher(new LessOrEqual<Integer>(value));
         return 0;
     }
@@ -749,7 +749,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static long leq(final long value) {
+    public static long leq(long value) {
         reportMatcher(new LessOrEqual<Long>(value));
         return 0;
     }
@@ -762,7 +762,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static short leq(final short value) {
+    public static short leq(short value) {
         reportMatcher(new LessOrEqual<Short>(value));
         return 0;
     }
@@ -777,7 +777,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>null</code>.
      */
-    public static <T extends Comparable<T>> T gt(final Comparable<T> value) {
+    public static <T extends Comparable<T>> T gt(Comparable<T> value) {
         reportMatcher(new GreaterThan<T>(value));
         return null;
     }
@@ -790,7 +790,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static byte gt(final byte value) {
+    public static byte gt(byte value) {
         reportMatcher(new GreaterThan<Byte>(value));
         return 0;
     }
@@ -803,7 +803,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static double gt(final double value) {
+    public static double gt(double value) {
         reportMatcher(new GreaterThan<Double>(value));
         return 0;
     }
@@ -816,7 +816,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static float gt(final float value) {
+    public static float gt(float value) {
         reportMatcher(new GreaterThan<Float>(value));
         return 0;
     }
@@ -829,7 +829,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static int gt(final int value) {
+    public static int gt(int value) {
         reportMatcher(new GreaterThan<Integer>(value));
         return 0;
     }
@@ -842,7 +842,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static long gt(final long value) {
+    public static long gt(long value) {
         reportMatcher(new GreaterThan<Long>(value));
         return 0;
     }
@@ -855,7 +855,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static short gt(final short value) {
+    public static short gt(short value) {
         reportMatcher(new GreaterThan<Short>(value));
         return 0;
     }
@@ -870,7 +870,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>null</code>.
      */
-    public static <T extends Comparable<T>> T lt(final Comparable<T> value) {
+    public static <T extends Comparable<T>> T lt(Comparable<T> value) {
         reportMatcher(new LessThan<T>(value));
         return null;
     }
@@ -883,7 +883,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static byte lt(final byte value) {
+    public static byte lt(byte value) {
         reportMatcher(new LessThan<Byte>(value));
         return 0;
     }
@@ -896,7 +896,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static double lt(final double value) {
+    public static double lt(double value) {
         reportMatcher(new LessThan<Double>(value));
         return 0;
     }
@@ -909,7 +909,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static float lt(final float value) {
+    public static float lt(float value) {
         reportMatcher(new LessThan<Float>(value));
         return 0;
     }
@@ -922,7 +922,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static int lt(final int value) {
+    public static int lt(int value) {
         reportMatcher(new LessThan<Integer>(value));
         return 0;
     }
@@ -935,7 +935,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static long lt(final long value) {
+    public static long lt(long value) {
         reportMatcher(new LessThan<Long>(value));
         return 0;
     }
@@ -948,7 +948,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static short lt(final short value) {
+    public static short lt(short value) {
         reportMatcher(new LessThan<Short>(value));
         return 0;
     }
@@ -963,7 +963,7 @@ public class EasyMock {
      *            the class of the accepted type.
      * @return <code>null</code>.
      */
-    public static <T> T isA(final Class<T> clazz) {
+    public static <T> T isA(Class<T> clazz) {
         reportMatcher(new InstanceOf(clazz));
         return null;
     }
@@ -976,7 +976,7 @@ public class EasyMock {
      *            the substring.
      * @return <code>null</code>.
      */
-    public static String contains(final String substring) {
+    public static String contains(String substring) {
         reportMatcher(new Contains(substring));
         return null;
     }
@@ -990,7 +990,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>false</code>.
      */
-    public static boolean and(final boolean first, final boolean second) {
+    public static boolean and(boolean first, boolean second) {
         LastControl.reportAnd(2);
         return false;
     }
@@ -1004,7 +1004,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static byte and(final byte first, final byte second) {
+    public static byte and(byte first, byte second) {
         LastControl.reportAnd(2);
         return 0;
     }
@@ -1018,7 +1018,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static char and(final char first, final char second) {
+    public static char and(char first, char second) {
         LastControl.reportAnd(2);
         return 0;
     }
@@ -1032,7 +1032,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static double and(final double first, final double second) {
+    public static double and(double first, double second) {
         LastControl.reportAnd(2);
         return 0;
     }
@@ -1046,7 +1046,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static float and(final float first, final float second) {
+    public static float and(float first, float second) {
         LastControl.reportAnd(2);
         return 0;
     }
@@ -1060,7 +1060,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static int and(final int first, final int second) {
+    public static int and(int first, int second) {
         LastControl.reportAnd(2);
         return 0;
     }
@@ -1074,7 +1074,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static long and(final long first, final long second) {
+    public static long and(long first, long second) {
         LastControl.reportAnd(2);
         return 0;
     }
@@ -1088,7 +1088,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static short and(final short first, final short second) {
+    public static short and(short first, short second) {
         LastControl.reportAnd(2);
         return 0;
     }
@@ -1104,7 +1104,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>null</code>.
      */
-    public static <T> T and(final T first, final T second) {
+    public static <T> T and(T first, T second) {
         LastControl.reportAnd(2);
         return null;
     }
@@ -1118,7 +1118,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>false</code>.
      */
-    public static boolean or(final boolean first, final boolean second) {
+    public static boolean or(boolean first, boolean second) {
         LastControl.reportOr(2);
         return false;
     }
@@ -1132,7 +1132,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static byte or(final byte first, final byte second) {
+    public static byte or(byte first, byte second) {
         LastControl.reportOr(2);
         return 0;
     }
@@ -1146,7 +1146,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static char or(final char first, final char second) {
+    public static char or(char first, char second) {
         LastControl.reportOr(2);
         return 0;
     }
@@ -1160,7 +1160,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static double or(final double first, final double second) {
+    public static double or(double first, double second) {
         LastControl.reportOr(2);
         return 0;
     }
@@ -1174,7 +1174,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static float or(final float first, final float second) {
+    public static float or(float first, float second) {
         LastControl.reportOr(2);
         return 0;
     }
@@ -1188,7 +1188,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static int or(final int first, final int second) {
+    public static int or(int first, int second) {
         LastControl.reportOr(2);
         return first;
     }
@@ -1202,7 +1202,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static long or(final long first, final long second) {
+    public static long or(long first, long second) {
         LastControl.reportOr(2);
         return 0;
     }
@@ -1216,7 +1216,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>0</code>.
      */
-    public static short or(final short first, final short second) {
+    public static short or(short first, short second) {
         LastControl.reportOr(2);
         return 0;
     }
@@ -1232,7 +1232,7 @@ public class EasyMock {
      *            placeholder for the second expectation.
      * @return <code>null</code>.
      */
-    public static <T> T or(final T first, final T second) {
+    public static <T> T or(T first, T second) {
         LastControl.reportOr(2);
         return null;
     }
@@ -1244,7 +1244,7 @@ public class EasyMock {
      *            placeholder for the expectation.
      * @return <code>false</code>.
      */
-    public static boolean not(final boolean first) {
+    public static boolean not(boolean first) {
         LastControl.reportNot();
         return false;
     }
@@ -1256,7 +1256,7 @@ public class EasyMock {
      *            placeholder for the expectation.
      * @return <code>0</code>.
      */
-    public static byte not(final byte first) {
+    public static byte not(byte first) {
         LastControl.reportNot();
         return 0;
     }
@@ -1268,7 +1268,7 @@ public class EasyMock {
      *            placeholder for the expectation.
      * @return <code>0</code>.
      */
-    public static char not(final char first) {
+    public static char not(char first) {
         LastControl.reportNot();
         return 0;
     }
@@ -1280,7 +1280,7 @@ public class EasyMock {
      *            placeholder for the expectation.
      * @return <code>0</code>.
      */
-    public static double not(final double first) {
+    public static double not(double first) {
         LastControl.reportNot();
         return 0;
     }
@@ -1292,7 +1292,7 @@ public class EasyMock {
      *            placeholder for the expectation.
      * @return <code>0</code>.
      */
-    public static float not(final float first) {
+    public static float not(float first) {
         LastControl.reportNot();
         return first;
     }
@@ -1304,7 +1304,7 @@ public class EasyMock {
      *            placeholder for the expectation.
      * @return <code>0</code>.
      */
-    public static int not(final int first) {
+    public static int not(int first) {
         LastControl.reportNot();
         return 0;
     }
@@ -1316,7 +1316,7 @@ public class EasyMock {
      *            placeholder for the expectation.
      * @return <code>0</code>.
      */
-    public static long not(final long first) {
+    public static long not(long first) {
         LastControl.reportNot();
         return 0;
     }
@@ -1328,7 +1328,7 @@ public class EasyMock {
      *            placeholder for the expectation.
      * @return <code>0</code>.
      */
-    public static short not(final short first) {
+    public static short not(short first) {
         LastControl.reportNot();
         return 0;
     }
@@ -1342,7 +1342,7 @@ public class EasyMock {
      *            placeholder for the expectation.
      * @return <code>null</code>.
      */
-    public static <T> T not(final T first) {
+    public static <T> T not(T first) {
         LastControl.reportNot();
         return null;
     }
@@ -1354,7 +1354,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static boolean eq(final boolean value) {
+    public static boolean eq(boolean value) {
         reportMatcher(new Equals(value));
         return false;
     }
@@ -1366,7 +1366,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static byte eq(final byte value) {
+    public static byte eq(byte value) {
         reportMatcher(new Equals(value));
         return 0;
     }
@@ -1378,7 +1378,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static char eq(final char value) {
+    public static char eq(char value) {
         reportMatcher(new Equals(value));
         return 0;
     }
@@ -1390,7 +1390,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static double eq(final double value) {
+    public static double eq(double value) {
         reportMatcher(new Equals(value));
         return 0;
     }
@@ -1402,7 +1402,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static float eq(final float value) {
+    public static float eq(float value) {
         reportMatcher(new Equals(value));
         return 0;
     }
@@ -1414,7 +1414,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static int eq(final int value) {
+    public static int eq(int value) {
         reportMatcher(new Equals(value));
         return 0;
     }
@@ -1426,7 +1426,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static long eq(final long value) {
+    public static long eq(long value) {
         reportMatcher(new Equals(value));
         return 0;
     }
@@ -1438,7 +1438,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>0</code>.
      */
-    public static short eq(final short value) {
+    public static short eq(short value) {
         reportMatcher(new Equals(value));
         return 0;
     }
@@ -1452,7 +1452,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>null</code>.
      */
-    public static <T> T eq(final T value) {
+    public static <T> T eq(T value) {
         reportMatcher(new Equals(value));
         return null;
     }
@@ -1465,7 +1465,7 @@ public class EasyMock {
      *            the given array.
      * @return <code>null</code>.
      */
-    public static boolean[] aryEq(final boolean[] value) {
+    public static boolean[] aryEq(boolean[] value) {
         reportMatcher(new ArrayEquals(value));
         return null;
     }
@@ -1478,7 +1478,7 @@ public class EasyMock {
      *            the given array.
      * @return <code>null</code>.
      */
-    public static byte[] aryEq(final byte[] value) {
+    public static byte[] aryEq(byte[] value) {
         reportMatcher(new ArrayEquals(value));
         return null;
     }
@@ -1491,7 +1491,7 @@ public class EasyMock {
      *            the given array.
      * @return <code>null</code>.
      */
-    public static char[] aryEq(final char[] value) {
+    public static char[] aryEq(char[] value) {
         reportMatcher(new ArrayEquals(value));
         return null;
     }
@@ -1504,7 +1504,7 @@ public class EasyMock {
      *            the given array.
      * @return <code>null</code>.
      */
-    public static double[] aryEq(final double[] value) {
+    public static double[] aryEq(double[] value) {
         reportMatcher(new ArrayEquals(value));
         return null;
     }
@@ -1517,7 +1517,7 @@ public class EasyMock {
      *            the given array.
      * @return <code>null</code>.
      */
-    public static float[] aryEq(final float[] value) {
+    public static float[] aryEq(float[] value) {
         reportMatcher(new ArrayEquals(value));
         return null;
     }
@@ -1530,7 +1530,7 @@ public class EasyMock {
      *            the given array.
      * @return <code>null</code>.
      */
-    public static int[] aryEq(final int[] value) {
+    public static int[] aryEq(int[] value) {
         reportMatcher(new ArrayEquals(value));
         return null;
     }
@@ -1543,7 +1543,7 @@ public class EasyMock {
      *            the given array.
      * @return <code>null</code>.
      */
-    public static long[] aryEq(final long[] value) {
+    public static long[] aryEq(long[] value) {
         reportMatcher(new ArrayEquals(value));
         return null;
     }
@@ -1556,7 +1556,7 @@ public class EasyMock {
      *            the given array.
      * @return <code>null</code>.
      */
-    public static short[] aryEq(final short[] value) {
+    public static short[] aryEq(short[] value) {
         reportMatcher(new ArrayEquals(value));
         return null;
     }
@@ -1571,7 +1571,7 @@ public class EasyMock {
      *            the given array.
      * @return <code>null</code>.
      */
-    public static <T> T[] aryEq(final T[] value) {
+    public static <T> T[] aryEq(T[] value) {
         reportMatcher(new ArrayEquals(value));
         return null;
     }
@@ -1609,7 +1609,7 @@ public class EasyMock {
      * 
      * @see #isNull()
      */
-    public static <T> T isNull(final Class<T> clazz) {
+    public static <T> T isNull(Class<T> clazz) {
         reportMatcher(Null.NULL);
         return null;
     }
@@ -1647,7 +1647,7 @@ public class EasyMock {
      * 
      * @see #notNull()
      */
-    public static <T> T notNull(final Class<T> clazz) {
+    public static <T> T notNull(Class<T> clazz) {
         reportMatcher(NotNull.NOT_NULL);
         return null;
     }
@@ -1660,7 +1660,7 @@ public class EasyMock {
      *            the regular expression.
      * @return <code>null</code>.
      */
-    public static String find(final String regex) {
+    public static String find(String regex) {
         reportMatcher(new Find(regex));
         return null;
     }
@@ -1673,7 +1673,7 @@ public class EasyMock {
      *            the regular expression.
      * @return <code>null</code>.
      */
-    public static String matches(final String regex) {
+    public static String matches(String regex) {
         reportMatcher(new Matches(regex));
         return null;
     }
@@ -1686,7 +1686,7 @@ public class EasyMock {
      *            the prefix.
      * @return <code>null</code>.
      */
-    public static String startsWith(final String prefix) {
+    public static String startsWith(String prefix) {
         reportMatcher(new StartsWith(prefix));
         return null;
     }
@@ -1699,7 +1699,7 @@ public class EasyMock {
      *            the suffix.
      * @return <code>null</code>.
      */
-    public static String endsWith(final String suffix) {
+    public static String endsWith(String suffix) {
         reportMatcher(new EndsWith(suffix));
         return null;
     }
@@ -1715,7 +1715,7 @@ public class EasyMock {
      *            the given delta.
      * @return <code>0</code>.
      */
-    public static double eq(final double value, final double delta) {
+    public static double eq(double value, double delta) {
         reportMatcher(new EqualsWithDelta(value, delta));
         return 0;
     }
@@ -1731,7 +1731,7 @@ public class EasyMock {
      *            the given delta.
      * @return <code>0</code>.
      */
-    public static float eq(final float value, final float delta) {
+    public static float eq(float value, float delta) {
         reportMatcher(new EqualsWithDelta(value, delta));
         return 0;
     }
@@ -1746,7 +1746,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>null</code>.
      */
-    public static <T> T same(final T value) {
+    public static <T> T same(T value) {
         reportMatcher(new Same(value));
         return null;
     }
@@ -1761,7 +1761,7 @@ public class EasyMock {
      *            the given value.
      * @return <code>null</code>.
      */
-    public static <T extends Comparable<T>> T cmpEq(final Comparable<T> value) {
+    public static <T extends Comparable<T>> T cmpEq(Comparable<T> value) {
         reportMatcher(new CompareEqual<T>(value));
         return null;
     }
@@ -1784,8 +1784,8 @@ public class EasyMock {
      *            The comparison operator.
      * @return <code>null</code>
      */
-    public static <T> T cmp(final T value, final Comparator<? super T> comparator,
-            final LogicalOperator operator) {
+    public static <T> T cmp(T value, Comparator<? super T> comparator,
+            LogicalOperator operator) {
         reportMatcher(new Compare<T>(value, comparator, operator));
         return null;
     }
@@ -1820,7 +1820,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>null</code>
      */
-    public static <T> T capture(final Capture<T> captured) {
+    public static <T> T capture(Capture<T> captured) {
         reportMatcher(new Captures<T>(captured));
         return null;
     }
@@ -1832,7 +1832,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>false</code>
      */
-    public static boolean captureBoolean(final Capture<Boolean> captured) {
+    public static boolean captureBoolean(Capture<Boolean> captured) {
         reportMatcher(new Captures<Boolean>(captured));
         return false;
     }
@@ -1844,7 +1844,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>0</code>
      */
-    public static int captureInt(final Capture<Integer> captured) {
+    public static int captureInt(Capture<Integer> captured) {
         reportMatcher(new Captures<Integer>(captured));
         return 0;
     }
@@ -1856,7 +1856,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>0</code>
      */
-    public static long captureLong(final Capture<Long> captured) {
+    public static long captureLong(Capture<Long> captured) {
         reportMatcher(new Captures<Long>(captured));
         return 0;
     }
@@ -1868,7 +1868,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>0</code>
      */
-    public static float captureFloat(final Capture<Float> captured) {
+    public static float captureFloat(Capture<Float> captured) {
         reportMatcher(new Captures<Float>(captured));
         return 0;
     }
@@ -1880,7 +1880,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>0</code>
      */
-    public static double captureDouble(final Capture<Double> captured) {
+    public static double captureDouble(Capture<Double> captured) {
         reportMatcher(new Captures<Double>(captured));
         return 0;
     }
@@ -1892,7 +1892,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>0</code>
      */
-    public static byte captureByte(final Capture<Byte> captured) {
+    public static byte captureByte(Capture<Byte> captured) {
         reportMatcher(new Captures<Byte>(captured));
         return 0;
     }
@@ -1904,7 +1904,7 @@ public class EasyMock {
      *            Where the parameter is captured
      * @return <code>0</code>
      */
-    public static char captureChar(final Capture<Character> captured) {
+    public static char captureChar(Capture<Character> captured) {
         reportMatcher(new Captures<Character>(captured));
         return 0;
     }
@@ -1916,8 +1916,8 @@ public class EasyMock {
      * @param mocks
      *            the mock objects.
      */
-    public static void replay(final Object... mocks) {
-        for (final Object mock : mocks) {
+    public static void replay(Object... mocks) {
+        for (Object mock : mocks) {
             getControl(mock).replay();
         }
     }
@@ -1929,8 +1929,8 @@ public class EasyMock {
      * @param mocks
      *            the mock objects.
      */
-    public static void reset(final Object... mocks) {
-        for (final Object mock : mocks) {
+    public static void reset(Object... mocks) {
+        for (Object mock : mocks) {
             getControl(mock).reset();
         }
     }
@@ -1943,8 +1943,8 @@ public class EasyMock {
      * @param mocks
      *            the mock objects
      */
-    public static void resetToNice(final Object... mocks) {
-        for (final Object mock : mocks) {
+    public static void resetToNice(Object... mocks) {
+        for (Object mock : mocks) {
             getControl(mock).resetToNice();
         }
     }
@@ -1957,8 +1957,8 @@ public class EasyMock {
      * @param mocks
      *            the mock objects
      */
-    public static void resetToDefault(final Object... mocks) {
-        for (final Object mock : mocks) {
+    public static void resetToDefault(Object... mocks) {
+        for (Object mock : mocks) {
             getControl(mock).resetToDefault();
         }
     }
@@ -1971,8 +1971,8 @@ public class EasyMock {
      * @param mocks
      *            the mock objects
      */
-    public static void resetToStrict(final Object... mocks) {
-        for (final Object mock : mocks) {
+    public static void resetToStrict(Object... mocks) {
+        for (Object mock : mocks) {
             getControl(mock).resetToStrict();
         }
     }
@@ -1984,8 +1984,8 @@ public class EasyMock {
      * @param mocks
      *            the mock objects.
      */
-    public static void verify(final Object... mocks) {
-        for (final Object mock : mocks) {
+    public static void verify(Object... mocks) {
+        for (Object mock : mocks) {
             getControl(mock).verify();
         }
     }
@@ -2001,7 +2001,7 @@ public class EasyMock {
      *            <code>true</code> switches order checking on,
      *            <code>false</code> switches it off.
      */
-    public static void checkOrder(final Object mock, final boolean state) {
+    public static void checkOrder(Object mock, boolean state) {
         getControl(mock).checkOrder(state);
     }
 
@@ -2011,11 +2011,11 @@ public class EasyMock {
      * 
      * @param matcher the matcher to use to match currently mocked method argument
      */
-    public static void reportMatcher(final IArgumentMatcher matcher) {
+    public static void reportMatcher(IArgumentMatcher matcher) {
         LastControl.reportMatcher(matcher);
     }
 
-    private static MocksControl getControl(final Object mock) {
+    private static MocksControl getControl(Object mock) {
         return MocksControl.getControl(mock);
     }
 
@@ -2029,7 +2029,7 @@ public class EasyMock {
      *             if called outside of <code>IAnswer</code> callbacks.
      */
     public static Object[] getCurrentArguments() {
-        final Invocation result = LastControl.getCurrentInvocation();
+        Invocation result = LastControl.getCurrentInvocation();
         if (result == null) {
             throw new IllegalStateException(
                     "current arguments are only available when executing callback methods");
@@ -2048,7 +2048,7 @@ public class EasyMock {
      * @param threadSafe
      *            If the mock should be thread safe or not
      */
-    public static void makeThreadSafe(final Object mock, final boolean threadSafe) {
+    public static void makeThreadSafe(Object mock, boolean threadSafe) {
         getControl(mock).makeThreadSafe(threadSafe);
     }
 
@@ -2064,7 +2064,7 @@ public class EasyMock {
      * @param shouldBeUsedInOneThread
      *            If the mock should be used in only one thread
      */
-    public static void checkIsUsedInOneThread(final Object mock, final boolean shouldBeUsedInOneThread) {
+    public static void checkIsUsedInOneThread(Object mock, boolean shouldBeUsedInOneThread) {
         getControl(mock).checkIsUsedInOneThread(shouldBeUsedInOneThread);
     }
 
@@ -2075,7 +2075,7 @@ public class EasyMock {
      *            key for the property
      * @return the property value
      */
-    public static String getEasyMockProperty(final String key) {
+    public static String getEasyMockProperty(String key) {
         return EasyMockProperties.getInstance().getProperty(key);
     }
 
@@ -2094,7 +2094,7 @@ public class EasyMock {
      *            property value. A null value will remove the property
      * @return the previous property value
      */
-    public static String setEasyMockProperty(final String key, final String value) {
+    public static String setEasyMockProperty(String key, String value) {
         return EasyMockProperties.getInstance().setProperty(key, value);
     }
 

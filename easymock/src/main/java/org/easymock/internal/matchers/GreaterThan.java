@@ -25,7 +25,7 @@ public class GreaterThan<T extends Comparable<T>> extends CompareTo<T> {
 
     private static final long serialVersionUID = 2736983121197045828L;
 
-    public GreaterThan(final Comparable<T> value) {
+    public GreaterThan(Comparable<T> value) {
         super(value);
     }
 
@@ -35,7 +35,7 @@ public class GreaterThan<T extends Comparable<T>> extends CompareTo<T> {
     }
 
     @Override
-    protected boolean matchResult(final int result) {
+    protected boolean matchResult(int result) {
         return result > 0;
     }
 }

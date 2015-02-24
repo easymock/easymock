@@ -49,7 +49,7 @@ public class UsageVerifyTest {
         try {
             verify(mock);
             failed = false;
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.throwsNothing(true): expected: 2, actual: 1", expected.getMessage());
             assertTrue("stack trace must be filled in", Util.getStackTrace(expected).indexOf(
@@ -66,7 +66,7 @@ public class UsageVerifyTest {
         try {
             mock.throwsNothing(true);
             fail("AssertionError expected");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Unexpected method call IMethods.throwsNothing(true):"
                     + "\n    IMethods.throwsNothing(true): expected: 2, actual: 3", expected.getMessage());
         }
@@ -83,7 +83,7 @@ public class UsageVerifyTest {
         try {
             verify(mock);
             fail("AssertionError expected");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
 
             assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.throwsNothing(true): expected: at least 2, actual: 1", expected
@@ -106,13 +106,13 @@ public class UsageVerifyTest {
         try {
             mock.throwsIOException(0);
             fail("IOException expected");
-        } catch (final IOException expected) {
+        } catch (IOException expected) {
         }
 
         try {
             verify(mock);
             fail("AssertionError expected");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.throwsIOException(0): expected: 2, actual: 1"
                     + "\n    IMethods.throwsIOException(1): expected: 1, actual: 0", expected.getMessage());
@@ -121,13 +121,13 @@ public class UsageVerifyTest {
         try {
             mock.throwsIOException(0);
             fail("IOException expected");
-        } catch (final IOException expected) {
+        } catch (IOException expected) {
         }
 
         try {
             verify(mock);
             fail("AssertionError expected");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.throwsIOException(1): expected: 1, actual: 0", expected.getMessage());
         }
@@ -135,7 +135,7 @@ public class UsageVerifyTest {
         try {
             mock.throwsIOException(1);
             fail("IOException expected");
-        } catch (final IOException expected) {
+        } catch (IOException expected) {
         }
 
         verify(mock);
@@ -143,7 +143,7 @@ public class UsageVerifyTest {
         try {
             mock.throwsIOException(0);
             fail("AssertionError expected");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Unexpected method call IMethods.throwsIOException(0):"
                     + "\n    IMethods.throwsIOException(0): expected: 2, actual: 3", expected.getMessage());
         }

@@ -44,9 +44,9 @@ public class InjectionPlan {
      * 
      * @param injection Injection to manage as part of this plan
      */
-    public void addInjection(final Injection injection) {
+    public void addInjection(Injection injection) {
 
-        final String qualifier = injection.getAnnotation().fieldName();
+        String qualifier = injection.getAnnotation().fieldName();
 
         if (qualifier.length() != 0) {
             blockDuplicateQualifiers(qualifier);
@@ -56,7 +56,7 @@ public class InjectionPlan {
         }
     }
 
-    private void blockDuplicateQualifiers(final String qualifier) {
+    private void blockDuplicateQualifiers(String qualifier) {
         if (!qualifiers.add(qualifier)) {
             throw new RuntimeException(
                     String.format("At least two mocks have fieldName qualifier '%s'", qualifier));
@@ -67,7 +67,7 @@ public class InjectionPlan {
      * Add a field that should be treated as a test subject injection target.
      * @param f Field representing a test subject to which injection of mocks will be attempted
      */
-    public void addTestSubjectField(final Field f) {
+    public void addTestSubjectField(Field f) {
         testSubjectFields.add(f);
     }
 

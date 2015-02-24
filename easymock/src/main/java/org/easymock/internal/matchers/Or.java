@@ -30,12 +30,12 @@ public class Or implements IArgumentMatcher, Serializable {
 
     private final List<IArgumentMatcher> matchers;
 
-    public Or(final List<IArgumentMatcher> matchers) {
+    public Or(List<IArgumentMatcher> matchers) {
         this.matchers = matchers;
     }
 
-    public boolean matches(final Object actual) {
-        for (final IArgumentMatcher matcher : matchers) {
+    public boolean matches(Object actual) {
+        for (IArgumentMatcher matcher : matchers) {
             if (matcher.matches(actual)) {
                 return true;
             }
@@ -43,9 +43,9 @@ public class Or implements IArgumentMatcher, Serializable {
         return false;
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append("or(");
-        for (final Iterator<IArgumentMatcher> it = matchers.iterator(); it.hasNext();) {
+        for (Iterator<IArgumentMatcher> it = matchers.iterator(); it.hasNext();) {
             it.next().appendTo(buffer);
             if (it.hasNext()) {
                 buffer.append(", ");

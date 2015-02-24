@@ -44,7 +44,7 @@ public abstract class OsgiBaseTest extends AbstractConfigurableBundleCreatorTest
 
     private final EasyMockSupport support = new EasyMockSupport();
 
-    protected <T> T mock(final Class<T> toMock) {
+    protected <T> T mock(Class<T> toMock) {
         return support.mock(toMock);
     }
 
@@ -56,7 +56,7 @@ public abstract class OsgiBaseTest extends AbstractConfigurableBundleCreatorTest
         support.verifyAll();
     }
 
-    protected String getImplementationVersion(final Class<?> c) {
+    protected String getImplementationVersion(Class<?> c) {
         return c.getPackage().getImplementationVersion();
     }
 
@@ -66,7 +66,7 @@ public abstract class OsgiBaseTest extends AbstractConfigurableBundleCreatorTest
         // of the OSGi platform once it is initialized, I'm using a secret method to shutdown
         // the platform between each test (this however slows down the tests so adding a wiser
         // cache is a good idea
-        final Method m = AbstractOsgiTests.class.getDeclaredMethod("shutdownTest");
+        Method m = AbstractOsgiTests.class.getDeclaredMethod("shutdownTest");
         m.setAccessible(true);
         m.invoke(this);
         super.runBare();
@@ -78,8 +78,8 @@ public abstract class OsgiBaseTest extends AbstractConfigurableBundleCreatorTest
         System.out.println("Require capability: " + bundleContext.getProperty(Constants.REQUIRE_CAPABILITY));
         System.out.println("-----------------------------");
 
-        final Bundle[] bundles = bundleContext.getBundles();
-        for (final Bundle bundle : bundles) {
+        Bundle[] bundles = bundleContext.getBundles();
+        for (Bundle bundle : bundles) {
             System.out.println(OsgiStringUtils.nullSafeName(bundle) + ": "
                     + bundle.getHeaders().get(Constants.BUNDLE_VERSION));
         }
@@ -93,20 +93,20 @@ public abstract class OsgiBaseTest extends AbstractConfigurableBundleCreatorTest
         // jar is up-to-date in the local repository
         if (version == null) {
             try {
-                final XPath xPath = xPathFactory.newXPath();
+                XPath xPath = xPathFactory.newXPath();
                 XPathExpression xPathExpression;
                 try {
                     xPathExpression = xPath.compile("/project/parent/version");
-                } catch (final XPathExpressionException e) {
+                } catch (XPathExpressionException e) {
                     throw new RuntimeException(e);
                 }
 
-                final DocumentBuilderFactory xmlFact = DocumentBuilderFactory.newInstance();
+                DocumentBuilderFactory xmlFact = DocumentBuilderFactory.newInstance();
                 xmlFact.setNamespaceAware(false);
-                final DocumentBuilder builder = xmlFact.newDocumentBuilder();
-                final Document doc = builder.parse(new File("pom.xml"));
+                DocumentBuilder builder = xmlFact.newDocumentBuilder();
+                Document doc = builder.parse(new File("pom.xml"));
                 version = xPathExpression.evaluate(doc);
-            } catch (final Exception e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }

@@ -125,21 +125,21 @@ public class UsageOverloadedMethodTest {
         try {
             mock.oneArg(true);
             fail("expected exception");
-        } catch (final RuntimeException expected) {
+        } catch (RuntimeException expected) {
             assertEquals("Third Result", expected.getMessage());
         }
 
         try {
             mock.oneArg(true);
             fail("expected exception");
-        } catch (final RuntimeException expected) {
+        } catch (RuntimeException expected) {
             assertEquals("Third Result", expected.getMessage());
         }
 
         try {
             mock.oneArg(true);
             fail("expected exception");
-        } catch (final RuntimeException expected) {
+        } catch (RuntimeException expected) {
             assertEquals("Third Result", expected.getMessage());
         }
 

@@ -36,14 +36,14 @@ public class GenericTest {
     }
 
     public class B implements C<Integer> {
-        public void doCMethod(final Integer u) {
+        public void doCMethod(Integer u) {
             fail("Should be mocked");
         }
     }
 
     @Test
     public void testTheBridgeMethodIsRecordedNotTheBridge() {
-        final B b = createMock(B.class);
+        B b = createMock(B.class);
         b.doCMethod(Integer.valueOf(6));
         replay(b);
         ((C<Integer>) b).doCMethod(Integer.valueOf(6));
@@ -55,9 +55,9 @@ public class GenericTest {
      */
     @Test
     public void testPartialMockingSeesBridgeHasUnmocked() {
-        final ConcreteFoo b = createMockBuilder(ConcreteFoo.class).addMockedMethod("getSomeStrings")
+        ConcreteFoo b = createMockBuilder(ConcreteFoo.class).addMockedMethod("getSomeStrings")
                 .createMock();
-        final AbstractFoo c = b;
+        AbstractFoo c = b;
         expect(c.getSomeStrings()).andReturn(null);
     }
 
@@ -79,7 +79,7 @@ public class GenericTest {
      */
     @Test
     public void testPackageScope() {
-        final ConcreteFoo b = createMock(ConcreteFoo.class);
+        ConcreteFoo b = createMock(ConcreteFoo.class);
         expect(b.getSomeStrings()).andReturn(null);
         replay(b);
         ((AbstractFoo) b).getSomeStrings();
@@ -89,7 +89,7 @@ public class GenericTest {
     static abstract class GenericHolder<T> {
         abstract void set(T value);
 
-        void go(final T value) {
+        void go(T value) {
             set(value);
         }
     }
@@ -98,7 +98,7 @@ public class GenericTest {
         private String value;
 
         @Override
-        void set(final String value) {
+        void set(String value) {
             this.value = value;
         }
     }
@@ -109,7 +109,7 @@ public class GenericTest {
      */
     @Test
     public void testPartialMockBridgeMethodAreUnmocked() {
-        final StringHolder holder = createMockBuilder(StringHolder.class).createMock();
+        StringHolder holder = createMockBuilder(StringHolder.class).createMock();
         holder.go("hello");
         assertEquals("hello", holder.value);
     }

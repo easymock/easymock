@@ -68,17 +68,17 @@ public class StubTest {
         assertEquals("B", mock.oneArg("1"));
         try {
             mock.oneArg("2");
-        } catch (final IllegalArgumentException ignored) {
+        } catch (IllegalArgumentException ignored) {
         }
         assertEquals("B", mock.oneArg("1"));
         try {
             mock.oneArg("2");
-        } catch (final IllegalStateException ignored) {
+        } catch (IllegalStateException ignored) {
         }
         assertEquals("B", mock.oneArg("1"));
         try {
             mock.oneArg("2");
-        } catch (final IllegalStateException ignored) {
+        } catch (IllegalStateException ignored) {
         }
         verify(mock);
     }

@@ -15,9 +15,6 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
 import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
 import org.easymock.MockType;
@@ -26,6 +23,9 @@ import org.easymock.tests.IMethods;
 import org.easymock.tests.IVarArgs;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * Tests annotation-driven mocking, requiring to be executed with either
@@ -99,7 +99,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
     @Test
     public void shouldInjectMocksWhereTypeCompatible() {
-        final ToInjectMocksTest test = new ToInjectMocksTest();
+        ToInjectMocksTest test = new ToInjectMocksTest();
         EasyMockSupport.injectMocks(test);
         assertSame(test.m, test.toInject.m1);
         assertSame(test.m, test.toInject.m2);
@@ -125,7 +125,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
         try {
             EasyMockSupport.injectMocks(new ToInjectDuplicateMocksTest());
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             assertEquals(
                     "At least two mocks can be assigned to 'protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1': a and b",
                     e.getMessage());
@@ -147,7 +147,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
     @Test
     public void shouldInjectQualifiedMocksToNamedFields() {
-        final ToInjectQualifiedMocksTest test = new ToInjectQualifiedMocksTest();
+        ToInjectQualifiedMocksTest test = new ToInjectQualifiedMocksTest();
         EasyMockSupport.injectMocks(test);
         assertSame(test.a, test.toInject.m1);
         assertSame(test.b, test.toInject.m2);
@@ -172,7 +172,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
     @Test
     public void shouldInjectQualifiedMocksToTestSubjectSuperClass() throws Exception {
-        final ToInjectQualifiedMocksToSuperClassTest test = new ToInjectQualifiedMocksToSuperClassTest();
+        ToInjectQualifiedMocksToSuperClassTest test = new ToInjectQualifiedMocksToSuperClassTest();
         EasyMockSupport.injectMocks(test);
         assertSame(test.a, test.toInject.m1);
         assertSame(test.b, test.toInject.m2);
@@ -195,7 +195,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
     @Test
     public void shouldInjectQualifiedMocksToAllMatchingTestSubjects() throws Exception {
-        final ToInjectQualifiedMocksMultipleTestSubjectsTest test = new ToInjectQualifiedMocksMultipleTestSubjectsTest();
+        ToInjectQualifiedMocksMultipleTestSubjectsTest test = new ToInjectQualifiedMocksMultipleTestSubjectsTest();
         EasyMockSupport.injectMocks(test);
         assertSame(test.a, test.toInject.m1);
         assertSame(test.b, test.toInject.m2);
@@ -223,7 +223,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     public void shouldErrorWhenUnsatisfiedQualifier() {
         try {
             EasyMockSupport.injectMocks(new ToInjectUnsatisfiedQualifierTest());
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             assertEquals("Unsatisfied qualifier: 'unmatched'",
                     e.getMessage());
             return;
@@ -246,7 +246,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     public void shouldErrorForUnmatchedQualifierWhenTypeIncompatibleQualifier() throws Exception {
         try {
             EasyMockSupport.injectMocks(new ToInjectTypeIncompatibleQualifierTest());
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             assertEquals("Unsatisfied qualifier: 'm2'",
                     e.getMessage());
             return;
@@ -272,7 +272,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     public void shouldErrorForUnmatchedQualifierWhenUnassignableFinalField() throws Exception {
         try {
             EasyMockSupport.injectMocks(new ToInjectUnassignableFinalFieldQualifierTest());
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             assertEquals("Unsatisfied qualifier: 'finalField'",
                     e.getMessage());
             return;
@@ -292,7 +292,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     public void shouldErrorForUnmatchedQualifierWhenUnassignableStaticField() throws Exception {
         try {
             EasyMockSupport.injectMocks(new ToInjectUnassignableStaticFieldQualifierTest());
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             assertEquals("Unsatisfied qualifier: 'staticField'",
                     e.getMessage());
             return;
@@ -315,7 +315,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     public void shouldErrorWhenDuplicateQualifiers() {
         try {
             EasyMockSupport.injectMocks(new ToInjectDuplicateQualifierTest());
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             assertEquals("At least two mocks have fieldName qualifier 'm1'",
                     e.getMessage());
             return;
@@ -340,7 +340,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
     @Test
     public void shouldNotAssignUnqualifiedMockWhereQualifiedMockAssigned() {
-        final ToInjectQualifiedAndUnqualifiedTest test = new ToInjectQualifiedAndUnqualifiedTest();
+        ToInjectQualifiedAndUnqualifiedTest test = new ToInjectQualifiedAndUnqualifiedTest();
         EasyMockSupport.injectMocks(test);
         assertSame(test.b, test.toInjectOneTarget.m1);
     }

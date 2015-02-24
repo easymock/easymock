@@ -40,7 +40,7 @@ public class RecordStateInvalidStateChangeTest {
         try {
             replay(mock);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException e) {
+        } catch (IllegalStateException e) {
             assertEquals("missing behavior definition for the preceding method call:\nIMethods.oneArg(false)"
                     + "\nUsage is: expect(a.foo()).andXXX()", e.getMessage());
             assertTrue("stack trace must be cut",
@@ -54,7 +54,7 @@ public class RecordStateInvalidStateChangeTest {
         try {
             mock.oneArg(false);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException e) {
+        } catch (IllegalStateException e) {
             assertEquals("missing behavior definition for the preceding method call:\nIMethods.oneArg(false)"
                     + "\nUsage is: expect(a.foo()).andXXX()", e.getMessage());
             assertTrue("stack trace must be cut",
@@ -67,7 +67,7 @@ public class RecordStateInvalidStateChangeTest {
         try {
             verify(mock);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException e) {
+        } catch (IllegalStateException e) {
             assertEquals("calling verify is not allowed in record state", e.getMessage());
         }
     }

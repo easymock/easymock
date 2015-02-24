@@ -35,7 +35,7 @@ import com.google.dexmaker.stock.ProxyBuilder;
 public final class AndroidClassProxyFactory implements IProxyFactory {
     public <T> T createProxy(Class<T> toMock, InvocationHandler handler,
             Method[] mockedMethods, ConstructorArgs constructorArgs) {
-        final MockHandler interceptor = new MockHandler(handler, mockedMethods);
+        MockHandler interceptor = new MockHandler(handler, mockedMethods);
         try {
             ProxyBuilder<T> builder = ProxyBuilder.forClass(toMock)
                     .handler(interceptor);

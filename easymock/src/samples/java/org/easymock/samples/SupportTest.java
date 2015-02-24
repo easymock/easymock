@@ -50,7 +50,7 @@ public class SupportTest extends EasyMockSupport {
     @Test
     public void voteForRemovals() {
 
-        final IMocksControl ctrl = createControl();
+        IMocksControl ctrl = createControl();
         collaborator = ctrl.createMock(Collaborator.class);
         classUnderTest.setListener(collaborator);
 

@@ -30,12 +30,12 @@ public class And implements IArgumentMatcher, Serializable {
 
     private final List<IArgumentMatcher> matchers;
 
-    public And(final List<IArgumentMatcher> matchers) {
+    public And(List<IArgumentMatcher> matchers) {
         this.matchers = matchers;
     }
 
-    public boolean matches(final Object actual) {
-        for (final IArgumentMatcher matcher : matchers) {
+    public boolean matches(Object actual) {
+        for (IArgumentMatcher matcher : matchers) {
             if (!matcher.matches(actual)) {
                 return false;
             }
@@ -43,9 +43,9 @@ public class And implements IArgumentMatcher, Serializable {
         return true;
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append("and(");
-        for (final Iterator<IArgumentMatcher> it = matchers.iterator(); it.hasNext();) {
+        for (Iterator<IArgumentMatcher> it = matchers.iterator(); it.hasNext();) {
             it.next().appendTo(buffer);
             if (it.hasNext()) {
                 buffer.append(", ");

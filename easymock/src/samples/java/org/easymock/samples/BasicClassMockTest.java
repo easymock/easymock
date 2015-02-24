@@ -36,7 +36,7 @@ public class BasicClassMockTest extends EasyMockSupport {
 
         private String content;
 
-        public Document(final Printer printer) {
+        public Document(Printer printer) {
             this.printer = printer;
         }
 
@@ -44,7 +44,7 @@ public class BasicClassMockTest extends EasyMockSupport {
             return content;
         }
 
-        public void setContent(final String content) {
+        public void setContent(String content) {
             this.content = content;
         }
 

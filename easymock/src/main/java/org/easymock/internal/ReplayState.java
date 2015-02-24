@@ -31,11 +31,11 @@ public class ReplayState implements IMocksControlState, Serializable {
 
     private final ReentrantLock lock = new ReentrantLock();
 
-    public ReplayState(final IMocksBehavior behavior) {
+    public ReplayState(IMocksBehavior behavior) {
         this.behavior = behavior;
     }
 
-    public Object invoke(final Invocation invocation) throws Throwable {
+    public Object invoke(Invocation invocation) throws Throwable {
 
         behavior.checkThreadSafety();
 
@@ -52,13 +52,13 @@ public class ReplayState implements IMocksControlState, Serializable {
         return invokeInner(invocation);
     }
 
-    private Object invokeInner(final Invocation invocation) throws Throwable {
+    private Object invokeInner(Invocation invocation) throws Throwable {
         LastControl.pushCurrentInvocation(invocation);
         try {
-            final Result result = behavior.addActual(invocation);
+            Result result = behavior.addActual(invocation);
             try {
                 return result.answer();
-            } catch (final Throwable t) {
+            } catch (Throwable t) {
                 if (result.shouldFillInStackTrace()) {
                     throw new ThrowableWrapper(t);
                 }
@@ -77,35 +77,35 @@ public class ReplayState implements IMocksControlState, Serializable {
         throwWrappedIllegalStateException();
     }
 
-    public void callback(final Runnable runnable) {
+    public void callback(Runnable runnable) {
         throwWrappedIllegalStateException();
     }
 
-    public void checkOrder(final boolean value) {
+    public void checkOrder(boolean value) {
         throwWrappedIllegalStateException();
     }
 
-    public void makeThreadSafe(final boolean threadSafe) {
+    public void makeThreadSafe(boolean threadSafe) {
         throwWrappedIllegalStateException();
     }
 
-    public void checkIsUsedInOneThread(final boolean shouldBeUsedInOneThread) {
+    public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
         throwWrappedIllegalStateException();
     }
 
-    public void andReturn(final Object value) {
+    public void andReturn(Object value) {
         throwWrappedIllegalStateException();
     }
 
-    public void andThrow(final Throwable throwable) {
+    public void andThrow(Throwable throwable) {
         throwWrappedIllegalStateException();
     }
 
-    public void andAnswer(final IAnswer<?> answer) {
+    public void andAnswer(IAnswer<?> answer) {
         throwWrappedIllegalStateException();
     }
 
-    public void andDelegateTo(final Object answer) {
+    public void andDelegateTo(Object answer) {
         throwWrappedIllegalStateException();
     }
 
@@ -113,19 +113,19 @@ public class ReplayState implements IMocksControlState, Serializable {
         throwWrappedIllegalStateException();
     }
 
-    public void andStubReturn(final Object value) {
+    public void andStubReturn(Object value) {
         throwWrappedIllegalStateException();
     }
 
-    public void andStubThrow(final Throwable throwable) {
+    public void andStubThrow(Throwable throwable) {
         throwWrappedIllegalStateException();
     }
 
-    public void andStubAnswer(final IAnswer<?> answer) {
+    public void andStubAnswer(IAnswer<?> answer) {
         throwWrappedIllegalStateException();
     }
 
-    public void andStubDelegateTo(final Object delegateTo) {
+    public void andStubDelegateTo(Object delegateTo) {
         throwWrappedIllegalStateException();
     }
 
@@ -133,15 +133,15 @@ public class ReplayState implements IMocksControlState, Serializable {
         throwWrappedIllegalStateException();
     }
 
-    public void times(final Range range) {
+    public void times(Range range) {
         throwWrappedIllegalStateException();
     }
 
-    public void setDefaultReturnValue(final Object value) {
+    public void setDefaultReturnValue(Object value) {
         throwWrappedIllegalStateException();
     }
 
-    public void setDefaultThrowable(final Throwable throwable) {
+    public void setDefaultThrowable(Throwable throwable) {
         throwWrappedIllegalStateException();
     }
 

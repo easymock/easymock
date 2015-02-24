@@ -23,38 +23,38 @@ package org.easymock;
 public enum LogicalOperator {
     LESS_THAN("<") {
         @Override
-        public boolean matchResult(final int result) {
+        public boolean matchResult(int result) {
             return result < 0;
         }
     },
     LESS_OR_EQUAL("<=") {
         @Override
-        public boolean matchResult(final int result) {
+        public boolean matchResult(int result) {
             return result <= 0;
         }
     },
     EQUAL("==") {
         @Override
-        public boolean matchResult(final int result) {
+        public boolean matchResult(int result) {
             return result == 0;
         }
     },
     GREATER_OR_EQUAL(">=") {
         @Override
-        public boolean matchResult(final int result) {
+        public boolean matchResult(int result) {
             return result >= 0;
         }
     },
     GREATER(">") {
         @Override
-        public boolean matchResult(final int result) {
+        public boolean matchResult(int result) {
             return result > 0;
         }
     };
 
     private String symbol;
 
-    private LogicalOperator(final String symbol) {
+    private LogicalOperator(String symbol) {
         this.symbol = symbol;
     }
 

@@ -30,18 +30,18 @@ public class EqualsWithDelta implements IArgumentMatcher, Serializable {
 
     private final Number delta;
 
-    public EqualsWithDelta(final Number value, final Number delta) {
+    public EqualsWithDelta(Number value, Number delta) {
         this.expected = value;
         this.delta = delta;
     }
 
-    public boolean matches(final Object actual) {
-        final Number actualNumber = (Number) actual;
+    public boolean matches(Object actual) {
+        Number actualNumber = (Number) actual;
         return expected.doubleValue() - delta.doubleValue() <= actualNumber.doubleValue()
                 && actualNumber.doubleValue() <= expected.doubleValue() + delta.doubleValue();
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append("eq(" + expected + ", " + delta + ")");
     }
 }

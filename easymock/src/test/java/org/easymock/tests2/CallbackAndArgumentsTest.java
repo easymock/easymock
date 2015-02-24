@@ -15,13 +15,13 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
 import org.easymock.IAnswer;
 import org.easymock.tests.IMethods;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese

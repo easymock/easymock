@@ -36,7 +36,7 @@ public class ConstructorArgs {
      * @param initArgs
      *            Arguments passed to the constructor
      */
-    public ConstructorArgs(final Constructor<?> constructor, final Object... initArgs) {
+    public ConstructorArgs(Constructor<?> constructor, Object... initArgs) {
         this.constructor = constructor;
         this.initArgs = initArgs;
 
@@ -45,7 +45,7 @@ public class ConstructorArgs {
 
     private void validateArgs() {
 
-        final Class<?>[] paramTypes = constructor.getParameterTypes();
+        Class<?>[] paramTypes = constructor.getParameterTypes();
 
         if (initArgs.length != paramTypes.length) {
             throw new IllegalArgumentException("Number of provided arguments doesn't match constructor ones");
@@ -53,8 +53,8 @@ public class ConstructorArgs {
 
         for (int i = 0; i < initArgs.length; i++) {
 
-            final Class<?> paramType = paramTypes[i];
-            final Object arg = initArgs[i];
+            Class<?> paramType = paramTypes[i];
+            Object arg = initArgs[i];
 
             if (paramType.isPrimitive()) {
                 if (arg == null) {
@@ -62,13 +62,13 @@ public class ConstructorArgs {
                 }
 
                 try {
-                    final Field field = arg.getClass().getDeclaredField("TYPE");
-                    final Class<?> argType = (Class<?>) field.get(null);
+                    Field field = arg.getClass().getDeclaredField("TYPE");
+                    Class<?> argType = (Class<?>) field.get(null);
 
                     if (paramType.equals(argType)) {
                         continue;
                     }
-                } catch (final Exception e) {
+                } catch (Exception e) {
                     throw throwException(paramType, arg);
                 }
 
@@ -83,7 +83,7 @@ public class ConstructorArgs {
         }
     }
 
-    private IllegalArgumentException throwException(final Class<?> paramType, final Object arg) {
+    private IllegalArgumentException throwException(Class<?> paramType, Object arg) {
         return new IllegalArgumentException(arg + " isn't of type " + paramType);
     }
 

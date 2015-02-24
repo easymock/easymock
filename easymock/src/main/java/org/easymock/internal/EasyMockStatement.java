@@ -32,7 +32,7 @@ public class EasyMockStatement extends Statement {
 
     private final Object test;
 
-    public EasyMockStatement(final Statement originalStatement, final Object test) {
+    public EasyMockStatement(Statement originalStatement, Object test) {
         this.originalStatement = originalStatement;
         this.test = test;
     }

@@ -15,19 +15,15 @@
  */
 package org.easymock.tests2;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-
 import org.easymock.EasyMock;
 import org.easymock.internal.EasyMockProperties;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.io.*;
+import java.lang.reflect.Field;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -56,7 +52,7 @@ public class EasyMockPropertiesTest {
     @BeforeClass
     public static void beforeClass() throws Exception {
         // Create an EasyMock property file for the test
-        final BufferedWriter out = new BufferedWriter(new FileWriter(PROPERTIES_FILE));
+        BufferedWriter out = new BufferedWriter(new FileWriter(PROPERTIES_FILE));
         out.write(EasyMock.ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT + "=" + true);
         out.newLine();
         out.write("easymock.a=1");
@@ -108,7 +104,7 @@ public class EasyMockPropertiesTest {
 
     @Test
     public void testGetProperty() {
-        final EasyMockProperties instance = EasyMockProperties.getInstance();
+        EasyMockProperties instance = EasyMockProperties.getInstance();
 
         // use the default
         assertEquals("1", instance.getProperty("easymock.a", "10"));
@@ -120,14 +116,14 @@ public class EasyMockPropertiesTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetProperty() {
-        final EasyMockProperties instance = EasyMockProperties.getInstance();
+        EasyMockProperties instance = EasyMockProperties.getInstance();
 
         instance.setProperty("tralala.a", null);
     }
 
     @Test
     public void testNoThreadContextClassLoader() throws Exception {
-        final ClassLoader old = Thread.currentThread().getContextClassLoader();
+        ClassLoader old = Thread.currentThread().getContextClassLoader();
         try {
             resetInstance();
 
@@ -154,10 +150,10 @@ public class EasyMockPropertiesTest {
         final Boolean[] close = new Boolean[1];
 
         // A ClassLoader that returns no easymock.properties
-        final ClassLoader cl = new ClassLoader(getClass().getClassLoader()) {
+        ClassLoader cl = new ClassLoader(getClass().getClassLoader()) {
 
             @Override
-            public InputStream getResourceAsStream(final String name) {
+            public InputStream getResourceAsStream(String name) {
                 if ("easymock.properties".equals(name)) {
                     return new InputStream() {
                         @Override
@@ -166,12 +162,12 @@ public class EasyMockPropertiesTest {
                         }
 
                         @Override
-                        public int read(final byte[] b, final int off, final int len) throws IOException {
+                        public int read(byte[] b, int off, int len) throws IOException {
                             throw new IOException("Failed!");
                         }
 
                         @Override
-                        public int read(final byte[] b) throws IOException {
+                        public int read(byte[] b) throws IOException {
                             throw new IOException("Failed!");
                         }
 
@@ -185,7 +181,7 @@ public class EasyMockPropertiesTest {
             }
 
         };
-        final ClassLoader old = Thread.currentThread().getContextClassLoader();
+        ClassLoader old = Thread.currentThread().getContextClassLoader();
         try {
             resetInstance();
 
@@ -195,7 +191,7 @@ public class EasyMockPropertiesTest {
             try {
                 EasyMockProperties.getInstance();
                 fail("Should have an issue loading the easymock.properties file");
-            } catch (final RuntimeException e) {
+            } catch (RuntimeException e) {
                 assertEquals("Failed to read easymock.properties file", e.getMessage());
                 // Make sure the thread was closed
                 assertSame(Boolean.TRUE, close[0]);
@@ -211,10 +207,10 @@ public class EasyMockPropertiesTest {
     @Test
     public void testNoEasymockPropertiesFile() throws Exception {
         // A ClassLoader that returns no easymock.properties
-        final ClassLoader cl = new ClassLoader(getClass().getClassLoader()) {
+        ClassLoader cl = new ClassLoader(getClass().getClassLoader()) {
 
             @Override
-            public InputStream getResourceAsStream(final String name) {
+            public InputStream getResourceAsStream(String name) {
                 if ("easymock.properties".equals(name)) {
                     return null;
                 }
@@ -222,7 +218,7 @@ public class EasyMockPropertiesTest {
             }
 
         };
-        final ClassLoader old = Thread.currentThread().getContextClassLoader();
+        ClassLoader old = Thread.currentThread().getContextClassLoader();
         try {
             resetInstance();
 
@@ -245,12 +241,12 @@ public class EasyMockPropertiesTest {
 
     private static void resetInstance() throws NoSuchFieldException, IllegalAccessException {
         // Cheat and make the singleton uninitialized
-        final Field field = EasyMockProperties.class.getDeclaredField("instance");
+        Field field = EasyMockProperties.class.getDeclaredField("instance");
         field.setAccessible(true);
         field.set(null, null);
     }
 
-    private static void assertExpectedValue(final String expected, final String key) {
+    private static void assertExpectedValue(String expected, String key) {
         assertEquals(expected, getEasyMockProperty(key));
     }
 }

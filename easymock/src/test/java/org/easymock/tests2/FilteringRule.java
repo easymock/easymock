@@ -33,11 +33,11 @@ public class FilteringRule implements TestRule {
 
     private final String[] filteredPackages;
 
-    public FilteringRule(final String... filteredPackages) {
+    public FilteringRule(String... filteredPackages) {
         this.filteredPackages = filteredPackages;
     }
 
-    public Statement apply(final Statement base, final Description description) {
+    public Statement apply(Statement base, Description description) {
         return new FilteringStatement(base, description, filteredPackages);
     }
 
@@ -52,12 +52,12 @@ class FilteringClassLoader extends ClassLoader {
 
     private final Map<String, Class<?>> classes = new HashMap<String, Class<?>>();
 
-    public FilteringClassLoader(final Collection<String> ignoredPackages) {
+    public FilteringClassLoader(Collection<String> ignoredPackages) {
         this.ignoredPackages = ignoredPackages;
     }
 
     @Override
-    protected Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
+    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
         if (isIgnored(name)) {
             throw new ClassNotFoundException(name);
         }
@@ -72,7 +72,7 @@ class FilteringClassLoader extends ClassLoader {
 
         try {
             clazz = loadClass0(name);
-        } catch (final IOException e) {
+        } catch (IOException e) {
             throw new ClassNotFoundException("Can't load " + name, e);
         }
 
@@ -84,8 +84,8 @@ class FilteringClassLoader extends ClassLoader {
         return clazz;
     }
 
-    private boolean shouldBeDeferred(final String name) {
-        for (final String pack : packagesToBeDeferred) {
+    private boolean shouldBeDeferred(String name) {
+        for (String pack : packagesToBeDeferred) {
             if (name.startsWith(pack)) {
                 return true;
             }
@@ -93,8 +93,8 @@ class FilteringClassLoader extends ClassLoader {
         return false;
     }
 
-    private Class<?> loadClass0(final String name) throws IOException, ClassNotFoundException {
-        final String path = name.replace('.', '/') + ".class";
+    private Class<?> loadClass0(String name) throws IOException, ClassNotFoundException {
+        String path = name.replace('.', '/') + ".class";
         InputStream in = null;
         ByteArrayOutputStream out = null;
 
@@ -112,7 +112,7 @@ class FilteringClassLoader extends ClassLoader {
 
             out.flush();
 
-            final byte bytes[] = out.toByteArray();
+            byte bytes[] = out.toByteArray();
             return bytes == null ? null : defineClass(name, bytes, 0, bytes.length);
         } finally {
             if (in != null) {
@@ -124,8 +124,8 @@ class FilteringClassLoader extends ClassLoader {
         }
     }
 
-    private boolean isIgnored(final String name) {
-        for (final String s : ignoredPackages) {
+    private boolean isIgnored(String name) {
+        for (String s : ignoredPackages) {
             if (name.startsWith(s)) {
                 return true;
             }
@@ -142,8 +142,8 @@ class FilteringStatement extends Statement {
 
     private final String[] filteredPackages;
 
-    public FilteringStatement(final Statement base, final Description description,
-            final String[] filteredPackages) {
+    public FilteringStatement(Statement base, Description description,
+            String[] filteredPackages) {
         this.innerStatement = base;
         this.description = description;
         this.filteredPackages = filteredPackages;
@@ -151,13 +151,13 @@ class FilteringStatement extends Statement {
 
     @Override
     public void evaluate() throws Throwable {
-        final FilteringClassLoader cl = new FilteringClassLoader(Arrays.asList(filteredPackages));
-        final Class<?> c = cl.loadClass(description.getTestClass().getName());
-        final Object test = c.newInstance();
-        final Method m = c.getMethod(description.getMethodName());
+        FilteringClassLoader cl = new FilteringClassLoader(Arrays.asList(filteredPackages));
+        Class<?> c = cl.loadClass(description.getTestClass().getName());
+        Object test = c.newInstance();
+        Method m = c.getMethod(description.getMethodName());
         try {
             m.invoke(test);
-        } catch (final InvocationTargetException e) {
+        } catch (InvocationTargetException e) {
             throw e.getTargetException();
         }
     }

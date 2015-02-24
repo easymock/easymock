@@ -47,19 +47,19 @@ public class UsageConstraintsTest {
         try {
             mock.simpleMethodWithArgument(not("jkl"));
             fail();
-        } catch (final IllegalStateException e) {
+        } catch (IllegalStateException e) {
             assertEquals("no matchers found.", e.getMessage());
         }
         try {
             mock.simpleMethodWithArgument(or(eq("jkl"), "asd"));
             fail();
-        } catch (final IllegalStateException e) {
+        } catch (IllegalStateException e) {
             assertEquals("2 matchers expected, 1 recorded.", e.getMessage());
         }
         try {
             mock.threeArgumentMethod(1, "asd", eq("asd"));
             fail();
-        } catch (final IllegalStateException e) {
+        } catch (IllegalStateException e) {
             assertEquals(
                     "3 matchers expected, 1 recorded.\n"
                             + "This exception usually occurs when matchers are mixed with raw values when recording a method:\n"
@@ -89,7 +89,7 @@ public class UsageConstraintsTest {
         try {
             new Equals(null).hashCode();
             fail();
-        } catch (final UnsupportedOperationException expected) {
+        } catch (UnsupportedOperationException expected) {
         }
     }
 
@@ -101,7 +101,7 @@ public class UsageConstraintsTest {
         boolean failed = false;
         try {
             mock.threeArgumentMethod(11, "", "01234");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             failed = true;
         }
         if (!failed) {
@@ -110,7 +110,7 @@ public class UsageConstraintsTest {
         failed = false;
         try {
             mock.threeArgumentMethod(8, new Object(), "01234");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             failed = true;
         }
         if (!failed) {
@@ -119,7 +119,7 @@ public class UsageConstraintsTest {
         failed = false;
         try {
             mock.threeArgumentMethod(8, "", "no match");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             failed = true;
         }
         if (!failed) {
@@ -298,7 +298,7 @@ public class UsageConstraintsTest {
     public static class A {
         private final int value;
 
-        public A(final int value) {
+        public A(int value) {
             this.value = value;
         }
 
@@ -310,12 +310,12 @@ public class UsageConstraintsTest {
     @Test
     public void compareWithComparator() {
         // Undertype just to make sure the generic typing works
-        final Comparator<Object> comparator = new Comparator<Object>() {
-            private int compare(final A a1, final A a2) {
+        Comparator<Object> comparator = new Comparator<Object>() {
+            private int compare(A a1, A a2) {
                 return a1.getValue() - a2.getValue();
             }
 
-            public int compare(final Object o1, final Object o2) {
+            public int compare(Object o1, Object o2) {
                 return compare((A) o1, (A) o2);
             }
         };
@@ -346,7 +346,7 @@ public class UsageConstraintsTest {
         try {
             mock.oneArg("");
             fail();
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
         } // different type isn't either
 
         checkItFails(new A(4));
@@ -372,11 +372,11 @@ public class UsageConstraintsTest {
         verify(mock);
     }
 
-    private void checkItFails(final A a) {
+    private void checkItFails(A a) {
         try {
             mock.oneArg(a);
             fail();
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
         }
     }
 
@@ -634,8 +634,8 @@ public class UsageConstraintsTest {
 
     @Test
     public void testSame() {
-        final Object one = new String("1243");
-        final Object two = new String("1243");
+        Object one = new String("1243");
+        Object two = new String("1243");
 
         assertNotSame(one, two);
         assertEquals(one, two);

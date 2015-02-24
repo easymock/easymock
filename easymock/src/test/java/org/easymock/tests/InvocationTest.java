@@ -36,11 +36,11 @@ public class InvocationTest {
 
     @Before
     public void setup() throws SecurityException, NoSuchMethodException {
-        final Object[] arguments1 = new Object[] { "" };
-        final Object[] arguments2 = new Object[] { "" };
-        final Object[] arguments3 = new Object[] { "X" };
-        final Method m = Object.class.getMethod("equals", new Class[] { Object.class });
-        final Object mock = new Object();
+        Object[] arguments1 = new Object[] { "" };
+        Object[] arguments2 = new Object[] { "" };
+        Object[] arguments3 = new Object[] { "X" };
+        Method m = Object.class.getMethod("equals", new Class[] { Object.class });
+        Object mock = new Object();
         call = new Invocation(mock, m, arguments1);
         equalCall = new Invocation(mock, m, arguments2);
         nonEqualCall = new Invocation(mock, m, arguments3);
@@ -59,7 +59,7 @@ public class InvocationTest {
         try {
             call.hashCode();
             fail();
-        } catch (final UnsupportedOperationException expected) {
+        } catch (UnsupportedOperationException expected) {
             assertEquals("hashCode() is not implemented", expected.getMessage());
         }
     }
@@ -69,7 +69,7 @@ public class InvocationTest {
         class ToString {
             private final String name;
 
-            public ToString(final String name) {
+            public ToString(String name) {
                 this.name = name;
             }
 
@@ -82,7 +82,7 @@ public class InvocationTest {
             }
         }
 
-        final Method method = ToString.class.getMethod("aMethod", new Class[0]);
+        Method method = ToString.class.getMethod("aMethod", new Class[0]);
         Invocation invocation = new Invocation(new ToString("validJavaIdentifier"), method, null);
 
         assertEquals(invocation.toString(), "validJavaIdentifier.aMethod()");
@@ -98,7 +98,7 @@ public class InvocationTest {
         class NoToString {
             private final String name;
 
-            public NoToString(final String name) {
+            public NoToString(String name) {
                 this.name = name;
             }
 
@@ -106,7 +106,7 @@ public class InvocationTest {
             }
         }
 
-        final Method method = NoToString.class.getMethod("aMethod", new Class[0]);
+        Method method = NoToString.class.getMethod("aMethod", new Class[0]);
         Invocation invocation = new Invocation(new NoToString("validJavaIdentifier"), method, null);
 
         assertEquals(invocation.toString(), "aMethod()");

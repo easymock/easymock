@@ -37,45 +37,45 @@ public class MockTypeTest {
 
     @Test
     public void fromEasyMockClass() {
-        final IMethods mock = EasyMock.createMock(MockType.STRICT, IMethods.class);
-        final MockType type = MocksControl.getControl(mock).getType();
+        IMethods mock = EasyMock.createMock(MockType.STRICT, IMethods.class);
+        MockType type = MocksControl.getControl(mock).getType();
         assertEquals(MockType.STRICT, type);
         assertEquals("EasyMock for interface " + IMethods.class.getName(), mock.toString());
     }
 
     @Test
     public void fromEasyMockClassWithName() {
-        final IMethods mock = EasyMock.createMock("test", MockType.STRICT, IMethods.class);
-        final MockType type = MocksControl.getControl(mock).getType();
+        IMethods mock = EasyMock.createMock("test", MockType.STRICT, IMethods.class);
+        MockType type = MocksControl.getControl(mock).getType();
         assertEquals(MockType.STRICT, type);
         assertEquals("test", mock.toString());
     }
 
     @Test
     public void fromEasyMockControlWithName() {
-        final MocksControl ctrl = (MocksControl) EasyMock.createControl(MockType.STRICT);
+        MocksControl ctrl = (MocksControl) EasyMock.createControl(MockType.STRICT);
         assertEquals(MockType.STRICT, ctrl.getType());
     }
 
     @Test
     public void fromEasyMockSupportClass() {
-        final IMethods mock = support.createMock(MockType.STRICT, IMethods.class);
-        final MockType type = MocksControl.getControl(mock).getType();
+        IMethods mock = support.createMock(MockType.STRICT, IMethods.class);
+        MockType type = MocksControl.getControl(mock).getType();
         assertEquals(MockType.STRICT, type);
         assertEquals("EasyMock for interface " + IMethods.class.getName(), mock.toString());
     }
 
     @Test
     public void fromEasyMockSupportClassWithName() {
-        final IMethods mock = support.createMock("test", MockType.STRICT, IMethods.class);
-        final MockType type = MocksControl.getControl(mock).getType();
+        IMethods mock = support.createMock("test", MockType.STRICT, IMethods.class);
+        MockType type = MocksControl.getControl(mock).getType();
         assertEquals(MockType.STRICT, type);
         assertEquals("test", mock.toString());
     }
 
     @Test
     public void fromEasyMockSupportControlWithName() {
-        final MocksControl ctrl = (MocksControl) support.createControl(MockType.STRICT);
+        MocksControl ctrl = (MocksControl) support.createControl(MockType.STRICT);
         assertEquals(MockType.STRICT, ctrl.getType());
     }
 
@@ -83,16 +83,16 @@ public class MockTypeTest {
     // default EasyMock implementation. I won't change it right now but it doesn't feel right
     @Test
     public void fromMockBuilderClass() {
-        final MockTypeTest mock = builder.addMockedMethod("toString").createMock(MockType.STRICT);
-        final MockType type = MocksControl.getControl(mock).getType();
+        MockTypeTest mock = builder.addMockedMethod("toString").createMock(MockType.STRICT);
+        MockType type = MocksControl.getControl(mock).getType();
         assertEquals(MockType.STRICT, type);
         assertEquals("EasyMock for class " + MockTypeTest.class.getName(), mock.toString());
     }
 
     @Test
     public void fromMockBuilderClassWithName() {
-        final MockTypeTest mock = builder.addMockedMethod("toString").createMock("test", MockType.STRICT);
-        final MockType type = MocksControl.getControl(mock).getType();
+        MockTypeTest mock = builder.addMockedMethod("toString").createMock("test", MockType.STRICT);
+        MockType type = MocksControl.getControl(mock).getType();
         assertEquals(MockType.STRICT, type);
         assertEquals("test", mock.toString());
     }

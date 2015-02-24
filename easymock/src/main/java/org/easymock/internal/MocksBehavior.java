@@ -44,7 +44,7 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
 
     private transient volatile Thread lastThread;
 
-    public MocksBehavior(final boolean nice) {
+    public MocksBehavior(boolean nice) {
         this.nice = nice;
         this.isThreadSafe = !Boolean.valueOf(EasyMockProperties.getInstance().getProperty(
                 EasyMock.NOT_THREAD_SAFE_BY_DEFAULT));
@@ -52,17 +52,17 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
                 EasyMock.ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT));
     }
 
-    public final void addStub(final ExpectedInvocation expected, final Result result) {
+    public final void addStub(ExpectedInvocation expected, Result result) {
         stubResults.add(new ExpectedInvocationAndResult(expected, result));
     }
 
-    public void addExpected(final ExpectedInvocation expected, final Result result, final Range count) {
+    public void addExpected(ExpectedInvocation expected, Result result, Range count) {
         addBehaviorListIfNecessary(expected);
         lastBehaviorList().addExpected(expected, result, count);
     }
 
-    private Result getStubResult(final Invocation actual) {
-        for (final ExpectedInvocationAndResult each : stubResults) {
+    private Result getStubResult(Invocation actual) {
+        for (ExpectedInvocationAndResult each : stubResults) {
             if (each.getExpectedInvocation().matches(actual)) {
                 return each.getResult();
             }
@@ -70,7 +70,7 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         return null;
     }
 
-    private void addBehaviorListIfNecessary(final ExpectedInvocation expected) {
+    private void addBehaviorListIfNecessary(ExpectedInvocation expected) {
         if (behaviorLists.isEmpty() || !lastBehaviorList().allowsExpectedInvocation(expected, checkOrder)) {
             behaviorLists.add(new UnorderedBehavior(checkOrder));
         }
@@ -80,11 +80,11 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         return behaviorLists.get(behaviorLists.size() - 1);
     }
 
-    public final Result addActual(final Invocation actual) {
-        final int initialPosition = position;
+    public final Result addActual(Invocation actual) {
+        int initialPosition = position;
 
         while (position < behaviorLists.size()) {
-            final Result result = behaviorLists.get(position).addActual(actual);
+            Result result = behaviorLists.get(position).addActual(actual);
             if (result != null) {
                 return result;
             }
@@ -116,18 +116,18 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         }
 
         // Loop all around the behaviors left to generate the message
-        final StringBuilder errorMessage = new StringBuilder(70 * (endPosition - initialPosition + 1)); // rough approximation of the length
+        StringBuilder errorMessage = new StringBuilder(70 * (endPosition - initialPosition + 1)); // rough approximation of the length
         errorMessage.append("\n  Unexpected method call ").append(actual.toString());
 
-        final List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
+        List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
 
         int matches = 0;
 
         // First find how many match we have
         for (int i = initialPosition; i <= endPosition; i++) {
-            final List<ErrorMessage> thisListMessages = behaviorLists.get(i).getMessages(actual);
+            List<ErrorMessage> thisListMessages = behaviorLists.get(i).getMessages(actual);
             messages.addAll(thisListMessages);
-            for (final ErrorMessage m : thisListMessages) {
+            for (ErrorMessage m : thisListMessages) {
                 if (m.isMatching()) {
                     matches++;
                 }
@@ -140,7 +140,7 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
             errorMessage.append(":");
         }
 
-        for (final ErrorMessage m : messages) {
+        for (ErrorMessage m : messages) {
             m.appendTo(errorMessage, matches);
         }
 
@@ -151,7 +151,7 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
     public void verify() {
         boolean verified = true;
 
-        for (final UnorderedBehavior behaviorList : behaviorLists.subList(position, behaviorLists.size())) {
+        for (UnorderedBehavior behaviorList : behaviorLists.subList(position, behaviorLists.size())) {
             if (!behaviorList.verify()) {
                 verified = false;
                 break;
@@ -161,11 +161,11 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
             return;
         }
 
-        final StringBuilder errorMessage = new StringBuilder(70 * (behaviorLists.size() - position + 1));
+        StringBuilder errorMessage = new StringBuilder(70 * (behaviorLists.size() - position + 1));
 
         errorMessage.append("\n  Expectation failure on verify:");
-        for (final UnorderedBehavior behaviorList : behaviorLists.subList(position, behaviorLists.size())) {
-            for (final ErrorMessage m : behaviorList.getMessages(null)) {
+        for (UnorderedBehavior behaviorList : behaviorLists.subList(position, behaviorLists.size())) {
+            for (ErrorMessage m : behaviorList.getMessages(null)) {
                 m.appendTo(errorMessage, 0);
             }
         }
@@ -173,15 +173,15 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         throw new AssertionErrorWrapper(new AssertionError(errorMessage.toString()));
     }
 
-    public void checkOrder(final boolean value) {
+    public void checkOrder(boolean value) {
         this.checkOrder = value;
     }
 
-    public void makeThreadSafe(final boolean isThreadSafe) {
+    public void makeThreadSafe(boolean isThreadSafe) {
         this.isThreadSafe = isThreadSafe;
     }
 
-    public void shouldBeUsedInOneThread(final boolean shouldBeUsedInOneThread) {
+    public void shouldBeUsedInOneThread(boolean shouldBeUsedInOneThread) {
         this.shouldBeUsedInOneThread = shouldBeUsedInOneThread;
     }
 

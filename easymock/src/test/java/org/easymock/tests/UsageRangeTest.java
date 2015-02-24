@@ -82,7 +82,7 @@ public class UsageRangeTest {
         try {
             mock.next();
             fail();
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
         }
 
         assertTrue(mock.hasNext());

@@ -40,7 +40,7 @@ public class RecordStateMethodCallMissingTest {
         mock = control.createMock(IMethods.class);
     }
 
-    private void assertMessage(final String suffix, final IllegalStateException expected) {
+    private void assertMessage(String suffix, IllegalStateException expected) {
         assertEquals(METHOD_CALL_NEEDED + suffix, expected.getMessage());
     }
 
@@ -49,7 +49,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andReturn(false);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("return value", expected);
         }
     }
@@ -59,7 +59,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andReturn(0L);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("return value", expected);
         }
     }
@@ -69,7 +69,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andReturn(0.0f);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("return value", expected);
         }
     }
@@ -79,7 +79,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andReturn(0.0);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("return value", expected);
         }
     }
@@ -89,7 +89,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andReturn(null);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("return value", expected);
         }
     }
@@ -99,7 +99,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andThrow(new RuntimeException());
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("Throwable", expected);
         }
     }
@@ -114,7 +114,7 @@ public class RecordStateMethodCallMissingTest {
 
             });
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("answer", expected);
         }
     }
@@ -124,7 +124,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andDelegateTo(null);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("delegate", expected);
         }
     }
@@ -134,7 +134,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.anyTimes();
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("times", expected);
         }
     }
@@ -144,7 +144,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.atLeastOnce();
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("times", expected);
         }
     }
@@ -154,7 +154,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.times(3);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("times", expected);
         }
     }
@@ -164,7 +164,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.times(1, 3);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("times", expected);
         }
     }
@@ -174,7 +174,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.once();
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("times", expected);
         }
     }
@@ -184,7 +184,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andStubReturn(false);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("stub return value", expected);
         }
     }
@@ -194,7 +194,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andStubReturn(0L);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("stub return value", expected);
         }
     }
@@ -204,7 +204,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andStubReturn(0.0f);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("stub return value", expected);
         }
     }
@@ -214,7 +214,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andStubReturn(0.0);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("stub return value", expected);
         }
     }
@@ -224,7 +224,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andStubReturn(null);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("stub return value", expected);
         }
     }
@@ -234,7 +234,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.asStub();
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("stub behavior", expected);
         }
     }
@@ -244,7 +244,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andStubThrow(new RuntimeException());
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("stub Throwable", expected);
         }
     }
@@ -259,7 +259,7 @@ public class RecordStateMethodCallMissingTest {
 
             });
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("stub answer", expected);
         }
     }
@@ -269,7 +269,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             control.andStubDelegateTo(null);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertMessage("stub delegate", expected);
         }
     }
@@ -280,7 +280,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             expectLastCall().times(3);
             fail();
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertEquals("last method called on mock is not a void method", expected.getMessage());
         }
     }
@@ -291,7 +291,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             expectLastCall().asStub();
             fail();
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertEquals("last method called on mock is not a void method", expected.getMessage());
         }
     }
@@ -302,7 +302,7 @@ public class RecordStateMethodCallMissingTest {
         try {
             expectLastCall().andVoid();
             fail();
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertEquals("last method called on mock is not a void method", expected.getMessage());
         }
     }

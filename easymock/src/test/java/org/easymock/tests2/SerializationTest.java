@@ -110,13 +110,13 @@ public class SerializationTest implements Serializable {
 
     @SuppressWarnings("unchecked")
     private <T> T serialize(T o) throws IOException, ClassNotFoundException {
-        final ByteArrayOutputStream bOut = new ByteArrayOutputStream();
-        final ObjectOutputStream out = new ObjectOutputStream(bOut);
+        ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(bOut);
         out.writeObject(o);
         out.close();
 
-        final ByteArrayInputStream bIn = new ByteArrayInputStream(bOut.toByteArray());
-        final ObjectInputStream in = new ObjectInputStream(bIn);
+        ByteArrayInputStream bIn = new ByteArrayInputStream(bOut.toByteArray());
+        ObjectInputStream in = new ObjectInputStream(bIn);
         o = (T) in.readObject();
         in.close();
 

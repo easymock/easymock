@@ -35,7 +35,7 @@ import static org.junit.Assert.*;
 public class MockBuilderTest {
 
     private static class A {
-        public final void foo(final String s) {
+        public final void foo(String s) {
         }
     }
 
@@ -93,42 +93,42 @@ public class MockBuilderTest {
 
     @Test
     public void testAddMethod_Final() throws Exception {
-        final String errorMessage = "Final methods can't be mocked";
-        final MockBuilder<A> builder = new MockBuilder<A>(A.class);
+        String errorMessage = "Final methods can't be mocked";
+        MockBuilder<A> builder = new MockBuilder<A>(A.class);
         try {
             builder.addMockedMethod(A.class.getMethod("foo", String.class));
             fail("sholdn't be allowed to be mocked");
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             assertEquals(errorMessage, e.getMessage());
         }
         try {
             builder.addMockedMethod("foo");
             fail("sholdn't be allowed to be mocked");
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             assertEquals(errorMessage, e.getMessage());
         }
         try {
             builder.addMockedMethod("foo", String.class);
             fail("sholdn't be allowed to be mocked");
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             assertEquals(errorMessage, e.getMessage());
         }
     }
 
     @Test
     public void testAddMethods_Final() throws Exception {
-        final String errorMessage = "Final methods can't be mocked";
-        final MockBuilder<A> builder = new MockBuilder<A>(A.class);
+        String errorMessage = "Final methods can't be mocked";
+        MockBuilder<A> builder = new MockBuilder<A>(A.class);
         try {
             builder.addMockedMethods(A.class.getMethod("foo", String.class));
             fail("sholdn't be allowed to be mocked");
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             assertEquals(errorMessage, e.getMessage());
         }
         try {
             builder.addMockedMethods("foo");
             fail("sholdn't be allowed to be mocked");
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             assertEquals(errorMessage, e.getMessage());
         }
     }
@@ -139,7 +139,7 @@ public class MockBuilderTest {
         try {
             builder.createMock();
             fail("instantiation should fail because of negative");
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
         }
     }
 
@@ -150,7 +150,7 @@ public class MockBuilderTest {
 
     @Test
     public void testWithEmptyConstructor() throws Exception {
-        final EmptyConstructor instance = new MockBuilder<EmptyConstructor>(EmptyConstructor.class)
+        EmptyConstructor instance = new MockBuilder<EmptyConstructor>(EmptyConstructor.class)
                 .withConstructor().createMock();
         assertEquals("foo", instance.setByConstructor);
     }
@@ -168,7 +168,7 @@ public class MockBuilderTest {
         try {
             createMockBuilder(Integer.class).withConstructor().createMock();
             fail("no empty constructor should be found");
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         }
     }
 
@@ -178,7 +178,7 @@ public class MockBuilderTest {
         try {
             builder.createMock();
             fail("instantiation should fail because of negative");
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
         }
     }
 
@@ -189,13 +189,13 @@ public class MockBuilderTest {
 
     @Test
     public void testWithConstructorConstructorArgs() throws NoSuchMethodException {
-        final ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(int.class),
+        ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(int.class),
                 Integer.valueOf(-3));
         builder.withConstructor(args);
         try {
             builder.createMock();
             fail("instantiation should fail because of negative");
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
         }
     }
 
@@ -205,7 +205,7 @@ public class MockBuilderTest {
         try {
             builder.createMock();
             fail("instantiation should fail because of negative");
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
         }
     }
 
@@ -219,7 +219,7 @@ public class MockBuilderTest {
         try {
             builder.withConstructor(int.class).withArgs(3).withArgs(2);
             fail("withArgs called twice");
-        } catch (final IllegalStateException e) {
+        } catch (IllegalStateException e) {
             assertEquals("Trying to define the constructor arguments more than once.", e.getMessage());
         }
     }
@@ -229,7 +229,7 @@ public class MockBuilderTest {
         try {
             builder.withArgs(2);
             fail("withArgs without constructor");
-        } catch (final IllegalStateException e) {
+        } catch (IllegalStateException e) {
             assertEquals("Trying to define constructor arguments without first setting their type.",
                     e.getMessage());
         }
@@ -237,7 +237,7 @@ public class MockBuilderTest {
 
     @Test
     public void testCreateMockIMocksControl() {
-        final IMocksControl ctrl = createControl();
+        IMocksControl ctrl = createControl();
         mock = builder.createMock(ctrl);
         assertSame(MocksControl.getControl(mock), ctrl);
     }
@@ -249,7 +249,7 @@ public class MockBuilderTest {
         try {
             mock.size();
             fail("Unexpected call");
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
         }
     }
 
@@ -271,13 +271,13 @@ public class MockBuilderTest {
         try {
             mock.clear();
             fail("Unexpected call");
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
         }
     }
 
     @Test
     public void testCreateMockStringIMocksControl() {
-        final IMocksControl ctrl = createControl();
+        IMocksControl ctrl = createControl();
         mock = builder.addMockedMethod("toString").createMock("myName", ctrl);
         assertSame(MocksControl.getControl(mock), ctrl);
         assertTrue(mock.toString().contains("myName"));
@@ -290,7 +290,7 @@ public class MockBuilderTest {
         try {
             mock.size();
             fail("Unexpected call");
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
             assertTrue(e.getMessage().contains("myName"));
         }
     }
@@ -314,7 +314,7 @@ public class MockBuilderTest {
         try {
             mock.clear();
             fail("Unexpected call");
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
             assertTrue(e.getMessage().contains("myName"));
         }
     }

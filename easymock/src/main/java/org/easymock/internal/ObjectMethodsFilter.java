@@ -40,7 +40,7 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
 
     private final String name;
 
-    public ObjectMethodsFilter(final Class<?> toMock, final MockInvocationHandler delegate, final String name) {
+    public ObjectMethodsFilter(Class<?> toMock, MockInvocationHandler delegate, String name) {
         if (name != null && !Invocation.isJavaIdentifier(name)) {
             throw new IllegalArgumentException(String.format("'%s' is not a valid Java identifier.", name));
 
@@ -57,7 +57,7 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
                 hashCodeMethod = extractMethod(toMock, "hashCode", (Class[]) null);
                 toStringMethod = extractMethod(toMock, "toString", (Class[]) null);
                 finalizeMethod = ReflectionUtils.findMethod(toMock, "finalize", (Class[]) null);
-            } catch (final NoSuchMethodException e) {
+            } catch (NoSuchMethodException e) {
                 // ///CLOVER:OFF
                 throw new RuntimeException("An Object method could not be found!", e);
                 // ///CLOVER:ON
@@ -78,7 +78,7 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
         return m;
     }
 
-    public final Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+    public final Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if (equalsMethod.equals(method)) {
             return Boolean.valueOf(proxy == args[0]);
         }
@@ -94,7 +94,7 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
         return delegate.invoke(proxy, method, args);
     }
 
-    private String mockToString(final Object proxy) {
+    private String mockToString(Object proxy) {
         return (name != null) ? name : "EasyMock for " + MocksControl.getMockedType(proxy);
     }
 
@@ -102,7 +102,7 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
         return delegate;
     }
 
-    private void readObject(final java.io.ObjectInputStream stream) throws IOException,
+    private void readObject(java.io.ObjectInputStream stream) throws IOException,
             ClassNotFoundException {
         stream.defaultReadObject();
         try {
@@ -110,14 +110,14 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
             equalsMethod = ((MethodSerializationWrapper) stream.readObject()).getMethod();
             hashCodeMethod = ((MethodSerializationWrapper) stream.readObject()).getMethod();
             finalizeMethod = ((MethodSerializationWrapper) stream.readObject()).getMethod();
-        } catch (final NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             // ///CLOVER:OFF
             throw new IOException(e.toString());
             // ///CLOVER:ON
         }
     }
 
-    private void writeObject(final java.io.ObjectOutputStream stream) throws IOException {
+    private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
         stream.writeObject(new MethodSerializationWrapper(toStringMethod));
         stream.writeObject(new MethodSerializationWrapper(equalsMethod));

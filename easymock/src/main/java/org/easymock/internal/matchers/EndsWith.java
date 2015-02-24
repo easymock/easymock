@@ -28,15 +28,15 @@ public class EndsWith implements IArgumentMatcher, Serializable {
 
     private final String suffix;
 
-    public EndsWith(final String suffix) {
+    public EndsWith(String suffix) {
         this.suffix = suffix;
     }
 
-    public boolean matches(final Object actual) {
+    public boolean matches(Object actual) {
         return (actual instanceof String) && ((String) actual).endsWith(suffix);
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append("endsWith(\"" + suffix + "\")");
     }
 }

@@ -57,18 +57,18 @@ public final class EasyMockProperties {
         loadEasyMockProperties("easymock.properties");
     }
 
-    private void loadEasyMockProperties(final String propertyFileName) {
+    private void loadEasyMockProperties(String propertyFileName) {
         InputStream in = getClassLoader().getResourceAsStream(propertyFileName);
         if (in != null) {
             in = new BufferedInputStream(in);
             try {
                 properties.load(in);
-            } catch (final IOException e) {
+            } catch (IOException e) {
                 throw new RuntimeException("Failed to read " + propertyFileName + " file");
             } finally {
                 try {
                     in.close();
-                } catch (final IOException e) {
+                } catch (IOException e) {
                     // Doesn't matter
                 }
             }
@@ -85,7 +85,7 @@ public final class EasyMockProperties {
      *            the value to be returned if the key isn't found
      * @return the value found for the key or the default value
      */
-    public String getProperty(final String key, final String defaultValue) {
+    public String getProperty(String key, String defaultValue) {
         return properties.getProperty(key, defaultValue);
     }
 
@@ -97,7 +97,7 @@ public final class EasyMockProperties {
      *            key leading to the property
      * @return the value found for the key or null
      */
-    public String getProperty(final String key) {
+    public String getProperty(String key) {
         return properties.getProperty(key);
     }
 
@@ -111,7 +111,7 @@ public final class EasyMockProperties {
      *            the value corresponding to <tt>key</tt>.
      * @return the property previous value
      */
-    public String setProperty(final String key, final String value) {
+    public String setProperty(String key, String value) {
         if (!key.startsWith(PREFIX)) {
             throw new IllegalArgumentException("Invalid key (" + key
                     + "), an easymock property starts with \"" + PREFIX + "\"");
@@ -126,7 +126,7 @@ public final class EasyMockProperties {
         ClassLoader cl = null;
         try {
             cl = Thread.currentThread().getContextClassLoader();
-        } catch (final Throwable ex) {
+        } catch (Throwable ex) {
             // Cannot access thread context ClassLoader - falling back to system
             // class loader
         }

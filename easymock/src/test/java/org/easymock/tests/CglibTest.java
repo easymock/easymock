@@ -42,29 +42,29 @@ public class CglibTest {
      */
     @Test
     public void test() throws Exception {
-        final Factory f1 = createMock();
-        final Factory f2 = createMock();
+        Factory f1 = createMock();
+        Factory f2 = createMock();
 
         assertNotSame(f1.getCallback(0), f2.getCallback(0));
     }
 
     private Factory createMock() throws Exception {
-        final MethodInterceptor interceptor = new MethodInterceptor() {
-            public Object intercept(final Object obj, final Method method, final Object[] args,
-                    final MethodProxy proxy) throws Throwable {
+        MethodInterceptor interceptor = new MethodInterceptor() {
+            public Object intercept(Object obj, Method method, Object[] args,
+                    MethodProxy proxy) throws Throwable {
                 return proxy.invokeSuper(obj, args);
             }
         };
 
-        final Enhancer enhancer = new Enhancer();
+        Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(ArrayList.class);
         enhancer.setCallbackType(MethodInterceptor.class);
 
-        final Class<?> mockClass = enhancer.createClass();
+        Class<?> mockClass = enhancer.createClass();
 
         Enhancer.registerCallbacks(mockClass, new Callback[] { interceptor });
 
-        final Factory f = (Factory) ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
+        Factory f = (Factory) ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
 
         f.getCallback(0);
 

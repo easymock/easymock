@@ -65,19 +65,19 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
 
         public org.easymock.MockType realType;
 
-        MockType(final org.easymock.MockType realType) {
+        MockType(org.easymock.MockType realType) {
             this.realType = realType;
         }
     }
 
     private org.easymock.MockType type;
 
-    public MocksControl(final org.easymock.MockType type) {
+    public MocksControl(org.easymock.MockType type) {
         this.type = type;
         reset();
     }
 
-    public MocksControl(final MockType type) {
+    public MocksControl(MockType type) {
         this.type = type.realType;
         reset();
     }
@@ -90,47 +90,47 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         return state;
     }
 
-    public <T> T createMock(final Class<T> toMock) {
+    public <T> T createMock(Class<T> toMock) {
         return createMock(null, toMock, null, (Method[]) null);
     }
 
-    public <T> T createMock(final String name, final Class<T> toMock) {
+    public <T> T createMock(String name, Class<T> toMock) {
         return createMock(name, toMock, null, (Method[]) null);
     }
 
-    public <T> T createMock(final String name, final Class<T> toMock, final ConstructorArgs constructorArgs,
-            final Method... mockedMethods) {
+    public <T> T createMock(String name, Class<T> toMock, ConstructorArgs constructorArgs,
+            Method... mockedMethods) {
         if (toMock.isInterface() && mockedMethods != null) {
             throw new IllegalArgumentException("Partial mocking doesn't make sense for interface");
         }
 
         try {
             state.assertRecordState();
-            final IProxyFactory proxyFactory = toMock.isInterface()
+            IProxyFactory proxyFactory = toMock.isInterface()
                     ? interfaceProxyFactory
                     : getClassProxyFactory();
             return proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
                     new MockInvocationHandler(this), name), mockedMethods, constructorArgs);
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    public static IProxyFactory getProxyFactory(final Object o) {
+    public static IProxyFactory getProxyFactory(Object o) {
         return Proxy.isProxyClass(o.getClass())
                 ? new JavaProxyFactory()
                 : getClassProxyFactory();
     }
 
     private static IProxyFactory getClassProxyFactory() {
-        final String classMockingDisabled = EasyMockProperties.getInstance().getProperty(
+        String classMockingDisabled = EasyMockProperties.getInstance().getProperty(
                 EasyMock.DISABLE_CLASS_MOCKING);
         if (Boolean.valueOf(classMockingDisabled)) {
             throw new IllegalArgumentException("Class mocking is currently disabled. Change "
                     + EasyMock.DISABLE_CLASS_MOCKING + " to true do modify this behavior");
         }
 
-        final IProxyFactory cached = classProxyFactory;
+        IProxyFactory cached = classProxyFactory;
         if (cached != null) {
             return cached;
         }
@@ -143,23 +143,23 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
 
         try {
             return classProxyFactory = new ClassProxyFactory();
-        } catch (final NoClassDefFoundError e) {
+        } catch (NoClassDefFoundError e) {
             throw new RuntimeException(
                     "Class mocking requires to have cglib and objenesis librairies in the classpath", e);
         }
     }
 
-    public static MocksControl getControl(final Object mock) {
+    public static MocksControl getControl(Object mock) {
         try {
-            final IProxyFactory factory = getProxyFactory(mock);
-            final ObjectMethodsFilter handler = (ObjectMethodsFilter) factory.getInvocationHandler(mock);
+            IProxyFactory factory = getProxyFactory(mock);
+            ObjectMethodsFilter handler = (ObjectMethodsFilter) factory.getInvocationHandler(mock);
             return handler.getDelegate().getControl();
-        } catch (final ClassCastException e) {
+        } catch (ClassCastException e) {
             throw new IllegalArgumentException("Not a mock: " + mock.getClass().getName());
         }
     }
 
-    public static InvocationHandler getInvocationHandler(final Object mock) {
+    public static InvocationHandler getInvocationHandler(Object mock) {
         return getClassProxyFactory().getInvocationHandler(mock);
     }
 
@@ -176,7 +176,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
      * @return the mocked class or interface
      */
     @SuppressWarnings("unchecked")
-    public static <T, V extends T> Class<T> getMockedType(final V proxy) {
+    public static <T, V extends T> Class<T> getMockedType(V proxy) {
         if (Proxy.isProxyClass(proxy.getClass())) {
             return (Class<T>) proxy.getClass().getInterfaces()[0];
         }
@@ -210,7 +210,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
             state.replay();
             state = new ReplayState(behavior);
             LastControl.reportLastControl(null);
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
@@ -218,71 +218,71 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     public void verify() {
         try {
             state.verify();
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
-        } catch (final AssertionErrorWrapper e) {
+        } catch (AssertionErrorWrapper e) {
             throw (AssertionError) e.getAssertionError().fillInStackTrace();
         }
     }
 
-    public void checkOrder(final boolean value) {
+    public void checkOrder(boolean value) {
         try {
             state.checkOrder(value);
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    public void makeThreadSafe(final boolean threadSafe) {
+    public void makeThreadSafe(boolean threadSafe) {
         try {
             state.makeThreadSafe(threadSafe);
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    public void checkIsUsedInOneThread(final boolean shouldBeUsedInOneThread) {
+    public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
         try {
             state.checkIsUsedInOneThread(shouldBeUsedInOneThread);
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
     // methods from IBehaviorSetters
 
-    public IExpectationSetters<Object> andReturn(final Object value) {
+    public IExpectationSetters<Object> andReturn(Object value) {
         try {
             state.andReturn(value);
             return this;
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    public IExpectationSetters<Object> andThrow(final Throwable throwable) {
+    public IExpectationSetters<Object> andThrow(Throwable throwable) {
         try {
             state.andThrow(throwable);
             return this;
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    public IExpectationSetters<Object> andAnswer(final IAnswer<? extends Object> answer) {
+    public IExpectationSetters<Object> andAnswer(IAnswer<? extends Object> answer) {
         try {
             state.andAnswer(answer);
             return this;
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    public IExpectationSetters<Object> andDelegateTo(final Object answer) {
+    public IExpectationSetters<Object> andDelegateTo(Object answer) {
         try {
             state.andDelegateTo(answer);
             return this;
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
@@ -291,39 +291,39 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         try {
             state.andVoid();
             return this;
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    public void andStubReturn(final Object value) {
+    public void andStubReturn(Object value) {
         try {
             state.andStubReturn(value);
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    public void andStubThrow(final Throwable throwable) {
+    public void andStubThrow(Throwable throwable) {
         try {
             state.andStubThrow(throwable);
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    public void andStubAnswer(final IAnswer<? extends Object> answer) {
+    public void andStubAnswer(IAnswer<? extends Object> answer) {
         try {
             state.andStubAnswer(answer);
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    public void andStubDelegateTo(final Object delegateTo) {
+    public void andStubDelegateTo(Object delegateTo) {
         try {
             state.andStubDelegateTo(delegateTo);
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
@@ -331,25 +331,25 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     public void asStub() {
         try {
             state.asStub();
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    public IExpectationSetters<Object> times(final int times) {
+    public IExpectationSetters<Object> times(int times) {
         try {
             state.times(new Range(times));
             return this;
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
 
-    public IExpectationSetters<Object> times(final int min, final int max) {
+    public IExpectationSetters<Object> times(int min, int max) {
         try {
             state.times(new Range(min, max));
             return this;
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
@@ -358,7 +358,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         try {
             state.times(ONCE);
             return this;
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
@@ -367,7 +367,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         try {
             state.times(AT_LEAST_ONCE);
             return this;
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
@@ -376,7 +376,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         try {
             state.times(ZERO_OR_MORE);
             return this;
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }

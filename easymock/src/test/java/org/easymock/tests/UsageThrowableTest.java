@@ -73,7 +73,7 @@ public class UsageThrowableTest {
         });
     }
 
-    private void testThrowUncheckedException(final Throwable throwable) {
+    private void testThrowUncheckedException(Throwable throwable) {
         expect(mock.throwsNothing(true)).andReturn("true");
         expect(mock.throwsNothing(false)).andThrow(throwable);
 
@@ -82,7 +82,7 @@ public class UsageThrowableTest {
         try {
             mock.throwsNothing(false);
             fail("Trowable expected");
-        } catch (final Throwable expected) {
+        } catch (Throwable expected) {
             assertSame(throwable, expected);
         }
 
@@ -101,12 +101,12 @@ public class UsageThrowableTest {
         });
     }
 
-    private void testThrowCheckedException(final IOException expected) throws IOException {
+    private void testThrowCheckedException(IOException expected) throws IOException {
         try {
             expect(mock.throwsIOException(0)).andReturn("Value 0");
             expect(mock.throwsIOException(1)).andThrow(expected);
             expect(mock.throwsIOException(2)).andReturn("Value 2");
-        } catch (final IOException e) {
+        } catch (IOException e) {
             fail("Unexpected Exception");
         }
 
@@ -118,14 +118,14 @@ public class UsageThrowableTest {
         try {
             mock.throwsIOException(1);
             fail("IOException expected");
-        } catch (final IOException expectedException) {
+        } catch (IOException expectedException) {
             assertSame(expectedException, expected);
         }
     }
 
     @Test
     public void throwAfterReturnValue() {
-        final RuntimeException expectedException = new RuntimeException();
+        RuntimeException expectedException = new RuntimeException();
         expect(mock.throwsNothing(false)).andReturn("").andThrow(expectedException);
 
         replay(mock);
@@ -135,7 +135,7 @@ public class UsageThrowableTest {
         try {
             mock.throwsNothing(false);
             fail("RuntimeException expected");
-        } catch (final RuntimeException actualException) {
+        } catch (RuntimeException actualException) {
             assertSame(expectedException, actualException);
         }
 

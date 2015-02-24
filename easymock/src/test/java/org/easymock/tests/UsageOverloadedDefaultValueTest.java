@@ -98,7 +98,7 @@ public class UsageOverloadedDefaultValueTest {
     @Test
     public void defaultThrowable() {
 
-        final RuntimeException expected = new RuntimeException();
+        RuntimeException expected = new RuntimeException();
         expect(mock.oneArg((String) anyObject())).andStubThrow(expected);
 
         replay(mock);
@@ -106,7 +106,7 @@ public class UsageOverloadedDefaultValueTest {
         try {
             mock.oneArg("Something else");
             fail("runtime exception expected");
-        } catch (final RuntimeException expectedException) {
+        } catch (RuntimeException expectedException) {
             assertSame(expected, expectedException);
         }
     }

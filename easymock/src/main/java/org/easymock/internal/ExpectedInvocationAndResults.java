@@ -28,7 +28,7 @@ public class ExpectedInvocationAndResults implements Serializable {
 
     private final Results results;
 
-    public ExpectedInvocationAndResults(final ExpectedInvocation expectedInvocation, final Results results) {
+    public ExpectedInvocationAndResults(ExpectedInvocation expectedInvocation, Results results) {
         this.expectedInvocation = expectedInvocation;
         this.results = results;
     }

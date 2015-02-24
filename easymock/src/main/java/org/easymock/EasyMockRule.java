@@ -30,11 +30,11 @@ public class EasyMockRule implements TestRule {
 
     private final Object test;
 
-    public EasyMockRule(final Object test) {
+    public EasyMockRule(Object test) {
         this.test = test;
     }
 
-    public Statement apply(final Statement base, final Description description) {
+    public Statement apply(Statement base, Description description) {
         return new EasyMockStatement(base, test);
     }
 

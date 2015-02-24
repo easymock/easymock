@@ -43,7 +43,7 @@ public final class LastControl {
 
     // ///CLOVER:ON
 
-    public static void reportLastControl(final MocksControl control) {
+    public static void reportLastControl(MocksControl control) {
         if (control != null) {
             threadToControl.set(control);
         } else {
@@ -55,7 +55,7 @@ public final class LastControl {
         return threadToControl.get();
     }
 
-    public static void reportMatcher(final IArgumentMatcher matcher) {
+    public static void reportMatcher(IArgumentMatcher matcher) {
         List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
         if (stack == null) {
             stack = new ArrayList<IArgumentMatcher>(5); // methods of more than 5 parameters are quite rare
@@ -65,7 +65,7 @@ public final class LastControl {
     }
 
     public static List<IArgumentMatcher> pullMatchers() {
-        final List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
+        List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
         if (stack == null) {
             return null;
         }
@@ -73,23 +73,23 @@ public final class LastControl {
         return new ArrayList<IArgumentMatcher>(stack);
     }
 
-    public static void reportAnd(final int count) {
-        final List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
+    public static void reportAnd(int count) {
+        List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
         assertState(stack != null, NO_MATCHERS_FOUND);
         stack.add(new And(popLastArgumentMatchers(count)));
     }
 
     public static void reportNot() {
-        final List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
+        List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
         assertState(stack != null, NO_MATCHERS_FOUND);
         stack.add(new Not(popLastArgumentMatchers(1).get(0)));
     }
 
-    private static List<IArgumentMatcher> popLastArgumentMatchers(final int count) {
-        final List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
+    private static List<IArgumentMatcher> popLastArgumentMatchers(int count) {
+        List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
         assertState(stack != null, NO_MATCHERS_FOUND);
         assertState(stack.size() >= count, "" + count + " matchers expected, " + stack.size() + " recorded.");
-        final List<IArgumentMatcher> result = new LinkedList<IArgumentMatcher>();
+        List<IArgumentMatcher> result = new LinkedList<IArgumentMatcher>();
         result.addAll(stack.subList(stack.size() - count, stack.size()));
         for (int i = 0; i < count; i++) {
             stack.remove(stack.size()-1);
@@ -97,28 +97,28 @@ public final class LastControl {
         return result;
     }
 
-    private static void assertState(final boolean toAssert, final String message) {
+    private static void assertState(boolean toAssert, String message) {
         if (!toAssert) {
             threadToArgumentMatcherStack.remove();
             throw new IllegalStateException(message);
         }
     }
 
-    public static void reportOr(final int count) {
-        final List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
+    public static void reportOr(int count) {
+        List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
         assertState(stack != null, NO_MATCHERS_FOUND);
         stack.add(new Or(popLastArgumentMatchers(count)));
     }
 
     public static Invocation getCurrentInvocation() {
-        final List<Invocation> stack = threadToCurrentInvocation.get();
+        List<Invocation> stack = threadToCurrentInvocation.get();
         if (stack == null || stack.isEmpty()) {
             return null;
         }
         return stack.get(stack.size()-1);
     }
 
-    public static void pushCurrentInvocation(final Invocation invocation) {
+    public static void pushCurrentInvocation(Invocation invocation) {
         List<Invocation> stack = threadToCurrentInvocation.get();
         if (stack == null) {
             stack = new ArrayList<Invocation>(2); // we will rarely have more than 1 recursion. So almost never over 2
@@ -128,7 +128,7 @@ public final class LastControl {
     }
 
     public static void popCurrentInvocation() {
-        final List<Invocation> stack = threadToCurrentInvocation.get();
+        List<Invocation> stack = threadToCurrentInvocation.get();
         stack.remove(stack.size()-1);
     }
 }

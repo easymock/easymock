@@ -31,7 +31,7 @@ public class UsageUnorderedTest {
 
     @Test
     public void message() {
-        final Interface mock = createMock(Interface.class);
+        Interface mock = createMock(Interface.class);
 
         mock.method(anyInt());
         expectLastCall().once();
@@ -49,7 +49,7 @@ public class UsageUnorderedTest {
         try {
             mock.method(42);
             fail("Should fail");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals(
                     "\n  Unexpected method call Interface.method(42). Possible matches are marked with (+1):"
                             + "\n    Interface.method(<any>): expected: 3, actual: 3 (+1)"

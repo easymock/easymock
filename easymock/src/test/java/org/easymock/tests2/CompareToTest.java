@@ -29,7 +29,7 @@ public class CompareToTest {
 
     @Test
     public void testNotComparable() {
-        final CompareTo<Long> cmpTo = new CompareTo<Long>(5L) {
+        CompareTo<Long> cmpTo = new CompareTo<Long>(5L) {
 
             private static final long serialVersionUID = 1L;
 
@@ -39,7 +39,7 @@ public class CompareToTest {
             }
 
             @Override
-            protected boolean matchResult(final int result) {
+            protected boolean matchResult(int result) {
                 fail("Shouldn't be called since the passed argument is not Comparable");
                 return true;
             }
@@ -75,18 +75,18 @@ public class CompareToTest {
 
         // Make sure it works when equals provide a different result than
         // compare
-        final CompareEqual<BigDecimal> cmpEq = new CompareEqual<BigDecimal>(new BigDecimal("5.00"));
+        CompareEqual<BigDecimal> cmpEq = new CompareEqual<BigDecimal>(new BigDecimal("5.00"));
         assertTrue(cmpEq.matches(new BigDecimal("5")));
     }
 
-    private void test(final CompareTo<String> cmpTo, final boolean lower, final boolean higher,
-            final boolean equals, final String name) {
+    private void test(CompareTo<String> cmpTo, boolean lower, boolean higher,
+            boolean equals, String name) {
 
         assertEquals(lower, cmpTo.matches("a"));
         assertEquals(equals, cmpTo.matches("b"));
         assertEquals(higher, cmpTo.matches("c"));
 
-        final StringBuffer sb = new StringBuffer();
+        StringBuffer sb = new StringBuffer();
         cmpTo.appendTo(sb);
         assertEquals(name + "(b)", sb.toString());
     }

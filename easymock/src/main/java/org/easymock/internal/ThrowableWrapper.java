@@ -24,7 +24,7 @@ public class ThrowableWrapper extends Throwable {
 
     private final Throwable throwable;
 
-    public ThrowableWrapper(final Throwable throwable) {
+    public ThrowableWrapper(Throwable throwable) {
         this.throwable = throwable;
     }
 

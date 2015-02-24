@@ -54,7 +54,7 @@ public class Capture<T> implements Serializable {
      * @deprecated Use {@link org.easymock.EasyMock#newCapture(CaptureType)} instead
      */
     @Deprecated
-    public Capture(final CaptureType type) {
+    public Capture(CaptureType type) {
         this.type = type;
     }
 
@@ -129,7 +129,7 @@ public class Capture<T> implements Serializable {
      * @param value
      *            Value captured
      */
-    public void setValue(final T value) {
+    public void setValue(T value) {
         switch (type) {
         case NONE:
             break;

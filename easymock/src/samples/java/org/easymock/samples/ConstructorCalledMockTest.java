@@ -39,7 +39,7 @@ public class ConstructorCalledMockTest extends EasyMockSupport {
 
         private final BigDecimal[] values;
 
-        public TaxCalculator(final BigDecimal... values) {
+        public TaxCalculator(BigDecimal... values) {
             this.values = values;
         }
 
@@ -48,7 +48,7 @@ public class ConstructorCalledMockTest extends EasyMockSupport {
         public BigDecimal tax() {
             BigDecimal result = BigDecimal.ZERO;
 
-            for (final BigDecimal d : values) {
+            for (BigDecimal d : values) {
                 result = result.add(d);
             }
 

@@ -24,7 +24,7 @@ public class RuntimeExceptionWrapper extends RuntimeException {
 
     private final RuntimeException runtimeException;
 
-    public RuntimeExceptionWrapper(final RuntimeException runtimeException) {
+    public RuntimeExceptionWrapper(RuntimeException runtimeException) {
         this.runtimeException = runtimeException;
     }
 

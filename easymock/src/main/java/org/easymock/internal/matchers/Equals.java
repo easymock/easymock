@@ -29,18 +29,18 @@ public class Equals implements IArgumentMatcher, Serializable {
 
     private final Object expected;
 
-    public Equals(final Object expected) {
+    public Equals(Object expected) {
         this.expected = expected;
     }
 
-    public boolean matches(final Object actual) {
+    public boolean matches(Object actual) {
         if (this.expected == null) {
             return actual == null;
         }
         return expected.equals(actual);
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         ArgumentToString.appendArgument(expected, buffer);
     }
 
@@ -49,11 +49,11 @@ public class Equals implements IArgumentMatcher, Serializable {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (o == null || !this.getClass().equals(o.getClass())) {
             return false;
         }
-        final Equals other = (Equals) o;
+        Equals other = (Equals) o;
         return this.expected == null && other.expected == null || this.expected != null
                 && this.expected.equals(other.expected);
     }

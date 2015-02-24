@@ -36,7 +36,7 @@ public class MocksControlTest {
     public static class A {
         int i = 1;
 
-        public A(final int i) {
+        public A(int i) {
             this.i = i;
         }
 
@@ -48,7 +48,7 @@ public class MocksControlTest {
             return i;
         }
 
-        public boolean add(final int i) {
+        public boolean add(int i) {
             this.i += i;
             return true;
         }
@@ -56,30 +56,30 @@ public class MocksControlTest {
 
     @Test
     public void testMocksControl_Interface() {
-        final IMocksControl ctrl = createControl();
-        final List<?> list = ctrl.createMock(List.class);
+        IMocksControl ctrl = createControl();
+        List<?> list = ctrl.createMock(List.class);
         testList(ctrl, list);
     }
 
     @Test
     public void testMocksControl_Class() {
-        final IMocksControl ctrl = createControl();
-        final ArrayList<?> list = ctrl.createMock(ArrayList.class);
+        IMocksControl ctrl = createControl();
+        ArrayList<?> list = ctrl.createMock(ArrayList.class);
         testList(ctrl, list);
     }
 
     @Test
     public void testMocksControl_Class_WithName() {
-        final IMocksControl ctrl = createControl();
-        final ArrayList<?> list = ctrl.createMock("myMock", ArrayList.class);
+        IMocksControl ctrl = createControl();
+        ArrayList<?> list = ctrl.createMock("myMock", ArrayList.class);
         testList(ctrl, list);
     }
 
     @SuppressWarnings("deprecation")
     @Test
     public void testMocksControl_PartialMock_NoConstructorCalled() throws Exception {
-        final IMocksControl ctrl = createControl();
-        final A a = ctrl.createMock(null, A.class, null, A.class.getMethod("bar"), A.class.getMethod(
+        IMocksControl ctrl = createControl();
+        A a = ctrl.createMock(null, A.class, null, A.class.getMethod("bar"), A.class.getMethod(
                 "toString"));
 
         assertEquals("No constructor called so should not be initialized", 0, a.i);
@@ -94,8 +94,8 @@ public class MocksControlTest {
     @SuppressWarnings("deprecation")
     @Test
     public void testMocksControl_NamedPartialMock_NoConstructorCalled() throws Exception {
-        final IMocksControl ctrl = createControl();
-        final A a = ctrl.createMock("myMock", A.class, null, A.class.getMethod("bar"), A.class
+        IMocksControl ctrl = createControl();
+        A a = ctrl.createMock("myMock", A.class, null, A.class.getMethod("bar"), A.class
                 .getMethod("toString"));
 
         assertEquals("No constructor called so should not be initialized", 0, a.i);
@@ -110,11 +110,11 @@ public class MocksControlTest {
     @SuppressWarnings("deprecation")
     @Test
     public void testMocksControl_PartialMock_ConstructorCalled() throws Exception {
-        final IMocksControl ctrl = createControl();
+        IMocksControl ctrl = createControl();
 
-        final ConstructorArgs args = new ConstructorArgs(A.class.getConstructor(Integer.TYPE), 6);
+        ConstructorArgs args = new ConstructorArgs(A.class.getConstructor(Integer.TYPE), 6);
 
-        final A a = ctrl.createMock(null, A.class, args, A.class.getMethod("bar"), A.class.getMethod(
+        A a = ctrl.createMock(null, A.class, args, A.class.getMethod("bar"), A.class.getMethod(
                 "toString"));
 
         assertEquals("Constructor called so should be initialized", 6, a.i);
@@ -129,11 +129,11 @@ public class MocksControlTest {
     @SuppressWarnings("deprecation")
     @Test
     public void testMocksControl_NamedPartialMock_ConstructorCalled() throws Exception {
-        final IMocksControl ctrl = createControl();
+        IMocksControl ctrl = createControl();
 
-        final ConstructorArgs args = new ConstructorArgs(A.class.getConstructor(Integer.TYPE), 6);
+        ConstructorArgs args = new ConstructorArgs(A.class.getConstructor(Integer.TYPE), 6);
 
-        final A a = ctrl.createMock("myMock", A.class, args, A.class.getMethod("bar"), A.class
+        A a = ctrl.createMock("myMock", A.class, args, A.class.getMethod("bar"), A.class
                 .getMethod("toString"));
 
         assertEquals("Constructor called so should be initialized", 6, a.i);
@@ -148,37 +148,37 @@ public class MocksControlTest {
     @SuppressWarnings("deprecation")
     @Test
     public void testInterfaceForbidden_PartialMock() throws Exception {
-        final ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(Integer.TYPE), 6);
-        final Method[] methods = new Method[] { List.class.getMethod("size") };
+        ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(Integer.TYPE), 6);
+        Method[] methods = new Method[] { List.class.getMethod("size") };
 
-        final IMocksControl ctrl = createControl();
+        IMocksControl ctrl = createControl();
 
         try {
             ctrl.createMock(null, List.class, null, methods);
             fail("partial mocking on interface shouldn't be allowed");
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         }
 
         try {
             ctrl.createMock(null, List.class, args, methods);
             fail("partial mocking on interface shouldn't be allowed");
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         }
 
         try {
             ctrl.createMock("myMock", List.class, null, methods);
             fail("partial mocking on interface shouldn't be allowed");
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         }
 
         try {
             ctrl.createMock("myMock", List.class, args, methods);
             fail("partial mocking on interface shouldn't be allowed");
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         }
     }
 
-    private void testList(final IMocksControl ctrl, final List<?> list) {
+    private void testList(IMocksControl ctrl, List<?> list) {
         expect(list.size()).andReturn(3);
         ctrl.replay();
         assertEquals(3, list.size());
@@ -194,7 +194,7 @@ public class MocksControlTest {
     @Test
     public void testCreateMocksControlFromOldMockType() {
         @SuppressWarnings("deprecation")
-        final MocksControl c = new MocksControl(MocksControl.MockType.NICE);
+        MocksControl c = new MocksControl(MocksControl.MockType.NICE);
         assertSame(MockType.NICE, c.getType());
     }
 }

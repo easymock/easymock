@@ -32,11 +32,11 @@ public final class Any implements IArgumentMatcher, Serializable {
 
     }
 
-    public boolean matches(final Object actual) {
+    public boolean matches(Object actual) {
         return true;
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append("<any>");
     }
 }

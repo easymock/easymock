@@ -31,7 +31,7 @@ public final class AndroidSupport {
             Class.forName("com.google.dexmaker.Code");
 
             isAndroid = true;
-        } catch (final ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             isAndroid = false;
         }
     }

@@ -29,15 +29,15 @@ public class Same implements IArgumentMatcher, Serializable {
 
     private final Object expected;
 
-    public Same(final Object expected) {
+    public Same(Object expected) {
         this.expected = expected;
     }
 
-    public boolean matches(final Object actual) {
+    public boolean matches(Object actual) {
         return expected == actual;
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append("same(");
         ArgumentToString.appendArgument(expected, buffer);
         buffer.append(")");

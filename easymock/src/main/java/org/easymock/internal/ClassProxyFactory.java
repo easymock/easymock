@@ -56,11 +56,11 @@ public class ClassProxyFactory implements IProxyFactory {
 
         private transient Set<Method> mockedMethods;
 
-        public MockMethodInterceptor(final InvocationHandler handler) {
+        public MockMethodInterceptor(InvocationHandler handler) {
             this.handler = handler;
         }
 
-        public Object intercept(final Object obj, Method method, final Object[] args, final MethodProxy proxy)
+        public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)
                 throws Throwable {
 
             // We conveniently mock abstract methods be default
@@ -97,25 +97,25 @@ public class ClassProxyFactory implements IProxyFactory {
             return handler.invoke(obj, method, args);
         }
 
-        public void setMockedMethods(final Method... mockedMethods) {
+        public void setMockedMethods(Method... mockedMethods) {
             this.mockedMethods = new HashSet<Method>(Arrays.asList(mockedMethods));
         }
 
         @SuppressWarnings("unchecked")
-        private void readObject(final java.io.ObjectInputStream stream) throws IOException,
+        private void readObject(java.io.ObjectInputStream stream) throws IOException,
                 ClassNotFoundException {
             stream.defaultReadObject();
-            final Set<MethodSerializationWrapper> methods = (Set<MethodSerializationWrapper>) stream
+            Set<MethodSerializationWrapper> methods = (Set<MethodSerializationWrapper>) stream
                     .readObject();
             if (methods == null) {
                 return;
             }
 
             mockedMethods = new HashSet<Method>(methods.size());
-            for (final MethodSerializationWrapper m : methods) {
+            for (MethodSerializationWrapper m : methods) {
                 try {
                     mockedMethods.add(m.getMethod());
-                } catch (final NoSuchMethodException e) {
+                } catch (NoSuchMethodException e) {
                     // ///CLOVER:OFF
                     throw new IOException(e.toString());
                     // ///CLOVER:ON
@@ -123,7 +123,7 @@ public class ClassProxyFactory implements IProxyFactory {
             }
         }
 
-        private void writeObject(final java.io.ObjectOutputStream stream) throws IOException {
+        private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
             stream.defaultWriteObject();
 
             if (mockedMethods == null) {
@@ -131,9 +131,9 @@ public class ClassProxyFactory implements IProxyFactory {
                 return;
             }
 
-            final Set<MethodSerializationWrapper> methods = new HashSet<MethodSerializationWrapper>(
+            Set<MethodSerializationWrapper> methods = new HashSet<MethodSerializationWrapper>(
                     mockedMethods.size());
-            for (final Method m : mockedMethods) {
+            for (Method m : mockedMethods) {
                 methods.add(new MethodSerializationWrapper(m));
             }
 
@@ -144,27 +144,27 @@ public class ClassProxyFactory implements IProxyFactory {
     // ///CLOVER:OFF (I don't know how to test it automatically yet)
     private static final NamingPolicy ALLOWS_MOCKING_CLASSES_IN_SIGNED_PACKAGES = new DefaultNamingPolicy() {
         @Override
-        public String getClassName(final String prefix, final String source, final Object key,
-                final Predicate names) {
+        public String getClassName(String prefix, String source, Object key,
+                Predicate names) {
             return "codegen." + super.getClassName(prefix, source, key, names);
         }
     };
 
     // ///CLOVER:ON
 
-    public static boolean isCallerMockInvocationHandlerInvoke(final Throwable e) throws Throwable {
-        final StackTraceElement[] elements = e.getStackTrace();
+    public static boolean isCallerMockInvocationHandlerInvoke(Throwable e) throws Throwable {
+        StackTraceElement[] elements = e.getStackTrace();
         return elements.length > 2
                 && elements[2].getClassName().equals(MockInvocationHandler.class.getName())
                 && elements[2].getMethodName().equals("invoke");
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T createProxy(final Class<T> toMock, final InvocationHandler handler,
-            final Method[] mockedMethods, final ConstructorArgs args) {
-        final Enhancer enhancer = createEnhancer(toMock);
+    public <T> T createProxy(Class<T> toMock, InvocationHandler handler,
+            Method[] mockedMethods, ConstructorArgs args) {
+        Enhancer enhancer = createEnhancer(toMock);
 
-        final MockMethodInterceptor interceptor = new MockMethodInterceptor(handler);
+        MockMethodInterceptor interceptor = new MockMethodInterceptor(handler);
         if (mockedMethods != null) {
             interceptor.setMockedMethods(mockedMethods);
         }
@@ -173,7 +173,7 @@ public class ClassProxyFactory implements IProxyFactory {
         Class<?> mockClass;
         try {
             mockClass = enhancer.createClass();
-        } catch (final CodeGenerationException e) {
+        } catch (CodeGenerationException e) {
             // ///CLOVER:OFF (don't know how to test it automatically)
             // Probably caused by a NoClassDefFoundError, let's try EasyMock class loader
             // instead of the default one (which is the class to mock one
@@ -194,7 +194,7 @@ public class ClassProxyFactory implements IProxyFactory {
                 try {
                     // Get the constructor with the same params
                     cstr = mockClass.getDeclaredConstructor(args.getConstructor().getParameterTypes());
-                } catch (final NoSuchMethodException e) {
+                } catch (NoSuchMethodException e) {
                     // Shouldn't happen, constructor is checked when ConstructorArgs is instantiated
                     // ///CLOVER:OFF
                     throw new RuntimeException("Fail to find constructor for param types", e);
@@ -205,15 +205,15 @@ public class ClassProxyFactory implements IProxyFactory {
                     cstr.setAccessible(true); // So we can call a protected
                     // constructor
                     mock = (T) cstr.newInstance(args.getInitArgs());
-                } catch (final InstantiationException e) {
+                } catch (InstantiationException e) {
                     // ///CLOVER:OFF
                     throw new RuntimeException("Failed to instantiate mock calling constructor", e);
                     // ///CLOVER:ON
-                } catch (final IllegalAccessException e) {
+                } catch (IllegalAccessException e) {
                     // ///CLOVER:OFF
                     throw new RuntimeException("Failed to instantiate mock calling constructor", e);
                     // ///CLOVER:ON
-                } catch (final InvocationTargetException e) {
+                } catch (InvocationTargetException e) {
                     throw new RuntimeException(
                             "Failed to instantiate mock calling constructor: Exception in constructor",
                             e.getTargetException());
@@ -225,7 +225,7 @@ public class ClassProxyFactory implements IProxyFactory {
                 Factory mock;
                 try {
                     mock = (Factory) ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
-                } catch (final InstantiationException e) {
+                } catch (InstantiationException e) {
                     // ///CLOVER:OFF
                     throw new RuntimeException("Fail to instantiate mock for " + toMock + " on "
                             + ClassInstantiatorFactory.getJVM() + " JVM");
@@ -252,9 +252,9 @@ public class ClassProxyFactory implements IProxyFactory {
         }
     }
 
-    private Enhancer createEnhancer(final Class<?> toMock) {
+    private Enhancer createEnhancer(Class<?> toMock) {
         // Create the mock
-        final Enhancer enhancer = new Enhancer() {
+        Enhancer enhancer = new Enhancer() {
 
             /**
              * Filter all private constructors but do not check that there are
@@ -262,7 +262,7 @@ public class ClassProxyFactory implements IProxyFactory {
              */
             @SuppressWarnings("rawtypes")
             @Override
-            protected void filterConstructors(final Class sc, final List constructors) {
+            protected void filterConstructors(Class sc, List constructors) {
                 CollectionUtils.filter(constructors, new VisibilityPredicate(sc, true));
             }
         };
@@ -278,8 +278,8 @@ public class ClassProxyFactory implements IProxyFactory {
         return enhancer;
     }
 
-    public InvocationHandler getInvocationHandler(final Object mock) {
-        final Factory factory = (Factory) mock;
+    public InvocationHandler getInvocationHandler(Object mock) {
+        Factory factory = (Factory) mock;
         return ((MockMethodInterceptor) factory.getCallback(0)).handler;
     }
 }

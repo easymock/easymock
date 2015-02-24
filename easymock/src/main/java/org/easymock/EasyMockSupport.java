@@ -63,7 +63,7 @@ public class EasyMockSupport {
      *
      * @since ${project.version}
      */
-    public <T> T mock(final Class<T> toMock) {
+    public <T> T mock(Class<T> toMock) {
         return createControl().createMock(toMock);
     }
 
@@ -85,7 +85,7 @@ public class EasyMockSupport {
      *
      * @since ${project.version}
      */
-    public <T> T mock(final String name, final Class<T> toMock) {
+    public <T> T mock(String name, Class<T> toMock) {
         return createControl().createMock(name, toMock);
     }
 
@@ -106,7 +106,7 @@ public class EasyMockSupport {
      *
      * @since ${project.version}
      */
-    public <T> T mock(final MockType type, final Class<T> toMock) {
+    public <T> T mock(MockType type, Class<T> toMock) {
         return createControl(type).createMock(toMock);
     }
 
@@ -129,7 +129,7 @@ public class EasyMockSupport {
      *
      * @since ${project.version}
      */
-    public <T> T mock(final String name, final MockType type, final Class<T> toMock) {
+    public <T> T mock(String name, MockType type, Class<T> toMock) {
         return createControl(type).createMock(name, toMock);
     }
 
@@ -146,7 +146,7 @@ public class EasyMockSupport {
      *
      * @since ${project.version}
      */
-    public <T> T strictMock(final Class<T> toMock) {
+    public <T> T strictMock(Class<T> toMock) {
         return createStrictControl().createMock(toMock);
     }
 
@@ -167,7 +167,7 @@ public class EasyMockSupport {
      *
      * @since ${project.version}
      */
-    public <T> T strictMock(final String name, final Class<T> toMock) {
+    public <T> T strictMock(String name, Class<T> toMock) {
         return createStrictControl().createMock(name, toMock);
     }
 
@@ -185,7 +185,7 @@ public class EasyMockSupport {
      *
      * @since ${project.version}
      */
-    public <T> T niceMock(final Class<T> toMock) {
+    public <T> T niceMock(Class<T> toMock) {
         return createNiceControl().createMock(toMock);
     }
 
@@ -208,7 +208,7 @@ public class EasyMockSupport {
      *
      * @since ${project.version}
      */
-    public <T> T niceMock(final String name, final Class<T> toMock) {
+    public <T> T niceMock(String name, Class<T> toMock) {
         return createNiceControl().createMock(name, toMock);
     }
 
@@ -225,7 +225,7 @@ public class EasyMockSupport {
      *
      * @since ${project.version}
      */
-    public <T> IMockBuilder<T> partialMockBuilder(final Class<T> toMock) {
+    public <T> IMockBuilder<T> partialMockBuilder(Class<T> toMock) {
         return new MockBuilder<T>(toMock, this);
     }
 
@@ -244,7 +244,7 @@ public class EasyMockSupport {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public <T> T createMock(final MockType type, final Class<T> toMock) {
+    public <T> T createMock(MockType type, Class<T> toMock) {
         return mock(type, toMock);
     }
 
@@ -265,7 +265,7 @@ public class EasyMockSupport {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public <T> T createMock(final String name, final MockType type, final Class<T> toMock) {
+    public <T> T createMock(String name, MockType type, Class<T> toMock) {
         return mock(name, type, toMock);
     }
 
@@ -280,7 +280,7 @@ public class EasyMockSupport {
      *            implement.
      * @return the mock object.
      */
-    public <T> T createStrictMock(final Class<T> toMock) {
+    public <T> T createStrictMock(Class<T> toMock) {
         return strictMock(toMock);
     }
 
@@ -299,7 +299,7 @@ public class EasyMockSupport {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public <T> T createStrictMock(final String name, final Class<T> toMock) {
+    public <T> T createStrictMock(String name, Class<T> toMock) {
         return strictMock(name, toMock);
     }
 
@@ -314,7 +314,7 @@ public class EasyMockSupport {
      *            implement.
      * @return the mock object.
      */
-    public <T> T createMock(final Class<T> toMock) {
+    public <T> T createMock(Class<T> toMock) {
         return mock(toMock);
     }
 
@@ -334,7 +334,7 @@ public class EasyMockSupport {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public <T> T createMock(final String name, final Class<T> toMock) {
+    public <T> T createMock(String name, Class<T> toMock) {
         return mock(name, toMock);
     }
 
@@ -350,7 +350,7 @@ public class EasyMockSupport {
      *            implement.
      * @return the mock object.
      */
-    public <T> T createNiceMock(final Class<T> toMock) {
+    public <T> T createNiceMock(Class<T> toMock) {
         return niceMock(toMock);
     }
 
@@ -371,7 +371,7 @@ public class EasyMockSupport {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public <T> T createNiceMock(final String name, final Class<T> toMock) {
+    public <T> T createNiceMock(String name, Class<T> toMock) {
         return niceMock(name, toMock);
     }
 
@@ -381,7 +381,7 @@ public class EasyMockSupport {
      * @return the control.
      */
     public IMocksControl createStrictControl() {
-        final IMocksControl ctrl = EasyMock.createStrictControl();
+        IMocksControl ctrl = EasyMock.createStrictControl();
         controls.add(ctrl);
         return ctrl;
     }
@@ -397,7 +397,7 @@ public class EasyMockSupport {
      *            implement.
      * @return a mock builder to create a partial mock
      */
-    public <T> IMockBuilder<T> createMockBuilder(final Class<T> toMock) {
+    public <T> IMockBuilder<T> createMockBuilder(Class<T> toMock) {
         return partialMockBuilder(toMock);
     }
 
@@ -408,8 +408,8 @@ public class EasyMockSupport {
      * @return the control.
      * @since 3.2
      */
-    public IMocksControl createControl(final MockType type) {
-        final IMocksControl ctrl = EasyMock.createControl(type);
+    public IMocksControl createControl(MockType type) {
+        IMocksControl ctrl = EasyMock.createControl(type);
         controls.add(ctrl);
         return ctrl;
     }
@@ -431,7 +431,7 @@ public class EasyMockSupport {
      * @return the control.
      */
     public IMocksControl createNiceControl() {
-        final IMocksControl ctrl = EasyMock.createNiceControl();
+        IMocksControl ctrl = EasyMock.createNiceControl();
         controls.add(ctrl);
         return ctrl;
     }
@@ -442,7 +442,7 @@ public class EasyMockSupport {
      * documentation.
      */
     public void replayAll() {
-        for (final IMocksControl c : controls) {
+        for (IMocksControl c : controls) {
             c.replay();
         }
     }
@@ -452,7 +452,7 @@ public class EasyMockSupport {
      * mock objects). For details, see the EasyMock documentation.
      */
     public void resetAll() {
-        for (final IMocksControl c : controls) {
+        for (IMocksControl c : controls) {
             c.reset();
         }
     }
@@ -462,7 +462,7 @@ public class EasyMockSupport {
      * mock objects).
      */
     public void verifyAll() {
-        for (final IMocksControl c : controls) {
+        for (IMocksControl c : controls) {
             c.verify();
         }
     }
@@ -473,7 +473,7 @@ public class EasyMockSupport {
      * see the EasyMock documentation.
      */
     public void resetAllToNice() {
-        for (final IMocksControl c : controls) {
+        for (IMocksControl c : controls) {
             c.resetToNice();
         }
     }
@@ -484,7 +484,7 @@ public class EasyMockSupport {
      * see the EasyMock documentation.
      */
     public void resetAllToDefault() {
-        for (final IMocksControl c : controls) {
+        for (IMocksControl c : controls) {
             c.resetToDefault();
         }
     }
@@ -495,7 +495,7 @@ public class EasyMockSupport {
      * see the EasyMock documentation.
      */
     public void resetAllToStrict() {
-        for (final IMocksControl c : controls) {
+        for (IMocksControl c : controls) {
             c.resetToStrict();
         }
     }
@@ -524,7 +524,7 @@ public class EasyMockSupport {
      * @param obj the object on which to inject mocks
      * @since 3.2
      */
-    public static void injectMocks(final Object obj) {
+    public static void injectMocks(Object obj) {
         Injector.injectMocks(obj);
     }
 }

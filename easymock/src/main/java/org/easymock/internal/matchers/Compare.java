@@ -37,18 +37,18 @@ public class Compare<T> implements IArgumentMatcher, Serializable {
 
     private final LogicalOperator operator;
 
-    public Compare(final T expected, final Comparator<? super T> comparator, final LogicalOperator result) {
+    public Compare(T expected, Comparator<? super T> comparator, LogicalOperator result) {
         this.expected = expected;
         this.comparator = comparator;
         this.operator = result;
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append(comparator + "(" + expected + ") " + operator.getSymbol() + " 0");
     }
 
     @SuppressWarnings("unchecked")
-    public boolean matches(final Object actual) {
+    public boolean matches(Object actual) {
         if (actual == null) {
             return false;
         }

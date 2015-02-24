@@ -28,21 +28,21 @@ public final class MockInvocationHandler implements InvocationHandler, Serializa
 
     private final MocksControl control;
 
-    public MockInvocationHandler(final MocksControl control) {
+    public MockInvocationHandler(MocksControl control) {
         this.control = control;
     }
 
-    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         try {
             if (control.getState() instanceof RecordState) {
                 LastControl.reportLastControl(control);
             }
             return control.getState().invoke(new Invocation(proxy, method, args));
-        } catch (final RuntimeExceptionWrapper e) {
+        } catch (RuntimeExceptionWrapper e) {
             throw e.getRuntimeException().fillInStackTrace();
-        } catch (final AssertionErrorWrapper e) {
+        } catch (AssertionErrorWrapper e) {
             throw e.getAssertionError().fillInStackTrace();
-        } catch (final ThrowableWrapper t) {
+        } catch (ThrowableWrapper t) {
             throw t.getThrowable().fillInStackTrace();
         }
         // then let all unwrapped exceptions pass unmodified

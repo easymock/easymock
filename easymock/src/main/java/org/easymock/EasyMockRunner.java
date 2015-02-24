@@ -29,7 +29,7 @@ import org.junit.runners.model.Statement;
  */
 public class EasyMockRunner extends BlockJUnit4ClassRunner {
 
-    public EasyMockRunner(final Class<?> klass) throws InitializationError {
+    public EasyMockRunner(Class<?> klass) throws InitializationError {
         super(klass);
     }
 

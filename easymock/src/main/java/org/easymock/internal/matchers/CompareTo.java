@@ -31,12 +31,12 @@ public abstract class CompareTo<T extends Comparable<T>> implements IArgumentMat
 
     private final Comparable<T> expected;
 
-    public CompareTo(final Comparable<T> value) {
+    public CompareTo(Comparable<T> value) {
         this.expected = value;
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public boolean matches(final Object actual) {
+    public boolean matches(Object actual) {
 
         if (!(actual instanceof Comparable)) {
             return false;
@@ -45,7 +45,7 @@ public abstract class CompareTo<T extends Comparable<T>> implements IArgumentMat
         return matchResult(((Comparable) actual).compareTo(expected));
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append(getName() + "(" + expected + ")");
     }
 

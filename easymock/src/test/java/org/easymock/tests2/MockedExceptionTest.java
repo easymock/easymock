@@ -27,14 +27,14 @@ public class MockedExceptionTest {
 
     @Test
     public void testMockedException() {
-        final RuntimeException expected = createNiceMock(RuntimeException.class);
-        final CharSequence c = createMock(CharSequence.class);
+        RuntimeException expected = createNiceMock(RuntimeException.class);
+        CharSequence c = createMock(CharSequence.class);
         expect(c.length()).andStubThrow(expected);
         replay(c, expected);
 
         try {
             c.length(); // fillInStackTrace will be called internally here
-        } catch (final RuntimeException actual) {
+        } catch (RuntimeException actual) {
             assertSame(expected, actual);
         }
 
@@ -44,18 +44,18 @@ public class MockedExceptionTest {
     @Test
     public void testExplicitFillInStackTrace() {
 
-        final RuntimeException expected = createNiceMock(RuntimeException.class);
-        final RuntimeException myException = new RuntimeException();
+        RuntimeException expected = createNiceMock(RuntimeException.class);
+        RuntimeException myException = new RuntimeException();
         expect(expected.fillInStackTrace()).andReturn(myException);
 
-        final CharSequence c = createMock(CharSequence.class);
+        CharSequence c = createMock(CharSequence.class);
         expect(c.length()).andStubThrow(expected);
 
         replay(c, expected);
 
         try {
             c.length(); // fillInStackTrace wont' be called internally
-        } catch (final RuntimeException actual) {
+        } catch (RuntimeException actual) {
             assertSame(myException, actual.fillInStackTrace()); // so the fillInStackTrace recording is still valid
             assertSame(expected, actual);
         }
@@ -79,17 +79,17 @@ public class MockedExceptionTest {
     @Test
     public void testNotMockedFillInStackTrace() {
 
-        final RuntimeException expected = createMockBuilder(MyException.class)
+        RuntimeException expected = createMockBuilder(MyException.class)
                 .createNiceMock();
 
-        final CharSequence c = createMock(CharSequence.class);
+        CharSequence c = createMock(CharSequence.class);
         expect(c.length()).andStubThrow(expected);
 
         replay(c, expected);
 
         try {
             c.length(); // fillInStackTrace won't be called internally
-        } catch (final RuntimeException actual) {
+        } catch (RuntimeException actual) {
             assertSame(expected, actual);
             assertSame("fillInStackTrace should have been called normally since it isn't mocked", expected,
                     actual.fillInStackTrace());
@@ -102,16 +102,16 @@ public class MockedExceptionTest {
     @Test
     public void testRealException() {
 
-        final RuntimeException expected = new RuntimeException();
+        RuntimeException expected = new RuntimeException();
 
-        final CharSequence c = createMock(CharSequence.class);
+        CharSequence c = createMock(CharSequence.class);
         expect(c.length()).andStubThrow(expected);
 
         replay(c);
 
         try {
             c.length(); // fillInStackTrace will be called internally here
-        } catch (final RuntimeException actual) {
+        } catch (RuntimeException actual) {
             assertSame(expected, actual);
             assertEquals("fillInStackTrace should have been called normally",
                     "org.easymock.internal.MockInvocationHandler", actual.getStackTrace()[0].getClassName());

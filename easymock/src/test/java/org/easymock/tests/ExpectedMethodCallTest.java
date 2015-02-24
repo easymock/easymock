@@ -33,8 +33,8 @@ public class ExpectedMethodCallTest {
 
     @Before
     public void setup() throws SecurityException, NoSuchMethodException {
-        final Object[] arguments1 = new Object[] { "" };
-        final Method m = Object.class.getMethod("equals", new Class[] { Object.class });
+        Object[] arguments1 = new Object[] { "" };
+        Method m = Object.class.getMethod("equals", new Class[] { Object.class });
         call = new ExpectedInvocation(new Invocation(null, m, arguments1), null);
     }
 
@@ -43,7 +43,7 @@ public class ExpectedMethodCallTest {
         try {
             call.hashCode();
             fail();
-        } catch (final UnsupportedOperationException expected) {
+        } catch (UnsupportedOperationException expected) {
             assertEquals("hashCode() is not implemented", expected.getMessage());
         }
     }

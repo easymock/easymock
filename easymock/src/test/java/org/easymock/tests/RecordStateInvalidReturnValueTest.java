@@ -38,7 +38,7 @@ public class RecordStateInvalidReturnValueTest {
         try {
             expect((Object) mock.oneArg(false)).andReturn(false);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException e) {
+        } catch (IllegalStateException e) {
             assertEquals("incompatible return value type", e.getMessage());
         }
 
@@ -50,7 +50,7 @@ public class RecordStateInvalidReturnValueTest {
         try {
             expectLastCall().andReturn(null);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException e) {
+        } catch (IllegalStateException e) {
             assertEquals("void method cannot return a value", e.getMessage());
         }
     }
@@ -60,7 +60,7 @@ public class RecordStateInvalidReturnValueTest {
         try {
             expect(mock.longReturningMethod(4)).andReturn(null);
             fail("null not allowed");
-        } catch (final IllegalStateException e) {
+        } catch (IllegalStateException e) {
             assertEquals("can't return null for a method returning a primitive type", e.getMessage());
         }
     }

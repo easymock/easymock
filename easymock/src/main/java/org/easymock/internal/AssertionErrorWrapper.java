@@ -24,7 +24,7 @@ public class AssertionErrorWrapper extends RuntimeException {
 
     private final AssertionError error;
 
-    public AssertionErrorWrapper(final AssertionError error) {
+    public AssertionErrorWrapper(AssertionError error) {
         this.error = error;
     }
 

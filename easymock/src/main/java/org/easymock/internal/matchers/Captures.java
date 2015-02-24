@@ -35,20 +35,20 @@ public class Captures<T> implements IArgumentMatcher, Serializable {
 
     private T potentialValue;
 
-    public Captures(final Capture<T> captured) {
+    public Captures(Capture<T> captured) {
         this.capture = captured;
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append("capture(").append(capture).append(")");
     }
 
-    public void setPotentialValue(final T potentialValue) {
+    public void setPotentialValue(T potentialValue) {
         this.potentialValue = potentialValue;
     }
 
     @SuppressWarnings("unchecked")
-    public boolean matches(final Object actual) {
+    public boolean matches(Object actual) {
         LastControl.getCurrentInvocation().addCapture((Captures<Object>) this, actual);
         return true;
     }

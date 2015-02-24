@@ -28,15 +28,15 @@ public class InstanceOf implements IArgumentMatcher, Serializable {
 
     private final Class<?> clazz;
 
-    public InstanceOf(final Class<?> clazz) {
+    public InstanceOf(Class<?> clazz) {
         this.clazz = clazz;
     }
 
-    public boolean matches(final Object actual) {
+    public boolean matches(Object actual) {
         return (actual != null) && clazz.isAssignableFrom(actual.getClass());
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append("isA(" + clazz.getName() + ")");
     }
 }

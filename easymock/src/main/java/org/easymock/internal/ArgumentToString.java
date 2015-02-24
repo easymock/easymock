@@ -30,7 +30,7 @@ public final class ArgumentToString {
 
     // ///CLOVER:ON
 
-    public static void appendArgument(final Object value, final StringBuffer buffer) {
+    public static void appendArgument(Object value, StringBuffer buffer) {
         if (value == null) {
             buffer.append("null");
         } else if (value instanceof String) {
@@ -63,8 +63,8 @@ public final class ArgumentToString {
      *            the argument to convert to a String.
      * @return a <code>String</code> representation of the argument.
      */
-    public static String argumentToString(final Object argument) {
-        final StringBuffer result = new StringBuffer();
+    public static String argumentToString(Object argument) {
+        StringBuffer result = new StringBuffer();
         ArgumentToString.appendArgument(argument, result);
         return result.toString();
     }
@@ -84,7 +84,7 @@ public final class ArgumentToString {
             arguments = new Object[0];
         }
 
-        final StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < arguments.length; i++) {
             if (i > 0) {

@@ -124,7 +124,7 @@ public class ExampleTest extends EasyMockSupport {
     @SuppressWarnings("unchecked")
     @Test
     public void answerVsDelegate() {
-        final List<String> l = createMock(List.class);
+        List<String> l = createMock(List.class);
 
         // andAnswer style
         expect(l.remove(10)).andAnswer(new IAnswer<String>() {
@@ -138,7 +138,7 @@ public class ExampleTest extends EasyMockSupport {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public String remove(final int index) {
+            public String remove(int index) {
                 return Integer.toString(index);
             }
         });

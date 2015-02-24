@@ -38,7 +38,7 @@ public class RecordStateInvalidUsageTest {
         try {
             expect(null);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertEquals("no last call on a mock available", expected.getMessage());
         }
     }
@@ -48,7 +48,7 @@ public class RecordStateInvalidUsageTest {
         try {
             expectLastCall();
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertEquals("no last call on a mock available", expected.getMessage());
         }
     }
@@ -58,7 +58,7 @@ public class RecordStateInvalidUsageTest {
         try {
             expect((Object) mock.oneArg(false)).andReturn(false);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertEquals("incompatible return value type", expected.getMessage());
         }
     }

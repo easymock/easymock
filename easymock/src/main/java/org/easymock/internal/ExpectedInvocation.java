@@ -35,13 +35,13 @@ public class ExpectedInvocation implements Serializable {
 
     private final List<IArgumentMatcher> matchers;
 
-    public ExpectedInvocation(final Invocation invocation, final List<IArgumentMatcher> matchers) {
+    public ExpectedInvocation(Invocation invocation, List<IArgumentMatcher> matchers) {
         this.invocation = invocation;
         this.matchers = createMissingMatchers(invocation, matchers);
     }
 
-    private List<IArgumentMatcher> createMissingMatchers(final Invocation invocation,
-            final List<IArgumentMatcher> matchers) {
+    private List<IArgumentMatcher> createMissingMatchers(Invocation invocation,
+            List<IArgumentMatcher> matchers) {
         if (matchers != null) {
             if (matchers.size() != invocation.getArguments().length) {
                 throw new IllegalStateException(
@@ -57,20 +57,20 @@ public class ExpectedInvocation implements Serializable {
             }
             return matchers;
         }
-        final List<IArgumentMatcher> result = new ArrayList<IArgumentMatcher>();
-        for (final Object argument : invocation.getArguments()) {
+        List<IArgumentMatcher> result = new ArrayList<IArgumentMatcher>();
+        for (Object argument : invocation.getArguments()) {
             result.add(new Equals(argument));
         }
         return result;
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (o == null || !this.getClass().equals(o.getClass())) {
             return false;
         }
 
-        final ExpectedInvocation other = (ExpectedInvocation) o;
+        ExpectedInvocation other = (ExpectedInvocation) o;
         return this.invocation.equals(other.invocation)
                 && ((this.matchers == null && other.matchers == null) || (this.matchers != null && this.matchers
                         .equals(other.matchers)));
@@ -81,12 +81,12 @@ public class ExpectedInvocation implements Serializable {
         throw new UnsupportedOperationException("hashCode() is not implemented");
     }
 
-    public boolean matches(final Invocation actual) {
+    public boolean matches(Invocation actual) {
         return this.invocation.getMock().equals(actual.getMock())
                 && this.invocation.getMethod().equals(actual.getMethod()) && matches(actual.getArguments());
     }
 
-    private boolean matches(final Object[] arguments) {
+    private boolean matches(Object[] arguments) {
         if (arguments.length != matchers.size()) {
             return false;
         }
@@ -100,10 +100,10 @@ public class ExpectedInvocation implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuffer result = new StringBuffer();
+        StringBuffer result = new StringBuffer();
         result.append(invocation.getMockAndMethodName());
         result.append("(");
-        for (final Iterator<IArgumentMatcher> it = matchers.iterator(); it.hasNext();) {
+        for (Iterator<IArgumentMatcher> it = matchers.iterator(); it.hasNext();) {
             it.next().appendTo(result);
             if (it.hasNext()) {
                 result.append(", ");

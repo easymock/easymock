@@ -20,7 +20,7 @@ package org.itests;
  */
 public class StaticService {
 
-    public static String say(final String string) {
+    public static String say(String string) {
         return "Hello " + string;
     }
 }

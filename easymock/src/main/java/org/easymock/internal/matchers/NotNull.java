@@ -32,11 +32,11 @@ public final class NotNull implements IArgumentMatcher, Serializable {
 
     }
 
-    public boolean matches(final Object actual) {
+    public boolean matches(Object actual) {
         return actual != null;
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append("notNull()");
     }
 }

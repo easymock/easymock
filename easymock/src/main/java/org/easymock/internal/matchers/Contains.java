@@ -28,15 +28,15 @@ public class Contains implements IArgumentMatcher, Serializable {
 
     private final String substring;
 
-    public Contains(final String substring) {
+    public Contains(String substring) {
         this.substring = substring;
     }
 
-    public boolean matches(final Object actual) {
+    public boolean matches(Object actual) {
         return (actual instanceof String) && ((String) actual).indexOf(substring) >= 0;
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append("contains(\"" + substring + "\")");
     }
 }

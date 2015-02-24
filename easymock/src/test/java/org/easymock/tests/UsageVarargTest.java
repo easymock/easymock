@@ -144,10 +144,10 @@ public class UsageVarargTest {
 
     @Test
     public void varargAcceptedIfArrayIsGiven() {
-        final IVarArgs object = (IVarArgs) Proxy.newProxyInstance(Thread.currentThread()
+        IVarArgs object = (IVarArgs) Proxy.newProxyInstance(Thread.currentThread()
                 .getContextClassLoader(), new Class[] { IVarArgs.class }, new InvocationHandler() {
 
-            public Object invoke(final Object proxy, final Method method, final Object[] args)
+            public Object invoke(Object proxy, Method method, Object[] args)
                     throws Throwable {
                 return null;
             }
@@ -188,7 +188,7 @@ public class UsageVarargTest {
         try {
             mock.withVarargsInt(1, 2);
             fail("not the same number of params");
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
 
         }
     }

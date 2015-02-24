@@ -26,13 +26,13 @@ public class ArrayEquals extends Equals {
 
     private static final long serialVersionUID = 1L;
 
-    public ArrayEquals(final Object expected) {
+    public ArrayEquals(Object expected) {
         super(expected);
     }
 
     @Override
-    public boolean matches(final Object actual) {
-        final Object expected = getExpected();
+    public boolean matches(Object actual) {
+        Object expected = getExpected();
         if (expected instanceof boolean[] && (actual == null || actual instanceof boolean[])) {
             return Arrays.equals((boolean[]) expected, (boolean[]) actual);
         } else if (expected instanceof byte[] && (actual == null || actual instanceof byte[])) {
@@ -57,7 +57,7 @@ public class ArrayEquals extends Equals {
     }
 
     @Override
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         ArgumentToString.appendArgument(getExpected(), buffer);
     }
 }

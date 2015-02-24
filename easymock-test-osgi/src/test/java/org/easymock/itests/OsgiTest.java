@@ -43,9 +43,9 @@ public class OsgiTest extends OsgiBaseTest {
     @Override
     protected String[] getTestBundlesNames() {
 
-        final String cglibVersion = "3.1_1";
-        final String objenesisVersion = getImplementationVersion(Objenesis.class);
-        final String easymockVersion = getEasyMockVersion();
+        String cglibVersion = "3.1_1";
+        String objenesisVersion = getImplementationVersion(Objenesis.class);
+        String easymockVersion = getEasyMockVersion();
 
         return new String[] { "org.apache.servicemix.bundles, org.apache.servicemix.bundles.cglib, " + cglibVersion,
                 "org.easymock, easymock, " + easymockVersion, "org.objenesis, objenesis, " + objenesisVersion };
@@ -53,7 +53,7 @@ public class OsgiTest extends OsgiBaseTest {
 
     @Override
     protected Manifest getManifest() {
-        final Manifest mf = super.getManifest();
+        Manifest mf = super.getManifest();
 
         String imports = mf.getMainAttributes().getValue(Constants.IMPORT_PACKAGE);
         imports = imports.replace("org.easymock.internal,", "org.easymock.internal;poweruser=true,");
@@ -73,15 +73,15 @@ public class OsgiTest extends OsgiBaseTest {
         System.out.println("Framework version: " + bundleContext.getProperty(Constants.FRAMEWORK_VERSION));
         System.out.println("-----------------------------");
 
-        final Bundle[] bundles = bundleContext.getBundles();
-        for (final Bundle bundle : bundles) {
+        Bundle[] bundles = bundleContext.getBundles();
+        for (Bundle bundle : bundles) {
             System.out.println(OsgiStringUtils.nullSafeName(bundle) + ": "
                     + bundle.getHeaders().get(Constants.BUNDLE_VERSION));
         }
     }
 
     public void testCanMock() throws IOException {
-        final Appendable mock = mock(Appendable.class);
+        Appendable mock = mock(Appendable.class);
         expect(mock.append("test")).andReturn(mock);
         replayAll();
         assertSame(mock, mock.append("test"));
@@ -102,7 +102,7 @@ public class OsgiTest extends OsgiBaseTest {
      * test this case is working
      */
     public void testCanMock_BootstrapClassLoader() {
-        final ArrayList<?> mock = mock(ArrayList.class);
+        ArrayList<?> mock = mock(ArrayList.class);
         expect(mock.size()).andReturn(5);
         replayAll();
         assertEquals(5, mock.size());
@@ -113,7 +113,7 @@ public class OsgiTest extends OsgiBaseTest {
      * Normal case of a class in this class loader
      */
     public void testCanMock_OtherClassLoader() {
-        final A mock = mock(A.class);
+        A mock = mock(A.class);
         mock.foo();
         replayAll();
         mock.foo();
@@ -121,7 +121,7 @@ public class OsgiTest extends OsgiBaseTest {
     }
 
     public void testCanPartialMock() throws Exception {
-        final A mock = partialMockBuilder(A.class).withConstructor().addMockedMethod("foo").createMock();
+        A mock = partialMockBuilder(A.class).withConstructor().addMockedMethod("foo").createMock();
 
         mock.foo();
         replay(mock);

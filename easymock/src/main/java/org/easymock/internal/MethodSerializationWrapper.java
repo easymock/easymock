@@ -46,11 +46,11 @@ public class MethodSerializationWrapper implements Serializable {
 
     private final String[] parameterTypeNames;
 
-    public MethodSerializationWrapper(final Method m) {
+    public MethodSerializationWrapper(Method m) {
         className = m.getDeclaringClass().getName();
         methodName = m.getName();
 
-        final Class<?>[] parameterTypes = m.getParameterTypes();
+        Class<?>[] parameterTypes = m.getParameterTypes();
 
         parameterTypeNames = new String[parameterTypes.length];
 
@@ -60,12 +60,12 @@ public class MethodSerializationWrapper implements Serializable {
     }
 
     public Method getMethod() throws ClassNotFoundException, NoSuchMethodException {
-        final Class<?> clazz = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
+        Class<?> clazz = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
 
-        final Class<?>[] parameterTypes = new Class[parameterTypeNames.length];
+        Class<?>[] parameterTypes = new Class[parameterTypeNames.length];
 
         for (int i = 0; i < parameterTypeNames.length; i++) {
-            final Class<?> primitiveType = primitiveTypes.get(parameterTypeNames[i]);
+            Class<?> primitiveType = primitiveTypes.get(parameterTypeNames[i]);
             if (primitiveType != null) {
                 parameterTypes[i] = primitiveType;
             } else {
@@ -74,7 +74,7 @@ public class MethodSerializationWrapper implements Serializable {
             }
         }
 
-        final Method m = clazz.getDeclaredMethod(methodName, parameterTypes);
+        Method m = clazz.getDeclaredMethod(methodName, parameterTypes);
 
         return m;
     }

@@ -41,7 +41,7 @@ public class EasyMockClassExtensionTest {
 
         Object[] values;
 
-        ParamEntry(final Class<?>[] types, final Object[] values) {
+        ParamEntry(Class<?>[] types, Object[] values) {
             this.types = types;
             this.values = values;
         }
@@ -54,12 +54,12 @@ public class EasyMockClassExtensionTest {
             return Arrays.asList(types).contains(ConstructorArgs.class);
         }
 
-        A getMock(final String methodName) throws Exception {
-            final Method m = EasyMock.class.getMethod(methodName, types);
+        A getMock(String methodName) throws Exception {
+            Method m = EasyMock.class.getMethod(methodName, types);
             return (A) m.invoke(null, values);
         }
 
-        public void test(final A mock) {
+        public void test(A mock) {
             if (isNamed()) {
                 testNamed(mock);
             }
@@ -89,15 +89,15 @@ public class EasyMockClassExtensionTest {
         Method[] methods;
         try {
             methods = new Method[] { A.class.getMethod("add", Integer.TYPE), A.class.getMethod("toString") };
-        } catch (final NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
         ConstructorArgs args;
         try {
             args = new ConstructorArgs(A.class.getConstructor(Integer.TYPE), 3);
-        } catch (final SecurityException e) {
+        } catch (SecurityException e) {
             throw new RuntimeException(e);
-        } catch (final NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
 
@@ -115,9 +115,9 @@ public class EasyMockClassExtensionTest {
     public void testDisablingClassMocking() {
         EasyMockProperties.getInstance().setProperty(DISABLE_CLASS_MOCKING, Boolean.TRUE.toString());
         try {
-            final ArrayList<?> list = createMock(ArrayList.class);
+            ArrayList<?> list = createMock(ArrayList.class);
             fail("Class mocking should be disabled");
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             assertEquals("Class mocking is currently disabled. Change " + EasyMock.DISABLE_CLASS_MOCKING
                     + " to true do modify this behavior", e.getMessage());
         } finally {
@@ -127,17 +127,17 @@ public class EasyMockClassExtensionTest {
 
     @Test
     public void testClassMocking() {
-        final ArrayList<?> list = createMock(ArrayList.class);
+        ArrayList<?> list = createMock(ArrayList.class);
         testList(list);
     }
 
     @Test
     public void testInterfaceMocking() {
-        final List<?> list = createMock(List.class);
+        List<?> list = createMock(List.class);
         testList(list);
     }
 
-    private void testList(final List<?> list) {
+    private void testList(List<?> list) {
         expect(list.size()).andReturn(3);
         replay(list);
         assertEquals(3, list.size());
@@ -146,7 +146,7 @@ public class EasyMockClassExtensionTest {
 
     @Test
     public void testResetReplay() {
-        final ArrayList<?> list = createStrictMock(ArrayList.class);
+        ArrayList<?> list = createStrictMock(ArrayList.class);
         expect(list.size()).andReturn(3);
         reset(list);
         expect(list.size()).andReturn(1);
@@ -157,7 +157,7 @@ public class EasyMockClassExtensionTest {
 
     @Test
     public void testResetTo() {
-        final ArrayList<?> list = createMock(ArrayList.class);
+        ArrayList<?> list = createMock(ArrayList.class);
         // Just to make sure the all can be called on a mock
         resetToNice(list);
         resetToStrict(list);
@@ -166,15 +166,15 @@ public class EasyMockClassExtensionTest {
 
     @Test
     public void testMakeThreadSafe() {
-        final ArrayList<?> list = createMock(ArrayList.class);
+        ArrayList<?> list = createMock(ArrayList.class);
         // Just to make sure the all can be called on a mock
         makeThreadSafe(list, true);
     }
 
     @Test
     public void testVarargs() {
-        final ArrayList<?> list2 = createStrictMock(ArrayList.class);
-        final ArrayList<?> list1 = createStrictMock(ArrayList.class);
+        ArrayList<?> list2 = createStrictMock(ArrayList.class);
+        ArrayList<?> list1 = createStrictMock(ArrayList.class);
 
         expect(list1.size()).andReturn(1);
         expect(list2.size()).andReturn(2);
@@ -193,7 +193,7 @@ public class EasyMockClassExtensionTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testCheckOrder() {
-        final ArrayList<Integer> list = createStrictMock(ArrayList.class);
+        ArrayList<Integer> list = createStrictMock(ArrayList.class);
         checkOrder(list, false);
         expect(list.add(1)).andReturn(true);
         expect(list.add(3)).andReturn(true);
@@ -206,7 +206,7 @@ public class EasyMockClassExtensionTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testStrictMock_Partial() throws Exception {
-        final ArrayList<Integer> list = createMockBuilder(ArrayList.class).addMockedMethod("add",
+        ArrayList<Integer> list = createMockBuilder(ArrayList.class).addMockedMethod("add",
                 Object.class).createStrictMock();
 
         expect(list.add(1)).andReturn(true);
@@ -219,14 +219,14 @@ public class EasyMockClassExtensionTest {
         try {
             list.add(2);
             fail();
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
         }
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testMock_Partial() throws Exception {
-        final ArrayList<Integer> list = createMockBuilder(ArrayList.class).addMockedMethod("add",
+        ArrayList<Integer> list = createMockBuilder(ArrayList.class).addMockedMethod("add",
                 Object.class).createMock();
 
         expect(list.add(1)).andReturn(true);
@@ -244,7 +244,7 @@ public class EasyMockClassExtensionTest {
 
     @Test
     public void testNiceMock_Partial() throws Exception {
-        final ArrayList<?> list = createMockBuilder(ArrayList.class).addMockedMethod("get").createNiceMock();
+        ArrayList<?> list = createMockBuilder(ArrayList.class).addMockedMethod("get").createNiceMock();
 
         replay(list);
 
@@ -255,10 +255,10 @@ public class EasyMockClassExtensionTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testCompare() {
-        final BigDecimal expected = new BigDecimal("15.6");
-        final BigDecimal actual = new BigDecimal("15.60");
+        BigDecimal expected = new BigDecimal("15.6");
+        BigDecimal actual = new BigDecimal("15.60");
 
-        final ArrayList<BigDecimal> list = createMock(ArrayList.class);
+        ArrayList<BigDecimal> list = createMock(ArrayList.class);
         expect(list.add(cmpEq(expected))).andReturn(true);
 
         replay(list);
@@ -280,7 +280,7 @@ public class EasyMockClassExtensionTest {
 
         // Note that toString needs to be mocked if you want EasyMock default
         // toString() behavior
-        final Method m = ArrayList.class.getMethod("toString", (Class<?>[]) null);
+        Method m = ArrayList.class.getMethod("toString", (Class<?>[]) null);
 
         list = createMockBuilder(ArrayList.class).addMockedMethod(m).createMock("mockName");
         assertEquals("mockName", list.toString());
@@ -292,8 +292,8 @@ public class EasyMockClassExtensionTest {
 
     @Test
     public void testStrictMock() throws Exception {
-        for (final ParamEntry p : PARAMETERS) {
-            final A mock = p.getMock("createStrictMock");
+        for (ParamEntry p : PARAMETERS) {
+            A mock = p.getMock("createStrictMock");
             p.test(mock);
             testStrict(mock);
         }
@@ -301,8 +301,8 @@ public class EasyMockClassExtensionTest {
 
     @Test
     public void testNormalMock() throws Exception {
-        for (final ParamEntry p : PARAMETERS) {
-            final A mock = p.getMock("createMock");
+        for (ParamEntry p : PARAMETERS) {
+            A mock = p.getMock("createMock");
             p.test(mock);
             testNormal(mock);
         }
@@ -310,8 +310,8 @@ public class EasyMockClassExtensionTest {
 
     @Test
     public void testNiceMock() throws Exception {
-        for (final ParamEntry p : PARAMETERS) {
-            final A mock = p.getMock("createNiceMock");
+        for (ParamEntry p : PARAMETERS) {
+            A mock = p.getMock("createNiceMock");
             p.test(mock);
             testNice(mock);
         }
@@ -319,14 +319,14 @@ public class EasyMockClassExtensionTest {
 
     @Test
     public void testCreateMockBuilder() {
-        final IMockBuilder<A> builder = createMockBuilder(A.class);
-        final A a = builder.withConstructor(int.class).withArgs(2).createMock();
+        IMockBuilder<A> builder = createMockBuilder(A.class);
+        A a = builder.withConstructor(int.class).withArgs(2).createMock();
         assertEquals(2, a.i);
     }
 
     // 3 mock types
 
-    private static void testStrict(final A mock) {
+    private static void testStrict(A mock) {
         reset(mock); // just in case we are not in a stable state
         expect(mock.add(1)).andReturn(true);
         expect(mock.add(2)).andReturn(true);
@@ -334,11 +334,11 @@ public class EasyMockClassExtensionTest {
         try {
             mock.add(2);
             fail("Should be ordered");
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
         }
     }
 
-    private static void testNormal(final A mock) {
+    private static void testNormal(A mock) {
         reset(mock); // just in case we are not in a stable state
         expect(mock.add(1)).andReturn(true);
         expect(mock.add(2)).andReturn(true);
@@ -350,11 +350,11 @@ public class EasyMockClassExtensionTest {
         try {
             mock.add(3);
             fail("Should be ordered");
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
         }
     }
 
-    private static void testNice(final A mock) {
+    private static void testNice(A mock) {
         reset(mock); // just in case we are not in a stable state
         replay(mock);
         assertFalse(mock.add(2));
@@ -363,16 +363,16 @@ public class EasyMockClassExtensionTest {
 
     // call flavors
 
-    private static void testNamed(final A mock) {
+    private static void testNamed(A mock) {
         assertEquals("myMock", mock.toString());
     }
 
-    private static void testPartial_NoConstructorCalled(final A mock) {
+    private static void testPartial_NoConstructorCalled(A mock) {
         // not really nice since I'm looking at the inner implementation
         assertEquals(0, mock.i);
     }
 
-    private static void testPartial_ConstructorCalled(final A mock) {
+    private static void testPartial_ConstructorCalled(A mock) {
         assertEquals(3, mock.i);
     }
 }

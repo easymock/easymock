@@ -65,16 +65,16 @@ public class RecordState implements IMocksControlState, Serializable {
         primitiveToWrapperType.put(Double.TYPE, Double.class);
     }
 
-    public RecordState(final IMocksBehavior behavior) {
+    public RecordState(IMocksBehavior behavior) {
         this.behavior = behavior;
     }
 
     public void assertRecordState() {
     }
 
-    public java.lang.Object invoke(final Invocation invocation) {
+    public java.lang.Object invoke(Invocation invocation) {
         closeMethod();
-        final List<IArgumentMatcher> lastMatchers = LastControl.pullMatchers();
+        List<IArgumentMatcher> lastMatchers = LastControl.pullMatchers();
         lastInvocation = new ExpectedInvocation(invocation, lastMatchers);
         lastInvocationUsed = false;
         return emptyReturnValueFor(invocation.getMethod().getReturnType());
@@ -102,7 +102,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastResult = Result.createReturnResult(value);
     }
 
-    public void andThrow(final Throwable throwable) {
+    public void andThrow(Throwable throwable) {
         requireMethodCall("Throwable");
         requireValidThrowable(throwable);
         if (lastResult != null) {
@@ -111,7 +111,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastResult = Result.createThrowResult(throwable);
     }
 
-    public void andAnswer(final IAnswer<?> answer) {
+    public void andAnswer(IAnswer<?> answer) {
         requireMethodCall("answer");
         requireValidAnswer(answer);
         if (lastResult != null) {
@@ -120,7 +120,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastResult = Result.createAnswerResult(answer);
     }
 
-    public void andDelegateTo(final Object delegateTo) {
+    public void andDelegateTo(Object delegateTo) {
         requireMethodCall("delegate");
         requireValidDelegation(delegateTo);
         if (lastResult != null) {
@@ -156,7 +156,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastInvocationUsed = true;
     }
 
-    public void andStubThrow(final Throwable throwable) {
+    public void andStubThrow(Throwable throwable) {
         requireMethodCall("stub Throwable");
         requireValidThrowable(throwable);
         if (lastResult != null) {
@@ -166,7 +166,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastInvocationUsed = true;
     }
 
-    public void andStubAnswer(final IAnswer<?> answer) {
+    public void andStubAnswer(IAnswer<?> answer) {
         requireMethodCall("stub answer");
         requireValidAnswer(answer);
         if (lastResult != null) {
@@ -176,7 +176,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastInvocationUsed = true;
     }
 
-    public void andStubDelegateTo(final Object delegateTo) {
+    public void andStubDelegateTo(Object delegateTo) {
         requireMethodCall("stub delegate");
         requireValidDelegation(delegateTo);
         if (lastResult != null) {
@@ -186,7 +186,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastInvocationUsed = true;
     }
 
-    public void times(final Range range) {
+    public void times(Range range) {
         requireMethodCall("times");
         requireLastResultOrVoidMethod();
         behavior.addExpected(lastInvocation, lastResult != null ? lastResult : Result
@@ -195,11 +195,11 @@ public class RecordState implements IMocksControlState, Serializable {
         lastResult = null;
     }
 
-    private Object createNumberObject(final Object value, final Class<?> returnType) {
+    private Object createNumberObject(Object value, Class<?> returnType) {
         if (!(value instanceof Number)) {
             return value;
         }
-        final Number number = (Number) value;
+        Number number = (Number) value;
         if (returnType.equals(Byte.TYPE)) {
             return number.byteValue();
         } else if (returnType.equals(Short.TYPE)) {
@@ -217,8 +217,8 @@ public class RecordState implements IMocksControlState, Serializable {
         }
     }
 
-    private Object convertNumberClassIfNeccessary(final Object o) {
-        final Class<?> returnType = lastInvocation.getMethod().getReturnType();
+    private Object convertNumberClassIfNeccessary(Object o) {
+        Class<?> returnType = lastInvocation.getMethod().getReturnType();
         return createNumberObject(o, returnType);
     }
 
@@ -234,23 +234,23 @@ public class RecordState implements IMocksControlState, Serializable {
         times(MocksControl.ONCE);
     }
 
-    public static Object emptyReturnValueFor(final Class<?> type) {
+    public static Object emptyReturnValueFor(Class<?> type) {
         return type.isPrimitive() ? emptyReturnValues.get(type) : null;
     }
 
-    private void requireMethodCall(final String failMessage) {
+    private void requireMethodCall(String failMessage) {
         if (lastInvocation == null) {
             throw new RuntimeExceptionWrapper(new IllegalStateException(
                     "method call on the mock needed before setting " + failMessage));
         }
     }
 
-    private void requireAssignable(final Object returnValue) {
+    private void requireAssignable(Object returnValue) {
         if (lastMethodIsVoidMethod()) {
             throw new RuntimeExceptionWrapper(new IllegalStateException("void method cannot return a value"));
         }
         if (returnValue == null) {
-            final Class<?> returnedType = lastInvocation.getMethod().getReturnType();
+            Class<?> returnedType = lastInvocation.getMethod().getReturnType();
             if (returnedType.isPrimitive()) {
                 throw new RuntimeExceptionWrapper(new IllegalStateException(
                         "can't return null for a method returning a primitive type"));
@@ -267,7 +267,7 @@ public class RecordState implements IMocksControlState, Serializable {
         }
     }
 
-    private void requireValidThrowable(final Throwable throwable) {
+    private void requireValidThrowable(Throwable throwable) {
         if (throwable == null) {
             throw new RuntimeExceptionWrapper(new NullPointerException("null cannot be thrown"));
         }
@@ -279,13 +279,13 @@ public class RecordState implements IMocksControlState, Serializable {
                 "last method called on mock cannot throw " + throwable.getClass().getName()));
     }
 
-    private void requireValidAnswer(final IAnswer<?> answer) {
+    private void requireValidAnswer(IAnswer<?> answer) {
         if (answer == null) {
             throw new RuntimeExceptionWrapper(new NullPointerException("answer object must not be null"));
         }
     }
 
-    private void requireValidDelegation(final Object delegateTo) {
+    private void requireValidDelegation(Object delegateTo) {
         if (delegateTo == null) {
             throw new RuntimeExceptionWrapper(
                     new NullPointerException("delegated to object must not be null"));
@@ -315,20 +315,20 @@ public class RecordState implements IMocksControlState, Serializable {
     }
 
     private boolean lastMethodIsVoidMethod() {
-        final Class<?> returnType = lastInvocation.getMethod().getReturnType();
+        Class<?> returnType = lastInvocation.getMethod().getReturnType();
         return returnType.equals(Void.TYPE);
     }
 
-    private boolean isValidThrowable(final Throwable throwable) {
+    private boolean isValidThrowable(Throwable throwable) {
         if (throwable instanceof RuntimeException) {
             return true;
         }
         if (throwable instanceof Error) {
             return true;
         }
-        final Class<?>[] exceptions = lastInvocation.getMethod().getExceptionTypes();
-        final Class<?> throwableClass = throwable.getClass();
-        for (final Class<?> exception : exceptions) {
+        Class<?>[] exceptions = lastInvocation.getMethod().getExceptionTypes();
+        Class<?> throwableClass = throwable.getClass();
+        for (Class<?> exception : exceptions) {
             if (exception.isAssignableFrom(throwableClass)) {
                 return true;
             }
@@ -336,16 +336,16 @@ public class RecordState implements IMocksControlState, Serializable {
         return false;
     }
 
-    public void checkOrder(final boolean value) {
+    public void checkOrder(boolean value) {
         closeMethod();
         behavior.checkOrder(value);
     }
 
-    public void makeThreadSafe(final boolean threadSafe) {
+    public void makeThreadSafe(boolean threadSafe) {
         behavior.makeThreadSafe(threadSafe);
     }
 
-    public void checkIsUsedInOneThread(final boolean shouldBeUsedInOneThread) {
+    public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
         behavior.shouldBeUsedInOneThread(shouldBeUsedInOneThread);
     }
 }

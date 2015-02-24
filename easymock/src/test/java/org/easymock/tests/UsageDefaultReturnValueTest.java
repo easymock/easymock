@@ -39,7 +39,7 @@ public class UsageDefaultReturnValueTest {
 
         expect(mock.threeArgumentMethod(8, null, "test2")).andReturn("test2");
 
-        final Object defaultValue = new Object();
+        Object defaultValue = new Object();
         expect(mock.threeArgumentMethod(anyInt(), anyObject(), (String) anyObject())).andStubReturn(
                 defaultValue);
 
@@ -60,7 +60,7 @@ public class UsageDefaultReturnValueTest {
         expectLastCall().asStub();
 
         mock.twoArgumentMethod(1, 1);
-        final RuntimeException expected = new RuntimeException();
+        RuntimeException expected = new RuntimeException();
         expectLastCall().andThrow(expected);
 
         replay(mock);
@@ -71,7 +71,7 @@ public class UsageDefaultReturnValueTest {
         try {
             mock.twoArgumentMethod(1, 1);
             fail("RuntimeException expected");
-        } catch (final RuntimeException actual) {
+        } catch (RuntimeException actual) {
             assertSame(expected, actual);
         }
     }
@@ -83,7 +83,7 @@ public class UsageDefaultReturnValueTest {
         mock.twoArgumentMethod(1, 1);
         expectLastCall();
 
-        final RuntimeException expected = new RuntimeException();
+        RuntimeException expected = new RuntimeException();
         mock.twoArgumentMethod(anyInt(), anyInt());
         expectLastCall().andStubThrow(expected);
 
@@ -94,7 +94,7 @@ public class UsageDefaultReturnValueTest {
         try {
             mock.twoArgumentMethod(2, 1);
             fail("RuntimeException expected");
-        } catch (final RuntimeException actual) {
+        } catch (RuntimeException actual) {
             assertSame(expected, actual);
         }
     }

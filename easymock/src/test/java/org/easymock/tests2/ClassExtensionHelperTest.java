@@ -48,19 +48,19 @@ public class ClassExtensionHelperTest {
 
     @Test
     public void testGetControl_EasyMock() {
-        final List<?> mock = EasyMock.createMock(List.class);
+        List<?> mock = EasyMock.createMock(List.class);
         assertNotNull(getControl(mock));
     }
 
     @Test
     public void testGetControl_EasyMockClassExtension() {
-        final ArrayList<?> mock = EasyMock.createMock(ArrayList.class);
+        ArrayList<?> mock = EasyMock.createMock(ArrayList.class);
         assertTrue(getControl(mock) instanceof MocksControl);
     }
 
     @Test
     public void testGetControl_EnhancedButNotAMock() throws Exception {
-        final Object o;
+        Object o;
         if (AndroidSupport.isAndroid()) {
             o = ProxyBuilder.forClass(ArrayList.class)
                     .handler(NOOP_INVOCATION_HANDLER)
@@ -71,16 +71,16 @@ public class ClassExtensionHelperTest {
         try {
             getControl(o);
             fail();
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             assertEquals("Not a mock: " + o.getClass().getName(), e.getMessage());
         }
     }
 
     @Test
     public void testGetControl_ProxyButNotMock() {
-        final Object o = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { List.class },
+        Object o = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { List.class },
                 new InvocationHandler() {
-                    public Object invoke(final Object proxy, final Method method, final Object[] args)
+                    public Object invoke(Object proxy, Method method, Object[] args)
                             throws Throwable {
                         return null;
                     }
@@ -88,7 +88,7 @@ public class ClassExtensionHelperTest {
         try {
             getControl(o);
             fail();
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             assertEquals("Not a mock: " + o.getClass().getName(), e.getMessage());
         }
     }
@@ -98,21 +98,21 @@ public class ClassExtensionHelperTest {
         try {
             getControl("");
             fail();
-        } catch (final IllegalArgumentException expected) {
+        } catch (IllegalArgumentException expected) {
         }
     }
 
     @Test
     public void testMockType_Class() {
-        final Object o = createMock(ArrayList.class);
-        final Class<?> c = getMockedType(o);
+        Object o = createMock(ArrayList.class);
+        Class<?> c = getMockedType(o);
         assertEquals(ArrayList.class, c);
     }
 
     @Test
     public void testMockType_Interface() {
-        final Object o = createMock(List.class);
-        final Class<?> c = getMockedType(o);
+        Object o = createMock(List.class);
+        Class<?> c = getMockedType(o);
         assertEquals(List.class, c);
     }
 }

@@ -32,7 +32,7 @@ public class InjectionTarget {
      * Create instance for injection to the given field.
      * @param f Field that will receive the {@link Injection}
      */
-    public InjectionTarget(final Field f) {
+    public InjectionTarget(Field f) {
         this.targetField = f;
     }
 
@@ -42,7 +42,7 @@ public class InjectionTarget {
      * @return true if injection represents a mock that can be applied to this InjectionTarget,
      * false if the mock is of a type that cannot be assigned
      */
-    public boolean accepts(final Injection injection) {
+    public boolean accepts(Injection injection) {
         return targetField.getType().isAssignableFrom(injection.getMock().getClass());
     }
 
@@ -51,13 +51,13 @@ public class InjectionTarget {
      * @param obj Object instance on which to perform injection.
      * @param injection Injection containing mock to assign.
      */
-    public void inject(final Object obj, final Injection injection) {
+    public void inject(Object obj, Injection injection) {
 
         targetField.setAccessible(true);
 
         try {
             targetField.set(obj, injection.getMock());
-        } catch (final IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             // ///CLOVER:OFF
             throw new RuntimeException(e);
             // ///CLOVER:ON

@@ -37,14 +37,14 @@ public class ClassInstantiatorFactoryTest {
 
     @Test
     public void getInstantiator_Default() {
-        final IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
+        IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
         assertTrue(instantiator instanceof ObjenesisClassInstantiator);
     }
 
     @Test
     public void getInstantiator_Overriden() {
         ClassInstantiatorFactory.setInstantiator(new DefaultClassInstantiator());
-        final IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
+        IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
         assertTrue(instantiator instanceof DefaultClassInstantiator);
     }
 
@@ -52,7 +52,7 @@ public class ClassInstantiatorFactoryTest {
     public void getInstantiator_BackToDefault() {
         ClassInstantiatorFactory.setInstantiator(new DefaultClassInstantiator());
         ClassInstantiatorFactory.setDefaultInstantiator();
-        final IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
+        IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
         assertTrue(instantiator instanceof ObjenesisClassInstantiator);
     }
 

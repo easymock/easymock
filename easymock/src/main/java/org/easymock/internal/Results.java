@@ -33,9 +33,9 @@ public class Results implements Serializable {
 
     private final List<Result> results = new ArrayList<Result>();
 
-    public void add(final Result result, final Range range) {
+    public void add(Result result, Range range) {
         if (!ranges.isEmpty()) {
-            final Range lastRange = ranges.getLast();
+            Range lastRange = ranges.getLast();
             if (!lastRange.hasFixedCount()) {
                 throw new RuntimeExceptionWrapper(new IllegalStateException(
                         "last method called on mock already has a non-fixed count set."));
@@ -48,7 +48,7 @@ public class Results implements Serializable {
     public boolean hasResults() {
         int currentPosition = 0;
         for (int i = 0; i < ranges.size(); i++) {
-            final Range interval = ranges.get(i);
+            Range interval = ranges.get(i);
             if (interval.hasOpenCount()) {
                 return true;
             }
@@ -63,7 +63,7 @@ public class Results implements Serializable {
     public Result next() {
         int currentPosition = 0;
         for (int i = 0; i < ranges.size(); i++) {
-            final Range interval = ranges.get(i);
+            Range interval = ranges.get(i);
             if (interval.hasOpenCount()) {
                 callCount += 1;
                 return results.get(i);
@@ -89,7 +89,7 @@ public class Results implements Serializable {
     private Range getMainInterval() {
         int min = 0, max = 0;
 
-        for (final Range interval : ranges) {
+        for (Range interval : ranges) {
             min += interval.getMinimum();
             if (interval.hasOpenCount() || max == Integer.MAX_VALUE) {
                 max = Integer.MAX_VALUE;

@@ -40,7 +40,7 @@ public class PartialClassMockTest extends EasyMockSupport {
             return x;
         }
 
-        public void setX(final int x) {
+        public void setX(int x) {
             this.x = x;
         }
 
@@ -48,7 +48,7 @@ public class PartialClassMockTest extends EasyMockSupport {
             return y;
         }
 
-        public void setY(final int y) {
+        public void setY(int y) {
             this.y = y;
         }
 

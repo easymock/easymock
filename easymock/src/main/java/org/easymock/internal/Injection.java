@@ -36,7 +36,7 @@ public class Injection {
      * @param mock a mock object instance
      * @param annotation Mock annotation describing the mock
      */
-    public Injection(final Object mock, final Mock annotation) {
+    public Injection(Object mock, Mock annotation) {
         this.mock = mock;
         this.annotation = annotation;
     }

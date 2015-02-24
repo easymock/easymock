@@ -69,7 +69,7 @@ public class ConstraintsToStringTest {
 
     @Test
     public void sameToStringWithObject() {
-        final Object o = new Object() {
+        Object o = new Object() {
             @Override
             public String toString() {
                 return "X";
@@ -94,7 +94,7 @@ public class ConstraintsToStringTest {
 
     @Test
     public void equalsToStringWithObject() {
-        final Object o = new Object() {
+        Object o = new Object() {
             @Override
             public String toString() {
                 return "X";
@@ -106,14 +106,14 @@ public class ConstraintsToStringTest {
 
     @Test
     public void equalsToStringWithArray() {
-        final String[] s = new String[] { "a", "b", null, "c" };
+        String[] s = new String[] { "a", "b", null, "c" };
         new Equals(s).appendTo(buffer);
         assertEquals("[\"a\", \"b\", null, \"c\"]", buffer.toString());
     }
 
     @Test
     public void orToString() {
-        final List<IArgumentMatcher> matchers = new ArrayList<IArgumentMatcher>();
+        List<IArgumentMatcher> matchers = new ArrayList<IArgumentMatcher>();
         matchers.add(new Equals(1));
         matchers.add(new Equals(2));
         new Or(matchers).appendTo(buffer);
@@ -128,7 +128,7 @@ public class ConstraintsToStringTest {
 
     @Test
     public void andToString() {
-        final List<IArgumentMatcher> matchers = new ArrayList<IArgumentMatcher>();
+        List<IArgumentMatcher> matchers = new ArrayList<IArgumentMatcher>();
         matchers.add(new Equals(1));
         matchers.add(new Equals(2));
         new And(matchers).appendTo(buffer);

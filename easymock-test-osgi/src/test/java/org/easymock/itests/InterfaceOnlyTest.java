@@ -37,14 +37,14 @@ public class InterfaceOnlyTest extends OsgiBaseTest {
     @Override
     protected String[] getTestBundlesNames() {
 
-        final String easymockVersion = getEasyMockVersion();
+        String easymockVersion = getEasyMockVersion();
 
         return new String[] { "org.easymock, easymock, " + easymockVersion };
     }
 
     @Override
     protected Manifest getManifest() {
-        final Manifest mf = super.getManifest();
+        Manifest mf = super.getManifest();
 
         String imports = mf.getMainAttributes().getValue(Constants.IMPORT_PACKAGE);
         imports = imports.replace("org.easymock.internal,", "org.easymock.internal;poweruser=true,");
@@ -57,7 +57,7 @@ public class InterfaceOnlyTest extends OsgiBaseTest {
     }
 
     public void testCanMock() throws IOException {
-        final Appendable mock = mock(Appendable.class);
+        Appendable mock = mock(Appendable.class);
         expect(mock.append("test")).andReturn(mock);
         replayAll();
         assertSame(mock, mock.append("test"));
@@ -76,7 +76,7 @@ public class InterfaceOnlyTest extends OsgiBaseTest {
         try {
             mock(ArrayList.class);
             fail("Should throw an exception due to a NoClassDefFoundError");
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             assertEquals("Class mocking requires to have cglib and objenesis librairies in the classpath", e
                     .getMessage());
             assertTrue(e.getCause() instanceof NoClassDefFoundError);

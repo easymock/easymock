@@ -15,11 +15,11 @@
  */
 package org.easymock.internal;
 
+import org.easymock.IAnswer;
+
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import org.easymock.IAnswer;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -32,7 +32,7 @@ public final class Result implements IAnswer<Object>, Serializable {
 
     private final boolean shouldFillInStackTrace;
 
-    private Result(final IAnswer<?> value, final boolean shouldFillInStackTrace) {
+    private Result(IAnswer<?> value, boolean shouldFillInStackTrace) {
         this.value = value;
         this.shouldFillInStackTrace = shouldFillInStackTrace;
     }
@@ -77,15 +77,15 @@ public final class Result implements IAnswer<Object>, Serializable {
             private static final long serialVersionUID = -5699326678580460103L;
 
             public Object answer() throws Throwable {
-                final Invocation invocation = LastControl.getCurrentInvocation();
+                Invocation invocation = LastControl.getCurrentInvocation();
                 try {
-                    final Method m = invocation.getMethod();
+                    Method m = invocation.getMethod();
                     m.setAccessible(true);
                     return m.invoke(value, invocation.getArguments());
-                } catch (final IllegalArgumentException e) {
+                } catch (IllegalArgumentException e) {
                     throw new IllegalArgumentException("Delegation to object [" + value
                             + "] is not implementing the mocked method [" + invocation.getMethod() + "]", e);
-                } catch (final InvocationTargetException e) {
+                } catch (InvocationTargetException e) {
                     throw e.getCause();
                 }
             }
@@ -98,7 +98,7 @@ public final class Result implements IAnswer<Object>, Serializable {
         return new Result(new DelegatingAnswer(), false);
     }
 
-    public static Result createAnswerResult(final IAnswer<?> answer) {
+    public static Result createAnswerResult(IAnswer<?> answer) {
         return new Result(answer, false);
     }
 

@@ -48,8 +48,8 @@ public class MockingTest {
      */
     @Test
     public void testTwoMocks() {
-        final ClassToMock transition1 = createMock(ClassToMock.class);
-        final ClassToMock transition2 = createMock(ClassToMock.class);
+        ClassToMock transition1 = createMock(ClassToMock.class);
+        ClassToMock transition2 = createMock(ClassToMock.class);
 
         // Should have two different callbacks
         assertNotSame(MocksControl.getInvocationHandler(transition2),
@@ -89,27 +89,27 @@ public class MockingTest {
         checkClassMocking(createNiceMock(ClassToMock.class), MockType.NICE);
     }
 
-    private void checkInterfaceMock(final Object mock, final MockType behavior) {
+    private void checkInterfaceMock(Object mock, MockType behavior) {
         checkBehavior(mock, behavior);
     }
 
-    private void checkClassMocking(final Object mock, final MockType behavior) {
+    private void checkClassMocking(Object mock, MockType behavior) {
         checkBehavior(mock, behavior);
     }
 
-    private void checkBehavior(final Object mock, final MockType behavior) {
+    private void checkBehavior(Object mock, MockType behavior) {
         assertEquals(behavior, extractBehavior(mock));
     }
 
-    private MockType extractBehavior(final Object mock) {
-        final MocksControl ctrl = MocksControl.getControl(mock);
+    private MockType extractBehavior(Object mock) {
+        MocksControl ctrl = MocksControl.getControl(mock);
         return ctrl.getType();
     }
 
     private Method[] getMethod() {
         try {
             return new Method[] { ClassToMock.class.getDeclaredMethod("method", (Class[]) null) };
-        } catch (final NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             throw new RuntimeException(e.getMessage());
         }
     }

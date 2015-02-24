@@ -32,7 +32,7 @@ public class DependencyTest {
 
     @Test
     public void testInterfaceMocking() {
-        final IMethods mock = createMock(IMethods.class);
+        IMethods mock = createMock(IMethods.class);
         expect(mock.booleanReturningMethod(1)).andReturn(true);
         replay(mock);
         assertTrue(mock.booleanReturningMethod(1));
@@ -42,9 +42,9 @@ public class DependencyTest {
     @Test
     public void testClassMocking() {
         try {
-            final DependencyTest mock = createMock(DependencyTest.class);
+            DependencyTest mock = createMock(DependencyTest.class);
             fail("Should throw an exception due to a NoClassDefFoundError");
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             assertEquals("Class mocking requires to have cglib and objenesis librairies in the classpath", e
                     .getMessage());
             assertTrue(e.getCause() instanceof NoClassDefFoundError);
@@ -53,7 +53,7 @@ public class DependencyTest {
 
     @Test
     public void testInterfaceMockingSupport() {
-        final IMethods mock = support.createMock(IMethods.class);
+        IMethods mock = support.createMock(IMethods.class);
         expect(mock.booleanReturningMethod(1)).andReturn(true);
         support.replayAll();
         assertTrue(mock.booleanReturningMethod(1));
@@ -63,9 +63,9 @@ public class DependencyTest {
     @Test
     public void testClassMockingSupport() {
         try {
-            final DependencyTest mock = support.createMock(DependencyTest.class);
+            DependencyTest mock = support.createMock(DependencyTest.class);
             fail("Should throw an exception due to a NoClassDefFoundError");
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             assertEquals("Class mocking requires to have cglib and objenesis librairies in the classpath", e
                     .getMessage());
             assertTrue(e.getCause() instanceof NoClassDefFoundError);

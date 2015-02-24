@@ -46,7 +46,7 @@ public class UsageTest {
         boolean failed = false;
         try {
             mock.oneArg(false);
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             failed = true;
         }
         if (!failed)
@@ -76,17 +76,17 @@ public class UsageTest {
 
         try {
             mock.oneArg(false);
-        } catch (final IndexOutOfBoundsException expected) {
+        } catch (IndexOutOfBoundsException expected) {
         }
 
         boolean failed = true;
         try {
             try {
                 mock.oneArg(false);
-            } catch (final IndexOutOfBoundsException expected) {
+            } catch (IndexOutOfBoundsException expected) {
             }
             failed = false;
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
         }
         if (!failed)
             fail("expected AssertionError");
@@ -104,11 +104,11 @@ public class UsageTest {
 
         try {
             mock.oneArg(false);
-        } catch (final IndexOutOfBoundsException expected) {
+        } catch (IndexOutOfBoundsException expected) {
         }
         try {
             mock.oneArg(false);
-        } catch (final IndexOutOfBoundsException expected) {
+        } catch (IndexOutOfBoundsException expected) {
         }
     }
 
@@ -124,7 +124,7 @@ public class UsageTest {
         try {
             verify(mock);
             failed = false;
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.threeArgumentMethod(1, \"2\", \"3\"): expected: 2, actual: 1", expected
                     .getMessage());
@@ -138,11 +138,11 @@ public class UsageTest {
     public void unexpectedCallWithArray() {
         reset(mock);
         replay(mock);
-        final String[] strings = new String[] { "Test" };
+        String[] strings = new String[] { "Test" };
         try {
             mock.arrayMethod(strings);
             fail("exception expected");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Unexpected method call IMethods.arrayMethod(" + "[\"Test\"]" + "):", expected
                     .getMessage());
         }
@@ -156,7 +156,7 @@ public class UsageTest {
         try {
             mock.simpleMethodWithArgument("5");
             fail();
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
                     + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0", expected
                     .getMessage());
@@ -173,7 +173,7 @@ public class UsageTest {
         try {
             mock.simpleMethodWithArgument("5");
             fail();
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
                     + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 2, actual: 0", expected
                     .getMessage());
@@ -193,7 +193,7 @@ public class UsageTest {
         try {
             mock.simpleMethodWithArgument("5");
             fail();
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
                     + "\n    IMethods.simpleMethodWithArgument(\"4\"): expected: 1, actual: 0"
                     + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0"

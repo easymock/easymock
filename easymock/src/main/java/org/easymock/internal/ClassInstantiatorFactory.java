@@ -68,7 +68,7 @@ public final class ClassInstantiatorFactory {
      * @param i
      *            New instantiator
      */
-    public static void setInstantiator(final IClassInstantiator i) {
+    public static void setInstantiator(IClassInstantiator i) {
         instantiator = i;
     }
 

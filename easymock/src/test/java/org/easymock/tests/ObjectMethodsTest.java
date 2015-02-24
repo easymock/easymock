@@ -54,9 +54,9 @@ public class ObjectMethodsTest {
 
     @Test
     public void testHashCode() {
-        final int hashCodeBeforeActivation = mock.hashCode();
+        int hashCodeBeforeActivation = mock.hashCode();
         replay(mock);
-        final int hashCodeAfterActivation = mock.hashCode();
+        int hashCodeAfterActivation = mock.hashCode();
         assertEquals(hashCodeBeforeActivation, hashCodeAfterActivation);
     }
 
@@ -81,8 +81,8 @@ public class ObjectMethodsTest {
     // superclasses' name. This is needed for the class extension.
     @Test
     public void toStringForClasses() throws Throwable {
-        final ObjectMethodsFilter filter = new ObjectMethodsFilter(Object.class, null, null);
-        final Method toString = Object.class.getMethod("toString", new Class[0]);
+        ObjectMethodsFilter filter = new ObjectMethodsFilter(Object.class, null, null);
+        Method toString = Object.class.getMethod("toString", new Class[0]);
         assertEquals("EasyMock for " + MockedClass.class.toString(), filter.invoke(new DummyProxy(),
                 toString, new Object[0]));
     }

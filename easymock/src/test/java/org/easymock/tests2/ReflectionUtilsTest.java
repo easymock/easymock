@@ -29,44 +29,44 @@ import org.junit.Test;
 public class ReflectionUtilsTest {
 
     public static class B {
-        protected void foo(final long l) {
+        protected void foo(long l) {
         }
     }
 
     public static class A extends B {
 
-        public A(final boolean bool, final byte b, final int i, final short s, final char c, final long l,
-                final float f, final double d) {
+        public A(boolean bool, byte b, int i, short s, char c, long l,
+                float f, double d) {
         }
 
-        public A(final int i) {
+        public A(int i) {
         }
 
-        protected A(final long l) {
+        protected A(long l) {
         }
 
-        private A(final byte b) {
+        private A(byte b) {
         }
 
-        A(final char c) {
+        A(char c) {
         }
 
-        public A(final CharSequence c) {
+        public A(CharSequence c) {
         }
 
-        public A(final StringBuilder s) {
+        public A(StringBuilder s) {
         }
 
-        public void foo(final String s) {
+        public void foo(String s) {
         }
 
-        public void foo(final int i) {
+        public void foo(int i) {
         }
     }
 
     @Test
     public void testFindMethod() {
-        final Method m = ReflectionUtils.findMethod(String.class, "length");
+        Method m = ReflectionUtils.findMethod(String.class, "length");
         assertEquals(String.class, m.getDeclaringClass());
         assertEquals("length", m.getName());
         assertEquals(int.class, m.getReturnType());
@@ -74,7 +74,7 @@ public class ReflectionUtilsTest {
 
     @Test
     public void testFindMethod_NotFound() {
-        final Method m = ReflectionUtils.findMethod(String.class, "aaa");
+        Method m = ReflectionUtils.findMethod(String.class, "aaa");
         assertNull(m);
     }
 
@@ -82,44 +82,44 @@ public class ReflectionUtilsTest {
     public void testFindMethod_Ambiguous() {
         try {
             ReflectionUtils.findMethod(A.class, "foo");
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             assertEquals("Ambiguous name: More than one method are named foo", e.getMessage());
         }
     }
 
     @Test
     public void testFindMethod_WrongParams() {
-        final Method m = ReflectionUtils.findMethod(A.class, "foo", int.class, int.class);
+        Method m = ReflectionUtils.findMethod(A.class, "foo", int.class, int.class);
         assertNull(m);
     }
 
     @Test
     public void testFindMethod_Superclass() {
-        final Method m = ReflectionUtils.findMethod(A.class, "foo", long.class);
+        Method m = ReflectionUtils.findMethod(A.class, "foo", long.class);
         assertEquals("protected void " + B.class.getName() + ".foo(long)", m.toString());
     }
 
     @Test
     public void testFindMethodClassOfQStringClassOfQArray() {
-        final Method m = ReflectionUtils.findMethod(A.class, "foo", int.class);
+        Method m = ReflectionUtils.findMethod(A.class, "foo", int.class);
         assertEquals("public void " + A.class.getName() + ".foo(int)", m.toString());
     }
 
     @Test
     public void testGetConstructor_public() throws NoSuchMethodException {
-        final Constructor<A> c = ReflectionUtils.getConstructor(A.class, 5);
+        Constructor<A> c = ReflectionUtils.getConstructor(A.class, 5);
         assertArrayEquals(new Class[] { int.class }, c.getParameterTypes());
     }
 
     @Test
     public void testGetConstructor_protected() throws NoSuchMethodException {
-        final Constructor<A> c = ReflectionUtils.getConstructor(A.class, 5l);
+        Constructor<A> c = ReflectionUtils.getConstructor(A.class, 5l);
         assertArrayEquals(new Class[] { long.class }, c.getParameterTypes());
     }
 
     @Test
     public void testGetConstructor_default() throws NoSuchMethodException {
-        final Constructor<A> c = ReflectionUtils.getConstructor(A.class, 'c');
+        Constructor<A> c = ReflectionUtils.getConstructor(A.class, 'c');
         assertArrayEquals(new Class[] { char.class }, c.getParameterTypes());
     }
 
@@ -145,15 +145,15 @@ public class ReflectionUtilsTest {
 
     @Test
     public void testGetConstructor_AllPrimitives() throws NoSuchMethodException {
-        final Constructor<A> c = ReflectionUtils.getConstructor(A.class, true, (byte) 1, 2, (short) 3, 'g',
+        Constructor<A> c = ReflectionUtils.getConstructor(A.class, true, (byte) 1, 2, (short) 3, 'g',
                 5l, 4.0f, 8.0);
         assertNotNull(c);
     }
 
     @Test
     public void testGetDeclareMethod_Found() throws Exception {
-        final Method expected = A.class.getDeclaredMethod("foo", new Class<?>[] { int.class });
-        final Method actual = ReflectionUtils.getDeclaredMethod(A.class, "foo", new Class<?>[] { int.class });
+        Method expected = A.class.getDeclaredMethod("foo", new Class<?>[] { int.class });
+        Method actual = ReflectionUtils.getDeclaredMethod(A.class, "foo", new Class<?>[] { int.class });
         assertEquals(expected, actual);
     }
 
@@ -162,7 +162,7 @@ public class ReflectionUtilsTest {
         try {
             ReflectionUtils.getDeclaredMethod(A.class, "foo", new Class<?>[0]);
             fail("Method should not be found");
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             assertTrue(e.getCause() instanceof NoSuchMethodException);
         }
     }

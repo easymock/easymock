@@ -115,7 +115,7 @@ public class UsageCallCountTest {
         try {
             verify(mock);
             fail("Expected AssertionError");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
         }
     }
 
@@ -123,7 +123,7 @@ public class UsageCallCountTest {
         try {
             mock.method();
             fail("Expected AssertionError");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
         }
     }
 

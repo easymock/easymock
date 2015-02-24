@@ -15,13 +15,13 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
 import org.easymock.IAnswer;
 import org.easymock.tests.IMethods;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -37,14 +37,14 @@ public class AnswerTest {
 
     @Test
     public void answer() {
-        final IAnswer<Object> firstAnswer = new IAnswer<Object>() {
+        IAnswer<Object> firstAnswer = new IAnswer<Object>() {
             public Object answer() {
                 assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
                 return "Call answered";
             }
         };
 
-        final IAnswer<Object> secondAnswer = new IAnswer<Object>() {
+        IAnswer<Object> secondAnswer = new IAnswer<Object>() {
             public Object answer() {
                 assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
                 throw new IllegalStateException("Call answered");
@@ -61,7 +61,7 @@ public class AnswerTest {
         try {
             mock.threeArgumentMethod(1, "2", "3");
             fail();
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertEquals("Call answered", expected.getMessage());
         }
         assertEquals("Fourth call", mock.threeArgumentMethod(1, "2", "3"));
@@ -71,14 +71,14 @@ public class AnswerTest {
 
     @Test
     public void stubAnswer() {
-        final IAnswer<Object> firstAnswer = new IAnswer<Object>() {
+        IAnswer<Object> firstAnswer = new IAnswer<Object>() {
             public Object answer() {
                 assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
                 return "Call answered";
             }
         };
 
-        final IAnswer<Object> secondAnswer = new IAnswer<Object>() {
+        IAnswer<Object> secondAnswer = new IAnswer<Object>() {
             public Object answer() {
                 assertArrayEquals(new Object[] { 1, "2", "4" }, getCurrentArguments());
                 return "Call answered";
@@ -104,7 +104,7 @@ public class AnswerTest {
         try {
             expect(mock.threeArgumentMethod(1, "2", "3")).andAnswer(null);
             fail();
-        } catch (final NullPointerException expected) {
+        } catch (NullPointerException expected) {
             assertEquals("answer object must not be null", expected.getMessage());
         }
     }
@@ -114,7 +114,7 @@ public class AnswerTest {
         try {
             expect(mock.threeArgumentMethod(1, "2", "3")).andStubAnswer(null);
             fail();
-        } catch (final NullPointerException expected) {
+        } catch (NullPointerException expected) {
             assertEquals("answer object must not be null", expected.getMessage());
         }
     }
@@ -132,10 +132,10 @@ public class AnswerTest {
     @Test
     public void testGenericityFlexibility() {
 
-        final C c = createMock(C.class);
+        C c = createMock(C.class);
         final B b = new B();
 
-        final IAnswer<B> answer = new IAnswer<B>() {
+        IAnswer<B> answer = new IAnswer<B>() {
 
             public B answer() throws Throwable {
                 return b;
@@ -154,11 +154,11 @@ public class AnswerTest {
 
     @Test
     public void answerOnVoidMethod() {
-        final String[] array = new String[] { "a" };
+        String[] array = new String[] { "a" };
         mock.arrayMethod(array);
         expectLastCall().andAnswer(new IAnswer<Object>() {
             public Object answer() throws Throwable {
-                final String[] s = (String[]) getCurrentArguments()[0];
+                String[] s = (String[]) getCurrentArguments()[0];
                 s[0] = "b";
                 return null;
             }

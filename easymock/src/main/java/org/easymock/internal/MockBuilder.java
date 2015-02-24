@@ -46,7 +46,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
 
     private final EasyMockSupport support;
 
-    public MockBuilder(final Class<T> toMock) {
+    public MockBuilder(Class<T> toMock) {
         this(toMock, null);
     }
 
@@ -59,12 +59,12 @@ public class MockBuilder<T> implements IMockBuilder<T> {
      * @param support
      *            The EasyMockSupport used to create mocks. Null if none
      */
-    public MockBuilder(final Class<T> toMock, final EasyMockSupport support) {
+    public MockBuilder(Class<T> toMock, EasyMockSupport support) {
         this.toMock = toMock;
         this.support = support;
     }
 
-    public IMockBuilder<T> addMockedMethod(final Method method) {
+    public IMockBuilder<T> addMockedMethod(Method method) {
         if (Modifier.isFinal(method.getModifiers())) {
             throw new IllegalArgumentException("Final methods can't be mocked");
         }
@@ -75,8 +75,8 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         return this;
     }
 
-    public IMockBuilder<T> addMockedMethod(final String methodName) {
-        final Method m = ReflectionUtils.findMethod(toMock, methodName);
+    public IMockBuilder<T> addMockedMethod(String methodName) {
+        Method m = ReflectionUtils.findMethod(toMock, methodName);
         if (m == null) {
             throw new IllegalArgumentException("Method not found (or private): " + methodName);
         }
@@ -84,8 +84,8 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         return this;
     }
 
-    public IMockBuilder<T> addMockedMethod(final String methodName, final Class<?>... parameterTypes) {
-        final Method m = ReflectionUtils.findMethod(toMock, methodName, parameterTypes);
+    public IMockBuilder<T> addMockedMethod(String methodName, Class<?>... parameterTypes) {
+        Method m = ReflectionUtils.findMethod(toMock, methodName, parameterTypes);
         if (m == null) {
             throw new IllegalArgumentException("Method not found (or private): " + methodName);
         }
@@ -93,29 +93,29 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         return this;
     }
 
-    public IMockBuilder<T> addMockedMethods(final String... methodNames) {
-        for (final String methodName : methodNames) {
+    public IMockBuilder<T> addMockedMethods(String... methodNames) {
+        for (String methodName : methodNames) {
             addMockedMethod(methodName);
         }
         return this;
     }
 
-    public IMockBuilder<T> addMockedMethods(final Method... methods) {
-        for (final Method method : methods) {
+    public IMockBuilder<T> addMockedMethods(Method... methods) {
+        for (Method method : methods) {
             addMockedMethod(method);
         }
         return this;
     }
 
     @SuppressWarnings("unchecked")
-    public IMockBuilder<T> withConstructor(final Constructor<?> constructor) {
+    public IMockBuilder<T> withConstructor(Constructor<?> constructor) {
         checkConstructorNotInitialized();
         this.constructor = (Constructor<T>) constructor;
         return this;
     }
 
     @SuppressWarnings("unchecked")
-    public IMockBuilder<T> withConstructor(final ConstructorArgs constructorArgs) {
+    public IMockBuilder<T> withConstructor(ConstructorArgs constructorArgs) {
         checkConstructorNotInitialized();
         this.constructor = (Constructor<T>) constructorArgs.getConstructor();
         this.constructorArgs = constructorArgs;
@@ -126,36 +126,36 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         checkConstructorNotInitialized();
         try {
             constructor = ReflectionUtils.getConstructor(toMock);
-        } catch (final NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException("No empty constructor can be found", e);
         }
         constructorArgs = new ConstructorArgs(constructor);
         return this;
     }
 
-    public IMockBuilder<T> withConstructor(final Object... initArgs) {
+    public IMockBuilder<T> withConstructor(Object... initArgs) {
         checkConstructorNotInitialized();
         try {
             constructor = ReflectionUtils.getConstructor(toMock, initArgs);
-        } catch (final NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException("No constructor matching arguments can be found", e);
         }
         constructorArgs = new ConstructorArgs(constructor, initArgs);
         return this;
     }
 
-    public IMockBuilder<T> withConstructor(final Class<?>... argTypes) {
+    public IMockBuilder<T> withConstructor(Class<?>... argTypes) {
         checkConstructorNotInitialized();
 
         try {
             constructor = toMock.getDeclaredConstructor(argTypes);
-        } catch (final NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException("No constructor matching arguments can be found", e);
         }
         return this;
     }
 
-    public IMockBuilder<T> withArgs(final Object... initArgs) {
+    public IMockBuilder<T> withArgs(Object... initArgs) {
         if (constructor == null) {
             throw new IllegalStateException(
                     "Trying to define constructor arguments without first setting their type.");
@@ -168,19 +168,19 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         return this;
     }
 
-    public T createMock(final MockType type) {
-        final IMocksControl control = (support == null ? EasyMock.createControl(type) : support
+    public T createMock(MockType type) {
+        IMocksControl control = (support == null ? EasyMock.createControl(type) : support
                 .createControl(type));
         return createMock(null, control);
     }
 
-    public T createMock(final String name, final MockType type) {
-        final IMocksControl control = (support == null ? EasyMock.createControl(type) : support
+    public T createMock(String name, MockType type) {
+        IMocksControl control = (support == null ? EasyMock.createControl(type) : support
                 .createControl(type));
         return createMock(name, control);
     }
 
-    public T createMock(final IMocksControl control) {
+    public T createMock(IMocksControl control) {
         return createMock(null, control);
     }
 
@@ -197,8 +197,8 @@ public class MockBuilder<T> implements IMockBuilder<T> {
     }
 
     @SuppressWarnings("deprecation")
-    public T createMock(final String name, final IMocksControl control) {
-        final Method[] mockedMethodArray = (mockedMethods == null ? new Method[0] : mockedMethods
+    public T createMock(String name, IMocksControl control) {
+        Method[] mockedMethodArray = (mockedMethods == null ? new Method[0] : mockedMethods
                 .toArray(new Method[mockedMethods.size()]));
 
         // Create a mock with no default {@code withConstructor} was not called.
@@ -214,19 +214,19 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         return control.createMock(name, toMock, constructorArgs, mockedMethodArray);
     }
 
-    public T createMock(final String name) {
-        final IMocksControl control = (support == null ? EasyMock.createControl() : support.createControl());
+    public T createMock(String name) {
+        IMocksControl control = (support == null ? EasyMock.createControl() : support.createControl());
         return createMock(name, control);
     }
 
-    public T createNiceMock(final String name) {
-        final IMocksControl control = (support == null ? EasyMock.createNiceControl() : support
+    public T createNiceMock(String name) {
+        IMocksControl control = (support == null ? EasyMock.createNiceControl() : support
                 .createNiceControl());
         return createMock(name, control);
     }
 
-    public T createStrictMock(final String name) {
-        final IMocksControl control = (support == null ? EasyMock.createStrictControl() : support
+    public T createStrictMock(String name) {
+        IMocksControl control = (support == null ? EasyMock.createStrictControl() : support
                 .createStrictControl());
         return createMock(name, control);
     }

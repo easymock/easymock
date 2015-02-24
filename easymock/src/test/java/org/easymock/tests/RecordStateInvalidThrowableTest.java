@@ -45,7 +45,7 @@ public class RecordStateInvalidThrowableTest {
         try {
             expectLastCall().andThrow(null);
             fail("NullPointerException expected");
-        } catch (final NullPointerException expected) {
+        } catch (NullPointerException expected) {
             assertEquals("null cannot be thrown", expected.getMessage());
         }
 
@@ -57,7 +57,7 @@ public class RecordStateInvalidThrowableTest {
         try {
             expectLastCall().andThrow(new CheckedException());
             fail("IllegalArgumentException expected");
-        } catch (final IllegalArgumentException expected) {
+        } catch (IllegalArgumentException expected) {
             assertEquals("last method called on mock cannot throw " + CheckedException.class.getName(),
                     expected.getMessage());
         }
@@ -69,7 +69,7 @@ public class RecordStateInvalidThrowableTest {
         try {
             expectLastCall().andThrow(new CheckedException());
             fail("IllegalArgumentException expected");
-        } catch (final IllegalArgumentException expected) {
+        } catch (IllegalArgumentException expected) {
             assertEquals("last method called on mock cannot throw " + CheckedException.class.getName(),
                     expected.getMessage());
         }

@@ -28,15 +28,15 @@ public class Not implements IArgumentMatcher, Serializable {
 
     private final IArgumentMatcher first;
 
-    public Not(final IArgumentMatcher first) {
+    public Not(IArgumentMatcher first) {
         this.first = first;
     }
 
-    public boolean matches(final Object actual) {
+    public boolean matches(Object actual) {
         return !first.matches(actual);
     }
 
-    public void appendTo(final StringBuffer buffer) {
+    public void appendTo(StringBuffer buffer) {
         buffer.append("not(");
         first.appendTo(buffer);
         buffer.append(")");

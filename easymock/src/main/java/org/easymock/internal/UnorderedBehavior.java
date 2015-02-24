@@ -30,24 +30,24 @@ public class UnorderedBehavior implements Serializable {
 
     private final boolean checkOrder;
 
-    public UnorderedBehavior(final boolean checkOrder) {
+    public UnorderedBehavior(boolean checkOrder) {
         this.checkOrder = checkOrder;
     }
 
-    public void addExpected(final ExpectedInvocation expected, final Result result, final Range count) {
-        for (final ExpectedInvocationAndResults entry : results) {
+    public void addExpected(ExpectedInvocation expected, Result result, Range count) {
+        for (ExpectedInvocationAndResults entry : results) {
             if (entry.getExpectedInvocation().equals(expected)) {
                 entry.getResults().add(result, count);
                 return;
             }
         }
-        final Results list = new Results();
+        Results list = new Results();
         list.add(result, count);
         results.add(new ExpectedInvocationAndResults(expected, list));
     }
 
-    public Result addActual(final Invocation actual) {
-        for (final ExpectedInvocationAndResults entry : results) {
+    public Result addActual(Invocation actual) {
+        for (ExpectedInvocationAndResults entry : results) {
             try {
                 // if no results are available anymore, it's worthless to try to match
                 if (!entry.getResults().hasResults()) {
@@ -57,7 +57,7 @@ public class UnorderedBehavior implements Serializable {
                 if (!entry.getExpectedInvocation().matches(actual)) {
                     continue;
                 }
-                final Result result = entry.getResults().next();
+                Result result = entry.getResults().next();
                 // actual and expected matched, validate the capture
                 actual.validateCaptures();
                 return result;
@@ -71,7 +71,7 @@ public class UnorderedBehavior implements Serializable {
     }
 
     public boolean verify() {
-        for (final ExpectedInvocationAndResults entry : results) {
+        for (ExpectedInvocationAndResults entry : results) {
             if (!entry.getResults().hasValidCallCount()) {
                 return false;
             }
@@ -79,18 +79,18 @@ public class UnorderedBehavior implements Serializable {
         return true;
     }
 
-    public List<ErrorMessage> getMessages(final Invocation invocation) {
-        final List<ErrorMessage> messages = new ArrayList<ErrorMessage>(results.size());
-        for (final ExpectedInvocationAndResults entry : results) {
-            final boolean unordered = !checkOrder;
-            final boolean validCallCount = entry.getResults().hasValidCallCount();
-            final boolean match = invocation != null && entry.getExpectedInvocation().matches(invocation);
+    public List<ErrorMessage> getMessages(Invocation invocation) {
+        List<ErrorMessage> messages = new ArrayList<ErrorMessage>(results.size());
+        for (ExpectedInvocationAndResults entry : results) {
+            boolean unordered = !checkOrder;
+            boolean validCallCount = entry.getResults().hasValidCallCount();
+            boolean match = invocation != null && entry.getExpectedInvocation().matches(invocation);
 
             if (unordered && validCallCount && !match) {
                 continue;
             }
 
-            final ErrorMessage message = new ErrorMessage(match, entry.toString(), entry.getResults()
+            ErrorMessage message = new ErrorMessage(match, entry.toString(), entry.getResults()
                     .getCallCount());
             messages.add(message);
         }
@@ -98,13 +98,13 @@ public class UnorderedBehavior implements Serializable {
 
     }
 
-    public boolean allowsExpectedInvocation(final ExpectedInvocation expected, final boolean checkOrder) {
+    public boolean allowsExpectedInvocation(ExpectedInvocation expected, boolean checkOrder) {
         if (this.checkOrder != checkOrder) {
             return false;
         } else if (results.isEmpty() || !this.checkOrder) {
             return true;
         } else {
-            final ExpectedInvocation lastMethodCall = results.get(results.size() - 1).getExpectedInvocation();
+            ExpectedInvocation lastMethodCall = results.get(results.size() - 1).getExpectedInvocation();
             return lastMethodCall.equals(expected);
         }
     }

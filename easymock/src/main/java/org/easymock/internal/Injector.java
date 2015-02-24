@@ -15,14 +15,14 @@
  */
 package org.easymock.internal;
 
-import static java.util.Arrays.*;
+import org.easymock.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.easymock.*;
+import static java.util.Arrays.*;
 
 /**
  * Performs creation of mocks and injection into test subjects in accordance with annotations present in the host object.
@@ -57,9 +57,9 @@ public class Injector {
      * @param host the object on which to inject mocks
      * @since 3.2
      */
-    public static void injectMocks(final Object host) {
+    public static void injectMocks(Object host) {
 
-        final InjectionPlan injectionPlan = new InjectionPlan();
+        InjectionPlan injectionPlan = new InjectionPlan();
 
         Class<?> hostClass = host.getClass();
         while (hostClass != Object.class) {
@@ -67,12 +67,12 @@ public class Injector {
             hostClass = hostClass.getSuperclass();
         }
 
-        for (final Field f : injectionPlan.getTestSubjectFields()) {
+        for (Field f : injectionPlan.getTestSubjectFields()) {
             f.setAccessible(true);
             Object testSubject;
             try {
                 testSubject = f.get(host);
-            } catch (final IllegalAccessException e) {
+            } catch (IllegalAccessException e) {
                 // ///CLOVER:OFF
                 throw new RuntimeException(e);
                 // ///CLOVER:ON
@@ -85,7 +85,7 @@ public class Injector {
         }
 
         // Check for unsatisfied qualified injections only after having scanned all TestSubjects and their superclasses
-        for (final Injection injection : injectionPlan.getQualifiedInjections()) {
+        for (Injection injection : injectionPlan.getQualifiedInjections()) {
             if (!injection.isMatched()) {
                 throw new RuntimeException(
                         String.format("Unsatisfied qualifier: '%s'", injection.getAnnotation().fieldName()));
@@ -100,25 +100,25 @@ public class Injector {
      * @param host object of the class
      * @param injectionPlan output parameter where the created mocks andfields to inject are added
      */
-    private static void createMocksForAnnotations(final Class<?> hostClass, final Object host,
-            final InjectionPlan injectionPlan) {
-        final Field[] fields = hostClass.getDeclaredFields();
-        for (final Field f : fields) {
-            final TestSubject ima = f.getAnnotation(TestSubject.class);
+    private static void createMocksForAnnotations(Class<?> hostClass, Object host,
+            InjectionPlan injectionPlan) {
+        Field[] fields = hostClass.getDeclaredFields();
+        for (Field f : fields) {
+            TestSubject ima = f.getAnnotation(TestSubject.class);
             if (ima != null) {
                 injectionPlan.addTestSubjectField(f);
                 continue;
             }
-            final Mock annotation = f.getAnnotation(Mock.class);
+            Mock annotation = f.getAnnotation(Mock.class);
             if (annotation == null) {
                 continue;
             }
-            final Class<?> type = f.getType();
+            Class<?> type = f.getType();
             String name = annotation.name();
             // Empty string means we are on the default value which we means no name (aka null) from the EasyMock point of view
             name = (name.length() == 0 ? null : name);
 
-            final MockType mockType = annotation.type();
+            MockType mockType = annotation.type();
             Object mock;
             if (host instanceof EasyMockSupport) {
                 mock = ((EasyMockSupport) host).createMock(name, mockType, type);
@@ -129,7 +129,7 @@ public class Injector {
             f.setAccessible(true);
             try {
                 f.set(host, mock);
-            } catch (final IllegalAccessException e) {
+            } catch (IllegalAccessException e) {
                 // ///CLOVER:OFF
                 throw new RuntimeException(e);
                 // ///CLOVER:ON
@@ -146,22 +146,22 @@ public class Injector {
      * @param obj object being a instance of clazz
      * @param injectionPlan details of possible mocks for injection
      */
-    private static void injectMocksOnClass(final Class<?> clazz, final Object obj,
-            final InjectionPlan injectionPlan) {
+    private static void injectMocksOnClass(Class<?> clazz, Object obj,
+            InjectionPlan injectionPlan) {
 
-        final List<Field> fields = injectByName(clazz, obj, injectionPlan.getQualifiedInjections());
+        List<Field> fields = injectByName(clazz, obj, injectionPlan.getQualifiedInjections());
         injectByType(obj, fields, injectionPlan.getUnqualifiedInjections());
     }
 
-    private static List<Field> injectByName(final Class<?> clazz, final Object obj,
-            final List<Injection> qualifiedInjections) {
+    private static List<Field> injectByName(Class<?> clazz, Object obj,
+            List<Injection> qualifiedInjections) {
 
-        final List<Field> fields = fieldsOf(clazz);
+        List<Field> fields = fieldsOf(clazz);
 
-        for (final Injection injection : qualifiedInjections) {
+        for (Injection injection : qualifiedInjections) {
 
-            final Field f = getFieldByName(clazz, injection.getQualifier());
-            final InjectionTarget target = injectionTargetWithField(f);
+            Field f = getFieldByName(clazz, injection.getQualifier());
+            InjectionTarget target = injectionTargetWithField(f);
             if (target == null) {
                 continue;
             }
@@ -175,17 +175,17 @@ public class Injector {
         return fields;
     }
 
-    private static void injectByType(final Object obj, final List<Field> fields,
-            final List<Injection> injections) {
+    private static void injectByType(Object obj, List<Field> fields,
+            List<Injection> injections) {
 
-        for (final Field f : fields) {
+        for (Field f : fields) {
 
-            final InjectionTarget target = injectionTargetWithField(f);
+            InjectionTarget target = injectionTargetWithField(f);
             if (target == null) {
                 continue;
             }
 
-            final Injection toAssign = findUniqueAssignable(injections, target);
+            Injection toAssign = findUniqueAssignable(injections, target);
             if (toAssign == null) {
                 continue;
             }
@@ -194,40 +194,40 @@ public class Injector {
         }
     }
 
-    private static List<Field> fieldsOf(final Class<?> clazz) {
-        final List<Field> fields = new ArrayList<Field>();
+    private static List<Field> fieldsOf(Class<?> clazz) {
+        List<Field> fields = new ArrayList<Field>();
         fields.addAll(asList(clazz.getDeclaredFields()));
         return fields;
     }
 
-    private static Field getFieldByName(final Class<?> clazz, final String fieldName) {
+    private static Field getFieldByName(Class<?> clazz, String fieldName) {
         try {
             return clazz.getDeclaredField(fieldName);
-        } catch (final NoSuchFieldException e) {
+        } catch (NoSuchFieldException e) {
             return null;
-        } catch (final SecurityException e) {
+        } catch (SecurityException e) {
             // ///CLOVER:OFF
             return null;
             // ///CLOVER:ON
         }
     }
 
-    private static InjectionTarget injectionTargetWithField(final Field f) {
+    private static InjectionTarget injectionTargetWithField(Field f) {
         if (shouldNotAssignTo(f)) {
             return null;
         }
         return new InjectionTarget(f);
     }
 
-    private static boolean shouldNotAssignTo(final Field f) {
+    private static boolean shouldNotAssignTo(Field f) {
         // Skip final or static fields
         return f == null || (f.getModifiers() & (Modifier.STATIC + Modifier.FINAL)) != 0;
     }
 
-    private static Injection findUniqueAssignable(final List<Injection> injections,
-            final InjectionTarget target) {
+    private static Injection findUniqueAssignable(List<Injection> injections,
+            InjectionTarget target) {
         Injection toAssign = null;
-        for (final Injection injection : injections) {
+        for (Injection injection : injections) {
             if (target.accepts(injection)) {
                 if (toAssign != null) {
                     throw new RuntimeException(

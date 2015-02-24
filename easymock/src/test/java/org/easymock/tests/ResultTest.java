@@ -29,22 +29,22 @@ public class ResultTest {
 
     @Test
     public void createThrowResultToString() {
-        final Exception e = new Exception("Error message");
-        final Result r = Result.createThrowResult(e);
+        Exception e = new Exception("Error message");
+        Result r = Result.createThrowResult(e);
         assertEquals("Answer throwing " + e, r.toString());
     }
 
     @Test
     public void createReturnResultToString() {
-        final String value = "My value";
-        final Result r = Result.createReturnResult(value);
+        String value = "My value";
+        Result r = Result.createReturnResult(value);
         assertEquals("Answer returning " + value, r.toString());
     }
 
     @Test
     public void createDelegateResultToString() {
-        final String value = "my value";
-        final Result r = Result.createDelegatingResult(value);
+        String value = "my value";
+        Result r = Result.createDelegatingResult(value);
         assertEquals("Delegated to " + value, r.toString());
     }
 
@@ -52,7 +52,7 @@ public class ResultTest {
     public void emptyResults() {
         // We never create a Results without at least one Range
         // This test is only to unit test Results with this to cover the case anyway
-        final Results results = new Results();
+        Results results = new Results();
         assertFalse(results.hasResults());
         assertNull(results.next());
     }

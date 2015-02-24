@@ -25,7 +25,7 @@ public class LessOrEqual<T extends Comparable<T>> extends CompareTo<T> {
 
     private static final long serialVersionUID = -2485406702001842607L;
 
-    public LessOrEqual(final Comparable<T> value) {
+    public LessOrEqual(Comparable<T> value) {
         super(value);
     }
 
@@ -35,7 +35,7 @@ public class LessOrEqual<T extends Comparable<T>> extends CompareTo<T> {
     }
 
     @Override
-    protected boolean matchResult(final int result) {
+    protected boolean matchResult(int result) {
         return result <= 0;
     }
 }

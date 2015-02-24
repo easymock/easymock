@@ -39,7 +39,7 @@ public class RecordStateInvalidRangeTest {
         try {
             expectLastCall().atLeastOnce().atLeastOnce();
             fail();
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertEquals("last method called on mock already has a non-fixed count set.", expected
                     .getMessage());
         }
@@ -51,7 +51,7 @@ public class RecordStateInvalidRangeTest {
         try {
             expectLastCall().atLeastOnce().once();
             fail();
-        } catch (final IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             assertEquals("last method called on mock already has a non-fixed count set.", expected
                     .getMessage());
         }
@@ -60,11 +60,11 @@ public class RecordStateInvalidRangeTest {
     @Test
     public void setIllegalMinimumCount() {
         mock.simpleMethod();
-        final int NEGATIVE = -1;
+        int NEGATIVE = -1;
         try {
             expectLastCall().times(NEGATIVE, 2);
             fail();
-        } catch (final IllegalArgumentException expected) {
+        } catch (IllegalArgumentException expected) {
             assertEquals("minimum must be >= 0", expected.getMessage());
         }
     }
@@ -72,11 +72,11 @@ public class RecordStateInvalidRangeTest {
     @Test
     public void setIllegalMaximumCount() {
         mock.simpleMethod();
-        final int NON_POSITIVE = 0;
+        int NON_POSITIVE = 0;
         try {
             expectLastCall().times(0, NON_POSITIVE);
             fail();
-        } catch (final IllegalArgumentException expected) {
+        } catch (IllegalArgumentException expected) {
             assertEquals("maximum must be >= 1", expected.getMessage());
         }
     }
@@ -87,7 +87,7 @@ public class RecordStateInvalidRangeTest {
         try {
             expectLastCall().times(4, 3);
             fail();
-        } catch (final IllegalArgumentException expected) {
+        } catch (IllegalArgumentException expected) {
             assertEquals("minimum must be <= maximum", expected.getMessage());
         }
     }

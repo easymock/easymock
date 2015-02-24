@@ -51,7 +51,7 @@ public class StacktraceTest {
         mock.oneArg(new ToStringThrowsException());
         try {
             mock.oneArg(new ToStringThrowsException());
-        } catch (final NullPointerException expected) {
+        } catch (NullPointerException expected) {
             assertTrue("stack trace must not be cut", Util.getStackTrace(expected).indexOf(
                     ToStringThrowsException.class.getName()) > 0);
         }
@@ -62,7 +62,7 @@ public class StacktraceTest {
         mock.oneArg(new ToStringThrowsException());
         try {
             replay(mock);
-        } catch (final NullPointerException expected) {
+        } catch (NullPointerException expected) {
             assertTrue("stack trace must not be cut", Util.getStackTrace(expected).indexOf(
                     ToStringThrowsException.class.getName()) > 0);
         }
@@ -73,7 +73,7 @@ public class StacktraceTest {
         replay(mock);
         try {
             mock.oneArg(new ToStringThrowsException());
-        } catch (final NullPointerException expected) {
+        } catch (NullPointerException expected) {
             assertTrue("stack trace must not be cut", Util.getStackTrace(expected).indexOf(
                     ToStringThrowsException.class.getName()) > 0);
         }
@@ -86,7 +86,7 @@ public class StacktraceTest {
         try {
             verify(mock);
             fail();
-        } catch (final NullPointerException expected) {
+        } catch (NullPointerException expected) {
             assertTrue("stack trace must not be cut", Util.getStackTrace(expected).indexOf(
                     ToStringThrowsException.class.getName()) > 0);
         }
@@ -98,16 +98,16 @@ public class StacktraceTest {
         replay(mock);
         try {
             mock.oneArg("");
-        } catch (final NullPointerException expected) {
+        } catch (NullPointerException expected) {
             assertTrue("stack trace should cut", Util.startWithClass(expected, MockInvocationHandler.class));
         }
     }
 
     @Test
     public void assertNoFillWhenDelegatingAnswer() {
-        final IMethods answer = (IMethods) Proxy.newProxyInstance(getClass().getClassLoader(),
+        IMethods answer = (IMethods) Proxy.newProxyInstance(getClass().getClassLoader(),
                 new Class<?>[] { IMethods.class }, new InvocationHandler() {
-                    public Object invoke(final Object proxy, final Method method, final Object[] args)
+                    public Object invoke(Object proxy, Method method, Object[] args)
                             throws Throwable {
                         throw new NullPointerException();
                     }
@@ -116,7 +116,7 @@ public class StacktraceTest {
         replay(mock);
         try {
             mock.oneArg("");
-        } catch (final NullPointerException expected) {
+        } catch (NullPointerException expected) {
             assertTrue("stack trace must not be cut", Util.startWithClass(expected, Proxy
                     .getInvocationHandler(answer).getClass()));
         }
@@ -124,7 +124,7 @@ public class StacktraceTest {
 
     @Test
     public void assertNoFillWhenIAnswerAnswer() {
-        final IAnswer<String> answer = new IAnswer<String>() {
+        IAnswer<String> answer = new IAnswer<String>() {
             public String answer() throws Throwable {
                 throw new NullPointerException();
             }
@@ -133,7 +133,7 @@ public class StacktraceTest {
         replay(mock);
         try {
             mock.oneArg("");
-        } catch (final NullPointerException expected) {
+        } catch (NullPointerException expected) {
             assertTrue("stack trace must not be cut", Util.startWithClass(expected, answer.getClass()));
         }
     }

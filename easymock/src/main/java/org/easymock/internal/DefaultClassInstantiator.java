@@ -15,10 +15,10 @@
  */
 package org.easymock.internal;
 
+import org.easymock.EasyMock;
+
 import java.io.*;
 import java.lang.reflect.*;
-
-import org.easymock.EasyMock;
 
 /**
  * Default class instantiator that is pretty limited. It just hope that the
@@ -35,31 +35,31 @@ public class DefaultClassInstantiator implements IClassInstantiator {
      * @param c
      *            Class to instantiate
      */
-    public Object newInstance(final Class<?> c) throws InstantiationException {
+    public Object newInstance(Class<?> c) throws InstantiationException {
 
         if (isSerializable(c)) {
             try {
                 return readObject(getSerializedBytes(c));
                 // ///CLOVER:OFF
-            } catch (final IOException e) {
+            } catch (IOException e) {
                 throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
-            } catch (final ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
             }
             // ///CLOVER:ON
         }
 
-        final Constructor<?> constructor = getConstructorToUse(c);
-        final Object[] params = getArgsForTypes(constructor.getParameterTypes());
+        Constructor<?> constructor = getConstructorToUse(c);
+        Object[] params = getArgsForTypes(constructor.getParameterTypes());
         try {
             return constructor.newInstance(params);
             // ///CLOVER:OFF
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
-        } catch (final IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
             // ///CLOVER:ON
-        } catch (final InvocationTargetException e) {
+        } catch (InvocationTargetException e) {
             throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
         }
     }
@@ -71,7 +71,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
      *            Class to check
      * @return If the class is serializable
      */
-    private boolean isSerializable(final Class<?> clazz) {
+    private boolean isSerializable(Class<?> clazz) {
         return Serializable.class.isAssignableFrom(clazz);
     }
 
@@ -84,11 +84,11 @@ public class DefaultClassInstantiator implements IClassInstantiator {
      *            Class in which constructor is searched
      * @return Constructor to use
      */
-    public Constructor<?> getConstructorToUse(final Class<?> clazz) {
+    public Constructor<?> getConstructorToUse(Class<?> clazz) {
         // First try to use the empty constructor
         try {
             return clazz.getConstructor(new Class[0]);
-        } catch (final NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             // If it fails just use the first one
             if (clazz.getConstructors().length == 0) {
                 throw new IllegalArgumentException("No visible constructors in class " + clazz.getName());
@@ -105,8 +105,8 @@ public class DefaultClassInstantiator implements IClassInstantiator {
      * @return Instances of methodTypes in order
      * @throws InstantiationException Thrown if the class instantiation fails
      */
-    public Object[] getArgsForTypes(final Class<?>[] methodTypes) throws InstantiationException {
-        final Object[] methodArgs = new Object[methodTypes.length];
+    public Object[] getArgsForTypes(Class<?>[] methodTypes) throws InstantiationException {
+        Object[] methodArgs = new Object[methodTypes.length];
 
         for (int i = 0; i < methodTypes.length; i++) {
 
@@ -122,7 +122,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
                 // ///CLOVER:ON
             } else {
                 // For all classes and interfaces, just return a nice mock
-                final Object mock = EasyMock.createNiceMock(methodTypes[i]);
+                Object mock = EasyMock.createNiceMock(methodTypes[i]);
                 EasyMock.replay(mock);
                 methodArgs[i] = mock;
             }
@@ -130,16 +130,16 @@ public class DefaultClassInstantiator implements IClassInstantiator {
         return methodArgs;
     }
 
-    private static byte[] getSerializedBytes(final Class<?> clazz) throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final DataOutputStream data = new DataOutputStream(baos);
+    private static byte[] getSerializedBytes(Class<?> clazz) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream data = new DataOutputStream(baos);
         data.writeShort(ObjectStreamConstants.STREAM_MAGIC);
         data.writeShort(ObjectStreamConstants.STREAM_VERSION);
         data.writeByte(ObjectStreamConstants.TC_OBJECT);
         data.writeByte(ObjectStreamConstants.TC_CLASSDESC);
         data.writeUTF(clazz.getName());
 
-        final Long suid = getSerializableUID(clazz);
+        Long suid = getSerializableUID(clazz);
 
         data.writeLong(suid.longValue());
 
@@ -150,18 +150,18 @@ public class DefaultClassInstantiator implements IClassInstantiator {
         return baos.toByteArray();
     }
 
-    private static Long getSerializableUID(final Class<?> clazz) {
+    private static Long getSerializableUID(Class<?> clazz) {
 
         try {
-            final Field f = clazz.getDeclaredField("serialVersionUID");
-            final int mask = Modifier.STATIC | Modifier.FINAL;
+            Field f = clazz.getDeclaredField("serialVersionUID");
+            int mask = Modifier.STATIC | Modifier.FINAL;
             if ((f.getModifiers() & mask) == mask) {
                 f.setAccessible(true);
                 return Long.valueOf(f.getLong(null));
             }
-        } catch (final NoSuchFieldException e) {
+        } catch (NoSuchFieldException e) {
             // It's not there, compute it then
-        } catch (final IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             // ///CLOVER:OFF
             throw new RuntimeException("Should have been able to get serialVersionUID since it's there");
             // ///CLOVER:ON
@@ -173,23 +173,23 @@ public class DefaultClassInstantiator implements IClassInstantiator {
         // ///CLOVER:ON
     }
 
-    private static Long callLongMethod(final Class<?> clazz, final String methodName) {
+    private static Long callLongMethod(Class<?> clazz, String methodName) {
 
         Method method;
         // ///CLOVER:OFF
         try {
             method = ObjectStreamClass.class.getDeclaredMethod(methodName, new Class[] { Class.class });
-        } catch (final NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             throw new InternalError("ObjectStreamClass." + methodName + " seems to have vanished");
         }
-        final boolean accessible = method.isAccessible();
+        boolean accessible = method.isAccessible();
         method.setAccessible(true);
         Long suid;
         try {
             suid = (Long) method.invoke(null, new Object[] { clazz });
-        } catch (final IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             throw new InternalError("ObjectStreamClass." + methodName + " should have been accessible");
-        } catch (final InvocationTargetException e) {
+        } catch (InvocationTargetException e) {
             throw new InternalError("ObjectStreamClass." + methodName + " failled to be called: "
                     + e.getMessage());
         }
@@ -198,8 +198,8 @@ public class DefaultClassInstantiator implements IClassInstantiator {
         return suid;
     }
 
-    private static Object readObject(final byte[] bytes) throws IOException, ClassNotFoundException {
-        final ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes));
+    private static Object readObject(byte[] bytes) throws IOException, ClassNotFoundException {
+        ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes));
         return in.readObject();
     }
 

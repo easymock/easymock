@@ -50,7 +50,7 @@ public class UsageStrictMockTest {
         boolean failed = false;
         try {
             mock.simpleMethodWithArgument("2");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             failed = true;
         }
         if (!failed) {
@@ -66,7 +66,7 @@ public class UsageStrictMockTest {
         boolean failed = false;
         try {
             mock.simpleMethodWithArgument("2");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             failed = true;
         }
         if (!failed) {
@@ -80,7 +80,7 @@ public class UsageStrictMockTest {
         boolean failed = false;
         try {
             verify(mock);
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             failed = true;
             assertTrue("stack trace must be filled in", Util.getStackTrace(expected).indexOf(
                     ReplayState.class.getName()) == -1);
@@ -110,7 +110,7 @@ public class UsageStrictMockTest {
         boolean failed = false;
         try {
             verify(mock);
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             failed = true;
             assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.simpleMethod(): expected: 1, actual: 1"
@@ -126,7 +126,7 @@ public class UsageStrictMockTest {
         failed = false;
         try {
             mock.simpleMethod();
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             failed = true;
             assertEquals("\n  Unexpected method call IMethods.simpleMethod():"
                     + "\n    IMethods.booleanReturningMethod(1): expected: between 2 and 3, actual: 1",
@@ -164,7 +164,7 @@ public class UsageStrictMockTest {
 
         try {
             mock.booleanReturningMethod(1);
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             failed = true;
             assertEquals("\n  Unexpected method call IMethods.booleanReturningMethod(1):"
                     + "\n    IMethods.booleanReturningMethod(1): expected: between 2 and 3, actual: 4"
@@ -195,7 +195,7 @@ public class UsageStrictMockTest {
         boolean failed = false;
         try {
             verify(mock);
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             failed = true;
             assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.booleanReturningMethod(1): expected: 3, actual: 2", expected

@@ -31,17 +31,17 @@ public class ConstructorArgsTest {
 
         private static final Class<?> TYPE = null;
 
-        public A(final String s, final int i) {
+        public A(String s, int i) {
         }
     }
 
     @Test
     public void testConstructorArgs() {
-        final ConstructorArgs args = new ConstructorArgs(A.class.getConstructors()[0], "a", 4);
+        ConstructorArgs args = new ConstructorArgs(A.class.getConstructors()[0], "a", 4);
         checkArgs(args);
     }
 
-    private void checkArgs(final ConstructorArgs args) {
+    private void checkArgs(ConstructorArgs args) {
         assertEquals(2, args.getInitArgs().length);
         assertEquals("a", args.getInitArgs()[0]);
         assertEquals(4, args.getInitArgs()[1]);

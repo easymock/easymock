@@ -31,11 +31,11 @@ public class DelegateToTest {
 
     @Test
     public void testDelegate() {
-        final IMyInterface mock = createMock(IMyInterface.class);
-        final IMyInterface delegateTo = new IMyInterface() {
+        IMyInterface mock = createMock(IMyInterface.class);
+        IMyInterface delegateTo = new IMyInterface() {
             private int i = 0;
 
-            public int getInt(final int k) {
+            public int getInt(int k) {
                 return i += k;
             }
         };
@@ -55,11 +55,11 @@ public class DelegateToTest {
 
     @Test
     public void testStubDelegate() {
-        final IMyInterface mock = createMock(IMyInterface.class);
-        final IMyInterface delegateTo = new IMyInterface() {
+        IMyInterface mock = createMock(IMyInterface.class);
+        IMyInterface delegateTo = new IMyInterface() {
             private int i = 0;
 
-            public int getInt(final int k) {
+            public int getInt(int k) {
                 return ++i;
             }
         };
@@ -79,9 +79,9 @@ public class DelegateToTest {
 
     @Test
     public void testReturnException() {
-        final IMyInterface m = createMock(IMyInterface.class);
-        final IMyInterface delegateTo = new IMyInterface() {
-            public int getInt(final int k) {
+        IMyInterface m = createMock(IMyInterface.class);
+        IMyInterface delegateTo = new IMyInterface() {
+            public int getInt(int k) {
                 throw new ArithmeticException("Not good!");
             }
         };
@@ -92,7 +92,7 @@ public class DelegateToTest {
         try {
             m.getInt(5);
             fail();
-        } catch (final ArithmeticException e) {
+        } catch (ArithmeticException e) {
             assertEquals("Not good!", e.getMessage());
         }
 
@@ -101,13 +101,13 @@ public class DelegateToTest {
 
     @Test
     public void testWrongClass() {
-        final IMyInterface m = createMock(IMyInterface.class);
+        IMyInterface m = createMock(IMyInterface.class);
         expect(m.getInt(0)).andDelegateTo("allo");
         replay(m);
         try {
             m.getInt(0);
             fail("Should throw an exception");
-        } catch (final IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             assertEquals(
                     "Delegation to object [allo] is not implementing the mocked method [public abstract int org.easymock.tests2.DelegateToTest$IMyInterface.getInt(int)]",
                     e.getMessage());
@@ -116,22 +116,22 @@ public class DelegateToTest {
 
     @Test
     public void nullDelegationNotAllowed() {
-        final IMyInterface mock = createMock(IMyInterface.class);
+        IMyInterface mock = createMock(IMyInterface.class);
         try {
             expect(mock.getInt(1)).andDelegateTo(null);
             fail();
-        } catch (final NullPointerException expected) {
+        } catch (NullPointerException expected) {
             assertEquals("delegated to object must not be null", expected.getMessage());
         }
     }
 
     @Test
     public void nullStubDelegationNotAllowed() {
-        final IMyInterface mock = createMock(IMyInterface.class);
+        IMyInterface mock = createMock(IMyInterface.class);
         try {
             expect(mock.getInt(1)).andStubDelegateTo(null);
             fail();
-        } catch (final NullPointerException expected) {
+        } catch (NullPointerException expected) {
             assertEquals("delegated to object must not be null", expected.getMessage());
         }
     }

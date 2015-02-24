@@ -38,7 +38,7 @@ public class RecordStateInvalidDefaultReturnValueTest {
         try {
             expect((Object) mock.oneArg(false)).andStubReturn(false);
             fail("IllegalStateException expected");
-        } catch (final IllegalStateException e) {
+        } catch (IllegalStateException e) {
             assertEquals("incompatible return value type", e.getMessage());
         }
     }

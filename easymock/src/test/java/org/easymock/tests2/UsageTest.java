@@ -45,7 +45,7 @@ public class UsageTest {
         boolean failed = false;
         try {
             mock.oneArg(false);
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             failed = true;
         }
         if (!failed)
@@ -76,14 +76,14 @@ public class UsageTest {
         try {
             mock.oneArg(false);
             fail();
-        } catch (final IndexOutOfBoundsException expected) {
+        } catch (IndexOutOfBoundsException expected) {
         }
 
         boolean failed = true;
         try {
             mock.oneArg(false);
             failed = false;
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
         }
         if (!failed)
             fail("expected AssertionError");
@@ -101,11 +101,11 @@ public class UsageTest {
 
         try {
             mock.oneArg(false);
-        } catch (final IndexOutOfBoundsException expected) {
+        } catch (IndexOutOfBoundsException expected) {
         }
         try {
             mock.oneArg(false);
-        } catch (final IndexOutOfBoundsException expected) {
+        } catch (IndexOutOfBoundsException expected) {
         }
     }
 
@@ -121,7 +121,7 @@ public class UsageTest {
         try {
             verify(mock);
             failed = false;
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.threeArgumentMethod(1, \"2\", \"3\"): expected: 2, actual: 1", expected
                     .getMessage());
@@ -139,7 +139,7 @@ public class UsageTest {
         try {
             mock.simpleMethodWithArgument("5");
             fail();
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
                     + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0", expected
                     .getMessage());
@@ -156,7 +156,7 @@ public class UsageTest {
         try {
             mock.simpleMethodWithArgument("5");
             fail();
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
                     + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 2, actual: 0", expected
                     .getMessage());
@@ -176,7 +176,7 @@ public class UsageTest {
         try {
             mock.simpleMethodWithArgument("5");
             fail("exception expected");
-        } catch (final AssertionError expected) {
+        } catch (AssertionError expected) {
             assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
                     + "\n    IMethods.simpleMethodWithArgument(\"4\"): expected: 1, actual: 0"
                     + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0"
@@ -208,7 +208,7 @@ public class UsageTest {
         boolean failed = false;
         try {
             mock.simpleMethodWithArgument("4");
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
             failed = true;
         }
         if (!failed) {
@@ -227,7 +227,7 @@ public class UsageTest {
 
     @Test
     public void resumeIfFailure() {
-        final IMethods mock = createMock(IMethods.class);
+        IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg(true)).andReturn("foo").anyTimes();
         replay(mock);
 
@@ -235,7 +235,7 @@ public class UsageTest {
 
         try {
             mock.simpleMethod();
-        } catch (final AssertionError error) {
+        } catch (AssertionError error) {
         }
 
         mock.oneArg(true);
@@ -245,7 +245,7 @@ public class UsageTest {
 
     @Test
     public void defaultResetToNice() {
-        final IMethods mock = createMock(IMethods.class);
+        IMethods mock = createMock(IMethods.class);
 
         expect(mock.oneArg(true)).andReturn("foo");
         replay(mock);
@@ -261,7 +261,7 @@ public class UsageTest {
 
     @Test
     public void strictResetToDefault() {
-        final IMethods mock = createStrictMock(IMethods.class);
+        IMethods mock = createStrictMock(IMethods.class);
 
         expect(mock.oneArg(true)).andReturn("foo");
         expect(mock.oneArg(false)).andReturn("foo");
@@ -283,7 +283,7 @@ public class UsageTest {
 
     @Test
     public void niceToStrict() {
-        final IMethods mock = createNiceMock(IMethods.class);
+        IMethods mock = createNiceMock(IMethods.class);
 
         expect(mock.oneArg(false)).andReturn("foo");
 
@@ -301,7 +301,7 @@ public class UsageTest {
         try {
             mock.oneArg(true);
             fail();
-        } catch (final AssertionError e) {
+        } catch (AssertionError e) {
         }
 
         assertEquals("foo", mock.oneArg(false));
