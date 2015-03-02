@@ -34,7 +34,7 @@
     <!-- Used for class mocking -->
     <dependency>
       <groupId>cglib</groupId>
-      <artifactId>cglib</artifactId>
+      <artifactId>cglib-nodep</artifactId>
       <version>3.1</version>
     </dependency>
     <!-- Use version 5 to be compliant with Java 8 -->
