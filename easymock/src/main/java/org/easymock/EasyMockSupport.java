@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Helper class to be used to keep tracks of mocks easily. See EasyMock
+ * Helper class to keep track of mocks easily. See EasyMock
  * documentation and SupportTest sample.
  * <p>
  * Example of usage:
