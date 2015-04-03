@@ -381,4 +381,8 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    public void resetUnexpectedCallVerification() {
+        state.resetUnexpectedCallVerification();        
+    }
+
 }

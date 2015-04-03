@@ -121,6 +121,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
         }
         mock1.simpleMethod();
         mock2.simpleMethod();
+        resetUnexpectedCallVerification(mock1, mock2);
         verifyAll();
     }
 
@@ -160,6 +161,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
         }
         mock2.oneArg(false);
         mock2.oneArg(true);
+        resetUnexpectedCallVerification(mock1, mock2);
         verifyAll();
     }
 
@@ -267,7 +269,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
         assertEquals("foo", mock1.oneArg(true));
         assertEquals("foo", mock2.oneArg(false));
         assertEquals("foo", mock2.oneArg(true));
-
+        resetUnexpectedCallVerification(mock1, mock2);
         verifyAll();
     }
 }

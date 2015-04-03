@@ -1991,6 +1991,20 @@ public class EasyMock {
     }
 
     /**
+     * Resets any memory of past unexpected calls that will otherwise trigger failure at verification time
+     * 
+     * @param mocks
+     *            the mock objects.
+     */
+    public static void resetUnexpectedCallVerification(Object... mocks) {
+        for (Object mock : mocks) {
+            getControl(mock).resetUnexpectedCallVerification();
+        }
+    }
+    
+    
+
+    /**
      * Switches order checking of the given mock object (more exactly: the
      * control of the mock object) the on and off. For details, see the EasyMock
      * documentation.

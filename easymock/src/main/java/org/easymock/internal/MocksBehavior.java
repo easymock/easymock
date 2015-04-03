@@ -29,6 +29,8 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
     private static final long serialVersionUID = 3265727009370529027L;
 
     private final List<UnorderedBehavior> behaviorLists = new ArrayList<UnorderedBehavior>();
+    
+    private final List<String> thrownErrorMsgList = new ArrayList<String>();
 
     private final List<ExpectedInvocationAndResult> stubResults = new ArrayList<ExpectedInvocationAndResult>();
 
@@ -144,12 +146,13 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
             m.appendTo(errorMessage, matches);
         }
 
-        // And finally throw the error
+        // And finally save and throw the error
+        thrownErrorMsgList.add(errorMessage.toString());
         throw new AssertionErrorWrapper(new AssertionError(errorMessage));
     }
 
     public void verify() {
-        boolean verified = true;
+        boolean verified = thrownErrorMsgList.size() == 0;
 
         for (UnorderedBehavior behaviorList : behaviorLists.subList(position, behaviorLists.size())) {
             if (!behaviorList.verify()) {
@@ -169,6 +172,10 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
                 m.appendTo(errorMessage, 0);
             }
         }
+        for (final String thrownErrorMsg : thrownErrorMsgList) {
+            errorMessage.append(thrownErrorMsg);
+        }
+
 
         throw new AssertionErrorWrapper(new AssertionError(errorMessage.toString()));
     }
@@ -200,5 +207,9 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
                     "\n Mock isn't supposed to be called from multiple threads. Last: " + lastThread
                             + " Current: " + Thread.currentThread()));
         }
+    }
+
+    public void resetUnexpectedCallVerification() {
+        thrownErrorMsgList.clear();
     }
 }
