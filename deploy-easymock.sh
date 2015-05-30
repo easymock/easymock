@@ -143,7 +143,7 @@ pause
 
 echo "Send new release mail"
 mail="$(cat mail.txt)"
-mail="${mail/@version@/$version}"
+mail="${mail//@version@/$version}"
 mail="${mail/@release_notes@/$release_notes}"
 echo "$mail" > target/mail.txt
 echo "Please send a mail to easymock@yahoogroups.com using the content of target/mail.txt"
