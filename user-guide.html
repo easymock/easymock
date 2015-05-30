@@ -140,7 +140,7 @@ public class ExampleTest {
 {% highlight java %}
 @Before
 public void setUp() {
-  mock = createMock(Collaborator.class); // 1 
+  mock = mock(Collaborator.class); // 1
   classUnderTest = new ClassUnderTest(); 
   classUnderTest.setListener(mock); 
 } 
@@ -228,7 +228,7 @@ public class ExampleTest {
 } 
 {% endhighlight %}
 
-        <p>The annotation has an optional element, 'type', to refine the mock as a 'nice' mock or a 'strict' mock. Another optional annotation, 'name', allows setting of a name for the mock that will be used in the createMock call, which will appear in expectation failure messages for example. Finally, an optional element, "fieldName", allows specifying the target field name where the mock should be injected. Mocks are injected to any field in any <code>@TestSubject</code> that is of compatible type. If more than one mock can be assigned to the same field then this is considered an error. The <code>fieldName</code> qualifier can be used in this scenario to disambiguate the assignments.</p>
+        <p>The annotation has an optional element, 'type', to refine the mock as a 'nice' mock or a 'strict' mock. Another optional annotation, 'name', allows setting of a name for the mock that will be used in the <code>mock()</code> call, which will appear in expectation failure messages for example. Finally, an optional element, "fieldName", allows specifying the target field name where the mock should be injected. Mocks are injected to any field in any <code>@TestSubject</code> that is of compatible type. If more than one mock can be assigned to the same field then this is considered an error. The <code>fieldName</code> qualifier can be used in this scenario to disambiguate the assignments.</p>
   
 {% highlight java %}
 @Mock(type = MockType.NICE, name = "mock", fieldName = "someField") 
@@ -259,8 +259,8 @@ public class SupportTest extends EasyMockSupport {
   @Test
   public void addDocument() {
     // creation phase
-    firstCollaborator = createMock(Collaborator.class);
-    secondCollaborator = createMock(Collaborator.class);
+    firstCollaborator = mock(Collaborator.class);
+    secondCollaborator = mock(Collaborator.class);
     classUnderTest.addListener(firstCollaborator);
     classUnderTest.addListener(secondCollaborator);
 
@@ -278,18 +278,18 @@ public class SupportTest extends EasyMockSupport {
 
         <h2 id="mocking-strict">Strict Mocks</h2>
 
-        <p>On a Mock Object returned by a <code>EasyMock.createMock()</code>, the order of method calls is not checked.
-          If you would like a strict Mock Object that checks the order of method calls, use <code>EasyMock.create<i>Strict</i>Mock()</code> to create it.</p>
+        <p>On a Mock Object returned by a <code>EasyMock.mock()</code>, the order of method calls is not checked.
+          If you would like a strict Mock Object that checks the order of method calls, use <code>EasyMock.<i>strict</i>Mock()</code> to create it.</p>
 
         <p>If an unexpected method is called on a strict Mock Object, the message of the exception will show the method
           calls expected at this point followed by the first conflicting one. <code>verify(mock)</code> shows all missing method calls.</p>
 
         <h2 id="mocking-nice">Nice Mocks</h2>
 
-        <p>On a Mock Object returned by <code>createMock()</code> the default behavior for all methods is to throw an
+        <p>On a Mock Object returned by <code>mock()</code> the default behavior for all methods is to throw an
           <code>AssertionError</code> for all unexpected method calls. If you would like a "nice" Mock Object that by default
           allows all method calls and returns appropriate empty values (<code>0</code>, <code>null</code> or <code>false</code>),
-          use <code>create<i>Nice</i>Mock()</code> instead.</p>
+          use <code><i>nice</i>Mock()</code> instead.</p>
 
         <h2 id="mocking-partial">Partial mocking</h2>
 
@@ -301,14 +301,14 @@ public class SupportTest extends EasyMockSupport {
           bad design. If it's not the case or if you can't do otherwise because of some development constraints, here's the solution.</p>
 
 {% highlight java %}
-ToMock mock = createMockBuilder(ToMock.class)
+ToMock mock = partialMockBuilder(ToMock.class)
   .addMockedMethod("mockedMethod").createMock();
 {% endhighlight %}
       
         <p>In this case only the methods added with <code>addMockedMethod(s)</code> will be mocked (<code>mockedMethod()</code> in the example).
           The others will still behave as they used to. One exception: abstract methods are conveniently mocked by default.</p>
 
-        <p><code>createMockBuilder</code> returns a <code>IMockBuilder</code> interface. It contains various methods to easily create a partial mock.
+        <p><code>partialMockBuilder</code> returns a <code>IMockBuilder</code> interface. It contains various methods to easily create a partial mock.
           Have a look at the javadoc.</p>
 
         <p><b>Remark:</b> EasyMock provides a default behavior for Object's methods (<i>equals, hashCode, toString, finalize</i>). However, for a
@@ -320,7 +320,7 @@ ToMock mock = createMockBuilder(ToMock.class)
           the class other methods, mocked. For that you should do something like</p>
 
 {% highlight java %}
-ToMock mock = createMockBuilder(ToMock.class)
+ToMock mock = partialMockBuilder(ToMock.class)
   .withConstructor(1, 2, 3); // 1, 2, 3 are the constructor parameters
 {% endhighlight %}
 
@@ -360,7 +360,7 @@ ToMock mock = createMockBuilder(ToMock.class)
 
         <h2 id="mocking-naming">Naming Mock Objects</h2>
 
-        <p>Mock Objects can be named at creation using <code>createMock(String name, Class&lt;T&gt; toMock)</code>, <code>createStrictMock(String name, Class&lt;T&gt; toMock)</code> or <code>createNiceMock(String name, Class&lt;T&gt; toMock)</code>. The names will be shown in exception failures.</p>
+        <p>Mock Objects can be named at creation using <code>mock(String name, Class&lt;T&gt; toMock)</code>, <code>strictMock(String name, Class&lt;T&gt; toMock)</code> or <code>niceMock(String name, Class&lt;T&gt; toMock)</code>. The names will be shown in exception failures.</p>
 
       </section>
       <!-- #End Mocking -->
@@ -648,7 +648,7 @@ expectLastCall().andReturn((byte) 42);
         <p>To understand correctly the two options, here is an example:</p>
 
 {% highlight java %}
-List<String> l = createMock(List.class);
+List<String> l = mock(List.class);
 
 // andAnswer style 
 expect(l.remove(10)).andAnswer(new IAnswer<String>() {
@@ -673,7 +673,7 @@ expect(l.remove(10)).andDelegateTo(new ArrayList<String>() {
         <p>So instead of</p>
       
 {% highlight java %}
-IMyInterface mock = createStrictMock(IMyInterface.class);
+IMyInterface mock = strictMock(IMyInterface.class);
 replay(mock);
 verify(mock);
 reset(mock);
