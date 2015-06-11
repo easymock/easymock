@@ -1,7 +1,7 @@
 EasyMock
 ========
 
-[![Join the chat at https://gitter.im/easymock/easymock](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/easymock/easymock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/easymock/easymock](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/easymock/easymock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [ ![Download](https://api.bintray.com/packages/easymock/distributions/easymock/images/download.svg) ](https://bintray.com/easymock/distributions/easymock/_latestVersion)
 
 EasyMock is a Java library that provides an easy way to use Mock Objects in unit testing.
 
