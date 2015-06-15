@@ -63,7 +63,7 @@ public class EasyMock {
      *            the class or interface that should be mocked.
      * @return the mock object.
      *
-     * @since ${project.version}
+     * @since 3.4
      */
     public static <T> T mock(Class<T> toMock) {
         return createControl().createMock(toMock);
@@ -84,7 +84,7 @@ public class EasyMock {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      *
-     * @since ${project.version}
+     * @since 3.4
      */
     public static <T> T mock(String name, Class<T> toMock) {
         return createControl().createMock(name, toMock);
@@ -102,7 +102,7 @@ public class EasyMock {
      *            the class or interface that should be mocked.
      * @return the mock object
      *
-     * @since ${project.version}
+     * @since 3.4
      */
     public static <T> T mock(MockType type, Class<T> toMock) {
         return createControl(type).createMock(toMock);
@@ -122,7 +122,7 @@ public class EasyMock {
      *            the class or interface that should be mocked.
      * @return the mock object.
      *
-     * @since ${project.version}
+     * @since 3.4
      */
     public static <T> T mock(String name, MockType type, Class<T> toMock) {
         return createControl(type).createMock(name, toMock);
@@ -138,7 +138,7 @@ public class EasyMock {
      *            the class or interface that should be mocked.
      * @return the mock object.
      *
-     * @since ${project.version}
+     * @since 3.4
      */
     public static <T> T strictMock(Class<T> toMock) {
         return createStrictControl().createMock(toMock);
@@ -158,7 +158,7 @@ public class EasyMock {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      *
-     * @since ${project.version}
+     * @since 3.4
      */
     public static <T> T strictMock(String name, Class<T> toMock) {
         return createStrictControl().createMock(name, toMock);
@@ -175,7 +175,7 @@ public class EasyMock {
      *            the class or interface that should be mocked.
      * @return the mock object.
      *
-     * @since ${project.version}
+     * @since 3.4
      */
     public static <T> T niceMock(Class<T> toMock) {
         return createNiceControl().createMock(toMock);
@@ -197,7 +197,7 @@ public class EasyMock {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      *
-     * @since ${project.version}
+     * @since 3.4
      */
     public static <T> T niceMock(String name, Class<T> toMock) {
         return createNiceControl().createMock(name, toMock);
@@ -213,7 +213,7 @@ public class EasyMock {
      *            the class or interface that should be mocked.
      * @return a mock builder to create a partial mock
      *
-     * @since ${project.version}
+     * @since 3.4
      */
     public static <T> IMockBuilder<T> partialMockBuilder(Class<T> toMock) {
         return new MockBuilder<T>(toMock);
@@ -221,7 +221,9 @@ public class EasyMock {
 
     /**
      * Creates a mock object, of the requested type, that implements the given interface
-     * or extends the given class
+     * or extends the given class.
+     * <p>
+     * <b>Note:</b> This is the old version of {@link #mock(MockType, Class)}, which is more completion friendly
      * 
      * @param <T>
      *            the interface that the mock object should implement.
@@ -239,7 +241,9 @@ public class EasyMock {
     /**
      * Creates a mock object, of the requested type and name, that implements the given interface
      * or extends the given class
-     * 
+     * <p>
+     * <b>Note:</b> This is the old version of {@link #mock(String, MockType, Class)}, which is more completion friendly
+     *
      * @param <T> 
      *            the class or interface that should be mocked.
      * @param name 
@@ -258,7 +262,9 @@ public class EasyMock {
     /**
      * Creates a mock object that implements the given interface, order checking
      * is enabled by default.
-     * 
+     * <p>
+     * <b>Note:</b> This is the old version of {@link #strictMock(Class)}, which is more completion friendly
+     *
      * @param <T>
      *            the interface that the mock object should implement.
      * @param toMock
@@ -272,7 +278,9 @@ public class EasyMock {
     /**
      * Creates a mock object that implements the given interface, order checking
      * is enabled by default.
-     * 
+     * <p>
+     * <b>Note:</b> This is the old version of {@link #strictMock(String, Class)}, which is more completion friendly
+     *
      * @param name
      *            the name of the mock object.
      * @param toMock
@@ -290,7 +298,9 @@ public class EasyMock {
     /**
      * Creates a mock object that implements the given interface, order checking
      * is disabled by default.
-     * 
+     * <p>
+     * <b>Note:</b> This is the old version of {@link #mock(Class)}, which is more completion friendly
+     *
      * @param <T>
      *            the interface that the mock object should implement.
      * @param toMock
@@ -304,7 +314,9 @@ public class EasyMock {
     /**
      * Creates a mock object that implements the given interface, order checking
      * is disabled by default.
-     * 
+     * <p>
+     * <b>Note:</b> This is the old version of {@link #mock(String, Class)}, which is more completion friendly
+     *
      * @param name
      *            the name of the mock object.
      * @param toMock
@@ -324,7 +336,9 @@ public class EasyMock {
      * Creates a mock object that implements the given interface, order checking
      * is disabled by default, and the mock object will return <code>0</code>,
      * <code>null</code> or <code>false</code> for unexpected invocations.
-     * 
+     * <p>
+     * <b>Note:</b> This is the old version of {@link #niceMock(Class)}, which is more completion friendly
+     *
      * @param <T>
      *            the interface that the mock object should implement.
      * @param toMock
@@ -339,7 +353,9 @@ public class EasyMock {
      * Creates a mock object that implements the given interface, order checking
      * is disabled by default, and the mock object will return <code>0</code>,
      * <code>null</code> or <code>false</code> for unexpected invocations.
-     * 
+     * <p>
+     * <b>Note:</b> This is the old version of {@link #niceMock(String, Class)}, which is more completion friendly
+     *
      * @param name
      *            the name of the mock object.
      * @param toMock
@@ -358,7 +374,9 @@ public class EasyMock {
     /**
      * Create a mock builder allowing to create a partial mock for the given
      * class or interface.
-     * 
+     * <p>
+     * <b>Note:</b> This is the old version of {@link #partialMockBuilder(Class)}, which is more completion friendly
+     *
      * @param <T>
      *            the interface that the mock object should implement.
      * @param toMock
