@@ -83,7 +83,7 @@ public class ExampleTest extends EasyMockSupport {
         <li>Extending (or delegating to) `EasyMockSupport` is useful but not mandatory</li>
         <li>Mock injection is done on fields so you won't need a setter only used for testing</li>
         <li>We are testing here that `documentAdded` will be called once and only once using this exact parameter.
-        That's what we expect. Any other result means </li>
+        That's what we expect. Any other result means that the collaborator is notified too many time (or not at all)</li>
     </ul>
 
     <p>From there, I will highly suggest you have a look at the
