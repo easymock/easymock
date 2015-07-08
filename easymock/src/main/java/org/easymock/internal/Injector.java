@@ -77,6 +77,9 @@ public class Injector {
                 throw new RuntimeException(e);
                 // ///CLOVER:ON
             }
+            if(testSubject == null) {
+                throw new NullPointerException("Have you forgotten to instantiate " + f.getName() + "?");
+            }
             Class<?> testSubjectClass = testSubject.getClass();
             while (testSubjectClass != Object.class) {
                 injectMocksOnClass(testSubjectClass, testSubject, injectionPlan);
