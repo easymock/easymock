@@ -221,6 +221,7 @@ public class UsageTest {
         mock.simpleMethodWithArgument("6");
         mock.simpleMethodWithArgument("7");
 
+        resetUnexpectedCallVerification(mock);
         verify(mock);
 
     }
@@ -240,6 +241,7 @@ public class UsageTest {
 
         mock.oneArg(true);
 
+        resetUnexpectedCallVerification(mock);
         verify(mock);
     }
 
@@ -307,6 +309,7 @@ public class UsageTest {
         assertEquals("foo", mock.oneArg(false));
         assertEquals("foo", mock.oneArg(true));
 
+        resetUnexpectedCallVerification(mock);
         verify(mock);
     }
 }

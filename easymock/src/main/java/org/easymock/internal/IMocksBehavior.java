@@ -40,4 +40,6 @@ public interface IMocksBehavior {
 
     // verify
     void verify();
+
+    void resetUnexpectedCallVerification();
 }

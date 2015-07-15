@@ -126,6 +126,7 @@ public class UsageConstraintsTest {
             fail();
         }
         assertEquals("456", mock.threeArgumentMethod(8, "", "01234"));
+        resetUnexpectedCallVerification(mock);
         verify(mock);
     }
 
@@ -369,6 +370,7 @@ public class UsageConstraintsTest {
         checkItFails(new A(6));
         assertEquals("4", mock.oneArg(new A(4)));
 
+        resetUnexpectedCallVerification(mock);
         verify(mock);
     }
 

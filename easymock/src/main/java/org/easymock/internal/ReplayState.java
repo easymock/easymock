@@ -157,4 +157,8 @@ public class ReplayState implements IMocksControlState, Serializable {
     public void assertRecordState() {
         throwWrappedIllegalStateException();
     }
+    public void resetUnexpectedCallVerification() {
+        behavior.resetUnexpectedCallVerification();
+        
+    }
 }

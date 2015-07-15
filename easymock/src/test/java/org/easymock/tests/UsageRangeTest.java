@@ -91,6 +91,7 @@ public class UsageRangeTest {
 
         assertFalse(mock.hasNext());
 
+        resetUnexpectedCallVerification(mock);
         verify(mock);
 
     }

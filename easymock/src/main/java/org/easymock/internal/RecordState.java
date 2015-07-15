@@ -348,4 +348,9 @@ public class RecordState implements IMocksControlState, Serializable {
     public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
         behavior.shouldBeUsedInOneThread(shouldBeUsedInOneThread);
     }
+    
+    public void resetUnexpectedCallVerification() {
+        throw new UnsupportedOperationException();
+        
+    }
 }

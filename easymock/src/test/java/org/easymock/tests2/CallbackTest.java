@@ -92,6 +92,7 @@ public class CallbackTest {
             mock.simpleMethodWithArgument("Two");
         } catch (AssertionError ignored) {
         }
+        resetUnexpectedCallVerification(mock);
         verify(mock);
 
         assertEquals(2, c1.getCallCount());

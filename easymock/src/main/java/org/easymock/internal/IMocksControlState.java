@@ -57,4 +57,6 @@ public interface IMocksControlState {
     void replay();
 
     void verify();
+
+    void resetUnexpectedCallVerification();
 }
