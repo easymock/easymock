@@ -1842,6 +1842,32 @@ public class EasyMock {
     }
 
     /**
+     * Create a new capture instance with a specific {@link org.easymock.CaptureType}
+     * and a specific {@link org.easymock.Capture.Transform} function to change the values
+     * into a different value.
+     *
+     * @param type capture type wanted
+     * @param transform the transform function
+     * @param <T> type of the class to be captured
+     * @return the new capture object
+     */
+    public static <T> Capture<T> newCapture(CaptureType type, Capture.Transform<T> transform) {
+        return Capture.newInstance(type, transform);
+    }
+
+    /**
+     * Create a new capture instance with a specific {@link org.easymock.Capture.Transform}
+     * function to change the values into a different value.
+     *
+     * @param transform the transform function
+     * @param <T> type of the class to be captured
+     * @return the new capture object
+     */
+    public static <T> Capture<T> newCapture(Capture.Transform<T> transform) {
+        return Capture.newInstance(transform);
+    }
+
+    /**
      * Expect any object but captures it for later use.
      *
      * @param <T>

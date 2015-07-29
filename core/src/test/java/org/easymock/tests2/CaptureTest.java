@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Arrays;
 
 import org.easymock.Capture;
+import org.easymock.Capture.Transform;
 import org.easymock.CaptureType;
 import org.easymock.tests.IMethods;
 import org.junit.jupiter.api.AfterEach;
@@ -370,5 +371,51 @@ public class CaptureTest {
         mock.oneArg(Long.valueOf(1));
 
         assertEquals(0L, capture.getValue());
+    }
+
+    private <T> Capture<Integer> testCaptureTypeAndTransform(CaptureType type) {
+        IMethods mock = createMock(IMethods.class);
+        Capture<Integer> captured = Capture.newInstance(type, new Transform<Integer>() {
+            public Integer apply(Integer t) {
+                return t.intValue() * 100;
+            }
+        });
+
+        expect(mock.oneArg(captureInt(captured))).andReturn("1");
+        expect(mock.oneArg(anyInt())).andReturn("1");
+        expect(mock.oneArg(captureInt(captured))).andReturn("2").times(2);
+        mock.twoArgumentMethod(captureInt(captured), eq(6));
+        mock.twoArgumentMethod(captureInt(captured), captureInt(captured));
+
+        replay(mock);
+
+        mock.oneArg(1);
+        mock.oneArg(2);
+        mock.oneArg(3);
+        mock.oneArg(4);
+        mock.twoArgumentMethod(5, 6);
+        mock.twoArgumentMethod(7, 8);
+
+        verify(mock);
+
+        return captured;
+    }
+
+    @Test
+    public void testTransformFirst() {
+        Capture<Integer> captured = testCaptureTypeAndTransform(CaptureType.FIRST);
+        assertEquals(100, (int) captured.getValue());
+    }
+
+    @Test
+    public void testTransformLast() {
+        Capture<Integer> captured = testCaptureTypeAndTransform(CaptureType.LAST);
+        assertEquals(800, (int) captured.getValue());
+    }
+
+    @Test
+    public void testTransformAll() {
+        Capture<Integer> captured = testCaptureTypeAndTransform(CaptureType.ALL);
+        assertEquals(Arrays.asList(100, 300, 400, 500, 700, 800), captured.getValues());
     }
 }
