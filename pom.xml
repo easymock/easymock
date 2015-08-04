@@ -224,6 +224,11 @@
             </rules>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
         <!--This plugin configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
@@ -427,6 +432,7 @@
     <module>easymock</module>
     <module>easymock-test-integration</module>
     <module>easymock-test-osgi</module>
+    <module>easymock-test-nodeps</module>
   </modules>
 
   <distributionManagement>
