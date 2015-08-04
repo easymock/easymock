@@ -147,7 +147,7 @@ To bundle EasyMock and deploy
 </repositories>
 ```
 - Release the repository. It will be synced with Maven Central Repository
-- Announce to easymock@yahoogroups.com, tweet and blog ;-)
+- Announce to gitter, tweet and blog ;-)
 
 Deploy the website
 --------------------------------------------------------------------------------------
