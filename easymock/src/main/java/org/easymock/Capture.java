@@ -34,6 +34,8 @@ public class Capture<T> implements Serializable {
 
     private CaptureType type;
 
+    private Transform<T> transform = identity();
+
     private final List<T> values = new ArrayList<T>(2);
 
     /**
@@ -58,6 +60,11 @@ public class Capture<T> implements Serializable {
         this.type = type;
     }
 
+    private Capture(CaptureType type, Transform<T> transform) {
+        this.type = type;
+        this.transform = transform;
+    }
+
     /**
      * Create a new capture instance that will keep only the last captured value
      *
@@ -79,6 +86,32 @@ public class Capture<T> implements Serializable {
     @SuppressWarnings("deprecation")
     public static <T> Capture<T> newInstance(CaptureType type) {
         return new Capture<T>(type);
+    }
+
+    /**
+     * Create a new capture instance with a specific {@link org.easymock.CaptureType}
+     * and a specific {@link org.easymock.Capture.Transform} function to change the values
+     * into a different value.
+     *
+     * @param type capture type wanted
+     * @param transform the transform function
+     * @param <T> type of the class to be captured
+     * @return the new capture object
+     */
+    public static <T> Capture<T> newInstance(CaptureType type, Transform<T> transform) {
+        return new Capture<T>(type, transform);
+    }
+
+    /**
+     * Create a new capture instance with a specific {@link org.easymock.Capture.Transform}
+     * function to change the values into a different value.
+     *
+     * @param transform the transform function
+     * @param <T> type of the class to be captured
+     * @return the new capture object
+     */
+    public static <T> Capture<T> newInstance(Transform<T> transform) {
+        return new Capture<T>(CaptureType.LAST, transform);
     }
 
     /**
@@ -130,6 +163,7 @@ public class Capture<T> implements Serializable {
      *            Value captured
      */
     public void setValue(T value) {
+        value = transform == null ? value : transform.apply(value);
         switch (type) {
         case NONE:
             break;
@@ -163,5 +197,19 @@ public class Capture<T> implements Serializable {
             return String.valueOf(values.get(0));
         }
         return values.toString();
+    }
+
+    public static <T> Transform<T> identity() {
+        return new Identity<T>();
+    }
+
+    public interface Transform<T> {
+        T apply(T t);
+    }
+
+    static class Identity<T> implements Transform<T> {
+        public T apply(T t) {
+            return t;
+        }
     }
 }
