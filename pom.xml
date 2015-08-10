@@ -429,10 +429,10 @@
   </reporting>
 
   <modules>
-    <module>easymock</module>
-    <module>easymock-test-integration</module>
-    <module>easymock-test-osgi</module>
-    <module>easymock-test-nodeps</module>
+    <module>core</module>
+    <module>test-integration</module>
+    <module>test-osgi</module>
+    <module>test-nodeps</module>
   </modules>
 
   <distributionManagement>
@@ -528,15 +528,15 @@
     <profile>
       <id>android</id>
       <modules>
-        <module>easymock-android-tck</module>
+        <module>android-tck</module>
       </modules>
     </profile>
     <profile>
       <id>all</id>
       <modules>
-        <module>easymock-android-tck</module>
-        <module>easymock-bench</module>
-        <module>easymock-test-deploy</module>
+        <module>android-tck</module>
+        <module>bench</module>
+        <module>test-deploy</module>
       </modules>
     </profile>
   </profiles>
