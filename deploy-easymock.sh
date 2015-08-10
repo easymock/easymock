@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # This script expects:
+# - the version to be deployed as the first parameter
 # - jira_user / jira_password to be available environment variables
 # - gpg_passphrase to be an environment variable
-# - the version to be deployed as the first parameter
-# - sf_user to be an environment variable with its associated ssh key
-# - sf_api_key to be an environment variable
+# - bintray_user to be an environment variable
+# - bintray_api_key to be an environment variable
 
 # to exit in case of error
 set -e
@@ -22,17 +22,9 @@ if [ "$1" == "" ]; then
 fi
 
 message="should be an environment variable"
-[ -z "$jira_user" ] && echo "jira_user $message" && exit 1
-[ -z "$jira_password" ] && echo "jira_user $message" && exit 1
-[ -z "$gpg_passphrase" ] && echo "jira_user $message" && exit 1
-[ -z "$sf_user" ] && echo "jira_user $message" && exit 1
-[ -z "$sf_api_key" ] && echo "jira_user $message" && exit 1
-
-# make sure all variables are set
-if [ -z "$jira_user" ] || [ -z "$jira_password" ] || [ -z "$gpg_passphrase" ] || [ -z "$sf_user" ] || [ -z "$sf_api_key" ]; then
-    echo "Variables jira_user, jira_password, gpg_assphrase, sf_user and sf_api_key should be provided"
-    exit 1
-fi
+[ -z "$gpg_passphrase" ] && echo "gpg_passphrase $message" && exit 1
+[ -z "$bintray_api_key" ] && echo "bintray_api_key $message" && exit 1
+[ -z "$bintray_user" ] && echo "bintray_user $message" && exit 1
 
 # make sure the script is launched from the project root directory
 if [ "$(dirname $0)" != "." ]; then
@@ -47,14 +39,6 @@ mvn clean -Pall
 
 echo "Make sure we have a target directory"
 test ! -d target && mkdir target
-
-echo "Retrieve Jira version id for version $version"
-escaped_version=$(echo $version | sed "s/\([0-9]*\)\.\([0-9]*\)/\1\\\.\2/")
-jira_version_id=$(curl --silent "http://jira.codehaus.org/rest/api/2/project/EASYMOCK/versions" | grep -o "\"id\":\"[0-9]*\",\"description\":\"EasyMock $escaped_version\"" | cut -d'"' -f4)
-echo "Check that the jira_version was correctly found"
-result=$(curl -s -o /dev/null -I -w "%{http_code}" "http://jira.codehaus.org/rest/api/2/version/${jira_version_id}")
-[ $result -eq 200 ]
-echo "Jira version id = ${jira_version_id}"
 
 pause
 
@@ -102,17 +86,12 @@ curl -D- -u $jira_user:$jira_password -X PUT --data '{ "released": true }' -H "C
 
 pause
 
-# https://sourceforge.net/p/forge/community-docs/Using%20the%20Release%20API/
-echo "Deploy the bundle to SourceForce"
-sf_url=${sf_user},easymock@shell.sourceforge.net
-sf_version_path=/home/frs/project/easymock/EasyMock/${version}
-ssh ${sf_url} create
-ssh ${sf_url} "mkdir -p ${sf_version_path}"
-scp easymock/target/easymock-${version}-bundle.zip ${sf_url}:${sf_version_path}/easymock-${version}.zip
-scp target/ReleaseNotes.txt ${sf_url}:${sf_version_path}/readme.txt
-curl -H "Accept: application/json" -X PUT -d "default=windows&default=mac&default=linux&default=bsd&default=solaris&default=others" -d "api_key=${sf_api_key}" http://sourceforge.net/projects/easymock/files/EasyMock/${version}/easymock-${version}.zip
-result=$(curl -s -o /dev/null -I -w "%{http_code}" "http://sourceforge.net/projects/easymock/files/EasyMock/$version/")
-[ $result -eq 200 ]
+echo "Deploy the bundle to Bintray"
+date=$(date )
+content="{ \"name\": \"$version\", \"desc\": \"$version\", \"released\": \"${date}T00:00:00.000Z\", \"github_use_tag_release_notes\": false, \"vcs_tag\": \"easymock-$version\" }"
+curl -v -XPOST -H "Content-Type: application/json" -H "X-GPG-PASSPHRASE: ${gpg_passphrase}" -u${bintray_user}:${bintray_api_key} \
+	-d "$content" \
+    https://api.bintray.com/packages/easymock/distributions/zzz-easymock-classextension/versions
 
 pause
 
