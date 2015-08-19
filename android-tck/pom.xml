@@ -6,7 +6,7 @@
     <artifactId>easymock-parent</artifactId>
     <version>3.4-SNAPSHOT</version>
   </parent>
-  
+
   <artifactId>easymock-android-tck</artifactId>
   <packaging>apk</packaging>
   <name>EasyMock Android TCK</name>
@@ -28,7 +28,7 @@
     <!-- No code coverage need on this project since it's only a test project -->
     <jacoco.skip>true</jacoco.skip>
   </properties>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.easymock</groupId>
@@ -37,7 +37,7 @@
       <exclusions>
         <exclusion>
           <groupId>cglib</groupId>
-          <artifactId>cglib-nodep</artifactId>
+          <artifactId>cglib</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -111,7 +111,7 @@
               </pluginExecutions>
             </lifecycleMappingMetadata>
           </configuration>
-        </plugin>        
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -134,7 +134,7 @@
         </configuration>
         <extensions>true</extensions>
       </plugin>
-      
+
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -174,7 +174,7 @@
               </arguments>
               <skip>${skipTests}</skip>
             </configuration>
-          </execution>          
+          </execution>
         </executions>
       </plugin>
       <!-- Won't be deployed in the Central repository -->
@@ -183,7 +183,7 @@
         <configuration>
           <skip>true</skip>
         </configuration>
-      </plugin>     
+      </plugin>
     </plugins>
   </build>
 
