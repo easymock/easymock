@@ -1,5 +1,5 @@
 /**
- * Copyright 2006-2013 the original author or authors.
+ * Copyright 2006-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,22 @@
 
 package org.easymock.android;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import static org.easymock.EasyMock.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 /**
  * Tests making sure EasyMock behave correctly on Android
@@ -50,13 +55,13 @@ public class AndroidTck extends Instrumentation {
       } catch (IOException e) {
          e.printStackTrace();
       }
-    
+
       Bundle bundle = new Bundle();
       String fromStdout = outputStream.toString();
       bundle.putString(Instrumentation.REPORT_KEY_STREAMRESULT, fromStdout);
       finish(Activity.RESULT_OK, bundle);
    }
-   
+
    private void testObject() throws IOException {
       Activity mock = createMock(Activity.class);
       mock.onLowMemory();
