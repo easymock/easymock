@@ -35,7 +35,6 @@
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
       <version>${project.version}</version>
-      <classifier>nodeps</classifier>
       <scope>test</scope>
     </dependency>
   </dependencies>

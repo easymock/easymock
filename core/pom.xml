@@ -87,8 +87,8 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
           <instructions>
-            <Export-Package>org.easymock.internal.*;poweruser=true;mandatory:=poweruser,org.easymock</Export-Package>
-            <Import-Package>net.sf.cglib.core;resolution:=optional,net.sf.cglib.proxy;resolution:=optional,net.sf.cglib.reflect;resolution:=optional,org.easymock,org.easymock.internal;poweruser=true,org.objenesis;resolution:=optional</Import-Package>
+            <Export-Package>org.easymock.internal.*;poweruser=true;mandatory:=poweruser,org.easymock,org.easymock.cglib.core,org.easymock.cglib.proxy,org.easymock.cglib.reflect,org.easymock.asm</Export-Package>
+            <Import-Package>org.easymock,org.easymock.internal;poweruser=true,org.easymock.cglib.core,org.easymock.cglib.proxy,org.easymock.cglib.reflect,org.easymock.asm,org.objenesis;resolution:=optional</Import-Package>
           </instructions>
         </configuration>
         <executions>
@@ -111,6 +111,8 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <createSourcesJar>true</createSourcesJar>
+              <shadeSourcesContent>true</shadeSourcesContent>
               <artifactSet>
                 <excludes>
                   <exclude>junit:junit</exclude>
@@ -119,8 +121,6 @@
                   <exclude>org.hamcrest:hamcrest-core</exclude>
                 </excludes>
               </artifactSet>
-              <shadedArtifactAttached>true</shadedArtifactAttached>
-              <shadedClassifierName>nodeps</shadedClassifierName>
               <relocations>
                 <relocation>
                   <pattern>net.sf.cglib</pattern>

@@ -31,7 +31,7 @@ import static org.easymock.EasyMock.*;
 
 /**
  * Note: This is a JUnit 3 test because of the Spring OSGi test framework
- * 
+ *
  * @author Henri Tremblay
  */
 public class OsgiTest extends OsgiBaseTest {
@@ -42,13 +42,13 @@ public class OsgiTest extends OsgiBaseTest {
 
     @Override
     protected String[] getTestBundlesNames() {
-
-        String cglibVersion = "3.1_1";
         String objenesisVersion = getImplementationVersion(Objenesis.class);
         String easymockVersion = getEasyMockVersion();
 
-        return new String[] { "org.apache.servicemix.bundles, org.apache.servicemix.bundles.cglib, " + cglibVersion,
-                "org.easymock, easymock, " + easymockVersion, "org.objenesis, objenesis, " + objenesisVersion };
+        return new String[] {
+            "org.easymock, easymock, " + easymockVersion,
+            "org.objenesis, objenesis, " + objenesisVersion
+        };
     }
 
     @Override
@@ -60,7 +60,7 @@ public class OsgiTest extends OsgiBaseTest {
         imports = imports.replace("org.easymock.internal.matchers,",
                 "org.easymock.internal.matchers;poweruser=true,");
 
-        imports += ",net.sf.cglib.reflect,net.sf.cglib.core,net.sf.cglib.proxy";
+        imports += ",org.easymock.cglib.core,org.easymock.cglib.proxy,org.easymock.cglib.reflect,org.easymock.asm";
 
         mf.getMainAttributes().putValue(Constants.IMPORT_PACKAGE, imports);
 
@@ -120,7 +120,7 @@ public class OsgiTest extends OsgiBaseTest {
         verifyAll();
     }
 
-    public void testCanPartialMock() throws Exception {
+    public void  testCanPartialMock() throws Exception {
         A mock = partialMockBuilder(A.class).withConstructor().addMockedMethod("foo").createMock();
 
         mock.foo();

@@ -11,3 +11,4 @@ eclipse_config/
 sys$command
 _site/
 *.versionsBackup
+dependency-reduced-pom.xml

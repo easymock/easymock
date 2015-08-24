@@ -43,7 +43,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
      * Zero or more calls.
      */
     public static final Range ZERO_OR_MORE = new Range(0, Integer.MAX_VALUE);
-    
+
     /** lazily created; the proxy factory for classes */
     private static IProxyFactory classProxyFactory;
 
@@ -109,8 +109,14 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
             IProxyFactory proxyFactory = toMock.isInterface()
                     ? interfaceProxyFactory
                     : getClassProxyFactory();
-            return proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
-                    new MockInvocationHandler(this), name), mockedMethods, constructorArgs);
+            try {
+                return proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
+                        new MockInvocationHandler(this), name), mockedMethods, constructorArgs);
+            } catch (NoClassDefFoundError e) {
+                throw new RuntimeExceptionWrapper(new RuntimeException(
+                    "Class mocking requires to have objenesis library in the classpath", e));
+            }
+
         } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
@@ -141,12 +147,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
         // ///CLOVER:ON
 
-        try {
-            return classProxyFactory = new ClassProxyFactory();
-        } catch (NoClassDefFoundError e) {
-            throw new RuntimeException(
-                    "Class mocking requires to have cglib and objenesis librairies in the classpath", e);
-        }
+        return classProxyFactory = new ClassProxyFactory();
     }
 
     public static MocksControl getControl(Object mock) {
