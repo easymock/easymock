@@ -15,23 +15,23 @@
  */
 package org.easymock.internal;
 
-import org.easymock.*;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.easymock.*;
+
 /**
  * Default implementation of IMockBuilder.
  * <p>
  * <i>The original idea and part of the code where contributed by Rodrigo
  * Damazio and Bruno Fonseca at <a href="http://www.google.com">Google</a></i>
- * 
+ *
  * @param <T>
  *            type of the mock created
- * 
+ *
  * @author Henri Tremblay
  */
 public class MockBuilder<T> implements IMockBuilder<T> {
@@ -53,7 +53,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
     /**
      * Used by EasyMockSupport to allow the mock registration in the list of
      * controls
-     * 
+     *
      * @param toMock
      *            The class of the mock to create
      * @param support
@@ -196,7 +196,6 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         return createStrictMock(null);
     }
 
-    @SuppressWarnings("deprecation")
     public T createMock(String name, IMocksControl control) {
         Method[] mockedMethodArray = (mockedMethods == null ? new Method[0] : mockedMethods
                 .toArray(new Method[mockedMethods.size()]));

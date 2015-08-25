@@ -15,18 +15,18 @@
  */
 package org.easymock.tests2;
 
-import org.easymock.ConstructorArgs;
-import org.easymock.IMocksControl;
-import org.easymock.MockType;
-import org.easymock.internal.MocksControl;
-import org.junit.Test;
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import org.easymock.ConstructorArgs;
+import org.easymock.IMocksControl;
+import org.easymock.MockType;
+import org.easymock.internal.MocksControl;
+import org.junit.Test;
 
 /**
  * @author Henri Tremblay
@@ -75,7 +75,6 @@ public class MocksControlTest {
         testList(ctrl, list);
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testMocksControl_PartialMock_NoConstructorCalled() throws Exception {
         IMocksControl ctrl = createControl();
@@ -91,7 +90,6 @@ public class MocksControlTest {
         assertEquals("EasyMock for class org.easymock.tests2.MocksControlTest$A", a.toString());
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testMocksControl_NamedPartialMock_NoConstructorCalled() throws Exception {
         IMocksControl ctrl = createControl();
@@ -107,7 +105,6 @@ public class MocksControlTest {
         assertEquals("myMock", a.toString());
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testMocksControl_PartialMock_ConstructorCalled() throws Exception {
         IMocksControl ctrl = createControl();
@@ -126,7 +123,6 @@ public class MocksControlTest {
         assertEquals("EasyMock for class org.easymock.tests2.MocksControlTest$A", a.toString());
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testMocksControl_NamedPartialMock_ConstructorCalled() throws Exception {
         IMocksControl ctrl = createControl();
@@ -145,7 +141,6 @@ public class MocksControlTest {
         assertEquals("myMock", a.toString());
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testInterfaceForbidden_PartialMock() throws Exception {
         ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(Integer.TYPE), 6);

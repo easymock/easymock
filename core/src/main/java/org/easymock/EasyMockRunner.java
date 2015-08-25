@@ -23,7 +23,7 @@ import org.junit.runners.model.Statement;
 /**
  * JUnit runner used to process {@link Mock} and {@link TestSubject} annotations. Note
  * that this runner only works with JUnit 4.5 or higher
- * 
+ *
  * @author Henri Tremblay
  * @since 3.2
  */
@@ -43,7 +43,6 @@ public class EasyMockRunner extends BlockJUnit4ClassRunner {
      * @param statement current statement
      * @return a statement to return to the caller
      */
-    @SuppressWarnings("deprecation")
     @Override
     protected Statement withBefores(FrameworkMethod method, Object target,
             Statement statement) {

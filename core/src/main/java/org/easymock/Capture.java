@@ -22,10 +22,10 @@ import java.util.List;
 /**
  * Will contain what was captured by the <code>capture()</code> matcher. Knows
  * if something was captured or not (allows to capture a null value).
- * 
+ *
  * @param <T>
  *            Type of the captured element
- * 
+ *
  * @author Henri Tremblay
  */
 public class Capture<T> implements Serializable {
@@ -64,7 +64,6 @@ public class Capture<T> implements Serializable {
      * @param <T> type of the class to be captured
      * @return the new capture object
      */
-    @SuppressWarnings("deprecation")
     public static <T> Capture<T> newInstance() {
         return new Capture<T>();
     }
@@ -76,7 +75,6 @@ public class Capture<T> implements Serializable {
      * @param <T> type of the class to be captured
      * @return the new capture object
      */
-    @SuppressWarnings("deprecation")
     public static <T> Capture<T> newInstance(CaptureType type) {
         return new Capture<T>(type);
     }
@@ -97,7 +95,7 @@ public class Capture<T> implements Serializable {
 
     /**
      * Return captured value
-     * 
+     *
      * @throws AssertionError
      *             if nothing was captured yet or if more than one value was
      *             captured
@@ -116,7 +114,7 @@ public class Capture<T> implements Serializable {
     /**
      * Return all captured values. It returns the actual list so you can modify
      * it's content if needed
-     * 
+     *
      * @return The currently captured values
      */
     public List<T> getValues() {
@@ -125,7 +123,7 @@ public class Capture<T> implements Serializable {
 
     /**
      * Used internally by the EasyMock framework to add a new captured value
-     * 
+     *
      * @param value
      *            Value captured
      */
