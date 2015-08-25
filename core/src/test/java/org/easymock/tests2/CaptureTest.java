@@ -18,9 +18,7 @@ package org.easymock.tests2;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.easymock.Capture;
 import org.easymock.CaptureType;

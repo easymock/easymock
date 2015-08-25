@@ -22,7 +22,6 @@ import org.junit.Test;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test that everything is working fine after a deployment to Sonatype

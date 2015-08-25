@@ -18,7 +18,6 @@ package org.easymock.tests;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.IAnswer;
 import org.junit.Before;
 import org.junit.Test;
 
