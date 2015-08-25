@@ -15,14 +15,14 @@
  */
 package org.easymock.tests;
 
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Method;
-
 import org.easymock.internal.ExpectedInvocation;
 import org.easymock.internal.Invocation;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
+
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -40,15 +40,15 @@ public class MatchableArgumentsTest {
     }
 
     @Test
-    public void testEquals() throws SecurityException, NoSuchMethodException {
-        Method toPreventNullPointerExceptionm = Object.class.getMethod("toString", new Class[] {});
+    public void testEquals() throws Exception {
+        Method toPreventNullPointerException = Object.class.getMethod("toString", new Class[] {});
 
         Object mock = new Object();
 
         ExpectedInvocation matchableArguments = new ExpectedInvocation(new Invocation(mock,
-                toPreventNullPointerExceptionm, arguments), null);
+                toPreventNullPointerException, arguments), null);
         ExpectedInvocation nonEqualMatchableArguments = new ExpectedInvocation(new Invocation(mock,
-                toPreventNullPointerExceptionm, arguments2), null);
+                toPreventNullPointerException, arguments2), null);
 
         assertFalse(matchableArguments.equals(null));
         assertFalse(matchableArguments.equals(nonEqualMatchableArguments));

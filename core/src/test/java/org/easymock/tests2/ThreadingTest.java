@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
  * Test that EasyMock works in replay state in a multithreaded environment. Note
  * that sadly this test isn't sure to fail all the time. Only if there's a
  * concurrency issue and we're lucky enough to fell on it during testing.
- * 
+ *
  * @author Henri Tremblay
  */
 public class ThreadingTest {
@@ -154,7 +154,7 @@ public class ThreadingTest {
     }
 
     @Test
-    public void testRecordingInMultipleThreads() throws InterruptedException, ExecutionException {
+    public void testRecordingInMultipleThreads() throws Exception {
 
         Callable<String> replay = new Callable<String>() {
             public String call() throws Exception {

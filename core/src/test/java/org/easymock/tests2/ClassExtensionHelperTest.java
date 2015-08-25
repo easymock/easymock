@@ -16,24 +16,23 @@
 package org.easymock.tests2;
 
 import com.google.dexmaker.stock.ProxyBuilder;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.NoOp;
+import org.easymock.EasyMock;
+import org.easymock.internal.AndroidSupport;
+import org.easymock.internal.MocksControl;
+import org.junit.Test;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.NoOp;
-import org.easymock.EasyMock;
-import static org.easymock.EasyMock.createMock;
-import org.easymock.internal.AndroidSupport;
+
+import static org.easymock.EasyMock.*;
 import static org.easymock.internal.MocksControl.getControl;
-import static org.easymock.internal.MocksControl.getMockedType;
-import org.easymock.internal.MocksControl;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import org.junit.Test;
+import static org.easymock.internal.MocksControl.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
@@ -106,13 +105,13 @@ public class ClassExtensionHelperTest {
     public void testMockType_Class() {
         Object o = createMock(ArrayList.class);
         Class<?> c = getMockedType(o);
-        assertEquals(ArrayList.class, c);
+        assertSame(ArrayList.class, c);
     }
 
     @Test
     public void testMockType_Interface() {
         Object o = createMock(List.class);
         Class<?> c = getMockedType(o);
-        assertEquals(List.class, c);
+        assertSame(List.class, c);
     }
 }

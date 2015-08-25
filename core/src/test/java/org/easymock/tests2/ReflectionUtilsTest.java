@@ -15,13 +15,13 @@
  */
 package org.easymock.tests2;
 
-import static org.junit.Assert.*;
+import org.easymock.internal.ReflectionUtils;
+import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import org.easymock.internal.ReflectionUtils;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
@@ -67,9 +67,9 @@ public class ReflectionUtilsTest {
     @Test
     public void testFindMethod() {
         Method m = ReflectionUtils.findMethod(String.class, "length");
-        assertEquals(String.class, m.getDeclaringClass());
+        assertSame(String.class, m.getDeclaringClass());
         assertEquals("length", m.getName());
-        assertEquals(int.class, m.getReturnType());
+        assertSame(int.class, m.getReturnType());
     }
 
     @Test

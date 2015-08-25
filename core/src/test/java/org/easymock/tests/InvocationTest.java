@@ -15,13 +15,13 @@
  */
 package org.easymock.tests;
 
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Method;
-
 import org.easymock.internal.Invocation;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
+
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -85,7 +85,7 @@ public class InvocationTest {
         Method method = ToString.class.getMethod("aMethod", new Class[0]);
         Invocation invocation = new Invocation(new ToString("validJavaIdentifier"), method, null);
 
-        assertEquals(invocation.toString(), "validJavaIdentifier.aMethod()");
+        assertEquals("validJavaIdentifier.aMethod()", invocation.toString());
 
         invocation = new Invocation(new ToString("no-valid-java-identifier"), method, null);
 
@@ -109,7 +109,7 @@ public class InvocationTest {
         Method method = NoToString.class.getMethod("aMethod", new Class[0]);
         Invocation invocation = new Invocation(new NoToString("validJavaIdentifier"), method, null);
 
-        assertEquals(invocation.toString(), "aMethod()");
+        assertEquals("aMethod()", invocation.toString());
 
         invocation = new Invocation(new NoToString("no-valid-java-identifier"), method, null);
 
