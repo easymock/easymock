@@ -22,10 +22,10 @@ import java.lang.annotation.*;
  * will inject a mock to it.
  * <p>
  * Doing<br>
- * <code>@Mock private MyClass mock;</code><br> 
+ * {@code @Mock private MyClass mock;}<br>
  * is strictly identical to doing<br>
- * <code>private MyClass mock = createMock(MyClass.class);</code>
- * 
+ * {@code private MyClass mock = createMock(MyClass.class);}
+ *
  * @author Henri Tremblay
  * @since 3.2
  */

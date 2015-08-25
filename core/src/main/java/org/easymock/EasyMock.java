@@ -23,7 +23,7 @@ import java.util.Comparator;
 /**
  * Main EasyMock class. Contains methods to create, replay and verify mocks and
  * a list of standard matchers.
- * 
+ *
  * @author OFFIS, Tammo Freese
  * @author Henri Tremblay
  */
@@ -166,8 +166,8 @@ public class EasyMock {
 
     /**
      * Creates a mock object that implements the given interface, order checking
-     * is disabled by default, and the mock object will return <code>0</code>,
-     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * is disabled by default, and the mock object will return {@code 0},
+     * {@code null} or {@code false} for unexpected invocations.
      *
      * @param <T>
      *            the interface that the mock object should implement.
@@ -183,8 +183,8 @@ public class EasyMock {
 
     /**
      * Creates a mock object that implements the given interface, order checking
-     * is disabled by default, and the mock object will return <code>0</code>,
-     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * is disabled by default, and the mock object will return {@code 0},
+     * {@code null} or {@code false} for unexpected invocations.
      *
      * @param name
      *            the name of the mock object.
@@ -224,10 +224,10 @@ public class EasyMock {
      * or extends the given class.
      * <p>
      * <b>Note:</b> This is the old version of {@link #mock(MockType, Class)}, which is more completion friendly
-     * 
+     *
      * @param <T>
      *            the interface that the mock object should implement.
-     * @param type 
+     * @param type
      *            the type of the mock to be created.
      * @param toMock
      *            the class or interface that should be mocked.
@@ -244,11 +244,11 @@ public class EasyMock {
      * <p>
      * <b>Note:</b> This is the old version of {@link #mock(String, MockType, Class)}, which is more completion friendly
      *
-     * @param <T> 
+     * @param <T>
      *            the class or interface that should be mocked.
-     * @param name 
+     * @param name
      *            the name of the mock object.
-     * @param type 
+     * @param type
      *            the type of the mock to be created.
      * @param toMock
      *            the class or interface that should be mocked.
@@ -321,7 +321,7 @@ public class EasyMock {
      *            the name of the mock object.
      * @param toMock
      *            the class or interface that should be mocked.
-     * 
+     *
      * @param <T>
      *            the interface that the mock object should implement.
      * @return the mock object.
@@ -334,8 +334,8 @@ public class EasyMock {
 
     /**
      * Creates a mock object that implements the given interface, order checking
-     * is disabled by default, and the mock object will return <code>0</code>,
-     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * is disabled by default, and the mock object will return {@code 0},
+     * {@code null} or {@code false} for unexpected invocations.
      * <p>
      * <b>Note:</b> This is the old version of {@link #niceMock(Class)}, which is more completion friendly
      *
@@ -351,8 +351,8 @@ public class EasyMock {
 
     /**
      * Creates a mock object that implements the given interface, order checking
-     * is disabled by default, and the mock object will return <code>0</code>,
-     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * is disabled by default, and the mock object will return {@code 0},
+     * {@code null} or {@code false} for unexpected invocations.
      * <p>
      * <b>Note:</b> This is the old version of {@link #niceMock(String, Class)}, which is more completion friendly
      *
@@ -360,7 +360,7 @@ public class EasyMock {
      *            the name of the mock object.
      * @param toMock
      *            the class or interface that should be mocked.
-     * 
+     *
      * @param <T>
      *            the interface that the mock object should implement.
      * @return the mock object.
@@ -389,7 +389,7 @@ public class EasyMock {
 
     /**
      * Creates a control of the requested type.
-     * 
+     *
      * @param type the mock type
      * @return the control.
      * @since 3.2
@@ -400,7 +400,7 @@ public class EasyMock {
 
     /**
      * Creates a control, order checking is enabled by default.
-     * 
+     *
      * @return the control.
      */
     public static IMocksControl createStrictControl() {
@@ -409,7 +409,7 @@ public class EasyMock {
 
     /**
      * Creates a control, order checking is disabled by default.
-     * 
+     *
      * @return the control.
      */
     public static IMocksControl createControl() {
@@ -418,9 +418,9 @@ public class EasyMock {
 
     /**
      * Creates a control, order checking is disabled by default, and the mock
-     * objects created by this control will return <code>0</code>,
-     * <code>null</code> or <code>false</code> for unexpected invocations.
-     * 
+     * objects created by this control will return {@code 0},
+     * {@code null} or {@code false} for unexpected invocations.
+     *
      * @return the control.
      */
     public static IMocksControl createNiceControl() {
@@ -430,14 +430,14 @@ public class EasyMock {
     /**
      * Returns the expectation setter for the last expected invocation in the
      * current thread.
-     * 
+     *
      * @param <T>
      *            type returned by the expected method
      * @param value
      *            the parameter is used to transport the type to the
      *            ExpectationSetter. It allows writing the expected call as
      *            argument, i.e. expect(mock.getName()).andReturn("John Doe").
-     * 
+     *
      * @return the expectation setter.
      */
     public static <T> IExpectationSetters<T> expect(T value) {
@@ -448,7 +448,7 @@ public class EasyMock {
      * Returns the expectation setter for the last expected invocation in the
      * current thread. This method is used for expected invocations on void
      * methods.
-     * 
+     *
      * @param <T>
      *            type returned by the expected method
      * @return the expectation setter.
@@ -471,8 +471,8 @@ public class EasyMock {
     /**
      * Expects any boolean argument. For details, see the EasyMock
      * documentation.
-     * 
-     * @return <code>false</code>.
+     *
+     * @return {@code false}.
      */
     public static boolean anyBoolean() {
         reportMatcher(Any.ANY);
@@ -481,8 +481,8 @@ public class EasyMock {
 
     /**
      * Expects any byte argument. For details, see the EasyMock documentation.
-     * 
-     * @return <code>0</code>.
+     *
+     * @return {@code 0}.
      */
     public static byte anyByte() {
         reportMatcher(Any.ANY);
@@ -491,8 +491,8 @@ public class EasyMock {
 
     /**
      * Expects any char argument. For details, see the EasyMock documentation.
-     * 
-     * @return <code>0</code>.
+     *
+     * @return {@code 0}.
      */
     public static char anyChar() {
         reportMatcher(Any.ANY);
@@ -501,8 +501,8 @@ public class EasyMock {
 
     /**
      * Expects any int argument. For details, see the EasyMock documentation.
-     * 
-     * @return <code>0</code>.
+     *
+     * @return {@code 0}.
      */
     public static int anyInt() {
         reportMatcher(Any.ANY);
@@ -511,8 +511,8 @@ public class EasyMock {
 
     /**
      * Expects any long argument. For details, see the EasyMock documentation.
-     * 
-     * @return <code>0</code>.
+     *
+     * @return {@code 0}.
      */
     public static long anyLong() {
         reportMatcher(Any.ANY);
@@ -521,8 +521,8 @@ public class EasyMock {
 
     /**
      * Expects any float argument. For details, see the EasyMock documentation.
-     * 
-     * @return <code>0</code>.
+     *
+     * @return {@code 0}.
      */
     public static float anyFloat() {
         reportMatcher(Any.ANY);
@@ -531,8 +531,8 @@ public class EasyMock {
 
     /**
      * Expects any double argument. For details, see the EasyMock documentation.
-     * 
-     * @return <code>0</code>.
+     *
+     * @return {@code 0}.
      */
     public static double anyDouble() {
         reportMatcher(Any.ANY);
@@ -541,8 +541,8 @@ public class EasyMock {
 
     /**
      * Expects any short argument. For details, see the EasyMock documentation.
-     * 
-     * @return <code>0</code>.
+     *
+     * @return {@code 0}.
      */
     public static short anyShort() {
         reportMatcher(Any.ANY);
@@ -554,18 +554,18 @@ public class EasyMock {
      * This matcher (and {@link #anyObject(Class)}) can be used in these three
      * ways:
      * <ul>
-     * <li><code>(T)EasyMock.anyObject() // explicit cast</code></li>
+     * <li>{@code (T)EasyMock.anyObject() // explicit cast}</li>
      * <li>
-     * <code>EasyMock.&lt;T&gt; anyObject() // fixing the returned generic</code>
+     * {@code EasyMock.&lt;T&gt; anyObject() // fixing the returned generic}
      * </li>
      * <li>
-     * <code>EasyMock.anyObject(T.class) // pass the returned type in parameter</code>
+     * {@code EasyMock.anyObject(T.class) // pass the returned type in parameter}
      * </li>
      * </ul>
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T> T anyObject() {
         reportMatcher(Any.ANY);
@@ -576,12 +576,12 @@ public class EasyMock {
      * Expects any Object argument. For details, see the EasyMock documentation.
      * To work well with generics, this matcher can be used in three different
      * ways. See {@link #anyObject()}.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param clazz
      *            the class of the argument to match
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T> T anyObject(Class<T> clazz) {
         reportMatcher(Any.ANY);
@@ -592,8 +592,8 @@ public class EasyMock {
      * Expect any string whatever its content is. Exactly the same as
      * {@link #anyObject()} but prevents typing issues for the much used String
      * type. Consider this method to be a syntactic sugar.
-     * 
-     * @return <code>null</code>.
+     *
+     * @return {@code null}.
      */
     public static String anyString() {
         return anyObject();
@@ -602,12 +602,12 @@ public class EasyMock {
     /**
      * Expects a comparable argument greater than or equal the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param value
      *            the given value.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T extends Comparable<T>> T geq(Comparable<T> value) {
         reportMatcher(new GreaterOrEqual<T>(value));
@@ -617,10 +617,10 @@ public class EasyMock {
     /**
      * Expects a byte argument greater than or equal to the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static byte geq(byte value) {
         reportMatcher(new GreaterOrEqual<Byte>(value));
@@ -630,10 +630,10 @@ public class EasyMock {
     /**
      * Expects a double argument greater than or equal to the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static double geq(double value) {
         reportMatcher(new GreaterOrEqual<Double>(value));
@@ -643,10 +643,10 @@ public class EasyMock {
     /**
      * Expects a float argument greater than or equal to the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static float geq(float value) {
         reportMatcher(new GreaterOrEqual<Float>(value));
@@ -656,10 +656,10 @@ public class EasyMock {
     /**
      * Expects an int argument greater than or equal to the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static int geq(int value) {
         reportMatcher(new GreaterOrEqual<Integer>(value));
@@ -669,10 +669,10 @@ public class EasyMock {
     /**
      * Expects a long argument greater than or equal to the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static long geq(long value) {
         reportMatcher(new GreaterOrEqual<Long>(value));
@@ -682,10 +682,10 @@ public class EasyMock {
     /**
      * Expects a short argument greater than or equal to the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static short geq(short value) {
         reportMatcher(new GreaterOrEqual<Short>(value));
@@ -695,12 +695,12 @@ public class EasyMock {
     /**
      * Expects a comparable argument less than or equal the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param value
      *            the given value.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T extends Comparable<T>> T leq(Comparable<T> value) {
         reportMatcher(new LessOrEqual<T>(value));
@@ -710,10 +710,10 @@ public class EasyMock {
     /**
      * Expects a byte argument less than or equal to the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static byte leq(byte value) {
         reportMatcher(new LessOrEqual<Byte>(value));
@@ -723,10 +723,10 @@ public class EasyMock {
     /**
      * Expects a double argument less than or equal to the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static double leq(double value) {
         reportMatcher(new LessOrEqual<Double>(value));
@@ -736,10 +736,10 @@ public class EasyMock {
     /**
      * Expects a float argument less than or equal to the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static float leq(float value) {
         reportMatcher(new LessOrEqual<Float>(value));
@@ -749,10 +749,10 @@ public class EasyMock {
     /**
      * Expects an int argument less than or equal to the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static int leq(int value) {
         reportMatcher(new LessOrEqual<Integer>(value));
@@ -762,10 +762,10 @@ public class EasyMock {
     /**
      * Expects a long argument less than or equal to the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static long leq(long value) {
         reportMatcher(new LessOrEqual<Long>(value));
@@ -775,10 +775,10 @@ public class EasyMock {
     /**
      * Expects a short argument less than or equal to the given value. For
      * details, see the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static short leq(short value) {
         reportMatcher(new LessOrEqual<Short>(value));
@@ -788,12 +788,12 @@ public class EasyMock {
     /**
      * Expects a comparable argument greater than the given value. For details,
      * see the EasyMock documentation.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param value
      *            the given value.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T extends Comparable<T>> T gt(Comparable<T> value) {
         reportMatcher(new GreaterThan<T>(value));
@@ -803,10 +803,10 @@ public class EasyMock {
     /**
      * Expects a byte argument greater than the given value. For details, see
      * the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static byte gt(byte value) {
         reportMatcher(new GreaterThan<Byte>(value));
@@ -816,10 +816,10 @@ public class EasyMock {
     /**
      * Expects a double argument greater than the given value. For details, see
      * the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static double gt(double value) {
         reportMatcher(new GreaterThan<Double>(value));
@@ -829,10 +829,10 @@ public class EasyMock {
     /**
      * Expects a float argument greater than the given value. For details, see
      * the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static float gt(float value) {
         reportMatcher(new GreaterThan<Float>(value));
@@ -842,10 +842,10 @@ public class EasyMock {
     /**
      * Expects an int argument greater than the given value. For details, see
      * the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static int gt(int value) {
         reportMatcher(new GreaterThan<Integer>(value));
@@ -855,10 +855,10 @@ public class EasyMock {
     /**
      * Expects a long argument greater than the given value. For details, see
      * the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static long gt(long value) {
         reportMatcher(new GreaterThan<Long>(value));
@@ -868,10 +868,10 @@ public class EasyMock {
     /**
      * Expects a short argument greater than the given value. For details, see
      * the EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static short gt(short value) {
         reportMatcher(new GreaterThan<Short>(value));
@@ -881,12 +881,12 @@ public class EasyMock {
     /**
      * Expects a comparable argument less than the given value. For details, see
      * the EasyMock documentation.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param value
      *            the given value.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T extends Comparable<T>> T lt(Comparable<T> value) {
         reportMatcher(new LessThan<T>(value));
@@ -896,10 +896,10 @@ public class EasyMock {
     /**
      * Expects a byte argument less than the given value. For details, see the
      * EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static byte lt(byte value) {
         reportMatcher(new LessThan<Byte>(value));
@@ -909,10 +909,10 @@ public class EasyMock {
     /**
      * Expects a double argument less than the given value. For details, see the
      * EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static double lt(double value) {
         reportMatcher(new LessThan<Double>(value));
@@ -922,10 +922,10 @@ public class EasyMock {
     /**
      * Expects a float argument less than the given value. For details, see the
      * EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static float lt(float value) {
         reportMatcher(new LessThan<Float>(value));
@@ -935,10 +935,10 @@ public class EasyMock {
     /**
      * Expects an int argument less than the given value. For details, see the
      * EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static int lt(int value) {
         reportMatcher(new LessThan<Integer>(value));
@@ -948,10 +948,10 @@ public class EasyMock {
     /**
      * Expects a long argument less than the given value. For details, see the
      * EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static long lt(long value) {
         reportMatcher(new LessThan<Long>(value));
@@ -961,10 +961,10 @@ public class EasyMock {
     /**
      * Expects a short argument less than the given value. For details, see the
      * EasyMock documentation.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static short lt(short value) {
         reportMatcher(new LessThan<Short>(value));
@@ -974,12 +974,12 @@ public class EasyMock {
     /**
      * Expects an object implementing the given class. For details, see the
      * EasyMock documentation.
-     * 
+     *
      * @param <T>
      *            the accepted type.
      * @param clazz
      *            the class of the accepted type.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T> T isA(Class<T> clazz) {
         reportMatcher(new InstanceOf(clazz));
@@ -989,10 +989,10 @@ public class EasyMock {
     /**
      * Expects a string that contains the given substring. For details, see the
      * EasyMock documentation.
-     * 
+     *
      * @param substring
      *            the substring.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static String contains(String substring) {
         reportMatcher(new Contains(substring));
@@ -1001,12 +1001,12 @@ public class EasyMock {
 
     /**
      * Expects a boolean that matches both given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>false</code>.
+     * @return {@code false}.
      */
     public static boolean and(boolean first, boolean second) {
         LastControl.reportAnd(2);
@@ -1015,12 +1015,12 @@ public class EasyMock {
 
     /**
      * Expects a byte that matches both given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static byte and(byte first, byte second) {
         LastControl.reportAnd(2);
@@ -1029,12 +1029,12 @@ public class EasyMock {
 
     /**
      * Expects a char that matches both given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static char and(char first, char second) {
         LastControl.reportAnd(2);
@@ -1043,12 +1043,12 @@ public class EasyMock {
 
     /**
      * Expects a double that matches both given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static double and(double first, double second) {
         LastControl.reportAnd(2);
@@ -1057,12 +1057,12 @@ public class EasyMock {
 
     /**
      * Expects a float that matches both given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static float and(float first, float second) {
         LastControl.reportAnd(2);
@@ -1071,12 +1071,12 @@ public class EasyMock {
 
     /**
      * Expects an int that matches both given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static int and(int first, int second) {
         LastControl.reportAnd(2);
@@ -1085,12 +1085,12 @@ public class EasyMock {
 
     /**
      * Expects a long that matches both given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static long and(long first, long second) {
         LastControl.reportAnd(2);
@@ -1099,12 +1099,12 @@ public class EasyMock {
 
     /**
      * Expects a short that matches both given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static short and(short first, short second) {
         LastControl.reportAnd(2);
@@ -1113,14 +1113,14 @@ public class EasyMock {
 
     /**
      * Expects an Object that matches both given expectations.
-     * 
+     *
      * @param <T>
      *            the type of the object, it is passed through to prevent casts.
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T> T and(T first, T second) {
         LastControl.reportAnd(2);
@@ -1129,12 +1129,12 @@ public class EasyMock {
 
     /**
      * Expects a boolean that matches one of the given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>false</code>.
+     * @return {@code false}.
      */
     public static boolean or(boolean first, boolean second) {
         LastControl.reportOr(2);
@@ -1143,12 +1143,12 @@ public class EasyMock {
 
     /**
      * Expects a byte that matches one of the given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static byte or(byte first, byte second) {
         LastControl.reportOr(2);
@@ -1157,12 +1157,12 @@ public class EasyMock {
 
     /**
      * Expects a char that matches one of the given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static char or(char first, char second) {
         LastControl.reportOr(2);
@@ -1171,12 +1171,12 @@ public class EasyMock {
 
     /**
      * Expects a double that matches one of the given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static double or(double first, double second) {
         LastControl.reportOr(2);
@@ -1185,12 +1185,12 @@ public class EasyMock {
 
     /**
      * Expects a float that matches one of the given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static float or(float first, float second) {
         LastControl.reportOr(2);
@@ -1199,12 +1199,12 @@ public class EasyMock {
 
     /**
      * Expects an int that matches one of the given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static int or(int first, int second) {
         LastControl.reportOr(2);
@@ -1213,12 +1213,12 @@ public class EasyMock {
 
     /**
      * Expects a long that matches one of the given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static long or(long first, long second) {
         LastControl.reportOr(2);
@@ -1227,12 +1227,12 @@ public class EasyMock {
 
     /**
      * Expects a short that matches one of the given expectations.
-     * 
+     *
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static short or(short first, short second) {
         LastControl.reportOr(2);
@@ -1241,14 +1241,14 @@ public class EasyMock {
 
     /**
      * Expects an Object that matches one of the given expectations.
-     * 
+     *
      * @param <T>
      *            the type of the object, it is passed through to prevent casts.
      * @param first
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T> T or(T first, T second) {
         LastControl.reportOr(2);
@@ -1257,10 +1257,10 @@ public class EasyMock {
 
     /**
      * Expects a boolean that does not match the given expectation.
-     * 
+     *
      * @param first
      *            placeholder for the expectation.
-     * @return <code>false</code>.
+     * @return {@code false}.
      */
     public static boolean not(boolean first) {
         LastControl.reportNot();
@@ -1269,10 +1269,10 @@ public class EasyMock {
 
     /**
      * Expects a byte that does not match the given expectation.
-     * 
+     *
      * @param first
      *            placeholder for the expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static byte not(byte first) {
         LastControl.reportNot();
@@ -1281,10 +1281,10 @@ public class EasyMock {
 
     /**
      * Expects a char that does not match the given expectation.
-     * 
+     *
      * @param first
      *            placeholder for the expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static char not(char first) {
         LastControl.reportNot();
@@ -1293,10 +1293,10 @@ public class EasyMock {
 
     /**
      * Expects a double that does not match the given expectation.
-     * 
+     *
      * @param first
      *            placeholder for the expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static double not(double first) {
         LastControl.reportNot();
@@ -1305,10 +1305,10 @@ public class EasyMock {
 
     /**
      * Expects a float that does not match the given expectation.
-     * 
+     *
      * @param first
      *            placeholder for the expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static float not(float first) {
         LastControl.reportNot();
@@ -1317,10 +1317,10 @@ public class EasyMock {
 
     /**
      * Expects an int that does not match the given expectation.
-     * 
+     *
      * @param first
      *            placeholder for the expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static int not(int first) {
         LastControl.reportNot();
@@ -1329,10 +1329,10 @@ public class EasyMock {
 
     /**
      * Expects a long that does not match the given expectation.
-     * 
+     *
      * @param first
      *            placeholder for the expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static long not(long first) {
         LastControl.reportNot();
@@ -1341,10 +1341,10 @@ public class EasyMock {
 
     /**
      * Expects a short that does not match the given expectation.
-     * 
+     *
      * @param first
      *            placeholder for the expectation.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static short not(short first) {
         LastControl.reportNot();
@@ -1353,12 +1353,12 @@ public class EasyMock {
 
     /**
      * Expects an Object that does not match the given expectation.
-     * 
+     *
      * @param <T>
      *            the type of the object, it is passed through to prevent casts.
      * @param first
      *            placeholder for the expectation.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T> T not(T first) {
         LastControl.reportNot();
@@ -1367,10 +1367,10 @@ public class EasyMock {
 
     /**
      * Expects a boolean that is equal to the given value.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static boolean eq(boolean value) {
         reportMatcher(new Equals(value));
@@ -1379,10 +1379,10 @@ public class EasyMock {
 
     /**
      * Expects a byte that is equal to the given value.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static byte eq(byte value) {
         reportMatcher(new Equals(value));
@@ -1391,10 +1391,10 @@ public class EasyMock {
 
     /**
      * Expects a char that is equal to the given value.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static char eq(char value) {
         reportMatcher(new Equals(value));
@@ -1403,10 +1403,10 @@ public class EasyMock {
 
     /**
      * Expects a double that is equal to the given value.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static double eq(double value) {
         reportMatcher(new Equals(value));
@@ -1415,10 +1415,10 @@ public class EasyMock {
 
     /**
      * Expects a float that is equal to the given value.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static float eq(float value) {
         reportMatcher(new Equals(value));
@@ -1427,10 +1427,10 @@ public class EasyMock {
 
     /**
      * Expects an int that is equal to the given value.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static int eq(int value) {
         reportMatcher(new Equals(value));
@@ -1439,10 +1439,10 @@ public class EasyMock {
 
     /**
      * Expects a long that is equal to the given value.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static long eq(long value) {
         reportMatcher(new Equals(value));
@@ -1451,10 +1451,10 @@ public class EasyMock {
 
     /**
      * Expects a short that is equal to the given value.
-     * 
+     *
      * @param value
      *            the given value.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static short eq(short value) {
         reportMatcher(new Equals(value));
@@ -1463,12 +1463,12 @@ public class EasyMock {
 
     /**
      * Expects an Object that is equal to the given value.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param value
      *            the given value.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T> T eq(T value) {
         reportMatcher(new Equals(value));
@@ -1478,10 +1478,10 @@ public class EasyMock {
     /**
      * Expects a boolean array that is equal to the given array, i.e. it has to
      * have the same length, and each element has to be equal.
-     * 
+     *
      * @param value
      *            the given array.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static boolean[] aryEq(boolean[] value) {
         reportMatcher(new ArrayEquals(value));
@@ -1491,10 +1491,10 @@ public class EasyMock {
     /**
      * Expects a byte array that is equal to the given array, i.e. it has to
      * have the same length, and each element has to be equal.
-     * 
+     *
      * @param value
      *            the given array.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static byte[] aryEq(byte[] value) {
         reportMatcher(new ArrayEquals(value));
@@ -1504,10 +1504,10 @@ public class EasyMock {
     /**
      * Expects a char array that is equal to the given array, i.e. it has to
      * have the same length, and each element has to be equal.
-     * 
+     *
      * @param value
      *            the given array.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static char[] aryEq(char[] value) {
         reportMatcher(new ArrayEquals(value));
@@ -1517,10 +1517,10 @@ public class EasyMock {
     /**
      * Expects a double array that is equal to the given array, i.e. it has to
      * have the same length, and each element has to be equal.
-     * 
+     *
      * @param value
      *            the given array.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static double[] aryEq(double[] value) {
         reportMatcher(new ArrayEquals(value));
@@ -1530,10 +1530,10 @@ public class EasyMock {
     /**
      * Expects a float array that is equal to the given array, i.e. it has to
      * have the same length, and each element has to be equal.
-     * 
+     *
      * @param value
      *            the given array.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static float[] aryEq(float[] value) {
         reportMatcher(new ArrayEquals(value));
@@ -1543,10 +1543,10 @@ public class EasyMock {
     /**
      * Expects an int array that is equal to the given array, i.e. it has to
      * have the same length, and each element has to be equal.
-     * 
+     *
      * @param value
      *            the given array.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static int[] aryEq(int[] value) {
         reportMatcher(new ArrayEquals(value));
@@ -1556,10 +1556,10 @@ public class EasyMock {
     /**
      * Expects a long array that is equal to the given array, i.e. it has to
      * have the same length, and each element has to be equal.
-     * 
+     *
      * @param value
      *            the given array.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static long[] aryEq(long[] value) {
         reportMatcher(new ArrayEquals(value));
@@ -1569,10 +1569,10 @@ public class EasyMock {
     /**
      * Expects a short array that is equal to the given array, i.e. it has to
      * have the same length, and each element has to be equal.
-     * 
+     *
      * @param value
      *            the given array.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static short[] aryEq(short[] value) {
         reportMatcher(new ArrayEquals(value));
@@ -1582,12 +1582,12 @@ public class EasyMock {
     /**
      * Expects an Object array that is equal to the given array, i.e. it has to
      * have the same type, length, and each element has to be equal.
-     * 
+     *
      * @param <T>
      *            the type of the array, it is passed through to prevent casts.
      * @param value
      *            the given array.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T> T[] aryEq(T[] value) {
         reportMatcher(new ArrayEquals(value));
@@ -1598,17 +1598,17 @@ public class EasyMock {
      * Expects null. To work well with generics, this matcher (and
      * {@link #isNull(Class)}) can be used in these three ways:
      * <ul>
-     * <li><code>(T)EasyMock.isNull() // explicit cast</code></li>
+     * <li>{@code (T)EasyMock.isNull() // explicit cast}</li>
      * <li>
-     * <code>EasyMock.&lt;T&gt; isNull() // fixing the returned generic</code></li>
+     * {@code EasyMock.&lt;T&gt; isNull() // fixing the returned generic}</li>
      * <li>
-     * <code>EasyMock.isNull(T.class) // pass the returned type in parameter</code>
+     * {@code EasyMock.isNull(T.class) // pass the returned type in parameter}
      * </li>
      * </ul>
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T> T isNull() {
         reportMatcher(Null.NULL);
@@ -1618,13 +1618,13 @@ public class EasyMock {
     /**
      * Expects null. To work well with generics, this matcher can be used in
      * three different ways. See {@link #isNull()}.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param clazz
      *            the class of the argument to match
-     * @return <code>null</code>.
-     * 
+     * @return {@code null}.
+     *
      * @see #isNull()
      */
     public static <T> T isNull(Class<T> clazz) {
@@ -1636,17 +1636,17 @@ public class EasyMock {
      * Expects not null. To work well with generics, this matcher (and
      * {@link #notNull(Class)}) can be used in these three ways:
      * <ul>
-     * <li><code>(T)EasyMock.notNull() // explicit cast</code></li>
+     * <li>{@code (T)EasyMock.notNull() // explicit cast}</li>
      * <li>
-     * <code>EasyMock.&lt;T&gt; notNull() // fixing the returned generic</code></li>
+     * {@code EasyMock.&lt;T&gt; notNull() // fixing the returned generic}</li>
      * <li>
-     * <code>EasyMock.notNull(T.class) // pass the returned type in parameter</code>
+     * {@code EasyMock.notNull(T.class) // pass the returned type in parameter}
      * </li>
      * </ul>
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T> T notNull() {
         reportMatcher(NotNull.NOT_NULL);
@@ -1656,13 +1656,13 @@ public class EasyMock {
     /**
      * Expects not null. To work well with generics, this matcher can be used in
      * three different ways. See {@link #notNull()}.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param clazz
      *            the class of the argument to match
-     * @return <code>null</code>.
-     * 
+     * @return {@code null}.
+     *
      * @see #notNull()
      */
     public static <T> T notNull(Class<T> clazz) {
@@ -1673,10 +1673,10 @@ public class EasyMock {
     /**
      * Expects a string that contains a substring that matches the given regular
      * expression. For details, see the EasyMock documentation.
-     * 
+     *
      * @param regex
      *            the regular expression.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static String find(String regex) {
         reportMatcher(new Find(regex));
@@ -1686,10 +1686,10 @@ public class EasyMock {
     /**
      * Expects a string that matches the given regular expression. For details,
      * see the EasyMock documentation.
-     * 
+     *
      * @param regex
      *            the regular expression.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static String matches(String regex) {
         reportMatcher(new Matches(regex));
@@ -1699,10 +1699,10 @@ public class EasyMock {
     /**
      * Expects a string that starts with the given prefix. For details, see the
      * EasyMock documentation.
-     * 
+     *
      * @param prefix
      *            the prefix.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static String startsWith(String prefix) {
         reportMatcher(new StartsWith(prefix));
@@ -1712,10 +1712,10 @@ public class EasyMock {
     /**
      * Expects a string that ends with the given suffix. For details, see the
      * EasyMock documentation.
-     * 
+     *
      * @param suffix
      *            the suffix.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static String endsWith(String suffix) {
         reportMatcher(new EndsWith(suffix));
@@ -1726,12 +1726,12 @@ public class EasyMock {
      * Expects a double that has an absolute difference to the given value that
      * is less than the given delta. For details, see the EasyMock
      * documentation.
-     * 
+     *
      * @param value
      *            the given value.
      * @param delta
      *            the given delta.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static double eq(double value, double delta) {
         reportMatcher(new EqualsWithDelta(value, delta));
@@ -1742,12 +1742,12 @@ public class EasyMock {
      * Expects a float that has an absolute difference to the given value that
      * is less than the given delta. For details, see the EasyMock
      * documentation.
-     * 
+     *
      * @param value
      *            the given value.
      * @param delta
      *            the given delta.
-     * @return <code>0</code>.
+     * @return {@code 0}.
      */
     public static float eq(float value, float delta) {
         reportMatcher(new EqualsWithDelta(value, delta));
@@ -1757,12 +1757,12 @@ public class EasyMock {
     /**
      * Expects an Object that is the same as the given value. For details, see
      * the EasyMock documentation.
-     * 
+     *
      * @param <T>
      *            the type of the object, it is passed through to prevent casts.
      * @param value
      *            the given value.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T> T same(T value) {
         reportMatcher(new Same(value));
@@ -1772,12 +1772,12 @@ public class EasyMock {
     /**
      * Expects a comparable argument equals to the given value according to
      * their compareTo method. For details, see the EasMock documentation.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param value
      *            the given value.
-     * @return <code>null</code>.
+     * @return {@code null}.
      */
     public static <T extends Comparable<T>> T cmpEq(Comparable<T> value) {
         reportMatcher(new CompareEqual<T>(value));
@@ -1788,10 +1788,10 @@ public class EasyMock {
      * Expects an argument that will be compared using the provided comparator.
      * The following comparison will take place:
      * <p>
-     * <code>comparator.compare(actual, expected) operator 0</code>
+     * {@code comparator.compare(actual, expected) operator 0}
      * </p>
      * For details, see the EasyMock documentation.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param value
@@ -1800,7 +1800,7 @@ public class EasyMock {
      *            Comparator used to compare the actual with expected value.
      * @param operator
      *            The comparison operator.
-     * @return <code>null</code>
+     * @return {@code null}
      */
     public static <T> T cmp(T value, Comparator<? super T> comparator,
             LogicalOperator operator) {
@@ -1831,12 +1831,12 @@ public class EasyMock {
 
     /**
      * Expect any object but captures it for later use.
-     * 
+     *
      * @param <T>
      *            Type of the captured object
      * @param captured
      *            Where the parameter is captured
-     * @return <code>null</code>
+     * @return {@code null}
      */
     public static <T> T capture(Capture<T> captured) {
         reportMatcher(new Captures<T>(captured));
@@ -1845,10 +1845,10 @@ public class EasyMock {
 
     /**
      * Expect any boolean but captures it for later use.
-     * 
+     *
      * @param captured
      *            Where the parameter is captured
-     * @return <code>false</code>
+     * @return {@code false}
      */
     public static boolean captureBoolean(Capture<Boolean> captured) {
         reportMatcher(new Captures<Boolean>(captured));
@@ -1857,10 +1857,10 @@ public class EasyMock {
 
     /**
      * Expect any int but captures it for later use.
-     * 
+     *
      * @param captured
      *            Where the parameter is captured
-     * @return <code>0</code>
+     * @return {@code 0}
      */
     public static int captureInt(Capture<Integer> captured) {
         reportMatcher(new Captures<Integer>(captured));
@@ -1869,10 +1869,10 @@ public class EasyMock {
 
     /**
      * Expect any long but captures it for later use.
-     * 
+     *
      * @param captured
      *            Where the parameter is captured
-     * @return <code>0</code>
+     * @return {@code 0}
      */
     public static long captureLong(Capture<Long> captured) {
         reportMatcher(new Captures<Long>(captured));
@@ -1881,10 +1881,10 @@ public class EasyMock {
 
     /**
      * Expect any float but captures it for later use.
-     * 
+     *
      * @param captured
      *            Where the parameter is captured
-     * @return <code>0</code>
+     * @return {@code 0}
      */
     public static float captureFloat(Capture<Float> captured) {
         reportMatcher(new Captures<Float>(captured));
@@ -1893,10 +1893,10 @@ public class EasyMock {
 
     /**
      * Expect any double but captures it for later use.
-     * 
+     *
      * @param captured
      *            Where the parameter is captured
-     * @return <code>0</code>
+     * @return {@code 0}
      */
     public static double captureDouble(Capture<Double> captured) {
         reportMatcher(new Captures<Double>(captured));
@@ -1905,10 +1905,10 @@ public class EasyMock {
 
     /**
      * Expect any byte but captures it for later use.
-     * 
+     *
      * @param captured
      *            Where the parameter is captured
-     * @return <code>0</code>
+     * @return {@code 0}
      */
     public static byte captureByte(Capture<Byte> captured) {
         reportMatcher(new Captures<Byte>(captured));
@@ -1917,10 +1917,10 @@ public class EasyMock {
 
     /**
      * Expect any char but captures it for later use.
-     * 
+     *
      * @param captured
      *            Where the parameter is captured
-     * @return <code>0</code>
+     * @return {@code 0}
      */
     public static char captureChar(Capture<Character> captured) {
         reportMatcher(new Captures<Character>(captured));
@@ -1930,7 +1930,7 @@ public class EasyMock {
     /**
      * Switches the given mock objects (more exactly: the controls of the mock
      * objects) to replay mode. For details, see the EasyMock documentation.
-     * 
+     *
      * @param mocks
      *            the mock objects.
      */
@@ -1943,7 +1943,7 @@ public class EasyMock {
     /**
      * Resets the given mock objects (more exactly: the controls of the mock
      * objects). For details, see the EasyMock documentation.
-     * 
+     *
      * @param mocks
      *            the mock objects.
      */
@@ -1957,7 +1957,7 @@ public class EasyMock {
      * Resets the given mock objects (more exactly: the controls of the mock
      * objects) and turn them to a mock with nice behavior. For details, see the
      * EasyMock documentation.
-     * 
+     *
      * @param mocks
      *            the mock objects
      */
@@ -1971,7 +1971,7 @@ public class EasyMock {
      * Resets the given mock objects (more exactly: the controls of the mock
      * objects) and turn them to a mock with default behavior. For details, see
      * the EasyMock documentation.
-     * 
+     *
      * @param mocks
      *            the mock objects
      */
@@ -1985,7 +1985,7 @@ public class EasyMock {
      * Resets the given mock objects (more exactly: the controls of the mock
      * objects) and turn them to a mock with strict behavior. For details, see
      * the EasyMock documentation.
-     * 
+     *
      * @param mocks
      *            the mock objects
      */
@@ -1998,7 +1998,7 @@ public class EasyMock {
     /**
      * Verifies the given mock objects (more exactly: the controls of the mock
      * objects).
-     * 
+     *
      * @param mocks
      *            the mock objects.
      */
@@ -2012,12 +2012,12 @@ public class EasyMock {
      * Switches order checking of the given mock object (more exactly: the
      * control of the mock object) the on and off. For details, see the EasyMock
      * documentation.
-     * 
+     *
      * @param mock
      *            the mock object.
      * @param state
-     *            <code>true</code> switches order checking on,
-     *            <code>false</code> switches it off.
+     *            {@code true} switches order checking on,
+     *            {@code false} switches it off.
      */
     public static void checkOrder(Object mock, boolean state) {
         getControl(mock).checkOrder(state);
@@ -2026,7 +2026,7 @@ public class EasyMock {
     /**
      * Reports an argument matcher. This method is needed to define own argument
      * matchers. For details, see the EasyMock documentation.
-     * 
+     *
      * @param matcher the matcher to use to match currently mocked method argument
      */
     public static void reportMatcher(IArgumentMatcher matcher) {
@@ -2039,12 +2039,12 @@ public class EasyMock {
 
     /**
      * Returns the arguments of the current mock method call, if inside an
-     * <code>IAnswer</code> callback - be careful here, reordering parameters of
+     * {@code IAnswer} callback - be careful here, reordering parameters of
      * method changes the semantics of your tests.
-     * 
+     *
      * @return the arguments of the current mock method call.
      * @throws IllegalStateException
-     *             if called outside of <code>IAnswer</code> callbacks.
+     *             if called outside of {@code IAnswer} callbacks.
      */
     public static Object[] getCurrentArguments() {
         Invocation result = LastControl.getCurrentInvocation();
@@ -2060,7 +2060,7 @@ public class EasyMock {
      * {@link #NOT_THREAD_SAFE_BY_DEFAULT} is set). This method can change this
      * behavior. Two reasons are known for someone to do that: Performance or
      * dead-locking issues.
-     * 
+     *
      * @param mock
      *            the mock to make thread safe
      * @param threadSafe
@@ -2076,7 +2076,7 @@ public class EasyMock {
      * object that isn't thread safe to make sure it is used correctly in a
      * multithreaded environment. By default, no check is done unless
      * {@link #ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT} was set to true.
-     * 
+     *
      * @param mock
      *            the mock
      * @param shouldBeUsedInOneThread
@@ -2088,7 +2088,7 @@ public class EasyMock {
 
     /**
      * Get the current value for an EasyMock property
-     * 
+     *
      * @param key
      *            key for the property
      * @return the property value
@@ -2105,7 +2105,7 @@ public class EasyMock {
      * <p>
      * <b>Note:</b> This method is static. Setting a property will change the
      * entire EasyMock behavior.
-     * 
+     *
      * @param key
      *            property key
      * @param value

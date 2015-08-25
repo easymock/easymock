@@ -26,7 +26,7 @@ import static java.util.Arrays.*;
 
 /**
  * Performs creation of mocks and injection into test subjects in accordance with annotations present in the host object.
- * 
+ *
  * @author Henri Tremblay
  * @author Alistair Todd
  * @since 3.3
@@ -47,13 +47,13 @@ public class Injector {
      * <ul>
      *     <li>If a mock without field name can be assigned to a field, do it. The same mock can be assigned more than once</li>
      *     <li>If no mock can be assigned to a field, skip the field silently</li>
-     *     <li>If the mock cannot be assigned to any field, skip the mock silently</li>          
-     *     <li>If two mocks can be assigned to the same field, return an error</li>          
+     *     <li>If the mock cannot be assigned to any field, skip the mock silently</li>
+     *     <li>If two mocks can be assigned to the same field, return an error</li>
      * </ul>
      * Fields are searched recursively on the superclasses
      * <p>
      * <b>Note:</b> If the parameter extends {@link EasyMockSupport}, the mocks will be created using it to allow
-     * <code>replayAll/verifyAll</code> to work afterwards
+     * {@code replayAll/verifyAll} to work afterwards
      * @param host the object on which to inject mocks
      * @since 3.2
      */

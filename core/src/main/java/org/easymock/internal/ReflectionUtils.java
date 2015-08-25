@@ -58,15 +58,15 @@ public final class ReflectionUtils {
     /**
      * Attempt to find a {@link Method} on the supplied class with the supplied
      * name and no parameters. Searches all superclasses up to
-     * <code>Object</code>.
+     * {@code Object}.
      * <p>
-     * Returns <code>null</code> if no {@link Method} can be found.
-     * 
+     * Returns {@code null} if no {@link Method} can be found.
+     *
      * @param clazz
      *            the class to introspect
      * @param name
      *            the name of the method
-     * @return the Method object, or <code>null</code> if none found
+     * @return the Method object, or {@code null} if none found
      */
     public static Method findMethod(Class<?> clazz, String name) {
         return findMethod(clazz, name, (Class<?>[]) null);
@@ -75,18 +75,18 @@ public final class ReflectionUtils {
     /**
      * Attempt to find a {@link Method} on the supplied class with the supplied
      * name and parameter types. Searches all superclasses up to
-     * <code>Object</code>.
+     * {@code Object}.
      * <p>
-     * Returns <code>null</code> if no {@link Method} can be found.
-     * 
+     * Returns {@code null} if no {@link Method} can be found.
+     *
      * @param clazz
      *            the class to introspect
      * @param name
      *            the name of the method
      * @param paramTypes
-     *            the parameter types of the method (may be <code>null</code> to
+     *            the parameter types of the method (may be {@code null} to
      *            indicate any signature)
-     * @return the Method object, or <code>null</code> if none found
+     * @return the Method object, or {@code null} if none found
      */
     public static Method findMethod(Class<?> clazz, String name, Class<?>... paramTypes) {
         Class<?> searchType = clazz;
@@ -124,12 +124,12 @@ public final class ReflectionUtils {
 
     /**
      * Returns a constructor that contains {@code objs} as arguments.
-     * 
+     *
      * <p>
      * We could not do something like {@code clazz.getConstructor(objs.class())}
      * because that would require casting all the passed arguments to the exact
      * parameter types of the desired constructor.
-     * 
+     *
      * @param clazz
      *            class on which we are searching the constructor
      * @param <T>
@@ -201,7 +201,7 @@ public final class ReflectionUtils {
     /**
      * Given a primitive type, returns its boxed equivalent. For instance, given
      * {@code int}, returns {@code Integer}.
-     * 
+     *
      * @param parameterType
      *            the primitive type
      * @return the boxed equivalent
@@ -213,7 +213,7 @@ public final class ReflectionUtils {
     /**
      * Basically calls getDeclaredMethod on a Class but wraps the
      * NoSuchMethodException into a Runtime.
-     * 
+     *
      * @param clazz
      *            class on which the getDeclaredMethod is called
      * @param name

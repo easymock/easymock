@@ -17,7 +17,7 @@ package org.easymock.internal;
 
 /**
  * Used to instantiate a given class.
- * 
+ *
  * @author Henri Tremblay
  */
 public interface IClassInstantiator {
@@ -25,8 +25,8 @@ public interface IClassInstantiator {
     /**
      * Return a new instance of the specified class. The recommended way is
      * without calling any constructor. This is usually done by doing like
-     * <code>ObjectInputStream.readObject()</code> which is JVM specific.
-     * 
+     * {@code ObjectInputStream.readObject()} which is JVM specific.
+     *
      * @param clazz
      *            class to instantiate
      * @return new instance of clazz

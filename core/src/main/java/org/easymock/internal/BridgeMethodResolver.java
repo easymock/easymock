@@ -21,10 +21,10 @@ import java.util.*;
 /**
  * Code taken from the <a href="http://www.springframework.org">Spring
  * framework</a>.
- * 
+ *
  * Helper for resolving synthetic {@link Method#isBridge bridge Methods} to the
  * {@link Method} being bridged.
- * 
+ *
  * <p>
  * Given a synthetic {@link Method#isBridge bridge Method} returns the
  * {@link Method} being bridged. A bridge method may be created by the compiler
@@ -33,12 +33,12 @@ import java.util.*;
  * and/or used via reflection. When attempting to locate annotations on
  * {@link Method Methods}, it is wise to check for bridge {@link Method Methods}
  * as appropriate and find the bridged {@link Method}.
- * 
+ *
  * <p>
  * See <a href="http://java.sun.com/docs/books/jls/third_edition/html/expressions.html#15.12.4.5"
  * > The Java Language Specification</a> for more details on the use of bridge
  * methods.
- * 
+ *
  * @author Rob Harrop
  * @author Juergen Hoeller
  */
@@ -59,7 +59,7 @@ public final class BridgeMethodResolver {
      * instance. In such a case, the supplied {@link Method} instance is
      * returned directly to the caller. Callers are <strong>not</strong>
      * required to check for bridging before calling this method.
-     * 
+     *
      * @param bridgeMethod
      *            the bridge method
      * @return the original method for the bridge
@@ -100,12 +100,12 @@ public final class BridgeMethodResolver {
 
     /**
      * Search for the bridged method in the given candidates.
-     * 
+     *
      * @param candidateMethods
      *            the List of candidate Methods
      * @param bridgeMethod
      *            the bridge method
-     * @return the bridged method, or <code>null</code> if none found
+     * @return the bridged method, or {@code null} if none found
      */
     private static Method searchCandidates(List<Method> candidateMethods, Method bridgeMethod) {
         Map<TypeVariable<?>, Type> typeParameterMap = createTypeVariableMap(bridgeMethod
@@ -120,7 +120,7 @@ public final class BridgeMethodResolver {
     }
 
     /**
-     * Return <code>true</code> if the supplied '<code>candidateMethod</code>'
+     * Return {@code true} if the supplied '{@code candidateMethod}'
      * can be consider a validate candidate for the {@link Method} that is
      * {@link Method#isBridge() bridged} by the supplied {@link Method bridge
      * Method}. This method performs inexpensive checks and can be used quickly
@@ -148,7 +148,7 @@ public final class BridgeMethodResolver {
     /**
      * Search for the generic {@link Method} declaration whose erased signature
      * matches that of the supplied bridge method.
-     * 
+     *
      * @throws IllegalStateException
      *             if the generic declaration cannot be found
      */
@@ -176,12 +176,12 @@ public final class BridgeMethodResolver {
     }
 
     /**
-     * Return <code>true</code> if the {@link Type} signature of both the
+     * Return {@code true} if the {@link Type} signature of both the
      * supplied {@link Method#getGenericParameterTypes() generic Method} and
      * concrete {@link Method} are equal after resolving all
      * {@link TypeVariable TypeVariables} using the supplied
      * {@link #createTypeVariableMap TypeVariable Map}, otherwise returns
-     * <code>false</code>.
+     * {@code false}.
      */
     private static boolean isResolvedTypeMatch(Method genericMethod, Method candidateMethod,
             Map<TypeVariable<?>, Type> typeVariableMap) {
@@ -231,7 +231,7 @@ public final class BridgeMethodResolver {
     /**
      * If the supplied {@link Class} has a declared {@link Method} whose
      * signature matches that of the supplied {@link Method}, then this matching
-     * {@link Method} is returned, otherwise <code>null</code> is returned.
+     * {@link Method} is returned, otherwise {@code null} is returned.
      */
     private static Method searchForMatch(Class<?> type, Method bridgeMethod) {
         return findMethod(type, bridgeMethod.getName(), bridgeMethod.getParameterTypes());
@@ -299,18 +299,18 @@ public final class BridgeMethodResolver {
      * supplied {@link Map}.
      * <p>
      * Consider this case:
-     * 
+     *
      * <pre class="code>
      * public interface Foo&lt;S, T&gt; {
      *  ..
      * }
-     * 
+     *
      * public class FooImpl implements Foo&lt;String, Integer&gt; {
      *  ..
      * }
      * </pre>
-     * 
-     * For '<code>FooImpl</code>' the following mappings would be added to the
+     *
+     * For '{@code FooImpl}' the following mappings would be added to the
      * {@link Map}: {S=java.lang.String, T=java.lang.Integer}.
      */
     private static void populateTypeMapFromParameterizedType(ParameterizedType type,
@@ -344,7 +344,7 @@ public final class BridgeMethodResolver {
     }
 
     /**
-     * Extracts the bound '<code>Class</code>' for a give {@link TypeVariable}.
+     * Extracts the bound '{@code Class}' for a give {@link TypeVariable}.
      */
     private static Class<?> extractClassForTypeVariable(TypeVariable<?> typeVariable) {
         Type[] bounds = typeVariable.getBounds();
@@ -367,7 +367,7 @@ public final class BridgeMethodResolver {
      * ones implemented by superclasses.
      * <p>
      * If the class itself is an interface, it gets returned as sole interface.
-     * 
+     *
      * @param clazz
      *            the class to analyse for interfaces
      * @return all interfaces that the given object implements as array
@@ -393,17 +393,17 @@ public final class BridgeMethodResolver {
     /**
      * Attempt to find a {@link Method} on the supplied class with the supplied
      * name and parameter types. Searches all superclasses up to
-     * <code>Object</code>.
+     * {@code Object}.
      * <p>
-     * Returns <code>null</code> if no {@link Method} can be found.
-     * 
+     * Returns {@code null} if no {@link Method} can be found.
+     *
      * @param clazz
      *            the class to introspect
      * @param name
      *            the name of the method
      * @param paramTypes
      *            the parameter types of the method
-     * @return the Method object, or <code>null</code> if none found
+     * @return the Method object, or {@code null} if none found
      */
     private static Method findMethod(Class<?> clazz, String name, Class<?>[] paramTypes) {
         assert clazz != null : "Class must not be null";

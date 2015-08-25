@@ -20,14 +20,14 @@ import java.lang.reflect.Method;
 /**
  * Controls all the mock objects created by it. For details, see the EasyMock
  * documentation.
- * 
+ *
  * @author OFFIS, Tammo Freese
  */
 public interface IMocksControl {
 
     /**
      * Creates a mock object that implements the given interface.
-     * 
+     *
      * @param <T>
      *            the interface or class that the mock object should
      *            implement/extend.
@@ -40,7 +40,7 @@ public interface IMocksControl {
 
     /**
      * Creates a mock object that implements the given interface.
-     * 
+     *
      * @param <T>
      *            the interface or class that the mock object should
      *            implement/extend.
@@ -110,16 +110,16 @@ public interface IMocksControl {
 
     /**
      * Switches order checking on and off.
-     * 
+     *
      * @param state
-     *            <code>true</code> switches order checking on,
-     *            <code>false</code> switches it off.
+     *            {@code true} switches order checking on,
+     *            {@code false} switches it off.
      */
     void checkOrder(boolean state);
 
     /**
      * Makes the mock thread safe.
-     * 
+     *
      * @param threadSafe
      *            If the mock should be thread safe or not
      */
@@ -127,7 +127,7 @@ public interface IMocksControl {
 
     /**
      * Check that the mock is called from only one thread
-     * 
+     *
      * @param shouldBeUsedInOneThread
      *            If it should be used in one thread only or not
      */

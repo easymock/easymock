@@ -23,8 +23,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Example of how to use <code>@Mock</code> and <code>@TestSubject</code> annotations with Junit Rule.
- * 
+ * Example of how to use {@code @Mock} and {@code @TestSubject} annotations with Junit Rule.
+ *
  * @author Alistair Todd
  */
 public class AnnotatedMockWithRuleTest extends EasyMockSupport {

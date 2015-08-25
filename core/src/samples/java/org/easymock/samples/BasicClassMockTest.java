@@ -21,8 +21,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Example of how to use <code>org.easymock.classextension.EasyMock</code>
- * 
+ * Example of how to use {@code org.easymock.EasyMock} to mock a class
+ *
  * @author Henri Tremblay
  */
 public class BasicClassMockTest extends EasyMockSupport {
@@ -54,8 +54,7 @@ public class BasicClassMockTest extends EasyMockSupport {
     }
 
     /**
-     * The terrible 3rd party class that is not an interface but that we really
-     * want to mock.
+     * The 3rd party class to mock.
      */
     public static abstract class Printer {
         public abstract void print(String toPrint);

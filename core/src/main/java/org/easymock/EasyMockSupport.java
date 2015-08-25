@@ -26,23 +26,23 @@ import java.util.List;
  * documentation and SupportTest sample.
  * <p>
  * Example of usage:
- * 
+ *
  * <pre>
  * public class SupportTest extends EasyMockSupport {
  *     &#064;Test
  *     public void test() {
  *         firstMock = createMock(A.class);
  *         secondMock = createMock(B.class);
- *         
+ *
  *         replayAll(); // put both mocks in replay mode
- *         
+ *
  *         // ... use mocks ..
- *         
+ *
  *         verifyAll(); // verify both mocks
  *     }
  * }
  * </pre>
- * 
+ *
  * @author Henri Tremblay
  */
 public class EasyMockSupport {
@@ -173,8 +173,8 @@ public class EasyMockSupport {
 
     /**
      * Creates a mock object that implements the given interface, order checking
-     * is disabled by default, and the mock object will return <code>0</code>,
-     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * is disabled by default, and the mock object will return {@code 0},
+     * {@code null} or {@code false} for unexpected invocations.
      *
      * @param <T>
      *            the interface that the mock object should implement.
@@ -191,8 +191,8 @@ public class EasyMockSupport {
 
     /**
      * Creates a mock object that implements the given interface, order checking
-     * is disabled by default, and the mock object will return <code>0</code>,
-     * <code>null</code> or <code>false</code> for unexpected invocations.
+     * is disabled by default, and the mock object will return {@code 0},
+     * {@code null} or {@code false} for unexpected invocations.
      *
      * @param name
      *            the name of the mock object.
@@ -232,7 +232,7 @@ public class EasyMockSupport {
     /**
      * Creates a mock object of the requested type that implements the given interface or extends
      * the given class
-     * 
+     *
      * @param type
      *            the type of the mock to be created.
      * @param toMock
@@ -251,7 +251,7 @@ public class EasyMockSupport {
     /**
      * Creates a mock object of the requested type that implements the given interface or extends
      * the given class
-     * 
+     *
      * @param name
      *            the name of the mock object.
      * @param type
@@ -272,7 +272,7 @@ public class EasyMockSupport {
     /**
      * Creates a mock object that implements the given interface, order checking
      * is enabled by default.
-     * 
+     *
      * @param <T>
      *            the interface that the mock object should implement.
      * @param toMock
@@ -287,7 +287,7 @@ public class EasyMockSupport {
     /**
      * Creates a mock object that implements the given interface, order checking
      * is enabled by default.
-     * 
+     *
      * @param name
      *            the name of the mock object.
      * @param toMock
@@ -306,7 +306,7 @@ public class EasyMockSupport {
     /**
      * Creates a mock object that implements the given interface, order checking
      * is disabled by default.
-     * 
+     *
      * @param <T>
      *            the interface that the mock object should implement.
      * @param toMock
@@ -321,13 +321,13 @@ public class EasyMockSupport {
     /**
      * Creates a mock object that implements the given interface, order checking
      * is disabled by default.
-     * 
+     *
      * @param name
      *            the name of the mock object.
      * @param toMock
      *            the class of the interface that the mock object should
      *            implement.
-     * 
+     *
      * @param <T>
      *            the interface that the mock object should implement.
      * @return the mock object.
@@ -340,9 +340,9 @@ public class EasyMockSupport {
 
     /**
      * Creates a mock object that implements the given interface, order checking
-     * is disabled by default, and the mock object will return <code>0</code>,
-     * <code>null</code> or <code>false</code> for unexpected invocations.
-     * 
+     * is disabled by default, and the mock object will return {@code 0},
+     * {@code null} or {@code false} for unexpected invocations.
+     *
      * @param <T>
      *            the interface that the mock object should implement.
      * @param toMock
@@ -356,15 +356,15 @@ public class EasyMockSupport {
 
     /**
      * Creates a mock object that implements the given interface, order checking
-     * is disabled by default, and the mock object will return <code>0</code>,
-     * <code>null</code> or <code>false</code> for unexpected invocations.
-     * 
+     * is disabled by default, and the mock object will return {@code 0},
+     * {@code null} or {@code false} for unexpected invocations.
+     *
      * @param name
      *            the name of the mock object.
      * @param toMock
      *            the class of the interface that the mock object should
      *            implement.
-     * 
+     *
      * @param <T>
      *            the interface that the mock object should implement.
      * @return the mock object.
@@ -377,7 +377,7 @@ public class EasyMockSupport {
 
     /**
      * Creates a control, order checking is enabled by default.
-     * 
+     *
      * @return the control.
      */
     public IMocksControl createStrictControl() {
@@ -389,7 +389,7 @@ public class EasyMockSupport {
     /**
      * Create a mock builder allowing to create a partial mock for the given
      * class or interface.
-     * 
+     *
      * @param <T>
      *            the interface that the mock object should implement.
      * @param toMock
@@ -403,7 +403,7 @@ public class EasyMockSupport {
 
     /**
      * Creates a control of the given type.
-     * 
+     *
      * @param type the mock type.
      * @return the control.
      * @since 3.2
@@ -416,7 +416,7 @@ public class EasyMockSupport {
 
     /**
      * Creates a control, order checking is disabled by default.
-     * 
+     *
      * @return the control.
      */
     public IMocksControl createControl() {
@@ -425,9 +425,9 @@ public class EasyMockSupport {
 
     /**
      * Creates a control, order checking is disabled by default, and the mock
-     * objects created by this control will return <code>0</code>,
-     * <code>null</code> or <code>false</code> for unexpected invocations.
-     * 
+     * objects created by this control will return {@code 0},
+     * {@code null} or {@code false} for unexpected invocations.
+     *
      * @return the control.
      */
     public IMocksControl createNiceControl() {
@@ -514,13 +514,13 @@ public class EasyMockSupport {
      * <ul>
      *     <li>If a mock without field name can be assigned to a field, do it. The same mock can be assigned more than once</li>
      *     <li>If no mock can be assigned to a field, skip the field silently</li>
-     *     <li>If the mock cannot be assigned to any field, skip the mock silently</li>          
-     *     <li>If two mocks can be assigned to the same field, return an error</li>          
+     *     <li>If the mock cannot be assigned to any field, skip the mock silently</li>
+     *     <li>If two mocks can be assigned to the same field, return an error</li>
      * </ul>
      * Fields are searched recursively on the superclasses
      * <p>
-     * <b>Note:</b> If the parameter extends {@link EasyMockSupport}, the mocks will be created using it to allow
-     * <code>replayAll/verifyAll</code> to work afterwards
+     * <b>Note:</b> If the parameter extends {@code EasyMockSupport}, the mocks will be created using it to allow
+     * {@code replayAll/verifyAll} to work afterwards
      * @param obj the object on which to inject mocks
      * @since 3.2
      */

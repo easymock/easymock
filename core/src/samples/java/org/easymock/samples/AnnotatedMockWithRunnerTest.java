@@ -23,8 +23,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Example of how to use <code>@Mock</code> and <code>@TestSubject</code> annotations with JUnit Runner.
- * 
+ * Example of how to use {@code @Mock} and {@code @TestSubject} annotations with JUnit Runner.
+ *
  * @author Henri Tremblay
  */
 @RunWith(EasyMockRunner.class)
