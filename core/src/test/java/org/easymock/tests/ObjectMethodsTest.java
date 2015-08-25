@@ -15,14 +15,14 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Method;
-
 import org.easymock.internal.ObjectMethodsFilter;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -82,7 +82,7 @@ public class ObjectMethodsTest {
     @Test
     public void toStringForClasses() throws Throwable {
         ObjectMethodsFilter filter = new ObjectMethodsFilter(Object.class, null, null);
-        Method toString = Object.class.getMethod("toString", new Class[0]);
+        Method toString = Object.class.getMethod("toString");
         assertEquals("EasyMock for " + MockedClass.class.toString(), filter.invoke(new DummyProxy(),
                 toString, new Object[0]));
     }

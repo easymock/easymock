@@ -15,14 +15,14 @@
  */
 package org.easymock.internal;
 
+import org.easymock.IArgumentMatcher;
+import org.easymock.internal.matchers.Equals;
+
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.easymock.IArgumentMatcher;
-import org.easymock.internal.matchers.Equals;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -57,7 +57,7 @@ public class ExpectedInvocation implements Serializable {
             }
             return matchers;
         }
-        List<IArgumentMatcher> result = new ArrayList<IArgumentMatcher>();
+        List<IArgumentMatcher> result = new ArrayList<IArgumentMatcher>(invocation.getArguments().length);
         for (Object argument : invocation.getArguments()) {
             result.add(new Equals(argument));
         }

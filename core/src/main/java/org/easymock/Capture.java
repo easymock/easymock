@@ -108,7 +108,7 @@ public class Capture<T> implements Serializable {
             throw new AssertionError("Nothing captured yet");
         }
         if (values.size() > 1) {
-            throw new AssertionError("More than one value captured: " + getValues());
+            throw new AssertionError("More than one value captured: " + values);
         }
         return values.get(0);
     }

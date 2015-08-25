@@ -74,8 +74,8 @@ public final class BridgeMethodResolver {
         }
 
         // Gather all methods with matching name and parameter size.
-        List<Method> candidateMethods = new ArrayList<Method>();
         Method[] methods = getAllDeclaredMethods(bridgeMethod.getDeclaringClass());
+        List<Method> candidateMethods = new ArrayList<Method>(methods.length);
         for (Method candidateMethod : methods) {
             if (isBridgedCandidateFor(candidateMethod, bridgeMethod)) {
                 candidateMethods.add(candidateMethod);

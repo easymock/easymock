@@ -15,14 +15,14 @@
  */
 package org.easymock.tests;
 
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Method;
-
 import org.easymock.internal.ExpectedInvocation;
 import org.easymock.internal.Invocation;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
+
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -34,7 +34,7 @@ public class ExpectedMethodCallTest {
     @Before
     public void setup() throws SecurityException, NoSuchMethodException {
         Object[] arguments1 = new Object[] { "" };
-        Method m = Object.class.getMethod("equals", new Class[] { Object.class });
+        Method m = Object.class.getMethod("equals", Object.class);
         call = new ExpectedInvocation(new Invocation(null, m, arguments1), null);
     }
 

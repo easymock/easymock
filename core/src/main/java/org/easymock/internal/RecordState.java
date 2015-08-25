@@ -15,13 +15,13 @@
  */
 package org.easymock.internal;
 
+import org.easymock.IAnswer;
+import org.easymock.IArgumentMatcher;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.easymock.IAnswer;
-import org.easymock.IArgumentMatcher;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -38,7 +38,7 @@ public class RecordState implements IMocksControlState, Serializable {
 
     private final IMocksBehavior behavior;
 
-    private static Map<Class<?>, Object> emptyReturnValues = new HashMap<Class<?>, Object>();
+    private static final Map<Class<?>, Object> emptyReturnValues = new HashMap<Class<?>, Object>(9);
 
     static {
         emptyReturnValues.put(Void.TYPE, null);
@@ -52,7 +52,7 @@ public class RecordState implements IMocksControlState, Serializable {
         emptyReturnValues.put(Double.TYPE, Double.valueOf(0));
     }
 
-    private static Map<Class<?>, Class<?>> primitiveToWrapperType = new HashMap<Class<?>, Class<?>>();
+    private static final Map<Class<?>, Class<?>> primitiveToWrapperType = new HashMap<Class<?>, Class<?>>(8);
 
     static {
         primitiveToWrapperType.put(Boolean.TYPE, Boolean.class);

@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public final class ReflectionUtils {
 
-    private static Map<Class<?>, Class<?>> primitiveToWrapperType = new HashMap<Class<?>, Class<?>>();
+    private static final Map<Class<?>, Class<?>> primitiveToWrapperType = new HashMap<Class<?>, Class<?>>(8);
 
     static {
         primitiveToWrapperType.put(boolean.class, Boolean.class);
@@ -223,7 +223,7 @@ public final class ReflectionUtils {
      * @return the method searched
      */
     public static Method getDeclaredMethod(Class<?> clazz, String name,
-            Class<?>[] paramTypes) {
+            Class<?>... paramTypes) {
         try {
             return clazz.getDeclaredMethod(name, paramTypes);
         } catch (NoSuchMethodException e) {

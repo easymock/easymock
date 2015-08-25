@@ -15,7 +15,7 @@
  */
 package org.easymock.internal;
 
-import static java.lang.Character.*;
+import org.easymock.internal.matchers.Captures;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.easymock.internal.matchers.Captures;
+import static java.lang.Character.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -148,7 +148,7 @@ public class Invocation implements Serializable {
             return methodName;
         }
         String mockName = mock.toString();
-        // Cheap trick to check if the name is the default "EasyMock for ..." or a name 
+        // Cheap trick to check if the name is the default "EasyMock for ..." or a name
         // provided when creating the mock
         if (isJavaIdentifier(mockName)) {
             return mockName + "." + methodName;

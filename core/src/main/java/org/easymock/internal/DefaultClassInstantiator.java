@@ -23,15 +23,17 @@ import java.lang.reflect.*;
 /**
  * Default class instantiator that is pretty limited. It just hope that the
  * mocked class has a public empty constructor.
- * 
+ *
  * @author Henri Tremblay
  */
 public class DefaultClassInstantiator implements IClassInstantiator {
 
+    private static final Class<?>[] EMPTY = new Class<?>[0];
+
     /**
      * Try to instantiate a class without using a special constructor. See
      * documentation for the algorithm.
-     * 
+     *
      * @param c
      *            Class to instantiate
      */
@@ -66,7 +68,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
 
     /**
      * Tells if the provided class is serializable
-     * 
+     *
      * @param clazz
      *            Class to check
      * @return If the class is serializable
@@ -79,7 +81,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
      * Return the constructor considered the best to use with this class.
      * Algorithm is: No args constructor and then first constructor defined in
      * the class
-     * 
+     *
      * @param clazz
      *            Class in which constructor is searched
      * @return Constructor to use
@@ -87,7 +89,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
     public Constructor<?> getConstructorToUse(Class<?> clazz) {
         // First try to use the empty constructor
         try {
-            return clazz.getConstructor(new Class[0]);
+            return clazz.getConstructor(EMPTY);
         } catch (NoSuchMethodException e) {
             // If it fails just use the first one
             if (clazz.getConstructors().length == 0) {
@@ -99,7 +101,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
 
     /**
      * Get some default instances of provided classes
-     * 
+     *
      * @param methodTypes
      *            Classes to instantiate
      * @return Instances of methodTypes in order
@@ -133,20 +135,25 @@ public class DefaultClassInstantiator implements IClassInstantiator {
     private static byte[] getSerializedBytes(Class<?> clazz) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream data = new DataOutputStream(baos);
-        data.writeShort(ObjectStreamConstants.STREAM_MAGIC);
-        data.writeShort(ObjectStreamConstants.STREAM_VERSION);
-        data.writeByte(ObjectStreamConstants.TC_OBJECT);
-        data.writeByte(ObjectStreamConstants.TC_CLASSDESC);
-        data.writeUTF(clazz.getName());
+        try {
+            data.writeShort(ObjectStreamConstants.STREAM_MAGIC);
+            data.writeShort(ObjectStreamConstants.STREAM_VERSION);
+            data.writeByte(ObjectStreamConstants.TC_OBJECT);
+            data.writeByte(ObjectStreamConstants.TC_CLASSDESC);
+            data.writeUTF(clazz.getName());
 
-        Long suid = getSerializableUID(clazz);
+            Long suid = getSerializableUID(clazz);
 
-        data.writeLong(suid.longValue());
+            data.writeLong(suid.longValue());
 
-        data.writeByte(2); // classDescFlags (2 = Serializable)
-        data.writeShort(0); // field count
-        data.writeByte(ObjectStreamConstants.TC_ENDBLOCKDATA);
-        data.writeByte(ObjectStreamConstants.TC_NULL);
+            data.writeByte(2); // classDescFlags (2 = Serializable)
+            data.writeShort(0); // field count
+            data.writeByte(ObjectStreamConstants.TC_ENDBLOCKDATA);
+            data.writeByte(ObjectStreamConstants.TC_NULL);
+        }
+        finally {
+            data.close();
+        }
         return baos.toByteArray();
     }
 
@@ -178,7 +185,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
         Method method;
         // ///CLOVER:OFF
         try {
-            method = ObjectStreamClass.class.getDeclaredMethod(methodName, new Class[] { Class.class });
+            method = ObjectStreamClass.class.getDeclaredMethod(methodName, Class.class);
         } catch (NoSuchMethodException e) {
             throw new InternalError("ObjectStreamClass." + methodName + " seems to have vanished");
         }
@@ -186,7 +193,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
         method.setAccessible(true);
         Long suid;
         try {
-            suid = (Long) method.invoke(null, new Object[] { clazz });
+            suid = (Long) method.invoke(null, clazz);
         } catch (IllegalAccessException e) {
             throw new InternalError("ObjectStreamClass." + methodName + " should have been accessible");
         } catch (InvocationTargetException e) {
@@ -200,7 +207,12 @@ public class DefaultClassInstantiator implements IClassInstantiator {
 
     private static Object readObject(byte[] bytes) throws IOException, ClassNotFoundException {
         ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes));
-        return in.readObject();
+        try {
+            return in.readObject();
+        }
+        finally {
+            in.close();
+        }
     }
 
 }

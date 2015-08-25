@@ -48,13 +48,13 @@ public class ErrorMessage {
         buffer.append("\n    ").append(message).append(", actual: ");
         if (matching) {
             if (matches == 1) {
-                buffer.append(getActualCount() + 1);
+                buffer.append(actualCount + 1);
             } else {
-                buffer.append(getActualCount());
+                buffer.append(actualCount);
                 buffer.append(" (+1)");
             }
         } else {
-            buffer.append(getActualCount());
+            buffer.append(actualCount);
         }
     }
 }

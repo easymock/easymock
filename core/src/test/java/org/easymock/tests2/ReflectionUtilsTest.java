@@ -152,8 +152,8 @@ public class ReflectionUtilsTest {
 
     @Test
     public void testGetDeclareMethod_Found() throws Exception {
-        Method expected = A.class.getDeclaredMethod("foo", new Class<?>[] { int.class });
-        Method actual = ReflectionUtils.getDeclaredMethod(A.class, "foo", new Class<?>[] { int.class });
+        Method expected = A.class.getDeclaredMethod("foo", int.class);
+        Method actual = ReflectionUtils.getDeclaredMethod(A.class, "foo", Integer.TYPE);
         assertEquals(expected, actual);
     }
 

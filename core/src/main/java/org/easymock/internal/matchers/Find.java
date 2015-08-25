@@ -15,10 +15,10 @@
  */
 package org.easymock.internal.matchers;
 
+import org.easymock.IArgumentMatcher;
+
 import java.io.Serializable;
 import java.util.regex.Pattern;
-
-import org.easymock.IArgumentMatcher;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -27,17 +27,17 @@ public class Find implements IArgumentMatcher, Serializable {
 
     private static final long serialVersionUID = -7104607303959381785L;
 
-    private final String regex;
+    private final Pattern regex;
 
     public Find(String regex) {
-        this.regex = regex;
+        this.regex = Pattern.compile(regex);
     }
 
     public boolean matches(Object actual) {
-        return (actual instanceof String) && Pattern.compile(regex).matcher((String) actual).find();
+        return (actual instanceof String) && regex.matcher((String) actual).find();
     }
 
     public void appendTo(StringBuffer buffer) {
-        buffer.append("find(\"" + regex.replaceAll("\\\\", "\\\\\\\\") + "\")");
+        buffer.append("find(\"" + regex.pattern().replaceAll("\\\\", "\\\\\\\\") + "\")");
     }
 }

@@ -39,7 +39,7 @@ public class InvocationTest {
         Object[] arguments1 = new Object[] { "" };
         Object[] arguments2 = new Object[] { "" };
         Object[] arguments3 = new Object[] { "X" };
-        Method m = Object.class.getMethod("equals", new Class[] { Object.class });
+        Method m = Object.class.getMethod("equals", Object.class);
         Object mock = new Object();
         call = new Invocation(mock, m, arguments1);
         equalCall = new Invocation(mock, m, arguments2);
@@ -82,7 +82,7 @@ public class InvocationTest {
             }
         }
 
-        Method method = ToString.class.getMethod("aMethod", new Class[0]);
+        Method method = ToString.class.getMethod("aMethod");
         Invocation invocation = new Invocation(new ToString("validJavaIdentifier"), method, null);
 
         assertEquals("validJavaIdentifier.aMethod()", invocation.toString());
@@ -106,7 +106,7 @@ public class InvocationTest {
             }
         }
 
-        Method method = NoToString.class.getMethod("aMethod", new Class[0]);
+        Method method = NoToString.class.getMethod("aMethod");
         Invocation invocation = new Invocation(new NoToString("validJavaIdentifier"), method, null);
 
         assertEquals("aMethod()", invocation.toString());

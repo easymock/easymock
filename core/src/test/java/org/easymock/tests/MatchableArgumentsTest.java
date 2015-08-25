@@ -41,7 +41,7 @@ public class MatchableArgumentsTest {
 
     @Test
     public void testEquals() throws Exception {
-        Method toPreventNullPointerException = Object.class.getMethod("toString", new Class[] {});
+        Method toPreventNullPointerException = Object.class.getMethod("toString");
 
         Object mock = new Object();
 

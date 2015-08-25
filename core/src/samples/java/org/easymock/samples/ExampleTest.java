@@ -86,7 +86,7 @@ public class ExampleTest extends EasyMockSupport {
         // expect document addition
         mock.documentAdded("Document");
         // expect to be asked to vote, and vote against it
-        expect(mock.voteForRemoval("Document")).andReturn((byte) -42); // 
+        expect(mock.voteForRemoval("Document")).andReturn((byte) -42); //
         // document removal is *not* expected
 
         replayAll();
@@ -105,7 +105,7 @@ public class ExampleTest extends EasyMockSupport {
         replayAll();
         classUnderTest.addDocument("Document 1", "content 1");
         classUnderTest.addDocument("Document 2", "content 2");
-        assertTrue(classUnderTest.removeDocuments(new String[] { "Document 1", "Document 2" }));
+        assertTrue(classUnderTest.removeDocuments("Document 1", "Document 2"));
         verifyAll();
     }
 

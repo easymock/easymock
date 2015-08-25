@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
 /**
  * Bridges are generated methods used for generics. They shouldn't be mocked to
  * keep delegating correctly to the real implementation.
- * 
+ *
  * @author Henri Tremblay
  */
 public class GenericTest {
@@ -46,7 +46,7 @@ public class GenericTest {
         B b = createMock(B.class);
         b.doCMethod(Integer.valueOf(6));
         replay(b);
-        ((C<Integer>) b).doCMethod(Integer.valueOf(6));
+        b.doCMethod(Integer.valueOf(6));
         verify(b);
     }
 
@@ -82,7 +82,7 @@ public class GenericTest {
         ConcreteFoo b = createMock(ConcreteFoo.class);
         expect(b.getSomeStrings()).andReturn(null);
         replay(b);
-        ((AbstractFoo) b).getSomeStrings();
+        b.getSomeStrings();
         verify(b);
     }
 

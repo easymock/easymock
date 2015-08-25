@@ -96,7 +96,7 @@ public class EnclosedTest {
             replayAll();
             classUnderTest.addDocument("Document 1", "content 1");
             classUnderTest.addDocument("Document 2", "content 2");
-            assertTrue(classUnderTest.removeDocuments(new String[] { "Document 1", "Document 2" }));
+            assertTrue(classUnderTest.removeDocuments("Document 1", "Document 2"));
             verifyAll();
         }
 

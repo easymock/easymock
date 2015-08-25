@@ -78,7 +78,7 @@ public class Results implements Serializable {
     }
 
     public boolean hasValidCallCount() {
-        return getMainInterval().contains(getCallCount());
+        return getMainInterval().contains(callCount);
     }
 
     @Override
