@@ -29,13 +29,8 @@
     <!-- No code coverage need on this project since it's only a test project -->
     <jacoco.skip>true</jacoco.skip>
   </properties>
-  
+
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
