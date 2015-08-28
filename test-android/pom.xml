@@ -9,8 +9,8 @@
 
   <artifactId>easymock-android-tck</artifactId>
   <packaging>apk</packaging>
-  <name>EasyMock Android TCK</name>
-  <description>EasyMock Android Technology Compatibility Kit</description>
+  <name>EasyMock Android Test</name>
+  <description>EasyMock Android Test</description>
   <inceptionYear>2013</inceptionYear>
 
   <developers>

@@ -523,13 +523,13 @@
     <profile>
       <id>android</id>
       <modules>
-        <module>android-tck</module>
+        <module>test-android</module>
       </modules>
     </profile>
     <profile>
       <id>all</id>
       <modules>
-        <module>android-tck</module>
+        <module>test-android</module>
         <module>bench</module>
         <module>test-deploy</module>
       </modules>
