@@ -9,6 +9,8 @@
 
 # to exit in case of error
 set -e
+# to see what's going on
+set -v
 
 function pause {
     echo
@@ -63,7 +65,7 @@ mvn -T 8.0C deploy -PfullBuild,deployBuild -Dgpg.passphrase=${gpg_passphrase}
 
 pause
 
-echo "Please close the repository  at https://oss.sonatype.org"
+echo "Please close the repository at https://oss.sonatype.org"
 
 pause
 
