@@ -1,0 +1,13 @@
+task printGradleVersion << {
+    // Get current Gradle version as object.
+    final GradleVersion gradleVersion = GradleVersion.current()
+
+    // Print different properties.
+    println "Your Gradle version is ${gradleVersion.version}"
+    println "Base version: ${gradleVersion.baseVersion}"
+    println "Build time  : ${gradleVersion.buildTime}"
+    println "Build number: ${gradleVersion.buildNumber}"
+    println "Commit id   : ${gradleVersion.revision}"
+    println "Next major  : ${gradleVersion.nextMajor}"
+    println "Snapshot?   : ${gradleVersion.snapshot}"
+}
