@@ -1,13 +1,15 @@
-task printGradleVersion << {
-    // Get current Gradle version as object.
-    final GradleVersion gradleVersion = GradleVersion.current()
+task deploy << {
+    def version = extractVersion();
+    println "Version: $version"
+}
 
-    // Print different properties.
-    println "Your Gradle version is ${gradleVersion.version}"
-    println "Base version: ${gradleVersion.baseVersion}"
-    println "Build time  : ${gradleVersion.buildTime}"
-    println "Build number: ${gradleVersion.buildNumber}"
-    println "Commit id   : ${gradleVersion.revision}"
-    println "Next major  : ${gradleVersion.nextMajor}"
-    println "Snapshot?   : ${gradleVersion.snapshot}"
+def extractVersion() {
+    def pom = new XmlSlurper().parse("pom.xml")
+    def version = pom.version.text()
+
+    if(!version.endsWith("-SNAPSHOT")) {
+        throw new InvalidUserDataException("Only snapshots can be delivered")
+    }
+
+    version = version.substring(0, version.length() - 9)
 }
