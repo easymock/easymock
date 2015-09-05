@@ -42,6 +42,11 @@
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.10</version>
+        </plugin>
+
         <!--This plugin configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
@@ -90,6 +95,39 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+
+    <profile>
+      <id>testDeployment</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>purge-dependencies</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>purge-local-repository</goal>
+                </goals>
+                <configuration>
+                  <actTransitively>false</actTransitively>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+      <repositories>
+        <repository>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>bintray-easymock-maven</id>
+          <name>bintray</name>
+          <url>http://dl.bintray.com/easymock/maven</url>
+        </repository>
+      </repositories>
     </profile>
   </profiles>
 </project>
