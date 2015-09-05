@@ -64,6 +64,15 @@ git status
 git push
 git push --tags
 
+echo "Deploy the bundle to Bintray"
+date=$(date )
+content="{ \"name\": \"$version\", \"desc\": \"$version\", \"released\": \"${date}T00:00:00.000Z\", \"github_use_tag_release_notes\": true, \"vcs_tag\": \"easymock-$version\" }"
+curl -v -XPOST -H "Content-Type: application/json" -H "X-GPG-PASSPHRASE: ${gpg_passphrase}" -u${bintray_user}:${bintray_api_key} \
+    -d "$content" \
+    https://api.bintray.com/packages/easymock/distributions/easymock/versions
+
+pause
+
 echo
 echo "Job done!"
 echo
