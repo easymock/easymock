@@ -15,12 +15,12 @@
  */
 package org.easymock.internal;
 
-import org.easymock.*;
-
 import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+
+import org.easymock.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -108,13 +108,13 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
             state.assertRecordState();
             IProxyFactory proxyFactory = toMock.isInterface()
                     ? interfaceProxyFactory
-                    : getClassProxyFactory();
+                            : getClassProxyFactory();
             try {
                 return proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
                         new MockInvocationHandler(this), name), mockedMethods, constructorArgs);
             } catch (NoClassDefFoundError e) {
                 throw new RuntimeExceptionWrapper(new RuntimeException(
-                    "Class mocking requires to have objenesis library in the classpath", e));
+                        "Class mocking requires to have objenesis library in the classpath", e));
             }
 
         } catch (RuntimeExceptionWrapper e) {
@@ -125,7 +125,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     public static IProxyFactory getProxyFactory(Object o) {
         return Proxy.isProxyClass(o.getClass())
                 ? new JavaProxyFactory()
-                : getClassProxyFactory();
+        : getClassProxyFactory();
     }
 
     private static IProxyFactory getClassProxyFactory() {
@@ -373,6 +373,15 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    public IExpectationSetters<Object> atLeast(int minimalNumberOfTimes) {
+        try {
+            state.times(new Range(minimalNumberOfTimes, Integer.MAX_VALUE));
+            return this;
+        } catch (RuntimeExceptionWrapper e) {
+            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
+        }
+    }
+
     public IExpectationSetters<Object> anyTimes() {
         try {
             state.times(ZERO_OR_MORE);
@@ -381,5 +390,4 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
     }
-
 }
