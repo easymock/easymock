@@ -162,6 +162,14 @@ public interface IExpectationSetters<T> {
     IExpectationSetters<T> atLeast(int minimalNumberOfTimes);
 
     /**
+     * Expect the last invocation at most a given number of times.
+     *
+     * @param maximalNumberOfTimes the maximal number of invocations expected.
+     * @return this object to allow method call chaining.
+     */
+    IExpectationSetters<T> atMost(int maximalNumberOfTimes);
+
+    /**
      * Expect the last invocation any times.
      *
      * @return this object to allow method call chaining.

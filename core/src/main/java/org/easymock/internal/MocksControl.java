@@ -382,6 +382,15 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    public IExpectationSetters<Object> atMost(int maximalNumberOfTimes) {
+        try {
+            state.times(new Range(1, maximalNumberOfTimes));
+            return this;
+        } catch (RuntimeExceptionWrapper e) {
+            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
+        }
+    }
+
     public IExpectationSetters<Object> anyTimes() {
         try {
             state.times(ZERO_OR_MORE);
