@@ -154,7 +154,7 @@ public interface IExpectationSetters<T> {
     IExpectationSetters<T> atLeastOnce();
 
     /**
-     * Expect the last invocation at least a given number of times.
+     * Expects the last invocation at least a given number of times.
      *
      * @param minimalNumberOfTimes the minimal number of invocations expected.
      * @return this object to allow method call chaining.
