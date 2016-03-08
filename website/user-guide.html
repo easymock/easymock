@@ -349,7 +349,7 @@ ToMock mock = partialMockBuilder(ToMock.class)
           <li>To be coherent with interface mocking, EasyMock provides a built-in behavior for <code>equals()</code>, <code>toString()</code>, <code>hashCode()</code> and <code>finalize()</code> even for class mocking. It means that you cannot record your own behavior for these methods. This limitation is considered to be a feature that prevents you from having to care about these methods.</li>
           <li>Final methods cannot be mocked. If called, their normal code will be executed.</li>
           <li>Private methods cannot be mocked. If called, their normal code will be executed. During partial mocking, if your method under test is calling some private methods, you will need to test them as well since you cannot mock them.</li>
-          <li>Class instantiation is performed using <a href="http://objenesis.googlecode.com/svn/docs/index.html">Objenesis</a>. Supported JVMs are listed <a href="http://code.google.com/p/objenesis/wiki/ListOfCurrentlySupportedVMs">here</a>.</li>
+          <li>Class instantiation is performed using <a href="http://objenesis.org">Objenesis</a>. Supported JVMs are listed <a href="https://github.com/easymock/objenesis/blob/master/SupportedJVMs.md">here</a>.</li>
         </ul>
 
         <h2 id="mocking-naming">Naming Mock Objects</h2>
