@@ -1,5 +1,5 @@
 name: EasyMock
-highlighter: pygments
+highlighter: rouge
 url: easymock.org
 exclude: ['bak']
 latest_version: 3.4
