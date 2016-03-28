@@ -20,8 +20,8 @@ Environment setup
 -----------------
 
 I'm using:
-- IntelliJ 14.1.4 Ultimate (thanks to JetBrains for the license)
-- Maven 3.3.3
+- IntelliJ 15 Ultimate (thanks to JetBrains for the license)
+- Maven 3.3.9
 
 You can also use Eclipse. I tried 
 - Eclipse 4.5.0 (Mars)
