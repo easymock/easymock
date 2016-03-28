@@ -30,7 +30,7 @@
     <jacoco.skip>true</jacoco.skip>
 
     <!-- Versions -->
-    <powermock.version>1.6.3</powermock.version>
+    <powermock.version>1.6.4</powermock.version>
   </properties>
 
   <dependencies>
