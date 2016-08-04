@@ -18,27 +18,29 @@ locale: en
 </dependency>
 {% endhighlight %}
 
-  <p>Then, you need a class to test and a collaborator used by this class. The collaborator can be a class or an interface. It doesn't matter. Please don't create an interface just for the pleasure of mocking it.</p>
+  <p>Then, you need a class to test and a collaborator used by this class. The collaborator can be a class or
+      an interface. It doesn't matter. Please don't create an interface just for the pleasure of mocking it.</p>
 
 {% highlight java %}
 public interface Collaborator {
     void documentAdded(String title);
 }
 
-public class ClassUnderTest {
+public class ClassTested {
 
     private Collaborator listener;
     // ...
     public void setListener(Collaborator listener) {
         this.listener = listener;
     }
-    public void addDocument(String title, byte[] document) { 
-        // ... 
+    public void addDocument(String title, String document) {
+        // ...
     }
 }
 {% endhighlight %}
 
-    <p>In our case, we are expecting the collaborator to be notified when a document is added to the class under test. So lets do that. First our todo list:</p>
+    <p>In our case, we are expecting the collaborator to be notified when a document is added to the class under
+        test. So lets do that. First our todo list:</p>
 
     <ol>
         <li>Create the mock</li>
