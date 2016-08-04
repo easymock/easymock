@@ -25,15 +25,15 @@ public interface Collaborator {
     void documentAdded(String title);
 }
 
-public class ClassUnderTest {
+public class ClassTested {
 
     private Collaborator listener;
     // ...
     public void setListener(Collaborator listener) {
         this.listener = listener;
     }
-    public void addDocument(String title, byte[] document) { 
-        // ... 
+    public void addDocument(String title, String document) {
+        // ...
     }
 }
 {% endhighlight %}
@@ -87,7 +87,8 @@ public class ExampleTest extends EasyMockSupport {
     </ul>
 
     <p>From there, I will highly suggest you have a look at the
-        <a href="https://github.com/easymock/easymock/tree/master/core/src/samples/java/org/easymock/samples">samples</a>
+        <a href="https://github.com/easymock/easymock/tree/master/core/src/samples/java/org/easymock/samples
+                 https://github.com/easymock/easymock/tree/master/core/src/samples/java/org/easymock/samples">samples</a>
         and the <a href="user-guide.html">full documentation</a> to get a fair overview of EasyMock.
     </p>
 
