@@ -1384,7 +1384,7 @@ public class EasyMock {
      *            the given value.
      * @return {@code 0}.
      */
-    public static boolean eq(Boolean value) {
+    public static Boolean eq(Boolean value) {
         reportMatcher(new Equals(value));
         return false;
     }
@@ -1420,7 +1420,7 @@ public class EasyMock {
      *            the given value.
      * @return {@code 0}.
      */
-    public static char eq(Character value) {
+    public static Character eq(Character value) {
         reportMatcher(new Equals(value));
         return 0;
     }
@@ -1444,9 +1444,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code 0}.
      */
-    public static double eq(Double value) {
+    public static Double eq(Double value) {
         reportMatcher(new Equals(value));
-        return 0;
+        return 0d;
     }
 
     /**
@@ -1468,9 +1468,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code 0}.
      */
-    public static float eq(Float value) {
+    public static Float eq(Float value) {
         reportMatcher(new Equals(value));
-        return 0;
+        return 0f;
     }
 
     /**
@@ -1492,7 +1492,7 @@ public class EasyMock {
      *            the given value.
      * @return {@code 0}.
      */
-    public static int eq(Integer value) {
+    public static Integer eq(Integer value) {
         reportMatcher(new Equals(value));
         return 0;
     }
@@ -1516,9 +1516,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code 0}.
      */
-    public static long eq(Long value) {
+    public static Long eq(Long value) {
         reportMatcher(new Equals(value));
-        return 0;
+        return 0L;
     }
 
     /**
@@ -1540,7 +1540,7 @@ public class EasyMock {
      *            the given value.
      * @return {@code 0}.
      */
-    public static short eq(Short value) {
+    public static Short eq(Short value) {
         reportMatcher(new Equals(value));
         return 0;
     }
