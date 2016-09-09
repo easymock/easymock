@@ -1378,6 +1378,18 @@ public class EasyMock {
     }
 
     /**
+     * Expects a Boolean that is equal to the given value.
+     *
+     * @param value
+     *            the given value.
+     * @return {@code 0}.
+     */
+    public static boolean eq(Boolean value) {
+        reportMatcher(new Equals(value));
+        return false;
+    }
+
+    /**
      * Expects a byte that is equal to the given value.
      *
      * @param value
@@ -1402,6 +1414,18 @@ public class EasyMock {
     }
 
     /**
+     * Expects a Character that is equal to the given value.
+     *
+     * @param value
+     *            the given value.
+     * @return {@code 0}.
+     */
+    public static char eq(Character value) {
+        reportMatcher(new Equals(value));
+        return 0;
+    }
+
+    /**
      * Expects a double that is equal to the given value.
      *
      * @param value
@@ -1409,6 +1433,18 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static double eq(double value) {
+        reportMatcher(new Equals(value));
+        return 0;
+    }
+
+    /**
+     * Expects a Double that is equal to the given value.
+     *
+     * @param value
+     *            the given value.
+     * @return {@code 0}.
+     */
+    public static double eq(Double value) {
         reportMatcher(new Equals(value));
         return 0;
     }
@@ -1426,6 +1462,18 @@ public class EasyMock {
     }
 
     /**
+     * Expects a Float that is equal to the given value.
+     *
+     * @param value
+     *            the given value.
+     * @return {@code 0}.
+     */
+    public static float eq(Float value) {
+        reportMatcher(new Equals(value));
+        return 0;
+    }
+
+    /**
      * Expects an int that is equal to the given value.
      *
      * @param value
@@ -1433,6 +1481,18 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static int eq(int value) {
+        reportMatcher(new Equals(value));
+        return 0;
+    }
+
+    /**
+     * Expects an Integer that is equal to the given value.
+     *
+     * @param value
+     *            the given value.
+     * @return {@code 0}.
+     */
+    public static int eq(Integer value) {
         reportMatcher(new Equals(value));
         return 0;
     }
@@ -1450,6 +1510,18 @@ public class EasyMock {
     }
 
     /**
+     * Expects a Long that is equal to the given value.
+     *
+     * @param value
+     *            the given value.
+     * @return {@code 0}.
+     */
+    public static long eq(Long value) {
+        reportMatcher(new Equals(value));
+        return 0;
+    }
+
+    /**
      * Expects a short that is equal to the given value.
      *
      * @param value
@@ -1459,6 +1531,30 @@ public class EasyMock {
     public static short eq(short value) {
         reportMatcher(new Equals(value));
         return 0;
+    }
+
+    /**
+     * Expects a Short that is equal to the given value.
+     *
+     * @param value
+     *            the given value.
+     * @return {@code 0}.
+     */
+    public static short eq(Short value) {
+        reportMatcher(new Equals(value));
+        return 0;
+    }
+
+    /**
+     * Expects a BigDecimal that is equal to the given value.
+     *
+     * @param value
+     *            the given value.
+     * @return {@code 0}.
+     */
+    public static java.math.BigDecimal eq(java.math.BigDecimal value) {
+        reportMatcher(new Equals(value));
+        return new java.math.BigDecimal(0);
     }
 
     /**
