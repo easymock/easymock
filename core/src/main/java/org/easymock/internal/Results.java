@@ -17,7 +17,6 @@ package org.easymock.internal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -29,13 +28,13 @@ public class Results implements Serializable {
 
     private int callCount;
 
-    private final LinkedList<Range> ranges = new LinkedList<Range>();
+    private final List<Range> ranges = new ArrayList<Range>();
 
     private final List<Result> results = new ArrayList<Result>();
 
     public void add(Result result, Range range) {
         if (!ranges.isEmpty()) {
-            Range lastRange = ranges.getLast();
+            Range lastRange = ranges.get(ranges.size() - 1);
             if (!lastRange.hasFixedCount()) {
                 throw new RuntimeExceptionWrapper(new IllegalStateException(
                         "last method called on mock already has a non-fixed count set."));
