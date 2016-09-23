@@ -581,12 +581,57 @@ public class EasyMock {
      *            type of the method argument to match
      * @param clazz
      *            the class of the argument to match
-     * @return {@code null}.
+     * @return {@code 0} if clazz is a boxing primitive type or {@code null} for other types.
      */
     public static <T> T anyObject(Class<T> clazz) {
         reportMatcher(Any.ANY);
-        return null;
+        return (T) getDefaultReturnValue(clazz);
     }
+
+    /** 
+     * Get default return values of matchers for non-primitive types. It is unsafe to simply return null for boxing types.
+     * For example:
+     *  
+     *  class ClassToMock {
+     *      public int checkLong(long lvalue) {
+     *          return 0;
+     *      }
+     *  }
+     *
+     *  ClassToMock mock = createMock(ClassToMock.class);
+     *  Long longObject = 101L;
+     *  expect(mock.checkLong(eq(longObject))).andReturn(1);
+     *
+     * If eq(longObject) simply returns a null value, mock.checkLong(eq(longObject))) will receive a null argument
+     * which will cause NullPointerException.  
+     *
+     * @param type
+     *          The given type
+     * @return the default value of this type
+     *
+     */
+    private static Object getDefaultReturnValue(Class<?> type){
+        if(Boolean.class == type) {
+            return false;
+        } else if (Byte.class == type) {
+            return 0;
+        } else if (Character.class == type) {
+            return '\0';
+        } else if (Double.class == type) {
+            return 0.0;
+        } else if (Float.class == type) {
+            return 0.0f;
+        } else if (Integer.class == type) {
+            return 0;
+        } else if (Long.class == type) {
+            return 0L;
+        } else if (Short.class == type) {
+            return 0;
+        } else {
+            return null;
+        }
+    }
+
 
     /**
      * Expect any string whatever its content is. Exactly the same as
@@ -607,11 +652,15 @@ public class EasyMock {
      *            type of the method argument to match
      * @param value
      *            the given value.
-     * @return {@code null}.
+     * @return {@code 0} if value is a boxing primitive or {@code null} otherwise.
      */
     public static <T extends Comparable<T>> T geq(Comparable<T> value) {
         reportMatcher(new GreaterOrEqual<T>(value));
-        return null;
+        T returnVal = null;
+        if(value != null) {
+            returnVal = (T) getDefaultReturnValue(value.getClass());
+        } 
+        return returnVal;
     }
 
     /**
@@ -700,11 +749,16 @@ public class EasyMock {
      *            type of the method argument to match
      * @param value
      *            the given value.
-     * @return {@code null}.
+     * @return {@code 0} if value is a boxing primitive or {@code null} otherwise.
      */
     public static <T extends Comparable<T>> T leq(Comparable<T> value) {
         reportMatcher(new LessOrEqual<T>(value));
-        return null;
+        T returnVal = null;
+        if(value != null) {
+            returnVal = (T) getDefaultReturnValue(value.getClass());
+        } 
+        return returnVal;
+
     }
 
     /**
@@ -793,11 +847,15 @@ public class EasyMock {
      *            type of the method argument to match
      * @param value
      *            the given value.
-     * @return {@code null}.
+     * @return {@code 0} if value is a boxing primitive or {@code null} otherwise.
      */
     public static <T extends Comparable<T>> T gt(Comparable<T> value) {
         reportMatcher(new GreaterThan<T>(value));
-        return null;
+        T returnVal = null;
+        if(value != null) {
+            returnVal = (T) getDefaultReturnValue(value.getClass());
+        } 
+        return returnVal;
     }
 
     /**
@@ -886,11 +944,15 @@ public class EasyMock {
      *            type of the method argument to match
      * @param value
      *            the given value.
-     * @return {@code null}.
+     * @return {@code 0} if value is a boxing primitive or {@code null} otherwise.
      */
     public static <T extends Comparable<T>> T lt(Comparable<T> value) {
         reportMatcher(new LessThan<T>(value));
-        return null;
+        T returnVal = null;
+        if(value != null) {
+            returnVal = (T) getDefaultReturnValue(value.getClass());
+        } 
+        return returnVal;
     }
 
     /**
@@ -979,11 +1041,11 @@ public class EasyMock {
      *            the accepted type.
      * @param clazz
      *            the class of the accepted type.
-     * @return {@code null}.
+     * @return {@code 0} if clazz is a boxing primitive type, or {@code null} otherwise.
      */
     public static <T> T isA(Class<T> clazz) {
         reportMatcher(new InstanceOf(clazz));
-        return null;
+        return (T) getDefaultReturnValue(clazz);
     }
 
     /**
@@ -1120,11 +1182,17 @@ public class EasyMock {
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return {@code null}.
+     * @return {@code 0} if first or second is a boxing primitive, or {@code null} otherwise.
      */
     public static <T> T and(T first, T second) {
         LastControl.reportAnd(2);
-        return null;
+        T returnVal = null;
+        if(first != null) {
+            returnVal = (T) getDefaultReturnValue(first.getClass());
+        } else if (second != null) {
+            returnVal = (T) getDefaultReturnValue(second.getClass());
+        }
+        return returnVal;
     }
 
     /**
@@ -1248,11 +1316,17 @@ public class EasyMock {
      *            placeholder for the first expectation.
      * @param second
      *            placeholder for the second expectation.
-     * @return {@code null}.
+     * @return {@code 0} if first or second is a boxing primitive, or {@code null} otherwise.
      */
     public static <T> T or(T first, T second) {
         LastControl.reportOr(2);
-        return null;
+        T returnVal = null;
+        if(first != null) {
+            returnVal = (T) getDefaultReturnValue(first.getClass());
+        } else if (second != null) {
+            returnVal = (T) getDefaultReturnValue(second.getClass());
+        }
+        return returnVal;
     }
 
     /**
@@ -1358,11 +1432,15 @@ public class EasyMock {
      *            the type of the object, it is passed through to prevent casts.
      * @param first
      *            placeholder for the expectation.
-     * @return {@code null}.
+     * @return {@code 0} if first is a boxing primitive, or {@code null} otherwise.
      */
     public static <T> T not(T first) {
         LastControl.reportNot();
-        return null;
+        T returnVal = null;
+        if(first != null) {
+            returnVal = (T) getDefaultReturnValue(first.getClass());
+        }
+        return returnVal;
     }
 
     /**
@@ -1468,11 +1546,15 @@ public class EasyMock {
      *            type of the method argument to match
      * @param value
      *            the given value.
-     * @return {@code null}.
+     * @return {@code 0} if value is a boxing primitive, or {@code null} otherwise.
      */
     public static <T> T eq(T value) {
         reportMatcher(new Equals(value));
-        return null;
+        T returnVal = null;
+        if(value != null) {
+            returnVal = (T)getDefaultReturnValue(value.getClass());
+        }
+        return returnVal;
     }
 
     /**
@@ -1762,11 +1844,15 @@ public class EasyMock {
      *            the type of the object, it is passed through to prevent casts.
      * @param value
      *            the given value.
-     * @return {@code null}.
+     * @return {@code 0} if value is a boxing primitive, or {@code null} otherwise.
      */
     public static <T> T same(T value) {
         reportMatcher(new Same(value));
-        return null;
+        T returnVal = null;
+        if(value != null) {
+            returnVal = (T)getDefaultReturnValue(value.getClass());
+        }
+        return returnVal;
     }
 
     /**
@@ -1777,11 +1863,16 @@ public class EasyMock {
      *            type of the method argument to match
      * @param value
      *            the given value.
-     * @return {@code null}.
+     * @return {@code 0} if value is a boxing primitive, or {@code null} otherwise.
      */
     public static <T extends Comparable<T>> T cmpEq(Comparable<T> value) {
         reportMatcher(new CompareEqual<T>(value));
-        return null;
+        T returnVal = null;
+        if(value != null) {
+            returnVal = (T)getDefaultReturnValue(value.getClass());
+        }
+        return returnVal;
+
     }
 
     /**
@@ -1800,12 +1891,16 @@ public class EasyMock {
      *            Comparator used to compare the actual with expected value.
      * @param operator
      *            The comparison operator.
-     * @return {@code null}
+     * @return {@code 0} if value is a boxing primitive, or {@code null} otherwise.
      */
     public static <T> T cmp(T value, Comparator<? super T> comparator,
             LogicalOperator operator) {
         reportMatcher(new Compare<T>(value, comparator, operator));
-        return null;
+        T returnVal = null;
+        if(value != null) {
+            returnVal = (T)getDefaultReturnValue(value.getClass());
+        }
+        return returnVal;
     }
 
     /**
