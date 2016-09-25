@@ -96,7 +96,7 @@ public class Invocation implements Serializable {
 
         Invocation other = (Invocation) o;
 
-        return this.mock.equals(other.mock) && this.method.equals(other.method)
+        return this.mock == other.mock && this.method.equals(other.method)
                 && this.equalArguments(other.arguments);
     }
 
