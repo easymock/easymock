@@ -82,7 +82,7 @@ public class ExpectedInvocation implements Serializable {
     }
 
     public boolean matches(Invocation actual) {
-        return this.invocation.getMock().equals(actual.getMock())
+        return this.invocation.getMock() == actual.getMock()
                 && this.invocation.getMethod().equals(actual.getMethod()) && matches(actual.getArguments());
     }
 
