@@ -7,7 +7,29 @@ locale: en
 
 <div class="container">
   <h1>Getting Started</h1>
-  <p>Add EasyMock dependency to your POM file.</p>
+
+  <p>You have brand new class. Let's call it <code>ClassTested</code>.</p>
+
+{% highlight java %}
+public class ClassTested {
+
+  private Collaborator listener;
+
+  public void setListener(Collaborator listener) {
+    this.listener = listener;
+  }
+
+  public void addDocument(String title, String document) {
+
+  }
+}
+{% endhighlight %}
+
+  <p>Being a nice human being, you want to test your implementation. You might even be a disciple of TDD and haven't
+    done your implementation yet. You want your test first! </p>
+
+  <p>Your tested class will depend on others so you figured you need a mocking framework. Good for you. Add
+    EasyMock dependency to your POM file.</p>
 
 {% highlight xml %}
 <dependency>
@@ -18,46 +40,36 @@ locale: en
 </dependency>
 {% endhighlight %}
 
-  <p>Then, you need a class to test and a collaborator used by this class. The collaborator can be a class or
-      an interface. It doesn't matter. Please don't create an interface just for the pleasure of mocking it.</p>
+  <p>Ok. Now <code>addDocument</code> should do stuff and then notify a dependency. Let's
+    call it <code>Collaborator</code>.</p>
 
 {% highlight java %}
 public interface Collaborator {
     void documentAdded(String title);
-}
-
-public class ClassTested {
-
-    private Collaborator listener;
-    // ...
-    public void setListener(Collaborator listener) {
-        this.listener = listener;
-    }
-    public void addDocument(String title, String document) {
-        // ...
-    }
-}
 {% endhighlight %}
 
-    <p>In our case, we are expecting the collaborator to be notified when a document is added to the class under
-        test. So lets do that. First our todo list:</p>
+  <p class="alert alert-danger">Now, a word of warning. I will mock an interface in this example. That doesn't mean
+    you should only mock interfaces. I hate useless interfaces. And you want me to be happy. Please don't create
+    an interface just for the pleasure of mocking it. Just mock the concrete class. Thank you.</p>
 
-    <ol>
-        <li>Create the mock</li>
-        <li>Have it set to the tested class</li>
-        <li>Record what we expect the mock to do</li>
-        <li>Tell all mocks we are now doing the actual testing</li>
-        <li>Test</li>
-        <li>Make sure everything that was supposed to be called was called</li>
-    </ol>
+  <p>So, we want to make sure <code>addDocument</code> is notifying <code>Collaborator</code> by calling
+    <code>documentAdded</code> with the right title in argument. Our todo list to do that:</p>
 
-    <p>Then the code fulfilling it:</p>
+  <ol>
+    <li>Create the mock</li>
+    <li>Have it set to the tested class</li>
+    <li>Record what we expect the mock to do</li>
+    <li>Tell all mocks we are now doing the actual testing</li>
+    <li>Test</li>
+    <li>Make sure everything that was supposed to be called was called</li>
+  </ol>
+
+  <p>Then the code fulfilling it:</p>
 
 {% highlight java %}
 import static org.easymock.EasyMock.*;
 import org.easymock.*;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 
 public class ExampleTest extends EasyMockSupport {
 
@@ -68,7 +80,7 @@ public class ExampleTest extends EasyMockSupport {
     private Collaborator collaborator; // 1
 
     @TestSubject
-    private final ClassTested classUnderTest = new ClassTested(); // 2
+    private ClassTested classUnderTest = new ClassTested(); // 2
 
     @Test
     public void addDocument() {
@@ -80,21 +92,22 @@ public class ExampleTest extends EasyMockSupport {
 }
 {% endhighlight %}
 
-    <p>And that's all you need to get you started. Some comments though:</p>
-    <ul>
-        <li>Extending (or delegating to) `EasyMockSupport` is useful but not mandatory</li>
-        <li>Mock injection is done on fields so you won't need a setter only used for testing</li>
-        <li>We are testing here that `documentAdded` will be called once and only once using this exact parameter.
-        That's what we expect. Any other result means that the collaborator is notified too many time (or not at all)</li>
-    </ul>
+  <p>And that's all you need to get you started. Some comments though:</p>
+  <ul>
+      <li>Extending (or delegating to) <code>EasyMockSupport</code> is useful but not mandatory.
+        It allows to call <code>replyAll</code> instead of <code>replay(mock1, mock2, ...)</code> for instance</li>
+      <li>Mock injection is done on fields (by <code>EasyMockRule</code>) so you won't need a setter only used for testing</li>
+      <li>We are testing that <code>documentAdded</code> is called only once and receiving this exact parameter.
+        Any other call to our mock is a test failure</li>
+  </ul>
 
-    <p>From there, I will highly suggest you have a look at the
-        <a href="https://github.com/easymock/easymock/tree/easymock-{{site.latest_version}}/core/src/samples/java/org/easymock/samples">samples</a>
-        and the <a href="user-guide.html">full documentation</a> to get a fair overview of EasyMock.
-    </p>
+  <p>From there, I will highly suggest you have a look at the
+      <a href="https://github.com/easymock/easymock/tree/easymock-{{site.latest_version}}/core/src/samples/java/org/easymock/samples">samples</a>
+      and the <a href="user-guide.html">full documentation</a> to get a fair overview of EasyMock.
+  </p>
 
-    <div class="alert alert-success">
-        <p>Happy mocking!</p>
-    </div>
+  <div class="alert alert-success">
+      <p>Happy mocking!</p>
+  </div>
 
 </div>
