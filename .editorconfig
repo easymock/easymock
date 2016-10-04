@@ -20,7 +20,7 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 
 [*.html]
-indent_size = 4
+indent_size = 2
 
 [*.xml]
 indent_size = 2
