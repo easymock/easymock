@@ -36,7 +36,6 @@ import static org.junit.Assert.assertTrue;
 @RunWith(Enclosed.class)
 public class EnclosedTest {
 
-    @RunWith(EasyMockRunner.class)
     public static abstract class Fixtures extends EasyMockSupport {
 
         @TestSubject
@@ -46,6 +45,7 @@ public class EnclosedTest {
         Collaborator mock;
     }
 
+    @RunWith(EasyMockRunner.class)
     public static class VoteRemoval extends Fixtures {
 
         @Before
@@ -80,6 +80,7 @@ public class EnclosedTest {
         }
     }
 
+    @RunWith(EasyMockRunner.class)
     public static class VoteRemovals extends Fixtures {
 
         @Before
