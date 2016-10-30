@@ -61,6 +61,11 @@
       <artifactId>junit</artifactId>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
