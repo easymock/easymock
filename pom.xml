@@ -70,6 +70,11 @@
         <artifactId>junit</artifactId>
         <version>4.12</version>
       </dependency>
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>6.9.10</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -195,6 +200,14 @@
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.18.1</version>
+          <dependencies>
+            <dependency>
+              <!-- Force junit provider because surefire will choose the testng one if testng is detected -->
+              <groupId>org.apache.maven.surefire</groupId>
+              <artifactId>surefire-junit47</artifactId>
+              <version>2.18.1</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -433,6 +446,7 @@
     <module>test-integration</module>
     <module>test-osgi</module>
     <module>test-nodeps</module>
+    <module>test-testng</module>
   </modules>
 
   <distributionManagement>
