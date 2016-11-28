@@ -12,9 +12,10 @@ You can find the website and user documentation at http://easymock.org.
 Developer information
 =====================
 
-Travis status
+Build status
 -------------
 [![Build Status](https://travis-ci.org/easymock/easymock.svg?branch=master)](https://travis-ci.org/easymock/easymock)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.easymock/easymock/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.easymock/easymock)
 
 Environment setup
 -----------------
