@@ -15,9 +15,9 @@
  */
 package org.easymock.tests2;
 
-import com.google.dexmaker.stock.ProxyBuilder;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
+import org.droidparts.dexmaker.stock.ProxyBuilder;
 import org.easymock.EasyMock;
 import org.easymock.internal.AndroidSupport;
 import org.easymock.internal.MocksControl;

@@ -52,9 +52,9 @@
     </dependency>
     <!-- Used for class mocking on Android (cglib replacement) -->
     <dependency>
-        <groupId>com.google.dexmaker</groupId>
+        <groupId>org.droidparts.dexmaker</groupId>
         <artifactId>dexmaker</artifactId>
-        <version>1.2</version>
+        <version>1.5</version>
         <optional>true</optional>
     </dependency>
     <dependency>

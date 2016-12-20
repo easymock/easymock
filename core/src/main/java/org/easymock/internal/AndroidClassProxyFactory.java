@@ -26,7 +26,7 @@ import java.util.Set;
 
 import org.easymock.ConstructorArgs;
 
-import com.google.dexmaker.stock.ProxyBuilder;
+import org.droidparts.dexmaker.stock.ProxyBuilder;
 
 // ///CLOVER:OFF (sadly not possible to test android with clover)
 /**
