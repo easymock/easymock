@@ -156,7 +156,7 @@
         <artifactId>android-maven-plugin</artifactId>
         <configuration>
           <sdk>
-            <platform>19</platform>
+            <platform>25</platform>
           </sdk>
         </configuration>
         <extensions>true</extensions>
