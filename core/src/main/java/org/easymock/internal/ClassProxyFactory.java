@@ -29,21 +29,12 @@ import java.util.Set;
 
 import org.easymock.ConstructorArgs;
 
-import net.sf.cglib.core.CodeGenerationException;
-import net.sf.cglib.core.CollectionUtils;
-import net.sf.cglib.core.DefaultNamingPolicy;
-import net.sf.cglib.core.NamingPolicy;
-import net.sf.cglib.core.Predicate;
-import net.sf.cglib.core.VisibilityPredicate;
-import net.sf.cglib.proxy.Callback;
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.Factory;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import net.sf.cglib.core.*;
+import net.sf.cglib.proxy.*;
 
 /**
  * Factory generating a mock for a class.
- * 
+ *
  * @author Henri Tremblay
  */
 public class ClassProxyFactory implements IProxyFactory {
@@ -71,10 +62,10 @@ public class ClassProxyFactory implements IProxyFactory {
             // Here I need to check if the fillInStackTrace was called by EasyMock inner code
             // If it's the case, just ignore the call. We ignore it for two reasons
             // 1- In Java 7, the fillInStackTrace won't work because, since no constructor was called, the stackTrace attribute is null
-            // 2- There might be some unexpected side effect in the original fillInStackTrace. So it seems more logical to ignore the call 
+            // 2- There might be some unexpected side effect in the original fillInStackTrace. So it seems more logical to ignore the call
             if (obj instanceof Throwable && method.getName().equals("fillInStackTrace")) {
-                if(isCallerMockInvocationHandlerInvoke(new Throwable())) {
-                        return obj;
+                if (isCallerMockInvocationHandlerInvoke(new Throwable())) {
+                    return obj;
                 }
             }
 
@@ -180,7 +171,10 @@ public class ClassProxyFactory implements IProxyFactory {
             // This is required by Eclipse Plug-ins, the mock class loader doesn't see
             // cglib most of the time. Using EasyMock class loader solves this
             // See issue ID: 2994002
-            enhancer.setClassLoader(getClass().getClassLoader());
+            LinkedClassLoader linkedClassLoader = new LinkedClassLoader();
+            linkedClassLoader.addClassLoader(toMock.getClassLoader());
+            linkedClassLoader.addClassLoader(ClassProxyFactory.class.getClassLoader());
+            enhancer.setClassLoader(linkedClassLoader);
             mockClass = enhancer.createClass();
             // ///CLOVER:ON
         }
