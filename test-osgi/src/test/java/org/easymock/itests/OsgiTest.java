@@ -18,16 +18,15 @@ package org.easymock.itests;
 import org.easymock.MockType;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.matchers.Equals;
-import org.objenesis.Objenesis;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.Constants;
-import org.springframework.osgi.util.OsgiStringUtils;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.jar.Manifest;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 /**
  * Note: This is a JUnit 3 test because of the Spring OSGi test framework
@@ -40,46 +39,7 @@ public class OsgiTest extends OsgiBaseTest {
         public abstract void foo();
     }
 
-    @Override
-    protected String[] getTestBundlesNames() {
-        String objenesisVersion = getImplementationVersion(Objenesis.class);
-        String easymockVersion = getEasyMockVersion();
-
-        return new String[] {
-            "org.easymock, easymock, " + easymockVersion,
-            "org.objenesis, objenesis, " + objenesisVersion
-        };
-    }
-
-    @Override
-    protected Manifest getManifest() {
-        Manifest mf = super.getManifest();
-
-        String imports = mf.getMainAttributes().getValue(Constants.IMPORT_PACKAGE);
-        imports = imports.replace("org.easymock.internal,", "org.easymock.internal;poweruser=true,");
-        imports = imports.replace("org.easymock.internal.matchers,",
-                "org.easymock.internal.matchers;poweruser=true,");
-
-        imports += ",org.easymock.cglib.core,org.easymock.cglib.proxy,org.easymock.cglib.reflect,org.easymock.asm";
-
-        mf.getMainAttributes().putValue(Constants.IMPORT_PACKAGE, imports);
-
-        return mf;
-    }
-
-    @Override
-    public void testOsgiPlatformStarts() throws Exception {
-        System.out.println("Framework vendor: " + this.bundleContext.getProperty(Constants.FRAMEWORK_VENDOR));
-        System.out.println("Framework version: " + bundleContext.getProperty(Constants.FRAMEWORK_VERSION));
-        System.out.println("-----------------------------");
-
-        Bundle[] bundles = bundleContext.getBundles();
-        for (Bundle bundle : bundles) {
-            System.out.println(OsgiStringUtils.nullSafeName(bundle) + ": "
-                    + bundle.getHeaders().get(Constants.BUNDLE_VERSION));
-        }
-    }
-
+    @Test
     public void testCanMock() throws IOException {
         Appendable mock = mock(Appendable.class);
         expect(mock.append("test")).andReturn(mock);
@@ -88,10 +48,14 @@ public class OsgiTest extends OsgiBaseTest {
         verifyAll();
     }
 
+    @Ignore("Doesn't work with pax-exam yet")
+    @Test
     public void testCanUseMatchers() {
         new Equals(new Object());
     }
 
+    @Ignore("Doesn't work with pax-exam yet")
+    @Test
     public void testCanUseInternal() {
         new MocksControl(MockType.DEFAULT);
     }
@@ -101,6 +65,7 @@ public class OsgiTest extends OsgiBaseTest {
      * this case, cglib creates the proxy in its own class loader. So I need to
      * test this case is working
      */
+    @Test
     public void testCanMock_BootstrapClassLoader() {
         ArrayList<?> mock = mock(ArrayList.class);
         expect(mock.size()).andReturn(5);
@@ -112,6 +77,7 @@ public class OsgiTest extends OsgiBaseTest {
     /**
      * Normal case of a class in this class loader
      */
+    @Test
     public void testCanMock_OtherClassLoader() {
         A mock = mock(A.class);
         mock.foo();
@@ -120,6 +86,7 @@ public class OsgiTest extends OsgiBaseTest {
         verifyAll();
     }
 
+    @Test
     public void  testCanPartialMock() throws Exception {
         A mock = partialMockBuilder(A.class).withConstructor().addMockedMethod("foo").createMock();
 
