@@ -225,19 +225,7 @@ public class ClassProxyFactory implements IProxyFactory {
                             + ClassInstantiatorFactory.getJVM() + " JVM");
                     // ///CLOVER:ON
                 }
-
-                // This call is required. CGlib has some "magic code" making sure a
-                // callback is used by only one instance of a given class. So only
-                // the
-                // instance created right after registering the callback will get
-                // it.
-                // However, this is done in the constructor which I'm bypassing to
-                // allow class instantiation without calling a constructor.
-                // Fortunately, the "magic code" is also called in getCallback which
-                // is
-                // why I'm calling it here mock.getCallback(0);
-                mock.getCallback(0);
-
+                mock.setCallback(0, interceptor);
                 return (T) mock;
             }
         } finally {
