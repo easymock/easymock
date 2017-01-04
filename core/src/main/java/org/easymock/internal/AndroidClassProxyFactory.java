@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import java.util.Set;
 
 import org.easymock.ConstructorArgs;
 
-import com.google.dexmaker.stock.ProxyBuilder;
+import org.droidparts.dexmaker.stock.ProxyBuilder;
 
 // ///CLOVER:OFF (sadly not possible to test android with clover)
 /**

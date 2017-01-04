@@ -41,7 +41,7 @@
     <dependency>
       <groupId>org.ow2.asm</groupId>
       <artifactId>asm</artifactId>
-      <version>5.0.3</version>
+      <version>5.1</version>
       <scope>runtime</scope>
     </dependency>
     <!-- Used for class mocking -->
@@ -52,9 +52,9 @@
     </dependency>
     <!-- Used for class mocking on Android (cglib replacement) -->
     <dependency>
-        <groupId>com.google.dexmaker</groupId>
+        <groupId>org.droidparts.dexmaker</groupId>
         <artifactId>dexmaker</artifactId>
-        <version>1.2</version>
+        <version>1.5</version>
         <optional>true</optional>
     </dependency>
     <dependency>
@@ -65,6 +65,14 @@
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -85,6 +93,7 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
         <configuration>
           <instructions>
             <Export-Package>org.easymock.internal.*;poweruser=true;mandatory:=poweruser,org.easymock,org.easymock.cglib.core,org.easymock.cglib.proxy,org.easymock.cglib.reflect,org.easymock.asm</Export-Package>
@@ -94,7 +103,7 @@
         <executions>
           <execution>
             <id>bundle-manifest</id>
-            <phase>prepare-package</phase>
+            <phase>process-classes</phase>
             <goals>
               <goal>manifest</goal>
             </goals>

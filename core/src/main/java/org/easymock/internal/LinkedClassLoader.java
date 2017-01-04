@@ -1,19 +1,33 @@
+/**
+ * Copyright 2001-2017 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.easymock.internal;
 
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.Arrays;
+import java.util.List;
 
-public class LinkedClassLoader extends ClassLoader {
+/**
+ * ClassLoader looking in multiple {@code ClassLoader}s in order to find the wanted class. Useful
+ * when in an OSGi context where class loaders are organized as a graph.
+ */
+class LinkedClassLoader extends ClassLoader {
 
-    private final Collection<ClassLoader> classLoaders;
+    private final List<ClassLoader> classLoaders;
 
-    public LinkedClassLoader() {
-        super();
-        classLoaders = new LinkedList<ClassLoader>();
-    }
-
-    public void addClassLoader(ClassLoader loader) {
-        classLoaders.add(loader);
+    public LinkedClassLoader(ClassLoader... classLoaders) {
+        this.classLoaders = Arrays.asList(classLoaders);
     }
 
     @Override
@@ -23,11 +37,11 @@ public class LinkedClassLoader extends ClassLoader {
             try {
                 clazz = classLoader.loadClass(name);
             } catch (ClassNotFoundException e) {
-                //Retry with nextClassLoader in List
+                // Retry with next ClassLoader in List
             }
         }
         if (clazz == null) {
-            throw new ClassNotFoundException();
+            throw new ClassNotFoundException(name);
         }
         return clazz;
     }
