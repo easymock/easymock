@@ -174,52 +174,56 @@ public class ClassProxyFactory implements IProxyFactory {
             mockClass = enhancer.createClass();
             // ///CLOVER:ON
         }
-
-        if (args != null) {
-            // Really instantiate the class
-            Constructor<?> cstr;
-            try {
-                // Get the constructor with the same params
-                cstr = mockClass.getDeclaredConstructor(args.getConstructor().getParameterTypes());
-            } catch (NoSuchMethodException e) {
-                // Shouldn't happen, constructor is checked when ConstructorArgs is instantiated
-                // ///CLOVER:OFF
-                throw new RuntimeException("Fail to find constructor for param types", e);
-                // ///CLOVER:ON
+        try {
+            if (args != null) {
+                // Really instantiate the class
+                Constructor<?> cstr;
+                try {
+                    // Get the constructor with the same params
+                    cstr = mockClass.getDeclaredConstructor(args.getConstructor().getParameterTypes());
+                } catch (NoSuchMethodException e) {
+                    // Shouldn't happen, constructor is checked when ConstructorArgs is instantiated
+                    // ///CLOVER:OFF
+                    throw new RuntimeException("Fail to find constructor for param types", e);
+                    // ///CLOVER:ON
+                }
+                Factory mock;
+                try {
+                    cstr.setAccessible(true); // So we can call a protected
+                    // constructor
+                    mock = (Factory) cstr.newInstance(args.getInitArgs());
+                } catch (InstantiationException e) {
+                    // ///CLOVER:OFF
+                    throw new RuntimeException("Failed to instantiate mock calling constructor", e);
+                    // ///CLOVER:ON
+                } catch (IllegalAccessException e) {
+                    // ///CLOVER:OFF
+                    throw new RuntimeException("Failed to instantiate mock calling constructor", e);
+                    // ///CLOVER:ON
+                } catch (InvocationTargetException e) {
+                    throw new RuntimeException(
+                            "Failed to instantiate mock calling constructor: Exception in constructor",
+                            e.getTargetException());
+                }
+                mock.setCallback(0, interceptor);
+                return (T) mock;
+            } else {
+                // Do not call any constructor
+                Factory mock;
+                try {
+                    mock = (Factory) ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
+                } catch (InstantiationException e) {
+                    // ///CLOVER:OFF
+                    throw new RuntimeException("Fail to instantiate mock for " + toMock + " on "
+                            + ClassInstantiatorFactory.getJVM() + " JVM");
+                    // ///CLOVER:ON
+                }
+                mock.setCallback(0, interceptor);
+                return (T) mock;
             }
-            Factory mock;
-            try {
-                cstr.setAccessible(true); // So we can call a protected
-                // constructor
-                mock = (Factory) cstr.newInstance(args.getInitArgs());
-            } catch (InstantiationException e) {
-                // ///CLOVER:OFF
-                throw new RuntimeException("Failed to instantiate mock calling constructor", e);
-                // ///CLOVER:ON
-            } catch (IllegalAccessException e) {
-                // ///CLOVER:OFF
-                throw new RuntimeException("Failed to instantiate mock calling constructor", e);
-                // ///CLOVER:ON
-            } catch (InvocationTargetException e) {
-                throw new RuntimeException(
-                        "Failed to instantiate mock calling constructor: Exception in constructor",
-                        e.getTargetException());
-            }
-            mock.setCallback(0, interceptor);
-            return (T) mock;
-        } else {
-            // Do not call any constructor
-            Factory mock;
-            try {
-                mock = (Factory) ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
-            } catch (InstantiationException e) {
-                // ///CLOVER:OFF
-                throw new RuntimeException("Fail to instantiate mock for " + toMock + " on "
-                        + ClassInstantiatorFactory.getJVM() + " JVM");
-                // ///CLOVER:ON
-            }
-            mock.setCallback(0, interceptor);
-            return (T) mock;
+        } finally {
+            // To avoid CGLib out of memory issues
+            Enhancer.registerCallbacks(mockClass, null);
         }
     }
 
