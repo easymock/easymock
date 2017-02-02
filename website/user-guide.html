@@ -273,7 +273,8 @@ public class SupportTest extends EasyMockSupport {
         <h2 id="mocking-strict">Strict Mocks</h2>
 
         <p>On a Mock Object returned by a <code>EasyMock.mock()</code>, the order of method calls is not checked.
-          If you would like a strict Mock Object that checks the order of method calls, use <code>EasyMock.<i>strict</i>Mock()</code> to create it.</p>
+          If you would like a strict Mock Object that checks the order of method calls, use <code>EasyMock.<i>strict</i>Mock()</code> to create it. 
+          The equivalent annotation is @MockStrict.</p>
 
         <p>If an unexpected method is called on a strict Mock Object, the message of the exception will show the method
           calls expected at this point followed by the first conflicting one. <code>verify(mock)</code> shows all missing method calls.</p>
