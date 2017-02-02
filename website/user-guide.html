@@ -291,8 +291,8 @@ public class SupportTest extends EasyMockSupport {
           happens when you want to test a method that calls some others in the same class. So you want to keep the normal behavior
           of the tested method and mock the others.</p>
 
-        <p>In this case, the first thing to do is to consider a refactoring since most of the time this problem caused by a
-          bad design. If it's not the case or if you can't do otherwise because of some development constraints, here's the solution.</p>
+        <p>In this case, the first thing to do is to consider a refactoring since most of the time this problem was caused by a
+          bad design. If it's not the case, or if you can't do otherwise because of some development constraints, here's the solution:</p>
 
 {% highlight java %}
 ToMock mock = partialMockBuilder(ToMock.class)
