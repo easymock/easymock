@@ -54,7 +54,6 @@
     <dependency>
         <groupId>org.droidparts.dexmaker</groupId>
         <artifactId>dexmaker</artifactId>
-        <version>1.5</version>
         <optional>true</optional>
     </dependency>
     <dependency>
@@ -126,7 +125,7 @@
                 <excludes>
                   <exclude>junit:junit</exclude>
                   <exclude>org.objenesis:objenesis</exclude>
-                  <exclude>com.google.dexmaker:dexmaker</exclude>
+                  <exclude>org.droidparts.dexmaker</exclude>
                   <exclude>org.hamcrest:hamcrest-core</exclude>
                 </excludes>
               </artifactSet>

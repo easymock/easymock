@@ -42,9 +42,8 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.google.dexmaker</groupId>
+      <groupId>org.droidparts.dexmaker</groupId>
       <artifactId>dexmaker</artifactId>
-      <version>1.2</version>
     </dependency>
     <dependency>
       <groupId>com.google.android</groupId>

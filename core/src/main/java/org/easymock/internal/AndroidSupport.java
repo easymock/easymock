@@ -28,7 +28,7 @@ public final class AndroidSupport {
             // Also verify that dexmaker is present, if not we might
             // be running under something like robolectric, which
             // means we should not use dexmaker
-            Class.forName("com.google.dexmaker.Code");
+            Class.forName("org.droidparts.dexmaker.Code");
 
             isAndroid = true;
         } catch (ClassNotFoundException e) {
@@ -39,5 +39,5 @@ public final class AndroidSupport {
     public static boolean isAndroid() {
         return isAndroid;
     }
-    // ///CLOVER:ON    
+    // ///CLOVER:ON
 }
