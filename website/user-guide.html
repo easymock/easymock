@@ -778,38 +778,29 @@ ctrl.replay();
 
         <h2 id="verification-expectations">Flexible Expectations with Argument Matchers</h2>
 
-        <p>To match an actual method call on the Mock Object with an expectation, <code>Object</code> arguments are by default compared with <code>equals()</code>. This may lead to problems. As an example, we consider the following expectation:</p>
+        <p>To match an actual method call on the Mock Object with an expectation, <code>Object</code> arguments are by default compared with <code>equals()</code>. Arrays are
+          by default <span class="badge">since 3.5</span> compared with <code>Arrays.equals()</code>.</p>
+
+        <p>Buy once in a while, you will want to match you parameter in a different way. As an example, we consider the following expectation:</p>
 
 {% highlight java %}
-String[] documents = new String[] { "Document 1", "Document 2" };
-expect(mock.voteForRemovals(documents)).andReturn(42);
+Document document = getFromCache();
+expect(mock.voteForRemovals(document)).andReturn(42);
 {% endhighlight %}
 
-        <p>If the method is called with another array with the same contents, we get an exception, as <code>equals()</code> compares object identity for arrays:</p>
+        <p>Here, I don't want the document received by <code>voteForRemovals</code> to be equals,
+          I want it to be the exact same class instance coming from the cache. My current expectation
+          is not testing what I want.</p>
+
+        <p>To specify that the exact same instance is needed for this call, we use the method
+          <code>same</code> that is statically imported from the <code>EasyMock</code> class:</p>
 
 {% highlight java %}
-java.lang.AssertionError:
-  Unexpected method call voteForRemovals([Ljava.lang.String;@9a029e):
-    voteForRemovals([Ljava.lang.String;@2db19d): expected: 1, actual: 0
-    documentRemoved("Document 1"): expected: 1, actual: 0
-    documentRemoved("Document 2"): expected: 1, actual: 0
-      at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
-      at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
-      at $Proxy0.voteForRemovals(Unknown Source)
-      at org.easymock.samples.ClassUnderTest.listenersAllowRemovals(ClassUnderTest.java:88)
-      at org.easymock.samples.ClassUnderTest.removeDocuments(ClassUnderTest.java:48)
-      at org.easymock.samples.ExampleTest.testVoteForRemovals(ExampleTest.java:83)
-      ...
+Document document = getFromCache();
+expect(mock.voteForRemovals(same(document))).andReturn(42);
 {% endhighlight %}
 
-        <p>To specify that only array equality is needed for this call, we may use the method <code>aryEq</code> that is statically imported from the <code>EasyMock</code> class:</p>
-
-{% highlight java %}
-String[] documents = new String[] { "Document 1", "Document 2" };
-expect(mock.voteForRemovals(aryEq(documents))).andReturn(42);
-{% endhighlight %}
-
-        <p>If you would like to use matchers in a call, you have to specify matchers for all arguments of the method call.</p>
+        <p><b>Important:</b> When you use matchers in a call, you have to specify matchers <b>for all arguments of the method call</b>.</p>
 
         <p>There are a couple of predefined argument matchers available.</p>
 

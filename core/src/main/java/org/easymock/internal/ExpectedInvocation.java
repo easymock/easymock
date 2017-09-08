@@ -16,6 +16,7 @@
 package org.easymock.internal;
 
 import org.easymock.IArgumentMatcher;
+import org.easymock.internal.matchers.ArrayEquals;
 import org.easymock.internal.matchers.Equals;
 
 import java.io.Serializable;
@@ -59,7 +60,12 @@ public class ExpectedInvocation implements Serializable {
         }
         List<IArgumentMatcher> result = new ArrayList<IArgumentMatcher>(invocation.getArguments().length);
         for (Object argument : invocation.getArguments()) {
-            result.add(new Equals(argument));
+            if(argument != null && argument.getClass().isArray()) {
+                result.add(new ArrayEquals(argument));
+            }
+            else {
+                result.add(new Equals(argument));
+            }
         }
         return result;
     }

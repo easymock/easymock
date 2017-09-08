@@ -16,6 +16,7 @@
 package org.easymock.tests2;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 import org.easymock.tests.IMethods;
 import org.junit.Test;
@@ -27,10 +28,23 @@ public class UsageMatchersTest {
     @Test(expected = IllegalStateException.class)
     public void additionalMatchersFailAtReplay() {
 
-        IMethods mock = createMock(IMethods.class);
+        IMethods mock = mock(IMethods.class);
         lt(5);
 
         replay(mock);
+    }
+
+    @Test
+    public void arraysArgumentsAreMatchedWithAryEq() {
+
+        IMethods mock = mock(IMethods.class);
+        expect(mock.oneArray(new int[] { 1 })).andReturn("test");
+
+        replay(mock);
+
+        assertEquals("should use ArrayEquals to compare", "test", mock.oneArray(new int[] { 1 }));
+
+        verify(mock);
     }
 
 }
