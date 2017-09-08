@@ -55,6 +55,7 @@
 
   <properties>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+    <javac.version>1.6</javac.version>
   </properties>
 
   <scm>
@@ -337,8 +338,8 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
+          <source>${javac.version}</source>
+          <target>${javac.version}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -388,7 +389,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.2</version>
+        <version>3.0.0-M1</version>
         <configuration>
           <excludePackageNames>*.internal</excludePackageNames>
           <bottom><![CDATA[<i>Copyright &#169; ${project.inceptionYear}-${year} ${project.organization.name}. This documentation is provided under the terms of the Apache 2 licence.</i>]]></bottom>
@@ -416,7 +417,7 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <version>3.8</version>
         <configuration>
-          <targetJdk>1.5</targetJdk>
+          <targetJdk>1.6</targetJdk>
         </configuration>
       </plugin>
       <plugin>

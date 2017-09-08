@@ -9,8 +9,8 @@
 
   <artifactId>easymock-android-tck</artifactId>
   <packaging>apk</packaging>
-  <name>EasyMock Android Test</name>
-  <description>EasyMock Android Test</description>
+  <name>EasyMock Test Android</name>
+  <description>EasyMock Test Android</description>
   <inceptionYear>2013</inceptionYear>
 
   <developers>
@@ -142,14 +142,6 @@
     </pluginManagement>
 
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>com.simpligility.maven.plugins</groupId>
         <artifactId>android-maven-plugin</artifactId>
