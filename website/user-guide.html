@@ -271,6 +271,55 @@ public class SupportTest extends EasyMockSupport {
 }
 {% endhighlight %}
 
+        <p>Alternatively, you can also use <code>EasyMockSupport</code> through delegation as shown below.</p>
+
+{% highlight java %}
+public class SupportDelegationTest {
+
+  private EasyMockSupport support = new EasyMockSupport();
+
+  private Collaborator collaborator;
+
+  private ClassTested classUnderTest;
+
+  @Before
+  public void setup() {
+    classUnderTest = new ClassTested();
+  }
+
+  @Test
+  public void addDocument() {
+    collaborator = support.mock(Collaborator.class);
+    classUnderTest.setListener(collaborator);
+    collaborator.documentAdded("New Document");
+    support.replayAll();
+    classUnderTest.addDocument("New Document", "content");
+    support.verifyAll();
+  }
+
+  @Test
+  public void voteForRemovals() {
+
+    IMocksControl ctrl = support.createControl();
+    collaborator = ctrl.createMock(Collaborator.class);
+    classUnderTest.setListener(collaborator);
+
+    collaborator.documentAdded("Document 1");
+
+    expect(collaborator.voteForRemovals("Document 1")).andReturn((byte) 20);
+
+    collaborator.documentRemoved("Document 1");
+
+    support.replayAll();
+
+    classUnderTest.addDocument("Document 1", "content");
+    assertTrue(classUnderTest.removeDocuments("Document 1"));
+
+    support.verifyAll();
+  }
+}
+{% endhighlight %}
+
         <h2 id="mocking-strict">Strict Mocks</h2>
 
         <p>On a Mock Object returned by a <code>EasyMock.mock()</code>, the order of method calls is not checked.
