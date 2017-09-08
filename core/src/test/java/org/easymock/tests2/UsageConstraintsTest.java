@@ -80,6 +80,7 @@ public class UsageConstraintsTest {
         mock.simpleMethodWithArgument("2");
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     @Test
     public void equals() {
         assertEquals(new Equals(null), new Equals(null));
@@ -315,6 +316,7 @@ public class UsageConstraintsTest {
                 return a1.getValue() - a2.getValue();
             }
 
+            @Override
             public int compare(Object o1, Object o2) {
                 return compare((A) o1, (A) o2);
             }
