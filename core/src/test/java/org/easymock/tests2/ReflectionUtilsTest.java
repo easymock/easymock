@@ -166,4 +166,10 @@ public class ReflectionUtilsTest {
             assertTrue(e.getCause() instanceof NoSuchMethodException);
         }
     }
+
+    @Test
+    public void testIsClassMockingPossible() throws Exception {
+        assertTrue(ReflectionUtils.isClassAvailable("org.easymock.EasyMock"));
+        assertFalse(ReflectionUtils.isClassAvailable("org.easymock.NotThere"));
+    }
 }

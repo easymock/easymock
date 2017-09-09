@@ -15,8 +15,10 @@
  */
 package org.itests;
 
+import org.easymock.EasyMockSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -62,6 +64,12 @@ public class PowermockTest {
         } catch (AssertionError e) {
             assertEquals("\n  Unexpected method call StaticService.say(\"world\"):", e.getMessage());
         }
+    }
+
+    @Test
+    public void mockType() {
+        Object mock = PowerMock.createMock(getClass());
+        assertEquals(getClass(), EasyMockSupport.getMockedType(mock));
     }
 
 }

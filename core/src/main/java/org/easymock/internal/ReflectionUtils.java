@@ -230,4 +230,19 @@ public final class ReflectionUtils {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Tells if a class is available in the classpath
+     *
+     * @param className full class name
+     * @return true if the class was found
+     */
+    public static boolean isClassAvailable(String className) {
+        try {
+            Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+        return true;
+    }
 }
