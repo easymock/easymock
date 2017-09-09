@@ -18,14 +18,10 @@ package org.itests;
 import org.easymock.EasyMockSupport;
 import org.junit.Rule;
 import org.junit.Test;
+import org.main.Main;
 
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
@@ -39,7 +35,7 @@ public class DependencyTest {
     private final EasyMockSupport support = new EasyMockSupport();
 
     @Rule
-    public FilteringRule rule = new FilteringRule("org.objenesis");
+    public FilteringRule rule = new FilteringRule("org.objenesis", "org.depends.Dependency");
 
     @Test
     public void testInterfaceMocking() {
@@ -56,7 +52,7 @@ public class DependencyTest {
             createMock(DependencyTest.class);
             fail("Should throw an exception due to a NoClassDefFoundError");
         } catch (RuntimeException e) {
-            assertEquals("Class mocking requires to have objenesis library in the classpath", e
+            assertEquals("Class mocking requires to have Objenesis library in the classpath", e
                     .getMessage());
             assertTrue(e.getCause() instanceof NoClassDefFoundError);
         }
@@ -77,9 +73,19 @@ public class DependencyTest {
             support.createMock(DependencyTest.class);
             fail("Should throw an exception due to a NoClassDefFoundError");
         } catch (RuntimeException e) {
-            assertEquals("Class mocking requires to have objenesis library in the classpath", e
+            assertEquals("Class mocking requires to have Objenesis library in the classpath", e
                     .getMessage());
             assertTrue(e.getCause() instanceof NoClassDefFoundError);
+        }
+    }
+
+    @Test
+    public void testStillNoClassDefFoundErrorWhenSomeOtherClassIsMissing() {
+        try {
+            support.createMock(Main.class);
+            fail("Should throw an exception due to a NoClassDefFoundError");
+        } catch (NoClassDefFoundError e) {
+            assertEquals("org/depends/Dependency", e.getMessage());
         }
     }
 }

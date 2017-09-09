@@ -113,8 +113,11 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
                 return proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
                         new MockInvocationHandler(this), name), mockedMethods, constructorArgs);
             } catch (NoClassDefFoundError e) {
-                throw new RuntimeExceptionWrapper(new RuntimeException(
-                    "Class mocking requires to have objenesis library in the classpath", e));
+                if(e.getMessage().startsWith("org/objenesis")) {
+                    throw new RuntimeExceptionWrapper(new RuntimeException(
+                        "Class mocking requires to have Objenesis library in the classpath", e));
+                }
+                throw e;
             }
 
         } catch (RuntimeExceptionWrapper e) {
