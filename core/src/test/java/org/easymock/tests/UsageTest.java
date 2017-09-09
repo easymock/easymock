@@ -15,11 +15,11 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -242,6 +242,15 @@ public class UsageTest {
         mock.simpleMethodWithArgument("4");
         mock.simpleMethodWithArgument("4");
         mock.simpleMethodWithArgument("4");
+        verify(mock);
+    }
+
+    @Test
+    public void boxingArgument() {
+        Long value = Long.valueOf(1);
+        expect(mock.oneLongArg(value)).andReturn("test");
+        replay(mock);
+        assertEquals("test", mock.oneLongArg(value));
         verify(mock);
     }
 }

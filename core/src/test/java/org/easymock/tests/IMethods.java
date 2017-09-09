@@ -60,6 +60,8 @@ public interface IMethods {
 
     String oneArg(String value);
 
+    String oneLongArg(long value);
+
     public String throwsNothing(boolean value);
 
     public String throwsIOException(int count) throws IOException;

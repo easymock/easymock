@@ -609,9 +609,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code null}.
      */
-    public static <T extends Comparable<T>> T geq(Comparable<T> value) {
+    public static <T extends Comparable<T>> T geq(T value) {
         reportMatcher(new GreaterOrEqual<T>(value));
-        return null;
+        return value;
     }
 
     /**
@@ -702,9 +702,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code null}.
      */
-    public static <T extends Comparable<T>> T leq(Comparable<T> value) {
+    public static <T extends Comparable<T>> T leq(T value) {
         reportMatcher(new LessOrEqual<T>(value));
-        return null;
+        return value;
     }
 
     /**
@@ -795,9 +795,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code null}.
      */
-    public static <T extends Comparable<T>> T gt(Comparable<T> value) {
+    public static <T extends Comparable<T>> T gt(T value) {
         reportMatcher(new GreaterThan<T>(value));
-        return null;
+        return value;
     }
 
     /**
@@ -888,9 +888,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code null}.
      */
-    public static <T extends Comparable<T>> T lt(Comparable<T> value) {
+    public static <T extends Comparable<T>> T lt(T value) {
         reportMatcher(new LessThan<T>(value));
-        return null;
+        return value;
     }
 
     /**
@@ -1472,7 +1472,7 @@ public class EasyMock {
      */
     public static <T> T eq(T value) {
         reportMatcher(new Equals(value));
-        return null;
+        return value;
     }
 
     /**
@@ -1766,7 +1766,7 @@ public class EasyMock {
      */
     public static <T> T same(T value) {
         reportMatcher(new Same(value));
-        return null;
+        return value;
     }
 
     /**
@@ -1779,9 +1779,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code null}.
      */
-    public static <T extends Comparable<T>> T cmpEq(Comparable<T> value) {
+    public static <T extends Comparable<T>> T cmpEq(T value) {
         reportMatcher(new CompareEqual<T>(value));
-        return null;
+        return value;
     }
 
     /**
@@ -1802,10 +1802,9 @@ public class EasyMock {
      *            The comparison operator.
      * @return {@code null}
      */
-    public static <T> T cmp(T value, Comparator<? super T> comparator,
-            LogicalOperator operator) {
+    public static <T> T cmp(T value, Comparator<? super T> comparator, LogicalOperator operator) {
         reportMatcher(new Compare<T>(value, comparator, operator));
-        return null;
+        return value;
     }
 
     /**
