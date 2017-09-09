@@ -15,18 +15,24 @@
  */
 package org.easymock.tests2;
 
+import org.junit.Test;
+
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
-
-import org.junit.Test;
 
 /**
  * @author Henri Tremblay
  */
 public class DelegateToTest {
 
-    public static interface IMyInterface {
+    public interface IMyInterface {
         int getInt(int k);
+    }
+
+    public interface IMyVarArgsInterface {
+        int getInts(int... vals);
+        int getMoreInts(int i, int... vals);
+        int getObjects(Object o, String... vals);
     }
 
     @Test
@@ -135,4 +141,38 @@ public class DelegateToTest {
             assertEquals("delegated to object must not be null", expected.getMessage());
         }
     }
+
+    @Test
+    public void varargs() {
+        IMyVarArgsInterface mock = createMock(IMyVarArgsInterface.class);
+        IMyVarArgsInterface delegateTo = new IMyVarArgsInterface() {
+            @Override
+            public int getInts(int... vals) {
+                return 0;
+            }
+
+            @Override
+            public int getMoreInts(int i, int... vals) {
+                return 0;
+            }
+
+            @Override
+            public int getObjects(Object o, String... vals) {
+                return 0;
+            }
+        };
+
+        expect(mock.getInts(1, 2, 3, 4, 5)).andDelegateTo(delegateTo);
+        expect(mock.getMoreInts(1, 2, 3)).andDelegateTo(delegateTo);
+        expect(mock.getObjects("a", "b", "c")).andDelegateTo(delegateTo);
+        expect(mock.getInts()).andDelegateTo(delegateTo);
+
+        replay(mock);
+
+        assertEquals(0, mock.getInts(1, 2, 3, 4, 5));
+        assertEquals(0, mock.getMoreInts(1, 2, 3));
+        assertEquals(0, mock.getObjects("a", "b", "c"));
+        assertEquals(0, mock.getInts());
+    }
+
 }
