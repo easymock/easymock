@@ -15,14 +15,14 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-
 import org.easymock.internal.ReplayState;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -146,6 +146,21 @@ public class UsageVerifyTest {
         } catch (AssertionError expected) {
             assertEquals("\n  Unexpected method call IMethods.throwsIOException(0):"
                     + "\n    IMethods.throwsIOException(0): expected: 2, actual: 3", expected.getMessage());
+        }
+    }
+
+    @Test
+    public void manyMocks() {
+        IMethods otherMock = mock(IMethods.class);
+        expect(otherMock.oneArg(1)).andReturn("test");
+        replay(mock, otherMock);
+
+        try {
+            verify(mock, otherMock);
+            fail("Should fail on otherMock");
+        } catch (AssertionError e) {
+            assertEquals(AssertionError.class, e.getClass());
+            assertEquals("On mock #1 (zero indexed): \n  Expectation failure on verify:\n    IMethods.oneArg(1): expected: 1, actual: 0", e.getMessage());
         }
     }
 }

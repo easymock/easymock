@@ -1934,8 +1934,14 @@ public class EasyMock {
      *            the mock objects.
      */
     public static void replay(Object... mocks) {
-        for (Object mock : mocks) {
-            getControl(mock).replay();
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).replay();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
         }
     }
 
@@ -1947,8 +1953,14 @@ public class EasyMock {
      *            the mock objects.
      */
     public static void reset(Object... mocks) {
-        for (Object mock : mocks) {
-            getControl(mock).reset();
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).reset();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
         }
     }
 
@@ -1961,8 +1973,14 @@ public class EasyMock {
      *            the mock objects
      */
     public static void resetToNice(Object... mocks) {
-        for (Object mock : mocks) {
-            getControl(mock).resetToNice();
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).resetToNice();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
         }
     }
 
@@ -1975,8 +1993,14 @@ public class EasyMock {
      *            the mock objects
      */
     public static void resetToDefault(Object... mocks) {
-        for (Object mock : mocks) {
-            getControl(mock).resetToDefault();
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).resetToDefault();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
         }
     }
 
@@ -1989,8 +2013,14 @@ public class EasyMock {
      *            the mock objects
      */
     public static void resetToStrict(Object... mocks) {
-        for (Object mock : mocks) {
-            getControl(mock).resetToStrict();
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).resetToStrict();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
         }
     }
 
@@ -2002,8 +2032,14 @@ public class EasyMock {
      *            the mock objects.
      */
     public static void verify(Object... mocks) {
-        for (Object mock : mocks) {
-            getControl(mock).verify();
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).verify();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
         }
     }
 
@@ -2116,7 +2152,21 @@ public class EasyMock {
     }
 
     // ///CLOVER:OFF
-    protected EasyMock() { // Need to be protected since the Class extension extends it
+    private EasyMock() {
     }
     // ///CLOVER:ON
+
+    private static RuntimeException getRuntimeException(int length, int i, RuntimeException e) {
+        if(length < 2) {
+            return e;
+        }
+        return new RuntimeException("On mock #" + i + " (zero indexed): " + e.getMessage(), e);
+    }
+
+    private static AssertionError getAssertionError(int length, int i, AssertionError e) {
+        if(length < 2) {
+            return e;
+        }
+        return new AssertionError("On mock #" + i + " (zero indexed): " + e.getMessage());
+    }
 }
