@@ -15,12 +15,12 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
 import org.easymock.tests.IMethods;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -123,7 +123,7 @@ public class UsageTest {
             failed = false;
         } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
-                    + "\n    IMethods.threeArgumentMethod(1, \"2\", \"3\"): expected: 2, actual: 1", expected
+                    + "\n    IMethods.threeArgumentMethod(1 (int), \"2\", \"3\"): expected: 2, actual: 1", expected
                     .getMessage());
         }
         if (!failed) {

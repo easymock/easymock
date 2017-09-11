@@ -114,8 +114,8 @@ public class UsageVerifyTest {
             fail("AssertionError expected");
         } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
-                    + "\n    IMethods.throwsIOException(0): expected: 2, actual: 1"
-                    + "\n    IMethods.throwsIOException(1): expected: 1, actual: 0", expected.getMessage());
+                    + "\n    IMethods.throwsIOException(0 (int)): expected: 2, actual: 1"
+                    + "\n    IMethods.throwsIOException(1 (int)): expected: 1, actual: 0", expected.getMessage());
         }
 
         try {
@@ -129,7 +129,7 @@ public class UsageVerifyTest {
             fail("AssertionError expected");
         } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
-                    + "\n    IMethods.throwsIOException(1): expected: 1, actual: 0", expected.getMessage());
+                    + "\n    IMethods.throwsIOException(1 (int)): expected: 1, actual: 0", expected.getMessage());
         }
 
         try {
@@ -144,8 +144,8 @@ public class UsageVerifyTest {
             mock.throwsIOException(0);
             fail("AssertionError expected");
         } catch (AssertionError expected) {
-            assertEquals("\n  Unexpected method call IMethods.throwsIOException(0):"
-                    + "\n    IMethods.throwsIOException(0): expected: 2, actual: 3", expected.getMessage());
+            assertEquals("\n  Unexpected method call IMethods.throwsIOException(0 (int)):"
+                    + "\n    IMethods.throwsIOException(0 (int)): expected: 2, actual: 3", expected.getMessage());
         }
     }
 
@@ -160,7 +160,7 @@ public class UsageVerifyTest {
             fail("Should fail on otherMock");
         } catch (AssertionError e) {
             assertEquals(AssertionError.class, e.getClass());
-            assertEquals("On mock #1 (zero indexed): \n  Expectation failure on verify:\n    IMethods.oneArg(1): expected: 1, actual: 0", e.getMessage());
+            assertEquals("On mock #1 (zero indexed): \n  Expectation failure on verify:\n    IMethods.oneArg(1 (int)): expected: 1, actual: 0", e.getMessage());
         }
     }
 }

@@ -15,14 +15,14 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
 import org.easymock.internal.ReplayState;
 import org.easymock.tests.IMethods;
 import org.easymock.tests.Util;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -114,7 +114,7 @@ public class UsageStrictMockTest {
             failed = true;
             assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.simpleMethod(): expected: 1, actual: 1"
-                    + "\n    IMethods.booleanReturningMethod(1): expected: between 2 and 3, actual: 0"
+                    + "\n    IMethods.booleanReturningMethod(1 (int)): expected: between 2 and 3, actual: 0"
                     + "\n    IMethods.simpleMethod(): expected: at least 1, actual: 0", expected.getMessage());
         }
         if (!failed) {
@@ -129,7 +129,7 @@ public class UsageStrictMockTest {
         } catch (AssertionError expected) {
             failed = true;
             assertEquals("\n  Unexpected method call IMethods.simpleMethod():"
-                    + "\n    IMethods.booleanReturningMethod(1): expected: between 2 and 3, actual: 1",
+                    + "\n    IMethods.booleanReturningMethod(1 (int)): expected: between 2 and 3, actual: 1",
                     expected.getMessage());
         }
         if (!failed) {
@@ -166,8 +166,8 @@ public class UsageStrictMockTest {
             mock.booleanReturningMethod(1);
         } catch (AssertionError expected) {
             failed = true;
-            assertEquals("\n  Unexpected method call IMethods.booleanReturningMethod(1):"
-                    + "\n    IMethods.booleanReturningMethod(1): expected: between 2 and 3, actual: 4"
+            assertEquals("\n  Unexpected method call IMethods.booleanReturningMethod(1 (int)):"
+                    + "\n    IMethods.booleanReturningMethod(1 (int)): expected: between 2 and 3, actual: 4"
                     + "\n    IMethods.simpleMethod(): expected: at least 1, actual: 0", expected.getMessage());
         }
         if (!failed) {
@@ -198,7 +198,7 @@ public class UsageStrictMockTest {
         } catch (AssertionError expected) {
             failed = true;
             assertEquals("\n  Expectation failure on verify:"
-                    + "\n    IMethods.booleanReturningMethod(1): expected: 3, actual: 2", expected
+                    + "\n    IMethods.booleanReturningMethod(1 (int)): expected: 3, actual: 2", expected
                     .getMessage());
         }
         if (!failed) {

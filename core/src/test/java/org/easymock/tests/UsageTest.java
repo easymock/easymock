@@ -125,7 +125,7 @@ public class UsageTest {
             failed = false;
         } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
-                    + "\n    IMethods.threeArgumentMethod(1, \"2\", \"3\"): expected: 2, actual: 1", expected
+                    + "\n    IMethods.threeArgumentMethod(1 (int), \"2\", \"3\"): expected: 2, actual: 1", expected
                     .getMessage());
         }
         if (!failed) {

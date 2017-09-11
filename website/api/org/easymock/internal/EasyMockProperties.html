@@ -154,7 +154,7 @@ extends <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Object.h
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/easymock/internal/EasyMockProperties.html#getProperty-java.lang.String-java.lang.String-">getProperty</a></span>(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;key,
-           <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;defaultValue)</code>
+           <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;emptyValue)</code>
 <div class="block">Searches for the property with the specified key.</div>
 </td>
 </tr>
@@ -203,13 +203,13 @@ extends <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Object.h
 <li class="blockList">
 <h4>getProperty</h4>
 <pre>public&nbsp;<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getProperty(<a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;key,
-                          <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;defaultValue)</pre>
+                          <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;emptyValue)</pre>
 <div class="block">Searches for the property with the specified key. If the key is not
  found, return the default value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>key</code> - key leading to the property</dd>
-<dd><code>defaultValue</code> - the value to be returned if the key isn't found</dd>
+<dd><code>emptyValue</code> - the value to be returned if the key isn't found</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the value found for the key or the default value</dd>
 </dl>

@@ -15,10 +15,10 @@
  */
 package org.easymock.tests;
 
+import org.junit.Test;
+
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
-
-import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -51,9 +51,9 @@ public class UsageUnorderedTest {
             fail("Should fail");
         } catch (AssertionError expected) {
             assertEquals(
-                    "\n  Unexpected method call Interface.method(42). Possible matches are marked with (+1):"
+                    "\n  Unexpected method call Interface.method(42 (int)). Possible matches are marked with (+1):"
                             + "\n    Interface.method(<any>): expected: 3, actual: 3 (+1)"
-                            + "\n    Interface.method(42): expected: 1, actual: 1 (+1)", expected
+                            + "\n    Interface.method(42 (int)): expected: 1, actual: 1 (+1)", expected
                             .getMessage());
         }
     }
