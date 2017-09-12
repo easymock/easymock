@@ -126,6 +126,7 @@ Android
 
 To bundle EasyMock and deploy
 --------------------------------------------------------------------------------------
+- Make sure `jq` is installed. If not, try `brew install jq` or `choco install jq`
 - Add a little speech on the features in "ReleaseNotes.md"
 - Set the github_user, github_password, gpg_passphrase, bintray_user, bintray_api_key as environment variables
 - Launch ./deploy-easymock.sh version

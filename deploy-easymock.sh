@@ -34,20 +34,26 @@ message="should be an environment variable"
 [ -z "$gpg_passphrase" ] && echo "gpg_passphrase $message" && exit 1
 [ -z "$github_user" ] && echo "github_user $message" && exit 1
 [ -z "$github_password" ] && echo "github_password $message" && exit 1
-#[ -z "$bintray_api_key" ] && echo "bintray_api_key $message" && exit 1
-#[ -z "$bintray_user" ] && echo "bintray_user $message" && exit 1
+[ -z "$bintray_api_key" ] && echo "bintray_api_key $message" && exit 1
+[ -z "$bintray_user" ] && echo "bintray_user $message" && exit 1
 
 # Update the version
 echo
 echo "************** Delivering version $version ****************"
 echo
 
-echo "Generate the changelog"
-curl -v -u "${github_user}:${github_password}" \
-    -XGET -H "Accept: application/vnd.github.v3+json" \
-    "https://api.github.com/repos/easymock/easymock/issues?milestone=$version&state=all"
-echo "TDB... Should stop the deploy if everything isn't closed"
+pause
 
+echo "Generate the changelog"
+if [ $(curl -s -u "${github_user}:${github_password}" -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/easymock/easymock/issues?milestone=$version&state=open" | wc -l) != "3" ]; then
+    echo "There are unclosed issues on milestone $version. Please fix them or moved them to a later release"
+    exit 1
+fi
+
+./generate-changelog.sh easymock/easymock ${version} ${github_user} ${github_password} >> ReleaseNotes.md
+
+echo "Check the release notes"
+pause
 
 echo "Start clean"
 mvn clean -Pall
@@ -93,7 +99,7 @@ content="{ \"name\": \"$version\", \"desc\": \"$version\", \"released\": \"${dat
 curl -v -XPOST -H "Content-Type: application/json" -H "X-GPG-PASSPHRASE: ${gpg_passphrase}" -u${bintray_user}:${bintray_api_key} \
     -d "$content" \
     https://api.bintray.com/packages/easymock/distributions/easymock/versions
-# Then set as downloadle
+# Then set as download
 # Set the release notes as coming from github in the version
 
 pause
