@@ -30,7 +30,7 @@ public interface IClassInstantiator {
      * @param clazz
      *            class to instantiate
      * @return new instance of clazz
-     * @throws InstantiationException
+     * @throws InstantiationException when an error occured during instantiation
      */
     Object newInstance(Class<?> clazz) throws InstantiationException;
 }

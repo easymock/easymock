@@ -176,7 +176,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
      *
      * @param <T>
      *            Mocked class
-     * @param <V>
+     * @param <R>
      *            Mock class
      * @param proxy
      *            Mock object
@@ -196,7 +196,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
      *
      * @param <T>
      *            Mocked class
-     * @param <V>
+     * @param <R>
      *            Mock class
      * @param proxy
      *            Mock object

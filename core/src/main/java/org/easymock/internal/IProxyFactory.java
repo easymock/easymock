@@ -15,10 +15,10 @@
  */
 package org.easymock.internal;
 
+import org.easymock.ConstructorArgs;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-
-import org.easymock.ConstructorArgs;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -26,6 +26,7 @@ import org.easymock.ConstructorArgs;
 public interface IProxyFactory {
 
     /**
+     * @param <T> type of the class to mock
      * @param toMock the class to mock by the factory
      * @param handler the handler that will be linked to the created proxy
      * @param mockedMethods the subset of {@code toMock}'s methods to mock, or

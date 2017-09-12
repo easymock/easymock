@@ -565,7 +565,8 @@ public class EasyMockSupport {
      * Will return the class that was mocked if it's a mock or {@code null} otherwise.
      *
      * @param possibleMock mock we want the type of
-     * @param <T>
+     * @param <T> type of the possible mock
+     * @param <R> type of mocked class
      * @return the mocked type or null of not a mock
      * @since 3.5
      */
