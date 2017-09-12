@@ -15,32 +15,34 @@
  */
 package org.easymock.internal;
 
+import org.easymock.EasyMock;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.easymock.EasyMock;
 
 /**
  * @author OFFIS, Tammo Freese
  */
 public class MocksBehavior implements IMocksBehavior, Serializable {
 
-    private static final long serialVersionUID = 3265727009370529027L;
+    private static final long serialVersionUID = 6824996227285837998L;
 
     private final List<UnorderedBehavior> behaviorLists = new ArrayList<UnorderedBehavior>();
 
     private final List<ExpectedInvocationAndResult> stubResults = new ArrayList<ExpectedInvocationAndResult>();
 
+    private final List<Invocation> unexpectedCalls = new ArrayList<Invocation>();
+
     private final boolean nice;
 
-    private boolean checkOrder;
+    private volatile boolean checkOrder;
 
-    private boolean isThreadSafe;
+    private volatile boolean isThreadSafe;
 
-    private boolean shouldBeUsedInOneThread;
+    private volatile boolean shouldBeUsedInOneThread;
 
-    private int position = 0;
+    private volatile int position = 0;
 
     private transient volatile Thread lastThread;
 
@@ -52,10 +54,12 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
                 EasyMock.ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT));
     }
 
+    @Override
     public final void addStub(ExpectedInvocation expected, Result result) {
         stubResults.add(new ExpectedInvocationAndResult(expected, result));
     }
 
+    @Override
     public void addExpected(ExpectedInvocation expected, Result result, Range count) {
         addBehaviorListIfNecessary(expected);
         lastBehaviorList().addExpected(expected, result, count);
@@ -80,6 +84,7 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         return behaviorLists.get(behaviorLists.size() - 1);
     }
 
+    @Override
     public final Result addActual(Invocation actual) {
         int initialPosition = position;
 
@@ -144,11 +149,15 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
             m.appendTo(errorMessage, matches);
         }
 
+        // Keep the unexpected invocation to have a look in the verify
+        unexpectedCalls.add(actual);
+
         // And finally throw the error
         throw new AssertionErrorWrapper(new AssertionError(errorMessage));
     }
 
-    public void verify() {
+    @Override
+    public void verifyRecording() {
         boolean verified = true;
 
         for (UnorderedBehavior behaviorList : behaviorLists.subList(position, behaviorLists.size())) {
@@ -173,22 +182,65 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         throw new AssertionErrorWrapper(new AssertionError(errorMessage.toString()));
     }
 
+    @Override
+    public void verifyUnexpectedCalls() {
+        if(unexpectedCalls.isEmpty()) {
+            return;
+        }
+
+        StringBuilder errorMessage = new StringBuilder(70 * unexpectedCalls.size());
+
+        errorMessage.append("\n  Unexpected method calls:");
+        for (Invocation invocation : unexpectedCalls) {
+            errorMessage.append("\n    ");
+            errorMessage.append(invocation.toString());
+        }
+
+        throw new AssertionErrorWrapper(new AssertionError(errorMessage.toString()));
+    }
+
+    @Override
+    public void verify() {
+        AssertionErrorWrapper firstError = null;
+        try {
+            verifyRecording();
+        } catch(AssertionErrorWrapper e) {
+            firstError = e;
+        }
+        try {
+            verifyUnexpectedCalls();
+        } catch(AssertionErrorWrapper e) {
+            if(firstError == null) {
+                throw e;
+            }
+            throw new AssertionErrorWrapper(new AssertionError(firstError.getAssertionError().getMessage() + e.getAssertionError().getMessage()));
+        }
+        if(firstError != null) {
+            throw firstError;
+        }
+    }
+
+    @Override
     public void checkOrder(boolean value) {
         this.checkOrder = value;
     }
 
+    @Override
     public void makeThreadSafe(boolean isThreadSafe) {
         this.isThreadSafe = isThreadSafe;
     }
 
+    @Override
     public void shouldBeUsedInOneThread(boolean shouldBeUsedInOneThread) {
         this.shouldBeUsedInOneThread = shouldBeUsedInOneThread;
     }
 
+    @Override
     public boolean isThreadSafe() {
         return this.isThreadSafe;
     }
 
+    @Override
     public void checkThreadSafety() {
         if (!shouldBeUsedInOneThread) {
             return;

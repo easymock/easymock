@@ -127,7 +127,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
         }
         mock1.simpleMethod();
         mock2.simpleMethod();
-        verifyAll();
+        verifyAllRecordings();
     }
 
     @Test
@@ -166,7 +166,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
         }
         mock2.oneArg(false);
         mock2.oneArg(true);
-        verifyAll();
+        verifyRecording();
     }
 
     @Test
@@ -185,6 +185,50 @@ public class EasyMockSupportTest extends EasyMockSupport {
         resetAll();
         replayAll();
         verifyAll();
+    }
+
+    @Test
+    public void testVerifyUnexpectedCalls() {
+        mock1 = createMock(IMethods.class);
+        mock2 = createMock(IMethods.class);
+        replayAll();
+
+        try {
+            mock1.simpleMethod();
+        } catch(AssertionError e) {
+        }
+        try {
+            mock2.simpleMethod();
+        } catch(AssertionError e) {
+        }
+
+        try {
+            verifyAllUnexpectedCalls();
+            fail("Should see missing calls");
+        } catch(AssertionError e) {
+            // note that only errors from the first mock are shown
+            assertEquals("\n" +
+                "  Unexpected method calls:\n" +
+                "    IMethods.simpleMethod()", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testVerifyRecording() {
+        mock1 = createMock(IMethods.class);
+        mock2 = createMock(IMethods.class);
+        mock1.simpleMethod();
+        mock2.simpleMethod();
+        replayAll();
+        try {
+            verifyAllRecordings();
+            fail("Should see unexpected calls");
+        } catch(AssertionError e) {
+            // note that only errors from the first mock are shown
+            assertEquals("\n" +
+                "  Expectation failure on verify:\n" +
+                "    IMethods.simpleMethod(): expected: 1, actual: 0", e.getMessage());
+        }
     }
 
     @Test
@@ -274,7 +318,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
         assertEquals("foo", mock2.oneArg(false));
         assertEquals("foo", mock2.oneArg(true));
 
-        verifyAll();
+        verifyAllRecordings();
     }
 
     @Test

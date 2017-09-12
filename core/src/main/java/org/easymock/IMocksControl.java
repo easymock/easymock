@@ -104,9 +104,25 @@ public interface IMocksControl {
     void replay();
 
     /**
-     * Verifies that all expectations were met.
+     * Verifies that all expectations were met and that no unexpected
+     * call was performed. It has the same effect as calling {@link #verifyRecording()}
+     * followed by {@link #verifyUnexpectedCalls()}.
      */
     void verify();
+
+    /**
+     * Verifies that all expectations were met.
+     *
+     * @since 3.5
+     */
+    void verifyRecording();
+
+    /**
+     * Verifies that no unexpected call was performed.
+     *
+     * @since 3.5
+     */
+    void verifyUnexpectedCalls();
 
     /**
      * Switches order checking on and off.

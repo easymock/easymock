@@ -56,5 +56,9 @@ public interface IMocksControlState {
 
     void replay();
 
+    void verifyRecording();
+
+    void verifyUnexpectedCalls();
+
     void verify();
 }

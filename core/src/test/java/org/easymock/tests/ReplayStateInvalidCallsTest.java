@@ -53,21 +53,6 @@ public class ReplayStateInvalidCallsTest {
     }
 
     @Test(expected = RuntimeExceptionWrapper.class)
-    public void setDefaultReturnValue() {
-        control.setDefaultReturnValue("");
-    }
-
-    @Test(expected = RuntimeExceptionWrapper.class)
-    public void setDefaultThrowable() {
-        control.setDefaultThrowable(exception);
-    }
-
-    @Test(expected = RuntimeExceptionWrapper.class)
-    public void setDefaultVoidCallable() {
-        control.setDefaultVoidCallable();
-    }
-
-    @Test(expected = RuntimeExceptionWrapper.class)
     public void replay() {
         control.replay();
     }
@@ -108,14 +93,6 @@ public class ReplayStateInvalidCallsTest {
     }
 
     @Test(expected = RuntimeExceptionWrapper.class)
-    public void callback() {
-        control.callback(new Runnable() {
-            public void run() {
-            };
-        });
-    }
-
-    @Test(expected = RuntimeExceptionWrapper.class)
     public void andReturn() {
         control.andReturn(null);
     }
@@ -138,20 +115,5 @@ public class ReplayStateInvalidCallsTest {
     @Test(expected = RuntimeExceptionWrapper.class)
     public void andDelegateTo() {
         control.andDelegateTo(null);
-    }
-
-    @Test(expected = RuntimeExceptionWrapper.class)
-    public void defaultThrowable() {
-        control.setDefaultThrowable(new RuntimeException());
-    }
-
-    @Test(expected = RuntimeExceptionWrapper.class)
-    public void defaultReturnValue() {
-        control.setDefaultReturnValue(null);
-    }
-
-    @Test(expected = RuntimeExceptionWrapper.class)
-    public void defaultVoidCallable() {
-        control.setDefaultVoidCallable();
     }
 }

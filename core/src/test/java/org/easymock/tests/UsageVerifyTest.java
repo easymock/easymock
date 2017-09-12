@@ -163,4 +163,94 @@ public class UsageVerifyTest {
             assertEquals("On mock #1 (zero indexed): \n  Expectation failure on verify:\n    IMethods.oneArg(1 (int)): expected: 1, actual: 0", e.getMessage());
         }
     }
+
+    @Test
+    public void callExtraMethodsCheckedInVerify() {
+        IMethods mock = mock(IMethods.class);
+        replay(mock);
+
+        try {
+            mock.simpleMethod();
+        } catch(AssertionError e) {
+            // eat the exception and so prevent the test from failing
+        }
+
+        try {
+            mock.oneArg(1);
+        } catch(AssertionError e) {
+            // eat the exception and so prevent the test from failing
+        }
+
+        // the verify should notice an assertion failed earlier
+        try {
+            verify(mock);
+            fail("Should find unexpected calls");
+        } catch(AssertionError e) {
+            assertEquals("\n  Unexpected method calls:" +
+                "\n    IMethods.simpleMethod()" +
+                "\n    IMethods.oneArg(1 (int))", e.getMessage());
+        }
+    }
+
+    @Test
+    public void uncalledAndUnexpected() {
+        IMethods mock = mock(IMethods.class);
+        expect(mock.oneArg(1)).andReturn("test");
+        replay(mock);
+
+        try {
+            mock.simpleMethod();
+        } catch(AssertionError e) {
+            // eat the exception and so prevent the test from failing
+        }
+
+        // the verify should notice an assertion failed earlier
+        try {
+            verify(mock);
+            fail("Should find unexpected calls");
+        } catch(AssertionError e) {
+            assertEquals(
+                "\n  Expectation failure on verify:" +
+                    "\n    IMethods.oneArg(1 (int)): expected: 1, actual: 0" +
+                    "\n  Unexpected method calls:" +
+                    "\n    IMethods.simpleMethod()", e.getMessage());
+        }
+    }
+
+    @Test
+    public void verifyRecordingTest() {
+        IMethods mock = mock(IMethods.class);
+        expect(mock.oneArg(1)).andReturn("test");
+        replay(mock);
+
+        try {
+            verifyRecording(mock);
+            fail("Should see unused expectations");
+        } catch(AssertionError e) {
+            assertEquals(
+                "\n  Expectation failure on verify:" +
+                    "\n    IMethods.oneArg(1 (int)): expected: 1, actual: 0", e.getMessage());
+        }
+    }
+
+    @Test
+    public void verifyUnexpectedCallsTest() {
+        IMethods mock = mock(IMethods.class);
+        replay(mock);
+
+        try {
+            mock.simpleMethod();
+        } catch(AssertionError e) {
+            // eat the exception and so prevent the test from failing
+        }
+
+        // the verify should notice an assertion failed earlier
+        try {
+            verifyUnexpectedCalls(mock);
+            fail("Should find unexpected calls");
+        } catch(AssertionError e) {
+            assertEquals("\n  Unexpected method calls:" +
+                    "\n    IMethods.simpleMethod()", e.getMessage());
+        }
+    }
 }

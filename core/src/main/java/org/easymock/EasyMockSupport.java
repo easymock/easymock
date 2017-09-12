@@ -465,12 +465,38 @@ public class EasyMockSupport {
     }
 
     /**
-     * Verifies all registered mock objects (more exactly: the controls of the
-     * mock objects).
+     * Verifies all registered mock objects have their expectations met and that no
+     * unexpected call was performed.
+     * <p>
+     * This method as same effect as calling {@link #verifyAllRecordings()}
+     * followed by {@link #verifyAllUnexpectedCalls()}.
      */
     public void verifyAll() {
         for (IMocksControl c : controls) {
             c.verify();
+        }
+    }
+
+    /**
+     * Verifies all registered mock objects have their expectations met.
+     *
+     * @since 3.5
+     */
+    public void verifyAllRecordings() {
+        for (IMocksControl c : controls) {
+            c.verifyRecording();
+        }
+    }
+
+    /**
+     * Verifies that no registered mock objects had
+     * unexpected calls.
+     *
+     * @since 3.5
+     */
+    public void verifyAllUnexpectedCalls() {
+        for (IMocksControl c : controls) {
+            c.verifyUnexpectedCalls();
         }
     }
 

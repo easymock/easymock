@@ -15,10 +15,10 @@
  */
 package org.easymock.internal;
 
+import org.easymock.IAnswer;
+
 import java.io.Serializable;
 import java.util.concurrent.locks.ReentrantLock;
-
-import org.easymock.IAnswer;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -35,6 +35,7 @@ public class ReplayState implements IMocksControlState, Serializable {
         this.behavior = behavior;
     }
 
+    @Override
     public Object invoke(Invocation invocation) throws Throwable {
 
         behavior.checkThreadSafety();
@@ -69,10 +70,22 @@ public class ReplayState implements IMocksControlState, Serializable {
         }
     }
 
+    @Override
+    public void verifyRecording() {
+        behavior.verifyRecording();
+    }
+
+    @Override
+    public void verifyUnexpectedCalls() {
+        behavior.verifyUnexpectedCalls();
+    }
+
+    @Override
     public void verify() {
         behavior.verify();
     }
 
+    @Override
     public void replay() {
         throwWrappedIllegalStateException();
     }
@@ -81,71 +94,73 @@ public class ReplayState implements IMocksControlState, Serializable {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void checkOrder(boolean value) {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void makeThreadSafe(boolean threadSafe) {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void andReturn(Object value) {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void andThrow(Throwable throwable) {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void andAnswer(IAnswer<?> answer) {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void andDelegateTo(Object answer) {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void andVoid() {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void andStubReturn(Object value) {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void andStubThrow(Throwable throwable) {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void andStubAnswer(IAnswer<?> answer) {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void andStubDelegateTo(Object delegateTo) {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void asStub() {
         throwWrappedIllegalStateException();
     }
 
+    @Override
     public void times(Range range) {
-        throwWrappedIllegalStateException();
-    }
-
-    public void setDefaultReturnValue(Object value) {
-        throwWrappedIllegalStateException();
-    }
-
-    public void setDefaultThrowable(Throwable throwable) {
-        throwWrappedIllegalStateException();
-    }
-
-    public void setDefaultVoidCallable() {
         throwWrappedIllegalStateException();
     }
 
@@ -154,6 +169,7 @@ public class ReplayState implements IMocksControlState, Serializable {
                 "This method must not be called in replay state."));
     }
 
+    @Override
     public void assertRecordState() {
         throwWrappedIllegalStateException();
     }

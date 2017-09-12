@@ -2025,8 +2025,12 @@ public class EasyMock {
     }
 
     /**
-     * Verifies the given mock objects (more exactly: the controls of the mock
-     * objects).
+     * Verifies that all expectations were met and that no unexpected
+     * call was performed on the mock objects. Or more precisely, verifies the
+     * underlying {@link IMocksControl} linked to the mock objects.
+     * <p>
+     * This method as same effect as calling {@link #verifyRecording(Object...)}
+     * followed by {@link #verifyUnexpectedCalls(Object...)}.
      *
      * @param mocks
      *            the mock objects.
@@ -2035,6 +2039,44 @@ public class EasyMock {
         for (int i = 0; i < mocks.length; i++) {
             try {
                 getControl(mocks[i]).verify();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
+        }
+    }
+
+    /**
+     * Verifies that all expectations were met.
+     *
+     * @param mocks
+     *            the mock objects.
+     * @since 3.5
+     */
+    public static void verifyRecording(Object... mocks) {
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).verifyRecording();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
+        }
+    }
+
+    /**
+     * Verifies that no unexpected call was performed.
+     *
+     * @param mocks
+     *            the mock objects.
+     * @since 3.5
+     */
+    public static void verifyUnexpectedCalls(Object... mocks) {
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).verifyUnexpectedCalls();
             } catch(RuntimeException e) {
                 throw getRuntimeException(mocks.length, i, e);
             } catch(AssertionError e) {

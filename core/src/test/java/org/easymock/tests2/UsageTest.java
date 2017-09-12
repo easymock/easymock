@@ -221,7 +221,7 @@ public class UsageTest {
         mock.simpleMethodWithArgument("6");
         mock.simpleMethodWithArgument("7");
 
-        verify(mock);
+        verifyRecording(mock);
 
     }
 
@@ -240,7 +240,7 @@ public class UsageTest {
 
         mock.oneArg(true);
 
-        verify(mock);
+        verifyRecording(mock);
     }
 
     @Test
@@ -307,6 +307,6 @@ public class UsageTest {
         assertEquals("foo", mock.oneArg(false));
         assertEquals("foo", mock.oneArg(true));
 
-        verify(mock);
+        verifyRecording(mock);
     }
 }

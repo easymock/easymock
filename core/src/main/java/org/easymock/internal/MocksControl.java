@@ -90,14 +90,17 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         return state;
     }
 
+    @Override
     public <T> T createMock(Class<T> toMock) {
         return createMock(null, toMock, null, (Method[]) null);
     }
 
+    @Override
     public <T> T createMock(String name, Class<T> toMock) {
         return createMock(name, toMock, null, (Method[]) null);
     }
 
+    @Override
     public <T> T createMock(String name, Class<T> toMock, ConstructorArgs constructorArgs,
             Method... mockedMethods) {
         if (toMock.isInterface() && mockedMethods != null) {
@@ -187,28 +190,33 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         return (Class<R>) proxy.getClass().getSuperclass();
     }
 
-    public final void reset() {
+    @Override
+    public void reset() {
         behavior = new MocksBehavior(type == org.easymock.MockType.NICE);
         behavior.checkOrder(type == org.easymock.MockType.STRICT);
         state = new RecordState(behavior);
         LastControl.reportLastControl(null);
     }
 
+    @Override
     public void resetToNice() {
         type = org.easymock.MockType.NICE;
         reset();
     }
 
+    @Override
     public void resetToDefault() {
         type = org.easymock.MockType.DEFAULT;
         reset();
     }
 
+    @Override
     public void resetToStrict() {
         type = org.easymock.MockType.STRICT;
         reset();
     }
 
+    @Override
     public void replay() {
         try {
             state.replay();
@@ -219,6 +227,29 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
+    public void verifyRecording() {
+        try {
+            state.verifyRecording();
+        } catch (RuntimeExceptionWrapper e) {
+            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
+        } catch (AssertionErrorWrapper e) {
+            throw (AssertionError) e.getAssertionError().fillInStackTrace();
+        }
+    }
+
+    @Override
+    public void verifyUnexpectedCalls() {
+        try {
+            state.verifyUnexpectedCalls();
+        } catch (RuntimeExceptionWrapper e) {
+            throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
+        } catch (AssertionErrorWrapper e) {
+            throw (AssertionError) e.getAssertionError().fillInStackTrace();
+        }
+    }
+
+    @Override
     public void verify() {
         try {
             state.verify();
@@ -229,6 +260,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public void checkOrder(boolean value) {
         try {
             state.checkOrder(value);
@@ -237,6 +269,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public void makeThreadSafe(boolean threadSafe) {
         try {
             state.makeThreadSafe(threadSafe);
@@ -245,6 +278,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
         try {
             state.checkIsUsedInOneThread(shouldBeUsedInOneThread);
@@ -255,6 +289,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
 
     // methods from IBehaviorSetters
 
+    @Override
     public IExpectationSetters<Object> andReturn(Object value) {
         try {
             state.andReturn(value);
@@ -264,6 +299,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public IExpectationSetters<Object> andThrow(Throwable throwable) {
         try {
             state.andThrow(throwable);
@@ -273,6 +309,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public IExpectationSetters<Object> andAnswer(IAnswer<? extends Object> answer) {
         try {
             state.andAnswer(answer);
@@ -282,6 +319,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public IExpectationSetters<Object> andDelegateTo(Object answer) {
         try {
             state.andDelegateTo(answer);
@@ -291,6 +329,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public IExpectationSetters<Object> andVoid() {
         try {
             state.andVoid();
@@ -300,6 +339,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public void andStubReturn(Object value) {
         try {
             state.andStubReturn(value);
@@ -308,6 +348,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public void andStubThrow(Throwable throwable) {
         try {
             state.andStubThrow(throwable);
@@ -316,6 +357,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public void andStubAnswer(IAnswer<? extends Object> answer) {
         try {
             state.andStubAnswer(answer);
@@ -324,6 +366,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public void andStubDelegateTo(Object delegateTo) {
         try {
             state.andStubDelegateTo(delegateTo);
@@ -332,6 +375,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public void asStub() {
         try {
             state.asStub();
@@ -340,6 +384,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public IExpectationSetters<Object> times(int times) {
         try {
             state.times(new Range(times));
@@ -349,6 +394,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public IExpectationSetters<Object> times(int min, int max) {
         try {
             state.times(new Range(min, max));
@@ -358,6 +404,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public IExpectationSetters<Object> once() {
         try {
             state.times(ONCE);
@@ -367,6 +414,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public IExpectationSetters<Object> atLeastOnce() {
         try {
             state.times(AT_LEAST_ONCE);
@@ -376,6 +424,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
+    @Override
     public IExpectationSetters<Object> anyTimes() {
         try {
             state.times(ZERO_OR_MORE);

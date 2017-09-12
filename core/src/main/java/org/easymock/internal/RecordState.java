@@ -40,10 +40,12 @@ public class RecordState implements IMocksControlState, Serializable {
         this.behavior = behavior;
     }
 
+    @Override
     public void assertRecordState() {
     }
 
-    public java.lang.Object invoke(Invocation invocation) {
+    @Override
+    public Object invoke(Invocation invocation) {
         closeMethod();
         List<IArgumentMatcher> lastMatchers = LastControl.pullMatchers();
         lastInvocation = new ExpectedInvocation(invocation, lastMatchers);
@@ -51,6 +53,7 @@ public class RecordState implements IMocksControlState, Serializable {
         return emptyReturnValueFor(invocation.getMethod().getReturnType());
     }
 
+    @Override
     public void replay() {
         closeMethod();
         if (LastControl.pullMatchers() != null) {
@@ -58,11 +61,25 @@ public class RecordState implements IMocksControlState, Serializable {
         }
     }
 
-    public void verify() {
+    @Override
+    public void verifyRecording() {
         throw new RuntimeExceptionWrapper(new IllegalStateException(
-                "calling verify is not allowed in record state"));
+            "calling verify is not allowed in record state"));
     }
 
+    @Override
+    public void verifyUnexpectedCalls() {
+        throw new RuntimeExceptionWrapper(new IllegalStateException(
+            "calling verify is not allowed in record state"));
+    }
+
+    @Override
+    public void verify() {
+        throw new RuntimeExceptionWrapper(new IllegalStateException(
+            "calling verify is not allowed in record state"));
+    }
+
+    @Override
     public void andReturn(Object value) {
         requireMethodCall("return value");
         value = convertNumberClassIfNeccessary(value);
@@ -73,6 +90,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastResult = Result.createReturnResult(value);
     }
 
+    @Override
     public void andThrow(Throwable throwable) {
         requireMethodCall("Throwable");
         requireValidThrowable(throwable);
@@ -82,6 +100,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastResult = Result.createThrowResult(throwable);
     }
 
+    @Override
     public void andAnswer(IAnswer<?> answer) {
         requireMethodCall("answer");
         requireValidAnswer(answer);
@@ -91,6 +110,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastResult = Result.createAnswerResult(answer);
     }
 
+    @Override
     public void andDelegateTo(Object delegateTo) {
         requireMethodCall("delegate");
         requireValidDelegation(delegateTo);
@@ -100,6 +120,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastResult = Result.createDelegatingResult(delegateTo);
     }
 
+    @Override
     public void andVoid() {
         requireMethodCall("void");
         requireVoidMethod();
@@ -109,6 +130,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastResult = Result.createReturnResult(null);
     }
 
+    @Override
     public void andStubReturn(Object value) {
         requireMethodCall("stub return value");
         value = convertNumberClassIfNeccessary(value);
@@ -120,6 +142,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastInvocationUsed = true;
     }
 
+    @Override
     public void asStub() {
         requireMethodCall("stub behavior");
         requireVoidMethod();
@@ -127,6 +150,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastInvocationUsed = true;
     }
 
+    @Override
     public void andStubThrow(Throwable throwable) {
         requireMethodCall("stub Throwable");
         requireValidThrowable(throwable);
@@ -137,6 +161,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastInvocationUsed = true;
     }
 
+    @Override
     public void andStubAnswer(IAnswer<?> answer) {
         requireMethodCall("stub answer");
         requireValidAnswer(answer);
@@ -147,6 +172,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastInvocationUsed = true;
     }
 
+    @Override
     public void andStubDelegateTo(Object delegateTo) {
         requireMethodCall("stub delegate");
         requireValidDelegation(delegateTo);
@@ -157,6 +183,7 @@ public class RecordState implements IMocksControlState, Serializable {
         lastInvocationUsed = true;
     }
 
+    @Override
     public void times(Range range) {
         requireMethodCall("times");
         requireLastResultOrVoidMethod();
@@ -307,15 +334,18 @@ public class RecordState implements IMocksControlState, Serializable {
         return false;
     }
 
+    @Override
     public void checkOrder(boolean value) {
         closeMethod();
         behavior.checkOrder(value);
     }
 
+    @Override
     public void makeThreadSafe(boolean threadSafe) {
         behavior.makeThreadSafe(threadSafe);
     }
 
+    @Override
     public void checkIsUsedInOneThread(boolean shouldBeUsedInOneThread) {
         behavior.shouldBeUsedInOneThread(shouldBeUsedInOneThread);
     }

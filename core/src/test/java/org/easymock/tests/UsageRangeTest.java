@@ -15,13 +15,13 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Iterator;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -91,7 +91,7 @@ public class UsageRangeTest {
 
         assertFalse(mock.hasNext());
 
-        verify(mock);
+        verifyRecording(mock);
 
     }
 }

@@ -127,7 +127,7 @@ public class UsageConstraintsTest {
             fail();
         }
         assertEquals("456", mock.threeArgumentMethod(8, "", "01234"));
-        verify(mock);
+        verifyRecording(mock);
     }
 
     @Test
@@ -371,7 +371,7 @@ public class UsageConstraintsTest {
         checkItFails(new A(6));
         assertEquals("4", mock.oneArg(new A(4)));
 
-        verify(mock);
+        verifyRecording(mock);
     }
 
     private void checkItFails(A a) {

@@ -39,5 +39,9 @@ public interface IMocksBehavior {
     void checkThreadSafety();
 
     // verify
+    void verifyRecording();
+
+    void verifyUnexpectedCalls();
+
     void verify();
 }
