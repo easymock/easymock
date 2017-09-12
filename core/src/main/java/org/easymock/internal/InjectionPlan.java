@@ -23,7 +23,7 @@ import java.util.Set;
 
 /**
  * Container for mock injections and test subject injection targets.
- * 
+ *
  * @author Alistair Todd
  * @since 3.3
  */
@@ -41,7 +41,7 @@ public class InjectionPlan {
      * Add an {@link Injection} to this container. It will be managed according to the presence
      * of a fieldName qualifier, and attempting to add an Injection with a duplicate fieldName
      * qualifier will cause an error.
-     * 
+     *
      * @param injection Injection to manage as part of this plan
      */
     public void addInjection(Injection injection) {
@@ -58,7 +58,7 @@ public class InjectionPlan {
 
     private void blockDuplicateQualifiers(String qualifier) {
         if (!qualifiers.add(qualifier)) {
-            throw new RuntimeException(
+            throw new AssertionError(
                     String.format("At least two mocks have fieldName qualifier '%s'", qualifier));
         }
     }

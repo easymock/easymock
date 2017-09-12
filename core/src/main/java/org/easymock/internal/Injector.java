@@ -74,7 +74,7 @@ public class Injector {
                 testSubject = f.get(host);
             } catch (IllegalAccessException e) {
                 // ///CLOVER:OFF
-                throw new RuntimeException(e);
+                throw new AssertionError(e);
                 // ///CLOVER:ON
             }
             if(testSubject == null) {
@@ -90,7 +90,7 @@ public class Injector {
         // Check for unsatisfied qualified injections only after having scanned all TestSubjects and their superclasses
         for (Injection injection : injectionPlan.getQualifiedInjections()) {
             if (!injection.isMatched()) {
-                throw new RuntimeException(
+                throw new AssertionError(
                         String.format("Unsatisfied qualifier: '%s'", injection.getAnnotation().fieldName()));
             }
         }
@@ -101,7 +101,7 @@ public class Injector {
      *
      * @param hostClass class to search
      * @param host object of the class
-     * @param injectionPlan output parameter where the created mocks andfields to inject are added
+     * @param injectionPlan output parameter where the created mocks and fields to inject are added
      */
     private static void createMocksForAnnotations(Class<?> hostClass, Object host,
             InjectionPlan injectionPlan) {
@@ -121,7 +121,7 @@ public class Injector {
             // Empty string means we are on the default value which we means no name (aka null) from the EasyMock point of view
             name = (name.length() == 0 ? null : name);
 
-            MockType mockType = annotation.type();
+            MockType mockType = mockTypeFromAnnotation(annotation);
             Object mock;
             if (host instanceof EasyMockSupport) {
                 mock = ((EasyMockSupport) host).createMock(name, mockType, type);
@@ -140,6 +140,18 @@ public class Injector {
 
             injectionPlan.addInjection(new Injection(mock, annotation));
         }
+    }
+
+    private static MockType mockTypeFromAnnotation(Mock annotation) {
+        MockType valueMockType = annotation.value();
+        MockType mockType = annotation.type();
+        if(valueMockType != MockType.DEFAULT && mockType != MockType.DEFAULT) {
+            throw new AssertionError("@Mock.value() and @Mock.type() are aliases, you can't specify both at the same time");
+        }
+        if(valueMockType != MockType.DEFAULT) {
+            mockType = valueMockType;
+        }
+        return mockType;
     }
 
     /**
@@ -233,7 +245,7 @@ public class Injector {
         for (Injection injection : injections) {
             if (target.accepts(injection)) {
                 if (toAssign != null) {
-                    throw new RuntimeException(
+                    throw new AssertionError(
                             String.format("At least two mocks can be assigned to '%s': %s and %s",
                                     target.getTargetField(), toAssign.getMock(), injection.getMock()));
                 }

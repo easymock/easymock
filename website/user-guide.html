@@ -323,7 +323,8 @@ public class SupportDelegationTest {
         <h2 id="mocking-strict">Strict Mocks</h2>
 
         <p>On a Mock Object returned by a <code>EasyMock.mock()</code>, the order of method calls is not checked.
-          If you would like a strict Mock Object that checks the order of method calls, use <code>EasyMock.<i>strict</i>Mock()</code> to create it.</p>
+          If you would like a strict Mock Object that checks the order of method calls, use <code>EasyMock.<i>strict</i>Mock()</code> to create it.
+          The equivalent annotation is <code>@Mock(MockType.STRICT)</code>.</p>
 
         <p>If an unexpected method is called on a strict Mock Object, the message of the exception will show the method
           calls expected at this point followed by the first conflicting one. <code>verify(mock)</code> shows all missing method calls.</p>
@@ -333,7 +334,7 @@ public class SupportDelegationTest {
         <p>On a Mock Object returned by <code>mock()</code> the default behavior for all methods is to throw an
           <code>AssertionError</code> for all unexpected method calls. If you would like a "nice" Mock Object that by default
           allows all method calls and returns appropriate empty values (<code>0</code>, <code>null</code> or <code>false</code>),
-          use <code><i>nice</i>Mock()</code> instead.</p>
+          use <code><i>nice</i>Mock()</code> instead. The equivalent annotation is <code>@Mock(MockType.NICE)</code>.</p>
 
         <h2 id="mocking-partial">Partial mocking</h2>
 

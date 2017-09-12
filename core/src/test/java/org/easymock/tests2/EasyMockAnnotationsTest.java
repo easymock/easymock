@@ -19,6 +19,7 @@ import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
 import org.easymock.MockType;
 import org.easymock.TestSubject;
+import org.easymock.internal.MocksControl;
 import org.easymock.tests.IMethods;
 import org.easymock.tests.IVarArgs;
 import org.junit.Before;
@@ -30,7 +31,7 @@ import static org.junit.Assert.*;
 /**
  * Tests annotation-driven mocking, requiring to be executed with either
  * EasyMockRunner or EasyMockRule.
- * 
+ *
  * @author Henri Tremblay
  * @author Alistair Todd
  */
@@ -125,7 +126,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
         try {
             EasyMockSupport.injectMocks(new ToInjectDuplicateMocksTest());
-        } catch (RuntimeException e) {
+        } catch (AssertionError e) {
             assertEquals(
                     "At least two mocks can be assigned to 'protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1': a and b",
                     e.getMessage());
@@ -223,7 +224,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     public void shouldErrorWhenUnsatisfiedQualifier() {
         try {
             EasyMockSupport.injectMocks(new ToInjectUnsatisfiedQualifierTest());
-        } catch (RuntimeException e) {
+        } catch (AssertionError e) {
             assertEquals("Unsatisfied qualifier: 'unmatched'",
                     e.getMessage());
             return;
@@ -246,7 +247,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     public void shouldErrorForUnmatchedQualifierWhenTypeIncompatibleQualifier() throws Exception {
         try {
             EasyMockSupport.injectMocks(new ToInjectTypeIncompatibleQualifierTest());
-        } catch (RuntimeException e) {
+        } catch (AssertionError e) {
             assertEquals("Unsatisfied qualifier: 'm2'",
                     e.getMessage());
             return;
@@ -272,7 +273,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     public void shouldErrorForUnmatchedQualifierWhenUnassignableFinalField() throws Exception {
         try {
             EasyMockSupport.injectMocks(new ToInjectUnassignableFinalFieldQualifierTest());
-        } catch (RuntimeException e) {
+        } catch (AssertionError e) {
             assertEquals("Unsatisfied qualifier: 'finalField'",
                     e.getMessage());
             return;
@@ -292,7 +293,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     public void shouldErrorForUnmatchedQualifierWhenUnassignableStaticField() throws Exception {
         try {
             EasyMockSupport.injectMocks(new ToInjectUnassignableStaticFieldQualifierTest());
-        } catch (RuntimeException e) {
+        } catch (AssertionError e) {
             assertEquals("Unsatisfied qualifier: 'staticField'",
                     e.getMessage());
             return;
@@ -315,12 +316,11 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     public void shouldErrorWhenDuplicateQualifiers() {
         try {
             EasyMockSupport.injectMocks(new ToInjectDuplicateQualifierTest());
-        } catch (RuntimeException e) {
+            fail("Expected an exception for duplicate fieldName qualifier");
+        } catch (AssertionError e) {
             assertEquals("At least two mocks have fieldName qualifier 'm1'",
                     e.getMessage());
-            return;
         }
-        fail("Expected an exception for duplicate fieldName qualifier");
     }
 
     private static class ToInjectOneTarget {
@@ -343,5 +343,37 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         ToInjectQualifiedAndUnqualifiedTest test = new ToInjectQualifiedAndUnqualifiedTest();
         EasyMockSupport.injectMocks(test);
         assertSame(test.b, test.toInjectOneTarget.m1);
+    }
+
+    private static class TypeDefinedTwiceTest {
+        @Mock(value=MockType.STRICT, type=MockType.STRICT)
+        protected IMethods a;
+    }
+
+    @Test
+    public void shouldNotDefineValueAndTypeAtTheSameTime() {
+        TypeDefinedTwiceTest test = new TypeDefinedTwiceTest();
+        try {
+            EasyMockSupport.injectMocks(test);
+            fail("Should not accept the redefinition");
+        } catch(AssertionError e) {
+            assertEquals("@Mock.value() and @Mock.type() are aliases, you can't specify both at the same time", e.getMessage());
+        }
+    }
+
+    private static class TypeDefinedUsingValue {
+        @Mock(MockType.STRICT)
+        private IMethods standardMock;
+
+        @TestSubject
+        protected ToInjectOneTarget toInjectOneTarget = new ToInjectOneTarget();
+    }
+
+    @Test
+    public void canUseValueToDefineType() {
+        TypeDefinedUsingValue test = new TypeDefinedUsingValue();
+        EasyMockSupport.injectMocks(test);
+        assertSame(test.standardMock, test.toInjectOneTarget.m1);
+        assertEquals(MocksControl.getControl(test.standardMock).getType(), MockType.STRICT);
     }
 }

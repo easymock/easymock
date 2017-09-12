@@ -34,6 +34,12 @@ import java.lang.annotation.*;
 @Documented
 public @interface Mock {
 
+    /**
+     * @return type of mock to create. It is an alias of {@link #type()}
+     * @since 3.5
+     */
+    MockType value() default MockType.DEFAULT;
+
     /** @return type of mock to create */
     MockType type() default MockType.DEFAULT;
 
