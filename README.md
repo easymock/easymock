@@ -130,26 +130,9 @@ To bundle EasyMock and deploy
 - Add a little speech on the features in "ReleaseNotes.md"
 - Set the github_user, github_password, gpg_passphrase, bintray_user, bintray_api_key as environment variables
 - Launch ./deploy-easymock.sh version
-
-- Close the deployment at Sonatype Nexus UI (https://oss.sonatype.org/index.html#stagingRepositories)
-  More details on the deployment rules here: https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
-- Add the staging repository url found in Nexus to easymock-test-deploy
-```xml
-<repositories>
-  <repository>
-    <id>sonatype-nexus-staging</id>
-    <name>Nexus Release Repository</name>
-    <url>https://oss.sonatype.org/content/repositories/orgeasymock-213/</url>
-    <releases>
-      <enabled>true</enabled>
-    </releases>
-    <snapshots>
-      <enabled>false</enabled>
-    </snapshots>
-  </repository>
-</repositories>
-```
-- Release the repository. It will be synced with Maven Central Repository
+- During the deployment, you will be asked to publish on Bintray. Go on the site and press "Publish"
+- Then go to the "Maven Central" tab and start syncing with the central repository
+- Go ahead with the deployment
 - Announce to gitter, tweet and blog ;-)
 
 Deploy the website
