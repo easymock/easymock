@@ -69,7 +69,7 @@ public class PowermockTest {
     @Test
     public void mockType() {
         Object mock = PowerMock.createMock(getClass());
-        assertEquals(getClass(), EasyMockSupport.getMockedType(mock));
+        assertEquals(getClass(), EasyMockSupport.getMockedClass(mock));
     }
 
 }

@@ -569,7 +569,7 @@ public class EasyMockSupport {
      * @return the mocked type or null of not a mock
      * @since 3.5
      */
-    public static <T,  R extends T> Class<R> getMockedType(T possibleMock) {
+    public static <T,  R extends T> Class<R> getMockedClass(T possibleMock) {
         // Check that it is a real EasyMock mock
         if(possibleMock == null) {
             return null;
@@ -587,7 +587,7 @@ public class EasyMockSupport {
         else {
             return null;
         }
-        return MocksControl.getMockedType(possibleMock);
+        return MocksControl.getMockedClass(possibleMock);
     }
 
     /**

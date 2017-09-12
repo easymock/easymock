@@ -104,14 +104,14 @@ public class ClassExtensionHelperTest {
     @Test
     public void testMockType_Class() {
         Object o = createMock(ArrayList.class);
-        Class<?> c = getMockedType(o);
+        Class<?> c = getMockedClass(o);
         assertSame(ArrayList.class, c);
     }
 
     @Test
     public void testMockType_Interface() {
         Object o = createMock(List.class);
-        Class<?> c = getMockedType(o);
+        Class<?> c = getMockedClass(o);
         assertSame(List.class, c);
     }
 }

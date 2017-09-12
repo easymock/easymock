@@ -154,7 +154,7 @@ public class Invocation implements Serializable {
             return mockName + "." + methodName;
         }
 
-        Class<?> clazz = MocksControl.getMockedType(mock);
+        Class<?> clazz = MocksControl.getMockedClass(mock);
         return clazz.getSimpleName() + "." + methodName;
     }
 

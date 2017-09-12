@@ -95,7 +95,7 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
     }
 
     private String mockToString(Object proxy) {
-        return (name != null) ? name : "EasyMock for " + MocksControl.getMockedType(proxy);
+        return (name != null) ? name : "EasyMock for " + MocksControl.getMockedClass(proxy);
     }
 
     public MockInvocationHandler getDelegate() {
