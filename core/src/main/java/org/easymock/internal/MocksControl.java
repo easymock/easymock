@@ -190,6 +190,24 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         return (Class<R>) proxy.getClass().getSuperclass();
     }
 
+    /**
+     * Return the class of interface (depending on the mock type) that was
+     * mocked
+     *
+     * @param <T>
+     *            Mocked class
+     * @param <V>
+     *            Mock class
+     * @param proxy
+     *            Mock object
+     * @return the mocked class or interface
+     * @deprecated use {@link #getMockedClass(Object)} instead
+     */
+    @Deprecated
+    public static <T,  R extends T> Class<R> getMockedType(T proxy) {
+        return getMockedClass(proxy);
+    }
+
     @Override
     public void reset() {
         behavior = new MocksBehavior(type == org.easymock.MockType.NICE);
