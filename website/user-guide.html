@@ -20,7 +20,8 @@ locale: en
         <h2 id="installation-requirements">Requirements</h2>
 
         <ul class="list-group">
-          <li class="list-group-item">EasyMock requires Java 1.5.0 and above</li>
+          <li class="list-group-item">EasyMock 3.5+ requires Java 1.6 and above</li>
+          <li class="list-group-item">EasyMock 3.4- requires Java 1.5 and above</li>
           <li class="list-group-item">Objenesis (2.0+) must be in the classpath to perform class mocking</li>
         </ul>
 
@@ -60,9 +61,9 @@ locale: en
   <version>{{site.latest_version}}</version>
 </dependency>
 <dependency>
-  <groupId>com.google.dexmaker</groupId>
+  <groupId>org.droidparts.dexmaker</groupId>
   <artifactId>dexmaker</artifactId>
-  <version>1.1</version>
+  <version>1.5</version>
 </dependency>
         {% endhighlight %}
 
@@ -270,6 +271,55 @@ public class SupportTest extends EasyMockSupport {
 }
 {% endhighlight %}
 
+        <p>Alternatively, you can also use <code>EasyMockSupport</code> through delegation as shown below.</p>
+
+{% highlight java %}
+public class SupportDelegationTest {
+
+  private EasyMockSupport support = new EasyMockSupport();
+
+  private Collaborator collaborator;
+
+  private ClassTested classUnderTest;
+
+  @Before
+  public void setup() {
+    classUnderTest = new ClassTested();
+  }
+
+  @Test
+  public void addDocument() {
+    collaborator = support.mock(Collaborator.class);
+    classUnderTest.setListener(collaborator);
+    collaborator.documentAdded("New Document");
+    support.replayAll();
+    classUnderTest.addDocument("New Document", "content");
+    support.verifyAll();
+  }
+
+  @Test
+  public void voteForRemovals() {
+
+    IMocksControl ctrl = support.createControl();
+    collaborator = ctrl.createMock(Collaborator.class);
+    classUnderTest.setListener(collaborator);
+
+    collaborator.documentAdded("Document 1");
+
+    expect(collaborator.voteForRemovals("Document 1")).andReturn((byte) 20);
+
+    collaborator.documentRemoved("Document 1");
+
+    support.replayAll();
+
+    classUnderTest.addDocument("Document 1", "content");
+    assertTrue(classUnderTest.removeDocuments("Document 1"));
+
+    support.verifyAll();
+  }
+}
+{% endhighlight %}
+
         <h2 id="mocking-strict">Strict Mocks</h2>
 
         <p>On a Mock Object returned by a <code>EasyMock.mock()</code>, the order of method calls is not checked.
@@ -291,8 +341,8 @@ public class SupportTest extends EasyMockSupport {
           happens when you want to test a method that calls some others in the same class. So you want to keep the normal behavior
           of the tested method and mock the others.</p>
 
-        <p>In this case, the first thing to do is to consider a refactoring since most of the time this problem caused by a
-          bad design. If it's not the case or if you can't do otherwise because of some development constraints, here's the solution.</p>
+        <p>In this case, the first thing to do is to consider a refactoring since most of the time this problem was caused by a
+          bad design. If it's not the case, or if you can't do otherwise because of some development constraints, here's the solution:</p>
 
 {% highlight java %}
 ToMock mock = partialMockBuilder(ToMock.class)
@@ -728,38 +778,29 @@ ctrl.replay();
 
         <h2 id="verification-expectations">Flexible Expectations with Argument Matchers</h2>
 
-        <p>To match an actual method call on the Mock Object with an expectation, <code>Object</code> arguments are by default compared with <code>equals()</code>. This may lead to problems. As an example, we consider the following expectation:</p>
+        <p>To match an actual method call on the Mock Object with an expectation, <code>Object</code> arguments are by default compared with <code>equals()</code>. Arrays are
+          by default <span class="badge">since 3.5</span> compared with <code>Arrays.equals()</code>.</p>
+
+        <p>Buy once in a while, you will want to match you parameter in a different way. As an example, we consider the following expectation:</p>
 
 {% highlight java %}
-String[] documents = new String[] { "Document 1", "Document 2" };
-expect(mock.voteForRemovals(documents)).andReturn(42);
+Document document = getFromCache();
+expect(mock.voteForRemovals(document)).andReturn(42);
 {% endhighlight %}
 
-        <p>If the method is called with another array with the same contents, we get an exception, as <code>equals()</code> compares object identity for arrays:</p>
+        <p>Here, I don't want the document received by <code>voteForRemovals</code> to be equals,
+          I want it to be the exact same class instance coming from the cache. My current expectation
+          is not testing what I want.</p>
+
+        <p>To specify that the exact same instance is needed for this call, we use the method
+          <code>same</code> that is statically imported from the <code>EasyMock</code> class:</p>
 
 {% highlight java %}
-java.lang.AssertionError:
-  Unexpected method call voteForRemovals([Ljava.lang.String;@9a029e):
-    voteForRemovals([Ljava.lang.String;@2db19d): expected: 1, actual: 0
-    documentRemoved("Document 1"): expected: 1, actual: 0
-    documentRemoved("Document 2"): expected: 1, actual: 0
-      at org.easymock.internal.MockInvocationHandler.invoke(MockInvocationHandler.java:29)
-      at org.easymock.internal.ObjectMethodsFilter.invoke(ObjectMethodsFilter.java:44)
-      at $Proxy0.voteForRemovals(Unknown Source)
-      at org.easymock.samples.ClassUnderTest.listenersAllowRemovals(ClassUnderTest.java:88)
-      at org.easymock.samples.ClassUnderTest.removeDocuments(ClassUnderTest.java:48)
-      at org.easymock.samples.ExampleTest.testVoteForRemovals(ExampleTest.java:83)
-      ...
+Document document = getFromCache();
+expect(mock.voteForRemovals(same(document))).andReturn(42);
 {% endhighlight %}
 
-        <p>To specify that only array equality is needed for this call, we may use the method <code>aryEq</code> that is statically imported from the <code>EasyMock</code> class:</p>
-
-{% highlight java %}
-String[] documents = new String[] { "Document 1", "Document 2" };
-expect(mock.voteForRemovals(aryEq(documents))).andReturn(42);
-{% endhighlight %}
-
-        <p>If you would like to use matchers in a call, you have to specify matchers for all arguments of the method call.</p>
+        <p><b>Important:</b> When you use matchers in a call, you have to specify matchers <b>for all arguments of the method call</b>.</p>
 
         <p>There are a couple of predefined argument matchers available.</p>
 
@@ -945,13 +986,13 @@ public static&lt;T extends Throwable&gt;T eqException(T in) {
               <li><a href="#mocking-annotations">Using annotations</a></li>
               <li><a href="#mocking-support">EasyMockSupport</a></li>
               <li><a href="#mocking-strict">Strict Mocks</a></li>
+              <li><a href="#mocking-nice">Nice Mocks</a></li>
               <li><a href="#mocking-partial">Partial mocking</a></li>
               <li><a href="#mocking-self">Self testing</a></li>
               <li><a href="#mocking-replace">Replace default class instantiator</a></li>
               <li><a href="#mocking-serialize">Serialize a class mock</a></li>
               <li><a href="#mocking-limitations">Class Mocking Limitations</a></li>
               <li><a href="#mocking-naming">Naming Mock Objects</a></li>
-              <li><a href="#mocking-nice">Nice Mocks</a></li>
             </ul>
           </li>
           <li><a href="#behavior">Behavior</a>

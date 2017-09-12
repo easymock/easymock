@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -229,5 +229,20 @@ public final class ReflectionUtils {
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Tells if a class is available in the classpath
+     *
+     * @param className full class name
+     * @return true if the class was found
+     */
+    public static boolean isClassAvailable(String className) {
+        try {
+            Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 }

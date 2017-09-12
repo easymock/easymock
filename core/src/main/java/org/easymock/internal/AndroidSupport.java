@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ public final class AndroidSupport {
             // Also verify that dexmaker is present, if not we might
             // be running under something like robolectric, which
             // means we should not use dexmaker
-            Class.forName("com.google.dexmaker.Code");
+            Class.forName("org.droidparts.dexmaker.Code");
 
             isAndroid = true;
         } catch (ClassNotFoundException e) {
@@ -39,5 +39,5 @@ public final class AndroidSupport {
     public static boolean isAndroid() {
         return isAndroid;
     }
-    // ///CLOVER:ON    
+    // ///CLOVER:ON
 }

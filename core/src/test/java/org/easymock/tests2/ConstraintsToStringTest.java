@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,15 @@
  */
 package org.easymock.tests2;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.easymock.IArgumentMatcher;
 import org.easymock.internal.matchers.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -117,13 +117,13 @@ public class ConstraintsToStringTest {
         matchers.add(new Equals(1));
         matchers.add(new Equals(2));
         new Or(matchers).appendTo(buffer);
-        assertEquals("or(1, 2)", buffer.toString());
+        assertEquals("or(1 (int), 2 (int))", buffer.toString());
     }
 
     @Test
     public void notToString() {
         new Not(new Equals(1)).appendTo(buffer);
-        assertEquals("not(1)", buffer.toString());
+        assertEquals("not(1 (int))", buffer.toString());
     }
 
     @Test
@@ -132,7 +132,7 @@ public class ConstraintsToStringTest {
         matchers.add(new Equals(1));
         matchers.add(new Equals(2));
         new And(matchers).appendTo(buffer);
-        assertEquals("and(1, 2)", buffer.toString());
+        assertEquals("and(1 (int), 2 (int))", buffer.toString());
     }
 
     @Test
@@ -174,6 +174,6 @@ public class ConstraintsToStringTest {
     @Test
     public void arrayEqualsToString() {
         new ArrayEquals(new Object[] { 1, "a", null }).appendTo(buffer);
-        assertEquals("[1, \"a\", null]", buffer.toString());
+        assertEquals("[1 (int), \"a\", null]", buffer.toString());
     }
 }

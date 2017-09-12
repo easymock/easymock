@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,19 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.NoOp;
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
 import org.easymock.tests.IMethods;
 import org.junit.Test;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
@@ -269,5 +275,33 @@ public class EasyMockSupportTest extends EasyMockSupport {
         assertEquals("foo", mock2.oneArg(true));
 
         verifyAll();
+    }
+
+    @Test
+    public void mockType() {
+        assertNull(EasyMockSupport.getMockedType(null));
+        assertNull(EasyMockSupport.getMockedType(new Object()));
+
+        // Proxy that is not an EasyMock proxy
+        assertNull(EasyMockSupport.getMockedType(Proxy.newProxyInstance(getClass().getClassLoader(),
+            new Class<?>[] { IMethods.class }, new InvocationHandler() {
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                return null;
+            }
+        })));
+
+        // Cglib proxy that is not an EasyMock proxy
+        assertNull(EasyMockSupport.getMockedType(Enhancer.create(Object.class, NoOp.INSTANCE)));
+
+        // Really specific case where the cglib proxy is not even implementing Factory
+        Enhancer enhancer = new Enhancer();
+        enhancer.setUseFactory(false);
+        enhancer.setSuperclass(getClass());
+        enhancer.setCallback(NoOp.INSTANCE);
+        assertNull(EasyMockSupport.getMockedType(enhancer.create()));
+
+        assertEquals(IMethods.class, EasyMockSupport.getMockedType(mock(IMethods.class)));
+        assertEquals(getClass(), EasyMockSupport.getMockedType(mock(getClass())));
     }
 }

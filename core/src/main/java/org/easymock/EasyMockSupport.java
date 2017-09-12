@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,16 @@
  */
 package org.easymock;
 
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.Factory;
+import org.easymock.internal.ClassProxyFactory;
 import org.easymock.internal.Injector;
 import org.easymock.internal.MockBuilder;
+import org.easymock.internal.MocksControl;
+import org.easymock.internal.ObjectMethodsFilter;
+import org.easymock.internal.ReflectionUtils;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -526,5 +533,50 @@ public class EasyMockSupport {
      */
     public static void injectMocks(Object obj) {
         Injector.injectMocks(obj);
+    }
+
+    /**
+     * Will return the class that was mocked if it's a mock or {@code null} otherwise.
+     *
+     * @param possibleMock mock we want the type of
+     * @param <T>
+     * @return the mocked type or null of not a mock
+     * @since 3.5
+     */
+    public static <T,  R extends T> Class<R> getMockedType(T possibleMock) {
+        // Check that it is a real EasyMock mock
+        if(possibleMock == null) {
+            return null;
+        }
+        if (Proxy.isProxyClass(possibleMock.getClass())) {
+            if(!(Proxy.getInvocationHandler(possibleMock) instanceof ObjectMethodsFilter)) {
+                return null;
+            }
+        }
+        else if(ReflectionUtils.isClassAvailable("net.sf.cglib.proxy.Enhancer")) {
+            if(!ObjectMockingHelper.isAClassMock(possibleMock)) {
+                return null;
+            }
+        }
+        else {
+            return null;
+        }
+        return MocksControl.getMockedType(possibleMock);
+    }
+
+    /**
+     * Hides cglib classes from EasyMockSupport to prevent {@code NoClassDefFoundError} if
+     * cglib isn't used.
+     */
+    private static class ObjectMockingHelper {
+        public static boolean isAClassMock(Object possibleMock) {
+            if(!Enhancer.isEnhanced(possibleMock.getClass())) {
+                return false;
+            }
+            if(!(possibleMock instanceof Factory)) {
+                return false;
+            }
+            return (((Factory) possibleMock).getCallback(0) instanceof ClassProxyFactory.MockMethodInterceptor);
+        }
     }
 }

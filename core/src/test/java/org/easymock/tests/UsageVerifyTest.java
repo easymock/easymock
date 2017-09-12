@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,14 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-
 import org.easymock.internal.ReplayState;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -114,8 +114,8 @@ public class UsageVerifyTest {
             fail("AssertionError expected");
         } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
-                    + "\n    IMethods.throwsIOException(0): expected: 2, actual: 1"
-                    + "\n    IMethods.throwsIOException(1): expected: 1, actual: 0", expected.getMessage());
+                    + "\n    IMethods.throwsIOException(0 (int)): expected: 2, actual: 1"
+                    + "\n    IMethods.throwsIOException(1 (int)): expected: 1, actual: 0", expected.getMessage());
         }
 
         try {
@@ -129,7 +129,7 @@ public class UsageVerifyTest {
             fail("AssertionError expected");
         } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
-                    + "\n    IMethods.throwsIOException(1): expected: 1, actual: 0", expected.getMessage());
+                    + "\n    IMethods.throwsIOException(1 (int)): expected: 1, actual: 0", expected.getMessage());
         }
 
         try {
@@ -144,8 +144,23 @@ public class UsageVerifyTest {
             mock.throwsIOException(0);
             fail("AssertionError expected");
         } catch (AssertionError expected) {
-            assertEquals("\n  Unexpected method call IMethods.throwsIOException(0):"
-                    + "\n    IMethods.throwsIOException(0): expected: 2, actual: 3", expected.getMessage());
+            assertEquals("\n  Unexpected method call IMethods.throwsIOException(0 (int)):"
+                    + "\n    IMethods.throwsIOException(0 (int)): expected: 2, actual: 3", expected.getMessage());
+        }
+    }
+
+    @Test
+    public void manyMocks() {
+        IMethods otherMock = mock(IMethods.class);
+        expect(otherMock.oneArg(1)).andReturn("test");
+        replay(mock, otherMock);
+
+        try {
+            verify(mock, otherMock);
+            fail("Should fail on otherMock");
+        } catch (AssertionError e) {
+            assertEquals(AssertionError.class, e.getClass());
+            assertEquals("On mock #1 (zero indexed): \n  Expectation failure on verify:\n    IMethods.oneArg(1 (int)): expected: 1, actual: 0", e.getMessage());
         }
     }
 }

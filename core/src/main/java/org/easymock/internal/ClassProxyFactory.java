@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -175,12 +175,12 @@ public class ClassProxyFactory implements IProxyFactory {
             mockClass = enhancer.createClass();
         } catch (CodeGenerationException e) {
             // ///CLOVER:OFF (don't know how to test it automatically)
-            // Probably caused by a NoClassDefFoundError, let's try EasyMock class loader
-            // instead of the default one (which is the class to mock one
+            // Probably caused by a NoClassDefFoundError, to use two class loaders at the same time
+            // instead of the default one (which is the class to mock one)
             // This is required by Eclipse Plug-ins, the mock class loader doesn't see
-            // cglib most of the time. Using EasyMock class loader solves this
-            // See issue ID: 2994002
-            enhancer.setClassLoader(getClass().getClassLoader());
+            // cglib most of the time. Using EasyMock and the mock class loader at the same time solves this
+            LinkedClassLoader linkedClassLoader = new LinkedClassLoader(toMock.getClassLoader(), ClassProxyFactory.class.getClassLoader());
+            enhancer.setClassLoader(linkedClassLoader);
             mockClass = enhancer.createClass();
             // ///CLOVER:ON
         }

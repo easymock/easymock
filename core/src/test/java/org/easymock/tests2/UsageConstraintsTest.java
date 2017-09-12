@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,6 +80,7 @@ public class UsageConstraintsTest {
         mock.simpleMethodWithArgument("2");
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     @Test
     public void equals() {
         assertEquals(new Equals(null), new Equals(null));
@@ -315,6 +316,7 @@ public class UsageConstraintsTest {
                 return a1.getValue() - a2.getValue();
             }
 
+            @Override
             public int compare(Object o1, Object o2) {
                 return compare((A) o1, (A) o2);
             }

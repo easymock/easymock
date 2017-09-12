@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,7 @@ import org.easymock.IAnswer;
 import org.easymock.IArgumentMatcher;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -37,33 +35,6 @@ public class RecordState implements IMocksControlState, Serializable {
     private Result lastResult;
 
     private final IMocksBehavior behavior;
-
-    private static final Map<Class<?>, Object> emptyReturnValues = new HashMap<Class<?>, Object>(9);
-
-    static {
-        emptyReturnValues.put(Void.TYPE, null);
-        emptyReturnValues.put(Boolean.TYPE, Boolean.FALSE);
-        emptyReturnValues.put(Byte.TYPE, Byte.valueOf((byte) 0));
-        emptyReturnValues.put(Short.TYPE, Short.valueOf((short) 0));
-        emptyReturnValues.put(Character.TYPE, Character.valueOf((char) 0));
-        emptyReturnValues.put(Integer.TYPE, Integer.valueOf(0));
-        emptyReturnValues.put(Long.TYPE, Long.valueOf(0));
-        emptyReturnValues.put(Float.TYPE, Float.valueOf(0));
-        emptyReturnValues.put(Double.TYPE, Double.valueOf(0));
-    }
-
-    private static final Map<Class<?>, Class<?>> primitiveToWrapperType = new HashMap<Class<?>, Class<?>>(8);
-
-    static {
-        primitiveToWrapperType.put(Boolean.TYPE, Boolean.class);
-        primitiveToWrapperType.put(Byte.TYPE, Byte.class);
-        primitiveToWrapperType.put(Short.TYPE, Short.class);
-        primitiveToWrapperType.put(Character.TYPE, Character.class);
-        primitiveToWrapperType.put(Integer.TYPE, Integer.class);
-        primitiveToWrapperType.put(Long.TYPE, Long.class);
-        primitiveToWrapperType.put(Float.TYPE, Float.class);
-        primitiveToWrapperType.put(Double.TYPE, Double.class);
-    }
 
     public RecordState(IMocksBehavior behavior) {
         this.behavior = behavior;
@@ -235,7 +206,7 @@ public class RecordState implements IMocksControlState, Serializable {
     }
 
     public static Object emptyReturnValueFor(Class<?> type) {
-        return type.isPrimitive() ? emptyReturnValues.get(type) : null;
+        return type.isPrimitive() ? PrimitiveUtils.getEmptyValue(type) : null;
     }
 
     private void requireMethodCall(String failMessage) {
@@ -259,7 +230,7 @@ public class RecordState implements IMocksControlState, Serializable {
         }
         Class<?> returnedType = lastInvocation.getMethod().getReturnType();
         if (returnedType.isPrimitive()) {
-            returnedType = primitiveToWrapperType.get(returnedType);
+            returnedType = PrimitiveUtils.getWrapperType(returnedType);
 
         }
         if (!returnedType.isAssignableFrom(returnValue.getClass())) {

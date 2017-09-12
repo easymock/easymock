@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -609,9 +609,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code null}.
      */
-    public static <T extends Comparable<T>> T geq(Comparable<T> value) {
+    public static <T extends Comparable<T>> T geq(T value) {
         reportMatcher(new GreaterOrEqual<T>(value));
-        return null;
+        return value;
     }
 
     /**
@@ -702,9 +702,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code null}.
      */
-    public static <T extends Comparable<T>> T leq(Comparable<T> value) {
+    public static <T extends Comparable<T>> T leq(T value) {
         reportMatcher(new LessOrEqual<T>(value));
-        return null;
+        return value;
     }
 
     /**
@@ -795,9 +795,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code null}.
      */
-    public static <T extends Comparable<T>> T gt(Comparable<T> value) {
+    public static <T extends Comparable<T>> T gt(T value) {
         reportMatcher(new GreaterThan<T>(value));
-        return null;
+        return value;
     }
 
     /**
@@ -888,9 +888,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code null}.
      */
-    public static <T extends Comparable<T>> T lt(Comparable<T> value) {
+    public static <T extends Comparable<T>> T lt(T value) {
         reportMatcher(new LessThan<T>(value));
-        return null;
+        return value;
     }
 
     /**
@@ -1472,7 +1472,7 @@ public class EasyMock {
      */
     public static <T> T eq(T value) {
         reportMatcher(new Equals(value));
-        return null;
+        return value;
     }
 
     /**
@@ -1766,7 +1766,7 @@ public class EasyMock {
      */
     public static <T> T same(T value) {
         reportMatcher(new Same(value));
-        return null;
+        return value;
     }
 
     /**
@@ -1779,9 +1779,9 @@ public class EasyMock {
      *            the given value.
      * @return {@code null}.
      */
-    public static <T extends Comparable<T>> T cmpEq(Comparable<T> value) {
+    public static <T extends Comparable<T>> T cmpEq(T value) {
         reportMatcher(new CompareEqual<T>(value));
-        return null;
+        return value;
     }
 
     /**
@@ -1802,10 +1802,9 @@ public class EasyMock {
      *            The comparison operator.
      * @return {@code null}
      */
-    public static <T> T cmp(T value, Comparator<? super T> comparator,
-            LogicalOperator operator) {
+    public static <T> T cmp(T value, Comparator<? super T> comparator, LogicalOperator operator) {
         reportMatcher(new Compare<T>(value, comparator, operator));
-        return null;
+        return value;
     }
 
     /**
@@ -1935,8 +1934,14 @@ public class EasyMock {
      *            the mock objects.
      */
     public static void replay(Object... mocks) {
-        for (Object mock : mocks) {
-            getControl(mock).replay();
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).replay();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
         }
     }
 
@@ -1948,8 +1953,14 @@ public class EasyMock {
      *            the mock objects.
      */
     public static void reset(Object... mocks) {
-        for (Object mock : mocks) {
-            getControl(mock).reset();
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).reset();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
         }
     }
 
@@ -1962,8 +1973,14 @@ public class EasyMock {
      *            the mock objects
      */
     public static void resetToNice(Object... mocks) {
-        for (Object mock : mocks) {
-            getControl(mock).resetToNice();
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).resetToNice();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
         }
     }
 
@@ -1976,8 +1993,14 @@ public class EasyMock {
      *            the mock objects
      */
     public static void resetToDefault(Object... mocks) {
-        for (Object mock : mocks) {
-            getControl(mock).resetToDefault();
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).resetToDefault();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
         }
     }
 
@@ -1990,8 +2013,14 @@ public class EasyMock {
      *            the mock objects
      */
     public static void resetToStrict(Object... mocks) {
-        for (Object mock : mocks) {
-            getControl(mock).resetToStrict();
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).resetToStrict();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
         }
     }
 
@@ -2003,8 +2032,14 @@ public class EasyMock {
      *            the mock objects.
      */
     public static void verify(Object... mocks) {
-        for (Object mock : mocks) {
-            getControl(mock).verify();
+        for (int i = 0; i < mocks.length; i++) {
+            try {
+                getControl(mocks[i]).verify();
+            } catch(RuntimeException e) {
+                throw getRuntimeException(mocks.length, i, e);
+            } catch(AssertionError e) {
+                throw getAssertionError(mocks.length, i, e);
+            }
         }
     }
 
@@ -2117,7 +2152,21 @@ public class EasyMock {
     }
 
     // ///CLOVER:OFF
-    protected EasyMock() { // Need to be protected since the Class extension extends it
+    private EasyMock() {
     }
     // ///CLOVER:ON
+
+    private static RuntimeException getRuntimeException(int length, int i, RuntimeException e) {
+        if(length < 2) {
+            return e;
+        }
+        return new RuntimeException("On mock #" + i + " (zero indexed): " + e.getMessage(), e);
+    }
+
+    private static AssertionError getAssertionError(int length, int i, AssertionError e) {
+        if(length < 2) {
+            return e;
+        }
+        return new AssertionError("On mock #" + i + " (zero indexed): " + e.getMessage());
+    }
 }

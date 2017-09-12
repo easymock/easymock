@@ -30,7 +30,7 @@ limitations under the License.
 
     <uses-sdk
         android:minSdkVersion="1"
-        android:targetSdkVersion="23" />
+        android:targetSdkVersion="25" />
 
     <application android:allowBackup="false">
         <uses-library android:name="android.test.runner" />

@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package org.easymock.internal;
 
 import org.easymock.IArgumentMatcher;
+import org.easymock.internal.matchers.ArrayEquals;
 import org.easymock.internal.matchers.Equals;
 
 import java.io.Serializable;
@@ -59,7 +60,12 @@ public class ExpectedInvocation implements Serializable {
         }
         List<IArgumentMatcher> result = new ArrayList<IArgumentMatcher>(invocation.getArguments().length);
         for (Object argument : invocation.getArguments()) {
-            result.add(new Equals(argument));
+            if(argument != null && argument.getClass().isArray()) {
+                result.add(new ArrayEquals(argument));
+            }
+            else {
+                result.add(new Equals(argument));
+            }
         }
         return result;
     }
@@ -82,7 +88,7 @@ public class ExpectedInvocation implements Serializable {
     }
 
     public boolean matches(Invocation actual) {
-        return this.invocation.getMock().equals(actual.getMock())
+        return this.invocation.getMock() == actual.getMock()
                 && this.invocation.getMethod().equals(actual.getMethod()) && matches(actual.getArguments());
     }
 

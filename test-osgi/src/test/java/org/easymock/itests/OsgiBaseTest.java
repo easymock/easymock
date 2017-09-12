@@ -1,5 +1,5 @@
 /**
- * Copyright 2009-2016 the original author or authors.
+ * Copyright 2009-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,32 +15,30 @@
  */
 package org.easymock.itests;
 
-import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.ops4j.pax.exam.Configuration;
+import org.ops4j.pax.exam.MavenUtils;
+import org.ops4j.pax.exam.Option;
+import org.ops4j.pax.exam.junit.PaxExam;
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerMethod;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
-import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
-import org.springframework.osgi.test.AbstractOsgiTests;
-import org.springframework.osgi.util.OsgiStringUtils;
-import org.w3c.dom.Document;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import java.io.File;
-import java.lang.reflect.Method;
+import javax.inject.Inject;
+
+import static org.ops4j.pax.exam.CoreOptions.*;
+
 
 /**
- * Note: This is a JUnit 3 test because of the Spring OSGi test framework
- * 
  * @author Henri Tremblay
  */
-public abstract class OsgiBaseTest extends AbstractConfigurableBundleCreatorTests {
-
-    private final XPathFactory xPathFactory = XPathFactory.newInstance();
+@RunWith(PaxExam.class)
+@ExamReactorStrategy(PerMethod.class)
+public abstract class OsgiBaseTest {
 
     private final EasyMockSupport support = new EasyMockSupport();
 
@@ -60,18 +58,20 @@ public abstract class OsgiBaseTest extends AbstractConfigurableBundleCreatorTest
         return c.getPackage().getImplementationVersion();
     }
 
-    @Override
-    public void runBare() throws Throwable {
-        // Since we are changing the bundles between the tests and that Spring is keeping a cache
-        // of the OSGi platform once it is initialized, I'm using a secret method to shutdown
-        // the platform between each test (this however slows down the tests so adding a wiser
-        // cache is a good idea
-        Method m = AbstractOsgiTests.class.getDeclaredMethod("shutdownTest");
-        m.setAccessible(true);
-        m.invoke(this);
-        super.runBare();
+    @Inject
+    private BundleContext bundleContext;
+
+    @Configuration
+    public Option[] config() {
+        String version = MavenUtils.getArtifactVersion("org.easymock", "easymock");
+        return options(
+            bundle("file:../core/target/easymock-" + version + ".jar"),
+            mavenBundle().groupId("org.objenesis").artifactId("objenesis").versionAsInProject(),
+            junitBundles()
+        );
     }
 
+    @Test
     public void testOsgiPlatformStarts() throws Exception {
         System.out.println("Framework vendor: " + this.bundleContext.getProperty(Constants.FRAMEWORK_VENDOR));
         System.out.println("Framework version: " + bundleContext.getProperty(Constants.FRAMEWORK_VERSION));
@@ -80,36 +80,7 @@ public abstract class OsgiBaseTest extends AbstractConfigurableBundleCreatorTest
 
         Bundle[] bundles = bundleContext.getBundles();
         for (Bundle bundle : bundles) {
-            System.out.println(OsgiStringUtils.nullSafeName(bundle) + ": "
-                    + bundle.getHeaders().get(Constants.BUNDLE_VERSION));
+            System.out.println(bundle + ": " + bundle.getHeaders().get(Constants.BUNDLE_VERSION));
         }
-    }
-
-    protected String getEasyMockVersion() {
-        String version = getImplementationVersion(EasyMock.class);
-        // Null means we are an IDE, not in Maven. So we have an IDE project dependency instead
-        // of a Maven dependency with the jar. Which explains why the version is null (no Manifest
-        // since there's no jar. In that case we get the version from the pom.xml and hope the Maven
-        // jar is up-to-date in the local repository
-        if (version == null) {
-            try {
-                XPath xPath = xPathFactory.newXPath();
-                XPathExpression xPathExpression;
-                try {
-                    xPathExpression = xPath.compile("/project/parent/version");
-                } catch (XPathExpressionException e) {
-                    throw new RuntimeException(e);
-                }
-
-                DocumentBuilderFactory xmlFact = DocumentBuilderFactory.newInstance();
-                xmlFact.setNamespaceAware(false);
-                DocumentBuilder builder = xmlFact.newDocumentBuilder();
-                Document doc = builder.parse(new File("pom.xml"));
-                version = xPathExpression.evaluate(doc);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return version;
     }
 }

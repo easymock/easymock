@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
  */
 package org.easymock.tests;
 
-import org.easymock.internal.Invocation;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.Method;
 
-import static org.junit.Assert.*;
+import org.easymock.internal.Invocation;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -46,6 +46,7 @@ public class InvocationTest {
         nonEqualCall = new Invocation(mock, m, arguments3);
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     @Test
     public void testEquals() {
         assertFalse(call.equals(null));

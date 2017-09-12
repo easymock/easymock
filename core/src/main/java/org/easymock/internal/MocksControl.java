@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -113,8 +113,11 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
                 return proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
                         new MockInvocationHandler(this), name), mockedMethods, constructorArgs);
             } catch (NoClassDefFoundError e) {
-                throw new RuntimeExceptionWrapper(new RuntimeException(
-                    "Class mocking requires to have objenesis library in the classpath", e));
+                if(e.getMessage().startsWith("org/objenesis")) {
+                    throw new RuntimeExceptionWrapper(new RuntimeException(
+                        "Class mocking requires to have Objenesis library in the classpath", e));
+                }
+                throw e;
             }
 
         } catch (RuntimeExceptionWrapper e) {
@@ -177,11 +180,11 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
      * @return the mocked class or interface
      */
     @SuppressWarnings("unchecked")
-    public static <T, V extends T> Class<T> getMockedType(V proxy) {
+    public static <T,  R extends T> Class<R> getMockedType(T proxy) {
         if (Proxy.isProxyClass(proxy.getClass())) {
-            return (Class<T>) proxy.getClass().getInterfaces()[0];
+            return (Class<R>) proxy.getClass().getInterfaces()[0];
         }
-        return (Class<T>) proxy.getClass().getSuperclass();
+        return (Class<R>) proxy.getClass().getSuperclass();
     }
 
     public final void reset() {

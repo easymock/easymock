@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -165,5 +165,11 @@ public class ReflectionUtilsTest {
         } catch (RuntimeException e) {
             assertTrue(e.getCause() instanceof NoSuchMethodException);
         }
+    }
+
+    @Test
+    public void testIsClassMockingPossible() throws Exception {
+        assertTrue(ReflectionUtils.isClassAvailable("org.easymock.EasyMock"));
+        assertFalse(ReflectionUtils.isClassAvailable("org.easymock.NotThere"));
     }
 }

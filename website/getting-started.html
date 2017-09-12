@@ -95,7 +95,7 @@ public class ExampleTest extends EasyMockSupport {
   <p>And that's all you need to get you started. Some comments though:</p>
   <ul>
       <li>Extending (or delegating to) <code>EasyMockSupport</code> is useful but not mandatory.
-        It allows to call <code>replyAll</code> instead of <code>replay(mock1, mock2, ...)</code> for instance</li>
+        It allows to call <code>replayAll</code> instead of <code>replay(mock1, mock2, ...)</code> for instance</li>
       <li>Mock injection is done on fields (by <code>EasyMockRule</code>) so you won't need a setter only used for testing</li>
       <li>We are testing that <code>documentAdded</code> is called only once and receiving this exact parameter.
         Any other call to our mock is a test failure</li>

@@ -1,5 +1,5 @@
 /**
- * Copyright 2001-2016 the original author or authors.
+ * Copyright 2001-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.easymock.internal;
 import org.easymock.IAnswer;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -80,14 +81,40 @@ public final class Result implements IAnswer<Object>, Serializable {
                 Invocation invocation = LastControl.getCurrentInvocation();
                 try {
                     Method m = invocation.getMethod();
-                    m.setAccessible(true);
-                    return m.invoke(value, invocation.getArguments());
+                    if(!m.isAccessible()) {
+                        m.setAccessible(true);
+                    }
+                    return m.invoke(value, convertVarargs(m, invocation.getArguments()));
                 } catch (IllegalArgumentException e) {
                     throw new IllegalArgumentException("Delegation to object [" + value
                             + "] is not implementing the mocked method [" + invocation.getMethod() + "]", e);
                 } catch (InvocationTargetException e) {
                     throw e.getCause();
                 }
+            }
+
+            private Object[] convertVarargs(Method method, Object[] arguments) {
+                if(!method.isVarArgs()) {
+                    return arguments;
+                }
+                Class<?>[] paramTypes = method.getParameterTypes();
+                Object[] packedArguments = new Object[paramTypes.length];
+
+                int normalArgLength = paramTypes.length - 1;
+                int varargLength = arguments.length - paramTypes.length + 1;
+
+                // Copy all the non varargs arguments
+                System.arraycopy(arguments, 0, packedArguments, 0, normalArgLength);
+
+                // Now copy the varargs ones to a new array
+                Object varargs = Array.newInstance(paramTypes[packedArguments.length-1].getComponentType(), varargLength);
+                for (int i = 0; i < varargLength; i++) {
+                    Array.set(varargs, i, arguments[normalArgLength + i]);
+                }
+
+                // Put the vararg at the last place
+                packedArguments[packedArguments.length - 1] = varargs;
+                return packedArguments;
             }
 
             @Override
