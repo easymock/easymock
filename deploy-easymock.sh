@@ -37,6 +37,9 @@ message="should be an environment variable"
 [ -z "$bintray_api_key" ] && echo "bintray_api_key $message" && exit 1
 [ -z "$bintray_user" ] && echo "bintray_user $message" && exit 1
 
+# Seems to be required to make gpg happy
+export GPG_TTY=$(tty)
+
 # Update the version
 echo
 echo "************** Delivering version $version ****************"
@@ -64,8 +67,11 @@ test ! -d target && mkdir target
 echo "Update the Maven version"
 mvn versions:set -DnewVersion=${version} -Pall
 
-echo "Build and deploy"
-mvn -T 8.0C deploy -PfullBuild,deployBuild,all
+echo "Build"
+mvn -T 8.0C install -PfullBuild,deployBuild,all
+
+echo "Deploy"
+mvn -T 8.0C deploy -PfullBuild,deployBuild,all -DskipTests
 
 echo "Please publish on bintray and sync with Maven central"
 open "https://bintray.com/easymock/maven/easymock/$version"
