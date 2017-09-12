@@ -1,12 +1,15 @@
-This version has finally removed the old (and ugly) partial mocking methods. You are now required to use the partialMockBuilder. In exchange, you get really nice short methods to create your mocks: `mock`, `niceMock` and `strictMock`.
- 
-You also get a better stability since cglib and ASM are now embedded to remove a possible version mismatch with your own dependencies. Note that Objenesis will stay as an explicit dependency.
+Here is the long awaited 3.5 version. It contains many bug fixes and some improvement. We allowed ourselves to possibly break
+the compatibility with older versions for the greater good. So please read these notes thoroughly.
 
-Change log
-----------
-* #163 Incomplete sentence in documentation bug website
-* #160 EasyMock should not depend on ASM but inline the code enhancement major
-* #159 Remove partial mocking deprecated methods enhancement fixed major
-* #158 Shorter mock methods core enhancement fixed major
-* #155 Disable jar indexing enhancement fixed minor
-* #11 User guide refers to methods not in latest release website
+Release notes
+-------------
+* Java 5 is no longer supported. I dearly hope this won't harm anyone
+* Java 9 is supported
+* TestNG support is added. Have a look at `EasyMockListener`
+* Class Mocking now works correctly for cross bundle mocking
+* `verify()` now checks for unexpected calls in case an AssertionError was swallowed during the test. It is in general
+what you want but you can use `verifyRecording()` to bring back the old behavior
+* Default matcher for an array argument is now `aryEq` instead of `eq`. This should as well make sense for everyone and should 
+allow you to remove tons of `aryEq` all over your code. If you don't like it, you can specify `eq` explicitly for the array
+argument
+
