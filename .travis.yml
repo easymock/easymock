@@ -21,5 +21,5 @@ install:
 env:
   - ANDROID_HOME=$HOME/android-sdk
 script:
-  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Pall -B -V
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Pall,fullBuild -B -V
   - mvn test -B
