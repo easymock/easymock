@@ -15,29 +15,31 @@
  */
 package org.easymock.tests;
 
-import java.io.File;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
-import net.sf.cglib.proxy.*;
-
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.Factory;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 import org.easymock.EasyMock;
 import org.easymock.internal.ClassInstantiatorFactory;
 import org.junit.Test;
+
+import java.io.File;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
 /**
  * This test case is used to make sure that the way cglib is used is providing
  * the expected behavior
- * 
+ *
  * @author Henri Tremblay
  */
 public class CglibTest {
 
     /**
      * Check that an interceptor is used by only one instance of a class
-     * 
+     *
      * @throws Exception just a test
      */
     @Test
@@ -62,11 +64,8 @@ public class CglibTest {
 
         Class<?> mockClass = enhancer.createClass();
 
-        Enhancer.registerCallbacks(mockClass, new Callback[] { interceptor });
-
         Factory f = (Factory) ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
-
-        f.getCallback(0);
+        f.setCallback(0, interceptor);
 
         return f;
     }
