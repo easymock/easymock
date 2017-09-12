@@ -2,4 +2,4 @@ name: EasyMock
 highlighter: rouge
 url: easymock.org
 exclude: ['bak']
-latest_version: 3.4
+latest_version: 3.5
