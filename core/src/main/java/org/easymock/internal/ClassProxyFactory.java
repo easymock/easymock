@@ -17,11 +17,7 @@ package org.easymock.internal;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -29,13 +25,7 @@ import java.util.Set;
 
 import org.easymock.ConstructorArgs;
 
-import net.sf.cglib.core.CodeGenerationException;
-import net.sf.cglib.core.CollectionUtils;
-import net.sf.cglib.core.DefaultNamingPolicy;
-import net.sf.cglib.core.NamingPolicy;
-import net.sf.cglib.core.Predicate;
-import net.sf.cglib.core.VisibilityPredicate;
-import net.sf.cglib.proxy.Callback;
+import net.sf.cglib.core.*;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -43,7 +33,7 @@ import net.sf.cglib.proxy.MethodProxy;
 
 /**
  * Factory generating a mock for a class.
- * 
+ *
  * @author Henri Tremblay
  */
 public class ClassProxyFactory implements IProxyFactory {
@@ -71,10 +61,10 @@ public class ClassProxyFactory implements IProxyFactory {
             // Here I need to check if the fillInStackTrace was called by EasyMock inner code
             // If it's the case, just ignore the call. We ignore it for two reasons
             // 1- In Java 7, the fillInStackTrace won't work because, since no constructor was called, the stackTrace attribute is null
-            // 2- There might be some unexpected side effect in the original fillInStackTrace. So it seems more logical to ignore the call 
+            // 2- There might be some unexpected side effect in the original fillInStackTrace. So it seems more logical to ignore the call
             if (obj instanceof Throwable && method.getName().equals("fillInStackTrace")) {
-                if(isCallerMockInvocationHandlerInvoke(new Throwable())) {
-                        return obj;
+                if (isCallerMockInvocationHandlerInvoke(new Throwable())) {
+                    return obj;
                 }
             }
 
@@ -144,8 +134,7 @@ public class ClassProxyFactory implements IProxyFactory {
     // ///CLOVER:OFF (I don't know how to test it automatically yet)
     private static final NamingPolicy ALLOWS_MOCKING_CLASSES_IN_SIGNED_PACKAGES = new DefaultNamingPolicy() {
         @Override
-        public String getClassName(String prefix, String source, Object key,
-                Predicate names) {
+        public String getClassName(String prefix, String source, Object key, Predicate names) {
             return "codegen." + super.getClassName(prefix, source, key, names);
         }
     };
@@ -179,15 +168,13 @@ public class ClassProxyFactory implements IProxyFactory {
             // instead of the default one (which is the class to mock one)
             // This is required by Eclipse Plug-ins, the mock class loader doesn't see
             // cglib most of the time. Using EasyMock and the mock class loader at the same time solves this
-            LinkedClassLoader linkedClassLoader = new LinkedClassLoader(toMock.getClassLoader(), ClassProxyFactory.class.getClassLoader());
+            LinkedClassLoader linkedClassLoader = new LinkedClassLoader(toMock.getClassLoader(),
+                    ClassProxyFactory.class.getClassLoader());
             enhancer.setClassLoader(linkedClassLoader);
             mockClass = enhancer.createClass();
             // ///CLOVER:ON
         }
-
         try {
-            Enhancer.registerCallbacks(mockClass, new Callback[] { interceptor });
-
             if (args != null) {
                 // Really instantiate the class
                 Constructor<?> cstr;
@@ -200,11 +187,11 @@ public class ClassProxyFactory implements IProxyFactory {
                     throw new RuntimeException("Fail to find constructor for param types", e);
                     // ///CLOVER:ON
                 }
-                T mock;
+                Factory mock;
                 try {
                     cstr.setAccessible(true); // So we can call a protected
                     // constructor
-                    mock = (T) cstr.newInstance(args.getInitArgs());
+                    mock = (Factory) cstr.newInstance(args.getInitArgs());
                 } catch (InstantiationException e) {
                     // ///CLOVER:OFF
                     throw new RuntimeException("Failed to instantiate mock calling constructor", e);
@@ -218,10 +205,10 @@ public class ClassProxyFactory implements IProxyFactory {
                             "Failed to instantiate mock calling constructor: Exception in constructor",
                             e.getTargetException());
                 }
-                return mock;
+                mock.setCallback(0, interceptor);
+                return (T) mock;
             } else {
                 // Do not call any constructor
-
                 Factory mock;
                 try {
                     mock = (Factory) ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
@@ -231,19 +218,7 @@ public class ClassProxyFactory implements IProxyFactory {
                             + ClassInstantiatorFactory.getJVM() + " JVM");
                     // ///CLOVER:ON
                 }
-
-                // This call is required. CGlib has some "magic code" making sure a
-                // callback is used by only one instance of a given class. So only
-                // the
-                // instance created right after registering the callback will get
-                // it.
-                // However, this is done in the constructor which I'm bypassing to
-                // allow class instantiation without calling a constructor.
-                // Fortunately, the "magic code" is also called in getCallback which
-                // is
-                // why I'm calling it here mock.getCallback(0);
-                mock.getCallback(0);
-
+                mock.setCallback(0, interceptor);
                 return (T) mock;
             }
         } finally {
