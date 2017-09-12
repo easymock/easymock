@@ -127,7 +127,7 @@ Android
 To bundle EasyMock and deploy
 --------------------------------------------------------------------------------------
 - Add a little speech on the features in "ReleaseNotes.md"
-- Set the jira_user, jira_password, gpg_passphrase, sf_user, sf_api_key as environment variables
+- Set the github_user, github_password, gpg_passphrase, bintray_user, bintray_api_key as environment variables
 - Launch ./deploy-easymock.sh version
 
 - Close the deployment at Sonatype Nexus UI (https://oss.sonatype.org/index.html#stagingRepositories)

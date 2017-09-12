@@ -2,7 +2,7 @@
 
 # This script expects:
 # - the version to be deployed as the first parameter
-# - jira_user / jira_password to be available environment variables
+# - github_user / github_password to be available environment variables
 # - gpg_passphrase to be an environment variable
 # - bintray_user to be an environment variable
 # - bintray_api_key to be an environment variable
