@@ -17,6 +17,17 @@ function pause {
     read -p "Press [enter]  to continue"
 }
 
+function incrementVersionLastElement {
+    IN=$1
+
+    VER1=`echo $IN | awk -F\. 'BEGIN{i=2}{res=$1; while(i<NF){res=res"."$i; i++}print res}'`
+    VER2=`echo $IN | awk -F\. '{print $NF}'`
+    VER2=`expr $VER2 + 1`
+    OUT="$VER1.$VER2"
+
+    echo $OUT
+}
+
 # Make sure the script is launched from the project root directory
 if [ "$(dirname $0)" != "." ]; then
     echo "The script should be launched from EasyMock root directory"
@@ -72,10 +83,6 @@ mvn -T 8.0C install -PfullBuild,deployBuild,all
 
 echo "Deploy"
 mvn -T 8.0C deploy -PfullBuild,deployBuild,all -DskipTests
-
-echo "Please publish on bintray and sync with Maven central"
-open "https://bintray.com/easymock/maven/easymock/$version"
-
 pause
 
 echo "Commit everything"
@@ -89,31 +96,52 @@ git push --tags
 pause
 
 # currently not working because of the description that is multiline. Probably need to replace with \n
-echo "Create the github release"
-description="$(cat ReleaseNotes.md)"
-content="{\"tag_name\": \"$tag\", \"target_commitish\": \"master\", \"name\": \"$tag\", \"body\": \"$description\", \"draft\": false, \"prerelease\": false }"
-curl -v -u "${github_user}:${github_password}" \
-  -XPOST -H "Accept: application/vnd.github.v3+json" \
-  -d "$content" \
-  "https://api.github.com/repos/easymock/easymock/releases"
+#echo "Create the github release"
+#description="$(cat ReleaseNotes.md)"
+#content="{\"tag_name\": \"$tag\", \"target_commitish\": \"master\", \"name\": \"$tag\", \"body\": \"$description\", \"draft\": false, \"prerelease\": false }"
+#curl -v -u "${github_user}:${github_password}" \
+#  -XPOST -H "Accept: application/vnd.github.v3+json" \
+#  -d "$content" \
+#  "https://api.github.com/repos/easymock/easymock/releases"
 
+# Do the github release note
+echo "Please add the release notes in github (Draft New Release)"
+echo "\tTag version: easymock-${version}"
+echo "\tRelease title: ${version}"
+echo "\tDescription: Content of ReleaseNotes.md"
+echo "\tAttach core/target/easymock-${version}-bundle.zip"
+echo "\tPublish release"
+open "https://github.com/easymock/easymock/releases"
 pause
 
-echo "Deploy the bundle to Bintray"
-date=$(date )
-content="{ \"name\": \"$version\", \"desc\": \"$version\", \"released\": \"${date}T00:00:00.000Z\", \"github_use_tag_release_notes\": true, \"vcs_tag\": \"easymock-$version\" }"
-curl -v -XPOST -H "Content-Type: application/json" -H "X-GPG-PASSPHRASE: ${gpg_passphrase}" -u${bintray_user}:${bintray_api_key} \
-    -d "$content" \
-    https://api.bintray.com/packages/easymock/distributions/easymock/versions
-# Then set as download
-# Set the release notes as coming from github in the version
+# Login to bintray
+echo "Please login on bintray"
+open "https://bintray.com/easymock"
+pause
 
+# Create the distribution in bintray
+date=$(date "+%Y-%m-%d")
+content="{ \"name\": \"$version\", \"desc\": \"$version\", \"released\": \"${date}T00:00:00.000Z\", \"github_use_tag_release_notes\": true, \"vcs_tag\": \"easymock-${version}\" }"
+curl -H "Content-Type: application/json" -u$bintray_user:$bintray_api_key \
+  -d "$content" https://api.bintray.com/packages/easymock/distributions/easymock/versions
+
+curl -v -H "X-GPG-PASSPHRASE: $gpg_passphrase" -u$bintray_user:$bintray_api_key -T "core/target/easymock-${version}-bundle.zip" https://api.bintray.com/content/easymock/distributions/easymock/${version}/easymock-${version}-bundle.zip?publish=1
+
+echo "Flag the bundle as 'Show in download list' in bintray"
+open "https://bintray.com/easymock/distributions/easymock/${version}#files"
+pause
+
+echo "Close the milestone in GitHub and create the new one"
+open "https://github.com/easymock/easymock/milestones"
+pause
+
+echo "Sync to Maven central"
+open "https://bintray.com/easymock/maven/easymock/${version}#central"
 pause
 
 echo "Update Javadoc"
 git rm -rf website/api
 cp -r core/target/apidocs website/api
-
 pause
 
 echo "Update the version on the website"
@@ -127,7 +155,7 @@ echo "Update website"
 ./deploy-website.sh
 
 echo "Start new version"
-nextVersion=$version+1
+nextVersion=$(incrementVersionLastElement $version)-SNAPSHOT
 mvn versions:set -DnewVersion=${nextVersion} -Pall
 mvn versions:commit
 git commit -am "Starting to develop version ${nextVersion}"

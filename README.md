@@ -130,9 +130,7 @@ To bundle EasyMock and deploy
 - Add a little speech on the features in "ReleaseNotes.md"
 - Set the github_user, github_password, gpg_passphrase, bintray_user, bintray_api_key as environment variables
 - Launch ./deploy-easymock.sh version
-- During the deployment, you will be asked to publish on Bintray. Go on the site and press "Publish"
-- Then go to the "Maven Central" tab and start syncing with the central repository
-- Go ahead with the deployment
+- During the deployment, you will be asked to do different things. Do them
 - Announce to gitter, tweet and blog ;-)
 
 Deploy the website
