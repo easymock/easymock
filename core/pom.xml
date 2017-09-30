@@ -59,12 +59,12 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <optional>true</optional>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <optional>true</optional>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>
