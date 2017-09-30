@@ -12,11 +12,6 @@
   <description>EasyMock Parent is the parent pom of all EasyMock projects</description>
   <inceptionYear>2010</inceptionYear>
 
-  <prerequisites>
-    <!-- required by android-maven-plugin -->
-    <maven>3.2.1</maven>
-  </prerequisites>
-
   <licenses>
     <license>
       <name>Apache 2</name>
@@ -178,6 +173,10 @@
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.0.0-M1</version>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
