@@ -70,8 +70,8 @@ To compile EasyMock in IntelliJ
 
 To update the versions
 ----------------------
-- `mvn versions:set -DnewVersion=X.Y -Pandroid,bench`
-- `mvn versions:commit -Pandroid,bench` if everything is ok, `mvn versions:revert -Pandroid,bench` otherwise
+- `mvn versions:set -DnewVersion=X.Y -Pall`
+- `mvn versions:commit -Pall` if everything is ok, `mvn versions:revert -Pall` otherwise
 
 Configure to deploy to the Sonatype maven repository
 ----------------------------------------------------
@@ -126,8 +126,9 @@ Android
 
 To bundle EasyMock and deploy
 --------------------------------------------------------------------------------------
+- Make sure the poms are on the snapshot of the version you want to deploy
 - Make sure `jq` is installed. If not, try `brew install jq` or `choco install jq`
-- Add a little speech on the features in "ReleaseNotes.md"
+- Add a little speech on the features in "ReleaseNotes.md" (not the change log, it is generated)
 - Set the github_user, github_password, gpg_passphrase, bintray_user, bintray_api_key as environment variables
 - Launch ./deploy-easymock.sh version
 - During the deployment, you will be asked to do different things. Do them

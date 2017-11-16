@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # This script expects:
-# - the version to be deployed as the first parameter
 # - github_user / github_password to be available environment variables
 # - gpg_passphrase to be an environment variable
 # - bintray_user to be an environment variable
