@@ -58,7 +58,7 @@ echo
 pause
 
 echo "Generate the changelog"
-milestone=$(curl -s -u "${github_user}:${github_password}" "https://api.github.com/repos/easymock/easymock/milestones" | jq '.[] | select(.title=="3.6") | .number')
+milestone=$(curl -s -u "${github_user}:${github_password}" "https://api.github.com/repos/easymock/easymock/milestones" | jq ".[] | select(.title==\"$version\") | .number")
 if [ $(curl -s -u "${github_user}:${github_password}" -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/easymock/easymock/issues?milestone=$milestone&state=open" | wc -l) != "3" ]; then
     echo "There are unclosed issues on milestone $version. Please fix them or moved them to a later release"
     exit 1
@@ -66,7 +66,6 @@ fi
 
 ./generate-changelog.sh easymock/easymock ${milestone} ${github_user} ${github_password} >> ReleaseNotes.md
 
-exit 0
 echo "Check the release notes"
 pause
 
