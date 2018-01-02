@@ -31,17 +31,6 @@
     <jacoco.skip>true</jacoco.skip>
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
-      <!-- Lower the javassist version because 3.17.1-GA is compiled for JDK6 -->
-      <dependency>
-        <groupId>org.javassist</groupId>
-        <artifactId>javassist</artifactId>
-        <version>3.21.0-GA</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>org.easymock</groupId>
@@ -80,14 +69,14 @@
     <dependency>
       <groupId>org.ops4j.pax.url</groupId>
       <artifactId>pax-url-wrap</artifactId>
-      <version>2.5.2</version>
+      <version>2.5.4</version>
     </dependency>
 
     <!-- And this is our OSGi container -->
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.framework</artifactId>
-      <version>5.6.8</version>
+      <version>5.6.10</version>
       <scope>test</scope>
     </dependency>
 
