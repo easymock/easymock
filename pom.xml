@@ -74,7 +74,7 @@
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
-        <version>6.13.1</version>
+        <version>6.14.2</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -204,13 +204,13 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.20</version>
+          <version>2.21.0</version>
           <dependencies>
             <dependency>
               <!-- Force junit provider because surefire will choose the testng one if testng is detected -->
               <groupId>org.apache.maven.surefire</groupId>
               <artifactId>surefire-junit47</artifactId>
-              <version>2.20.1</version>
+              <version>2.21.0</version>
             </dependency>
           </dependencies>
         </plugin>
