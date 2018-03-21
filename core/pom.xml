@@ -35,7 +35,7 @@
     <dependency>
       <groupId>cglib</groupId>
       <artifactId>cglib</artifactId>
-      <version>3.2.5</version>
+      <version>3.2.6</version>
       <exclusions>
         <exclusion>
           <groupId>org.apache.ant</groupId>
@@ -43,11 +43,11 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!-- Use version 6 to be compliant with Java 9 -->
+    <!-- Use version 6.1 to be compliant with Java 10 -->
     <dependency>
       <groupId>org.ow2.asm</groupId>
       <artifactId>asm</artifactId>
-      <version>6.0</version>
+      <version>6.1</version>
       <scope>runtime</scope>
     </dependency>
     <!-- Used for class mocking -->
