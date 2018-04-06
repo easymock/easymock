@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 /**
  * Test all kind of mocking making sure the partial mocking and interface works
  * and that to correct behavior is given.
- * 
+ *
  * @author Henri Tremblay
  */
 public class MockingTest {
@@ -87,6 +87,16 @@ public class MockingTest {
     @Test
     public void testNiceClassMocking() {
         checkClassMocking(createNiceMock(ClassToMock.class), MockType.NICE);
+    }
+
+    @Test
+    public void testMockingNull() {
+        try {
+            createMock(null);
+            fail("Should throw a NPE");
+        } catch(NullPointerException e) {
+            assertEquals("Can't mock 'null'", e.getMessage());
+        }
     }
 
     private void checkInterfaceMock(Object mock, MockType behavior) {

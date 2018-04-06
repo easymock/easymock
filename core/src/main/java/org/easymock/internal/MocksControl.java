@@ -103,6 +103,9 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     @Override
     public <T> T createMock(String name, Class<T> toMock, ConstructorArgs constructorArgs,
             Method... mockedMethods) {
+        if (toMock == null) {
+            throw new NullPointerException("Can't mock 'null'");
+        }
         if (toMock.isInterface() && mockedMethods != null) {
             throw new IllegalArgumentException("Partial mocking doesn't make sense for interface");
         }
