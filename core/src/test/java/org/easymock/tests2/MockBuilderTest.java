@@ -97,19 +97,19 @@ public class MockBuilderTest {
         MockBuilder<A> builder = new MockBuilder<A>(A.class);
         try {
             builder.addMockedMethod(A.class.getMethod("foo", String.class));
-            fail("sholdn't be allowed to be mocked");
+            fail("shouldn't be allowed to be mocked");
         } catch (IllegalArgumentException e) {
             assertEquals(errorMessage, e.getMessage());
         }
         try {
             builder.addMockedMethod("foo");
-            fail("sholdn't be allowed to be mocked");
+            fail("shouldn't be allowed to be mocked");
         } catch (IllegalArgumentException e) {
             assertEquals(errorMessage, e.getMessage());
         }
         try {
             builder.addMockedMethod("foo", String.class);
-            fail("sholdn't be allowed to be mocked");
+            fail("shouldn't be allowed to be mocked");
         } catch (IllegalArgumentException e) {
             assertEquals(errorMessage, e.getMessage());
         }
@@ -121,13 +121,13 @@ public class MockBuilderTest {
         MockBuilder<A> builder = new MockBuilder<A>(A.class);
         try {
             builder.addMockedMethods(A.class.getMethod("foo", String.class));
-            fail("sholdn't be allowed to be mocked");
+            fail("shouldn't be allowed to be mocked");
         } catch (IllegalArgumentException e) {
             assertEquals(errorMessage, e.getMessage());
         }
         try {
             builder.addMockedMethods("foo");
-            fail("sholdn't be allowed to be mocked");
+            fail("shouldn't be allowed to be mocked");
         } catch (IllegalArgumentException e) {
             assertEquals(errorMessage, e.getMessage());
         }
@@ -351,5 +351,4 @@ public class MockBuilderTest {
     public int myMethod(int i) {
         return i;
     }
-
 }
