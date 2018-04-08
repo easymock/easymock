@@ -91,9 +91,10 @@ public class MockBuilderTest {
         builder.addMockedMethod("..", String.class);
     }
 
+    private static final String errorMessage = "Method is not found, null, final, private or synthetic and so can't be mocked";
+
     @Test
     public void testAddMethod_Final() throws Exception {
-        String errorMessage = "Final methods can't be mocked";
         MockBuilder<A> builder = new MockBuilder<A>(A.class);
         try {
             builder.addMockedMethod(A.class.getMethod("foo", String.class));
@@ -117,7 +118,6 @@ public class MockBuilderTest {
 
     @Test
     public void testAddMethods_Final() throws Exception {
-        String errorMessage = "Final methods can't be mocked";
         MockBuilder<A> builder = new MockBuilder<A>(A.class);
         try {
             builder.addMockedMethods(A.class.getMethod("foo", String.class));

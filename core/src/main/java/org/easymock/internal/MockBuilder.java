@@ -15,13 +15,18 @@
  */
 package org.easymock.internal;
 
+import org.easymock.ConstructorArgs;
+import org.easymock.EasyMock;
+import org.easymock.EasyMockSupport;
+import org.easymock.IMockBuilder;
+import org.easymock.IMocksControl;
+import org.easymock.MockType;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.easymock.*;
 
 /**
  * Default implementation of IMockBuilder.
@@ -35,6 +40,23 @@ import org.easymock.*;
  * @author Henri Tremblay
  */
 public class MockBuilder<T> implements IMockBuilder<T> {
+
+    private static final ReflectionUtils.Predicate<Method> CAN_BE_MOCKED = new ReflectionUtils.Predicate<Method>() {
+        @Override
+        public boolean test(Method method) {
+            int modifiers = method.getModifiers();
+            // Final, static and private methods can't be mocked so just skip
+            if((modifiers & (Modifier.STATIC | Modifier.PRIVATE | Modifier.FINAL)) != 0) {
+                return false;
+            }
+            // synthetic methods like bridges, lamdbas or whatever might be invented by the compile can't be mocked
+            // since they do not really exists from the user perspective (they are not in the source code)
+            if(method.isSynthetic()) {
+                return false;
+            }
+            return true;
+        }
+    };
 
     private final Class<T> toMock;
 
@@ -65,8 +87,8 @@ public class MockBuilder<T> implements IMockBuilder<T> {
     }
 
     public IMockBuilder<T> addMockedMethod(Method method) {
-        if (Modifier.isFinal(method.getModifiers())) {
-            throw new IllegalArgumentException("Final methods can't be mocked");
+        if(method == null || !CAN_BE_MOCKED.test(method)) {
+            throw new IllegalArgumentException("Method is not found, null, final, private or synthetic and so can't be mocked");
         }
         if (mockedMethods == null) {
             mockedMethods = new HashSet<Method>();
@@ -76,19 +98,13 @@ public class MockBuilder<T> implements IMockBuilder<T> {
     }
 
     public IMockBuilder<T> addMockedMethod(String methodName) {
-        Method m = ReflectionUtils.findMethod(toMock, methodName);
-        if (m == null) {
-            throw new IllegalArgumentException("Method not found (or private): " + methodName);
-        }
+        Method m = ReflectionUtils.findMethod(toMock, methodName, CAN_BE_MOCKED);
         addMockedMethod(m);
         return this;
     }
 
     public IMockBuilder<T> addMockedMethod(String methodName, Class<?>... parameterTypes) {
-        Method m = ReflectionUtils.findMethod(toMock, methodName, parameterTypes);
-        if (m == null) {
-            throw new IllegalArgumentException("Method not found (or private): " + methodName);
-        }
+        Method m = ReflectionUtils.findMethod(toMock, methodName, CAN_BE_MOCKED, parameterTypes);
         addMockedMethod(m);
         return this;
     }

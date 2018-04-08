@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -27,6 +28,13 @@ import java.lang.reflect.Method;
 public class ObjectMethodsFilter implements InvocationHandler, Serializable {
 
     private static final long serialVersionUID = -1726286682930686024L;
+
+    private static final ReflectionUtils.Predicate<Method> NOT_PRIVATE = new ReflectionUtils.Predicate<Method>() {
+        @Override
+        public boolean test(Method method) {
+            return !Modifier.isPrivate(method.getModifiers());
+        }
+    };
 
     private transient Method equalsMethod;
 
@@ -56,7 +64,7 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
                 equalsMethod = extractMethod(toMock, "equals", Object.class);
                 hashCodeMethod = extractMethod(toMock, "hashCode", (Class[]) null);
                 toStringMethod = extractMethod(toMock, "toString", (Class[]) null);
-                finalizeMethod = ReflectionUtils.findMethod(toMock, "finalize", (Class[]) null);
+                finalizeMethod = ReflectionUtils.findMethod(toMock, "finalize", NOT_PRIVATE, (Class[]) null);
             } catch (NoSuchMethodException e) {
                 // ///CLOVER:OFF
                 throw new RuntimeException("An Object method could not be found!", e);

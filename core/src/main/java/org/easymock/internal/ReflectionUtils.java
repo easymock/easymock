@@ -27,6 +27,17 @@ import java.util.Map;
  */
 public final class ReflectionUtils {
 
+    public interface Predicate<T> {
+        boolean test(T t);
+    }
+
+    public static final Predicate<Method> NOT_PRIVATE = new Predicate<Method>() {
+        @Override
+        public boolean test(Method method) {
+            return !Modifier.isPrivate(method.getModifiers());
+        }
+    };
+
     private static final Map<Class<?>, Class<?>> primitiveToWrapperType = new HashMap<Class<?>, Class<?>>(8);
 
     static {
@@ -58,7 +69,8 @@ public final class ReflectionUtils {
     /**
      * Attempt to find a {@link Method} on the supplied class with the supplied
      * name and no parameters. Searches all superclasses up to
-     * {@code Object}.
+     * {@code Object}. The filter is used to ignore some kind of methods the caller doesn't want to see returned. In this case
+     * they are totally ignored and can't clash with a non-ignored one to cause ambiguity.
      * <p>
      * Returns {@code null} if no {@link Method} can be found.
      *
@@ -66,16 +78,19 @@ public final class ReflectionUtils {
      *            the class to introspect
      * @param name
      *            the name of the method
+     * @param filter
+     *            tells what methods to ignore in the research
      * @return the Method object, or {@code null} if none found
      */
-    public static Method findMethod(Class<?> clazz, String name) {
-        return findMethod(clazz, name, (Class<?>[]) null);
+    public static Method findMethod(Class<?> clazz, String name, Predicate<Method> filter) {
+        return findMethod(clazz, name, filter, (Class<?>[]) null);
     }
 
     /**
      * Attempt to find a {@link Method} on the supplied class with the supplied
      * name and parameter types. Searches all superclasses up to
-     * {@code Object}.
+     * {@code Object}. The filter is used to ignore some kind of methods the caller doesn't want to see returned. In this case
+     * they are totally ignored and can't clash with a non-ignored one to cause ambiguity.
      * <p>
      * Returns {@code null} if no {@link Method} can be found.
      *
@@ -83,19 +98,21 @@ public final class ReflectionUtils {
      *            the class to introspect
      * @param name
      *            the name of the method
+     * @param filter
+     *            tells what methods to ignore in the research
      * @param paramTypes
      *            the parameter types of the method (may be {@code null} to
      *            indicate any signature)
      * @return the Method object, or {@code null} if none found
      */
-    public static Method findMethod(Class<?> clazz, String name, Class<?>... paramTypes) {
+    public static Method findMethod(Class<?> clazz, String name, Predicate<Method> filter, Class<?>... paramTypes) {
         Class<?> searchType = clazz;
         while (searchType != null) {
             Method[] methods = searchType.getDeclaredMethods();
             Method result = null;
             for (Method method : methods) {
                 // Private methods can't be mocked so just skip them
-                if (Modifier.isPrivate(method.getModifiers())) {
+                if (!filter.test(method)) {
                     continue;
                 }
                 // Skip bridges because we never mock them. We mock the method underneath
@@ -119,7 +136,41 @@ public final class ReflectionUtils {
             }
             searchType = searchType.getSuperclass();
         }
+        // Nothing found, our last hope is a default method
+        searchType = clazz;
+        while (searchType != Object.class) {
+            Method method = findDefaultMethod(searchType, name, paramTypes);
+            if(method != null) {
+                return method;
+            }
+            searchType = searchType.getSuperclass();
+        }
         return null;
+    }
+
+    private static Method findDefaultMethod(Class<?> searchedClass, String name, Class<?>[] paramTypes) {
+        Class<?>[] interfaces = searchedClass.getInterfaces();
+        Method result = null;
+        for(Class<?> i : interfaces) {
+            Method[] methods = i.getDeclaredMethods();
+            for (Method method : methods) {
+                if(!isDefaultMethod(method)) {
+                    continue;
+                }
+                if (name.equals(method.getName())) {
+                    if (paramTypes == null) {
+                        if (result != null) {
+                            throw new RuntimeException("Ambiguous name: More than one method are named "
+                                + name);
+                        }
+                        result = method; // match, remember it to see if it's ambiguous
+                    } else if (Arrays.equals(paramTypes, method.getParameterTypes())) {
+                        return method; // perfect match, get out now
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     /**
@@ -244,5 +295,12 @@ public final class ReflectionUtils {
             return false;
         }
         return true;
+    }
+
+    public static boolean isDefaultMethod(Method method) {
+        int modifiers = method.getModifiers();
+        // Default methods are public non-abstract instance methods
+        // declared in an interface.
+        return (modifiers & (Modifier.ABSTRACT | Modifier.PUBLIC | Modifier.STATIC)) == Modifier.PUBLIC;
     }
 }

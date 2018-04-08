@@ -475,6 +475,7 @@
     <module>test-osgi</module>
     <module>test-nodeps</module>
     <module>test-testng</module>
+    <module>test-java8</module>
   </modules>
 
   <distributionManagement>

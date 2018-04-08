@@ -16,11 +16,15 @@
 package org.easymock.tests2;
 
 import org.easymock.internal.ReflectionUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+import static org.easymock.internal.ReflectionUtils.*;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -28,82 +32,43 @@ import static org.junit.Assert.*;
  */
 public class ReflectionUtilsTest {
 
+    private static final Class[] NO_PARAMS = new Class[0];
+
     public static class B {
-        protected void foo(long l) {
-        }
+        protected void foo(long l) { }
+
+        public void parentMethod() {}
     }
 
     public static class A extends B {
 
-        public A(boolean bool, byte b, int i, short s, char c, long l,
-                float f, double d) {
-        }
+        public A(boolean bool, byte b, int i, short s, char c, long l, float f, double d) { }
 
-        public A(int i) {
-        }
+        public A(int i) { }
 
-        protected A(long l) {
-        }
+        protected A(long l) { }
 
-        private A(byte b) {
-        }
+        private A(byte b) { }
 
-        A(char c) {
-        }
+        A(char c) { }
 
-        public A(CharSequence c) {
-        }
+        public A(CharSequence c) { }
 
-        public A(StringBuilder s) {
-        }
+        public A(StringBuilder s) { }
 
-        public void foo(String s) {
-        }
+        public void foo(int i) {}
 
-        public void foo(int i) {
-        }
+        public static void staticMethod() {}
+
+        private void privateMethod() {}
+
+        protected void protectedMethod() {}
+
+        void packageMethod() {}
     }
 
-    @Test
-    public void testFindMethod() {
-        Method m = ReflectionUtils.findMethod(String.class, "length");
-        assertSame(String.class, m.getDeclaringClass());
-        assertEquals("length", m.getName());
-        assertSame(int.class, m.getReturnType());
-    }
-
-    @Test
-    public void testFindMethod_NotFound() {
-        Method m = ReflectionUtils.findMethod(String.class, "aaa");
-        assertNull(m);
-    }
-
-    @Test
-    public void testFindMethod_Ambiguous() {
-        try {
-            ReflectionUtils.findMethod(A.class, "foo");
-        } catch (RuntimeException e) {
-            assertEquals("Ambiguous name: More than one method are named foo", e.getMessage());
-        }
-    }
-
-    @Test
-    public void testFindMethod_WrongParams() {
-        Method m = ReflectionUtils.findMethod(A.class, "foo", int.class, int.class);
-        assertNull(m);
-    }
-
-    @Test
-    public void testFindMethod_Superclass() {
-        Method m = ReflectionUtils.findMethod(A.class, "foo", long.class);
-        assertEquals("protected void " + B.class.getName() + ".foo(long)", m.toString());
-    }
-
-    @Test
-    public void testFindMethodClassOfQStringClassOfQArray() {
-        Method m = ReflectionUtils.findMethod(A.class, "foo", int.class);
-        assertEquals("public void " + A.class.getName() + ".foo(int)", m.toString());
-    }
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void testGetConstructor_public() throws NoSuchMethodException {
@@ -123,23 +88,27 @@ public class ReflectionUtilsTest {
         assertArrayEquals(new Class[] { char.class }, c.getParameterTypes());
     }
 
-    @Test(expected = NoSuchMethodException.class)
+    @Test
     public void testGetConstructor_private() throws NoSuchMethodException {
+        expectedException.expect(NoSuchMethodException.class);
         ReflectionUtils.getConstructor(A.class, (byte) 5);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetConstructor_twoMatching() throws NoSuchMethodException {
+        expectedException.expect(IllegalArgumentException.class);
         ReflectionUtils.getConstructor(A.class, new StringBuilder());
     }
 
-    @Test(expected = NoSuchMethodException.class)
+    @Test
     public void testGetConstructor_notFound() throws NoSuchMethodException {
+        expectedException.expect(NoSuchMethodException.class);
         ReflectionUtils.getConstructor(A.class, true);
     }
 
-    @Test(expected = NoSuchMethodException.class)
+    @Test
     public void testGetConstructor_WrongParams() throws NoSuchMethodException {
+        expectedException.expect(NoSuchMethodException.class);
         ReflectionUtils.getConstructor(A.class, "", "");
     }
 
@@ -159,17 +128,57 @@ public class ReflectionUtilsTest {
 
     @Test
     public void testGetDeclareMethod_NotFound() {
-        try {
-            ReflectionUtils.getDeclaredMethod(A.class, "foo", new Class<?>[0]);
-            fail("Method should not be found");
-        } catch (RuntimeException e) {
-            assertTrue(e.getCause() instanceof NoSuchMethodException);
-        }
+        expectedException.expectCause(isA(NoSuchMethodException.class));
+        ReflectionUtils.getDeclaredMethod(A.class, "foo", new Class<?>[0]);
     }
 
     @Test
     public void testIsClassMockingPossible() throws Exception {
         assertTrue(ReflectionUtils.isClassAvailable("org.easymock.EasyMock"));
         assertFalse(ReflectionUtils.isClassAvailable("org.easymock.NotThere"));
+    }
+
+    @Test
+    public void testFindMethodWithParam_notFound() {
+        assertNull(ReflectionUtils.findMethod(getClass(), "xxx", NOT_PRIVATE, int.class));
+    }
+
+    @Test
+    public void testFindMethodWithParam_foundDirectlyOnClass() {
+        Method method = ReflectionUtils.findMethod(A.class, "foo", NOT_PRIVATE, int.class);
+        assertEquals("foo", method.getName());
+        assertEquals(A.class, method.getDeclaringClass());
+    }
+
+    @Test
+    public void testFindMethodWithParam_foundDirectlyOnClassButWithDifferentParams() {
+        assertNull(ReflectionUtils.findMethod(getClass(), "foo", NOT_PRIVATE, double.class));
+        assertNull(ReflectionUtils.findMethod(getClass(), "foo", NOT_PRIVATE, int.class, int.class));
+    }
+
+    @Test
+    public void testFindMethodWithParam_privateMethodsIgnored() {
+        assertNull(ReflectionUtils.findMethod(A.class, "privateMethod", NOT_PRIVATE, NO_PARAMS));
+    }
+
+    @Test
+    public void testFindMethodWithParam_protectedMethodsFound() {
+        Method method = ReflectionUtils.findMethod(A.class, "protectedMethod", NOT_PRIVATE, NO_PARAMS);
+        assertEquals("protectedMethod", method.getName());
+        assertEquals(A.class, method.getDeclaringClass());
+    }
+
+    @Test
+    public void testFindMethodWithParam_packageMethodsFound() {
+        Method method = ReflectionUtils.findMethod(A.class, "packageMethod", NOT_PRIVATE, NO_PARAMS);
+        assertEquals("packageMethod", method.getName());
+        assertEquals(A.class, method.getDeclaringClass());
+    }
+
+    @Test
+    public void testFindMethodWithParam_parentMethodsFound() {
+        Method method = ReflectionUtils.findMethod(A.class, "parentMethod", NOT_PRIVATE, NO_PARAMS);
+        assertEquals("parentMethod", method.getName());
+        assertEquals(B.class, method.getDeclaringClass());
     }
 }
