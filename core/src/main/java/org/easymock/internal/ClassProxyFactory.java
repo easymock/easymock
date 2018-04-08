@@ -34,6 +34,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -158,7 +160,7 @@ public class ClassProxyFactory implements IProxyFactory {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T createProxy(Class<T> toMock, InvocationHandler handler,
+    public <T> T createProxy(final Class<T> toMock, InvocationHandler handler,
             Method[] mockedMethods, ConstructorArgs args) {
         Enhancer enhancer = createEnhancer(toMock);
 
@@ -177,7 +179,11 @@ public class ClassProxyFactory implements IProxyFactory {
             // instead of the default one (which is the class to mock one)
             // This is required by Eclipse Plug-ins, the mock class loader doesn't see
             // cglib most of the time. Using EasyMock and the mock class loader at the same time solves this
-            LinkedClassLoader linkedClassLoader = new LinkedClassLoader(toMock.getClassLoader(), ClassProxyFactory.class.getClassLoader());
+            LinkedClassLoader linkedClassLoader = AccessController.doPrivileged(new PrivilegedAction<LinkedClassLoader>() {
+                public LinkedClassLoader run() {
+                    return new LinkedClassLoader(toMock.getClassLoader(), ClassProxyFactory.class.getClassLoader());
+                }
+            });
             enhancer.setClassLoader(linkedClassLoader);
             mockClass = enhancer.createClass();
             // ///CLOVER:ON

@@ -8,7 +8,7 @@
     <Class name="org.easymock.internal.Invocation" />
     <Method name="getArguments" />
     <Bug code="EI" />
-  </Match>  
+  </Match>
   <Match>
     <Class name="org.easymock.ConstructorArgs" />
     <Method name="getInitArgs" />
@@ -18,5 +18,10 @@
     <Class name="org.easymock.ConstructorArgs" />
     <Method name="validateArgs" />
     <Bug pattern="REC_CATCH_EXCEPTION" />
-  </Match>  
+  </Match>
+  <Match>
+    <Class name="org.easymock.internal.MocksBehavior" />
+    <Method name="addActual" />
+    <Bug pattern="VO_VOLATILE_INCREMENT" />
+  </Match>
 </FindBugsFilter>

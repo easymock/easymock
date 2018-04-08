@@ -63,10 +63,14 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         DEFAULT(org.easymock.MockType.DEFAULT),
         STRICT(org.easymock.MockType.STRICT);
 
-        public org.easymock.MockType realType;
+        private org.easymock.MockType realType;
 
         MockType(org.easymock.MockType realType) {
             this.realType = realType;
+        }
+
+        public org.easymock.MockType getRealType() {
+            return realType;
         }
     }
 
