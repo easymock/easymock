@@ -33,11 +33,11 @@ public class ExampleTest extends EasyMockSupport {
     @Rule
     public EasyMockRule rule = new EasyMockRule(this);
 
-    @TestSubject
-    private ClassTested classUnderTest = new ClassTested();
-
     @Mock
-    private Collaborator mock;
+    private Collaborator collaborator; // 1
+
+    @TestSubject
+    private ClassTested classUnderTest = new ClassTested(); // 2
 
     @Test
     public void removeNonExistingDocument() {
@@ -47,16 +47,16 @@ public class ExampleTest extends EasyMockSupport {
 
     @Test
     public void addDocument() {
-        mock.documentAdded("New Document");
-        replayAll();
-        classUnderTest.addDocument("New Document", "content");
-        verifyAll();
+        collaborator.documentAdded("New Document"); // 3
+        replayAll(); // 4
+        classUnderTest.addDocument("New Document", "content"); // 5
+        verifyAll(); // 6
     }
 
     @Test
     public void addAndChangeDocument() {
-        mock.documentAdded("Document");
-        mock.documentChanged("Document");
+        collaborator.documentAdded("Document");
+        collaborator.documentChanged("Document");
         expectLastCall().times(3);
         replayAll();
         classUnderTest.addDocument("Document", "content");
@@ -69,11 +69,11 @@ public class ExampleTest extends EasyMockSupport {
     @Test
     public void voteForRemoval() {
         // expect document addition
-        mock.documentAdded("Document");
+        collaborator.documentAdded("Document");
         // expect to be asked to vote, and vote for it
-        expect(mock.voteForRemoval("Document")).andReturn((byte) 42);
+        expect(collaborator.voteForRemoval("Document")).andReturn((byte) 42);
         // expect document removal
-        mock.documentRemoved("Document");
+        collaborator.documentRemoved("Document");
 
         replayAll();
         classUnderTest.addDocument("Document", "content");
@@ -84,9 +84,9 @@ public class ExampleTest extends EasyMockSupport {
     @Test
     public void voteAgainstRemoval() {
         // expect document addition
-        mock.documentAdded("Document");
+        collaborator.documentAdded("Document");
         // expect to be asked to vote, and vote against it
-        expect(mock.voteForRemoval("Document")).andReturn((byte) -42); //
+        expect(collaborator.voteForRemoval("Document")).andReturn((byte) -42); //
         // document removal is *not* expected
 
         replayAll();
@@ -97,11 +97,11 @@ public class ExampleTest extends EasyMockSupport {
 
     @Test
     public void voteForRemovals() {
-        mock.documentAdded("Document 1");
-        mock.documentAdded("Document 2");
-        expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn((byte) 42);
-        mock.documentRemoved("Document 1");
-        mock.documentRemoved("Document 2");
+        collaborator.documentAdded("Document 1");
+        collaborator.documentAdded("Document 2");
+        expect(collaborator.voteForRemovals("Document 1", "Document 2")).andReturn((byte) 42);
+        collaborator.documentRemoved("Document 1");
+        collaborator.documentRemoved("Document 2");
         replayAll();
         classUnderTest.addDocument("Document 1", "content 1");
         classUnderTest.addDocument("Document 2", "content 2");
@@ -111,9 +111,9 @@ public class ExampleTest extends EasyMockSupport {
 
     @Test
     public void voteAgainstRemovals() {
-        mock.documentAdded("Document 1");
-        mock.documentAdded("Document 2");
-        expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn((byte) -42);
+        collaborator.documentAdded("Document 1");
+        collaborator.documentAdded("Document 2");
+        expect(collaborator.voteForRemovals("Document 1", "Document 2")).andReturn((byte) -42);
         replayAll();
         classUnderTest.addDocument("Document 1", "content 1");
         classUnderTest.addDocument("Document 2", "content 2");
