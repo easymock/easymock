@@ -4,7 +4,7 @@
 # - jira_user / jira_password to be available environment variables
 # - the next version to be received as the first parameter
 
-if [ "$1" == "" ]
+if [ "$1" == "" ]; then
     echo "Next version should be provided"
     exit 1
 end
