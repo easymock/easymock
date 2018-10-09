@@ -55,7 +55,7 @@ public class CompareToTest {
     }
 
     @Test
-    public void testGreateThan() {
+    public void testGreaterThan() {
         test(new GreaterThan<String>("b"), false, true, false, "gt");
     }
 
@@ -65,7 +65,7 @@ public class CompareToTest {
     }
 
     @Test
-    public void testGreateOrEqual() {
+    public void testGreaterOrEqual() {
         test(new GreaterOrEqual<String>("b"), false, true, true, "geq");
     }
 

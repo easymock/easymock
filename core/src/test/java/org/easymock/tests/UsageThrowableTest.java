@@ -81,7 +81,7 @@ public class UsageThrowableTest {
 
         try {
             mock.throwsNothing(false);
-            fail("Trowable expected");
+            fail("Throwable expected");
         } catch (Throwable expected) {
             assertSame(throwable, expected);
         }

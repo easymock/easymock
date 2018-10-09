@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests of MockClassControl basic functionnalities
+ * Tests of MockClassControl basic functionalities
  * 
  * @author Henri Tremblay
  * @author OFFIS, Tammo Freese

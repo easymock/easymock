@@ -42,7 +42,7 @@ public class ClassInstantiatorFactoryTest {
     }
 
     @Test
-    public void getInstantiator_Overriden() {
+    public void getInstantiator_Overridden() {
         ClassInstantiatorFactory.setInstantiator(new DefaultClassInstantiator());
         IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
         assertTrue(instantiator instanceof DefaultClassInstantiator);

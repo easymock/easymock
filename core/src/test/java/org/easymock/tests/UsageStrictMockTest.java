@@ -47,7 +47,7 @@ public class UsageStrictMockTest {
     }
 
     @Test
-    public void orderedCallsSucces() {
+    public void orderedCallsSuccess() {
         mock.simpleMethodWithArgument("1");
         mock.simpleMethodWithArgument("2");
 

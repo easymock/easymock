@@ -82,7 +82,7 @@ public class RecordState implements IMocksControlState, Serializable {
     @Override
     public void andReturn(Object value) {
         requireMethodCall("return value");
-        value = convertNumberClassIfNeccessary(value);
+        value = convertNumberClassIfNecessary(value);
         requireAssignable(value);
         if (lastResult != null) {
             times(MocksControl.ONCE);
@@ -133,7 +133,7 @@ public class RecordState implements IMocksControlState, Serializable {
     @Override
     public void andStubReturn(Object value) {
         requireMethodCall("stub return value");
-        value = convertNumberClassIfNeccessary(value);
+        value = convertNumberClassIfNecessary(value);
         requireAssignable(value);
         if (lastResult != null) {
             times(MocksControl.ONCE);
@@ -215,7 +215,7 @@ public class RecordState implements IMocksControlState, Serializable {
         }
     }
 
-    private Object convertNumberClassIfNeccessary(Object o) {
+    private Object convertNumberClassIfNecessary(Object o) {
         Class<?> returnType = lastInvocation.getMethod().getReturnType();
         return createNumberObject(o, returnType);
     }

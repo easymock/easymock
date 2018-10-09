@@ -38,7 +38,7 @@ public class Java8Test {
     }
 
     @Test
-    public void baseClassOvverride() {
+    public void baseClassOverride() {
         Class<Methods.DefaultOverride> toMock = Methods.DefaultOverride.class;
         partialMockOfDefaultMethod(toMock);
     }

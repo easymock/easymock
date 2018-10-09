@@ -197,7 +197,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
         } catch (IllegalAccessException e) {
             throw new InternalError("ObjectStreamClass." + methodName + " should have been accessible");
         } catch (InvocationTargetException e) {
-            throw new InternalError("ObjectStreamClass." + methodName + " failled to be called: "
+            throw new InternalError("ObjectStreamClass." + methodName + " failed to be called: "
                     + e.getMessage());
         }
         method.setAccessible(accessible);
