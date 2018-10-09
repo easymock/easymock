@@ -26,7 +26,7 @@
   </developers>
 
   <properties>
-    <paxexam.version>4.11.0</paxexam.version>
+    <paxexam.version>4.12.0</paxexam.version>
     <!-- No code coverage need on this project since it's only a test project -->
     <jacoco.skip>true</jacoco.skip>
   </properties>
@@ -76,7 +76,7 @@
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.framework</artifactId>
-      <version>5.6.10</version>
+      <version>6.0.1</version>
       <scope>test</scope>
     </dependency>
 
