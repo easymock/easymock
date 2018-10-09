@@ -58,7 +58,7 @@ public class InterfaceOnlyTest extends OsgiBaseTest {
 
     @Ignore("Doesn't work with pax-exam yet")
     @Test
-    public void testCannotMock() throws Throwable {
+    public void testCannotMock() {
         try {
             mock(ArrayList.class);
             fail("Should throw an exception due to a NoClassDefFoundError");

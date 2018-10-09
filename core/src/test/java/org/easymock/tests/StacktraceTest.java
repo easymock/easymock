@@ -107,8 +107,7 @@ public class StacktraceTest {
     public void assertNoFillWhenDelegatingAnswer() {
         IMethods answer = (IMethods) Proxy.newProxyInstance(getClass().getClassLoader(),
                 new Class<?>[] { IMethods.class }, new InvocationHandler() {
-                    public Object invoke(Object proxy, Method method, Object[] args)
-                            throws Throwable {
+                    public Object invoke(Object proxy, Method method, Object[] args) {
                         throw new NullPointerException();
                     }
                 });
@@ -125,7 +124,7 @@ public class StacktraceTest {
     @Test
     public void assertNoFillWhenIAnswerAnswer() {
         IAnswer<String> answer = new IAnswer<String>() {
-            public String answer() throws Throwable {
+            public String answer() {
                 throw new NullPointerException();
             }
         };

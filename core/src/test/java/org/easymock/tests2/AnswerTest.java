@@ -125,7 +125,7 @@ public class AnswerTest {
     public static class B extends A {
     }
 
-    public static interface C {
+    public interface C {
         A foo();
     }
 
@@ -137,7 +137,7 @@ public class AnswerTest {
 
         IAnswer<B> answer = new IAnswer<B>() {
 
-            public B answer() throws Throwable {
+            public B answer() {
                 return b;
             }
 
@@ -157,7 +157,7 @@ public class AnswerTest {
         String[] array = new String[] { "a" };
         mock.arrayMethod(array);
         expectLastCall().andAnswer(new IAnswer<Object>() {
-            public Object answer() throws Throwable {
+            public Object answer() {
                 String[] s = (String[]) getCurrentArguments()[0];
                 s[0] = "b";
                 return null;

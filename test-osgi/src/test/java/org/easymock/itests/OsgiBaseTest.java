@@ -72,7 +72,7 @@ public abstract class OsgiBaseTest {
     }
 
     @Test
-    public void testOsgiPlatformStarts() throws Exception {
+    public void testOsgiPlatformStarts() {
         System.out.println("Framework vendor: " + this.bundleContext.getProperty(Constants.FRAMEWORK_VENDOR));
         System.out.println("Framework version: " + bundleContext.getProperty(Constants.FRAMEWORK_VERSION));
         System.out.println("Require capability: " + bundleContext.getProperty(Constants.REQUIRE_CAPABILITY));

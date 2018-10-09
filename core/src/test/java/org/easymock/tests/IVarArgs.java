@@ -19,23 +19,23 @@ package org.easymock.tests;
  * @author OFFIS, Tammo Freese
  */
 public interface IVarArgs {
-    public void withVarargsString(int value, String... s);
+    void withVarargsString(int value, String... s);
 
-    public void withVarargsObject(int value, Object... o);
+    void withVarargsObject(int value, Object... o);
 
-    public void withVarargsBoolean(int value, boolean... b);
+    void withVarargsBoolean(int value, boolean... b);
 
-    public void withVarargsByte(int value, byte... b);
+    void withVarargsByte(int value, byte... b);
 
-    public void withVarargsChar(int value, char... c);
+    void withVarargsChar(int value, char... c);
 
-    public void withVarargsDouble(int value, double... d);
+    void withVarargsDouble(int value, double... d);
 
-    public void withVarargsFloat(int value, float... f);
+    void withVarargsFloat(int value, float... f);
 
-    public void withVarargsInt(int value, int... i);
+    void withVarargsInt(int value, int... i);
 
-    public void withVarargsLong(int value, long... l);
+    void withVarargsLong(int value, long... l);
 
-    public void withVarargsShort(int value, short... s);
+    void withVarargsShort(int value, short... s);
 }

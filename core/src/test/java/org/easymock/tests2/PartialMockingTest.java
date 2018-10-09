@@ -48,13 +48,13 @@ public class PartialMockingTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testPartialMock_PublicConstructor() throws Exception {
+    public void testPartialMock_PublicConstructor() {
         ArrayList<String> list = createMockBuilder(ArrayList.class).withConstructor(3).createMock();
         list.add("test"); // shouldn't crash since constructor was called
     }
 
     @Test
-    public void testPartialMock_ProtectedConstructor() throws Exception {
+    public void testPartialMock_ProtectedConstructor() {
         A a = createMockBuilder(A.class).withConstructor("test").createMock();
         assertEquals("test", a.s); // make sure constructor was called
 

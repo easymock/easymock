@@ -134,7 +134,7 @@ public class UsageExpectAndDefaultThrowTest {
     }
 
     @Test
-    public void throwableAndDefaultThrowable() throws Exception {
+    public void throwableAndDefaultThrowable() {
 
         expect(mock.oneArg("1")).andThrow(new IllegalArgumentException());
         expect(mock.oneArg((String) anyObject())).andStubThrow(new IllegalStateException());

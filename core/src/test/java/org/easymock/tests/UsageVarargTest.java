@@ -147,15 +147,14 @@ public class UsageVarargTest {
         IVarArgs object = (IVarArgs) Proxy.newProxyInstance(Thread.currentThread()
                 .getContextClassLoader(), new Class[] { IVarArgs.class }, new InvocationHandler() {
 
-            public Object invoke(Object proxy, Method method, Object[] args)
-                    throws Throwable {
+            public Object invoke(Object proxy, Method method, Object[] args) {
                 return null;
             }
         });
         object.withVarargsObject(1);
         object.withVarargsObject(1, (Object) null);
         object.withVarargsObject(1, (Object[]) null);
-        object.withVarargsObject(1, new Object[0]);
+        object.withVarargsObject(1);
         object.withVarargsObject(1, false);
         object.withVarargsObject(1, new boolean[] { true, false });
     }
@@ -175,7 +174,7 @@ public class UsageVarargTest {
         mock.withVarargsObject(1, (Object[]) null);
         mock.withVarargsObject(1, (Object) null);
         mock.withVarargsObject(1, "a", "b");
-        mock.withVarargsObject(1, new Object[] { "a", "b" });
+        mock.withVarargsObject(1, "a", "b");
         mock.withVarargsObject(1, (Object) new Object[] { "a", "b" });
         mock.withVarargsObject(1);
         verify(mock);

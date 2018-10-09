@@ -128,7 +128,7 @@ public class ExampleTest extends EasyMockSupport {
 
         // andAnswer style
         expect(l.remove(10)).andAnswer(new IAnswer<String>() {
-            public String answer() throws Throwable {
+            public String answer() {
                 return getCurrentArguments()[0].toString();
             }
         });

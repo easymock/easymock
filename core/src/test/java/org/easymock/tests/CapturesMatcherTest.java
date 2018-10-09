@@ -49,7 +49,7 @@ public class CapturesMatcherTest {
     }
 
     @Test
-    public void test() throws Exception {
+    public void test() {
 
         matcher.appendTo(buffer);
         assertEquals("capture(Nothing captured yet)", buffer.toString());

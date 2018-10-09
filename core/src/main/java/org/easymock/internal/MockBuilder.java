@@ -51,10 +51,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
             }
             // synthetic methods like bridges, lamdbas or whatever might be invented by the compile can't be mocked
             // since they do not really exists from the user perspective (they are not in the source code)
-            if(method.isSynthetic()) {
-                return false;
-            }
-            return true;
+            return !method.isSynthetic();
         }
     };
 

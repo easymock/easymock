@@ -46,7 +46,7 @@ public class CallbackTest {
             return callCount;
         }
 
-        public T answer() throws Throwable {
+        public T answer() {
             callCount++;
             return result;
         }

@@ -87,7 +87,7 @@ public class OsgiTest extends OsgiBaseTest {
     }
 
     @Test
-    public void  testCanPartialMock() throws Exception {
+    public void  testCanPartialMock() {
         A mock = partialMockBuilder(A.class).withConstructor().addMockedMethod("foo").createMock();
 
         mock.foo();

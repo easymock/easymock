@@ -152,7 +152,7 @@ public class ClassProxyFactory implements IProxyFactory {
 
     // ///CLOVER:ON
 
-    public static boolean isCallerMockInvocationHandlerInvoke(Throwable e) throws Throwable {
+    public static boolean isCallerMockInvocationHandlerInvoke(Throwable e) {
         StackTraceElement[] elements = e.getStackTrace();
         return elements.length > 2
                 && elements[2].getClassName().equals(MockInvocationHandler.class.getName())

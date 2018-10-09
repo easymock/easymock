@@ -205,7 +205,7 @@ public class EasyMockClassExtensionTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testStrictMock_Partial() throws Exception {
+    public void testStrictMock_Partial() {
         ArrayList<Integer> list = createMockBuilder(ArrayList.class).addMockedMethod("add",
                 Object.class).createStrictMock();
 
@@ -225,7 +225,7 @@ public class EasyMockClassExtensionTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testMock_Partial() throws Exception {
+    public void testMock_Partial() {
         ArrayList<Integer> list = createMockBuilder(ArrayList.class).addMockedMethod("add",
                 Object.class).createMock();
 
@@ -243,7 +243,7 @@ public class EasyMockClassExtensionTest {
     }
 
     @Test
-    public void testNiceMock_Partial() throws Exception {
+    public void testNiceMock_Partial() {
         ArrayList<?> list = createMockBuilder(ArrayList.class).addMockedMethod("get").createNiceMock();
 
         replay(list);

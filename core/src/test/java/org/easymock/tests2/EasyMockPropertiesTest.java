@@ -90,7 +90,7 @@ public class EasyMockPropertiesTest {
     }
 
     @Test
-    public void testGetInstance() throws Exception {
+    public void testGetInstance() {
         assertExpectedValue("1", "easymock.a");
         assertExpectedValue("8", "easymock.c");
         assertExpectedValue("7", "easymock.e");
@@ -157,7 +157,7 @@ public class EasyMockPropertiesTest {
                 if ("easymock.properties".equals(name)) {
                     return new InputStream() {
                         @Override
-                        public void close() throws IOException {
+                        public void close() {
                             close[0] = true;
                         }
 

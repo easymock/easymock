@@ -22,7 +22,7 @@ import org.objenesis.ObjenesisHelper;
  */
 public class ObjenesisClassInstantiator implements IClassInstantiator {
 
-    public Object newInstance(Class<?> clazz) throws InstantiationException {
+    public Object newInstance(Class<?> clazz) {
         return ObjenesisHelper.newInstance(clazz);
     }
 

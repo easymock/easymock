@@ -129,11 +129,11 @@ public class ReflectionUtilsTest {
     @Test
     public void testGetDeclareMethod_NotFound() {
         expectedException.expectCause(isA(NoSuchMethodException.class));
-        ReflectionUtils.getDeclaredMethod(A.class, "foo", new Class<?>[0]);
+        ReflectionUtils.getDeclaredMethod(A.class, "foo");
     }
 
     @Test
-    public void testIsClassMockingPossible() throws Exception {
+    public void testIsClassMockingPossible() {
         assertTrue(ReflectionUtils.isClassAvailable("org.easymock.EasyMock"));
         assertFalse(ReflectionUtils.isClassAvailable("org.easymock.NotThere"));
     }

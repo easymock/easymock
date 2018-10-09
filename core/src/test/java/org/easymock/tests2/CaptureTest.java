@@ -39,11 +39,11 @@ public class CaptureTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     private Capture<Integer> testCaptureType(CaptureType type) {

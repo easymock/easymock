@@ -47,7 +47,7 @@ public class ThreadingTest {
         replay(mock);
 
         Callable<String> replay = new Callable<String>() {
-            public String call() throws Exception {
+            public String call() {
                 return mock.oneArg("test");
             }
         };
@@ -78,7 +78,7 @@ public class ThreadingTest {
         replay(mock);
 
         Callable<String> replay = new Callable<String>() {
-            public String call() throws Exception {
+            public String call() {
                 return mock.oneArg("test");
             }
         };
@@ -157,7 +157,7 @@ public class ThreadingTest {
     public void testRecordingInMultipleThreads() throws Exception {
 
         Callable<String> replay = new Callable<String>() {
-            public String call() throws Exception {
+            public String call() {
                 IMethods mock = createMock(IMethods.class);
                 expect(mock.oneArg("test")).andReturn("result");
 

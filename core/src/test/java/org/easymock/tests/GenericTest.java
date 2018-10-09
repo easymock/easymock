@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
 public class GenericTest {
 
     public interface C<U> {
-        public void doCMethod(U u);
+        void doCMethod(U u);
     }
 
     public class B implements C<Integer> {

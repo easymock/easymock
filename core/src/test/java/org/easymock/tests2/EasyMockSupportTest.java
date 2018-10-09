@@ -330,7 +330,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
         assertNull(EasyMockSupport.getMockedClass(Proxy.newProxyInstance(getClass().getClassLoader(),
             new Class<?>[] { IMethods.class }, new InvocationHandler() {
             @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            public Object invoke(Object proxy, Method method, Object[] args) {
                 return null;
             }
         })));

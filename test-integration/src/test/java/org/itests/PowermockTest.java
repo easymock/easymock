@@ -43,7 +43,7 @@ import static org.powermock.api.easymock.PowerMock.*;
 public class PowermockTest {
 
     @Test
-    public void testMockStatic() throws Exception {
+    public void testMockStatic() {
         mockStatic(StaticService.class);
 
         String expected = "Hello altered World";

@@ -45,7 +45,7 @@ public class MockBuilderTest {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         builder = new MockBuilder(ArrayList.class);
     }
 
@@ -149,7 +149,7 @@ public class MockBuilderTest {
     }
 
     @Test
-    public void testWithEmptyConstructor() throws Exception {
+    public void testWithEmptyConstructor() {
         EmptyConstructor instance = new MockBuilder<EmptyConstructor>(EmptyConstructor.class)
                 .withConstructor().createMock();
         assertEquals("foo", instance.setByConstructor);
@@ -164,7 +164,7 @@ public class MockBuilderTest {
     }
 
     @Test
-    public void testWithEmptyConstructor_NoEmptyConstructor() throws Exception {
+    public void testWithEmptyConstructor_NoEmptyConstructor() {
         try {
             createMockBuilder(Integer.class).withConstructor().createMock();
             fail("no empty constructor should be found");
@@ -200,7 +200,7 @@ public class MockBuilderTest {
     }
 
     @Test
-    public void testWithConstructorWithArgs() throws NoSuchMethodException {
+    public void testWithConstructorWithArgs() {
         builder.withConstructor(-3);
         try {
             builder.createMock();
@@ -210,7 +210,7 @@ public class MockBuilderTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testWithConstructorWithArgs_NotExisting() throws NoSuchMethodException {
+    public void testWithConstructorWithArgs_NotExisting() {
         builder.withConstructor("string");
     }
 
@@ -305,7 +305,7 @@ public class MockBuilderTest {
     }
 
     @Test
-    public void testCreateStrictMockString() throws Throwable {
+    public void testCreateStrictMockString() {
         mock = builder.addMockedMethod("size").addMockedMethod("clear").addMockedMethod("toString")
                 .createStrictMock("myName");
         expect(mock.size()).andReturn(1);

@@ -60,7 +60,7 @@ public final class Result implements IAnswer<Object>, Serializable {
 
             private static final long serialVersionUID = 6973893913593916866L;
 
-            public Object answer() throws Throwable {
+            public Object answer() {
                 return value;
             }
 

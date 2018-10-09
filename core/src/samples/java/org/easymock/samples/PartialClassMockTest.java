@@ -60,7 +60,7 @@ public class PartialClassMockTest extends EasyMockSupport {
     private Rect rect;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         rect = partialMockBuilder(Rect.class).addMockedMethods("getX", "getY").createMock();
     }
 

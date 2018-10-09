@@ -79,8 +79,7 @@ public class ClassExtensionHelperTest {
     public void testGetControl_ProxyButNotMock() {
         Object o = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { List.class },
                 new InvocationHandler() {
-                    public Object invoke(Object proxy, Method method, Object[] args)
-                            throws Throwable {
+                    public Object invoke(Object proxy, Method method, Object[] args) {
                         return null;
                     }
                 });

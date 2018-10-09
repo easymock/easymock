@@ -30,7 +30,7 @@ import org.junit.Test;
 public class ClassInstantiatorFactoryTest {
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         // put back the default to prevent side effects on other tests
         ClassInstantiatorFactory.setDefaultInstantiator();
     }

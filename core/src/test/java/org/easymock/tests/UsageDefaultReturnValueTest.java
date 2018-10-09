@@ -114,7 +114,7 @@ public class UsageDefaultReturnValueTest {
     }
 
     @Test
-    public void returnValueAndDefaultReturnValue() throws Exception {
+    public void returnValueAndDefaultReturnValue() {
 
         expect(mock.oneArg("")).andReturn("1");
         expect(mock.oneArg((String) anyObject())).andStubReturn("2");

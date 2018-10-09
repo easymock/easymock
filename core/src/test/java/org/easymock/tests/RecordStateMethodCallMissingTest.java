@@ -108,7 +108,7 @@ public class RecordStateMethodCallMissingTest {
     public void setAnswerWithoutMethodCall() {
         try {
             control.andAnswer(new IAnswer<Object>() {
-                public Object answer() throws Throwable {
+                public Object answer() {
                     return null;
                 }
 
@@ -253,7 +253,7 @@ public class RecordStateMethodCallMissingTest {
     public void setStubAnswerWithoutMethodCall() {
         try {
             control.andStubAnswer(new IAnswer<Object>() {
-                public Object answer() throws Throwable {
+                public Object answer() {
                     return null;
                 }
 

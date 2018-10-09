@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
  */
 public class PrimitiveUtilsTest {
     @Test
-    public void getEmptyValue() throws Exception {
+    public void getEmptyValue() {
         assertEquals(null, PrimitiveUtils.getEmptyValue(Void.TYPE));
         assertEquals(false, PrimitiveUtils.getEmptyValue(Boolean.TYPE));
         assertEquals(Byte.valueOf((byte) 0), PrimitiveUtils.getEmptyValue(Byte.TYPE));
@@ -37,7 +37,7 @@ public class PrimitiveUtilsTest {
     }
 
     @Test
-    public void getWrapperType() throws Exception {
+    public void getWrapperType() {
         assertEquals(Void.class, PrimitiveUtils.getWrapperType(Void.TYPE));
         assertEquals(Boolean.class, PrimitiveUtils.getWrapperType(Boolean.TYPE));
         assertEquals(Byte.class, PrimitiveUtils.getWrapperType(Byte.TYPE));
@@ -50,7 +50,7 @@ public class PrimitiveUtilsTest {
     }
 
     @Test
-    public void isNumberWrapper() throws Exception {
+    public void isNumberWrapper() {
         assertTrue(PrimitiveUtils.isPrimitiveWrapper(Byte.class));
         assertTrue(PrimitiveUtils.isPrimitiveWrapper(Short.class));
         assertTrue(PrimitiveUtils.isPrimitiveWrapper(Integer.class));
@@ -63,7 +63,7 @@ public class PrimitiveUtilsTest {
     }
 
     @Test
-    public void getPrimitiveTypeNameFromWrapper() throws Exception {
+    public void getPrimitiveTypeNameFromWrapper() {
         assertPrimitiveName(Byte.TYPE, Byte.class);
         assertPrimitiveName(Short.TYPE, Short.class);
         assertPrimitiveName(Integer.TYPE, Integer.class);

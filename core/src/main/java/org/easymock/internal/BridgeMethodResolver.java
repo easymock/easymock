@@ -142,7 +142,7 @@ public final class BridgeMethodResolver {
             return true;
         }
         Method method = findGenericDeclaration(bridgeMethod);
-        return (method != null ? isResolvedTypeMatch(method, candidateMethod, typeVariableMap) : false);
+        return (method != null && isResolvedTypeMatch(method, candidateMethod, typeVariableMap));
     }
 
     /**

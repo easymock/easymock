@@ -62,11 +62,11 @@ public interface IMethods {
 
     String oneLongArg(long value);
 
-    public String throwsNothing(boolean value);
+    String throwsNothing(boolean value);
 
-    public String throwsIOException(int count) throws IOException;
+    String throwsIOException(int count) throws IOException;
 
-    public String throwsError(int count) throws Error;
+    String throwsError(int count) throws Error;
 
     void simpleMethod();
 

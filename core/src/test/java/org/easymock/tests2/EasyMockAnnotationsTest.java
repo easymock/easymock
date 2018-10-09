@@ -172,7 +172,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     @Test
-    public void shouldInjectQualifiedMocksToTestSubjectSuperClass() throws Exception {
+    public void shouldInjectQualifiedMocksToTestSubjectSuperClass() {
         ToInjectQualifiedMocksToSuperClassTest test = new ToInjectQualifiedMocksToSuperClassTest();
         EasyMockSupport.injectMocks(test);
         assertSame(test.a, test.toInject.m1);
@@ -195,7 +195,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     @Test
-    public void shouldInjectQualifiedMocksToAllMatchingTestSubjects() throws Exception {
+    public void shouldInjectQualifiedMocksToAllMatchingTestSubjects() {
         ToInjectQualifiedMocksMultipleTestSubjectsTest test = new ToInjectQualifiedMocksMultipleTestSubjectsTest();
         EasyMockSupport.injectMocks(test);
         assertSame(test.a, test.toInject.m1);
@@ -244,7 +244,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     @Test
-    public void shouldErrorForUnmatchedQualifierWhenTypeIncompatibleQualifier() throws Exception {
+    public void shouldErrorForUnmatchedQualifierWhenTypeIncompatibleQualifier() {
         try {
             EasyMockSupport.injectMocks(new ToInjectTypeIncompatibleQualifierTest());
         } catch (AssertionError e) {
@@ -270,7 +270,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     @Test
-    public void shouldErrorForUnmatchedQualifierWhenUnassignableFinalField() throws Exception {
+    public void shouldErrorForUnmatchedQualifierWhenUnassignableFinalField() {
         try {
             EasyMockSupport.injectMocks(new ToInjectUnassignableFinalFieldQualifierTest());
         } catch (AssertionError e) {
@@ -290,7 +290,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     @Test
-    public void shouldErrorForUnmatchedQualifierWhenUnassignableStaticField() throws Exception {
+    public void shouldErrorForUnmatchedQualifierWhenUnassignableStaticField() {
         try {
             EasyMockSupport.injectMocks(new ToInjectUnassignableStaticFieldQualifierTest());
         } catch (AssertionError e) {

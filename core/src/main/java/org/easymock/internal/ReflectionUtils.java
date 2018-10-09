@@ -52,7 +52,7 @@ public final class ReflectionUtils {
     }
 
     public static final Method OBJECT_EQUALS = getDeclaredMethod(Object.class, "equals",
-            new Class[] { Object.class });
+        Object.class);
 
     public static final Method OBJECT_HASHCODE = getDeclaredMethod(Object.class, "hashCode", (Class[]) null);
 
