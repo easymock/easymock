@@ -77,9 +77,8 @@ body {
 
 .release {
   list-style-type: none;
-  margin: 0;
   padding: 0;
-  margin-bottom: 30px;
+  margin: 0 0 30px;
   min-height: 100px;
 }
 
