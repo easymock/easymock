@@ -130,6 +130,42 @@ public class EasyMock {
 
     /**
      * Creates a mock object that implements the given interface, order checking
+     * is enabled by default.
+     *
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @param toMock
+     *            the class or interface that should be mocked.
+     * @return the mock object.
+     *
+     * @since 3.4
+     */
+    public static <T> T strictMock(Class<T> toMock) {
+        return createStrictControl().createMock(toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the given interface, order checking
+     * is enabled by default.
+     *
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement.
+     * @return the mock object.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
+     *
+     * @since 3.4
+     */
+    public static <T> T strictMock(String name, Class<T> toMock) {
+        return createStrictControl().createMock(name, toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the given interface, order checking
      * is disabled by default, and the mock object will return {@code 0},
      * {@code null} or {@code false} for unexpected invocations.
      *
@@ -349,6 +385,26 @@ public class EasyMock {
      */
     public static <T> IMockBuilder<T> createMockBuilder(Class<T> toMock) {
         return partialMockBuilder(toMock);
+    }
+
+    /**
+     * Creates a control of the requested type.
+     *
+     * @param type the mock type
+     * @return the control.
+     * @since 3.2
+     */
+    public static IMocksControl createControl(MockType type) {
+        return new MocksControl(type);
+    }
+
+    /**
+     * Creates a control, order checking is enabled by default.
+     *
+     * @return the control.
+     */
+    public static IMocksControl createStrictControl() {
+        return createControl(MockType.STRICT);
     }
 
     /**
