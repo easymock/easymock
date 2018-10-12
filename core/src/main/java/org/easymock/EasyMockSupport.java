@@ -154,7 +154,7 @@ public class EasyMockSupport {
      * @since ${project.version}
      */
     public <T> T strictMock(Class<T> toMock) {
-        return createStrictControl().createMock(toMock);
+        return createControl(MockType.STRICT).createMock(toMock);
     }
 
     /**
@@ -175,7 +175,7 @@ public class EasyMockSupport {
      * @since ${project.version}
      */
     public <T> T strictMock(String name, Class<T> toMock) {
-        return createStrictControl().createMock(name, toMock);
+        return createControl(MockType.STRICT).createMock(name, toMock);
     }
 
     /**
@@ -382,16 +382,6 @@ public class EasyMockSupport {
         return niceMock(name, toMock);
     }
 
-    /**
-     * Creates a control, order checking is enabled by default.
-     *
-     * @return the control.
-     */
-    public IMocksControl createStrictControl() {
-        IMocksControl ctrl = EasyMock.createStrictControl();
-        controls.add(ctrl);
-        return ctrl;
-    }
 
     /**
      * Create a mock builder allowing to create a partial mock for the given

@@ -109,27 +109,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
         assertEquals("foo", mock2.oneArg(false));
         verifyAll();
     }
-
-    @Test
-    public void testCreateStrictControl() {
-        IMocksControl ctrl = createStrictControl();
-        mock1 = ctrl.createMock(IMethods.class);
-        mock2 = ctrl.createMock(IMethods.class);
-        testStrictMock();
-        resetAll();
-        mock1.simpleMethod();
-        mock2.simpleMethod();
-        replayAll();
-        try {
-            mock2.simpleMethod();
-            fail("Should be ordered");
-        } catch (AssertionError e) {
-        }
-        mock1.simpleMethod();
-        mock2.simpleMethod();
-        verifyAllRecordings();
-    }
-
+    
     @Test
     public void testCreateStrictMock() {
         mock1 = createStrictMock(IMethods.class);

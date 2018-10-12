@@ -15,7 +15,6 @@
  */
 package org.easymock.tests2;
 
-import org.easymock.ConstructorArgs;
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
 import org.junit.Before;
@@ -23,9 +22,10 @@ import org.junit.Test;
 
 import java.lang.reflect.Method;
 
-import static org.easymock.EasyMock.*;
-import static org.hamcrest.core.Is.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.expect;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Henri Tremblay
@@ -41,18 +41,9 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
 
     private Method foo;
 
-    private ConstructorArgs args;
-
     @Before
     public void setUp() throws Exception {
         foo = ToMock.class.getMethod("foo");
-        args = new ConstructorArgs(ToMock.class.getConstructor());
-    }
-
-    @Test
-    public void testCreateStrictControl() {
-        IMocksControl ctrl = createStrictControl();
-        assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
     }
 
     @Test

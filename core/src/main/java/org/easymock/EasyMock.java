@@ -141,7 +141,7 @@ public class EasyMock {
      * @since 3.4
      */
     public static <T> T strictMock(Class<T> toMock) {
-        return createStrictControl().createMock(toMock);
+        return createControl(MockType.STRICT).createMock(toMock);
     }
 
     /**
@@ -161,7 +161,7 @@ public class EasyMock {
      * @since 3.4
      */
     public static <T> T strictMock(String name, Class<T> toMock) {
-        return createStrictControl().createMock(name, toMock);
+        return createControl(MockType.STRICT).createMock(name, toMock);
     }
 
     /**
@@ -396,15 +396,6 @@ public class EasyMock {
      */
     public static IMocksControl createControl(MockType type) {
         return new MocksControl(type);
-    }
-
-    /**
-     * Creates a control, order checking is enabled by default.
-     *
-     * @return the control.
-     */
-    public static IMocksControl createStrictControl() {
-        return createControl(MockType.STRICT);
     }
 
     /**

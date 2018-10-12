@@ -241,8 +241,8 @@ public class MockBuilder<T> implements IMockBuilder<T> {
     }
 
     public T createStrictMock(String name) {
-        IMocksControl control = (support == null ? EasyMock.createStrictControl() : support
-                .createStrictControl());
+        IMocksControl control = (support == null ? EasyMock.createControl(MockType.STRICT) : support
+                .createControl(MockType.STRICT));
         return createMock(name, control);
     }
 
