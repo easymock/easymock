@@ -96,12 +96,15 @@
           <version>3.0.0</version>
         </plugin>
         <plugin>
-          <groupId>com.mycila.maven-license-plugin</groupId>
-          <artifactId>maven-license-plugin</artifactId>
-          <version>1.10.b1</version>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>3.0</version>
           <configuration>
             <header>${project.basedir}/../header.txt</header>
             <strictCheck>true</strictCheck>
+            <mapping>
+              <java>SLASHSTAR_STYLE</java>
+            </mapping>
             <includes>
               <!-- Only copyright the java -->
               <include>src/main/java/**</include>
@@ -204,13 +207,13 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.21.0</version>
+          <version>2.22.0</version>
           <dependencies>
             <dependency>
               <!-- Force junit provider because surefire will choose the testng one if testng is detected -->
               <groupId>org.apache.maven.surefire</groupId>
               <artifactId>surefire-junit47</artifactId>
-              <version>2.21.0</version>
+              <version>2.22.0</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -380,8 +383,8 @@
         <version>2.5</version>
       </plugin>
       <plugin>
-        <groupId>com.mycila.maven-license-plugin</groupId>
-        <artifactId>maven-license-plugin</artifactId>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
         <inherited>false</inherited>
         <configuration>
           <skip>true</skip>
@@ -451,7 +454,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.8</version>
+        <version>3.10.0</version>
         <configuration>
           <targetJdk>1.6</targetJdk>
         </configuration>
