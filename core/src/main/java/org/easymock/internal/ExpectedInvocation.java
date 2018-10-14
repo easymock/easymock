@@ -58,7 +58,7 @@ public class ExpectedInvocation implements Serializable {
             }
             return matchers;
         }
-        List<IArgumentMatcher> result = new ArrayList<IArgumentMatcher>(invocation.getArguments().length);
+        List<IArgumentMatcher> result = new ArrayList<>(invocation.getArguments().length);
         for (Object argument : invocation.getArguments()) {
             if(argument != null && argument.getClass().isArray()) {
                 result.add(new ArrayEquals(argument));

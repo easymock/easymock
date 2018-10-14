@@ -37,18 +37,14 @@ public class AnswerTest {
 
     @Test
     public void answer() {
-        IAnswer<Object> firstAnswer = new IAnswer<Object>() {
-            public Object answer() {
-                assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
-                return "Call answered";
-            }
+        IAnswer<Object> firstAnswer = () -> {
+            assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
+            return "Call answered";
         };
 
-        IAnswer<Object> secondAnswer = new IAnswer<Object>() {
-            public Object answer() {
-                assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
-                throw new IllegalStateException("Call answered");
-            }
+        IAnswer<Object> secondAnswer = () -> {
+            assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
+            throw new IllegalStateException("Call answered");
         };
 
         expect(mock.threeArgumentMethod(1, "2", "3")).andAnswer(firstAnswer).andReturn("Second call")
@@ -71,18 +67,14 @@ public class AnswerTest {
 
     @Test
     public void stubAnswer() {
-        IAnswer<Object> firstAnswer = new IAnswer<Object>() {
-            public Object answer() {
-                assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
-                return "Call answered";
-            }
+        IAnswer<Object> firstAnswer = () -> {
+            assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
+            return "Call answered";
         };
 
-        IAnswer<Object> secondAnswer = new IAnswer<Object>() {
-            public Object answer() {
-                assertArrayEquals(new Object[] { 1, "2", "4" }, getCurrentArguments());
-                return "Call answered";
-            }
+        IAnswer<Object> secondAnswer = () -> {
+            assertArrayEquals(new Object[] { 1, "2", "4" }, getCurrentArguments());
+            return "Call answered";
         };
 
         expect(mock.threeArgumentMethod(1, "2", "3")).andReturn(42).andStubAnswer(firstAnswer);
@@ -135,13 +127,7 @@ public class AnswerTest {
         C c = createMock(C.class);
         final B b = new B();
 
-        IAnswer<B> answer = new IAnswer<B>() {
-
-            public B answer() {
-                return b;
-            }
-
-        };
+        IAnswer<B> answer = () -> b;
 
         expect(c.foo()).andAnswer(answer);
         expect(c.foo()).andStubAnswer(answer);
@@ -156,12 +142,10 @@ public class AnswerTest {
     public void answerOnVoidMethod() {
         String[] array = new String[] { "a" };
         mock.arrayMethod(array);
-        expectLastCall().andAnswer(new IAnswer<Object>() {
-            public Object answer() {
-                String[] s = (String[]) getCurrentArguments()[0];
-                s[0] = "b";
-                return null;
-            }
+        expectLastCall().andAnswer(() -> {
+            String[] s = (String[]) getCurrentArguments()[0];
+            s[0] = "b";
+            return null;
         });
         replay(mock);
         mock.arrayMethod(array);

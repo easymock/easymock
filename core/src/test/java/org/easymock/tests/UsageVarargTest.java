@@ -18,8 +18,6 @@ package org.easymock.tests;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import org.junit.Before;
@@ -145,12 +143,7 @@ public class UsageVarargTest {
     @Test
     public void varargAcceptedIfArrayIsGiven() {
         IVarArgs object = (IVarArgs) Proxy.newProxyInstance(Thread.currentThread()
-                .getContextClassLoader(), new Class[] { IVarArgs.class }, new InvocationHandler() {
-
-            public Object invoke(Object proxy, Method method, Object[] args) {
-                return null;
-            }
-        });
+                .getContextClassLoader(), new Class[] { IVarArgs.class }, (proxy, method, args) -> null);
         object.withVarargsObject(1);
         object.withVarargsObject(1, (Object) null);
         object.withVarargsObject(1, (Object[]) null);

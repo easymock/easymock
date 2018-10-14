@@ -210,20 +210,14 @@ public class Injector {
     }
 
     private static List<Field> fieldsOf(Class<?> clazz) {
-        List<Field> fields = new ArrayList<Field>();
-        fields.addAll(asList(clazz.getDeclaredFields()));
-        return fields;
+        return new ArrayList<>(asList(clazz.getDeclaredFields()));
     }
 
     private static Field getFieldByName(Class<?> clazz, String fieldName) {
         try {
             return clazz.getDeclaredField(fieldName);
-        } catch (NoSuchFieldException e) {
+        } catch (NoSuchFieldException | SecurityException e) {
             return null;
-        } catch (SecurityException e) {
-            // ///CLOVER:OFF
-            return null;
-            // ///CLOVER:ON
         }
     }
 

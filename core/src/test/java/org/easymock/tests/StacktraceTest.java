@@ -105,25 +105,31 @@ public class StacktraceTest {
 
     @Test
     public void assertNoFillWhenDelegatingAnswer() {
+        @SuppressWarnings("Convert2Lambda") // otherwise the assertion below won't work
         IMethods answer = (IMethods) Proxy.newProxyInstance(getClass().getClassLoader(),
-                new Class<?>[] { IMethods.class }, new InvocationHandler() {
-                    public Object invoke(Object proxy, Method method, Object[] args) {
-                        throw new NullPointerException();
-                    }
-                });
+            new Class<?>[] { IMethods.class }, new InvocationHandler() {
+                @Override
+                public Object invoke(Object proxy, Method method, Object[] args) {
+                    throw new NullPointerException();
+                }
+        });
         expect(mock.oneArg("")).andDelegateTo(answer);
         replay(mock);
         try {
             mock.oneArg("");
         } catch (NullPointerException expected) {
-            assertTrue("stack trace must not be cut", Util.startWithClass(expected, Proxy
-                    .getInvocationHandler(answer).getClass()));
+            Class<? extends InvocationHandler> proxyClass = Proxy.getInvocationHandler(answer).getClass();
+            assertTrue("stack trace must not be cut but was\nstarting with " +
+                       expected.getStackTrace()[0] + "\ninstead of " + proxyClass,
+                Util.startWithClass(expected, proxyClass));
         }
     }
 
     @Test
     public void assertNoFillWhenIAnswerAnswer() {
+        @SuppressWarnings("Convert2Lambda") // otherwise the assertion below won't work
         IAnswer<String> answer = new IAnswer<String>() {
+            @Override
             public String answer() {
                 throw new NullPointerException();
             }
@@ -133,7 +139,9 @@ public class StacktraceTest {
         try {
             mock.oneArg("");
         } catch (NullPointerException expected) {
-            assertTrue("stack trace must not be cut", Util.startWithClass(expected, answer.getClass()));
+            assertTrue("stack trace must not be cut but was\nstarting with " +
+                       expected.getStackTrace()[0] + "\ninstead of " + answer.getClass(),
+                Util.startWithClass(expected, answer.getClass()));
         }
     }
 }

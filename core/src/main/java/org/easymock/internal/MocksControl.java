@@ -63,7 +63,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         DEFAULT(org.easymock.MockType.DEFAULT),
         STRICT(org.easymock.MockType.STRICT);
 
-        private org.easymock.MockType realType;
+        private final org.easymock.MockType realType;
 
         MockType(org.easymock.MockType realType) {
             this.realType = realType;
@@ -81,6 +81,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         reset();
     }
 
+    @SuppressWarnings("deprecation")
     public MocksControl(MockType type) {
         this.type = type.realType;
         reset();
@@ -335,7 +336,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     }
 
     @Override
-    public IExpectationSetters<Object> andAnswer(IAnswer<? extends Object> answer) {
+    public IExpectationSetters<Object> andAnswer(IAnswer<?> answer) {
         try {
             state.andAnswer(answer);
             return this;
@@ -383,7 +384,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     }
 
     @Override
-    public void andStubAnswer(IAnswer<? extends Object> answer) {
+    public void andStubAnswer(IAnswer<?> answer) {
         try {
             state.andStubAnswer(answer);
         } catch (RuntimeExceptionWrapper e) {

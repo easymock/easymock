@@ -25,7 +25,7 @@ public class ClassTested {
 
     private Collaborator listener;
 
-    private final Map<String, String> documents = new HashMap<String, String>();
+    private final Map<String, String> documents = new HashMap<>();
 
     public void setListener(Collaborator listener) {
         this.listener = listener;

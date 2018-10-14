@@ -52,7 +52,7 @@ public enum LogicalOperator {
         }
     };
 
-    private String symbol;
+    private final String symbol;
 
     LogicalOperator(String symbol) {
         this.symbol = symbol;

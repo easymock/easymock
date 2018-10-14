@@ -247,7 +247,7 @@ public class UsageTest {
 
     @Test
     public void boxingArgument() {
-        Long value = Long.valueOf(1);
+        Long value = 1L;
         expect(mock.oneLongArg(value)).andReturn("test");
         replay(mock);
         assertEquals("test", mock.oneLongArg(value));

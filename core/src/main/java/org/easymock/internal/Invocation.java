@@ -41,7 +41,7 @@ public class Invocation implements Serializable {
 
     private final Object[] arguments;
 
-    private final Collection<Captures<?>> currentCaptures = new ArrayList<Captures<?>>(0);
+    private final Collection<Captures<?>> currentCaptures = new ArrayList<>(0);
 
     public Invocation(Object mock, Method method, Object[] args) {
         this.mock = mock;
@@ -180,11 +180,7 @@ public class Invocation implements Serializable {
         try {
             o.getClass().getDeclaredMethod("toString", (Class[]) null).getModifiers();
             return true;
-        } catch (SecurityException ignored) {
-            // ///CLOVER:OFF
-            return false;
-            // ///CLOVER:ON
-        } catch (NoSuchMethodException ignored) {
+        } catch (SecurityException | NoSuchMethodException ignored) {
             // ///CLOVER:OFF
             return false;
             // ///CLOVER:ON

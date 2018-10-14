@@ -98,7 +98,7 @@ public class ClassProxyFactory implements IProxyFactory {
         }
 
         public void setMockedMethods(Method... mockedMethods) {
-            this.mockedMethods = new HashSet<Method>(Arrays.asList(mockedMethods));
+            this.mockedMethods = new HashSet<>(Arrays.asList(mockedMethods));
         }
 
         @SuppressWarnings("unchecked")
@@ -111,7 +111,7 @@ public class ClassProxyFactory implements IProxyFactory {
                 return;
             }
 
-            mockedMethods = new HashSet<Method>(methods.size());
+            mockedMethods = new HashSet<>(methods.size());
             for (MethodSerializationWrapper m : methods) {
                 try {
                     mockedMethods.add(m.getMethod());
@@ -131,8 +131,8 @@ public class ClassProxyFactory implements IProxyFactory {
                 return;
             }
 
-            Set<MethodSerializationWrapper> methods = new HashSet<MethodSerializationWrapper>(
-                    mockedMethods.size());
+            Set<MethodSerializationWrapper> methods = new HashSet<>(
+                mockedMethods.size());
             for (Method m : mockedMethods) {
                 methods.add(new MethodSerializationWrapper(m));
             }
@@ -179,11 +179,7 @@ public class ClassProxyFactory implements IProxyFactory {
             // instead of the default one (which is the class to mock one)
             // This is required by Eclipse Plug-ins, the mock class loader doesn't see
             // cglib most of the time. Using EasyMock and the mock class loader at the same time solves this
-            LinkedClassLoader linkedClassLoader = AccessController.doPrivileged(new PrivilegedAction<LinkedClassLoader>() {
-                public LinkedClassLoader run() {
-                    return new LinkedClassLoader(toMock.getClassLoader(), ClassProxyFactory.class.getClassLoader());
-                }
-            });
+            LinkedClassLoader linkedClassLoader = AccessController.doPrivileged((PrivilegedAction<LinkedClassLoader>) () -> new LinkedClassLoader(toMock.getClassLoader(), ClassProxyFactory.class.getClassLoader()));
             enhancer.setClassLoader(linkedClassLoader);
             mockClass = enhancer.createClass();
             // ///CLOVER:ON
@@ -207,11 +203,7 @@ public class ClassProxyFactory implements IProxyFactory {
                 cstr.setAccessible(true); // So we can call a protected
                 // constructor
                 mock = (Factory) cstr.newInstance(args.getInitArgs());
-            } catch (InstantiationException e) {
-                // ///CLOVER:OFF
-                throw new RuntimeException("Failed to instantiate mock calling constructor", e);
-                // ///CLOVER:ON
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 // ///CLOVER:OFF
                 throw new RuntimeException("Failed to instantiate mock calling constructor", e);
                 // ///CLOVER:ON

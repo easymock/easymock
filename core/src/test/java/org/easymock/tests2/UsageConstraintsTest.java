@@ -73,8 +73,8 @@ public class UsageConstraintsTest {
 
     @Test
     public void differentConstraintsOnSameCall() {
-        mock.simpleMethodWithArgument((String) isNull());
-        mock.simpleMethodWithArgument((String) notNull());
+        mock.simpleMethodWithArgument(isNull());
+        mock.simpleMethodWithArgument(notNull());
         replay(mock);
         mock.simpleMethodWithArgument(null);
         mock.simpleMethodWithArgument("2");
@@ -84,9 +84,9 @@ public class UsageConstraintsTest {
     @Test
     public void equals() {
         assertEquals(new Equals(null), new Equals(null));
-        assertEquals(new Equals(new Integer(2)), new Equals(new Integer(2)));
-        assertFalse(new Equals(null).equals(null));
-        assertFalse(new Equals(null).equals("Test"));
+        assertEquals(new Equals(2), new Equals(2));
+        assertNotEquals(null, new Equals(null));
+        assertNotEquals("Test", new Equals(null));
         try {
             new Equals(null).hashCode();
             fail();
@@ -325,7 +325,7 @@ public class UsageConstraintsTest {
         // Check my comparator works
         assertTrue(comparator.compare(new A(1), new A(2)) < 0);
         assertTrue(comparator.compare(new A(2), new A(1)) > 0);
-        assertTrue(comparator.compare(new A(1), new A(1)) == 0);
+        assertEquals(0, comparator.compare(new A(1), new A(1)));
 
         // Now test EasyMock.cmp
         checkOrder(mock, true);
@@ -392,7 +392,7 @@ public class UsageConstraintsTest {
         expect(mock.oneArg(anyInt())).andReturn("5");
         expect(mock.oneArg(anyLong())).andReturn("6");
         expect(mock.oneArg(anyShort())).andReturn("7");
-        expect(mock.oneArg((String) anyObject())).andReturn("8");
+        expect(mock.oneArg(anyObject())).andReturn("8");
         expect(mock.oneArg(anyObject(String.class))).andReturn("9");
         expect(mock.oneArg(EasyMock.<List<String>> anyObject())).andReturn("9"); // make sure there's no warning on the cast
         expect(mock.oneArg(anyString())).andReturn("10");
@@ -634,6 +634,7 @@ public class UsageConstraintsTest {
         verify(mock);
     }
 
+    @SuppressWarnings("RedundantStringConstructorCall")
     @Test
     public void testSame() {
         Object one = new String("1243");

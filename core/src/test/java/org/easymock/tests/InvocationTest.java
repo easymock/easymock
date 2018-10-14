@@ -49,10 +49,10 @@ public class InvocationTest {
     @SuppressWarnings("unlikely-arg-type")
     @Test
     public void testEquals() {
-        assertFalse(call.equals(null));
-        assertFalse(call.equals(""));
-        assertTrue(call.equals(equalCall));
-        assertFalse(call.equals(nonEqualCall));
+        assertNotEquals(null, call);
+        assertNotEquals("", call);
+        assertEquals(call, equalCall);
+        assertNotEquals(call, nonEqualCall);
     }
 
     @Test

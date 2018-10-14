@@ -7,7 +7,7 @@
 if [ "$1" == "" ]; then
     echo "Next version should be provided"
     exit 1
-end
+fi
 
 set -e
 

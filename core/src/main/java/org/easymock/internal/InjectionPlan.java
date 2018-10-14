@@ -29,13 +29,13 @@ import java.util.Set;
  */
 public class InjectionPlan {
 
-    private final List<Field> testSubjectFields = new ArrayList<Field>(1);
+    private final List<Field> testSubjectFields = new ArrayList<>(1);
 
-    private final List<Injection> qualifiedInjections = new ArrayList<Injection>(5);
+    private final List<Injection> qualifiedInjections = new ArrayList<>(5);
 
-    private final List<Injection> unqualifiedInjections = new ArrayList<Injection>(5);
+    private final List<Injection> unqualifiedInjections = new ArrayList<>(5);
 
-    private final Set<String> qualifiers = new HashSet<String>();
+    private final Set<String> qualifiers = new HashSet<>();
 
     /**
      * Add an {@link Injection} to this container. It will be managed according to the presence

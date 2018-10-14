@@ -15,7 +15,6 @@
  */
 package org.easymock.tests2;
 
-import org.easymock.IAnswer;
 import org.easymock.tests.IMethods;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,12 +39,10 @@ public class CallbackAndArgumentsTest {
 
         final StringBuilder buffer = new StringBuilder();
 
-        mock.simpleMethodWithArgument((String) notNull());
-        expectLastCall().andAnswer(new IAnswer<Object>() {
-            public Object answer() {
-                buffer.append((String) getCurrentArguments()[0]);
-                return null;
-            }
+        mock.simpleMethodWithArgument(notNull());
+        expectLastCall().andAnswer(() -> {
+            buffer.append((String) getCurrentArguments()[0]);
+            return null;
         }).times(2);
 
         replay(mock);
@@ -70,20 +67,16 @@ public class CallbackAndArgumentsTest {
 
         final IMethods mock2 = createStrictMock(IMethods.class);
         mock2.simpleMethod();
-        expectLastCall().andAnswer(new IAnswer<Object>() {
-            public Object answer() {
-                // empty, only needed to force deletion of arguments
-                return null;
-            }
+        expectLastCall().andAnswer(() -> {
+            // empty, only needed to force deletion of arguments
+            return null;
         }).times(2);
 
-        mock.simpleMethodWithArgument((String) notNull());
-        expectLastCall().andAnswer(new IAnswer<Object>() {
-            public Object answer() {
-                mock2.simpleMethod();
-                buffer.append((String) getCurrentArguments()[0]);
-                return null;
-            }
+        mock.simpleMethodWithArgument(notNull());
+        expectLastCall().andAnswer(() -> {
+            mock2.simpleMethod();
+            buffer.append((String) getCurrentArguments()[0]);
+            return null;
         }).times(2);
 
         replay(mock);

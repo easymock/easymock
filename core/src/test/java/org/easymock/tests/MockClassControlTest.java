@@ -69,6 +69,7 @@ public class MockClassControlTest {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static class ClassWithFinalize {
 
         @Override

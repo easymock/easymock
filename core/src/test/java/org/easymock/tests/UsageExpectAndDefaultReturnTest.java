@@ -40,17 +40,17 @@ public class UsageExpectAndDefaultReturnTest {
     public void booleanType() {
         expect(mock.booleanReturningMethod(4)).andStubReturn(true);
         replay(mock);
-        assertEquals(true, mock.booleanReturningMethod(4));
-        assertEquals(true, mock.booleanReturningMethod(4));
+        assertTrue(mock.booleanReturningMethod(4));
+        assertTrue(mock.booleanReturningMethod(4));
         verify(mock);
     }
 
     @Test
     public void longType() {
-        expect(mock.longReturningMethod(4)).andStubReturn(12l);
+        expect(mock.longReturningMethod(4)).andStubReturn(12L);
         replay(mock);
-        assertEquals(12l, mock.longReturningMethod(4));
-        assertEquals(12l, mock.longReturningMethod(4));
+        assertEquals(12L, mock.longReturningMethod(4));
+        assertEquals(12L, mock.longReturningMethod(4));
         verify(mock);
     }
 

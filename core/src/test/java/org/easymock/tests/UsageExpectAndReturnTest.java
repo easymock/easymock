@@ -37,13 +37,13 @@ public class UsageExpectAndReturnTest {
     public void booleanType() {
         expect(mock.booleanReturningMethod(4)).andReturn(true);
         replay(mock);
-        assertEquals(true, mock.booleanReturningMethod(4));
+        assertTrue(mock.booleanReturningMethod(4));
         verify(mock);
     }
 
     @Test
     public void longType() {
-        expect(mock.longReturningMethod(4)).andReturn(12l);
+        expect(mock.longReturningMethod(4)).andReturn(12L);
         replay(mock);
         assertEquals(12, mock.longReturningMethod(4));
         verify(mock);
@@ -77,13 +77,13 @@ public class UsageExpectAndReturnTest {
     public void booleanAndRange() {
         expect(mock.booleanReturningMethod(4)).andReturn(true).once();
         replay(mock);
-        assertEquals(true, mock.booleanReturningMethod(4));
+        assertTrue(mock.booleanReturningMethod(4));
         verify(mock);
     }
 
     @Test
     public void longAndRange() {
-        expect(mock.longReturningMethod(4)).andReturn(12l).once();
+        expect(mock.longReturningMethod(4)).andReturn(12L).once();
         replay(mock);
         assertEquals(12, mock.longReturningMethod(4));
         verify(mock);
@@ -117,14 +117,14 @@ public class UsageExpectAndReturnTest {
     public void booleanAndCount() {
         expect(mock.booleanReturningMethod(4)).andReturn(true).times(2);
         replay(mock);
-        assertEquals(true, mock.booleanReturningMethod(4));
-        assertEquals(true, mock.booleanReturningMethod(4));
+        assertTrue(mock.booleanReturningMethod(4));
+        assertTrue(mock.booleanReturningMethod(4));
         verify(mock);
     }
 
     @Test
     public void longAndCount() {
-        expect(mock.longReturningMethod(4)).andReturn(12l).times(2);
+        expect(mock.longReturningMethod(4)).andReturn(12L).times(2);
         replay(mock);
         assertEquals(12, mock.longReturningMethod(4));
         assertEquals(12, mock.longReturningMethod(4));
@@ -162,14 +162,14 @@ public class UsageExpectAndReturnTest {
     public void booleanAndMinMax() {
         expect(mock.booleanReturningMethod(4)).andReturn(true).times(2, 3);
         replay(mock);
-        assertEquals(true, mock.booleanReturningMethod(4));
-        assertEquals(true, mock.booleanReturningMethod(4));
+        assertTrue(mock.booleanReturningMethod(4));
+        assertTrue(mock.booleanReturningMethod(4));
         verify(mock);
     }
 
     @Test
     public void longAndMinMax() {
-        expect(mock.longReturningMethod(4)).andReturn(12l).times(2, 3);
+        expect(mock.longReturningMethod(4)).andReturn(12L).times(2, 3);
         replay(mock);
         assertEquals(12, mock.longReturningMethod(4));
         assertEquals(12, mock.longReturningMethod(4));

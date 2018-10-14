@@ -46,11 +46,7 @@ public class ThreadingTest {
 
         replay(mock);
 
-        Callable<String> replay = new Callable<String>() {
-            public String call() {
-                return mock.oneArg("test");
-            }
-        };
+        Callable<String> replay = () -> mock.oneArg("test");
 
         ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
 
@@ -77,11 +73,7 @@ public class ThreadingTest {
 
         replay(mock);
 
-        Callable<String> replay = new Callable<String>() {
-            public String call() {
-                return mock.oneArg("test");
-            }
-        };
+        Callable<String> replay = () -> mock.oneArg("test");
 
         ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
 
@@ -132,12 +124,7 @@ public class ThreadingTest {
             final MocksBehavior behavior = new MocksBehavior(true);
             assertFalse(behavior.isThreadSafe());
 
-            Thread t = new Thread() {
-                @Override
-                public void run() {
-                    behavior.checkThreadSafety();
-                }
-            };
+            Thread t = new Thread(behavior::checkThreadSafety);
             t.start();
             t.join();
             try {
@@ -156,19 +143,17 @@ public class ThreadingTest {
     @Test
     public void testRecordingInMultipleThreads() throws Exception {
 
-        Callable<String> replay = new Callable<String>() {
-            public String call() {
-                IMethods mock = createMock(IMethods.class);
-                expect(mock.oneArg("test")).andReturn("result");
+        Callable<String> replay = () -> {
+            IMethods mock = createMock(IMethods.class);
+            expect(mock.oneArg("test")).andReturn("result");
 
-                replay(mock);
+            replay(mock);
 
-                String s = mock.oneArg("test");
+            String s = mock.oneArg("test");
 
-                verify(mock);
+            verify(mock);
 
-                return s;
-            }
+            return s;
         };
 
         ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
@@ -197,7 +182,7 @@ public class ThreadingTest {
         // However, the recorded matchers should be cleaned to prevent impacting
         // other tests
         mock = createNiceMock(Comparable.class);
-        expect(mock.compareTo((String) isNull())).andReturn(1);
+        expect(mock.compareTo(isNull())).andReturn(1);
         replay(mock);
         assertEquals(1, mock.compareTo(null));
     }

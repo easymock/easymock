@@ -18,7 +18,6 @@ package org.easymock.tests;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import org.easymock.IAnswer;
 import org.easymock.internal.MocksControl;
 import org.junit.Before;
 import org.junit.Test;
@@ -107,12 +106,7 @@ public class RecordStateMethodCallMissingTest {
     @Test
     public void setAnswerWithoutMethodCall() {
         try {
-            control.andAnswer(new IAnswer<Object>() {
-                public Object answer() {
-                    return null;
-                }
-
-            });
+            control.andAnswer(() -> null);
             fail("IllegalStateException expected");
         } catch (IllegalStateException expected) {
             assertMessage("answer", expected);
@@ -252,12 +246,7 @@ public class RecordStateMethodCallMissingTest {
     @Test
     public void setStubAnswerWithoutMethodCall() {
         try {
-            control.andStubAnswer(new IAnswer<Object>() {
-                public Object answer() {
-                    return null;
-                }
-
-            });
+            control.andStubAnswer(() -> null);
             fail("IllegalStateException expected");
         } catch (IllegalStateException expected) {
             assertMessage("stub answer", expected);

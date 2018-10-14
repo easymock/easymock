@@ -72,7 +72,6 @@ public class EasyMockClassExtensionTest {
     }
 
     /** Types of all method flavors */
-    /** Types of all method flavors */
     private static final Class<?>[][] PARAMETER_TYPES = new Class<?>[][] {
             new Class[] { Class.class }, //
             new Class[] { String.class, Class.class } //
@@ -95,9 +94,7 @@ public class EasyMockClassExtensionTest {
         ConstructorArgs args;
         try {
             args = new ConstructorArgs(A.class.getConstructor(Integer.TYPE), 3);
-        } catch (SecurityException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
+        } catch (SecurityException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
 

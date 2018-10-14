@@ -43,9 +43,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
             try {
                 return readObject(getSerializedBytes(c));
                 // ///CLOVER:OFF
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
             }
             // ///CLOVER:ON
@@ -56,12 +54,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
         try {
             return constructor.newInstance(params);
             // ///CLOVER:OFF
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
-            // ///CLOVER:ON
-        } catch (InvocationTargetException e) {
+        } catch (IllegalArgumentException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException("Failed to instantiate " + c.getName() + "'s mock: ", e);
         }
     }
@@ -134,8 +127,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
 
     private static byte[] getSerializedBytes(Class<?> clazz) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DataOutputStream data = new DataOutputStream(baos);
-        try {
+        try (DataOutputStream data = new DataOutputStream(baos)) {
             data.writeShort(ObjectStreamConstants.STREAM_MAGIC);
             data.writeShort(ObjectStreamConstants.STREAM_VERSION);
             data.writeByte(ObjectStreamConstants.TC_OBJECT);
@@ -144,15 +136,12 @@ public class DefaultClassInstantiator implements IClassInstantiator {
 
             Long suid = getSerializableUID(clazz);
 
-            data.writeLong(suid.longValue());
+            data.writeLong(suid);
 
             data.writeByte(2); // classDescFlags (2 = Serializable)
             data.writeShort(0); // field count
             data.writeByte(ObjectStreamConstants.TC_ENDBLOCKDATA);
             data.writeByte(ObjectStreamConstants.TC_NULL);
-        }
-        finally {
-            data.close();
         }
         return baos.toByteArray();
     }
@@ -164,7 +153,7 @@ public class DefaultClassInstantiator implements IClassInstantiator {
             int mask = Modifier.STATIC | Modifier.FINAL;
             if ((f.getModifiers() & mask) == mask) {
                 f.setAccessible(true);
-                return Long.valueOf(f.getLong(null));
+                return f.getLong(null);
             }
         } catch (NoSuchFieldException e) {
             // It's not there, compute it then
@@ -206,12 +195,8 @@ public class DefaultClassInstantiator implements IClassInstantiator {
     }
 
     private static Object readObject(byte[] bytes) throws IOException, ClassNotFoundException {
-        ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes));
-        try {
+        try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes))) {
             return in.readObject();
-        }
-        finally {
-            in.close();
         }
     }
 

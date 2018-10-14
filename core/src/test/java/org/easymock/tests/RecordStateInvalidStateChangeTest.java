@@ -43,8 +43,7 @@ public class RecordStateInvalidStateChangeTest {
         } catch (IllegalStateException e) {
             assertEquals("missing behavior definition for the preceding method call:\nIMethods.oneArg(false)"
                     + "\nUsage is: expect(a.foo()).andXXX()", e.getMessage());
-            assertTrue("stack trace must be cut",
-                    Util.getStackTrace(e).indexOf(RecordState.class.getName()) == -1);
+            assertEquals("stack trace must be cut", Util.getStackTrace(e).indexOf(RecordState.class.getName()), -1);
         }
     }
 
@@ -57,8 +56,7 @@ public class RecordStateInvalidStateChangeTest {
         } catch (IllegalStateException e) {
             assertEquals("missing behavior definition for the preceding method call:\nIMethods.oneArg(false)"
                     + "\nUsage is: expect(a.foo()).andXXX()", e.getMessage());
-            assertTrue("stack trace must be cut",
-                    Util.getStackTrace(e).indexOf(RecordState.class.getName()) == -1);
+            assertEquals("stack trace must be cut", Util.getStackTrace(e).indexOf(RecordState.class.getName()), -1);
         }
     }
 

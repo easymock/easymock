@@ -59,9 +59,9 @@ public class CallbackTest {
 
     @Test
     public void callback() {
-        Callback<String> c1 = new Callback<String>("1");
-        Callback<Object> c2 = new Callback<Object>(null);
-        Callback<Object> c3 = new Callback<Object>(null);
+        Callback<String> c1 = new Callback<>("1");
+        Callback<Object> c2 = new Callback<>(null);
+        Callback<Object> c3 = new Callback<>(null);
 
         expect(mock.oneArg("2")).andAnswer(c1).times(2);
         mock.simpleMethodWithArgument("One");

@@ -42,6 +42,6 @@ public class EqualsWithDelta implements IArgumentMatcher, Serializable {
     }
 
     public void appendTo(StringBuffer buffer) {
-        buffer.append("eq(" + expected + ", " + delta + ")");
+        buffer.append("eq(").append(expected).append(", ").append(delta).append(")");
     }
 }

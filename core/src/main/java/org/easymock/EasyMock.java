@@ -216,7 +216,7 @@ public class EasyMock {
      * @since 3.4
      */
     public static <T> IMockBuilder<T> partialMockBuilder(Class<T> toMock) {
-        return new MockBuilder<T>(toMock);
+        return new MockBuilder<>(toMock);
     }
 
     /**
@@ -610,7 +610,7 @@ public class EasyMock {
      * @return {@code null}.
      */
     public static <T extends Comparable<T>> T geq(T value) {
-        reportMatcher(new GreaterOrEqual<T>(value));
+        reportMatcher(new GreaterOrEqual<>(value));
         return value;
     }
 
@@ -623,7 +623,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static byte geq(byte value) {
-        reportMatcher(new GreaterOrEqual<Byte>(value));
+        reportMatcher(new GreaterOrEqual<>(value));
         return 0;
     }
 
@@ -636,7 +636,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static double geq(double value) {
-        reportMatcher(new GreaterOrEqual<Double>(value));
+        reportMatcher(new GreaterOrEqual<>(value));
         return 0;
     }
 
@@ -649,7 +649,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static float geq(float value) {
-        reportMatcher(new GreaterOrEqual<Float>(value));
+        reportMatcher(new GreaterOrEqual<>(value));
         return 0;
     }
 
@@ -662,7 +662,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static int geq(int value) {
-        reportMatcher(new GreaterOrEqual<Integer>(value));
+        reportMatcher(new GreaterOrEqual<>(value));
         return 0;
     }
 
@@ -675,7 +675,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static long geq(long value) {
-        reportMatcher(new GreaterOrEqual<Long>(value));
+        reportMatcher(new GreaterOrEqual<>(value));
         return 0;
     }
 
@@ -688,7 +688,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static short geq(short value) {
-        reportMatcher(new GreaterOrEqual<Short>(value));
+        reportMatcher(new GreaterOrEqual<>(value));
         return 0;
     }
 
@@ -703,7 +703,7 @@ public class EasyMock {
      * @return {@code null}.
      */
     public static <T extends Comparable<T>> T leq(T value) {
-        reportMatcher(new LessOrEqual<T>(value));
+        reportMatcher(new LessOrEqual<>(value));
         return value;
     }
 
@@ -716,7 +716,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static byte leq(byte value) {
-        reportMatcher(new LessOrEqual<Byte>(value));
+        reportMatcher(new LessOrEqual<>(value));
         return 0;
     }
 
@@ -729,7 +729,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static double leq(double value) {
-        reportMatcher(new LessOrEqual<Double>(value));
+        reportMatcher(new LessOrEqual<>(value));
         return 0;
     }
 
@@ -742,7 +742,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static float leq(float value) {
-        reportMatcher(new LessOrEqual<Float>(value));
+        reportMatcher(new LessOrEqual<>(value));
         return 0;
     }
 
@@ -755,7 +755,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static int leq(int value) {
-        reportMatcher(new LessOrEqual<Integer>(value));
+        reportMatcher(new LessOrEqual<>(value));
         return 0;
     }
 
@@ -768,7 +768,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static long leq(long value) {
-        reportMatcher(new LessOrEqual<Long>(value));
+        reportMatcher(new LessOrEqual<>(value));
         return 0;
     }
 
@@ -781,7 +781,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static short leq(short value) {
-        reportMatcher(new LessOrEqual<Short>(value));
+        reportMatcher(new LessOrEqual<>(value));
         return 0;
     }
 
@@ -796,7 +796,7 @@ public class EasyMock {
      * @return {@code null}.
      */
     public static <T extends Comparable<T>> T gt(T value) {
-        reportMatcher(new GreaterThan<T>(value));
+        reportMatcher(new GreaterThan<>(value));
         return value;
     }
 
@@ -809,7 +809,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static byte gt(byte value) {
-        reportMatcher(new GreaterThan<Byte>(value));
+        reportMatcher(new GreaterThan<>(value));
         return 0;
     }
 
@@ -822,7 +822,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static double gt(double value) {
-        reportMatcher(new GreaterThan<Double>(value));
+        reportMatcher(new GreaterThan<>(value));
         return 0;
     }
 
@@ -835,7 +835,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static float gt(float value) {
-        reportMatcher(new GreaterThan<Float>(value));
+        reportMatcher(new GreaterThan<>(value));
         return 0;
     }
 
@@ -848,7 +848,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static int gt(int value) {
-        reportMatcher(new GreaterThan<Integer>(value));
+        reportMatcher(new GreaterThan<>(value));
         return 0;
     }
 
@@ -861,7 +861,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static long gt(long value) {
-        reportMatcher(new GreaterThan<Long>(value));
+        reportMatcher(new GreaterThan<>(value));
         return 0;
     }
 
@@ -874,7 +874,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static short gt(short value) {
-        reportMatcher(new GreaterThan<Short>(value));
+        reportMatcher(new GreaterThan<>(value));
         return 0;
     }
 
@@ -889,7 +889,7 @@ public class EasyMock {
      * @return {@code null}.
      */
     public static <T extends Comparable<T>> T lt(T value) {
-        reportMatcher(new LessThan<T>(value));
+        reportMatcher(new LessThan<>(value));
         return value;
     }
 
@@ -902,7 +902,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static byte lt(byte value) {
-        reportMatcher(new LessThan<Byte>(value));
+        reportMatcher(new LessThan<>(value));
         return 0;
     }
 
@@ -915,7 +915,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static double lt(double value) {
-        reportMatcher(new LessThan<Double>(value));
+        reportMatcher(new LessThan<>(value));
         return 0;
     }
 
@@ -928,7 +928,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static float lt(float value) {
-        reportMatcher(new LessThan<Float>(value));
+        reportMatcher(new LessThan<>(value));
         return 0;
     }
 
@@ -941,7 +941,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static int lt(int value) {
-        reportMatcher(new LessThan<Integer>(value));
+        reportMatcher(new LessThan<>(value));
         return 0;
     }
 
@@ -954,7 +954,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static long lt(long value) {
-        reportMatcher(new LessThan<Long>(value));
+        reportMatcher(new LessThan<>(value));
         return 0;
     }
 
@@ -967,7 +967,7 @@ public class EasyMock {
      * @return {@code 0}.
      */
     public static short lt(short value) {
-        reportMatcher(new LessThan<Short>(value));
+        reportMatcher(new LessThan<>(value));
         return 0;
     }
 
@@ -1780,7 +1780,7 @@ public class EasyMock {
      * @return {@code null}.
      */
     public static <T extends Comparable<T>> T cmpEq(T value) {
-        reportMatcher(new CompareEqual<T>(value));
+        reportMatcher(new CompareEqual<>(value));
         return value;
     }
 
@@ -1803,7 +1803,7 @@ public class EasyMock {
      * @return {@code null}
      */
     public static <T> T cmp(T value, Comparator<? super T> comparator, LogicalOperator operator) {
-        reportMatcher(new Compare<T>(value, comparator, operator));
+        reportMatcher(new Compare<>(value, comparator, operator));
         return value;
     }
 
@@ -1838,7 +1838,7 @@ public class EasyMock {
      * @return {@code null}
      */
     public static <T> T capture(Capture<T> captured) {
-        reportMatcher(new Captures<T>(captured));
+        reportMatcher(new Captures<>(captured));
         return null;
     }
 
@@ -1850,7 +1850,7 @@ public class EasyMock {
      * @return {@code false}
      */
     public static boolean captureBoolean(Capture<Boolean> captured) {
-        reportMatcher(new Captures<Boolean>(captured));
+        reportMatcher(new Captures<>(captured));
         return false;
     }
 
@@ -1862,7 +1862,7 @@ public class EasyMock {
      * @return {@code 0}
      */
     public static int captureInt(Capture<Integer> captured) {
-        reportMatcher(new Captures<Integer>(captured));
+        reportMatcher(new Captures<>(captured));
         return 0;
     }
 
@@ -1874,7 +1874,7 @@ public class EasyMock {
      * @return {@code 0}
      */
     public static long captureLong(Capture<Long> captured) {
-        reportMatcher(new Captures<Long>(captured));
+        reportMatcher(new Captures<>(captured));
         return 0;
     }
 
@@ -1886,7 +1886,7 @@ public class EasyMock {
      * @return {@code 0}
      */
     public static float captureFloat(Capture<Float> captured) {
-        reportMatcher(new Captures<Float>(captured));
+        reportMatcher(new Captures<>(captured));
         return 0;
     }
 
@@ -1898,7 +1898,7 @@ public class EasyMock {
      * @return {@code 0}
      */
     public static double captureDouble(Capture<Double> captured) {
-        reportMatcher(new Captures<Double>(captured));
+        reportMatcher(new Captures<>(captured));
         return 0;
     }
 
@@ -1910,7 +1910,7 @@ public class EasyMock {
      * @return {@code 0}
      */
     public static byte captureByte(Capture<Byte> captured) {
-        reportMatcher(new Captures<Byte>(captured));
+        reportMatcher(new Captures<>(captured));
         return 0;
     }
 
@@ -1922,7 +1922,7 @@ public class EasyMock {
      * @return {@code 0}
      */
     public static char captureChar(Capture<Character> captured) {
-        reportMatcher(new Captures<Character>(captured));
+        reportMatcher(new Captures<>(captured));
         return 0;
     }
 

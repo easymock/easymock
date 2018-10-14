@@ -50,7 +50,6 @@ public class MatchableArgumentsTest {
         ExpectedInvocation nonEqualMatchableArguments = new ExpectedInvocation(new Invocation(mock,
                 toPreventNullPointerException, arguments2), null);
 
-        assertFalse(matchableArguments.equals(null));
-        assertFalse(matchableArguments.equals(nonEqualMatchableArguments));
+        assertNotEquals(matchableArguments, nonEqualMatchableArguments);
     }
 }

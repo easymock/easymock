@@ -33,19 +33,19 @@ public final class PrimitiveUtils {
         }
     }
 
-    private static final Map<Class<?>, PrimitiveEntry> primitiveTypes = new HashMap<Class<?>, PrimitiveEntry>(9);
-    private static final Map<Class<?>, String> wrapperTypes = new HashMap<Class<?>, String>(6);
+    private static final Map<Class<?>, PrimitiveEntry> primitiveTypes = new HashMap<>(9);
+    private static final Map<Class<?>, String> wrapperTypes = new HashMap<>(6);
 
     static {
         primitiveTypes.put(Void.TYPE, new PrimitiveEntry(null, Void.class));
         primitiveTypes.put(Boolean.TYPE, new PrimitiveEntry(Boolean.FALSE, Boolean.class));
-        primitiveTypes.put(Byte.TYPE, new PrimitiveEntry(Byte.valueOf((byte) 0), Byte.class));
-        primitiveTypes.put(Short.TYPE, new PrimitiveEntry(Short.valueOf((short) 0), Short.class));
-        primitiveTypes.put(Character.TYPE, new PrimitiveEntry(Character.valueOf((char) 0), Character.class));
-        primitiveTypes.put(Integer.TYPE, new PrimitiveEntry(Integer.valueOf(0), Integer.class));
-        primitiveTypes.put(Long.TYPE, new PrimitiveEntry(Long.valueOf(0), Long.class));
-        primitiveTypes.put(Float.TYPE, new PrimitiveEntry(Float.valueOf(0), Float.class));
-        primitiveTypes.put(Double.TYPE, new PrimitiveEntry(Double.valueOf(0), Double.class));
+        primitiveTypes.put(Byte.TYPE, new PrimitiveEntry((byte) 0, Byte.class));
+        primitiveTypes.put(Short.TYPE, new PrimitiveEntry((short) 0, Short.class));
+        primitiveTypes.put(Character.TYPE, new PrimitiveEntry((char) 0, Character.class));
+        primitiveTypes.put(Integer.TYPE, new PrimitiveEntry(0, Integer.class));
+        primitiveTypes.put(Long.TYPE, new PrimitiveEntry(0L, Long.class));
+        primitiveTypes.put(Float.TYPE, new PrimitiveEntry((float) 0, Float.class));
+        primitiveTypes.put(Double.TYPE, new PrimitiveEntry((double) 0, Double.class));
 
         wrapperTypes.put(Byte.class, "byte");
         wrapperTypes.put(Short.class, "short");

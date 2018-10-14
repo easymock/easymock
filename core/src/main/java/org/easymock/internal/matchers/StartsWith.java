@@ -37,6 +37,6 @@ public class StartsWith implements IArgumentMatcher, Serializable {
     }
 
     public void appendTo(StringBuffer buffer) {
-        buffer.append("startsWith(\"" + prefix + "\")");
+        buffer.append("startsWith(\"").append(prefix).append("\")");
     }
 }

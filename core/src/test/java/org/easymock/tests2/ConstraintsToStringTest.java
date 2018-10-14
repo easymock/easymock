@@ -113,7 +113,7 @@ public class ConstraintsToStringTest {
 
     @Test
     public void orToString() {
-        List<IArgumentMatcher> matchers = new ArrayList<IArgumentMatcher>();
+        List<IArgumentMatcher> matchers = new ArrayList<>();
         matchers.add(new Equals(1));
         matchers.add(new Equals(2));
         new Or(matchers).appendTo(buffer);
@@ -128,7 +128,7 @@ public class ConstraintsToStringTest {
 
     @Test
     public void andToString() {
-        List<IArgumentMatcher> matchers = new ArrayList<IArgumentMatcher>();
+        List<IArgumentMatcher> matchers = new ArrayList<>();
         matchers.add(new Equals(1));
         matchers.add(new Equals(2));
         new And(matchers).appendTo(buffer);

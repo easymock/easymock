@@ -25,15 +25,15 @@ import static org.junit.Assert.*;
 public class PrimitiveUtilsTest {
     @Test
     public void getEmptyValue() {
-        assertEquals(null, PrimitiveUtils.getEmptyValue(Void.TYPE));
+        assertNull(PrimitiveUtils.getEmptyValue(Void.TYPE));
         assertEquals(false, PrimitiveUtils.getEmptyValue(Boolean.TYPE));
-        assertEquals(Byte.valueOf((byte) 0), PrimitiveUtils.getEmptyValue(Byte.TYPE));
-        assertEquals(Short.valueOf((short) 0), PrimitiveUtils.getEmptyValue(Short.TYPE));
-        assertEquals(Character.valueOf((char) 0), PrimitiveUtils.getEmptyValue(Character.TYPE));
-        assertEquals(Integer.valueOf(0), PrimitiveUtils.getEmptyValue(Integer.TYPE));
-        assertEquals(Long.valueOf(0), PrimitiveUtils.getEmptyValue(Long.TYPE));
-        assertEquals(Float.valueOf(0), PrimitiveUtils.getEmptyValue(Float.TYPE));
-        assertEquals(Double.valueOf(0), PrimitiveUtils.getEmptyValue(Double.TYPE));
+        assertEquals((byte) 0, PrimitiveUtils.getEmptyValue(Byte.TYPE));
+        assertEquals((short) 0, PrimitiveUtils.getEmptyValue(Short.TYPE));
+        assertEquals((char) 0, PrimitiveUtils.getEmptyValue(Character.TYPE));
+        assertEquals(0, PrimitiveUtils.getEmptyValue(Integer.TYPE));
+        assertEquals(0L, PrimitiveUtils.getEmptyValue(Long.TYPE));
+        assertEquals((float) 0, PrimitiveUtils.getEmptyValue(Float.TYPE));
+        assertEquals((double) 0, PrimitiveUtils.getEmptyValue(Double.TYPE));
     }
 
     @Test

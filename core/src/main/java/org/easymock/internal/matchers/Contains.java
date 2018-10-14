@@ -33,10 +33,10 @@ public class Contains implements IArgumentMatcher, Serializable {
     }
 
     public boolean matches(Object actual) {
-        return (actual instanceof String) && ((String) actual).indexOf(substring) >= 0;
+        return (actual instanceof String) && ((String) actual).contains(substring);
     }
 
     public void appendTo(StringBuffer buffer) {
-        buffer.append("contains(\"" + substring + "\")");
+        buffer.append("contains(\"").append(substring).append("\")");
     }
 }

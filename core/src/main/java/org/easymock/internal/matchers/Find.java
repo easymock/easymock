@@ -38,6 +38,6 @@ public class Find implements IArgumentMatcher, Serializable {
     }
 
     public void appendTo(StringBuffer buffer) {
-        buffer.append("find(\"" + regex.pattern().replaceAll("\\\\", "\\\\\\\\") + "\")");
+        buffer.append("find(\"").append(regex.pattern().replaceAll("\\\\", "\\\\\\\\")).append("\")");
     }
 }

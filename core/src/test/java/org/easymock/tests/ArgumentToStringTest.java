@@ -45,7 +45,7 @@ public class ArgumentToStringTest {
 
     @Test
     public void testAppendArgument_Character() {
-        assertString("'c'", Character.valueOf('c'));
+        assertString("'c'", 'c');
     }
 
     @Test

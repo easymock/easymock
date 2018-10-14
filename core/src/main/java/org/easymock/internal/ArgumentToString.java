@@ -51,7 +51,10 @@ public final class ArgumentToString {
             }
             buffer.append("]");
         } else if (PrimitiveUtils.isPrimitiveWrapper(value.getClass())) {
-            buffer.append(value + " (" + PrimitiveUtils.getPrimitiveTypeNameFromWrapper(value.getClass()) + ")");
+            buffer.append(value)
+                .append(" (")
+                .append(PrimitiveUtils.getPrimitiveTypeNameFromWrapper(value.getClass()))
+                .append(")");
         } else {
             buffer.append(value);
         }

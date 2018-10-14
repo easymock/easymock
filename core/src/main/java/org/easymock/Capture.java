@@ -32,9 +32,9 @@ public class Capture<T> implements Serializable {
 
     private static final long serialVersionUID = -4214363692271370781L;
 
-    private CaptureType type;
+    private final CaptureType type;
 
-    private final List<T> values = new ArrayList<T>(2);
+    private final List<T> values = new ArrayList<>(2);
 
     /**
      * Default constructor. Only the last element will be captured
@@ -64,8 +64,9 @@ public class Capture<T> implements Serializable {
      * @param <T> type of the class to be captured
      * @return the new capture object
      */
+    @SuppressWarnings("deprecation")
     public static <T> Capture<T> newInstance() {
-        return new Capture<T>();
+        return new Capture<>();
     }
 
     /**
@@ -75,8 +76,9 @@ public class Capture<T> implements Serializable {
      * @param <T> type of the class to be captured
      * @return the new capture object
      */
+    @SuppressWarnings("deprecation")
     public static <T> Capture<T> newInstance(CaptureType type) {
-        return new Capture<T>(type);
+        return new Capture<>(type);
     }
 
     /**

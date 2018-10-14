@@ -71,10 +71,10 @@ public class MockBuilderTest {
         replay(mock);
 
         assertEquals(3, mock.size());
-        assertEquals(true, mock.contains("test"));
-        assertEquals(true, mock.add("added"));
+        assertTrue(mock.contains("test"));
+        assertTrue(mock.add("added"));
         mock.clear();
-        assertEquals(false, mock.isEmpty());
+        assertFalse(mock.isEmpty());
         assertEquals("result", mock.get(1));
         assertEquals(2, mock.indexOf("t"));
 
@@ -95,7 +95,7 @@ public class MockBuilderTest {
 
     @Test
     public void testAddMethod_Final() throws Exception {
-        MockBuilder<A> builder = new MockBuilder<A>(A.class);
+        MockBuilder<A> builder = new MockBuilder<>(A.class);
         try {
             builder.addMockedMethod(A.class.getMethod("foo", String.class));
             fail("shouldn't be allowed to be mocked");
@@ -118,7 +118,7 @@ public class MockBuilderTest {
 
     @Test
     public void testAddMethods_Final() throws Exception {
-        MockBuilder<A> builder = new MockBuilder<A>(A.class);
+        MockBuilder<A> builder = new MockBuilder<>(A.class);
         try {
             builder.addMockedMethods(A.class.getMethod("foo", String.class));
             fail("shouldn't be allowed to be mocked");
@@ -150,7 +150,7 @@ public class MockBuilderTest {
 
     @Test
     public void testWithEmptyConstructor() {
-        EmptyConstructor instance = new MockBuilder<EmptyConstructor>(EmptyConstructor.class)
+        EmptyConstructor instance = new MockBuilder<>(EmptyConstructor.class)
                 .withConstructor().createMock();
         assertEquals("foo", instance.setByConstructor);
     }
@@ -190,7 +190,7 @@ public class MockBuilderTest {
     @Test
     public void testWithConstructorConstructorArgs() throws NoSuchMethodException {
         ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(int.class),
-                Integer.valueOf(-3));
+            -3);
         builder.withConstructor(args);
         try {
             builder.createMock();

@@ -37,6 +37,6 @@ public class InstanceOf implements IArgumentMatcher, Serializable {
     }
 
     public void appendTo(StringBuffer buffer) {
-        buffer.append("isA(" + clazz.getName() + ")");
+        buffer.append("isA(").append(clazz.getName()).append(")");
     }
 }

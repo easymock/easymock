@@ -46,7 +46,7 @@ public abstract class CompareTo<T extends Comparable<T>> implements IArgumentMat
     }
 
     public void appendTo(StringBuffer buffer) {
-        buffer.append(getName() + "(" + expected + ")");
+        buffer.append(getName()).append("(").append(expected).append(")");
     }
 
     protected abstract String getName();

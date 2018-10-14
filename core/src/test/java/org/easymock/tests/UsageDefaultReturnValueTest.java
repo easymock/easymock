@@ -40,7 +40,7 @@ public class UsageDefaultReturnValueTest {
         expect(mock.threeArgumentMethod(8, null, "test2")).andReturn("test2");
 
         Object defaultValue = new Object();
-        expect(mock.threeArgumentMethod(anyInt(), anyObject(), (String) anyObject())).andStubReturn(
+        expect(mock.threeArgumentMethod(anyInt(), anyObject(), anyObject())).andStubReturn(
                 defaultValue);
 
         replay(mock);
@@ -117,7 +117,7 @@ public class UsageDefaultReturnValueTest {
     public void returnValueAndDefaultReturnValue() {
 
         expect(mock.oneArg("")).andReturn("1");
-        expect(mock.oneArg((String) anyObject())).andStubReturn("2");
+        expect(mock.oneArg(anyObject())).andStubReturn("2");
 
         replay(mock);
 

@@ -86,10 +86,8 @@ public class DelegateToTest {
     @Test
     public void testReturnException() {
         IMyInterface m = createMock(IMyInterface.class);
-        IMyInterface delegateTo = new IMyInterface() {
-            public int getInt(int k) {
-                throw new ArithmeticException("Not good!");
-            }
+        IMyInterface delegateTo = k -> {
+            throw new ArithmeticException("Not good!");
         };
         expect(m.getInt(5)).andDelegateTo(delegateTo);
 

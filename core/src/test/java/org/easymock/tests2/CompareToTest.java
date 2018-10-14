@@ -51,31 +51,31 @@ public class CompareToTest {
 
     @Test
     public void testLessThan() {
-        test(new LessThan<String>("b"), true, false, false, "lt");
+        test(new LessThan<>("b"), true, false, false, "lt");
     }
 
     @Test
     public void testGreaterThan() {
-        test(new GreaterThan<String>("b"), false, true, false, "gt");
+        test(new GreaterThan<>("b"), false, true, false, "gt");
     }
 
     @Test
     public void testLessOrEqual() {
-        test(new LessOrEqual<String>("b"), true, false, true, "leq");
+        test(new LessOrEqual<>("b"), true, false, true, "leq");
     }
 
     @Test
     public void testGreaterOrEqual() {
-        test(new GreaterOrEqual<String>("b"), false, true, true, "geq");
+        test(new GreaterOrEqual<>("b"), false, true, true, "geq");
     }
 
     @Test
     public void testCompareEqual() {
-        test(new CompareEqual<String>("b"), false, false, true, "cmpEq");
+        test(new CompareEqual<>("b"), false, false, true, "cmpEq");
 
         // Make sure it works when equals provide a different result than
         // compare
-        CompareEqual<BigDecimal> cmpEq = new CompareEqual<BigDecimal>(new BigDecimal("5.00"));
+        CompareEqual<BigDecimal> cmpEq = new CompareEqual<>(new BigDecimal("5.00"));
         assertTrue(cmpEq.matches(new BigDecimal("5")));
     }
 

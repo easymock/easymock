@@ -52,8 +52,8 @@ public class UsageVerifyTest {
         } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.throwsNothing(true): expected: 2, actual: 1", expected.getMessage());
-            assertTrue("stack trace must be filled in", Util.getStackTrace(expected).indexOf(
-                    ReplayState.class.getName()) == -1);
+            assertEquals("stack trace must be filled in", Util.getStackTrace(expected).indexOf(
+                ReplayState.class.getName()), -1);
         }
 
         if (!failed)

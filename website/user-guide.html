@@ -953,7 +953,7 @@ public static&lt;T extends Throwable&gt;T eqException(T in) {
 
         <p>Finally, calling <code>checkIsUsedInOneThread(mock, true)</code> on a mock will make sure the mock is used in only one thread and throw an exception otherwise. This can be handy to make sure a thread-unsafe mocked object is used correctly.</p>
 
-        <h2 id="advanced-osgci">OSGi</h2>
+        <h2 id="advanced-osgi">OSGi</h2>
 
         <p>EasyMock jar can be used as an OSGi bundle. It exports <code>org.easymock</code>, <code>org.easymock.internal</code> and <code>org.easymock.internal.matchers</code> packages. However, to import the two latter, you need to specify the <code>poweruser</code> attribute at true (<code>poweruser=true</code>). These packages are meant to be used to extend EasyMock so they usually don't need to be imported.</p>
 

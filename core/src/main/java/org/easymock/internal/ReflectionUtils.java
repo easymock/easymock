@@ -31,14 +31,9 @@ public final class ReflectionUtils {
         boolean test(T t);
     }
 
-    public static final Predicate<Method> NOT_PRIVATE = new Predicate<Method>() {
-        @Override
-        public boolean test(Method method) {
-            return !Modifier.isPrivate(method.getModifiers());
-        }
-    };
+    public static final Predicate<Method> NOT_PRIVATE = method -> !Modifier.isPrivate(method.getModifiers());
 
-    private static final Map<Class<?>, Class<?>> primitiveToWrapperType = new HashMap<Class<?>, Class<?>>(8);
+    private static final Map<Class<?>, Class<?>> primitiveToWrapperType = new HashMap<>(8);
 
     static {
         primitiveToWrapperType.put(boolean.class, Boolean.class);

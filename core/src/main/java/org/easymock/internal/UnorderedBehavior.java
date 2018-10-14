@@ -26,7 +26,7 @@ public class UnorderedBehavior implements Serializable {
 
     private static final long serialVersionUID = 2185791334636597469L;
 
-    private final List<ExpectedInvocationAndResults> results = new ArrayList<ExpectedInvocationAndResults>();
+    private final List<ExpectedInvocationAndResults> results = new ArrayList<>();
 
     private final boolean checkOrder;
 
@@ -80,7 +80,7 @@ public class UnorderedBehavior implements Serializable {
     }
 
     public List<ErrorMessage> getMessages(Invocation invocation) {
-        List<ErrorMessage> messages = new ArrayList<ErrorMessage>(results.size());
+        List<ErrorMessage> messages = new ArrayList<>(results.size());
         for (ExpectedInvocationAndResults entry : results) {
             boolean unordered = !checkOrder;
             boolean validCallCount = entry.getResults().hasValidCallCount();

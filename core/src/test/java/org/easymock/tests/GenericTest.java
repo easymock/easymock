@@ -44,9 +44,9 @@ public class GenericTest {
     @Test
     public void testTheBridgeMethodIsRecordedNotTheBridge() {
         B b = createMock(B.class);
-        b.doCMethod(Integer.valueOf(6));
+        b.doCMethod(6);
         replay(b);
-        b.doCMethod(Integer.valueOf(6));
+        b.doCMethod(6);
         verify(b);
     }
 
@@ -117,7 +117,6 @@ public class GenericTest {
     @Test
     public void testBridgedEquals() {
         ChildEquals c = createMock(ChildEquals.class);
-        assertTrue(c.equals(c));
-
+        assertEquals(c, c);
     }
 }

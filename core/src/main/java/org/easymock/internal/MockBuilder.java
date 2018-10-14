@@ -41,18 +41,15 @@ import java.util.Set;
  */
 public class MockBuilder<T> implements IMockBuilder<T> {
 
-    private static final ReflectionUtils.Predicate<Method> CAN_BE_MOCKED = new ReflectionUtils.Predicate<Method>() {
-        @Override
-        public boolean test(Method method) {
-            int modifiers = method.getModifiers();
-            // Final, static and private methods can't be mocked so just skip
-            if((modifiers & (Modifier.STATIC | Modifier.PRIVATE | Modifier.FINAL)) != 0) {
-                return false;
-            }
-            // synthetic methods like bridges, lamdbas or whatever might be invented by the compile can't be mocked
-            // since they do not really exists from the user perspective (they are not in the source code)
-            return !method.isSynthetic();
+    private static final ReflectionUtils.Predicate<Method> CAN_BE_MOCKED = method -> {
+        int modifiers = method.getModifiers();
+        // Final, static and private methods can't be mocked so just skip
+        if((modifiers & (Modifier.STATIC | Modifier.PRIVATE | Modifier.FINAL)) != 0) {
+            return false;
         }
+        // synthetic methods like bridges, lamdbas or whatever might be invented by the compile can't be mocked
+        // since they do not really exists from the user perspective (they are not in the source code)
+        return !method.isSynthetic();
     };
 
     private final Class<T> toMock;
@@ -88,7 +85,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
             throw new IllegalArgumentException("Method is not found, null, final, private or synthetic and so can't be mocked");
         }
         if (mockedMethods == null) {
-            mockedMethods = new HashSet<Method>();
+            mockedMethods = new HashSet<>();
         }
         mockedMethods.add(method);
         return this;
@@ -211,7 +208,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
 
     public T createMock(String name, IMocksControl control) {
         Method[] mockedMethodArray = (mockedMethods == null ? new Method[0] : mockedMethods
-                .toArray(new Method[mockedMethods.size()]));
+                .toArray(new Method[0]));
 
         // Create a mock with no default {@code withConstructor} was not called.
         if (constructor == null) {

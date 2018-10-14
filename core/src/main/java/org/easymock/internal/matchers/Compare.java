@@ -44,7 +44,7 @@ public class Compare<T> implements IArgumentMatcher, Serializable {
     }
 
     public void appendTo(StringBuffer buffer) {
-        buffer.append(comparator + "(" + expected + ") " + operator.getSymbol() + " 0");
+        buffer.append(comparator).append("(").append(expected).append(") ").append(operator.getSymbol()).append(" 0");
     }
 
     @SuppressWarnings("unchecked")

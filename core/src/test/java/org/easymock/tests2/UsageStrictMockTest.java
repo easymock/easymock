@@ -82,8 +82,8 @@ public class UsageStrictMockTest {
             verify(mock);
         } catch (AssertionError expected) {
             failed = true;
-            assertTrue("stack trace must be filled in", Util.getStackTrace(expected).indexOf(
-                    ReplayState.class.getName()) == -1);
+            assertEquals("stack trace must be filled in", Util.getStackTrace(expected).indexOf(
+                ReplayState.class.getName()), -1);
         }
         if (!failed) {
             fail("too few calls accepted");
@@ -104,7 +104,7 @@ public class UsageStrictMockTest {
         expectLastCall().atLeastOnce();
 
         replay(mock);
-        assertEquals(true, mock.booleanReturningMethod(0));
+        assertTrue(mock.booleanReturningMethod(0));
         mock.simpleMethod();
 
         boolean failed = false;
@@ -121,7 +121,7 @@ public class UsageStrictMockTest {
             fail("too few calls accepted");
         }
 
-        assertEquals(false, mock.booleanReturningMethod(1));
+        assertFalse(mock.booleanReturningMethod(1));
 
         failed = false;
         try {
@@ -186,11 +186,11 @@ public class UsageStrictMockTest {
 
         replay(mock);
 
-        assertEquals(true, mock.booleanReturningMethod(2));
-        assertEquals(true, mock.booleanReturningMethod(3));
-        assertEquals(true, mock.booleanReturningMethod(1));
-        assertEquals(false, mock.booleanReturningMethod(1));
-        assertEquals(true, mock.booleanReturningMethod(3));
+        assertTrue(mock.booleanReturningMethod(2));
+        assertTrue(mock.booleanReturningMethod(3));
+        assertTrue(mock.booleanReturningMethod(1));
+        assertFalse(mock.booleanReturningMethod(1));
+        assertTrue(mock.booleanReturningMethod(3));
 
         boolean failed = false;
         try {

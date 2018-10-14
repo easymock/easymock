@@ -28,11 +28,11 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
 
     private static final long serialVersionUID = 6824996227285837998L;
 
-    private final List<UnorderedBehavior> behaviorLists = new ArrayList<UnorderedBehavior>();
+    private final List<UnorderedBehavior> behaviorLists = new ArrayList<>();
 
-    private final List<ExpectedInvocationAndResult> stubResults = new ArrayList<ExpectedInvocationAndResult>();
+    private final List<ExpectedInvocationAndResult> stubResults = new ArrayList<>();
 
-    private final List<Invocation> unexpectedCalls = new ArrayList<Invocation>();
+    private final List<Invocation> unexpectedCalls = new ArrayList<>();
 
     private final boolean nice;
 
@@ -124,7 +124,7 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         StringBuilder errorMessage = new StringBuilder(70 * (endPosition - initialPosition + 1)); // rough approximation of the length
         errorMessage.append("\n  Unexpected method call ").append(actual.toString());
 
-        List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
+        List<ErrorMessage> messages = new ArrayList<>();
 
         int matches = 0;
 

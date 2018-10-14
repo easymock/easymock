@@ -20,17 +20,14 @@ import net.sf.cglib.proxy.NoOp;
 import org.droidparts.dexmaker.stock.ProxyBuilder;
 import org.easymock.EasyMock;
 import org.easymock.internal.AndroidSupport;
-import org.easymock.internal.MocksControl;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
-import static org.easymock.internal.MocksControl.getControl;
 import static org.easymock.internal.MocksControl.*;
 import static org.junit.Assert.*;
 
@@ -39,11 +36,7 @@ import static org.junit.Assert.*;
  */
 public class ClassExtensionHelperTest {
 
-    private static final InvocationHandler NOOP_INVOCATION_HANDLER = new InvocationHandler() {
-        public Object invoke(Object proxy, Method method, Object[] args) {
-            return null;
-        }
-    };
+    private static final InvocationHandler NOOP_INVOCATION_HANDLER = (proxy, method, args) -> null;
 
     @Test
     public void testGetControl_EasyMock() {
@@ -54,7 +47,7 @@ public class ClassExtensionHelperTest {
     @Test
     public void testGetControl_EasyMockClassExtension() {
         ArrayList<?> mock = EasyMock.createMock(ArrayList.class);
-        assertTrue(getControl(mock) instanceof MocksControl);
+        assertNotNull(getControl(mock));
     }
 
     @Test
@@ -78,11 +71,7 @@ public class ClassExtensionHelperTest {
     @Test
     public void testGetControl_ProxyButNotMock() {
         Object o = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { List.class },
-                new InvocationHandler() {
-                    public Object invoke(Object proxy, Method method, Object[] args) {
-                        return null;
-                    }
-                });
+            (proxy, method, args) -> null);
         try {
             getControl(o);
             fail();

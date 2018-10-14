@@ -18,6 +18,7 @@ package org.itests;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -53,7 +54,7 @@ class FilteringClassLoader extends ClassLoader {
 
     private final Collection<String> ignoredPackages;
 
-    private final Map<String, Class<?>> classes = new HashMap<String, Class<?>>();
+    private final Map<String, Class<?>> classes = new HashMap<>();
 
     public FilteringClassLoader(Collection<String> ignoredPackages) {
         this.ignoredPackages = ignoredPackages;
@@ -153,7 +154,8 @@ class FilteringStatement extends Statement {
     public void evaluate() throws Throwable {
         FilteringClassLoader cl = new FilteringClassLoader(Arrays.asList(filteredPackages));
         Class<?> c = cl.loadClass(description.getTestClass().getName());
-        Object test = c.newInstance();
+        Constructor constructor = c.getConstructor();
+        Object test = constructor.newInstance();
         Method m = c.getMethod(description.getMethodName());
         try {
             m.invoke(test);

@@ -55,7 +55,7 @@ import java.util.List;
 public class EasyMockSupport {
 
     /** List of all controls created */
-    protected final List<IMocksControl> controls = new ArrayList<IMocksControl>(5);
+    protected final List<IMocksControl> controls = new ArrayList<>(5);
 
     /**
      * Creates a mock object that implements the given interface, order checking
@@ -233,7 +233,7 @@ public class EasyMockSupport {
      * @since ${project.version}
      */
     public <T> IMockBuilder<T> partialMockBuilder(Class<T> toMock) {
-        return new MockBuilder<T>(toMock, this);
+        return new MockBuilder<>(toMock, this);
     }
 
     /**

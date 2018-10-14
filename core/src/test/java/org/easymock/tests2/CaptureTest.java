@@ -173,7 +173,7 @@ public class CaptureTest {
         replay(mock);
 
         assertEquals("answerI", mock.oneArg(1));
-        assertEquals("answerL", mock.oneArg(2l));
+        assertEquals("answerL", mock.oneArg(2L));
         assertEquals("answerF", mock.oneArg(3.0f));
         assertEquals("answerD", mock.oneArg(4.0));
         assertEquals("answerB", mock.oneArg((byte) 5));
@@ -181,12 +181,12 @@ public class CaptureTest {
         assertEquals("answerZ", mock.oneArg(true));
 
         assertEquals(1, captureI.getValue().intValue());
-        assertEquals(2l, captureL.getValue().longValue());
-        assertEquals(3.0f, captureF.getValue().floatValue(), 0.0);
-        assertEquals(4.0, captureD.getValue().doubleValue(), 0.0);
+        assertEquals(2L, captureL.getValue().longValue());
+        assertEquals(3.0f, captureF.getValue(), 0.0);
+        assertEquals(4.0, captureD.getValue(), 0.0);
         assertEquals((byte) 5, captureB.getValue().byteValue());
         assertEquals((char) 6, captureC.getValue().charValue());
-        assertEquals(true, captureBool.getValue().booleanValue());
+        assertTrue(captureBool.getValue());
 
         verify(mock);
     }
@@ -290,7 +290,7 @@ public class CaptureTest {
 
         assertTrue(capture1.hasCaptured());
         assertTrue(capture2.hasCaptured());
-        assertFalse(capture1.getValue() == capture2.getValue());
+        assertNotSame(capture1.getValue(), capture2.getValue());
     }
 
     @Test
@@ -359,7 +359,7 @@ public class CaptureTest {
         mock.oneArg(Long.valueOf(0)); // note that we can capture something else than an Integer
         mock.oneArg(Long.valueOf(1));
 
-        assertEquals(Long.valueOf(1), capture.getValue());
+        assertEquals(1L, capture.getValue());
     }
 
     @Test
@@ -375,6 +375,6 @@ public class CaptureTest {
         mock.oneArg(Long.valueOf(0)); // note that we can capture something else than an Integer
         mock.oneArg(Long.valueOf(1));
 
-        assertEquals(Long.valueOf(0), capture.getValue());
+        assertEquals(0L, capture.getValue());
     }
 }

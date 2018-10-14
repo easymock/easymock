@@ -71,7 +71,7 @@ public final class AndroidClassProxyFactory implements IProxyFactory {
         public MockHandler(InvocationHandler delegate, Method... mockedMethods) {
             this.delegate = delegate;
             this.mockedMethods = (mockedMethods != null)
-                    ? new HashSet<Method>(Arrays.asList(mockedMethods))
+                    ? new HashSet<>(Arrays.asList(mockedMethods))
                     : null;
         }
 

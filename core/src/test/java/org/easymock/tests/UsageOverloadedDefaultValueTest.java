@@ -61,7 +61,7 @@ public class UsageOverloadedDefaultValueTest {
         expect(mock.oneArg(anyDouble())).andStubReturn("double 1");
 
         expect(mock.oneArg("Object 0")).andReturn("String 0");
-        expect(mock.oneArg((String) anyObject())).andStubReturn("String 1");
+        expect(mock.oneArg(anyObject())).andStubReturn("String 1");
 
         replay(mock);
 
@@ -99,7 +99,7 @@ public class UsageOverloadedDefaultValueTest {
     public void defaultThrowable() {
 
         RuntimeException expected = new RuntimeException();
-        expect(mock.oneArg((String) anyObject())).andStubThrow(expected);
+        expect(mock.oneArg(anyObject())).andStubThrow(expected);
 
         replay(mock);
 

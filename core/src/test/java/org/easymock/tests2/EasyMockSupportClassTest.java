@@ -15,7 +15,6 @@
  */
 package org.easymock.tests2;
 
-import org.easymock.ConstructorArgs;
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
 import org.junit.Before;
@@ -41,12 +40,9 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
 
     private Method foo;
 
-    private ConstructorArgs args;
-
     @Before
     public void setUp() throws Exception {
         foo = ToMock.class.getMethod("foo");
-        args = new ConstructorArgs(ToMock.class.getConstructor());
     }
 
     @Test

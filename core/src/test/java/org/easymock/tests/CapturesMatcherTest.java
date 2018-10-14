@@ -33,7 +33,7 @@ public class CapturesMatcherTest {
 
     private final Capture<String> capture = Capture.newInstance(CaptureType.ALL);
 
-    private final Captures<String> matcher = new Captures<String>(capture);
+    private final Captures<String> matcher = new Captures<>(capture);
 
     private StringBuffer buffer;
 

@@ -38,6 +38,6 @@ public class Matches implements IArgumentMatcher, Serializable {
     }
 
     public void appendTo(StringBuffer buffer) {
-        buffer.append("matches(\"" + regex.pattern().replaceAll("\\\\", "\\\\\\\\") + "\")");
+        buffer.append("matches(\"").append(regex.pattern().replaceAll("\\\\", "\\\\\\\\")).append("\")");
     }
 }

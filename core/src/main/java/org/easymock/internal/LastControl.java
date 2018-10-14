@@ -31,11 +31,11 @@ public final class LastControl {
 
     private static final String NO_MATCHERS_FOUND = "no matchers found.";
 
-    private static final ThreadLocal<MocksControl> threadToControl = new ThreadLocal<MocksControl>();
+    private static final ThreadLocal<MocksControl> threadToControl = new ThreadLocal<>();
 
-    private static final ThreadLocal<List<Invocation>> threadToCurrentInvocation = new ThreadLocal<List<Invocation>>();
+    private static final ThreadLocal<List<Invocation>> threadToCurrentInvocation = new ThreadLocal<>();
 
-    private static final ThreadLocal<List<IArgumentMatcher>> threadToArgumentMatcherStack = new ThreadLocal<List<IArgumentMatcher>>();
+    private static final ThreadLocal<List<IArgumentMatcher>> threadToArgumentMatcherStack = new ThreadLocal<>();
 
     // ///CLOVER:OFF
     private LastControl() {
@@ -58,7 +58,7 @@ public final class LastControl {
     public static void reportMatcher(IArgumentMatcher matcher) {
         List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
         if (stack == null) {
-            stack = new ArrayList<IArgumentMatcher>(5); // methods of more than 5 parameters are quite rare
+            stack = new ArrayList<>(5); // methods of more than 5 parameters are quite rare
             threadToArgumentMatcherStack.set(stack);
         }
         stack.add(matcher);
@@ -70,7 +70,7 @@ public final class LastControl {
             return null;
         }
         threadToArgumentMatcherStack.remove();
-        return new ArrayList<IArgumentMatcher>(stack);
+        return new ArrayList<>(stack);
     }
 
     public static void reportAnd(int count) {
@@ -89,8 +89,7 @@ public final class LastControl {
         List<IArgumentMatcher> stack = threadToArgumentMatcherStack.get();
         assertState(stack != null, NO_MATCHERS_FOUND);
         assertState(stack.size() >= count, "" + count + " matchers expected, " + stack.size() + " recorded.");
-        List<IArgumentMatcher> result = new LinkedList<IArgumentMatcher>();
-        result.addAll(stack.subList(stack.size() - count, stack.size()));
+        List<IArgumentMatcher> result = new LinkedList<>(stack.subList(stack.size() - count, stack.size()));
         for (int i = 0; i < count; i++) {
             stack.remove(stack.size()-1);
         }
@@ -121,7 +120,7 @@ public final class LastControl {
     public static void pushCurrentInvocation(Invocation invocation) {
         List<Invocation> stack = threadToCurrentInvocation.get();
         if (stack == null) {
-            stack = new ArrayList<Invocation>(2); // we will rarely have more than 1 recursion. So almost never over 2
+            stack = new ArrayList<>(2); // we will rarely have more than 1 recursion. So almost never over 2
             threadToCurrentInvocation.set(stack);
         }
         stack.add(invocation);

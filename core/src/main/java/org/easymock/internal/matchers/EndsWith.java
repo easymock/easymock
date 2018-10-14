@@ -37,6 +37,6 @@ public class EndsWith implements IArgumentMatcher, Serializable {
     }
 
     public void appendTo(StringBuffer buffer) {
-        buffer.append("endsWith(\"" + suffix + "\")");
+        buffer.append("endsWith(\"").append(suffix).append("\")");
     }
 }

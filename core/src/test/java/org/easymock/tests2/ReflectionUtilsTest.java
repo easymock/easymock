@@ -78,7 +78,7 @@ public class ReflectionUtilsTest {
 
     @Test
     public void testGetConstructor_protected() throws NoSuchMethodException {
-        Constructor<A> c = ReflectionUtils.getConstructor(A.class, 5l);
+        Constructor<A> c = ReflectionUtils.getConstructor(A.class, 5L);
         assertArrayEquals(new Class[] { long.class }, c.getParameterTypes());
     }
 
@@ -115,7 +115,7 @@ public class ReflectionUtilsTest {
     @Test
     public void testGetConstructor_AllPrimitives() throws NoSuchMethodException {
         Constructor<A> c = ReflectionUtils.getConstructor(A.class, true, (byte) 1, 2, (short) 3, 'g',
-                5l, 4.0f, 8.0);
+            5L, 4.0f, 8.0);
         assertNotNull(c);
     }
 

@@ -75,7 +75,7 @@ public final class BridgeMethodResolver {
 
         // Gather all methods with matching name and parameter size.
         Method[] methods = getAllDeclaredMethods(bridgeMethod.getDeclaringClass());
-        List<Method> candidateMethods = new ArrayList<Method>(methods.length);
+        List<Method> candidateMethods = new ArrayList<>(methods.length);
         for (Method candidateMethod : methods) {
             if (isBridgedCandidateFor(candidateMethod, bridgeMethod)) {
                 candidateMethods.add(candidateMethod);
@@ -110,8 +110,7 @@ public final class BridgeMethodResolver {
     private static Method searchCandidates(List<Method> candidateMethods, Method bridgeMethod) {
         Map<TypeVariable<?>, Type> typeParameterMap = createTypeVariableMap(bridgeMethod
                 .getDeclaringClass());
-        for (int i = 0; i < candidateMethods.size(); i++) {
-            Method candidateMethod = candidateMethods.get(i);
+        for (Method candidateMethod : candidateMethods) {
             if (isBridgeMethodFor(bridgeMethod, candidateMethod, typeParameterMap)) {
                 return candidateMethod;
             }
@@ -243,7 +242,7 @@ public final class BridgeMethodResolver {
      * super types, enclosing types and interfaces.
      */
     private static Map<TypeVariable<?>, Type> createTypeVariableMap(Class<?> cls) {
-        Map<TypeVariable<?>, Type> typeVariableMap = new HashMap<TypeVariable<?>, Type>();
+        Map<TypeVariable<?>, Type> typeVariableMap = new HashMap<>();
 
         // interfaces
         extractTypeVariablesFromGenericInterfaces(cls.getGenericInterfaces(), typeVariableMap);
@@ -377,7 +376,7 @@ public final class BridgeMethodResolver {
         if (clazz.isInterface()) {
             return new Class[] { clazz };
         }
-        List<Class<?>> interfaces = new ArrayList<Class<?>>();
+        List<Class<?>> interfaces = new ArrayList<>();
         while (clazz != null) {
             for (int i = 0; i < clazz.getInterfaces().length; i++) {
                 Class<?> ifc = clazz.getInterfaces()[i];
@@ -387,7 +386,7 @@ public final class BridgeMethodResolver {
             }
             clazz = clazz.getSuperclass();
         }
-        return interfaces.toArray(new Class[interfaces.size()]);
+        return interfaces.toArray(new Class[0]);
     }
 
     /**
@@ -427,18 +426,16 @@ public final class BridgeMethodResolver {
      * class methods are included first.
      */
     private static Method[] getAllDeclaredMethods(Class<?> leafClass) {
-        List<Method> list = new LinkedList<Method>();
+        List<Method> list = new LinkedList<>();
 
         // Keep backing up the inheritance hierarchy.
         do {
             Method[] methods = leafClass.getDeclaredMethods();
-            for (Method method : methods) {
-                list.add(method);
-            }
+            Collections.addAll(list, methods);
             leafClass = leafClass.getSuperclass();
         } while (leafClass != null);
 
-        return list.toArray(new Method[list.size()]);
+        return list.toArray(new Method[0]);
     }
     // ///CLOVER:ON
 }

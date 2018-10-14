@@ -28,9 +28,9 @@ public class Results implements Serializable {
 
     private int callCount;
 
-    private final List<Range> ranges = new ArrayList<Range>();
+    private final List<Range> ranges = new ArrayList<>();
 
-    private final List<Result> results = new ArrayList<Result>();
+    private final List<Result> results = new ArrayList<>();
 
     public void add(Result result, Range range) {
         if (!ranges.isEmpty()) {
@@ -46,8 +46,7 @@ public class Results implements Serializable {
 
     public boolean hasResults() {
         int currentPosition = 0;
-        for (int i = 0; i < ranges.size(); i++) {
-            Range interval = ranges.get(i);
+        for (Range interval : ranges) {
             if (interval.hasOpenCount()) {
                 return true;
             }

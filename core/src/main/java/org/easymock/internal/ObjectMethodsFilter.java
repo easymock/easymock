@@ -29,12 +29,7 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
 
     private static final long serialVersionUID = -1726286682930686024L;
 
-    private static final ReflectionUtils.Predicate<Method> NOT_PRIVATE = new ReflectionUtils.Predicate<Method>() {
-        @Override
-        public boolean test(Method method) {
-            return !Modifier.isPrivate(method.getModifiers());
-        }
-    };
+    private static final ReflectionUtils.Predicate<Method> NOT_PRIVATE = method -> !Modifier.isPrivate(method.getModifiers());
 
     private transient Method equalsMethod;
 
@@ -88,10 +83,10 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
 
     public final Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if (equalsMethod.equals(method)) {
-            return Boolean.valueOf(proxy == args[0]);
+            return proxy == args[0];
         }
         if (hashCodeMethod.equals(method)) {
-            return Integer.valueOf(System.identityHashCode(proxy));
+            return System.identityHashCode(proxy);
         }
         if (toStringMethod.equals(method)) {
             return mockToString(proxy);

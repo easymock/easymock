@@ -22,8 +22,6 @@ import org.easymock.IMocksControl;
 import org.easymock.tests.IMethods;
 import org.junit.Test;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import static org.easymock.EasyMock.*;
@@ -328,12 +326,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
 
         // Proxy that is not an EasyMock proxy
         assertNull(EasyMockSupport.getMockedClass(Proxy.newProxyInstance(getClass().getClassLoader(),
-            new Class<?>[] { IMethods.class }, new InvocationHandler() {
-            @Override
-            public Object invoke(Object proxy, Method method, Object[] args) {
-                return null;
-            }
-        })));
+            new Class<?>[] { IMethods.class }, (proxy, method, args) -> null)));
 
         // Cglib proxy that is not an EasyMock proxy
         assertNull(EasyMockSupport.getMockedClass(Enhancer.create(Object.class, NoOp.INSTANCE)));

@@ -51,9 +51,10 @@ public class CglibTest {
     }
 
     private Factory createMock() throws Exception {
+        @SuppressWarnings("Convert2Lambda") // if a lambda is used, since it it stateless, the same instance will be reused. This will defeat the purpose of this test
         MethodInterceptor interceptor = new MethodInterceptor() {
-            public Object intercept(Object obj, Method method, Object[] args,
-                    MethodProxy proxy) throws Throwable {
+            @Override
+            public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
                 return proxy.invokeSuper(obj, args);
             }
         };

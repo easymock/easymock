@@ -27,7 +27,7 @@ public class MethodSerializationWrapper implements Serializable {
 
     private static final long serialVersionUID = 1775475200823842126L;
 
-    private static final Map<String, Class<?>> primitiveTypes = new HashMap<String, Class<?>>(10);
+    private static final Map<String, Class<?>> primitiveTypes = new HashMap<>(10);
 
     static {
         primitiveTypes.put(Boolean.TYPE.getName(), Boolean.TYPE);
@@ -74,8 +74,6 @@ public class MethodSerializationWrapper implements Serializable {
             }
         }
 
-        Method m = clazz.getDeclaredMethod(methodName, parameterTypes);
-
-        return m;
+        return clazz.getDeclaredMethod(methodName, parameterTypes);
     }
 }

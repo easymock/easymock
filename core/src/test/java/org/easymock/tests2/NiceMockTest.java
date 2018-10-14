@@ -37,7 +37,7 @@ public class NiceMockTest {
 
     @Test
     public void defaultReturnValueBoolean() {
-        assertEquals(false, mock.booleanReturningMethod(12));
+        assertFalse(mock.booleanReturningMethod(12));
         verify(mock);
     }
 
@@ -55,7 +55,7 @@ public class NiceMockTest {
 
     @Test
     public void defaultReturnValueObject() {
-        assertEquals(null, mock.objectReturningMethod(12));
+        assertNull(mock.objectReturningMethod(12));
         verify(mock);
     }
 }
