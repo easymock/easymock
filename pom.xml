@@ -51,6 +51,8 @@
   <properties>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     <java.version>1.8</java.version>
+    <spotbugs-maven-plugin.version>3.1.6</spotbugs-maven-plugin.version>
+    <spotbugs.version>3.1.7</spotbugs.version>
   </properties>
 
   <scm>
@@ -223,13 +225,21 @@
           <version>1.17</version>
         </plugin>
         <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>3.0.5</version>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>${spotbugs-maven-plugin.version}</version>
           <configuration>
-            <excludeFilterFile>${basedir}/findbugs-exclude.xml</excludeFilterFile>
             <xmlOutput>true</xmlOutput>
+            <omitVisitors>Naming</omitVisitors>
+            <excludeFilterFile>${basedir}/findbugs-exclude.xml</excludeFilterFile>
           </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.github.spotbugs</groupId>
+              <artifactId>spotbugs</artifactId>
+              <version>${spotbugs.version}</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.jacoco</groupId>
@@ -422,9 +432,8 @@
   <reporting>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.9</version>
+        <version>3.0.0</version>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -437,12 +446,12 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.1</version>
+        <version>0.8.2</version>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.5</version>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${spotbugs-maven-plugin.version}</version>
         <configuration>
           <excludeFilterFile>${basedir}/findbugs-exclude.xml</excludeFilterFile>
           <xmlOutput>true</xmlOutput>
@@ -450,19 +459,14 @@
       </plugin>
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.17</version>
+        <version>3.0.0</version>
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
         <version>3.10.0</version>
         <configuration>
-          <targetJdk>1.6</targetJdk>
+          <targetJdk>1.8</targetJdk>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>javancss-maven-plugin</artifactId>
-        <version>2.1</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -495,13 +499,13 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>findbugs-maven-plugin</artifactId>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-maven-plugin</artifactId>
             <executions>
               <execution>
-                <id>findbugs</id>
+                <id>spotbugs</id>
                 <goals>
-                  <goal>findbugs</goal>
+                  <goal>check</goal>
                 </goals>
               </execution>
             </executions>

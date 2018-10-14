@@ -45,7 +45,7 @@ It is a basic compilation of the application.
 
 ### Full build
 
-This build will check code coverage using Jacoco, run findbugs and
+This build will check code coverage using Jacoco, run spotbugs and
 validate that the license headers are correctly set.
 
 `mvn install -PfullBuild`
@@ -94,7 +94,7 @@ Configure to deploy to the Sonatype maven repository
 
 http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/
 
-To build the maven site (with findbugs, checkstyle, jdepends and JavaNCSS reports)
+To build the maven site (with spotbugs, checkstyle, jdepends and JavaNCSS reports)
 --------------------------------------------------------------------------------------
 - You will to give enough memory to maven with 'set MAVEN_OPTS=-Xmx512m' (or setting it as environment variable)
 - Then type `mvn site`
