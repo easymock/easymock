@@ -53,41 +53,14 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
 
     private IMocksBehavior behavior;
 
-    /**
-     * This class was kept here for compatibility reason with frameworks using EasyMock
-     * @deprecated Use org.easymock.MockType
-     */
-    @Deprecated
-    public enum MockType {
-        NICE(org.easymock.MockType.NICE),
-        DEFAULT(org.easymock.MockType.DEFAULT),
-        STRICT(org.easymock.MockType.STRICT);
+    private MockType type;
 
-        private final org.easymock.MockType realType;
-
-        MockType(org.easymock.MockType realType) {
-            this.realType = realType;
-        }
-
-        public org.easymock.MockType getRealType() {
-            return realType;
-        }
-    }
-
-    private org.easymock.MockType type;
-
-    public MocksControl(org.easymock.MockType type) {
+    public MocksControl(MockType type) {
         this.type = type;
         reset();
     }
 
-    @SuppressWarnings("deprecation")
-    public MocksControl(MockType type) {
-        this.type = type.realType;
-        reset();
-    }
-
-    public org.easymock.MockType getType() {
+    public MockType getType() {
         return type;
     }
 
@@ -226,19 +199,19 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
 
     @Override
     public void resetToNice() {
-        type = org.easymock.MockType.NICE;
+        type = MockType.NICE;
         reset();
     }
 
     @Override
     public void resetToDefault() {
-        type = org.easymock.MockType.DEFAULT;
+        type = MockType.DEFAULT;
         reset();
     }
 
     @Override
     public void resetToStrict() {
-        type = org.easymock.MockType.STRICT;
+        type = MockType.STRICT;
         reset();
     }
 

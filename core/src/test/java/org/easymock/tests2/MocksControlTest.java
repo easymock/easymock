@@ -17,8 +17,6 @@ package org.easymock.tests2;
 
 import org.easymock.ConstructorArgs;
 import org.easymock.IMocksControl;
-import org.easymock.MockType;
-import org.easymock.internal.MocksControl;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
@@ -178,18 +176,5 @@ public class MocksControlTest {
         ctrl.replay();
         assertEquals(3, list.size());
         ctrl.verify();
-    }
-
-    @Test
-    @SuppressWarnings("deprecation")
-    public void testCreateOldMockTypeFromNewMockType() {
-        assertSame(MockType.NICE, MocksControl.MockType.NICE.getRealType());
-    }
-
-    @Test
-    public void testCreateMocksControlFromOldMockType() {
-        @SuppressWarnings("deprecation")
-        MocksControl c = new MocksControl(MocksControl.MockType.NICE);
-        assertSame(MockType.NICE, c.getType());
     }
 }
