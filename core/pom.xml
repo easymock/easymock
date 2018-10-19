@@ -54,7 +54,7 @@
     <dependency>
       <groupId>org.objenesis</groupId>
       <artifactId>objenesis</artifactId>
-      <version>3.0</version>
+      <version>3.0.1</version>
     </dependency>
     <!-- Used for class mocking on Android (cglib replacement) -->
     <dependency>
