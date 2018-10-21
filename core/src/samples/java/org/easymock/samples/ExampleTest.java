@@ -121,7 +121,6 @@ public class ExampleTest extends EasyMockSupport {
         verifyAll();
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void answerVsDelegate() {
         List<String> l = createMock(List.class);

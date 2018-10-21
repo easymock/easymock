@@ -203,7 +203,7 @@ public class EasyMockClassExtensionTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testStrictMock_Partial() {
-        ArrayList<Integer> list = createMockBuilder(ArrayList.class).addMockedMethod("add",
+        List<Integer> list = createMockBuilder(ArrayList.class).addMockedMethod("add",
                 Object.class).createStrictMock();
 
         expect(list.add(1)).andReturn(true);

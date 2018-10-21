@@ -96,17 +96,17 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     }
 
     @Override
-    public <T> T createMock(Class<T> toMock) {
+    public <T, R> R createMock(Class<T> toMock) {
         return createMock(null, toMock, null, (Method[]) null);
     }
 
     @Override
-    public <T> T createMock(String name, Class<T> toMock) {
+    public <T, R> R createMock(String name, Class<T> toMock) {
         return createMock(name, toMock, null, (Method[]) null);
     }
 
     @Override
-    public <T> T createMock(String name, Class<T> toMock, ConstructorArgs constructorArgs,
+    public <T, R> R createMock(String name, Class<T> toMock, ConstructorArgs constructorArgs,
             Method... mockedMethods) {
         if (toMock == null) {
             throw new NullPointerException("Can't mock 'null'");
@@ -121,8 +121,10 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
                     ? interfaceProxyFactory
                     : getClassProxyFactory();
             try {
-                return proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
-                        new MockInvocationHandler(this), name), mockedMethods, constructorArgs);
+                @SuppressWarnings("unchecked")
+                R mock = (R) proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
+                    new MockInvocationHandler(this), name), mockedMethods, constructorArgs);
+                return mock;
             } catch (NoClassDefFoundError e) {
                 if(e.getMessage().startsWith("org/objenesis")) {
                     throw new RuntimeExceptionWrapper(new RuntimeException(

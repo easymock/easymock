@@ -32,7 +32,6 @@ public class SerializationTest implements Serializable {
 
     private static final long serialVersionUID = -774994679161263654L;
 
-    @SuppressWarnings("unchecked")
     @Test
     public void test() throws Exception {
 

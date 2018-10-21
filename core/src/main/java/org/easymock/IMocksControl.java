@@ -31,12 +31,18 @@ public interface IMocksControl {
      * @param <T>
      *            the interface or class that the mock object should
      *            implement/extend.
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param toMock
      *            the interface or class that the mock object should
      *            implement/extend.
      * @return the mock object.
+     * @since 4.0
      */
-    <T> T createMock(Class<T> toMock);
+    default <T, R> R mock(Class<T> toMock) {
+        return createMock(toMock);
+    }
 
     /**
      * Creates a mock object that implements the given interface.
@@ -44,6 +50,74 @@ public interface IMocksControl {
      * @param <T>
      *            the interface or class that the mock object should
      *            implement/extend.
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the interface or class that the mock object should
+     *            implement/extend.
+     * @return the mock object.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
+     * @since 4.0
+     */
+    default <T, R> R mock(String name, Class<T> toMock) {
+        return createMock(name, toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the given class. Using this method directly in a test class
+     * is not recommended. Only frameworks extending EasyMock should use it. Final users should use
+     * the more convenient {@link EasyMock#partialMockBuilder(Class)} method instead
+     *
+     * @param <T>
+     *            the class that the mock object should extend.
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
+     * @param name
+     *            the name of the mock object.
+     * @param toMock
+     *            the class that the mock object should extend.
+     * @param constructorArgs
+     *            constructor and parameters used to instantiate the mock. If null, no constructor will be called
+     * @param mockedMethods
+     *            methods that will be mocked, other methods will behave
+     *            normally. If empty, all methods will be mocked
+     * @return the mock object.
+     * @since 4.0
+     */
+    default <T, R> R mock(String name, Class<T> toMock, ConstructorArgs constructorArgs, Method... mockedMethods) {
+        return createMock(name, toMock, constructorArgs, mockedMethods);
+    }
+
+    /**
+     * Same as {@link #mock(Class)} but using the old naming.
+     *
+     * @param <T>
+     *            the interface or class that the mock object should
+     *            implement/extend.
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
+     * @param toMock
+     *            the interface or class that the mock object should
+     *            implement/extend.
+     * @return the mock object.
+     */
+    <T, R> R createMock(Class<T> toMock);
+
+    /**
+     * Same as {@link #mock(String, Class)} but using the old naming.
+     *
+     * @param <T>
+     *            the interface or class that the mock object should
+     *            implement/extend.
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param name
      *            the name of the mock object.
      * @param toMock
@@ -53,15 +127,16 @@ public interface IMocksControl {
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    <T> T createMock(String name, Class<T> toMock);
+    <T, R> R createMock(String name, Class<T> toMock);
 
     /**
-     * Creates a mock object that implements the given class. Using this method directly in a test class
-     * is not recommended. Only frameworks extending EasyMock should use it. Final users should use
-     * the more convenient {@link EasyMock#partialMockBuilder(Class)} method instead
+     * Same as {@link #mock(String, Class, ConstructorArgs, Method...)} but using the old naming
      *
      * @param <T>
      *            the class that the mock object should extend.
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type 
      * @param name
      *            the name of the mock object.
      * @param toMock
@@ -73,7 +148,7 @@ public interface IMocksControl {
      *            normally. If empty, all methods will be mocked
      * @return the mock object.
      */
-    <T> T createMock(String name, Class<T> toMock, ConstructorArgs constructorArgs, Method... mockedMethods);
+    <T, R> R createMock(String name, Class<T> toMock, ConstructorArgs constructorArgs, Method... mockedMethods);
 
     /**
      * Removes all expectations for the mock objects of this control.
