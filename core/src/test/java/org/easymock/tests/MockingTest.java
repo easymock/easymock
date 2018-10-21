@@ -19,7 +19,6 @@ import org.easymock.MockType;
 import org.easymock.internal.MocksControl;
 import org.junit.Test;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
@@ -114,13 +113,5 @@ public class MockingTest {
     private MockType extractBehavior(Object mock) {
         MocksControl ctrl = MocksControl.getControl(mock);
         return ctrl.getType();
-    }
-
-    private Method[] getMethod() {
-        try {
-            return new Method[] { ClassToMock.class.getDeclaredMethod("method", (Class[]) null) };
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e.getMessage());
-        }
     }
 }

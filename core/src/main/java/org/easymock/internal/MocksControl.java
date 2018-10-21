@@ -45,7 +45,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     public static final Range ZERO_OR_MORE = new Range(0, Integer.MAX_VALUE);
 
     /** lazily created; the proxy factory for classes */
-    private static IProxyFactory classProxyFactory;
+    private static volatile IProxyFactory classProxyFactory;
 
     private static final IProxyFactory interfaceProxyFactory = new JavaProxyFactory();
 
@@ -140,7 +140,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
 
     public static IProxyFactory getProxyFactory(Object o) {
         return Proxy.isProxyClass(o.getClass())
-                ? new JavaProxyFactory()
+                ? interfaceProxyFactory
                 : getClassProxyFactory();
     }
 
@@ -177,7 +177,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     }
 
     public static InvocationHandler getInvocationHandler(Object mock) {
-        return getClassProxyFactory().getInvocationHandler(mock);
+        return getProxyFactory(mock).getInvocationHandler(mock);
     }
 
     /**

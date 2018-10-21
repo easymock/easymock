@@ -71,6 +71,10 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     private static Method extractMethod(Class<?> toMock, String name, Class<?>... params) throws NoSuchMethodException {
         Method m = toMock.getMethod(name, params);
         // It can occur that the method was bridged. Usually, this means the method was in package scope on a parent class

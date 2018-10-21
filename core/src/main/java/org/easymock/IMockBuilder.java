@@ -333,4 +333,131 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      */
     T createMock(String name, IMocksControl control);
+
+    /**
+     * Create mock of the request type from this builder. The same builder can be called to
+     * create multiple mocks.
+     *
+     * @param type the mock type
+     * @return the newly created mock
+     * @since 4.0
+     */
+    default T mock(MockType type) {
+        return createMock(type);
+    }
+
+    /**
+     * Create a strict mock from this builder. The same builder can be called to
+     * create multiple mocks.
+     *
+     * @return the newly created mock
+     * @since 4.0
+     */
+    default T strictMock() {
+        return createStrictMock();
+    }
+
+    /**
+     * Create a default mock from this builder. The same builder can be called
+     * to create multiple mocks.
+     *
+     * @return the newly created mock
+     * @since 4.0
+     */
+    default T mock() {
+        return createMock();
+    }
+
+    /**
+     * Create a nice mock from this builder. The same builder can be called to
+     * create multiple mocks.
+     *
+     * @return the newly created mock
+     * @since 4.0
+     */
+    default T niceMock() {
+        return createNiceMock();
+    }
+
+    /**
+     * Create mock from the provided mock control using the arguments passed to
+     * the builder.
+     *
+     * @param control
+     *            {@link org.easymock.IMocksControl} used to create the object
+     * @return the newly created mock
+     * @since 4.0
+     */
+    default T mock(IMocksControl control) {
+        return createMock(control);
+    }
+
+    /**
+     * Create a named mock of the request type from this builder. The same builder can be
+     * called to create multiple mocks.
+     *
+     * @param name
+     *            the mock name
+     * @param type
+     *            the mock type
+     * @return the newly created mock
+     * @since 4.0
+     */
+    default T mock(String name, MockType type) {
+        return createMock(name, type);
+    }
+
+    /**
+     * Create a named strict mock from this builder. The same builder can be
+     * called to create multiple mocks.
+     *
+     * @param name
+     *            the mock name
+     * @return the newly created mock
+     * @since 4.0
+     */
+    default T strictMock(String name) {
+        return createStrictMock(name);
+    }
+
+    /**
+     * Create named mock from the provided mock control using the arguments
+     * passed to the builder.
+     *
+     * @param name
+     *            the mock name
+     * @return the newly created mock
+     * @since 4.0
+     */
+    default T mock(String name) {
+        return createMock(name);
+    }
+
+    /**
+     * Create a named nice mock from this builder. The same builder can be
+     * called to create multiple mocks.
+     *
+     * @param name
+     *            the mock name
+     * @return the newly created mock
+     * @since 4.0
+     */
+    default T niceMock(String name) {
+        return createNiceMock(name);
+    }
+
+    /**
+     * Create named mock from the provided mock control using the arguments
+     * passed to the builder.
+     *
+     * @param name
+     *            the mock name
+     * @param control
+     *            {@link org.easymock.IMocksControl} used to create the object
+     * @return the newly created mock
+     * @since 4.0
+     */
+    default T mock(String name, IMocksControl control) {
+        return createMock(name, control);
+    }
 }
