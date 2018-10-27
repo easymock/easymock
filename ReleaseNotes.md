@@ -17,3 +17,12 @@ Release notes
 * Drop Java 6 and 7 support. Support now starts at Java 8
 * Decorrelate mock requested and returned type
 
+Change log
+----------
+* Remove most long time deprecated methods ([#231](https://github.com/easymock/easymock/issues/231))
+* Relax typing for the mocking result ([#229](https://github.com/easymock/easymock/issues/229))
+* Upgrade Objenesis to 3.0.1 ([#228](https://github.com/easymock/easymock/issues/228))
+* Update cglib to 3.2.8 and asm to 6.2.1 ([#225](https://github.com/easymock/easymock/pull/225))
+* Java 11 Compatibility check: EasyMock ([#224](https://github.com/easymock/easymock/issues/224))
+* easymock 3.6 can't work with JDK11 EA kit ([#218](https://github.com/easymock/easymock/issues/218))
+* update testng to 6.14.3 ([#216](https://github.com/easymock/easymock/pull/216))
