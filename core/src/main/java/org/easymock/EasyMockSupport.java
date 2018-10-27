@@ -249,9 +249,6 @@ public class EasyMockSupport {
      *
      * @param <T>
      *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
      * @param toMock
      *            the class of the interface that the mock object should
      *            implement.

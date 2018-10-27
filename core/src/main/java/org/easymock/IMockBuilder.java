@@ -239,6 +239,9 @@ public interface IMockBuilder<T> {
      * Create mock of the request type from this builder. The same builder can be called to
      * create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param type the mock type
      * @return the newly created mock
      * @since 3.2
@@ -249,6 +252,9 @@ public interface IMockBuilder<T> {
      * Create a strict mock from this builder. The same builder can be called to
      * create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @return the newly created mock
      */
     <R> R createStrictMock();
@@ -257,6 +263,9 @@ public interface IMockBuilder<T> {
      * Create a default mock from this builder. The same builder can be called
      * to create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @return the newly created mock
      */
     <R> R createMock();
@@ -265,6 +274,9 @@ public interface IMockBuilder<T> {
      * Create a nice mock from this builder. The same builder can be called to
      * create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @return the newly created mock
      */
     <R> R createNiceMock();
@@ -273,6 +285,9 @@ public interface IMockBuilder<T> {
      * Create mock from the provided mock control using the arguments passed to
      * the builder.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param control
      *            {@link org.easymock.IMocksControl} used to create the object
      * @return the newly created mock
@@ -283,6 +298,9 @@ public interface IMockBuilder<T> {
      * Create a named mock of the request type from this builder. The same builder can be
      * called to create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param name
      *            the mock name
      * @param type
@@ -296,6 +314,9 @@ public interface IMockBuilder<T> {
      * Create a named strict mock from this builder. The same builder can be
      * called to create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param name
      *            the mock name
      * @return the newly created mock
@@ -306,6 +327,9 @@ public interface IMockBuilder<T> {
      * Create named mock from the provided mock control using the arguments
      * passed to the builder.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param name
      *            the mock name
      * @return the newly created mock
@@ -316,6 +340,9 @@ public interface IMockBuilder<T> {
      * Create a named nice mock from this builder. The same builder can be
      * called to create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param name
      *            the mock name
      * @return the newly created mock
@@ -326,6 +353,9 @@ public interface IMockBuilder<T> {
      * Create named mock from the provided mock control using the arguments
      * passed to the builder.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param name
      *            the mock name
      * @param control
@@ -338,6 +368,9 @@ public interface IMockBuilder<T> {
      * Create mock of the request type from this builder. The same builder can be called to
      * create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param type the mock type
      * @return the newly created mock
      * @since 4.0
@@ -350,6 +383,9 @@ public interface IMockBuilder<T> {
      * Create a strict mock from this builder. The same builder can be called to
      * create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @return the newly created mock
      * @since 4.0
      */
@@ -361,6 +397,9 @@ public interface IMockBuilder<T> {
      * Create a default mock from this builder. The same builder can be called
      * to create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @return the newly created mock
      * @since 4.0
      */
@@ -372,6 +411,9 @@ public interface IMockBuilder<T> {
      * Create a nice mock from this builder. The same builder can be called to
      * create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @return the newly created mock
      * @since 4.0
      */
@@ -383,6 +425,9 @@ public interface IMockBuilder<T> {
      * Create mock from the provided mock control using the arguments passed to
      * the builder.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param control
      *            {@link org.easymock.IMocksControl} used to create the object
      * @return the newly created mock
@@ -396,6 +441,9 @@ public interface IMockBuilder<T> {
      * Create a named mock of the request type from this builder. The same builder can be
      * called to create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param name
      *            the mock name
      * @param type
@@ -411,6 +459,9 @@ public interface IMockBuilder<T> {
      * Create a named strict mock from this builder. The same builder can be
      * called to create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param name
      *            the mock name
      * @return the newly created mock
@@ -424,6 +475,9 @@ public interface IMockBuilder<T> {
      * Create named mock from the provided mock control using the arguments
      * passed to the builder.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param name
      *            the mock name
      * @return the newly created mock
@@ -437,6 +491,9 @@ public interface IMockBuilder<T> {
      * Create a named nice mock from this builder. The same builder can be
      * called to create multiple mocks.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param name
      *            the mock name
      * @return the newly created mock
@@ -450,6 +507,9 @@ public interface IMockBuilder<T> {
      * Create named mock from the provided mock control using the arguments
      * passed to the builder.
      *
+     * @param <R>
+     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
+     *            caller, we return a different type
      * @param name
      *            the mock name
      * @param control
