@@ -77,9 +77,8 @@ body {
 
 .release {
   list-style-type: none;
-  margin: 0;
   padding: 0;
-  margin-bottom: 30px;
+  margin: 0 0 30px;
   min-height: 100px;
 }
 
@@ -147,10 +146,8 @@ body {
 }
 /* By default, a link has no style */
 .developer-guide .sidebar a {
-  border-left-width: 0;
-  border-left-style: solid;
-  border-left-color: white;
-  color: #003E7E;
+    border-left: 0 solid white;
+    color: #003E7E;
   text-decoration: none;
 }
 /* By default, a link hovered or focused is blue, with a solid blue left border, and has a light grey background */
