@@ -15,4 +15,5 @@ Release notes
 -------------
 * Add Java 11 support
 * Drop Java 6 and 7 support. Support now starts at Java 8
-* Decorelate mock requested and returned type
+* Decorrelate mock requested and returned type
+
