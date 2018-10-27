@@ -29,7 +29,7 @@ limitations under the License.
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="1"
+        android:minSdkVersion="26"
         android:targetSdkVersion="27" />
 
     <application android:allowBackup="false">
@@ -40,4 +40,5 @@ limitations under the License.
         android:name=".AndroidTck"
         android:targetPackage="org.easymock.android">
     </instrumentation>
+
 </manifest>
