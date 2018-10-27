@@ -22,7 +22,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.easymock.EasyMock.*;
@@ -34,21 +33,16 @@ import static org.easymock.EasyMock.*;
  */
 public class AndroidTck extends Instrumentation {
 
+    @Override
    public void onCreate(Bundle arguments) {
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       PrintStream printStream = new PrintStream(outputStream);
       System.setOut(printStream);
 
-      System.setProperty(
-        "dexmaker.dexcache",
-        getTargetContext().getCacheDir().getPath());
+      System.setProperty("dexmaker.dexcache", getTargetContext().getCacheDir().getPath());
 
-      try {
-          testInterface();
-          testObject();
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
+      testInterface();
+      testObject();
 
       Bundle bundle = new Bundle();
       String fromStdout = outputStream.toString();
@@ -56,7 +50,7 @@ public class AndroidTck extends Instrumentation {
       finish(Activity.RESULT_OK, bundle);
    }
 
-   private void testObject() throws IOException {
+   private void testObject() {
       Activity mock = createMock(Activity.class);
       mock.onLowMemory();
       expect(mock.getTaskId()).andReturn(10);
@@ -70,7 +64,7 @@ public class AndroidTck extends Instrumentation {
       verify(mock);
    }
 
-   private void testInterface() throws IOException {
+   private void testInterface() {
       Parcelable mock = createMock(Parcelable.class);
       mock.writeToParcel(anyObject(Parcel.class), eq(4));
       expect(mock.describeContents()).andReturn(11);
