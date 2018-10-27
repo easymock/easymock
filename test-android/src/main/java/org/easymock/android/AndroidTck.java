@@ -23,6 +23,8 @@ import android.os.Parcelable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 import static org.easymock.EasyMock.*;
 
@@ -36,7 +38,12 @@ public class AndroidTck extends Instrumentation {
     @Override
    public void onCreate(Bundle arguments) {
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-      PrintStream printStream = new PrintStream(outputStream);
+      PrintStream printStream;
+      try {
+         printStream = new PrintStream(outputStream, true, Charset.defaultCharset().name());
+      } catch (UnsupportedEncodingException e) {
+         throw new RuntimeException(e);
+      }
       System.setOut(printStream);
 
       System.setProperty("dexmaker.dexcache", getTargetContext().getCacheDir().getPath());
@@ -45,7 +52,12 @@ public class AndroidTck extends Instrumentation {
       testObject();
 
       Bundle bundle = new Bundle();
-      String fromStdout = outputStream.toString();
+      String fromStdout;
+      try {
+         fromStdout = outputStream.toString(Charset.defaultCharset().name());
+      } catch (UnsupportedEncodingException e) {
+         throw new RuntimeException(e);
+      }
       bundle.putString(Instrumentation.REPORT_KEY_STREAMRESULT, fromStdout);
       finish(Activity.RESULT_OK, bundle);
    }
