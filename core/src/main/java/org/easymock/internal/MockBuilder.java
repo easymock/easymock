@@ -178,35 +178,35 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         return this;
     }
 
-    public T createMock(MockType type) {
+    public <R> R createMock(MockType type) {
         IMocksControl control = (support == null ? EasyMock.createControl(type) : support
                 .createControl(type));
         return createMock(null, control);
     }
 
-    public T createMock(String name, MockType type) {
+    public <R> R createMock(String name, MockType type) {
         IMocksControl control = (support == null ? EasyMock.createControl(type) : support
                 .createControl(type));
         return createMock(name, control);
     }
 
-    public T createMock(IMocksControl control) {
+    public <R> R createMock(IMocksControl control) {
         return createMock(null, control);
     }
 
-    public T createMock() {
+    public <R> R createMock() {
         return createMock((String) null);
     }
 
-    public T createNiceMock() {
+    public <R> R createNiceMock() {
         return createNiceMock(null);
     }
 
-    public T createStrictMock() {
+    public <R> R createStrictMock() {
         return createStrictMock(null);
     }
 
-    public T createMock(String name, IMocksControl control) {
+    public <R> R createMock(String name, IMocksControl control) {
         Method[] mockedMethodArray = (mockedMethods == null ? new Method[0] : mockedMethods
                 .toArray(new Method[0]));
 
@@ -223,18 +223,18 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         return control.createMock(name, toMock, constructorArgs, mockedMethodArray);
     }
 
-    public T createMock(String name) {
+    public <R> R createMock(String name) {
         IMocksControl control = (support == null ? EasyMock.createControl() : support.createControl());
         return createMock(name, control);
     }
 
-    public T createNiceMock(String name) {
+    public <R> R createNiceMock(String name) {
         IMocksControl control = (support == null ? EasyMock.createNiceControl() : support
                 .createNiceControl());
         return createMock(name, control);
     }
 
-    public T createStrictMock(String name) {
+    public <R> R createStrictMock(String name) {
         IMocksControl control = (support == null ? EasyMock.createStrictControl() : support
                 .createStrictControl());
         return createMock(name, control);

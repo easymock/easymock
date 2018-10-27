@@ -17,9 +17,11 @@ package org.easymock.tests;
 
 import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
+import org.easymock.IMocksControl;
 import org.easymock.MockType;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -108,5 +110,37 @@ public class TypingTest {
         catch(ClassCastException e) {
             // Expected
         }
+    }
+
+    @Test
+    public void testCreatePartialMock() {
+        IMocksControl control = EasyMock.createControl();
+
+        list = EasyMock.partialMockBuilder(ArrayList.class).createMock();
+        list = EasyMock.partialMockBuilder(ArrayList.class).createMock("a");
+        list = EasyMock.partialMockBuilder(ArrayList.class).createMock("a", MockType.DEFAULT);
+        list = EasyMock.partialMockBuilder(ArrayList.class).createMock(MockType.DEFAULT);
+        list = EasyMock.partialMockBuilder(ArrayList.class).createNiceMock();
+        list = EasyMock.partialMockBuilder(ArrayList.class).createNiceMock("a");
+        list = EasyMock.partialMockBuilder(ArrayList.class).createStrictMock();
+        list = EasyMock.partialMockBuilder(ArrayList.class).createStrictMock("a");
+        list = EasyMock.partialMockBuilder(ArrayList.class).createMock(control);
+        list = EasyMock.partialMockBuilder(ArrayList.class).createMock("a", control);
+    }
+
+    @Test
+    public void testPartialMock() {
+        IMocksControl control = EasyMock.createControl();
+
+        list = EasyMock.partialMockBuilder(ArrayList.class).mock();
+        list = EasyMock.partialMockBuilder(ArrayList.class).mock("a");
+        list = EasyMock.partialMockBuilder(ArrayList.class).mock("a", MockType.DEFAULT);
+        list = EasyMock.partialMockBuilder(ArrayList.class).mock(MockType.DEFAULT);
+        list = EasyMock.partialMockBuilder(ArrayList.class).niceMock();
+        list = EasyMock.partialMockBuilder(ArrayList.class).niceMock("a");
+        list = EasyMock.partialMockBuilder(ArrayList.class).strictMock();
+        list = EasyMock.partialMockBuilder(ArrayList.class).strictMock("a");
+        list = EasyMock.partialMockBuilder(ArrayList.class).mock(control);
+        list = EasyMock.partialMockBuilder(ArrayList.class).mock("a", control);
     }
 }

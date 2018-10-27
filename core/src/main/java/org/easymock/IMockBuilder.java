@@ -243,7 +243,7 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      * @since 3.2
      */
-    T createMock(MockType type);
+    <R> R createMock(MockType type);
 
     /**
      * Create a strict mock from this builder. The same builder can be called to
@@ -251,7 +251,7 @@ public interface IMockBuilder<T> {
      *
      * @return the newly created mock
      */
-    T createStrictMock();
+    <R> R createStrictMock();
 
     /**
      * Create a default mock from this builder. The same builder can be called
@@ -259,7 +259,7 @@ public interface IMockBuilder<T> {
      *
      * @return the newly created mock
      */
-    T createMock();
+    <R> R createMock();
 
     /**
      * Create a nice mock from this builder. The same builder can be called to
@@ -267,7 +267,7 @@ public interface IMockBuilder<T> {
      *
      * @return the newly created mock
      */
-    T createNiceMock();
+    <R> R createNiceMock();
 
     /**
      * Create mock from the provided mock control using the arguments passed to
@@ -277,7 +277,7 @@ public interface IMockBuilder<T> {
      *            {@link org.easymock.IMocksControl} used to create the object
      * @return the newly created mock
      */
-    T createMock(IMocksControl control);
+    <R> R createMock(IMocksControl control);
 
     /**
      * Create a named mock of the request type from this builder. The same builder can be
@@ -290,7 +290,7 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      * @since 3.2
      */
-    T createMock(String name, MockType type);
+    <R> R createMock(String name, MockType type);
 
     /**
      * Create a named strict mock from this builder. The same builder can be
@@ -300,7 +300,7 @@ public interface IMockBuilder<T> {
      *            the mock name
      * @return the newly created mock
      */
-    T createStrictMock(String name);
+    <R> R createStrictMock(String name);
 
     /**
      * Create named mock from the provided mock control using the arguments
@@ -310,7 +310,7 @@ public interface IMockBuilder<T> {
      *            the mock name
      * @return the newly created mock
      */
-    T createMock(String name);
+    <R> R createMock(String name);
 
     /**
      * Create a named nice mock from this builder. The same builder can be
@@ -320,7 +320,7 @@ public interface IMockBuilder<T> {
      *            the mock name
      * @return the newly created mock
      */
-    T createNiceMock(String name);
+    <R> R createNiceMock(String name);
 
     /**
      * Create named mock from the provided mock control using the arguments
@@ -332,7 +332,7 @@ public interface IMockBuilder<T> {
      *            {@link org.easymock.IMocksControl} used to create the object
      * @return the newly created mock
      */
-    T createMock(String name, IMocksControl control);
+    <R> R createMock(String name, IMocksControl control);
 
     /**
      * Create mock of the request type from this builder. The same builder can be called to
@@ -342,7 +342,7 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      * @since 4.0
      */
-    default T mock(MockType type) {
+    default <R> R mock(MockType type) {
         return createMock(type);
     }
 
@@ -353,7 +353,7 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      * @since 4.0
      */
-    default T strictMock() {
+    default <R> R strictMock() {
         return createStrictMock();
     }
 
@@ -364,7 +364,7 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      * @since 4.0
      */
-    default T mock() {
+    default <R> R mock() {
         return createMock();
     }
 
@@ -375,7 +375,7 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      * @since 4.0
      */
-    default T niceMock() {
+    default <R> R niceMock() {
         return createNiceMock();
     }
 
@@ -388,7 +388,7 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      * @since 4.0
      */
-    default T mock(IMocksControl control) {
+    default <R> R mock(IMocksControl control) {
         return createMock(control);
     }
 
@@ -403,7 +403,7 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      * @since 4.0
      */
-    default T mock(String name, MockType type) {
+    default <R> R mock(String name, MockType type) {
         return createMock(name, type);
     }
 
@@ -416,7 +416,7 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      * @since 4.0
      */
-    default T strictMock(String name) {
+    default <R> R strictMock(String name) {
         return createStrictMock(name);
     }
 
@@ -429,7 +429,7 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      * @since 4.0
      */
-    default T mock(String name) {
+    default <R> R mock(String name) {
         return createMock(name);
     }
 
@@ -442,7 +442,7 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      * @since 4.0
      */
-    default T niceMock(String name) {
+    default <R> R niceMock(String name) {
         return createNiceMock(name);
     }
 
@@ -457,7 +457,7 @@ public interface IMockBuilder<T> {
      * @return the newly created mock
      * @since 4.0
      */
-    default T mock(String name, IMocksControl control) {
+    default <R> R mock(String name, IMocksControl control) {
         return createMock(name, control);
     }
 }
