@@ -107,7 +107,6 @@
           <version>4.5.0</version>
           <extensions>true</extensions>
           <configuration>
-            <testFailSafe>false</testFailSafe>
             <test>
               <instrumentationPackage>org.easymock.android</instrumentationPackage>
               <instrumentationRunner>android.test.InstrumentationTestRunner</instrumentationRunner>
@@ -163,6 +162,22 @@
         <version>1.6.0</version>
         <inherited>false</inherited>
         <executions>
+          <execution>
+            <id>install</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>${android.home}/platform-tools/adb</executable>
+              <arguments>
+                <argument>install</argument>
+                <argument>-r</argument>
+                <argument>${project.build.directory}/${project.build.finalName}.apk</argument>
+              </arguments>
+              <skip>${skipTests}</skip>
+            </configuration>
+          </execution>
           <execution>
             <id>execute</id>
             <phase>integration-test</phase>
