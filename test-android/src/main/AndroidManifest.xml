@@ -38,7 +38,10 @@ limitations under the License.
 
     <instrumentation
         android:name=".AndroidTck"
-        android:targetPackage="org.easymock.android">
-    </instrumentation>
+        android:targetPackage="org.easymock.android"/>
+
+    <instrumentation android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="org.easymock.android"
+        android:label="EasyMock Android TCK."/>
 
 </manifest>

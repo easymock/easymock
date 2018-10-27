@@ -27,6 +27,8 @@
 
     <!-- No code coverage need on this project since it's only a test project -->
     <jacoco.skip>true</jacoco.skip>
+
+    <android.home>${env.ANDROID_HOME}</android.home>
   </properties>
 
   <dependencies>
@@ -168,7 +170,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>adb</executable>
+              <executable>${android.home}/platform-tools/adb</executable>
               <arguments>
                 <argument>shell</argument>
                 <argument>am</argument>
