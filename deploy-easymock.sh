@@ -79,10 +79,10 @@ echo "Update the Maven version"
 mvn versions:set -DnewVersion=${version} -Pall
 
 echo "Build"
-mvn -T 8.0C install -PfullBuild,deployBuild,all
+mvn clean install -PfullBuild,deployBuild,all
 
 echo "Deploy"
-mvn -T 8.0C deploy -PfullBuild,deployBuild,all -DskipTests
+mvn deploy -PfullBuild,deployBuild,all -DskipTests
 pause
 
 echo "Commit everything"
