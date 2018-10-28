@@ -43,11 +43,11 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!-- Use version 6.2 to be compliant with Java 11 -->
+    <!-- Use version 7.0 to be compliant with Java 11 -->
     <dependency>
       <groupId>org.ow2.asm</groupId>
       <artifactId>asm</artifactId>
-      <version>6.2.1</version>
+      <version>7.0</version>
       <scope>runtime</scope>
     </dependency>
     <!-- Used for class mocking -->
