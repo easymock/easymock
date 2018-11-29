@@ -57,18 +57,16 @@ public class EasyMock {
      * Creates a mock object that implements the given interface, order checking
      * is disabled by default.
      *
-     * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
      * @param toMock
      *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      *
      * @since 3.4
      */
-    public static <T, R> R mock(Class<T> toMock) {
+    public static <T> T mock(Class<?> toMock) {
         return createControl().mock(toMock);
     }
 
@@ -80,19 +78,16 @@ public class EasyMock {
      *            the name of the mock object.
      * @param toMock
      *            the class or interface that should be mocked.
-     *
      * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      *
      * @since 3.4
      */
-    public static <T, R> R mock(String name, Class<T> toMock) {
+    public static <T> T mock(String name, Class<?> toMock) {
         return createControl().mock(name, toMock);
     }
 
@@ -100,20 +95,18 @@ public class EasyMock {
      * Creates a mock object, of the requested type, that implements the given interface
      * or extends the given class
      *
-     * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
      * @param type
      *            the type of the mock to be created.
      * @param toMock
      *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object
      *
      * @since 3.4
      */
-    public static <T, R> R mock(MockType type, Class<T> toMock) {
+    public static <T> T mock(MockType type, Class<?> toMock) {
         return createControl(type).mock(toMock);
     }
 
@@ -121,22 +114,20 @@ public class EasyMock {
      * Creates a mock object, of the requested type and name, that implements the given interface
      * or extends the given class
      *
-     * @param <T>
-     *            the class or interface that should be mocked.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
      * @param name
      *            the name of the mock object.
      * @param type
      *            the type of the mock to be created.
      * @param toMock
      *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      *
      * @since 3.4
      */
-    public static <T, R> R mock(String name, MockType type, Class<T> toMock) {
+    public static <T> T mock(String name, MockType type, Class<?> toMock) {
         return createControl(type).mock(name, toMock);
     }
 
@@ -144,18 +135,16 @@ public class EasyMock {
      * Creates a mock object that implements the given interface, order checking
      * is enabled by default.
      *
-     * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
      * @param toMock
      *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      *
      * @since 3.4
      */
-    public static <T, R> R strictMock(Class<T> toMock) {
+    public static <T> T strictMock(Class<?> toMock) {
         return createStrictControl().mock(toMock);
     }
 
@@ -168,17 +157,15 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      *
      * @since 3.4
      */
-    public static <T, R> R strictMock(String name, Class<T> toMock) {
+    public static <T> T strictMock(String name, Class<?> toMock) {
         return createStrictControl().mock(name, toMock);
     }
 
@@ -187,18 +174,16 @@ public class EasyMock {
      * is disabled by default, and the mock object will return {@code 0},
      * {@code null} or {@code false} for unexpected invocations.
      *
-     * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
      * @param toMock
      *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      *
      * @since 3.4
      */
-    public static <T, R> R niceMock(Class<T> toMock) {
+    public static <T> T niceMock(Class<?> toMock) {
         return createNiceControl().mock(toMock);
     }
 
@@ -211,19 +196,16 @@ public class EasyMock {
      *            the name of the mock object.
      * @param toMock
      *            the class or interface that should be mocked.
-     *
      * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      *
      * @since 3.4
      */
-    public static <T, R> R niceMock(String name, Class<T> toMock) {
+    public static <T> T niceMock(String name, Class<?> toMock) {
         return createNiceControl().mock(name, toMock);
     }
 
@@ -231,15 +213,15 @@ public class EasyMock {
      * Create a mock builder allowing to create a partial mock for the given
      * class or interface.
      *
-     * @param <T>
-     *            the interface that the mock object should implement.
      * @param toMock
      *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement.
      * @return a mock builder to create a partial mock
      *
      * @since 3.4
      */
-    public static <T> IMockBuilder<T> partialMockBuilder(Class<T> toMock) {
+    public static <T> IMockBuilder<T> partialMockBuilder(Class<?> toMock) {
         return new MockBuilder<>(toMock);
     }
 
@@ -249,19 +231,17 @@ public class EasyMock {
      * <p>
      * <b>Note:</b> This is the old version of {@link #mock(MockType, Class)}, which is more completion friendly
      *
-     * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
      * @param type
      *            the type of the mock to be created.
      * @param toMock
      *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      * @since 3.2
      */
-    public static <T, R> R createMock(MockType type, Class<T> toMock) {
+    public static <T> T createMock(MockType type, Class<?> toMock) {
         return mock(type, toMock);
     }
 
@@ -271,21 +251,19 @@ public class EasyMock {
      * <p>
      * <b>Note:</b> This is the old version of {@link #mock(String, MockType, Class)}, which is more completion friendly
      *
-     * @param <T>
-     *            the class or interface that should be mocked.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
      * @param name
      *            the name of the mock object.
      * @param type
      *            the type of the mock to be created.
      * @param toMock
      *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      * @since 3.2
      */
-    public static <T, R> R createMock(String name, MockType type, Class<T> toMock) {
+    public static <T> T createMock(String name, MockType type, Class<?> toMock) {
         return mock(name, type, toMock);
     }
 
@@ -295,16 +273,14 @@ public class EasyMock {
      * <p>
      * <b>Note:</b> This is the old version of {@link #strictMock(Class)}, which is more completion friendly
      *
-     * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
      * @param toMock
      *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      */
-    public static <T, R> R createStrictMock(Class<T> toMock) {
+    public static <T> T createStrictMock(Class<?> toMock) {
         return strictMock(toMock);
     }
 
@@ -319,15 +295,13 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public static <T, R> R createStrictMock(String name, Class<T> toMock) {
+    public static <T> T createStrictMock(String name, Class<?> toMock) {
         return strictMock(name, toMock);
     }
 
@@ -337,16 +311,14 @@ public class EasyMock {
      * <p>
      * <b>Note:</b> This is the old version of {@link #mock(Class)}, which is more completion friendly
      *
-     * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
      * @param toMock
      *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      */
-    public static <T, R> R createMock(Class<T> toMock) {
+    public static <T> T createMock(Class<?> toMock) {
         return mock(toMock);
     }
 
@@ -360,17 +332,14 @@ public class EasyMock {
      *            the name of the mock object.
      * @param toMock
      *            the class or interface that should be mocked.
-     *
      * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public static <T, R> R createMock(String name, Class<T> toMock) {
+    public static <T> T createMock(String name, Class<?> toMock) {
         return mock(name, toMock);
     }
 
@@ -381,16 +350,14 @@ public class EasyMock {
      * <p>
      * <b>Note:</b> This is the old version of {@link #niceMock(Class)}, which is more completion friendly
      *
-     * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
      * @param toMock
      *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      */
-    public static <T, R> R createNiceMock(Class<T> toMock) {
+    public static <T> T createNiceMock(Class<?> toMock) {
         return niceMock(toMock);
     }
 
@@ -405,17 +372,14 @@ public class EasyMock {
      *            the name of the mock object.
      * @param toMock
      *            the class or interface that should be mocked.
-     *
      * @param <T>
-     *            the interface that the mock object should implement.
-     * @param <R>
-     *            the returned type. In general T == R but when mocking a generic type, it won't so to be nice with the
-     *            caller, we return a different type
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return the mock object.
      * @throws IllegalArgumentException
      *             if the name is not a valid Java identifier.
      */
-    public static <T, R> R createNiceMock(String name, Class<T> toMock) {
+    public static <T> T createNiceMock(String name, Class<?> toMock) {
         return niceMock(name, toMock);
     }
 
@@ -425,13 +389,14 @@ public class EasyMock {
      * <p>
      * <b>Note:</b> This is the old version of {@link #partialMockBuilder(Class)}, which is more completion friendly
      *
-     * @param <T>
-     *            the interface that the mock object should implement.
      * @param toMock
      *            the class or interface that should be mocked.
+     * @param <T>
+     *            the interface that the mock object should implement. It is expected to be of
+     *            class {@code toMock}.
      * @return a mock builder to create a partial mock
      */
-    public static <T> IMockBuilder<T> createMockBuilder(Class<T> toMock) {
+    public static <T> IMockBuilder<T> createMockBuilder(Class<?> toMock) {
         return partialMockBuilder(toMock);
     }
 

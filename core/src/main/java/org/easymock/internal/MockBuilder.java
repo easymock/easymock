@@ -52,17 +52,17 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         return !method.isSynthetic();
     };
 
-    private final Class<T> toMock;
+    private final Class<?> toMock;
 
     private Set<Method> mockedMethods;
 
-    private Constructor<T> constructor;
+    private Constructor<?> constructor;
 
     private ConstructorArgs constructorArgs;
 
     private final EasyMockSupport support;
 
-    public MockBuilder(Class<T> toMock) {
+    public MockBuilder(Class<?> toMock) {
         this(toMock, null);
     }
 
@@ -75,7 +75,7 @@ public class MockBuilder<T> implements IMockBuilder<T> {
      * @param support
      *            The EasyMockSupport used to create mocks. Null if none
      */
-    public MockBuilder(Class<T> toMock, EasyMockSupport support) {
+    public MockBuilder(Class<?> toMock, EasyMockSupport support) {
         this.toMock = toMock;
         this.support = support;
     }
@@ -117,17 +117,15 @@ public class MockBuilder<T> implements IMockBuilder<T> {
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     public IMockBuilder<T> withConstructor(Constructor<?> constructor) {
         checkConstructorNotInitialized();
-        this.constructor = (Constructor<T>) constructor;
+        this.constructor = constructor;
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     public IMockBuilder<T> withConstructor(ConstructorArgs constructorArgs) {
         checkConstructorNotInitialized();
-        this.constructor = (Constructor<T>) constructorArgs.getConstructor();
+        this.constructor = constructorArgs.getConstructor();
         this.constructorArgs = constructorArgs;
         return this;
     }
