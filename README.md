@@ -120,7 +120,6 @@ Android
 - Install the Android SDK
 - Configure a device (real or simulated)
 - Add an `ANDROID_HOME` to target the Android SDK
-- Add `$ANDROID_HOME/platform-tools` to your path 
 - Activate the debug mode if it's a real device
 - `mvn install -Pandroid`
 
