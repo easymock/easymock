@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # This script expects:
-# - github_user / github_password to be available environment variables
 # - gpg_passphrase to be an environment variable
 # - bintray_user to be an environment variable
 # - bintray_api_key to be an environment variable
@@ -42,8 +41,6 @@ tag=easymock-${version}
 # Get we have the environment variable we need
 message="should be an environment variable"
 [ -z "$gpg_passphrase" ] && echo "gpg_passphrase $message" && exit 1
-[ -z "$github_user" ] && echo "github_user $message" && exit 1
-[ -z "$github_password" ] && echo "github_password $message" && exit 1
 [ -z "$bintray_api_key" ] && echo "bintray_api_key $message" && exit 1
 [ -z "$bintray_user" ] && echo "bintray_user $message" && exit 1
 
@@ -58,13 +55,13 @@ echo
 pause
 
 echo "Generate the changelog"
-milestone=$(curl -s -u "${github_user}:${github_password}" "https://api.github.com/repos/easymock/easymock/milestones" | jq ".[] | select(.title==\"$version\") | .number")
-if [ $(curl -s -u "${github_user}:${github_password}" -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/easymock/easymock/issues?milestone=$milestone&state=open" | wc -l) != "3" ]; then
+milestone=$(curl -s "https://api.github.com/repos/easymock/easymock/milestones" | jq ".[] | select(.title==\"$version\") | .number")
+if [ $(curl -s "https://api.github.com/repos/easymock/easymock/issues?milestone=${milestone}&state=open" | wc -l) != "3" ]; then
     echo "There are unclosed issues on milestone $version. Please fix them or moved them to a later release"
     exit 1
 fi
 
-./generate-changelog.sh easymock/easymock ${milestone} ${github_user} ${github_password} >> ReleaseNotes.md
+./generate-changelog.sh easymock/easymock ${milestone} >> ReleaseNotes.md
 
 echo "Check the release notes"
 pause
