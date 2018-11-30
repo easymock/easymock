@@ -20,6 +20,3 @@ mvn versions:commit -Pall
 # Commit
 git commit -am "Start version $version"
 git push
-
-# Create next version in Jira (http://jira.codehaus.org/plugins/servlet/project-config/EASYMOCK/versions)
-curl -D- -u ${jira_user}:${jira_password} -X POST --data '{ "description": "EasyMock $version", "name": "$version", "archived": false, "released": false, "project": "EASYMOCK", "projectId": 12103 }' -H "Content-Type:application/json" https://jira.codehaus.org/rest/api/2/version
