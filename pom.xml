@@ -34,17 +34,22 @@
   </developers>
 
   <issueManagement>
-    <system>Codehaus</system>
-    <url>http://jira.codehaus.org/browse/EASYMOCK</url>
+    <system>GitHub</system>
+    <url>https://github.com/easymock/easymock/issues</url>
   </issueManagement>
+
+  <ciManagement>
+	  <system>Travis</system>
+    <url>https://travis-ci.org/easymock/easymock</url>
+  </ciManagement>
 
   <mailingLists>
     <mailingList>
-      <name>User List</name>
-      <subscribe>From Yahoo groups</subscribe>
-      <unsubscribe>easymock-unsubscribe@yahoogroups.com</unsubscribe>
-      <post>easymock@yahoogroups.com</post>
-      <archive>http://tech.groups.yahoo.com/group/easymock/</archive>
+      <name>Gitter</name>
+      <subscribe>https://gitter.im/home/explore/tags/subscription</subscribe>
+      <unsubscribe>https://gitter.im/easymock/easymock</unsubscribe>
+      <post>https://gitter.im/easymock/easymock</post>
+      <archive>https://gitter.im/easymock/easymock</archive>
     </mailingList>
   </mailingLists>
 
@@ -201,7 +206,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.7</version>
+          <version>3.7.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
