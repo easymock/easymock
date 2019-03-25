@@ -14,10 +14,10 @@ install:
   - unzip -q -n $HOME/android-sdk-dl/tools_r25.2.5-linux.zip -d $HOME/android-sdk
 
   # Install or update Android SDK components (will not do anything if already up to date thanks to the cache mechanism)
-  - yes | $HOME/android-sdk/tools/bin/sdkmanager 'tools'
-  - yes | $HOME/android-sdk/tools/bin/sdkmanager 'platform-tools'
-  - yes | $HOME/android-sdk/tools/bin/sdkmanager 'build-tools;27.0.1'
-  - yes | $HOME/android-sdk/tools/bin/sdkmanager 'platforms;android-27'
+  - yes | $HOME/android-sdk/tools/bin/sdkmanager 'tools' | grep -v =
+  - yes | $HOME/android-sdk/tools/bin/sdkmanager 'platform-tools' | grep -v =
+  - yes | $HOME/android-sdk/tools/bin/sdkmanager 'build-tools;27.0.1' | grep -v =
+  - yes | $HOME/android-sdk/tools/bin/sdkmanager 'platforms;android-27' | grep -v =
 env:
   - ANDROID_HOME=$HOME/android-sdk
 script:
