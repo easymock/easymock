@@ -17,10 +17,10 @@ package org.easymock;
 
 /**
  * Used to answer expected calls.
- * 
+ *
  * @param <T>
  *            the type to return.
- * 
+ *
  * @author OFFIS, Tammo Freese
  */
 public interface IAnswer<T> {
@@ -29,9 +29,9 @@ public interface IAnswer<T> {
      * Is called by EasyMock to answer an expected call. The answer may be to
      * return a value, or to throw an exception. The arguments of the call for
      * which the answer is generated are available via
-     * {@link EasyMock#getCurrentArguments()} - be careful here, using the
-     * arguments is not refactoring-safe.
-     * 
+     * {@link EasyMock#getCurrentArgument(int)} or {@link EasyMock#getCurrentArguments()}.
+     * The former method is preferred since it will infer the argument type.
+     *
      * @return the value to be returned
      * @throws Throwable
      *             the throwable to be thrown

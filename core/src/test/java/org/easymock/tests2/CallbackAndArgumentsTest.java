@@ -15,6 +15,7 @@
  */
 package org.easymock.tests2;
 
+import org.easymock.EasyMock;
 import org.easymock.tests.IMethods;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,10 +41,25 @@ public class CallbackAndArgumentsTest {
         final StringBuilder buffer = new StringBuilder();
 
         mock.simpleMethodWithArgument(notNull());
-        expectLastCall().andAnswer(() -> {
-            buffer.append((String) getCurrentArguments()[0]);
-            return null;
-        }).times(2);
+        expectLastCall().andAnswer(() -> buffer.append((String) getCurrentArguments()[0])).times(2);
+
+        replay(mock);
+
+        mock.simpleMethodWithArgument("1");
+        mock.simpleMethodWithArgument("2");
+
+        verify(mock);
+
+        assertEquals("12", buffer.toString());
+    }
+
+    @Test
+    public void callbackGetsArgument() {
+
+        final StringBuilder buffer = new StringBuilder();
+
+        mock.simpleMethodWithArgument(notNull());
+        expectLastCall().andAnswer(() -> buffer.append(EasyMock.<String>getCurrentArgument(0))).times(2);
 
         replay(mock);
 
@@ -58,6 +74,11 @@ public class CallbackAndArgumentsTest {
     @Test(expected = IllegalStateException.class)
     public void currentArgumentsFailsOutsideCallbacks() {
         getCurrentArguments();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void currentArgumentFailsOutsideCallbacks() {
+        getCurrentArgument(0);
     }
 
     @Test

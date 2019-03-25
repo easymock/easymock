@@ -2145,6 +2145,11 @@ public class EasyMock {
         return result.getArguments();
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T getCurrentArgument(int index) {
+        return (T) getCurrentArguments()[index];
+    }
+
     /**
      * By default, a mock is thread safe (unless
      * {@link #NOT_THREAD_SAFE_BY_DEFAULT} is set). This method can change this

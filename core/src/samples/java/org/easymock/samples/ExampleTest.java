@@ -126,7 +126,7 @@ public class ExampleTest extends EasyMockSupport {
         List<String> l = createMock(List.class);
 
         // andAnswer style
-        expect(l.remove(10)).andAnswer(() -> getCurrentArguments()[0].toString());
+        expect(l.remove(10)).andAnswer(() -> getCurrentArgument(0).toString());
 
         // andDelegateTo style
         expect(l.remove(10)).andDelegateTo(new ArrayList<String>() {
