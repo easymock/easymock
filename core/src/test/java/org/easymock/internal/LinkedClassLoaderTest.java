@@ -15,9 +15,7 @@
  */
 package org.easymock.internal;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.*;
 
@@ -25,9 +23,6 @@ import static org.junit.Assert.*;
  * @author Henri Tremblay
  */
 public class LinkedClassLoaderTest {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void findClass() throws Exception {
@@ -37,8 +32,7 @@ public class LinkedClassLoaderTest {
         assertSame(String.class, classLoader.findClass(String.class.getName()));
         assertSame(getClass(), classLoader.findClass(getClass().getName()));
 
-        expectedException.expect(ClassNotFoundException.class);
-        classLoader.findClass(Test.class.getName());
+        assertThrows(ClassNotFoundException.class, () -> classLoader.findClass(Test.class.getName()));
     }
 
 }

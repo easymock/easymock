@@ -18,21 +18,16 @@ package org.easymock.tests;
 import org.easymock.EasyMock;
 import org.easymock.IExpectationSetters;
 import org.easymock.IMocksControl;
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-import static org.easymock.EasyMock.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
  */
 public class ReplayStateInvalidUsageTest {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     private IMethods mock;
 
@@ -52,92 +47,79 @@ public class ReplayStateInvalidUsageTest {
 
     @Test
     public void setVoidCallable() {
-        expectedException.expect(IllegalStateException.class);
-        expectLastCall();
+        assertThrows(IllegalStateException.class, EasyMock::expectLastCall);
     }
 
     @Test
     public void replay() {
-        expectedException.expect(IllegalStateException.class);
-        EasyMock.replay(mock);
+        assertThrows(IllegalStateException.class, () -> EasyMock.replay(mock));
     }
 
     @Test
     public void replaySameMethod() {
         EasyMock.reset(mock);
-        expectedException.expect(RuntimeException.class);
-        expectedException.expectMessage("On mock #1 (zero indexed): This method must not be called in replay state.");
-        expectedException.expectCause(CoreMatchers.isA(IllegalStateException.class));
-        EasyMock.replay(mock, mock);
+
+        RuntimeException t = assertThrows(RuntimeException.class, () -> EasyMock.replay(mock, mock));
+        assertEquals(IllegalStateException.class, t.getCause().getClass());
+        assertEquals("On mock #1 (zero indexed): This method must not be called in replay state.", t.getMessage());
     }
 
     @Test
     public void createMock() {
-        expectedException.expect(IllegalStateException.class);
-        mocksControl.createMock(IMethods.class);
+        assertThrows(IllegalStateException.class, () -> mocksControl.createMock(IMethods.class));
     }
 
     @Test
     public void createMockWithName() {
-        expectedException.expect(IllegalStateException.class);
-        mocksControl.createMock("", IMethods.class);
+        assertThrows(IllegalStateException.class, () -> mocksControl.createMock("", IMethods.class));
     }
 
     @Test
     public void checkOrder() {
-        expectedException.expect(IllegalStateException.class);
-        mocksControl.checkOrder(true);
+        assertThrows(IllegalStateException.class, () -> mocksControl.checkOrder(true));
     }
 
     @Test
     public void makeThreadSafe() {
-        expectedException.expect(IllegalStateException.class);
-        mocksControl.makeThreadSafe(true);
+        assertThrows(IllegalStateException.class, () -> mocksControl.makeThreadSafe(true));
     }
 
     @Test
     public void checkIsUsedInOneThread() {
-        expectedException.expect(IllegalStateException.class);
-        mocksControl.checkIsUsedInOneThread(true);
+        assertThrows(IllegalStateException.class, () -> mocksControl.checkIsUsedInOneThread(true));
     }
 
     @Test
     public void andStubReturn() {
-        expectedException.expect(IllegalStateException.class);
-        expectationSetters.andStubReturn("7");
+        assertThrows(IllegalStateException.class, () -> expectationSetters.andStubReturn("7"));
     }
 
     @Test
     public void andStubThrow() {
-        expectedException.expect(IllegalStateException.class);
-        expectationSetters.andStubThrow(new RuntimeException());
+        assertThrows(IllegalStateException.class, () -> expectationSetters.andStubThrow(new RuntimeException()));
     }
 
     @Test
     public void asStub() {
-        expectedException.expect(IllegalStateException.class);
-        expectationSetters.asStub();
+        assertThrows(IllegalStateException.class, () -> expectationSetters.asStub());
     }
 
     @Test
     public void times() {
-        expectedException.expect(IllegalStateException.class);
-        expectationSetters.times(3);
+        assertThrows(IllegalStateException.class, () -> expectationSetters.times(3));
     }
 
     @Test
     public void anyTimes() {
-        expectedException.expect(IllegalStateException.class);
-        expectationSetters.anyTimes();
+        assertThrows(IllegalStateException.class, () -> expectationSetters.anyTimes());
     }
 
     @Test
     public void manyMocks() {
         EasyMock.reset(mock);
 
-        expectedException.expect(RuntimeException.class);
-        expectedException.expectCause(CoreMatchers.isA(IllegalStateException.class));
-        expectedException.expectMessage("On mock #1 (zero indexed): This method must not be called in replay state.");
-        EasyMock.replay(mock, mock);
+        RuntimeException t = assertThrows(RuntimeException.class, () -> EasyMock.replay(mock, mock));
+        assertEquals(IllegalStateException.class, t.getCause().getClass());
+        assertEquals("On mock #1 (zero indexed): This method must not be called in replay state.", t.getMessage());
     }
 }

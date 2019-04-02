@@ -16,15 +16,12 @@
 package org.easymock.tests2;
 
 import org.easymock.internal.ReflectionUtils;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 import static org.easymock.internal.ReflectionUtils.*;
-import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -67,9 +64,6 @@ public class ReflectionUtilsTest {
         void packageMethod() {}
     }
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
     @Test
     public void testGetConstructor_public() throws NoSuchMethodException {
         Constructor<A> c = ReflectionUtils.getConstructor(A.class, 5);
@@ -89,27 +83,23 @@ public class ReflectionUtilsTest {
     }
 
     @Test
-    public void testGetConstructor_private() throws NoSuchMethodException {
-        expectedException.expect(NoSuchMethodException.class);
-        ReflectionUtils.getConstructor(A.class, (byte) 5);
+    public void testGetConstructor_private() {
+        assertThrows(NoSuchMethodException.class, () -> ReflectionUtils.getConstructor(A.class, (byte) 5));
     }
 
     @Test
-    public void testGetConstructor_twoMatching() throws NoSuchMethodException {
-        expectedException.expect(IllegalArgumentException.class);
-        ReflectionUtils.getConstructor(A.class, new StringBuilder());
+    public void testGetConstructor_twoMatching() {
+        assertThrows(IllegalArgumentException.class, () -> ReflectionUtils.getConstructor(A.class, new StringBuilder(0)));
     }
 
     @Test
-    public void testGetConstructor_notFound() throws NoSuchMethodException {
-        expectedException.expect(NoSuchMethodException.class);
-        ReflectionUtils.getConstructor(A.class, true);
+    public void testGetConstructor_notFound() {
+        assertThrows(NoSuchMethodException.class, () -> ReflectionUtils.getConstructor(A.class, true));
     }
 
     @Test
-    public void testGetConstructor_WrongParams() throws NoSuchMethodException {
-        expectedException.expect(NoSuchMethodException.class);
-        ReflectionUtils.getConstructor(A.class, "", "");
+    public void testGetConstructor_WrongParams() {
+        assertThrows(NoSuchMethodException.class, () -> ReflectionUtils.getConstructor(A.class, "", ""));
     }
 
     @Test
@@ -128,8 +118,8 @@ public class ReflectionUtilsTest {
 
     @Test
     public void testGetDeclareMethod_NotFound() {
-        expectedException.expectCause(isA(NoSuchMethodException.class));
-        ReflectionUtils.getDeclaredMethod(A.class, "foo");
+        RuntimeException t = assertThrows(RuntimeException.class, () -> ReflectionUtils.getDeclaredMethod(A.class, "foo"));
+        assertEquals(NoSuchMethodException.class, t.getCause().getClass());
     }
 
     @Test
