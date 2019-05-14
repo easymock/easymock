@@ -14,7 +14,7 @@
 
   <licenses>
     <license>
-      <name>Apache 2</name>
+      <name>Apache License, Version 2.0</name>
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
     </license>
@@ -178,7 +178,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
+          <version>3.8.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
