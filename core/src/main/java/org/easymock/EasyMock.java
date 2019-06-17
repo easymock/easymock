@@ -60,7 +60,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      *
@@ -79,7 +79,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      * @throws IllegalArgumentException
@@ -100,7 +100,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object
      *
@@ -121,7 +121,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      *
@@ -138,7 +138,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      *
@@ -157,7 +157,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      * @throws IllegalArgumentException
@@ -177,7 +177,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      *
@@ -197,7 +197,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      * @throws IllegalArgumentException
@@ -216,7 +216,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement.
+     *            the class that the mock object should extend.
      * @return a mock builder to create a partial mock
      *
      * @since 3.4
@@ -236,7 +236,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      * @since 3.2
@@ -258,7 +258,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      * @since 3.2
@@ -276,7 +276,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      */
@@ -295,7 +295,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      * @throws IllegalArgumentException
@@ -314,7 +314,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      */
@@ -333,7 +333,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      * @throws IllegalArgumentException
@@ -353,7 +353,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      */
@@ -373,7 +373,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return the mock object.
      * @throws IllegalArgumentException
@@ -392,7 +392,7 @@ public class EasyMock {
      * @param toMock
      *            the class or interface that should be mocked.
      * @param <T>
-     *            the interface that the mock object should implement. It is expected to be of
+     *            the class or interface that the mock object should extend/implement. It is expected to be of
      *            class {@code toMock}.
      * @return a mock builder to create a partial mock
      */
