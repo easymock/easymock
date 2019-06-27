@@ -2,6 +2,9 @@ language: java
 sudo: false
 cache:
   directories:
+    # Maven
+    - $HOME/.m2
+
     # Android SDK
     - $HOME/android-sdk-dl
     - $HOME/android-sdk
