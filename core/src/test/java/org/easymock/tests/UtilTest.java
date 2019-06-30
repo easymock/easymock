@@ -17,12 +17,12 @@ package org.easymock.tests;
 
 import org.easymock.IMocksControl;
 import org.easymock.MockType;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import static org.easymock.EasyMock.createNiceControl;
 import static org.easymock.EasyMock.mock;
 import static org.easymock.EasyMock.niceMock;
-import static org.testng.Assert.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
