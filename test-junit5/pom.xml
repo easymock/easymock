@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.easymock</groupId>
+    <artifactId>easymock-parent</artifactId>
+    <version>4.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>easymock-test-junit5</artifactId>
+  <packaging>jar</packaging>
+  <name>EasyMock Test JUnit 5</name>
+  <description>EasyMock Test JUnit 5 is a test project making sure EasyMock is compatible with other JUnit 5</description>
+  <inceptionYear>2009</inceptionYear>
+
+  <developers>
+    <developer>
+      <id>henri</id>
+      <name>Henri Tremblay</name>
+      <url>http://blog.tremblay.pro/</url>
+      <timezone>-5</timezone>
+    </developer>
+  </developers>
+
+  <properties>
+    <!-- No code coverage need on this project since it's only a test project -->
+    <jacoco.skip>true</jacoco.skip>
+
+    <!-- Versions -->
+    <powermock.version>2.0.2</powermock.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+	<dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+	</dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <profiles>
+    <profile>
+      <id>fullBuild</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.mycila</groupId>
+            <artifactId>license-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
