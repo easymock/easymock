@@ -686,9 +686,9 @@ expectLastCall().andReturn((byte) 42);
 
         <p>Sometimes we would like our mock object to return a value or throw an exception that is created at the time of the actual call. Since EasyMock 2.2, the object returned by <code>expectLastCall()</code> and <code>expect(T value)</code> provides the method <code>andAnswer(IAnswer answer)</code> which allows to specify an implementation of the interface <code>IAnswer</code> that is used to create the return value or exception.</p>
 
-        <p>Inside an <code>IAnswer</code> callback, the arguments passed to the mock call are available via <code>EasyMock.getCurrentArguments()</code>. If you use these, refactorings like reordering parameters may break your tests. You have been warned.</p>
+        <p>Inside an <code>IAnswer</code> callback, the arguments passed to the mock call are available via <code>EasyMock.getCurrentArgument(int index)</code>. If you use these, refactorings like reordering parameters may break your tests. You have been warned.</p>
 
-        <p>An alternative to <code>IAnswer</code> are the <code>andDelegateTo</code> and <code>andStubDelegateTo</code> methods. They allow to delegate the call to a concrete implementation of the mocked interface that will then provide the answer. The pros are that the arguments found in <code>EasyMock.getCurrentArguments()</code> for <code>IAnswer</code> are now passed to the method of the concrete implementation. This is refactoring safe. The cons are that you have to provide an implementation which is kind of doing a mock manually... Which is what you try to avoid by using EasyMock. It can also be painful if the interface has many methods. Finally, the type of the concrete class can't be checked statically against the mock type. If for some reason, the concrete class isn't implementing the method that is delegated, you will get an exception during the replay only. However, this case should be quite rare.</p>
+        <p>An alternative to <code>IAnswer</code> are the <code>andDelegateTo</code> and <code>andStubDelegateTo</code> methods. They allow to delegate the call to a concrete implementation of the mocked interface that will then provide the answer. The pros are that the arguments found in <code>EasyMock.getCurrentArgument()</code> for <code>IAnswer</code> are now passed to the method of the concrete implementation. This is refactoring safe. The cons are that you have to provide an implementation which is kind of doing a mock manually... Which is what you try to avoid by using EasyMock. It can also be painful if the interface has many methods. Finally, the type of the concrete class can't be checked statically against the mock type. If for some reason, the concrete class isn't implementing the method that is delegated, you will get an exception during the replay only. However, this case should be quite rare.</p>
 
         <p>To understand correctly the two options, here is an example:</p>
 
@@ -696,11 +696,7 @@ expectLastCall().andReturn((byte) 42);
 List<String> l = mock(List.class);
 
 // andAnswer style
-expect(l.remove(10)).andAnswer(new IAnswer<String>() {
-  public String answer() throws Throwable {
-    return getCurrentArguments()[0].toString();
-  }
-});
+expect(l.remove(10)).andAnswer(() -> getCurrentArgument(0).toString());
 
 // andDelegateTo style
 expect(l.remove(10)).andDelegateTo(new ArrayList<String>() {
