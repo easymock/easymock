@@ -21,8 +21,8 @@ Environment setup
 -----------------
 
 I'm using:
-- IntelliJ 2017.3 Ultimate (thanks to JetBrains for the license)
-- Maven 3.5.0
+- IntelliJ 2019.3 Ultimate (thanks to JetBrains for the license)
+- Maven 3.6.2
 
 You can also use Eclipse. I tried 
 - Eclipse 4.5.0 (Mars)
