@@ -26,7 +26,7 @@
   </developers>
 
   <properties>
-    <paxexam.version>4.12.0</paxexam.version>
+    <paxexam.version>4.13.1</paxexam.version>
     <!-- No code coverage need on this project since it's only a test project -->
     <jacoco.skip>true</jacoco.skip>
   </properties>
@@ -69,14 +69,14 @@
     <dependency>
       <groupId>org.ops4j.pax.url</groupId>
       <artifactId>pax-url-wrap</artifactId>
-      <version>2.5.4</version>
+      <version>2.6.1</version>
     </dependency>
 
     <!-- And this is our OSGi container -->
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.framework</artifactId>
-      <version>6.0.1</version>
+      <version>6.0.3</version>
       <scope>test</scope>
     </dependency>
 
