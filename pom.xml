@@ -56,9 +56,9 @@
   <properties>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <spotbugs-maven-plugin.version>3.1.11</spotbugs-maven-plugin.version>
-    <spotbugs.version>3.1.11</spotbugs.version>
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+    <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
+    <spotbugs.version>4.0.0-beta4</spotbugs.version>
   </properties>
 
   <scm>
