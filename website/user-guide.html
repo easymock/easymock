@@ -223,6 +223,33 @@ public class ExampleTest {
 }
 {% endhighlight %}
 
+        <p>Finally, since EasyMock 4.1, JUnit 5 extensions are supported.</p>
+
+{% highlight java %}
+import static org.easymock.EasyMock.*;
+import org.easymock.EasyMockExtension;
+import org.easymock.TestSubject;
+import org.easymock.Mock;
+import org.junit.Rule;
+import org.junit.Test;
+
+@ExtendWith(EasyMockExtension.class)
+public class ExampleTest {
+
+  @TestSubject
+  private ClassUnderTest classUnderTest = new ClassUnderTest();
+
+  @Mock
+  private Collaborator mock;
+
+  @Test
+  public void testRemoveNonExistingDocument() {
+    replay(mock);
+    classUnderTest.removeDocument("Does not exist");
+  }
+}
+{% endhighlight %}
+
         <p>The annotation has an optional element, 'type', to refine the mock as a 'nice' mock or a 'strict' mock. Another optional annotation, 'name', allows setting of a name for the mock that will be used in the <code>mock()</code> call, which will appear in expectation failure messages for example. Finally, an optional element, "fieldName", allows specifying the target field name where the mock should be injected. Mocks are injected to any field in any <code>@TestSubject</code> that is of compatible type. If more than one mock can be assigned to the same field then this is considered an error. The <code>fieldName</code> qualifier can be used in this scenario to disambiguate the assignments.</p>
 
 {% highlight java %}
