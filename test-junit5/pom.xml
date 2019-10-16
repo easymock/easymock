@@ -10,11 +10,11 @@
     <version>4.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>easymock-test-java8</artifactId>
+  <artifactId>easymock-test-junit5</artifactId>
   <packaging>jar</packaging>
-  <name>EasyMock Test Java 8</name>
-  <description>EasyMock Test Java 8 is a test project making sure EasyMock is working with Java 8 specific features</description>
-  <inceptionYear>2018</inceptionYear>
+  <name>EasyMock Test JUnit 5</name>
+  <description>EasyMock Test JUnit 5 is a test project making sure EasyMock is compatible with JUnit 5</description>
+  <inceptionYear>2019</inceptionYear>
 
   <developers>
     <developer>
@@ -37,21 +37,11 @@
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
+	<dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
+	</dependency>
   </dependencies>
 
   <build>

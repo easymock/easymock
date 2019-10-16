@@ -483,6 +483,7 @@
     <module>test-nodeps</module>
     <module>test-testng</module>
     <module>test-java8</module>
+    <module>test-junit5</module>
   </modules>
 
   <distributionManagement>
