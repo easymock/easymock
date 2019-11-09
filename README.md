@@ -73,22 +73,15 @@ To update the versions
 - `mvn versions:set -DnewVersion=X.Y -Pall`
 - `mvn versions:commit -Pall` if everything is ok, `mvn versions:revert -Pall` otherwise
 
-Configure to deploy to the Sonatype maven repository
+Configure to deploy to the Bintray maven repository
 ----------------------------------------------------
 - You will first need to add something like this to your settings.xml
 ```xml
-<servers>
-  <server>
-    <id>sonatype-nexus-snapshots</id>
-    <username>sonatypeuser</username>
-    <password>sonatypepassword</password>
-  </server>
-  <server>
-    <id>sonatype-nexus-staging</id>
-    <username>sonatypeuser</username>
-    <password>sonatypepassword</password>
-  </server>
-</servers>
+<server>
+  <id>bintray</id>
+  <username>user</username>
+  <password>password</password>
+</server>
 ```
 - Then follow the instructions from the site below to create your key to sign the deployed items
 
@@ -96,7 +89,7 @@ http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven
 
 To build the maven site (with spotbugs, checkstyle, jdepends and JavaNCSS reports)
 --------------------------------------------------------------------------------------
-- You will to give enough memory to maven with 'set MAVEN_OPTS=-Xmx512m' (or setting it as environment variable)
+- You will to give enough memory to maven with `export MAVEN_OPTS=-Xmx512m` (or setting it as environment variable)
 - Then type `mvn site`
 
 To check dependencies and plugins versions
