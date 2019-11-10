@@ -39,6 +39,12 @@
         </configuration>
       </plugin>
       <plugin>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <dependencies>
           <dependency>
