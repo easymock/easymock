@@ -20,8 +20,8 @@ import java.lang.reflect.Field;
 
 /**
  * Class wrapping arguments to create a partial class mock that gets
- * instantiated by calling one of its constructors
- * 
+ * instantiated by calling one of its constructors.
+ *
  * @author Henri Tremblay
  */
 public class ConstructorArgs {

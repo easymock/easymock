@@ -16,29 +16,29 @@
 package org.easymock;
 
 /**
- * Defines how arguments will be captured by a <tt>Capture</tt> object
- * 
+ * Defines how arguments will be captured by a <tt>Capture</tt> object.
+ *
  * @author Henri Tremblay
  * @see Capture
  */
 public enum CaptureType {
     /**
-     * Do not capture anything
+     * Do not capture anything.
      */
     NONE,
 
     /**
-     * Will capture the argument of the first matching call
+     * Will capture the argument of the first matching call.
      */
     FIRST,
 
     /**
-     * Will capture the argument of the last matching call
+     * Will capture the argument of the last matching call.
      */
     LAST,
 
     /**
-     * Will capture, in order, the arguments of each matching calls
+     * Will capture, in order, the arguments of each matching calls.
      */
     ALL
 }

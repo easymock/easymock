@@ -44,7 +44,7 @@ public class Capture<T> implements Serializable {
     }
 
     /**
-     * Constructor allowing to select the capture type
+     * Constructor allowing to select the capture type.
      *
      * @param type
      *            capture type
@@ -54,7 +54,7 @@ public class Capture<T> implements Serializable {
     }
 
     /**
-     * Create a new capture instance that will keep only the last captured value
+     * Create a new capture instance that will keep only the last captured value.
      *
      * @param <T> type of the class to be captured
      * @return the new capture object
@@ -64,7 +64,7 @@ public class Capture<T> implements Serializable {
     }
 
     /**
-     * Create a new capture instance with a specific {@link org.easymock.CaptureType}
+     * Create a new capture instance with a specific {@link org.easymock.CaptureType}.
      *
      * @param type capture type wanted
      * @param <T> type of the class to be captured
@@ -75,7 +75,7 @@ public class Capture<T> implements Serializable {
     }
 
     /**
-     * Will reset capture to a "nothing captured yet" state
+     * Will reset capture to a "nothing captured yet" state.
      */
     public void reset() {
         values.clear();
@@ -89,7 +89,7 @@ public class Capture<T> implements Serializable {
     }
 
     /**
-     * Return captured value
+     * Return captured value.
      *
      * @throws AssertionError
      *             if nothing was captured yet or if more than one value was
@@ -108,7 +108,7 @@ public class Capture<T> implements Serializable {
 
     /**
      * Return all captured values. It returns the actual list so you can modify
-     * it's content if needed
+     * it's content if needed.
      *
      * @return The currently captured values
      */
@@ -117,7 +117,7 @@ public class Capture<T> implements Serializable {
     }
 
     /**
-     * Used internally by the EasyMock framework to add a new captured value
+     * Used internally by the EasyMock framework to add a new captured value.
      *
      * @param value
      *            Value captured
