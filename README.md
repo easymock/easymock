@@ -22,9 +22,9 @@ Environment setup
 
 I'm using:
 - IntelliJ 2019.3 Ultimate (thanks to JetBrains for the license)
-- Maven 3.6.2
+- Maven 3.6.3
 
-You can also use Eclipse. I tried 
+You can also use Eclipse. I tried
 - Eclipse 4.5.0 (Mars)
 - Say yes to all the plugins an m2 connectors to install
 
