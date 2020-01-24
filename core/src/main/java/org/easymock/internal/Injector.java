@@ -17,6 +17,7 @@ package org.easymock.internal;
 
 import org.easymock.*;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -77,8 +78,17 @@ public class Injector {
                 throw new AssertionError(e);
                 // ///CLOVER:ON
             }
-            if(testSubject == null) {
-                throw new NullPointerException("Have you forgotten to instantiate " + f.getName() + "?");
+            if (testSubject == null) {
+                try {
+                    testSubject = instantiateTestSubject(f);
+                    if (testSubject == null) {
+                        throw new NullPointerException("Have you forgotten to instantiate " + f.getName() + "?");
+                    }
+                    f.setAccessible(true);
+                    f.set(host, testSubject);
+                } catch (ReflectiveOperationException e) {
+                    throw new NullPointerException("Failed to instantiate " + f.getName() + " automatically");
+                }
             }
             Class<?> testSubjectClass = testSubject.getClass();
             while (testSubjectClass != Object.class) {
@@ -152,6 +162,21 @@ public class Injector {
             mockType = valueMockType;
         }
         return mockType;
+    }
+
+    /**
+     * Tries instantiating a class annotated with {@link TestSubject} using its default constructor.
+     * @param testSubjectField class to instantiate
+     */
+    private static Object instantiateTestSubject(Field testSubjectField) {
+        Class<?> type = testSubjectField.getType();
+        try {
+            Constructor<?> defaultConstructor = type.getDeclaredConstructor();
+            defaultConstructor.setAccessible(true);
+            return defaultConstructor.newInstance();
+        } catch (ReflectiveOperationException e) {
+            return null;
+        }
     }
 
     /**
