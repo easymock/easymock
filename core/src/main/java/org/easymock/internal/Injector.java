@@ -19,6 +19,7 @@ import org.easymock.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,15 +80,13 @@ public class Injector {
                 // ///CLOVER:ON
             }
             if (testSubject == null) {
+                // The attribute isn't initialized, try to call the default constructor
+                testSubject = instantiateTestSubject(f);
                 try {
-                    testSubject = instantiateTestSubject(f);
-                    if (testSubject == null) {
-                        throw new NullPointerException("Have you forgotten to instantiate " + f.getName() + "?");
-                    }
                     f.setAccessible(true);
                     f.set(host, testSubject);
                 } catch (ReflectiveOperationException e) {
-                    throw new NullPointerException("Failed to instantiate " + f.getName() + " automatically");
+                    throw new AssertionError("Failed to assign the created TestSubject to  " + f.getName(), e);
                 }
             }
             Class<?> testSubjectClass = testSubject.getClass();
@@ -104,6 +103,28 @@ public class Injector {
                         String.format("Unsatisfied qualifier: '%s'", injection.getAnnotation().fieldName()));
             }
         }
+    }
+
+    static <T> T instantiateTestSubject(Field f) {
+        T testSubject;
+        @SuppressWarnings("unchecked")
+        Class<T> type = (Class<T>) f.getType();
+        if(type.isMemberClass() && !Modifier.isStatic(type.getModifiers())) {
+            throw new AssertionError("TestSubject is an inner class. You need to instantiate '" + f.getName() + "' manually");
+        }
+        Constructor<T> defaultConstructor;
+        try {
+            defaultConstructor = type.getDeclaredConstructor();
+        } catch (NoSuchMethodException e) {
+            throw new AssertionError("TestSubject is null and has no default constructor. You need to instantiate '" + f.getName() + "' manually");
+        }
+        defaultConstructor.setAccessible(true);
+        try {
+            testSubject = defaultConstructor.newInstance();
+        } catch (ReflectiveOperationException e) {
+            throw new AssertionError("TestSubject is null and default constructor fails on invocation. You need to instantiate '" + f.getName() + "' manually", e);
+        }
+        return testSubject;
     }
 
     /**
@@ -162,21 +183,6 @@ public class Injector {
             mockType = valueMockType;
         }
         return mockType;
-    }
-
-    /**
-     * Tries instantiating a class annotated with {@link TestSubject} using its default constructor.
-     * @param testSubjectField class to instantiate
-     */
-    private static Object instantiateTestSubject(Field testSubjectField) {
-        Class<?> type = testSubjectField.getType();
-        try {
-            Constructor<?> defaultConstructor = type.getDeclaredConstructor();
-            defaultConstructor.setAccessible(true);
-            return defaultConstructor.newInstance();
-        } catch (ReflectiveOperationException e) {
-            return null;
-        }
     }
 
     /**

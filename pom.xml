@@ -596,6 +596,13 @@
         <module>test-deploy</module>
       </modules>
     </profile>
+    <profile>
+      <id>all-no-android</id>
+      <modules>
+        <module>bench</module>
+        <module>test-deploy</module>
+      </modules>
+    </profile>
   </profiles>
 
 </project>
