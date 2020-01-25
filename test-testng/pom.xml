@@ -50,7 +50,7 @@
           <dependency>
             <groupId>org.apache.maven.surefire</groupId>
             <artifactId>surefire-testng</artifactId>
-            <version>3.0.0-M3</version>
+            <version>3.0.0-M4</version>
           </dependency>
         </dependencies>
         <configuration>
@@ -87,6 +87,7 @@
           <plugin>
             <groupId>com.mycila</groupId>
             <artifactId>license-maven-plugin</artifactId>
+            <version>${license-maven-plugin.version}</version>
           </plugin>
         </plugins>
       </build>

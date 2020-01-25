@@ -58,8 +58,9 @@
     <java.version>1.8</java.version>
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
-    <spotbugs.version>4.0.0-beta4</spotbugs.version>
-    <junit.jupiter.version>5.5.2</junit.jupiter.version>
+    <spotbugs.version>4.0.0-RC1</spotbugs.version>
+    <junit.jupiter.version>5.6.0</junit.jupiter.version>
+    <license-maven-plugin.version>3.0</license-maven-plugin.version>
   </properties>
 
   <scm>
@@ -93,7 +94,7 @@
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
-        <version>7.0.0</version>
+        <version>7.1.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -109,7 +110,7 @@
         <plugin>
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>
-          <version>3.0</version>
+          <version>${license-maven-plugin.version}</version>
           <configuration>
             <header>${project.basedir}/../header.txt</header>
             <strictCheck>true</strictCheck>
@@ -146,28 +147,6 @@
               <goals>
                 <goal>sign</goal>
               </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.1.1</version>
-          <executions>
-            <execution>
-              <id>easymock-bundle</id>
-              <phase>package</phase>
-              <goals>
-                <goal>single</goal>
-              </goals>
-              <configuration>
-                <finalName>${project.artifactId}-${project.version}</finalName>
-                <attach>false</attach>
-                <descriptors>
-                  <descriptor>${basedir}/src/main/assembly/assembly-tests.xml</descriptor>
-                  <descriptor>${basedir}/src/main/assembly/assembly-samples.xml</descriptor>
-                  <descriptor>${basedir}/src/main/assembly/assembly.xml</descriptor>
-                </descriptors>
-              </configuration>
             </execution>
           </executions>
         </plugin>
@@ -218,7 +197,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M3</version>
+          <version>3.0.0-M4</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -372,7 +351,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.26</version>
+            <version>8.28</version>
           </dependency>
         </dependencies>
       </plugin>

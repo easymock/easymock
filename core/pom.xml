@@ -173,7 +173,7 @@
             <!-- Force junit provider because surefire will choose the testng one if testng is detected -->
             <groupId>org.apache.maven.surefire</groupId>
             <artifactId>surefire-junit-platform</artifactId>
-            <version>3.0.0-M3</version>
+            <version>3.0.0-M4</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -207,6 +207,7 @@
           <plugin>
             <groupId>com.mycila</groupId>
             <artifactId>license-maven-plugin</artifactId>
+            <version>${license-maven-plugin.version}</version>
           </plugin>
         </plugins>
       </build>
@@ -217,9 +218,23 @@
         <plugins>
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
+            <version>3.1.1</version>
             <executions>
               <execution>
                 <id>easymock-bundle</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <configuration>
+                  <finalName>${project.artifactId}-${project.version}</finalName>
+                  <attach>false</attach>
+                  <descriptors>
+                    <descriptor>${basedir}/src/main/assembly/assembly-tests.xml</descriptor>
+                    <descriptor>${basedir}/src/main/assembly/assembly-samples.xml</descriptor>
+                    <descriptor>${basedir}/src/main/assembly/assembly.xml</descriptor>
+                  </descriptors>
+                </configuration>
               </execution>
             </executions>
           </plugin>
