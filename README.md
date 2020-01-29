@@ -1,5 +1,4 @@
-EasyMock
-========
+# EasyMock
 
 [![Join the chat at https://gitter.im/easymock/easymock](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/easymock/easymock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -9,16 +8,13 @@ EasyMock is a Java library that provides an easy way to use Mock Objects in unit
 
 You can find the website and user documentation at http://easymock.org.
 
-Developer information
-=====================
+# Developer information
 
-Build status
--------------
+## Build status
 [![Build Status](https://travis-ci.org/easymock/easymock.svg?branch=master)](https://travis-ci.org/easymock/easymock)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.easymock/easymock/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.easymock/easymock)
 
-Environment setup
------------------
+## Environment setup
 
 I'm using:
 - IntelliJ 2019.3 Ultimate (thanks to JetBrains for the license)
@@ -32,8 +28,7 @@ To configure your local workspace:
 - Import the Maven parent project to Eclipse or IntelliJ
 - Import the Eclipse formatting file `EasyMock-formatter.xml` (usable in Eclipse or IntelliJ)
 
-To build EasyMock with Maven
-----------------------------
+## To build EasyMock with Maven
 
 There are three different levels of build.
 
@@ -59,22 +54,22 @@ The command line will ask you to give the passphrase for the gpg private key.
 
 `mvn install -PdeployBuild`
 
-To compile EasyMock in Eclipse
------------------------------
+## To compile EasyMock in Eclipse
+
 - Install m2e
 - Import the EasyMock Maven parent project to your Eclipse workspace
 
-To compile EasyMock in IntelliJ
------------------------------
+## To compile EasyMock in IntelliJ
+
 - Import the EasyMock Maven parent project as an New IntelliJ project
 
-To update the versions
-----------------------
+## To update the versions
+
 - `mvn versions:set -DnewVersion=X.Y -Pall`
 - `mvn versions:commit -Pall` if everything is ok, `mvn versions:revert -Pall` otherwise
 
-Configure to deploy to the Bintray maven repository
-----------------------------------------------------
+## Configure to deploy to the Bintray maven repository
+
 - You will first need to add something like this to your settings.xml
 ```xml
 <server>
@@ -87,55 +82,60 @@ Configure to deploy to the Bintray maven repository
 
 http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/
 
-To build the maven site (with spotbugs, checkstyle, jdepends and JavaNCSS reports)
---------------------------------------------------------------------------------------
+## To build the maven site (with spotbugs, checkstyle, jdepends and JavaNCSS reports)
+
 - You will to give enough memory to maven with `export MAVEN_OPTS=-Xmx512m` (or setting it as environment variable)
 - Then type `mvn site`
 
-To check dependencies and plugins versions
---------------------------------------------------------------------------------------
+## To check dependencies and plugins versions
+
 `mvn versions:display-dependency-updates versions:display-plugin-updates -Pall`
 
-To download the sources associated to our dependencies
---------------------------------------------------------------------------------------
+## To download the sources associated to our dependencies
+
 `mvn dependency:resolve -Dclassifier=sources`
 
-To update the license
---------------------------------------------------------------------------------------
+## To update the license
+
 `mvn validate license:format -Pall`
 
-To run Sonar
---------------------------------------------------------------------------------------
+## To run Sonar
+
 `mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test sonar:sonar`
 
-Android
---------------------------------------------------------------------------------------
+## Android
+
 - Install the Android SDK
 - Configure a device (real or simulated)
 - Add an `ANDROID_HOME` to target the Android SDK
+- Possibly put these in your path: `$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/emulator`
+- To launch an emulator from command line
+  - To list the configured device: `emulator --list-avds`
+  - To launch: `emulator -avd Nexus_5X_API_28`
 - Activate the debug mode if it's a real device
 - `mvn install -Pandroid`
 
-To bundle EasyMock and deploy
---------------------------------------------------------------------------------------
+## To bundle EasyMock and deploy
+
 - Make sure the poms are on the snapshot of the version you want to deploy
 - Launch and Android emulator or connect an Android phone
 - Make sure `jq` is installed. If not, try `brew install jq` or `choco install jq`
+- If gpg gives an `Inappropriate ioctl for device` error, enter this in your shell: `export GPG_TTY=$(tty)`
 - Add a little speech on the features in "ReleaseNotes.md" (remove the Change Log part, which will be regenerated automatically)
 - Set the github_user, github_password, gpg_passphrase, bintray_user, bintray_api_key as environment variables
 - Launch ./deploy-easymock.sh version
 - During the deployment, you will be asked to do different things. Do them
 - Announce to gitter, tweet and blog ;-)
 
-Deploy the website
---------------------------------------------------------------------------------------
+## Deploy the website
+
 - In local:
   - Go to the EasyMock root directory
   - Make sure the website directory is clean
   - `./deploy-website.sh`
 
-Start next version
---------------------------------------------------------------------------------------
+## Start next version
+
 In local:
 ```bash
 mvn versions:set -DnewVersion=X.Z-SNAPSHOT -Pall
