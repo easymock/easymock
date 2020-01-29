@@ -110,7 +110,7 @@ http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven
 - Add an `ANDROID_HOME` to target the Android SDK
 - Possibly put these in your path: `$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/emulator`
 - To launch an emulator from command line
-  - To list the configured device: `emulator --list-avds`
+  - To list the configured device: `emulator -list-avds`
   - To launch: `emulator -avd Nexus_5X_API_28`
 - Activate the debug mode if it's a real device
 - `mvn install -Pandroid`
