@@ -127,6 +127,8 @@ http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven
 - During the deployment, you will be asked to do different things. Do them
 - Announce to gitter, tweet and blog ;-)
 
+In case of a failure during the build before the deployment, do `mvn versions:commit -Pall` and start over.
+
 ## Deploy the website
 
 - In local:
