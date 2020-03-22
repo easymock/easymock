@@ -26,7 +26,7 @@
   </developers>
 
   <properties>
-    <paxexam.version>4.13.1</paxexam.version>
+    <paxexam.version>4.13.2</paxexam.version>
     <!-- No code coverage need on this project since it's only a test project -->
     <jacoco.skip>true</jacoco.skip>
   </properties>
