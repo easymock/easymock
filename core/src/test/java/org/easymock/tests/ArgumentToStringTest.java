@@ -19,6 +19,9 @@ import org.easymock.internal.ArgumentToString;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import static org.junit.Assert.*;
 
 /**
@@ -79,5 +82,25 @@ public class ArgumentToStringTest {
     public void testArgumentsToString_null() {
         String actual = ArgumentToString.argumentsToString((Object[]) null);
         assertEquals("", actual);
+    }
+
+    @Test
+    public void testArrayToLong_100elements() {
+        int[] array = IntStream.range(0, 100).toArray();
+        String actual = ArgumentToString.argumentsToString((Object) array);
+        String expected = IntStream.range(0, 100)
+            .mapToObj(i -> i + " (int)")
+            .collect(Collectors.joining(", ", "[", "]"));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testArrayToLong_101elements() {
+        int[] array = IntStream.range(0, 101).toArray();
+        String actual = ArgumentToString.argumentsToString((Object) array);
+        String expected = "[" + IntStream.range(0, 100)
+            .mapToObj(i -> i + " (int)")
+            .collect(Collectors.joining(", ")) + "... (length=101)]";
+        assertEquals(expected, actual);
     }
 }

@@ -43,11 +43,16 @@ public final class ArgumentToString {
             buffer.append("'");
         } else if (value.getClass().isArray()) {
             buffer.append("[");
-            for (int i = 0; i < Array.getLength(value); i++) {
+            int length = Array.getLength(value);
+            int printedLength = Math.min(100, length);
+            for (int i = 0; i < printedLength; i++) {
                 if (i > 0) {
                     buffer.append(", ");
                 }
                 appendArgument(Array.get(value, i), buffer);
+            }
+            if(length > printedLength) {
+                buffer.append("... (length=").append(length).append(")");
             }
             buffer.append("]");
         } else if (PrimitiveUtils.isPrimitiveWrapper(value.getClass())) {
