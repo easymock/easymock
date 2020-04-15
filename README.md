@@ -118,7 +118,7 @@ http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven
 
 - Make sure the poms are on the snapshot of the version you want to deploy
 - Launch and Android emulator or connect an Android phone
-- Make sure `jq` is installed. If not, try `brew install jq` or `choco install jq`
+- Make sure `jq` is installed. If not, install it with your favorite package manager (`brew install jq`, `choco install jq`, `apt-get install jq`, `yum install jq`, etc.).
 - If gpg gives an `Inappropriate ioctl for device` error, enter this in your shell: `export GPG_TTY=$(tty)`
 - Add a little speech on the features in "ReleaseNotes.md" (remove the Change Log part, which will be regenerated automatically)
 - Set the github_user, github_password, gpg_passphrase, bintray_user, bintray_api_key as environment variables
