@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Henri Tremblay
@@ -140,35 +140,33 @@ public class MocksControlTest {
     }
 
     @Test
-    public void testInterfaceForbidden_PartialMock() throws Exception {
-        ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(Integer.TYPE), 6);
-        Method[] methods = new Method[] { List.class.getMethod("size") };
+    public void testMocksControl_PartialMock_EmptyInterface() {
+        expectPartialMocking("an empty interface", false, EmptyInterface.class);
+    }
 
-        IMocksControl ctrl = createControl();
+    @Test
+    public void testMocksControl_PartialMock_InterfaceWithoutDefaultMethods() {
+        expectPartialMocking("an interface without default methods", false,
+            InterfaceWithoutDefaultMethods.class);
+    }
 
-        try {
-            ctrl.createMock(null, List.class, null, methods);
-            fail("partial mocking on interface shouldn't be allowed");
-        } catch (IllegalArgumentException e) {
-        }
+    @Test
+    public void testMocksControl_PartialMock_InterfaceWithDefaultMethod() {
+        expectPartialMocking("an interface with a default method", true,
+            InterfaceWithDefaultMethod.class);
+    }
 
-        try {
-            ctrl.createMock(null, List.class, args, methods);
-            fail("partial mocking on interface shouldn't be allowed");
-        } catch (IllegalArgumentException e) {
-        }
+    @Test
+    public void testMocksControl_PartialMock_InterfaceWithInheritedDefaultMethod() {
+        expectPartialMocking("an interface with an inherited default method", true,
+            InterfaceWithInheritedDefaultMethod.class);
+    }
 
-        try {
-            ctrl.createMock("myMock", List.class, null, methods);
-            fail("partial mocking on interface shouldn't be allowed");
-        } catch (IllegalArgumentException e) {
-        }
-
-        try {
-            ctrl.createMock("myMock", List.class, args, methods);
-            fail("partial mocking on interface shouldn't be allowed");
-        } catch (IllegalArgumentException e) {
-        }
+    @Test
+    public void testMocksControl_PartialMock_InterfaceWithMockedDefaultMethod() throws Exception {
+        expectPartialMocking("an interface with a mocked default method", false,
+            InterfaceWithDefaultMethod.class,
+            InterfaceWithDefaultMethod.class.getMethod("method"));
     }
 
     private void testList(IMocksControl ctrl, List<?> list) {
@@ -177,4 +175,32 @@ public class MocksControlTest {
         assertEquals(3, list.size());
         ctrl.verify();
     }
+
+    private void expectPartialMocking(String caseName, boolean expected,
+        Class<?> toMock, Method... mockedMethods) {
+        String allowanceText = "should" + (expected ? "" : "n't") + " be allowed";
+        String message = "partial mocking on " + caseName + " " + allowanceText;
+        assertEquals(message, expected, tryMock(toMock, mockedMethods));
+    }
+
+    private boolean tryMock(Class<?> toMock, Method... mockedMethods) {
+        try {
+            createControl().createMock(null, toMock, null, mockedMethods);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    private interface EmptyInterface {}
+
+    private interface InterfaceWithoutDefaultMethods {
+        void method();
+    }
+
+    private interface InterfaceWithDefaultMethod {
+        default void method() {}
+    }
+
+    private interface InterfaceWithInheritedDefaultMethod extends InterfaceWithDefaultMethod {}
 }
