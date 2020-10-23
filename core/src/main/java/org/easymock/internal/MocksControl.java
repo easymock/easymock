@@ -15,12 +15,20 @@
  */
 package org.easymock.internal;
 
-import org.easymock.*;
+import org.easymock.ConstructorArgs;
+import org.easymock.EasyMock;
+import org.easymock.IAnswer;
+import org.easymock.IExpectationSetters;
+import org.easymock.IMocksControl;
+import org.easymock.MockType;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -84,8 +92,10 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         if (toMock == null) {
             throw new NullPointerException("Can't mock 'null'");
         }
-        if (toMock.isInterface() && mockedMethods != null) {
-            throw new IllegalArgumentException("Partial mocking doesn't make sense for interface");
+        if (toMock.isInterface() && mockedMethods != null
+            && !hasDefaultMethod(toMock, mockedMethods)) {
+            throw new IllegalArgumentException(
+                "Partial mocking doesn't make sense for interface without default methods");
         }
 
         try {
@@ -109,6 +119,11 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         } catch (RuntimeExceptionWrapper e) {
             throw (RuntimeException) e.getRuntimeException().fillInStackTrace();
         }
+    }
+
+    private static boolean hasDefaultMethod(Class<?> toMock, Method[] mockedMethods) {
+        Set<Method> mocked = new HashSet<>(Arrays.asList(mockedMethods));
+        return Arrays.stream(toMock.getMethods()).anyMatch(method -> !mocked.contains(method) && method.isDefault());
     }
 
     public static IProxyFactory getProxyFactory(Object o) {
