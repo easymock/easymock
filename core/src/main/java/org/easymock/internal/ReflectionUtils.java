@@ -46,11 +46,11 @@ public final class ReflectionUtils {
     public static final Method OBJECT_EQUALS = getDeclaredMethod(Object.class, "equals",
         Object.class);
 
-    public static final Method OBJECT_HASHCODE = getDeclaredMethod(Object.class, "hashCode", (Class[]) null);
+    public static final Method OBJECT_HASHCODE = getDeclaredMethod(Object.class, "hashCode", (Class<?>[]) null);
 
-    public static final Method OBJECT_TOSTRING = getDeclaredMethod(Object.class, "toString", (Class[]) null);
+    public static final Method OBJECT_TOSTRING = getDeclaredMethod(Object.class, "toString", (Class<?>[]) null);
 
-    public static final Method OBJECT_FINALIZE = getDeclaredMethod(Object.class, "finalize", (Class[]) null);
+    public static final Method OBJECT_FINALIZE = getDeclaredMethod(Object.class, "finalize", (Class<?>[]) null);
 
     // ///CLOVER:OFF
     private ReflectionUtils() {
