@@ -135,7 +135,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     private static IProxyFactory getClassProxyFactory() {
         String classMockingDisabled = EasyMockProperties.getInstance().getProperty(
                 EasyMock.DISABLE_CLASS_MOCKING);
-        if (Boolean.valueOf(classMockingDisabled)) {
+        if (Boolean.parseBoolean(classMockingDisabled)) {
             throw new IllegalArgumentException("Class mocking is currently disabled. Change "
                     + EasyMock.DISABLE_CLASS_MOCKING + " to true do modify this behavior");
         }
