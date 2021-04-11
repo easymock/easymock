@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.function.Predicate;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -29,7 +30,7 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
 
     private static final long serialVersionUID = -1726286682930686024L;
 
-    private static final ReflectionUtils.Predicate<Method> NOT_PRIVATE = method -> !Modifier.isPrivate(method.getModifiers());
+    private static final Predicate<Method> NOT_PRIVATE = method -> !Modifier.isPrivate(method.getModifiers());
 
     private transient Method equalsMethod;
 

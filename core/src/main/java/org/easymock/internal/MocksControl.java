@@ -121,7 +121,7 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
-    private static boolean hasDefaultMethod(Class<?> toMock, Method[] mockedMethods) {
+    private static boolean hasMockedDefaultMethod(Class<?> toMock, Method[] mockedMethods) {
         Set<Method> mocked = new HashSet<>(Arrays.asList(mockedMethods));
         return Arrays.stream(toMock.getMethods()).anyMatch(method -> !mocked.contains(method) && method.isDefault());
     }

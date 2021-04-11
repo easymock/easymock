@@ -21,15 +21,12 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 /**
  * @author Henri Tremblay
  */
 public final class ReflectionUtils {
-
-    public interface Predicate<T> {
-        boolean test(T t);
-    }
 
     public static final Predicate<Method> NOT_PRIVATE = method -> !Modifier.isPrivate(method.getModifiers());
 
