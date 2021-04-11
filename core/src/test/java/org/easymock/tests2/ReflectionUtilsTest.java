@@ -20,6 +20,9 @@ import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Function;
 
 import static org.easymock.internal.ReflectionUtils.*;
 import static org.junit.Assert.*;
@@ -29,7 +32,7 @@ import static org.junit.Assert.*;
  */
 public class ReflectionUtilsTest {
 
-    private static final Class[] NO_PARAMS = new Class[0];
+    private static final Class<?>[] NO_PARAMS = new Class[0];
 
     public static class B {
         protected void foo(long l) { }
@@ -170,5 +173,27 @@ public class ReflectionUtilsTest {
         Method method = ReflectionUtils.findMethod(A.class, "parentMethod", NOT_PRIVATE, NO_PARAMS);
         assertEquals("parentMethod", method.getName());
         assertEquals(B.class, method.getDeclaringClass());
+    }
+
+    @Test
+    public void testGetDefaultMethods_onClass() {
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ReflectionUtils.getDefaultMethods(getClass()));
+        assertEquals("Only interfaces can have default methods. Not " + getClass(), e.getMessage());
+    }
+
+    @Test
+    public void testGetDefaultMethods_noDefaultMethods() {
+        assertTrue(ReflectionUtils.getDefaultMethods(Runnable.class).isEmpty());
+    }
+
+    @Test
+    public void testGetDefaultMethods_withDefaultMethods() {
+        assertEquals(2, ReflectionUtils.getDefaultMethods(Function.class).size());
+    }
+
+    @Test
+    public void testGetDefaultMethods_withDefaultMethodsBaseClass() {
+        Method stream = findMethod(Collection.class, "stream", m -> true);
+        assertTrue(ReflectionUtils.getDefaultMethods(List.class).contains(stream));
     }
 }
