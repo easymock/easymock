@@ -27,6 +27,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * Default implementation of IMockBuilder.
@@ -41,7 +42,7 @@ import java.util.Set;
  */
 public class MockBuilder<T> implements IMockBuilder<T> {
 
-    private static final ReflectionUtils.Predicate<Method> CAN_BE_MOCKED = method -> {
+    private static final Predicate<Method> CAN_BE_MOCKED = method -> {
         int modifiers = method.getModifiers();
         // Final, static and private methods can't be mocked so just skip
         if((modifiers & (Modifier.STATIC | Modifier.PRIVATE | Modifier.FINAL)) != 0) {
