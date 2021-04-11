@@ -149,7 +149,7 @@ public final class ReflectionUtils {
         for(Class<?> i : interfaces) {
             Method[] methods = i.getDeclaredMethods();
             for (Method method : methods) {
-                if(!isDefaultMethod(method)) {
+                if(!method.isDefault()) {
                     continue;
                 }
                 if (name.equals(method.getName())) {
@@ -292,10 +292,4 @@ public final class ReflectionUtils {
         return true;
     }
 
-    public static boolean isDefaultMethod(Method method) {
-        int modifiers = method.getModifiers();
-        // Default methods are public non-abstract instance methods
-        // declared in an interface.
-        return (modifiers & (Modifier.ABSTRACT | Modifier.PUBLIC | Modifier.STATIC)) == Modifier.PUBLIC;
-    }
 }
