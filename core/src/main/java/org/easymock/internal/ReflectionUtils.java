@@ -21,7 +21,9 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @author Henri Tremblay
@@ -289,4 +291,18 @@ public final class ReflectionUtils {
         return true;
     }
 
+    /**
+     * Return all default methods of an interface and it's inherited interface.
+     *
+     * @param clazz class for which we want the default method
+     * @return all default methods
+     */
+    public static Set<Method> getDefaultMethods(Class<?> clazz) {
+        if(!clazz.isInterface()) {
+            throw new IllegalArgumentException("Only interfaces can have default methods. Not " + clazz);
+        }
+        return Arrays.stream(clazz.getMethods())
+            .filter(Method::isDefault)
+            .collect(Collectors.toSet());
+    }
 }

@@ -27,7 +27,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -92,10 +91,10 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         if (toMock == null) {
             throw new NullPointerException("Can't mock 'null'");
         }
-        if (toMock.isInterface() && mockedMethods != null
-            && !hasDefaultMethod(toMock, mockedMethods)) {
-            throw new IllegalArgumentException(
-                "Partial mocking doesn't make sense for interface without default methods");
+        // If we have mockedMethods, it means it's a partial mock. So it shouldn't be an interface that is mocked
+        // unless the interface has default methods and that it's some of these methods that are in mockedMethods
+        if (toMock.isInterface() && mockedMethods != null) {
+            checkInterfaceHasDefaultMethodAndIsMockingOnlyThem(toMock, mockedMethods);
         }
 
         try {
@@ -121,9 +120,15 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
         }
     }
 
-    private static boolean hasMockedDefaultMethod(Class<?> toMock, Method[] mockedMethods) {
-        Set<Method> mocked = new HashSet<>(Arrays.asList(mockedMethods));
-        return Arrays.stream(toMock.getMethods()).anyMatch(method -> !mocked.contains(method) && method.isDefault());
+    private <T> void checkInterfaceHasDefaultMethodAndIsMockingOnlyThem(Class<T> toMock, Method[] mockedMethods) {
+        Set<Method> defaultMethods = ReflectionUtils.getDefaultMethods(toMock);
+        if(defaultMethods.isEmpty()) {
+            throw new IllegalArgumentException("Partial mocking doesn't make sense for interface (" + toMock +  ") without default defaultMethods");
+        }
+        if(!defaultMethods.containsAll(Arrays.asList(mockedMethods))) {
+            throw new IllegalArgumentException("Mocking non-default method (one of " + Arrays.toString(mockedMethods)
+                + ") of an interface (" + toMock +  ")  doesn't make sense.");
+        }
     }
 
     public static IProxyFactory getProxyFactory(Object o) {

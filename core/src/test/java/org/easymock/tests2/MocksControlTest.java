@@ -19,7 +19,6 @@ import org.easymock.ConstructorArgs;
 import org.easymock.IMocksControl;
 import org.junit.Test;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,36 +138,6 @@ public class MocksControlTest {
         assertEquals("myMock", a.toString());
     }
 
-    @Test
-    public void testMocksControl_PartialMock_EmptyInterface() {
-        expectPartialMocking("an empty interface", false, EmptyInterface.class);
-    }
-
-    @Test
-    public void testMocksControl_PartialMock_InterfaceWithoutDefaultMethods() {
-        expectPartialMocking("an interface without default methods", false,
-            InterfaceWithoutDefaultMethods.class);
-    }
-
-    @Test
-    public void testMocksControl_PartialMock_InterfaceWithDefaultMethod() {
-        expectPartialMocking("an interface with a default method", true,
-            InterfaceWithDefaultMethod.class);
-    }
-
-    @Test
-    public void testMocksControl_PartialMock_InterfaceWithInheritedDefaultMethod() {
-        expectPartialMocking("an interface with an inherited default method", true,
-            InterfaceWithInheritedDefaultMethod.class);
-    }
-
-    @Test
-    public void testMocksControl_PartialMock_InterfaceWithMockedDefaultMethod() throws Exception {
-        expectPartialMocking("an interface with a mocked default method", false,
-            InterfaceWithDefaultMethod.class,
-            InterfaceWithDefaultMethod.class.getMethod("method"));
-    }
-
     private void testList(IMocksControl ctrl, List<?> list) {
         expect(list.size()).andReturn(3);
         ctrl.replay();
@@ -176,31 +145,4 @@ public class MocksControlTest {
         ctrl.verify();
     }
 
-    private void expectPartialMocking(String caseName, boolean expected,
-        Class<?> toMock, Method... mockedMethods) {
-        String allowanceText = "should" + (expected ? "" : "n't") + " be allowed";
-        String message = "partial mocking on " + caseName + " " + allowanceText;
-        assertEquals(message, expected, tryMock(toMock, mockedMethods));
-    }
-
-    private boolean tryMock(Class<?> toMock, Method... mockedMethods) {
-        try {
-            createControl().createMock(null, toMock, null, mockedMethods);
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-    }
-
-    private interface EmptyInterface {}
-
-    private interface InterfaceWithoutDefaultMethods {
-        void method();
-    }
-
-    private interface InterfaceWithDefaultMethod {
-        default void method() {}
-    }
-
-    private interface InterfaceWithInheritedDefaultMethod extends InterfaceWithDefaultMethod {}
 }
