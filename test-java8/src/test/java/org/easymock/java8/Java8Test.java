@@ -52,4 +52,16 @@ public class Java8Test {
         assertEquals(10, mock.normalInterfaceMethod());
         verify(mock);
     }
+
+    @Test
+    public void partialMockOnInterface() {
+        IMethods mock = partialMockBuilder(IMethods.class)
+            .addMockedMethod("defaultInterfaceMethod")
+            .createMock();
+        expect(mock.defaultInterfaceMethod()).andReturn(10);
+        replay(mock);
+        assertEquals(10, mock.defaultInterfaceMethod());
+        verify(mock);
+    }
+
 }
