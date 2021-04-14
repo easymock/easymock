@@ -57,10 +57,11 @@
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     <java.version>1.8</java.version>
     <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
-    <spotbugs-maven-plugin.version>4.0.0</spotbugs-maven-plugin.version>
-    <spotbugs.version>4.1.2</spotbugs.version>
     <junit.jupiter.version>5.7.0</junit.jupiter.version>
-    <license-maven-plugin.version>3.0</license-maven-plugin.version>
+    <spotbugs-maven-plugin.version>4.2.2</spotbugs-maven-plugin.version>
+    <spotbugs.version>4.2.2</spotbugs.version>
+    <license-maven-plugin.version>4.0</license-maven-plugin.version>
+    <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
   </properties>
 
   <scm>
@@ -153,7 +154,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>5.1.1</version>
+          <version>5.1.2</version>
         </plugin>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
@@ -202,7 +203,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>animal-sniffer-maven-plugin</artifactId>
-          <version>1.19</version>
+          <version>1.20</version>
         </plugin>
         <plugin>
           <groupId>com.github.spotbugs</groupId>
@@ -285,7 +286,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.7.0.1746</version>
+          <version>3.8.0.2131</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -346,12 +347,12 @@
       </plugin>
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>${maven-checkstyle-plugin.version}</version>
         <dependencies>
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.36.1</version>
+            <version>8.41.1</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -449,11 +450,11 @@
       </plugin>
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>${maven-checkstyle-plugin.version}</version>
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.13.0</version>
+        <version>3.14.0</version>
         <configuration>
           <targetJdk>1.8</targetJdk>
         </configuration>
