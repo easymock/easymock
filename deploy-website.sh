@@ -11,7 +11,7 @@ fi
 
 # clone the website branch
 echo "************** CLONE ************************"
-git clone --depth=1 --branch gh-pages git@github.com:easymock/easymock.git site
+git clone --depth=1 --single-branch --branch gh-pages git@github.com:easymock/easymock.git site
 
 pushd site
 
