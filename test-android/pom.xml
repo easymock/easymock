@@ -138,7 +138,7 @@
         <artifactId>android-maven-plugin</artifactId>
         <configuration>
           <sdk>
-            <platform>27</platform>
+            <platform>30</platform>
           </sdk>
           <dexArguments>--min-sdk-version=26</dexArguments>
         </configuration>
