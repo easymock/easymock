@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/easymock/easymock](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/easymock/easymock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Download latest version](https://api.bintray.com/packages/easymock/distributions/easymock/images/download.svg) ](https://bintray.com/easymock/distributions/easymock/_latestVersion)
+[![Download latest version](https://img.shields.io/github/downloads/easymock/easymock/total.svg)]()
 
 EasyMock is a Java library that provides an easy way to use Mock Objects in unit testing.
 
@@ -67,19 +67,19 @@ The command line will ask you to give the passphrase for the gpg private key.
 - `mvn versions:set -DnewVersion=X.Y -Pall`
 - `mvn versions:commit -Pall` if everything is ok, `mvn versions:revert -Pall` otherwise
 
-## Configure to deploy to the Bintray maven repository
+## Configure to deploy to Maven Central repository
 
 - You will first need to add something like this to your settings.xml
 ```xml
-<server>
-  <id>bintray</id>
-  <username>user</username>
-  <password>password</password>
-</server>
+<servers>
+    <server>
+        <id>ossrh</id>
+        <username>sonatypeuser</username>
+        <password>sonatypepassword</password>
+    </server>
+</servers>
 ```
-- Then follow the instructions from the site below to create your key to sign the deployed items
-
-http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/
+- Then follow the [instructions](https://central.sonatype.org/pages/working-with-pgp-signatures.html) from the site below to create your key to sign the deployed items
 
 ## To build the maven site (with spotbugs, checkstyle, jdepends and JavaNCSS reports)
 
@@ -121,12 +121,14 @@ http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven
 - Make sure `jq` is installed. If not, install it with your favorite package manager (`brew install jq`, `choco install jq`, `apt-get install jq`, `yum install jq`, etc.).
 - If gpg gives an `Inappropriate ioctl for device` error, enter this in your shell: `export GPG_TTY=$(tty)`
 - Add a little speech on the features in "ReleaseNotes.md" (remove the Change Log part, which will be regenerated automatically)
-- Set the github_user, github_password, gpg_passphrase, bintray_user, bintray_api_key as environment variables
+- Set the github_user, github_password, gpg_passphrase as environment variables
 - Launch ./deploy-easymock.sh version
 - During the deployment, you will be asked to do different things. Do them
 - Announce to gitter, tweet and blog ;-)
 
 In case of a failure during the build before the deployment, do `mvn versions:commit -Pall` and start over.
+
+If something was staged in Maven Central, you can drop the staging repository with `mvn nexus-staging:drop`.
 
 ## Deploy the website
 

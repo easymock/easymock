@@ -115,6 +115,13 @@
             <artifactId>license-maven-plugin</artifactId>
             <version>${license-maven-plugin.version}</version>
           </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <configuration>
+              <skipStaging>true</skipStaging>
+            </configuration>
+          </plugin>
         </plugins>
       </build>
     </profile>
@@ -145,9 +152,8 @@
           <snapshots>
             <enabled>false</enabled>
           </snapshots>
-          <id>bintray-easymock-maven</id>
-          <name>bintray</name>
-          <url>https://dl.bintray.com/easymock/maven</url>
+          <id>ossrh</id>
+          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
       </repositories>
     </profile>
