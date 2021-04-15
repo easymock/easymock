@@ -20,6 +20,7 @@ import org.easymock.EasyMock;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -42,7 +43,7 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
 
     private volatile boolean shouldBeUsedInOneThread;
 
-    private volatile int position = 0;
+    private final AtomicInteger position = new AtomicInteger();
 
     private transient volatile Thread lastThread;
 
@@ -86,17 +87,18 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
 
     @Override
     public final Result addActual(Invocation actual) {
-        int initialPosition = position;
+        int initialPosition = position.get();
 
-        while (position < behaviorLists.size()) {
-            Result result = behaviorLists.get(position).addActual(actual);
+        while (position.get() < behaviorLists.size()) {
+            int index = position.get();
+            Result result = behaviorLists.get(index).addActual(actual);
             if (result != null) {
                 return result;
             }
-            if (!behaviorLists.get(position).verify()) {
+            if (!behaviorLists.get(index).verify()) {
                 break;
             }
-            position++;
+            position.incrementAndGet();
         }
         Result stubOrNice = getStubResult(actual);
         if (stubOrNice == null && nice) {
@@ -104,10 +106,10 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
                     .getReturnType()));
         }
 
-        int endPosition = position;
+        int endPosition = position.get();
 
         // Do not move the cursor in case of stub, nice or error
-        position = initialPosition;
+        position.set(initialPosition);
 
         if (stubOrNice != null) {
             actual.validateCaptures();
@@ -160,7 +162,7 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
     public void verifyRecording() {
         boolean verified = true;
 
-        for (UnorderedBehavior behaviorList : behaviorLists.subList(position, behaviorLists.size())) {
+        for (UnorderedBehavior behaviorList : behaviorLists.subList(position.get(), behaviorLists.size())) {
             if (!behaviorList.verify()) {
                 verified = false;
                 break;
@@ -170,10 +172,10 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
             return;
         }
 
-        StringBuilder errorMessage = new StringBuilder(70 * (behaviorLists.size() - position + 1));
+        StringBuilder errorMessage = new StringBuilder(70 * (behaviorLists.size() - position.get() + 1));
 
         errorMessage.append("\n  Expectation failure on verify:");
-        for (UnorderedBehavior behaviorList : behaviorLists.subList(position, behaviorLists.size())) {
+        for (UnorderedBehavior behaviorList : behaviorLists.subList(position.get(), behaviorLists.size())) {
             for (ErrorMessage m : behaviorList.getMessages(null)) {
                 m.appendTo(errorMessage, 0);
             }
