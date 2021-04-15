@@ -72,7 +72,7 @@ public class Range implements Serializable {
     }
 
     public String expectedCount() {
-        return "expected: " + this.toString();
+        return "expected: " + this;
     }
 
     public boolean contains(int count) {

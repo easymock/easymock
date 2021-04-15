@@ -178,7 +178,7 @@ public class Invocation implements Serializable {
 
     private boolean toStringIsDefined(Object o) {
         try {
-            o.getClass().getDeclaredMethod("toString", (Class[]) null).getModifiers();
+            o.getClass().getDeclaredMethod("toString", (Class<?>[]) null).getModifiers();
             return true;
         } catch (SecurityException | NoSuchMethodException ignored) {
             // ///CLOVER:OFF

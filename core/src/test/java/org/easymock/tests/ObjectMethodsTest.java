@@ -62,13 +62,13 @@ public class ObjectMethodsTest {
 
     @Test
     public void toStringBeforeActivation() {
-        assertEquals("EasyMock for " + EmptyInterface.class.toString(), mock.toString());
+        assertEquals("EasyMock for " + EmptyInterface.class, mock.toString());
     }
 
     @Test
     public void toStringAfterActivation() {
         replay(mock);
-        assertEquals("EasyMock for " + EmptyInterface.class.toString(), mock.toString());
+        assertEquals("EasyMock for " + EmptyInterface.class, mock.toString());
     }
 
     private static class MockedClass {
@@ -83,7 +83,7 @@ public class ObjectMethodsTest {
     public void toStringForClasses() throws Throwable {
         ObjectMethodsFilter filter = new ObjectMethodsFilter(Object.class, null, null);
         Method toString = Object.class.getMethod("toString");
-        assertEquals("EasyMock for " + MockedClass.class.toString(), filter.invoke(new DummyProxy(),
+        assertEquals("EasyMock for " + MockedClass.class, filter.invoke(new DummyProxy(),
                 toString, new Object[0]));
     }
 

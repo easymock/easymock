@@ -97,7 +97,7 @@ public final class Result implements IAnswer<Object>, Serializable {
                 if(!method.isVarArgs()) {
                     return arguments;
                 }
-                Class[] paramTypes = method.getParameterTypes();
+                Class<?>[] paramTypes = method.getParameterTypes();
                 Object[] packedArguments = new Object[paramTypes.length];
 
                 int normalArgLength = paramTypes.length - 1;

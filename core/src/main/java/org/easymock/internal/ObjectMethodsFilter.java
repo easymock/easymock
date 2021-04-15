@@ -58,9 +58,9 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
         } else {
             try {
                 equalsMethod = extractMethod(toMock, "equals", Object.class);
-                hashCodeMethod = extractMethod(toMock, "hashCode", (Class[]) null);
-                toStringMethod = extractMethod(toMock, "toString", (Class[]) null);
-                finalizeMethod = ReflectionUtils.findMethod(toMock, "finalize", NOT_PRIVATE, (Class[]) null);
+                hashCodeMethod = extractMethod(toMock, "hashCode", (Class<?>[]) null);
+                toStringMethod = extractMethod(toMock, "toString", (Class<?>[]) null);
+                finalizeMethod = ReflectionUtils.findMethod(toMock, "finalize", NOT_PRIVATE, (Class<?>[]) null);
             } catch (NoSuchMethodException e) {
                 // ///CLOVER:OFF
                 throw new RuntimeException("An Object method could not be found!", e);

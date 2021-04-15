@@ -116,8 +116,8 @@ class FilteringClassLoader extends ClassLoader {
 
             out.flush();
 
-            byte bytes[] = out.toByteArray();
-            return bytes == null ? null : defineClass(name, bytes, 0, bytes.length);
+            byte[] bytes = out.toByteArray();
+            return defineClass(name, bytes, 0, bytes.length);
         } finally {
             if (in != null) {
                 in.close();

@@ -48,9 +48,9 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
 
     public MocksBehavior(boolean nice) {
         this.nice = nice;
-        this.isThreadSafe = !Boolean.valueOf(EasyMockProperties.getInstance().getProperty(
+        this.isThreadSafe = !Boolean.parseBoolean(EasyMockProperties.getInstance().getProperty(
                 EasyMock.NOT_THREAD_SAFE_BY_DEFAULT));
-        this.shouldBeUsedInOneThread = Boolean.valueOf(EasyMockProperties.getInstance().getProperty(
+        this.shouldBeUsedInOneThread = Boolean.parseBoolean(EasyMockProperties.getInstance().getProperty(
                 EasyMock.ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT));
     }
 

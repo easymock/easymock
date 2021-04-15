@@ -60,7 +60,7 @@ The command line will ask you to give the passphrase for the gpg private key.
 
 ## To compile EasyMock in IntelliJ
 
-- Import the EasyMock Maven parent project as an New IntelliJ project
+- Import the EasyMock Maven parent project as a New IntelliJ project
 
 ## To update the versions
 

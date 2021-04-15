@@ -55,9 +55,8 @@ public class GenericTest {
      */
     @Test
     public void testPartialMockingSeesBridgeHasUnmocked() {
-        ConcreteFoo b = createMockBuilder(ConcreteFoo.class).addMockedMethod("getSomeStrings")
+        AbstractFoo c = createMockBuilder(ConcreteFoo.class).addMockedMethod("getSomeStrings")
                 .createMock();
-        AbstractFoo c = b;
         expect(c.getSomeStrings()).andReturn(null);
     }
 
