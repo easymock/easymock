@@ -83,12 +83,12 @@ Document title and Copyright styles
 */
 .clear {
     clear:both;
-    height:0;
+    height:0px;
     overflow:hidden;
 }
 .aboutLanguage {
     float:right;
-    padding:0 21px;
+    padding:0px 21px;
     font-size:11px;
     z-index:200;
     margin-top:-9px;
@@ -125,22 +125,24 @@ Navigation bar styles
     background-color:#4D7A97;
     color:#FFFFFF;
     float:left;
+    padding:0;
     width:100%;
     clear:right;
     height:2.8em;
-    padding: 10px 0 0;
+    padding-top:10px;
     overflow:hidden;
-    font-size:12px;
+    font-size:12px; 
 }
 .bottomNav {
     margin-top:10px;
     background-color:#4D7A97;
     color:#FFFFFF;
     float:left;
+    padding:0;
     width:100%;
     clear:right;
     height:2.8em;
-    padding: 10px 0 0;
+    padding-top:10px;
     overflow:hidden;
     font-size:12px;
 }
@@ -249,7 +251,7 @@ ul.blockList ul.blockList li.blockList h3 {
     margin:15px 0;
 }
 ul.blockList li.blockList h2 {
-    padding:0 0 20px 0;
+    padding:0px 0 20px 0;
 }
 /*
 Page layout container styles
@@ -283,7 +285,7 @@ Page layout container styles
     color:#4E4E4E;
 }
 .contentContainer .description dl dd, .contentContainer .details dl dd, .serializedFormContainer dl dd {
-    margin:5px 0 10px 0;
+    margin:5px 0 10px 0px;
     font-size:14px;
     font-family:'DejaVu Sans Mono',monospace;
 }
@@ -328,8 +330,8 @@ ul.blockList li.blockList, ul.blockListLast li.blockList {
     line-height:1.4;
 }
 ul.blockList ul.blockList li.blockList, ul.blockList ul.blockListLast li.blockList {
-    padding:0 20px 5px 10px;
-    border:1px solid #ededed;
+    padding:0px 20px 5px 10px;
+    border:1px solid #ededed; 
     background-color:#f8f8f8;
 }
 ul.blockList ul.blockList ul.blockList li.blockList, ul.blockList ul.blockList ul.blockListLast li.blockList {
@@ -357,12 +359,12 @@ Table styles
 */
 .overviewSummary, .memberSummary, .typeSummary, .useSummary, .constantsSummary, .deprecatedSummary {
     width:100%;
-    border-left:1px solid #EEE;
-    border-right:1px solid #EEE;
-    border-bottom:1px solid #EEE;
+    border-left:1px solid #EEE; 
+    border-right:1px solid #EEE; 
+    border-bottom:1px solid #EEE; 
 }
 .overviewSummary, .memberSummary  {
-    padding:0;
+    padding:0px;
 }
 .overviewSummary caption, .memberSummary caption, .typeSummary caption,
 .useSummary caption, .constantsSummary caption, .deprecatedSummary caption {
@@ -373,8 +375,10 @@ Table styles
     font-weight:bold;
     clear:none;
     overflow:hidden;
-    padding: 10px 0 0 1px;
-    margin:0;
+    padding:0px;
+    padding-top:10px;
+    padding-left:1px;
+    margin:0px;
     white-space:pre;
 }
 .overviewSummary caption a:link, .memberSummary caption a:link, .typeSummary caption a:link,
@@ -390,7 +394,10 @@ Table styles
 .overviewSummary caption span, .memberSummary caption span, .typeSummary caption span,
 .useSummary caption span, .constantsSummary caption span, .deprecatedSummary caption span {
     white-space:nowrap;
-    padding: 5px 12px 7px;
+    padding-top:5px;
+    padding-left:12px;
+    padding-right:12px;
+    padding-bottom:7px;
     display:inline-block;
     float:left;
     background-color:#F8981D;
@@ -420,9 +427,9 @@ Table styles
     height:16px;
 }
 .memberSummary caption span.tableTab, .memberSummary caption span.activeTableTab {
-    padding-top:0;
-    padding-left:0;
-    padding-right:0;
+    padding-top:0px;
+    padding-left:0px;
+    padding-right:0px;
     background-image:none;
     float:none;
     display:inline;
@@ -439,7 +446,7 @@ Table styles
     display:none;
     width:5px;
     margin-right:3px;
-    position:relative;
+    position:relative; 
     float:left;
     background-color:#F8981D;
 }
@@ -455,12 +462,12 @@ Table styles
 .overviewSummary td, .memberSummary td, .typeSummary td,
 .useSummary td, .constantsSummary td, .deprecatedSummary td {
     text-align:left;
-    padding:0 0 12px 10px;
+    padding:0px 0px 12px 10px;
 }
 th.colOne, th.colFirst, th.colLast, .useSummary th, .constantsSummary th,
 td.colOne, td.colFirst, td.colLast, .useSummary td, .constantsSummary td{
     vertical-align:top;
-    padding-right:0;
+    padding-right:0px;
     padding-top:8px;
     padding-bottom:3px;
 }
@@ -524,7 +531,7 @@ div.block {
 }
 
 td.colLast div {
-    padding-top:0;
+    padding-top:0px;
 }
 
 
@@ -545,7 +552,7 @@ h1.hidden {
 }
 .block {
     display:block;
-    margin:3px 10px 2px 0;
+    margin:3px 10px 2px 0px;
     color:#474747;
 }
 .deprecatedLabel, .descfrmTypeLabel, .memberNameLabel, .memberNameLink,
@@ -563,5 +570,5 @@ div.block div.block span.interfaceName {
 }
 
 div.contentContainer ul.blockList li.blockList h2{
-    padding-bottom:0;
+    padding-bottom:0px;
 }
