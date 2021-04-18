@@ -76,6 +76,8 @@ mvn clean install -PfullBuild,deployBuild,all
 
 echo "Deploy"
 mvn deploy -PfullBuild,deployBuild,all -DskipTests
+
+echo "Deployment done, please validate the staging repository https://oss.sonatype.org/#stagingRepositories"
 pause
 
 echo "Commit everything"
