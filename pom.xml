@@ -418,7 +418,10 @@
         <configuration>
           <serverId>ossrh</serverId>
           <nexusUrl>https://oss.sonatype.org</nexusUrl>
+          <!-- Prevent releasing automatically to central. Allows to check if the release is ok -->
           <autoReleaseAfterClose>false</autoReleaseAfterClose>
+          <!-- Deactivate the feature deploying everything at the end to allow skipping the last module -->
+          <skipLocalStaging>true</skipLocalStaging>
         </configuration>
       </plugin>
     </plugins>
