@@ -15,6 +15,14 @@
  */
 package org.easymock.internal;
 
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.description.method.MethodDescription;
+import net.bytebuddy.description.modifier.FieldManifestation;
+import net.bytebuddy.description.modifier.SyntheticState;
+import net.bytebuddy.description.modifier.Visibility;
+import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.implementation.InvocationHandlerAdapter;
+import net.bytebuddy.matcher.ElementMatcher;
 import net.sf.cglib.core.CodeGenerationException;
 import net.sf.cglib.core.CollectionUtils;
 import net.sf.cglib.core.DefaultNamingPolicy;
@@ -30,6 +38,7 @@ import org.easymock.ConstructorArgs;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -40,6 +49,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static net.bytebuddy.matcher.ElementMatchers.any;
+import static net.bytebuddy.matcher.ElementMatchers.anyOf;
 
 /**
  * Factory generating a mock for a class.
@@ -162,30 +174,20 @@ public class ClassProxyFactory implements IProxyFactory {
     @SuppressWarnings("unchecked")
     public <T> T createProxy(final Class<T> toMock, InvocationHandler handler,
             Method[] mockedMethods, ConstructorArgs args) {
-        Enhancer enhancer = createEnhancer(toMock);
 
-        MockMethodInterceptor interceptor = new MockMethodInterceptor(handler);
-        if (mockedMethods != null) {
-            interceptor.setMockedMethods(mockedMethods);
-        }
-        enhancer.setCallbackType(interceptor.getClass());
+        ElementMatcher.Junction<MethodDescription> junction = mockedMethods == null ? any() : anyOf(mockedMethods);
 
-        Class<?> mockClass;
-        try {
-            mockClass = enhancer.createClass();
-        } catch (CodeGenerationException e) {
-            // ///CLOVER:OFF (don't know how to test it automatically)
-            // Probably caused by a NoClassDefFoundError, to use two class loaders at the same time
-            // instead of the default one (which is the class to mock one)
-            // This is required by Eclipse Plug-ins, the mock class loader doesn't see
-            // cglib most of the time. Using EasyMock and the mock class loader at the same time solves this
-            LinkedClassLoader linkedClassLoader = AccessController.doPrivileged((PrivilegedAction<LinkedClassLoader>) () -> new LinkedClassLoader(toMock.getClassLoader(), ClassProxyFactory.class.getClassLoader()));
-            enhancer.setClassLoader(linkedClassLoader);
-            mockClass = enhancer.createClass();
-            // ///CLOVER:ON
-        }
+        Class<?> mockClass = new ByteBuddy()
+            .subclass(toMock)
+            .defineField("$callback", InvocationHandler.class, SyntheticState.SYNTHETIC, Visibility.PRIVATE, FieldManifestation.FINAL)
+            .implement(Factory.class)
+            .method(junction)
+            .intercept(InvocationHandlerAdapter.of(handler))
+            .make()
+            .load(toMock.getClassLoader())
+            .getLoaded();
 
-        Factory mock;
+        T mock;
 
         if (args != null) {
             // Really instantiate the class
@@ -202,7 +204,7 @@ public class ClassProxyFactory implements IProxyFactory {
             try {
                 cstr.setAccessible(true); // So we can call a protected
                 // constructor
-                mock = (Factory) cstr.newInstance(args.getInitArgs());
+                mock = (T) cstr.newInstance(args.getInitArgs());
             } catch (InstantiationException | IllegalAccessException e) {
                 // ///CLOVER:OFF
                 throw new RuntimeException("Failed to instantiate mock calling constructor", e);
@@ -215,7 +217,7 @@ public class ClassProxyFactory implements IProxyFactory {
         } else {
             // Do not call any constructor
             try {
-                mock = (Factory) ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
+                mock = (T) ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
             } catch (InstantiationException e) {
                 // ///CLOVER:OFF
                 throw new RuntimeException("Fail to instantiate mock for " + toMock + " on "
@@ -224,38 +226,21 @@ public class ClassProxyFactory implements IProxyFactory {
             }
         }
 
-        mock.setCallback(0, interceptor);
         return (T) mock;
     }
 
-    private Enhancer createEnhancer(Class<?> toMock) {
-        // Create the mock
-        Enhancer enhancer = new Enhancer() {
-
-            /**
-             * Filter all private constructors but do not check that there are
-             * some left
-             */
-            @SuppressWarnings("rawtypes")
-            @Override
-            protected void filterConstructors(Class sc, List constructors) {
-                CollectionUtils.filter(constructors, new VisibilityPredicate(sc, true));
-            }
-        };
-        enhancer.setSuperclass(toMock);
-
-        // ///CLOVER:OFF (I don't know how to test it automatically yet)
-        // See issue ID: 2994002
-        if (toMock.getSigners() != null) {
-            enhancer.setNamingPolicy(ALLOWS_MOCKING_CLASSES_IN_SIGNED_PACKAGES);
-        }
-        // ///CLOVER:ON
-
-        return enhancer;
-    }
-
     public InvocationHandler getInvocationHandler(Object mock) {
-        Factory factory = (Factory) mock;
-        return ((MockMethodInterceptor) factory.getCallback(0)).handler;
+        Field field = null;
+        try {
+            field = mock.getClass().getDeclaredField("$callback");
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+        field.setAccessible(true);
+        try {
+            return (InvocationHandler) field.get(mock);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
