@@ -13,7 +13,7 @@
   <artifactId>easymock-test-nodeps</artifactId>
   <packaging>jar</packaging>
   <name>EasyMock Test No Dependencies</name>
-  <description>EasyMock Test No Dependencies is a test project making sure EasyMock embedding cglib and asm works correctly</description>
+  <description>EasyMock Test No Dependencies is a test project making sure EasyMock embedding bytebuddy and asm works correctly</description>
   <inceptionYear>2015</inceptionYear>
 
   <developers>

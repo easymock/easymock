@@ -15,9 +15,6 @@
  */
 package org.easymock;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.Factory;
-import org.easymock.internal.ClassProxyFactory;
 import org.easymock.internal.Injector;
 import org.easymock.internal.MockBuilder;
 import org.easymock.internal.MocksControl;
@@ -627,7 +624,7 @@ public class EasyMockSupport {
                 return null;
             }
         }
-        else if(ReflectionUtils.isClassAvailable("net.sf.cglib.proxy.Enhancer")) {
+        else if(ReflectionUtils.isClassAvailable("net.bytebuddy.ByteBuddy")) {
             if(!ObjectMockingHelper.isAClassMock(possibleMock)) {
                 return null;
             }
@@ -639,18 +636,12 @@ public class EasyMockSupport {
     }
 
     /**
-     * Hides cglib classes from EasyMockSupport to prevent {@code NoClassDefFoundError} if
-     * cglib isn't used.
+     * Hides ByteBuddy classes from EasyMockSupport to prevent {@code NoClassDefFoundError} if
+     * ByteBuddy isn't used.
      */
     private static class ObjectMockingHelper {
         public static boolean isAClassMock(Object possibleMock) {
-            if(!Enhancer.isEnhanced(possibleMock.getClass())) {
-                return false;
-            }
-            if(!(possibleMock instanceof Factory)) {
-                return false;
-            }
-            return (((Factory) possibleMock).getCallback(0) instanceof ClassProxyFactory.MockMethodInterceptor);
+            return possibleMock.getClass().getSimpleName().contains("$ByteBuddy$");
         }
     }
 }

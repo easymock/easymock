@@ -44,6 +44,11 @@
       </exclusions>
     </dependency>
     <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>1.12.2</version>
+    </dependency>
+    <dependency>
       <groupId>org.ow2.asm</groupId>
       <artifactId>asm</artifactId>
       <version>9.4</version>
@@ -118,8 +123,8 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Export-Package>org.easymock.internal.*;poweruser=true;mandatory:=poweruser,org.easymock,org.easymock.cglib.core,org.easymock.cglib.proxy,org.easymock.cglib.reflect,org.easymock.asm</Export-Package>
-            <Import-Package>org.easymock,org.easymock.internal;poweruser=true,org.easymock.cglib.core,org.easymock.cglib.proxy,org.easymock.cglib.reflect,org.easymock.asm,org.objenesis;resolution:=optional</Import-Package>
+            <Export-Package>org.easymock.internal.*;poweruser=true;mandatory:=poweruser,org.easymock,org.easymock.bytebuddy,org.easymock.asm</Export-Package>
+            <Import-Package>org.easymock,org.easymock.internal;poweruser=true,  org.easymock.bytebuddy,org.easymock.asm,org.objenesis;resolution:=optional</Import-Package>
           </instructions>
         </configuration>
         <executions>
@@ -154,8 +159,8 @@
               </artifactSet>
               <relocations>
                 <relocation>
-                  <pattern>net.sf.cglib</pattern>
-                  <shadedPattern>org.easymock.cglib</shadedPattern>
+                  <pattern>net.bytebuddy</pattern>
+                  <shadedPattern>org.easymock.bytebuddy</shadedPattern>
                 </relocation>
                 <relocation>
                   <pattern>org.objectweb.asm</pattern>
