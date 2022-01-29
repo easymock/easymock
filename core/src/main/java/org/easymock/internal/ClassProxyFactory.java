@@ -16,11 +16,12 @@
 package org.easymock.internal;
 
 import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.TypeCache;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.description.modifier.FieldManifestation;
 import net.bytebuddy.description.modifier.SyntheticState;
 import net.bytebuddy.description.modifier.Visibility;
-import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.InvocationHandlerAdapter;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.sf.cglib.core.CodeGenerationException;
@@ -45,10 +46,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
 import static net.bytebuddy.matcher.ElementMatchers.anyOf;
@@ -226,21 +224,33 @@ public class ClassProxyFactory implements IProxyFactory {
             }
         }
 
+        Field callbackField = getCallbackField(mock);
+        try {
+            callbackField.set(mock, handler);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
         return (T) mock;
     }
 
     public InvocationHandler getInvocationHandler(Object mock) {
-        Field field = null;
+        Field field = getCallbackField(mock);
+        try {
+            return (InvocationHandler) field.get(mock);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Field getCallbackField(Object mock) {
+        Field field;
         try {
             field = mock.getClass().getDeclaredField("$callback");
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
         field.setAccessible(true);
-        try {
-            return (InvocationHandler) field.get(mock);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        return field;
     }
 }
