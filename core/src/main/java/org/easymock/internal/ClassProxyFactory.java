@@ -182,7 +182,7 @@ public class ClassProxyFactory implements IProxyFactory {
             .method(junction)
             .intercept(InvocationHandlerAdapter.of(handler))
             .make()
-            .load(toMock.getClassLoader())
+            .load(toMock.getClassLoader(), new ClassLoadingStrategy.ForUnsafeInjection())
             .getLoaded();
 
         T mock;
