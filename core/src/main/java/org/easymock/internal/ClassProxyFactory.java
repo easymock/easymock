@@ -178,7 +178,6 @@ public class ClassProxyFactory implements IProxyFactory {
         Class<?> mockClass = new ByteBuddy()
             .subclass(toMock)
             .defineField("$callback", InvocationHandler.class, SyntheticState.SYNTHETIC, Visibility.PRIVATE, FieldManifestation.FINAL)
-            .implement(Factory.class)
             .method(junction)
             .intercept(InvocationHandlerAdapter.of(handler))
             .make()
