@@ -16,7 +16,6 @@
 package org.easymock.internal;
 
 import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.TypeCache;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.description.modifier.FieldManifestation;
 import net.bytebuddy.description.modifier.SyntheticState;
@@ -24,29 +23,13 @@ import net.bytebuddy.description.modifier.Visibility;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.InvocationHandlerAdapter;
 import net.bytebuddy.matcher.ElementMatcher;
-import net.sf.cglib.core.CodeGenerationException;
-import net.sf.cglib.core.CollectionUtils;
+import net.bytebuddy.matcher.ElementMatchers;
 import net.sf.cglib.core.DefaultNamingPolicy;
 import net.sf.cglib.core.NamingPolicy;
 import net.sf.cglib.core.Predicate;
-import net.sf.cglib.core.VisibilityPredicate;
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.Factory;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
 import org.easymock.ConstructorArgs;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
+import java.lang.reflect.*;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
 import static net.bytebuddy.matcher.ElementMatchers.anyOf;
@@ -58,98 +41,6 @@ import static net.bytebuddy.matcher.ElementMatchers.anyOf;
  */
 public class ClassProxyFactory implements IProxyFactory {
 
-    public static class MockMethodInterceptor implements MethodInterceptor, Serializable {
-
-        private static final long serialVersionUID = -9054190871232972342L;
-
-        private final InvocationHandler handler;
-
-        private transient Set<Method> mockedMethods;
-
-        public MockMethodInterceptor(InvocationHandler handler) {
-            this.handler = handler;
-        }
-
-        public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)
-                throws Throwable {
-
-            // We conveniently mock abstract methods be default
-            if (Modifier.isAbstract(method.getModifiers())) {
-                return handler.invoke(obj, method, args);
-            }
-
-            // Here I need to check if the fillInStackTrace was called by EasyMock inner code
-            // If it's the case, just ignore the call. We ignore it for two reasons
-            // 1- In Java 7, the fillInStackTrace won't work because, since no constructor was called, the stackTrace attribute is null
-            // 2- There might be some unexpected side effect in the original fillInStackTrace. So it seems more logical to ignore the call
-            if (obj instanceof Throwable && method.getName().equals("fillInStackTrace")) {
-                if(isCallerMockInvocationHandlerInvoke(new Throwable())) {
-                        return obj;
-                }
-            }
-
-            // Bridges should delegate to their bridged method. It should be done before
-            // checking for mocked methods because only unbridged method are mocked
-            // It also make sure the method passed to the handler is not the bridge. Normally it
-            // shouldn't be necessary because bridges are never mocked so are never in the mockedMethods
-            // map. So the normal case is that is will call invokeSuper which will call the interceptor for
-            // the bridged method. The problem is that it doesn't happen. It looks like a cglib bug. For
-            // package scoped bridges (see GenericTest), the interceptor is not called for the bridged
-            // method. Not normal from my point of view.
-            if (method.isBridge()) {
-                method = BridgeMethodResolver.findBridgedMethod(method);
-            }
-
-            if (mockedMethods != null && !mockedMethods.contains(method)) {
-                return proxy.invokeSuper(obj, args);
-            }
-
-            return handler.invoke(obj, method, args);
-        }
-
-        public void setMockedMethods(Method... mockedMethods) {
-            this.mockedMethods = new HashSet<>(Arrays.asList(mockedMethods));
-        }
-
-        @SuppressWarnings("unchecked")
-        private void readObject(java.io.ObjectInputStream stream) throws IOException,
-                ClassNotFoundException {
-            stream.defaultReadObject();
-            Set<MethodSerializationWrapper> methods = (Set<MethodSerializationWrapper>) stream
-                    .readObject();
-            if (methods == null) {
-                return;
-            }
-
-            mockedMethods = new HashSet<>(methods.size());
-            for (MethodSerializationWrapper m : methods) {
-                try {
-                    mockedMethods.add(m.getMethod());
-                } catch (NoSuchMethodException e) {
-                    // ///CLOVER:OFF
-                    throw new IOException(e.toString());
-                    // ///CLOVER:ON
-                }
-            }
-        }
-
-        private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
-            stream.defaultWriteObject();
-
-            if (mockedMethods == null) {
-                stream.writeObject(null);
-                return;
-            }
-
-            Set<MethodSerializationWrapper> methods = new HashSet<>(
-                mockedMethods.size());
-            for (Method m : mockedMethods) {
-                methods.add(new MethodSerializationWrapper(m));
-            }
-
-            stream.writeObject(methods);
-        }
-    }
 
     // ///CLOVER:OFF (I don't know how to test it automatically yet)
     private static final NamingPolicy ALLOWS_MOCKING_CLASSES_IN_SIGNED_PACKAGES = new DefaultNamingPolicy() {
@@ -173,7 +64,13 @@ public class ClassProxyFactory implements IProxyFactory {
     public <T> T createProxy(final Class<T> toMock, InvocationHandler handler,
             Method[] mockedMethods, ConstructorArgs args) {
 
-        ElementMatcher.Junction<MethodDescription> junction = mockedMethods == null ? any() : anyOf(mockedMethods);
+        ElementMatcher.Junction<MethodDescription> junction;
+        if (mockedMethods == null) {
+            junction = any();
+        } else {
+            junction = anyOf(mockedMethods)
+                .or(ElementMatchers.isAbstract()); // We conveniently mock abstract methods be default
+        }
 
         Class<?> mockClass = new ByteBuddy()
             .subclass(toMock)
