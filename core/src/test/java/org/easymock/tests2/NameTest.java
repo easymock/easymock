@@ -83,14 +83,4 @@ public class NameTest {
         }
     }
 
-    @Test
-    public void shouldThrowIllegalArgumentExceptionIfNameIsNoValidJavaIdentifier() {
-        try {
-            createMock("no-valid-java-identifier", IMethods.class);
-            throw new AssertionError();
-        } catch (IllegalArgumentException expected) {
-            assertEquals("'no-valid-java-identifier' is not a valid Java identifier.", expected.getMessage());
-        }
-    }
-
 }

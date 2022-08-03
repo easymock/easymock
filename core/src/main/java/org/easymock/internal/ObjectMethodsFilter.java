@@ -45,11 +45,6 @@ public class ObjectMethodsFilter implements InvocationHandler, Serializable {
     private final String name;
 
     public ObjectMethodsFilter(Class<?> toMock, MockInvocationHandler delegate, String name) {
-        if (name != null && !Invocation.isJavaIdentifier(name)) {
-            throw new IllegalArgumentException(String.format("'%s' is not a valid Java identifier.", name));
-
-        }
-
         if (toMock.isInterface()) {
             equalsMethod = ReflectionUtils.OBJECT_EQUALS;
             hashCodeMethod = ReflectionUtils.OBJECT_HASHCODE;
