@@ -67,9 +67,9 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         assertEquals("1", standardMock.oneArg(true));
         assertEquals("2", namedMock.oneArg(true));
         verifyAll();
-        assertEquals("EasyMock for interface org.easymock.tests.IMethods", standardMock.toString());
+        assertEquals("EasyMock for field org.easymock.tests2.EasyMockAnnotationsTest.standardMock", standardMock.toString());
         assertEquals("name1", namedMock.toString());
-        assertEquals("EasyMock for interface org.easymock.tests.IMethods", typedMock.toString());
+        assertEquals("EasyMock for field org.easymock.tests2.EasyMockAnnotationsTest.typedMock", typedMock.toString());
         assertEquals("name2", namedAndTypedMock.toString());
     }
 

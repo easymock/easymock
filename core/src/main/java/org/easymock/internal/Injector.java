@@ -148,8 +148,11 @@ public class Injector {
             }
             Class<?> type = f.getType();
             String name = annotation.name();
-            // Empty string means we are on the default value which we means no name (aka null) from the EasyMock point of view
-            name = (name.length() == 0 ? null : name);
+            // Empty string means we are on the default value.
+            // It means we will name the mock by the class and field that is annotated
+            if (name.length() == 0) {
+                name = "EasyMock for field " + hostClass.getTypeName() + "." + f.getName();
+            }
 
             MockType mockType = mockTypeFromAnnotation(annotation);
             Object mock;

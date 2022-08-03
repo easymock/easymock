@@ -43,7 +43,7 @@ public @interface Mock {
     /** @return type of mock to create */
     MockType type() default MockType.DEFAULT;
 
-    /** @return name of the mock to be created */
+    /** @return name of the mock to be created. By default, it is the "EasyMock for field TypeName.fieldName */
     String name() default "";
 
     /**
