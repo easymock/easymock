@@ -17,7 +17,7 @@ You can find the website and user documentation at http://easymock.org.
 ## Environment setup
 
 I'm using:
-- IntelliJ 2021.3.1 Ultimate (thanks to JetBrains for the license)
+- IntelliJ 2022.1.4 Ultimate (thanks to JetBrains for the license)
 - Maven 3.8.4
 
 You can also use Eclipse. I tried
