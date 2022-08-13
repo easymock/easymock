@@ -72,10 +72,10 @@ echo "Update the Maven version"
 mvn versions:set -DnewVersion=${version} -Pall
 
 echo "Build"
-mvn clean install -PfullBuild,deployBuild,all
+mvn clean install -PfullBuild,deployBuild,all-no-android
 
 echo "Deploy"
-mvn deploy -PfullBuild,deployBuild,all -DskipTests
+mvn deploy -PfullBuild,deployBuild,all-no-android -DskipTests
 
 echo "Deployment done, please validate the staging repository https://oss.sonatype.org/#stagingRepositories"
 pause
