@@ -30,6 +30,7 @@ import net.sf.cglib.core.Predicate;
 import org.easymock.ConstructorArgs;
 
 import java.lang.reflect.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
 import static net.bytebuddy.matcher.ElementMatchers.anyOf;
@@ -41,6 +42,7 @@ import static net.bytebuddy.matcher.ElementMatchers.anyOf;
  */
 public class ClassProxyFactory implements IProxyFactory {
 
+    private static final AtomicInteger id = new AtomicInteger(0);
 
     // ///CLOVER:OFF (I don't know how to test it automatically yet)
     private static final NamingPolicy ALLOWS_MOCKING_CLASSES_IN_SIGNED_PACKAGES = new DefaultNamingPolicy() {
@@ -66,14 +68,15 @@ public class ClassProxyFactory implements IProxyFactory {
 
         ElementMatcher.Junction<MethodDescription> junction;
         if (mockedMethods == null) {
-            junction = any();
+            junction = ElementMatchers.any();
         } else {
-            junction = anyOf(mockedMethods)
+            junction = ElementMatchers.anyOf(mockedMethods)
                 .or(ElementMatchers.isAbstract()); // We conveniently mock abstract methods be default
         }
 
         Class<?> mockClass = new ByteBuddy()
             .subclass(toMock)
+            .name(toMock.getSimpleName() + "$$$EasyMock$" + id.incrementAndGet())
             .defineField("$callback", InvocationHandler.class, SyntheticState.SYNTHETIC, Visibility.PRIVATE, FieldManifestation.FINAL)
             .method(junction)
             .intercept(InvocationHandlerAdapter.of(handler))
@@ -140,6 +143,7 @@ public class ClassProxyFactory implements IProxyFactory {
     }
 
     private Field getCallbackField(Object mock) {
+
         Field field;
         try {
             field = mock.getClass().getDeclaredField("$callback");

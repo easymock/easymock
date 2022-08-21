@@ -17,6 +17,7 @@ package org.easymock.internal;
 
 import org.easymock.ConstructorArgs;
 import org.easymock.EasyMock;
+import org.easymock.EasyMockSupport;
 import org.easymock.IAnswer;
 import org.easymock.IExpectationSetters;
 import org.easymock.IMocksControl;
@@ -160,13 +161,12 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
     }
 
     public static MocksControl getControl(Object mock) {
-        try {
-            IProxyFactory factory = getProxyFactory(mock);
-            ObjectMethodsFilter handler = (ObjectMethodsFilter) factory.getInvocationHandler(mock);
-            return handler.getDelegate().getControl();
-        } catch (ClassCastException e) {
+        if (!EasyMockSupport.isAMock(mock)) {
             throw new IllegalArgumentException("Not a mock: " + mock.getClass().getName());
         }
+        IProxyFactory factory = getProxyFactory(mock);
+        ObjectMethodsFilter handler = (ObjectMethodsFilter) factory.getInvocationHandler(mock);
+        return handler.getDelegate().getControl();
     }
 
     public static InvocationHandler getInvocationHandler(Object mock) {
