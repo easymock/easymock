@@ -616,23 +616,29 @@ public class EasyMockSupport {
      */
     public static <T,  R extends T> Class<R> getMockedClass(T possibleMock) {
         // Check that it is a real EasyMock mock
-        if(possibleMock == null) {
-            return null;
-        }
-        if (Proxy.isProxyClass(possibleMock.getClass())) {
-            if(!(Proxy.getInvocationHandler(possibleMock) instanceof ObjectMethodsFilter)) {
-                return null;
-            }
-        }
-        else if(ReflectionUtils.isClassAvailable("net.bytebuddy.ByteBuddy")) {
-            if(!ObjectMockingHelper.isAClassMock(possibleMock)) {
-                return null;
-            }
-        }
-        else {
+        if (!isAMock(possibleMock)) {
             return null;
         }
         return MocksControl.getMockedClass(possibleMock);
+    }
+
+    /**
+     * Tells if this mock is an EasyMock mock.
+     *
+     * @param possibleMock the object that might be a mock
+     * @return true if it's a mock
+     */
+    public static boolean isAMock(Object possibleMock) {
+        if(possibleMock == null) {
+            return false;
+        }
+        if (Proxy.isProxyClass(possibleMock.getClass())) {
+            return (Proxy.getInvocationHandler(possibleMock) instanceof ObjectMethodsFilter);
+        }
+        else if(ReflectionUtils.isClassAvailable("net.bytebuddy.ByteBuddy")) {
+            return ObjectMockingHelper.isAClassMock(possibleMock);
+        }
+        return false;
     }
 
     /**
@@ -641,7 +647,7 @@ public class EasyMockSupport {
      */
     private static class ObjectMockingHelper {
         public static boolean isAClassMock(Object possibleMock) {
-            return possibleMock.getClass().getSimpleName().contains("$ByteBuddy$");
+            return possibleMock.getClass().getSimpleName().contains("$$$EasyMock$");
         }
     }
 }
