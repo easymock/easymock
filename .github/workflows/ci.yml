@@ -23,4 +23,5 @@ jobs:
         java-version: ${{ matrix.java }}
         distribution: 'temurin'
     - name: Build
+      timeout-minutes: 10
       run: ./mvnw --no-transfer-progress -B clean verify --file pom.xml -Pall-no-android,fullBuild
