@@ -98,6 +98,10 @@ The command line will ask you to give the passphrase for the gpg private key.
 
 `mvn validate license:format -Pall`
 
+## To upgrade the Maven wrapper
+
+`mvn wrapper:wrapper`
+
 ## To run Sonar
 
 `mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test sonar:sonar`
