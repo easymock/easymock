@@ -56,9 +56,9 @@ public class EasyMockListenerTest extends EasyMockSupport {
         assertEquals("1", standardMock.oneArg(true));
         assertEquals("2", namedMock.oneArg(true));
         verifyAll();
-        assertEquals("EasyMock for interface org.easymock.itests.IMethods", standardMock.toString());
+        assertEquals("EasyMock for field org.easymock.itests.EasyMockListenerTest.standardMock", standardMock.toString());
         assertEquals("name1", namedMock.toString());
-        assertEquals("EasyMock for interface org.easymock.itests.IMethods", typedMock.toString());
+        assertEquals("EasyMock for field org.easymock.itests.EasyMockListenerTest.typedMock", typedMock.toString());
         assertEquals("name2", namedAndTypedMock.toString());
     }
 
