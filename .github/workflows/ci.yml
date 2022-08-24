@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 2
     strategy:
       matrix:
         java: [ '8', '11', '17', '18' ]
@@ -23,5 +23,4 @@ jobs:
         java-version: ${{ matrix.java }}
         distribution: 'temurin'
     - name: Build
-      timeout-minutes: 10
       run: ./mvnw --no-transfer-progress -B clean verify --file pom.xml -Pall-no-android,fullBuild
