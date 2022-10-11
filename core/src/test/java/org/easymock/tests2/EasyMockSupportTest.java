@@ -15,8 +15,8 @@
  */
 package org.easymock.tests2;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.NoOp;
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
 import org.easymock.tests.IMethods;
@@ -320,7 +320,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void mockType() {
+    public void mockType() throws Exception {
         assertNull(EasyMockSupport.getMockedClass(null));
         assertNull(EasyMockSupport.getMockedClass(new Object()));
 
@@ -328,17 +328,13 @@ public class EasyMockSupportTest extends EasyMockSupport {
         assertNull(EasyMockSupport.getMockedClass(Proxy.newProxyInstance(getClass().getClassLoader(),
             new Class<?>[] { IMethods.class }, (proxy, method, args) -> null)));
 
-        // Cglib proxy that is not an EasyMock proxy
-        assertNull(EasyMockSupport.getMockedClass(Enhancer.create(Object.class, NoOp.INSTANCE)));
-
-        // Really specific case where the cglib proxy is not even implementing Factory
-        Enhancer enhancer = new Enhancer();
-        enhancer.setUseFactory(false);
-        enhancer.setSuperclass(getClass());
-        enhancer.setCallback(NoOp.INSTANCE);
-        assertNull(EasyMockSupport.getMockedClass(enhancer.create()));
-
-        assertEquals(IMethods.class, EasyMockSupport.getMockedClass(mock(IMethods.class)));
-        assertEquals(getClass(), EasyMockSupport.getMockedClass(mock(getClass())));
+        // ByteBuddy proxy that is not an EasyMock proxy
+        Class<?> mockClass = new ByteBuddy()
+            .subclass(Object.class)
+            .make()
+            .load(Object.class.getClassLoader(), new ClassLoadingStrategy.ForUnsafeInjection())
+            .getLoaded();
+        Object mock = mockClass.getDeclaredConstructor().newInstance();
+        assertNull(EasyMockSupport.getMockedClass(mock));
     }
 }
