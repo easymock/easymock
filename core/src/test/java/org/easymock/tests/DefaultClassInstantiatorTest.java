@@ -28,9 +28,9 @@ import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 /**
- * Class testing the default instantiator. I'm cheating a little bit here since
+ * Class testing the default instantiator. I'm cheating a little here since
  * I'm not unit testing directly the class. The reason I'm doing this is that I
- * want to make sure it works well with the cglib class and not the actual
+ * want to make sure it works well with the ByteBuddy class and not the actual
  * mocked class.
  *
  * @author Henri Tremblay

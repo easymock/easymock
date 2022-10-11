@@ -51,7 +51,8 @@ public class GenericTest {
     }
 
     /**
-     * Test cglib bug. See ClassProxyFactory.intercept for details
+     * Test cglib bug. See ClassProxyFactory.MockMethodInterceptor.invoke for details. The applied patch might not be
+     * needed for ByteBuddy.
      */
     @Test
     public void testPartialMockingSeesBridgeHasUnmocked() {

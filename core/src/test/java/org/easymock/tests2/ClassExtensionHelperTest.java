@@ -17,8 +17,6 @@ package org.easymock.tests2;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.NoOp;
 import org.droidparts.dexmaker.stock.ProxyBuilder;
 import org.easymock.EasyMock;
 import org.easymock.internal.AndroidSupport;

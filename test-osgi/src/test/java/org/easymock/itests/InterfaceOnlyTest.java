@@ -28,7 +28,7 @@ import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 /**
- * Test that we still can mock interfaces without cglib and objenesis as
+ * Test that we still can mock interfaces without ByteBuddy and Objenesis as
  * dependencies
  *
  * @author Henri Tremblay
