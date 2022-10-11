@@ -54,7 +54,7 @@ public class MockedExceptionTest {
         replay(c, expected);
 
         try {
-            c.length(); // fillInStackTrace wont' be called internally
+            c.length(); // fillInStackTrace won't be called internally
         } catch (RuntimeException actual) {
             assertSame(myException, actual.fillInStackTrace()); // so the fillInStackTrace recording is still valid
             assertSame(expected, actual);
