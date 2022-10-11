@@ -126,5 +126,21 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>jdk9andAbove</id>
+      <activation>
+        <jdk>[9,</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 </project>
