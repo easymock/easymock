@@ -65,7 +65,7 @@ public class MockedExceptionTest {
 
     private static int check = 2;
 
-    private static class MyException extends RuntimeException {
+    public static class MyException extends RuntimeException {
         private static final long serialVersionUID = 1L;
 
         @Override
