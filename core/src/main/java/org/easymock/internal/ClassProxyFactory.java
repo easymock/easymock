@@ -24,16 +24,15 @@ import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.InvocationHandlerAdapter;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
-import net.sf.cglib.core.DefaultNamingPolicy;
-import net.sf.cglib.core.NamingPolicy;
-import net.sf.cglib.core.Predicate;
 import org.easymock.ConstructorArgs;
 
-import java.lang.reflect.*;
+import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static net.bytebuddy.matcher.ElementMatchers.any;
-import static net.bytebuddy.matcher.ElementMatchers.anyOf;
 
 /**
  * Factory generating a mock for a class.
@@ -42,18 +41,47 @@ import static net.bytebuddy.matcher.ElementMatchers.anyOf;
  */
 public class ClassProxyFactory implements IProxyFactory {
 
-    private static final AtomicInteger id = new AtomicInteger(0);
+    public static class MockMethodInterceptor implements InvocationHandler, Serializable {
 
-    // ///CLOVER:OFF (I don't know how to test it automatically yet)
-    private static final NamingPolicy ALLOWS_MOCKING_CLASSES_IN_SIGNED_PACKAGES = new DefaultNamingPolicy() {
-        @Override
-        public String getClassName(String prefix, String source, Object key,
-                Predicate names) {
-            return "codegen." + super.getClassName(prefix, source, key, names);
+        private static final long serialVersionUID = -9054190871232972342L;
+
+        private final InvocationHandler handler;
+
+        public MockMethodInterceptor(InvocationHandler handler) {
+            this.handler = handler;
         }
-    };
 
-    // ///CLOVER:ON
+        @Override
+        public Object invoke(Object obj, Method method, Object[] args) throws Throwable {
+
+            // Here I need to check if the fillInStackTrace was called by EasyMock inner code
+            // If it's the case, just ignore the call. We ignore it for two reasons
+            // 1- In Java 7, the fillInStackTrace won't work because, since no constructor was called, the stackTrace attribute is null
+            // 2- There might be some unexpected side effect in the original fillInStackTrace. So it seems more logical to ignore the call
+            if (obj instanceof Throwable && method.getName().equals("fillInStackTrace")) {
+                if(isCallerMockInvocationHandlerInvoke(new Throwable())) {
+                    return obj;
+                }
+            }
+
+            // Bridges should delegate to their bridged method. It should be done before
+            // checking for mocked methods because only unbridged method are mocked
+            // It also make sure the method passed to the handler is not the bridge. Normally it
+            // shouldn't be necessary because bridges are never mocked so are never in the mockedMethods
+            // map. So the normal case is that it will call invokeSuper which will call the interceptor for
+            // the bridged method. The problem is that it doesn't happen. It looks like a cglib bug. For
+            // package scoped bridges (see GenericTest), the interceptor is not called for the bridged
+            // method. Not normal from my point of view.
+            if (method.isBridge()) {
+                method = BridgeMethodResolver.findBridgedMethod(method);
+            }
+
+            return handler.invoke(obj, method, args);
+        }
+
+    }
+
+    private static final AtomicInteger id = new AtomicInteger(0);
 
     public static boolean isCallerMockInvocationHandlerInvoke(Throwable e) {
         StackTraceElement[] elements = e.getStackTrace();
@@ -79,7 +107,7 @@ public class ClassProxyFactory implements IProxyFactory {
             .name(toMock.getSimpleName() + "$$$EasyMock$" + id.incrementAndGet())
             .defineField("$callback", InvocationHandler.class, SyntheticState.SYNTHETIC, Visibility.PRIVATE, FieldManifestation.FINAL)
             .method(junction)
-            .intercept(InvocationHandlerAdapter.of(handler))
+            .intercept(InvocationHandlerAdapter.of(new MockMethodInterceptor(handler)))
             .make()
             .load(toMock.getClassLoader(), new ClassLoadingStrategy.ForUnsafeInjection())
             .getLoaded();
@@ -130,7 +158,7 @@ public class ClassProxyFactory implements IProxyFactory {
             throw new RuntimeException(e);
         }
 
-        return (T) mock;
+        return mock;
     }
 
     public InvocationHandler getInvocationHandler(Object mock) {
