@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
  * I'm not unit testing directly the class. The reason I'm doing this is that I
  * want to make sure it works well with the cglib class and not the actual
  * mocked class.
- * 
+ *
  * @author Henri Tremblay
  */
 public class DefaultClassInstantiatorTest {
@@ -199,6 +199,7 @@ public class DefaultClassInstantiatorTest {
     }
 
     @Test
+    @Ignore("requires --add-opens java.base/java.io=ALL-UNNAMED with Java 9+")
     public void badSerializable() throws Exception {
         DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
         assertTrue(instantiator.newInstance(BadlyDoneSerializableClass.class) instanceof BadlyDoneSerializableClass);
