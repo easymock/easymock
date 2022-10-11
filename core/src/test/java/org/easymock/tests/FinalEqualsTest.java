@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
  */
 public class FinalEqualsTest {
 
-    static class MyInt {
+    public static class MyInt {
         private final int i;
 
         public MyInt(int i) {
