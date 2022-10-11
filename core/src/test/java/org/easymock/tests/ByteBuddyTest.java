@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 /**
- * This test case is used to make sure that the way cglib is used is providing
+ * This test case is used to make sure that the way ByteBuddy is used is providing
  * the expected behavior
  *
  * @author Henri Tremblay
