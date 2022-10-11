@@ -15,6 +15,8 @@
  */
 package org.easymock.tests2;
 
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
 import org.droidparts.dexmaker.stock.ProxyBuilder;
@@ -51,14 +53,19 @@ public class ClassExtensionHelperTest {
     }
 
     @Test
-    public void testGetControl_EnhancedButNotAMock() throws Exception {
+    public void testGetControl_ByteBuddyButNotAMock() throws Exception {
         Object o;
         if (AndroidSupport.isAndroid()) {
             o = ProxyBuilder.forClass(ArrayList.class)
                     .handler(NOOP_INVOCATION_HANDLER)
                     .build();
         } else {
-            o = Enhancer.create(ArrayList.class, NoOp.INSTANCE);
+            o = new ByteBuddy()
+                .subclass(Object.class)
+                .make()
+                .load(Object.class.getClassLoader(), new ClassLoadingStrategy.ForUnsafeInjection())
+                .getLoaded()
+                .getDeclaredConstructor().newInstance();
         }
         try {
             getControl(o);
