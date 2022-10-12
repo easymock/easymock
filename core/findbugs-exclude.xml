@@ -1,18 +1,17 @@
 <FindBugsFilter>
   <Match>
+    <!-- I don't care about these 2. In many cases I do not encapsulate on purpose -->
+    <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
     <Class name="org.easymock.EasyMock" />
     <Method name="aryEq" />
     <Bug code="PZLA" />
   </Match>
   <Match>
-    <Class name="org.easymock.internal.Invocation" />
-    <Method name="getArguments" />
-    <Bug code="EI" />
-  </Match>
-  <Match>
-    <Class name="org.easymock.ConstructorArgs" />
-    <Method name="getInitArgs" />
-    <Bug pattern="EI_EXPOSE_REP" />
+    <Class name="org.easymock.internal.EasyMockProperties" />
+    <Method name="getInstance" />
+    <Bug pattern="MS_EXPOSE_REP" />
   </Match>
   <Match>
     <Class name="org.easymock.ConstructorArgs" />
