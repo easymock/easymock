@@ -194,6 +194,7 @@ public class DefaultClassInstantiatorTest {
     }
 
     @Test
+    @Ignore("requires --add-opens java.base/java.io=ALL-UNNAMED with Java 9+")
     public void serializable() {
         checkInstantiation(SerializableClass.class);
     }
