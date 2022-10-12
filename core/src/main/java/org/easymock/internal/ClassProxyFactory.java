@@ -20,13 +20,17 @@ import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.description.modifier.FieldManifestation;
 import net.bytebuddy.description.modifier.SyntheticState;
 import net.bytebuddy.description.modifier.Visibility;
+import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.dynamic.loading.ClassInjector;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.InvocationHandlerAdapter;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.easymock.ConstructorArgs;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
@@ -102,15 +106,22 @@ public class ClassProxyFactory implements IProxyFactory {
                 .or(ElementMatchers.isAbstract()); // We conveniently mock abstract methods be default
         }
 
-        Class<?> mockClass = new ByteBuddy()
+        Class<?> mockClass;
+        try(DynamicType.Unloaded<T> unloaded = new ByteBuddy()
             .subclass(toMock)
             .name(toMock.getSimpleName() + "$$$EasyMock$" + id.incrementAndGet())
             .defineField("$callback", InvocationHandler.class, SyntheticState.SYNTHETIC, Visibility.PRIVATE, FieldManifestation.FINAL)
             .method(junction)
             .intercept(InvocationHandlerAdapter.of(new MockMethodInterceptor(handler)))
-            .make()
-            .load(toMock.getClassLoader(), new ClassLoadingStrategy.ForUnsafeInjection())
-            .getLoaded();
+            .make()) {
+            ClassLoader classLoader = classLoader(toMock);
+
+            mockClass = unloaded
+                .load(classLoader, classLoadingStrategy())
+                .getLoaded();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         T mock;
 
@@ -159,6 +170,19 @@ public class ClassProxyFactory implements IProxyFactory {
         }
 
         return mock;
+    }
+
+    private <T> ClassLoader classLoader(Class<T> toMock) {
+        return toMock.getClassLoader();
+    }
+
+    private ClassLoadingStrategy<ClassLoader> classLoadingStrategy() {
+        if (ClassInjector.UsingUnsafe.isAvailable()) {
+            return new ClassLoadingStrategy.ForUnsafeInjection();
+        }
+        // I don't think this helps much. It was an attempt to help OSGi, but it doesn't work.
+        // Right now, everything is using Unsafe to we never get there
+        return ClassLoadingStrategy.UsingLookup.of(MethodHandles.lookup());
     }
 
     public InvocationHandler getInvocationHandler(Object mock) {
