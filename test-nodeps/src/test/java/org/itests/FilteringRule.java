@@ -49,7 +49,7 @@ public class FilteringRule implements TestRule {
 
 class FilteringClassLoader extends ClassLoader {
 
-    private static final String[] packagesToBeDeferred = new String[] { "org.hamcrest.", "java.", "sun.",
+    private static final String[] packagesToBeDeferred = new String[] { "org.hamcrest.", "java.", "jdk.", "sun.",
             "org.junit." };
 
     private final Collection<String> ignoredPackages;
