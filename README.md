@@ -11,7 +11,7 @@ You can find the website and user documentation at http://easymock.org.
 # Developer information
 
 ## Build status
-[![Build Status](https://travis-ci.org/easymock/easymock.svg?branch=master)](https://travis-ci.org/easymock/easymock)
+[![Build Status](https://github.com/easymock/easymock/actions/workflows/ci.yml/badge.svg)](https://github.com/easymock/easymock/actions/workflows/ci.yml?query=branch%3Amaster)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.easymock/easymock/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.easymock/easymock)
 
 ## Environment setup
