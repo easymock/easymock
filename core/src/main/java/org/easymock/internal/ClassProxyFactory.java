@@ -36,6 +36,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -173,8 +174,8 @@ public class ClassProxyFactory implements IProxyFactory {
     }
 
     private String classPackage(Class<?> toMock) {
-        // We want to create the mock in the same class as the original class
-        return toMock.getPackage().getName() + ".";
+        // We want to create the mock in the same class as the original class when the class is in default scope
+        return (toMock.getModifiers() & (Modifier.PRIVATE | Modifier.PUBLIC | Modifier.PROTECTED)) == 0 ? toMock.getPackage().getName() + "." : "";
     }
 
     private <T> ClassLoader classLoader(Class<T> toMock) {
