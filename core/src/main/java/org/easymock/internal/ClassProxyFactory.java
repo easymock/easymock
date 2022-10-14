@@ -109,7 +109,7 @@ public class ClassProxyFactory implements IProxyFactory {
         Class<?> mockClass;
         try(DynamicType.Unloaded<T> unloaded = new ByteBuddy()
             .subclass(toMock)
-            .name(toMock.getSimpleName() + "$$$EasyMock$" + id.incrementAndGet())
+            .name(classPackage(toMock) + toMock.getSimpleName() + "$$$EasyMock$" + id.incrementAndGet())
             .defineField("$callback", InvocationHandler.class, SyntheticState.SYNTHETIC, Visibility.PRIVATE, FieldManifestation.FINAL)
             .method(junction)
             .intercept(InvocationHandlerAdapter.of(new MockMethodInterceptor(handler)))
@@ -170,6 +170,11 @@ public class ClassProxyFactory implements IProxyFactory {
         }
 
         return mock;
+    }
+
+    private String classPackage(Class<?> toMock) {
+        // We want to create the mock in the same class as the original class
+        return toMock.getPackage().getName() + ".";
     }
 
     private <T> ClassLoader classLoader(Class<T> toMock) {

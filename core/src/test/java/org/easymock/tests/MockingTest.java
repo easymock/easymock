@@ -42,6 +42,16 @@ public class MockingTest {
         }
     }
 
+    static class PackageScopeClassToMock {
+        public int foo() {
+            return 10;
+        }
+
+        public int method() {
+            return 20;
+        }
+    }
+
     /**
      * Make sure one mock is not interacting with another
      */
@@ -76,6 +86,16 @@ public class MockingTest {
     @Test
     public void testClassMocking() {
         checkClassMocking(createMock(ClassToMock.class), MockType.DEFAULT);
+    }
+
+    @Test
+    public void testPackageScopeClassMocking() {
+        checkClassMocking(createMock(PackageScopeClassToMock.class), MockType.DEFAULT);
+    }
+
+    @Test
+    public void testMockObject() {
+        checkClassMocking(createMock(Object.class), MockType.DEFAULT);
     }
 
     @Test
