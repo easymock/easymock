@@ -8,6 +8,21 @@ set -e
 # to see what's going on
 set -v
 
+increment=$1
+
+case $increment in
+  'major')
+    ;;
+  'minor')
+    ;;
+  'patch')
+    ;;
+  *)
+    echo "You need to tell what number should be incremented: major, minor or patch"
+    exit 1
+    ;;
+esac
+
 function pause {
     echo
     read -p "Press [enter]  to continue"
@@ -16,10 +31,26 @@ function pause {
 function incrementVersionLastElement {
     IN=$1
 
-    VER1=`echo $IN | awk -F\. 'BEGIN{i=2}{res=$1; while(i<NF){res=res"."$i; i++}print res}'`
-    VER2=`echo $IN | awk -F\. '{print $NF}'`
-    VER2=`expr $VER2 + 1`
-    OUT="$VER1.$VER2"
+    MAJOR=$(echo $IN | cut -d'.' -f 1)
+    MINOR=$(echo $IN | cut -d'.' -f 2)
+    PATCH=$(echo $IN | cut -d'.' -f 2)
+
+    case $increment in
+      'major')
+        MAJOR=$((MAJOR+1))
+        ;;
+      'minor')
+        MINOR=$((MINOR+1))
+        ;;
+      'patch')
+        PATCH=$((PATCH+1))
+        ;;
+      *)
+        STATEMENTS
+        ;;
+    esac
+
+    OUT="$MAJOR.$MINOR.$PATCH"
 
     echo $OUT
 }
