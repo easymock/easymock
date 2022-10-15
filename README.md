@@ -125,7 +125,6 @@ The command line will ask you to give the passphrase for the gpg private key.
 - Make sure `jq` is installed. If not, install it with your favorite package manager (`brew install jq`, `choco install jq`, `apt-get install jq`, `yum install jq`, etc.).
 - If gpg gives an `Inappropriate ioctl for device` error, enter this in your shell: `export GPG_TTY=$(tty)`
 - Add a little speech on the features in "ReleaseNotes.md" (remove the Change Log part, which will be regenerated automatically)
-- Set the github_user, github_password, gpg_passphrase as environment variables
 - Set the gpg_passphrase as environment variables
 - Launch `./deploy-easymock.sh (major|minor|patch)` where the parameter tells which version number should be incremented at the end
 - During the deployment, you will be asked to do different things. Do them
