@@ -175,7 +175,7 @@ public class ClassProxyFactory implements IProxyFactory {
 
     private String classPackage(Class<?> toMock) {
         // We want to create the mock in the same class as the original class when the class is in default scope
-        return (toMock.getModifiers() & (Modifier.PRIVATE | Modifier.PUBLIC | Modifier.PROTECTED)) == 0 ? toMock.getPackage().getName() + "." : "";
+        return toMock.getPackage().getName() + ".";
     }
 
     private <T> ClassLoader classLoader(Class<T> toMock) {
