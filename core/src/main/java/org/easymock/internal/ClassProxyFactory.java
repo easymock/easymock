@@ -111,7 +111,7 @@ public class ClassProxyFactory implements IProxyFactory {
         try(DynamicType.Unloaded<T> unloaded = new ByteBuddy()
             .subclass(toMock)
             .name(classPackage(toMock) + toMock.getSimpleName() + "$$$EasyMock$" + id.incrementAndGet())
-            .defineField("$callback", InvocationHandler.class, SyntheticState.SYNTHETIC, Visibility.PRIVATE, FieldManifestation.FINAL)
+            .defineField("$callback", InvocationHandler.class, SyntheticState.SYNTHETIC, Visibility.PUBLIC, FieldManifestation.FINAL)
             .method(junction)
             .intercept(InvocationHandlerAdapter.of(new MockMethodInterceptor(handler)))
             .make()) {
