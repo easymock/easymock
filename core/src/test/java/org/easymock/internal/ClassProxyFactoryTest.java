@@ -19,36 +19,34 @@ import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.implementation.InvocationHandlerAdapter;
 import org.junit.Test;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import static net.bytebuddy.implementation.MethodDelegation.to;
 import static net.bytebuddy.matcher.ElementMatchers.any;
-import static net.bytebuddy.matcher.ElementMatchers.isDeclaredBy;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class ClassProxyFactoryTest {
 
     @Test
-    public void test() throws Exception {
+    public void testInterception() throws Exception {
+        AtomicBoolean called = new AtomicBoolean(false);
+
         Class<?> clazz = new ByteBuddy()
             .subclass(getClass())
             .method(any())
-            .intercept(InvocationHandlerAdapter.of(new InvocationHandler() {
-                @Override
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                    System.out.println("Allo");
-                    return null;
-                }
+            .intercept(InvocationHandlerAdapter.of((proxy, method, args) -> {
+                called.set(true);
+                return null;
             }))
             .make()
             .load(getClass().getClassLoader())
             .getLoaded();
-        System.out.println(clazz.getName());
         ClassProxyFactoryTest t = (ClassProxyFactoryTest) clazz.newInstance();
         t.hello();
+        assertTrue(called.get());
     }
 
     public void hello() {
-        System.out.println("Hello");
+        fail("Should not be called since it's proxied");
     }
 }
