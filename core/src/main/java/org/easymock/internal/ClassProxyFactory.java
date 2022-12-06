@@ -24,7 +24,15 @@ import net.bytebuddy.description.modifier.Visibility;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassInjector;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
-import net.bytebuddy.implementation.InvocationHandlerAdapter;
+import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.bind.annotation.AllArguments;
+import net.bytebuddy.implementation.bind.annotation.BindingPriority;
+import net.bytebuddy.implementation.bind.annotation.FieldValue;
+import net.bytebuddy.implementation.bind.annotation.Origin;
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import net.bytebuddy.implementation.bind.annotation.StubValue;
+import net.bytebuddy.implementation.bind.annotation.SuperCall;
+import net.bytebuddy.implementation.bind.annotation.This;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.easymock.ConstructorArgs;
@@ -37,6 +45,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -48,19 +61,19 @@ public class ClassProxyFactory implements IProxyFactory {
 
     private static final String CALLBACK_FIELD = "$callback";
 
-    public static class MockMethodInterceptor implements InvocationHandler, Serializable {
+    public static class MockMethodInterceptor implements Serializable {
 
         private static final long serialVersionUID = -9054190871232972342L;
 
-        private final InvocationHandler handler;
-
-        public MockMethodInterceptor(InvocationHandler handler) {
-            this.handler = handler;
-        }
-
-        @Override
-        public Object invoke(Object obj, Method method, Object[] args) throws Throwable {
-            System.out.println("Interceptor: " + System.identityHashCode(this));
+        @SuppressWarnings("unused")
+        @RuntimeType
+        @BindingPriority(BindingPriority.DEFAULT * 2)
+        public static Object interceptSuperCallable(
+            @This Object obj,
+            @FieldValue(CALLBACK_FIELD) MockingData mockingData,
+            @Origin Method method,
+            @AllArguments Object[] args,
+            @SuperCall(serializableProxy = true) Callable<?> superCall) throws Throwable {
 
             // Here I need to check if the fillInStackTrace was called by EasyMock inner code
             // If it's the case, just ignore the call. We ignore it for two reasons
@@ -84,7 +97,52 @@ public class ClassProxyFactory implements IProxyFactory {
                 method = BridgeMethodResolver.findBridgedMethod(method);
             }
 
-            return handler.invoke(obj, method, args);
+            if (mockingData.isMocked(method)) {
+                return mockingData.handler.invoke(obj, method, args);
+            }
+
+            return superCall.call();
+        }
+
+        @SuppressWarnings("unused")
+        @RuntimeType
+        public static Object interceptAbstract(
+            @This Object obj,
+            @FieldValue(CALLBACK_FIELD) MockingData mockingData,
+            @StubValue Object stubValue,
+            @Origin Method method,
+            @AllArguments Object[] args)
+            throws Throwable {
+
+            return mockingData.handler.invoke(obj, method, args);
+        }
+    }
+
+    public static class MockingData implements Serializable {
+
+        private static final long serialVersionUID = -1L;
+
+        private final InvocationHandler handler;
+        private final transient Set<Method> mockedMethods;
+
+        public MockingData(InvocationHandler handler, Method[] mockedMethods) {
+            this.handler = handler;
+            this.mockedMethods = mockedMethods == null ? null : new HashSet<>(Arrays.asList(mockedMethods));
+        }
+
+        public boolean isMocked(Method method) {
+            if (mockedMethods == null) {
+                return true;
+            }
+            if (Modifier.isAbstract(method.getModifiers())) {
+                return true;
+            }
+
+            return mockedMethods.contains(method);
+        }
+
+        public InvocationHandler handler() {
+            return handler;
         }
 
     }
@@ -100,18 +158,12 @@ public class ClassProxyFactory implements IProxyFactory {
                 && elements[2].getMethodName().equals("invoke");
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public <T> T createProxy(final Class<T> toMock, InvocationHandler handler,
             Method[] mockedMethods, ConstructorArgs args) {
-        System.out.println("Original invocation handler: " + System.identityHashCode(handler));
 
-        ElementMatcher.Junction<MethodDescription> junction;
-        if (mockedMethods == null) {
-            junction = ElementMatchers.any();
-        } else {
-            junction = ElementMatchers.anyOf(mockedMethods)
-                .or(ElementMatchers.isAbstract()); // We conveniently mock abstract methods be default
-        }
+        ElementMatcher.Junction<MethodDescription> junction = ElementMatchers.any();
 
         ClassLoader classLoader = classLoader(toMock);
         Class<?> mockClass = typeCache.findOrInsert(classLoader, toMock,  () -> {
@@ -119,9 +171,9 @@ public class ClassProxyFactory implements IProxyFactory {
                 try (DynamicType.Unloaded<T> unloaded = new ByteBuddy()
                     .subclass(toMock)
                     .name(classPackage(toMock) + toMock.getSimpleName() + "$$$EasyMock$" + id.incrementAndGet())
-                    .defineField(CALLBACK_FIELD, InvocationHandler.class, SyntheticState.SYNTHETIC, Visibility.PUBLIC, FieldManifestation.FINAL)
+                    .defineField(CALLBACK_FIELD, MockingData.class, SyntheticState.SYNTHETIC, Visibility.PUBLIC, FieldManifestation.FINAL)
                     .method(junction)
-                    .intercept(InvocationHandlerAdapter.of(new MockMethodInterceptor(handler)))
+                    .intercept(MethodDelegation.to(MockMethodInterceptor.class))
                     .make()) {
                     return unloaded
                         .load(classLoader, classLoadingStrategy())
@@ -172,7 +224,7 @@ public class ClassProxyFactory implements IProxyFactory {
 
         Field callbackField = getCallbackField(mock);
         try {
-            callbackField.set(mock, handler);
+            callbackField.set(mock, new MockingData(handler, mockedMethods));
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
@@ -182,11 +234,18 @@ public class ClassProxyFactory implements IProxyFactory {
 
     private String classPackage(Class<?> toMock) {
         // We want to create the mock in the same class as the original class when the class is in default scope
-        return toMock.getPackage().getName() + ".";
+        if (isJdkClass(toMock)) {
+            return "org.easymock.mocks.";
+        }
+        return  toMock.getPackage().getName() + ".";
     }
 
     private <T> ClassLoader classLoader(Class<T> toMock) {
-        return toMock.getClassLoader();
+        return isJdkClass(toMock) ? getClass().getClassLoader() : toMock.getClassLoader();
+    }
+
+    private static <T> boolean isJdkClass(Class<T> toMock) {
+        return toMock.getPackage().getName().startsWith("java.");
     }
 
     private ClassLoadingStrategy<ClassLoader> classLoadingStrategy() {
@@ -198,17 +257,21 @@ public class ClassProxyFactory implements IProxyFactory {
         return ClassLoadingStrategy.UsingLookup.of(MethodHandles.lookup());
     }
 
+    @Override
     public InvocationHandler getInvocationHandler(Object mock) {
+        return getMockingData(mock).handler();
+    }
+
+    private static MockingData getMockingData(Object mock) {
         Field field = getCallbackField(mock);
         try {
-            return (InvocationHandler) field.get(mock);
+            return (MockingData) field.get(mock);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private Field getCallbackField(Object mock) {
-
+    private static Field getCallbackField(Object mock) {
         Field field;
         try {
             field = mock.getClass().getDeclaredField(CALLBACK_FIELD);
