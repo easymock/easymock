@@ -70,7 +70,7 @@ public class ClassProxyFactoryTest {
     }
 
     @Test
-    void twoMocksOfTheSameType() {
+    void twoMocksOfTheSameType_shouldNotInteractWithEachOther() {
         ArrayList<?> list1 = mock(ArrayList.class);
         expect(list1.size()).andReturn(1);
         replay(list1);
