@@ -56,7 +56,6 @@ public class SerializationTest implements Serializable {
 
     @SuppressWarnings("unchecked")
     @Test
-    @Ignore
     public void testClass() throws Exception {
 
         ArrayList<String> mock = createMockBuilder(ArrayList.class).addMockedMethod("get").withConstructor()
@@ -102,8 +101,6 @@ public class SerializationTest implements Serializable {
     }
 
     @Test
-    @Ignore
-    // to code one day to make sure we can recreate a mock in another class loader
     public void testChangingClassLoader() {
 
     }
