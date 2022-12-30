@@ -180,6 +180,9 @@
             <artifactId>java18</artifactId>
             <version>1.0</version>
           </signature>
+          <annotations>
+            <annotation>org.easymock.internal.IgnoreAnimalSniffer</annotation>
+          </annotations>
         </configuration>
         <executions>
           <execution>
