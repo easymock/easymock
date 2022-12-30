@@ -33,7 +33,7 @@ function incrementVersionLastElement {
 
     MAJOR=$(echo $IN | cut -d'.' -f 1)
     MINOR=$(echo $IN | cut -d'.' -f 2)
-    PATCH=$(echo $IN | cut -d'.' -f 2)
+    PATCH=$(echo $IN | cut -d'.' -f 3)
 
     case $increment in
       'major')
