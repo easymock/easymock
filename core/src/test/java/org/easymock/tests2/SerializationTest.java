@@ -22,7 +22,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -54,7 +53,6 @@ public class SerializationTest implements Serializable {
         verify(mock);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testClass() throws Exception {
 
