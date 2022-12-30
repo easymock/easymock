@@ -203,18 +203,19 @@ public class ClassProxyFactory implements IProxyFactory {
 
     private String classPackage(Class<?> toMock) {
         // We want to create the mock in the same class as the original class when the class is in default scope
-        if (isJdkClass(toMock)) {
+        if (isJdkClassOrWithoutPackage(toMock)) {
             return "org.easymock.mocks.";
         }
         return  toMock.getPackage().getName() + ".";
     }
 
     private <T> ClassLoader classLoader(Class<T> toMock) {
-        return isJdkClass(toMock) ? getClass().getClassLoader() : toMock.getClassLoader();
+        return isJdkClassOrWithoutPackage(toMock) ? getClass().getClassLoader() : toMock.getClassLoader();
     }
 
-    private static <T> boolean isJdkClass(Class<T> toMock) {
-        return toMock.getPackage().getName().startsWith("java.");
+    private static <T> boolean isJdkClassOrWithoutPackage(Class<T> toMock) {
+        Package aPackage = toMock.getPackage();
+        return aPackage == null || aPackage.getName().startsWith("java."); // we need to verify for null since some dynamic classes have no package
     }
 
     private ClassLoadingStrategy<ClassLoader> classLoadingStrategy() {

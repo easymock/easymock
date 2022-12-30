@@ -22,8 +22,11 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.net.URL;
+
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import static org.powermock.api.easymock.PowerMock.*;
 
@@ -72,5 +75,10 @@ public class PowermockTest {
         assertEquals(getClass(), EasyMockSupport.getMockedClass(mock));
     }
 
+    @Test
+    public void mockJDK() {
+        Object mock = PowerMock.createMock(URL.class);
+        assertNull(mock.getClass().getPackage()); // the mock will have no package and we expect EasyMock to not crash
+    }
 }
 
