@@ -8,7 +8,6 @@ Change log
 * Bump byte-buddy from 1.12.19 to 1.12.20 ([#350](https://github.com/easymock/easymock/pull/350))
 * Bump versions-maven-plugin from 2.14.0 to 2.14.1 ([#349](https://github.com/easymock/easymock/pull/349))
 * Bump versions-maven-plugin from 2.13.0 to 2.14.0 ([#348](https://github.com/easymock/easymock/pull/348))
-* Bump testng from 7.5 to 7.7.0 ([#347](https://github.com/easymock/easymock/pull/347))
 * Bump maven-dependency-plugin from 3.3.0 to 3.4.0 ([#345](https://github.com/easymock/easymock/pull/345))
 * Bump checkstyle from 10.4 to 10.5.0 ([#344](https://github.com/easymock/easymock/pull/344))
 * java.lang.NullPointerException at org.easymock.internal.ClassProxyFactory.classPackage(ClassProxyFactory.java:178) ([#343](https://github.com/easymock/easymock/issues/343))
