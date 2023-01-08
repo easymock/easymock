@@ -362,6 +362,8 @@
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+          <showDeprecation>true</showDeprecation>
+          <showWarnings>true</showWarnings>
         </configuration>
       </plugin>
       <plugin>
