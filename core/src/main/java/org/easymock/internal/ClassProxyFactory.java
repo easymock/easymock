@@ -92,7 +92,13 @@ public class ClassProxyFactory implements IProxyFactory {
                 method = BridgeMethodResolver.findBridgedMethod(method);
             }
 
-            if (mockingData.isMocked(method)) {
+            // mockingData can be null when a method is called by the constructor
+            // it means it's a partial mock instantiated with an explicit constructor
+            // in that case, calling the real method seems to be our best bet since it's not possible to mock a method before creating the mock
+            // (yet, an enhancement to the partial mock builder could change that)
+
+            // Weak hashmap of ThreadLocal
+            if (mockingData != null && mockingData.isMocked(method)) {
                 return mockingData.handler().invoke(obj, method, args);
             }
 

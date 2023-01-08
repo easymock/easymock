@@ -47,6 +47,19 @@ public class PartialMockingTest {
         protected abstract int foo();
     }
 
+    public static class B {
+
+        boolean called = false;
+
+        public B() {
+            called();
+        }
+
+        void called() {
+            called = true;
+        }
+    }
+
     @Test
     public void testPartialMock_PublicConstructor() {
         ArrayList<String> list = createMockBuilder(ArrayList.class).withConstructor(3).createMock();
@@ -90,6 +103,14 @@ public class PartialMockingTest {
     public void partiallyMockedSwingComponent_which_are_in_the_javax_package() {
         JTable table = EasyMock.partialMockBuilder(JTable.class).createMock();
         assertNotNull(table);
+    }
+
+    @Test
+    public void partiallyMockedSwingComponentWithConstructor_calls_real_methods_from_constructor() {
+        B b = EasyMock.partialMockBuilder(B.class)
+            .withConstructor()
+            .createMock();
+        assertNotNull(b);
     }
 
 }
