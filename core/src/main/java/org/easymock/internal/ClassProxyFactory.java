@@ -94,15 +94,22 @@ public class ClassProxyFactory implements IProxyFactory {
 
             // mockingData can be null when a method is called by the constructor
             // it means it's a partial mock instantiated with an explicit constructor
-            // in that case, calling the real method seems to be our best bet since it's not possible to mock a method before creating the mock
-            // (yet, an enhancement to the partial mock builder could change that)
-
-            // Weak hashmap of ThreadLocal
+            // so, we have mockingData in thread-local to cover that case
+            mockingData = mockingData(mockingData);
             if (mockingData != null && mockingData.isMocked(method)) {
                 return mockingData.handler().invoke(obj, method, args);
             }
 
             return superCall.call();
+        }
+
+        private static ClassMockingData mockingData(ClassMockingData mockingData) {
+            // Normal case
+            if (mockingData != null) {
+                return mockingData;
+            }
+            // Case where we are called from a constructor so the mocking data are not there yet
+            return ClassProxyFactory.currentData.get();
         }
 
         @SuppressWarnings("unused")
@@ -120,6 +127,8 @@ public class ClassProxyFactory implements IProxyFactory {
     }
 
     private static final AtomicInteger id = new AtomicInteger(0);
+
+    private static final ThreadLocal<ClassMockingData> currentData = new ThreadLocal<>();
 
     private final TypeCache<Class<?>> typeCache = new TypeCache.WithInlineExpunction<>();
 
@@ -158,6 +167,8 @@ public class ClassProxyFactory implements IProxyFactory {
 
         T mock;
 
+        ClassMockingData classMockingData = new ClassMockingData(handler, mockedMethods);
+
         if (args != null) {
             // Really instantiate the class
             Constructor<?> cstr;
@@ -172,8 +183,14 @@ public class ClassProxyFactory implements IProxyFactory {
             }
             try {
                 cstr.setAccessible(true); // So we can call a protected
-                // constructor
-                mock = (T) cstr.newInstance(args.getInitArgs());
+                // Call the constructor. The handler needs to know the mockedMethods but the callback field is not set yet
+                // So we put them in thread-local for this really special case
+                currentData.set(classMockingData);
+                try {
+                    mock = (T) cstr.newInstance(args.getInitArgs());
+                } finally {
+                    currentData.remove();
+                }
             } catch (InstantiationException | IllegalAccessException e) {
                 // ///CLOVER:OFF
                 throw new RuntimeException("Failed to instantiate mock calling constructor", e);
@@ -197,7 +214,7 @@ public class ClassProxyFactory implements IProxyFactory {
 
         MethodHandle callbackField = getCallbackSetter(mock);
         try {
-            callbackField.invoke(mock, new ClassMockingData(handler, mockedMethods));
+            callbackField.invoke(mock, classMockingData);
         } catch (Error | RuntimeException e) {
             throw e;
         } catch (Throwable e) {

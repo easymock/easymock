@@ -60,6 +60,18 @@ public class PartialMockingTest {
         }
     }
 
+    public static class C {
+
+        public C() {
+            called();
+        }
+
+        void called() {
+            throw new RuntimeException("failed");
+        }
+
+    }
+
     @Test
     public void testPartialMock_PublicConstructor() {
         ArrayList<String> list = createMockBuilder(ArrayList.class).withConstructor(3).createMock();
@@ -113,4 +125,12 @@ public class PartialMockingTest {
         assertNotNull(b);
     }
 
+    @Test
+    public void partiallyMockedSwingComponentWithConstructor_calls_mocked_methods_from_constructor() {
+        C c = EasyMock.partialMockBuilder(C.class)
+            .withConstructor()
+            .addMockedMethod("called")
+            .createMock();
+        assertNotNull(c);
+    }
 }
