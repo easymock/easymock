@@ -222,7 +222,8 @@ public class ClassProxyFactory implements IProxyFactory {
     private static <T> boolean isJdkClassOrWithoutPackage(Class<T> toMock) {
         // null class loader means we are from the bootstrap class loader, the mocks will go in another package in class loader
         // we need to verify for null since some dynamic classes have no package
-        return toMock.getPackage() == null || toMock.getClassLoader() == null;
+        // and I still verify for .java, which isn't perfect but a start, for classes hacked to another class loader like PowerMock does
+        return toMock.getPackage() == null || toMock.getClassLoader() == null || toMock.getName().startsWith("java.");
     }
 
     private ClassLoadingStrategy<ClassLoader> classLoadingStrategy() {
