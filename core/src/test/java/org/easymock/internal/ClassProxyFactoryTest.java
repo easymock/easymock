@@ -50,7 +50,8 @@ public class ClassProxyFactoryTest {
             .make()
             .load(getClass().getClassLoader())
             .getLoaded();
-        ClassProxyFactoryTest t = (ClassProxyFactoryTest) clazz.newInstance();
+        Constructor<?> constructor = clazz.getConstructor();
+        ClassProxyFactoryTest t = (ClassProxyFactoryTest) constructor.newInstance();
         t.hello();
         assertTrue(called.get());
     }
