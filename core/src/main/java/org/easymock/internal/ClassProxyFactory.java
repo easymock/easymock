@@ -214,8 +214,9 @@ public class ClassProxyFactory implements IProxyFactory {
     }
 
     private static <T> boolean isJdkClassOrWithoutPackage(Class<T> toMock) {
-        Package aPackage = toMock.getPackage();
-        return aPackage == null || aPackage.getName().startsWith("java."); // we need to verify for null since some dynamic classes have no package
+        // null class loader means we are from the bootstrap class loader, the mocks will go in another package in class loader
+        // we need to verify for null since some dynamic classes have no package
+        return toMock.getPackage() == null || toMock.getClassLoader() == null;
     }
 
     private ClassLoadingStrategy<ClassLoader> classLoadingStrategy() {

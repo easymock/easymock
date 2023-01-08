@@ -18,11 +18,12 @@ package org.easymock.tests2;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
-import org.easymock.ConstructorArgs;
+import org.easymock.EasyMock;
 import org.junit.Test;
+
+import javax.swing.JTable;
 
 /**
  * @author Henri Tremblay
@@ -46,7 +47,6 @@ public class PartialMockingTest {
         protected abstract int foo();
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testPartialMock_PublicConstructor() {
         ArrayList<String> list = createMockBuilder(ArrayList.class).withConstructor(3).createMock();
@@ -65,29 +65,31 @@ public class PartialMockingTest {
         verify(a);
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testPartialMock_ConstructorNotFound() throws Exception {
-        Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
-        ConstructorArgs constructorArgs = new ConstructorArgs(cstr, 2.0);
-        try {
-            createMockBuilder(ArrayList.class).withConstructor(Integer.TYPE).withArgs(2.0).createMock();
-        } catch (RuntimeException e) {
-            assertEquals("Failed to find constructor for param types", e.getMessage());
-            throw e;
-        }
+    @Test
+    public void testPartialMock_ConstructorNotFound() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+            () -> createMockBuilder(ArrayList.class).withConstructor(Float.TYPE).withArgs(2.0).createMock());
+        assertEquals("No constructor matching arguments can be found", ex.getMessage());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testPartialMock_InvalidParams() throws Exception {
-        Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
-        ConstructorArgs constructorArgs = new ConstructorArgs(cstr, "test");
-        createMockBuilder(ArrayList.class).withConstructor(Integer.TYPE).withArgs("test");
+    @Test
+    public void testPartialMock_InvalidParams() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+            () -> createMockBuilder(ArrayList.class).withConstructor(Integer.TYPE).withArgs("test"));
+        assertEquals("test isn't of type int", ex.getMessage());
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testPartialMock_ExceptionInConstructor() throws Exception {
-        Constructor<?> cstr = ArrayList.class.getConstructor(Integer.TYPE);
-        ConstructorArgs constructorArgs = new ConstructorArgs(cstr, -5);
-        createMockBuilder(ArrayList.class).withConstructor(-5).createMock();
+    @Test
+    public void testPartialMock_ExceptionInConstructor() {
+        RuntimeException ex = assertThrows(RuntimeException.class,
+            () -> createMockBuilder(ArrayList.class).withConstructor(-5).createMock());
+        assertEquals("Failed to instantiate mock calling constructor: Exception in constructor", ex.getMessage());
     }
+
+    @Test
+    public void partiallyMockedSwingComponent_which_are_in_the_javax_package() {
+        JTable table = EasyMock.partialMockBuilder(JTable.class).createMock();
+        assertNotNull(table);
+    }
+
 }
