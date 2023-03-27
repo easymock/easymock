@@ -15,17 +15,18 @@
  */
 package org.easymock.test;
 
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.junit.Test;
-
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * Test that everything is working fine after a deployment to Sonatype
- * 
+ *
  * @author Henri Tremblay
  */
 public class EasyMockTest {

@@ -15,10 +15,11 @@
  */
 package org.easymock.tests2;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Henri Tremblay
@@ -93,12 +94,8 @@ public class DelegateToTest {
 
         replay(m);
 
-        try {
-            m.getInt(5);
-            fail();
-        } catch (ArithmeticException e) {
-            assertEquals("Not good!", e.getMessage());
-        }
+        ArithmeticException e = assertThrows(ArithmeticException.class, () -> m.getInt(5));
+        assertEquals("Not good!", e.getMessage());
 
         verify(m);
     }
@@ -108,36 +105,26 @@ public class DelegateToTest {
         IMyInterface m = createMock(IMyInterface.class);
         expect(m.getInt(0)).andDelegateTo("allo");
         replay(m);
-        try {
-            m.getInt(0);
-            fail("Should throw an exception");
-        } catch (IllegalArgumentException e) {
-            assertEquals(
-                    "Delegation to object [allo] is not implementing the mocked method [public abstract int org.easymock.tests2.DelegateToTest$IMyInterface.getInt(int)]",
-                    e.getMessage());
-        }
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> m.getInt(0));
+        assertEquals(
+                "Delegation to object [allo] is not implementing the mocked method [public abstract int org.easymock.tests2.DelegateToTest$IMyInterface.getInt(int)]",
+                e.getMessage());
     }
 
     @Test
     public void nullDelegationNotAllowed() {
         IMyInterface mock = createMock(IMyInterface.class);
-        try {
-            expect(mock.getInt(1)).andDelegateTo(null);
-            fail();
-        } catch (NullPointerException expected) {
-            assertEquals("delegated to object must not be null", expected.getMessage());
-        }
+        NullPointerException expected = assertThrows(NullPointerException.class, () -> expect(mock.getInt(1)).andDelegateTo(null));
+        assertEquals("delegated to object must not be null", expected.getMessage());
     }
 
     @Test
     public void nullStubDelegationNotAllowed() {
         IMyInterface mock = createMock(IMyInterface.class);
-        try {
-            expect(mock.getInt(1)).andStubDelegateTo(null);
-            fail();
-        } catch (NullPointerException expected) {
-            assertEquals("delegated to object must not be null", expected.getMessage());
-        }
+        NullPointerException expected = assertThrows(NullPointerException.class,
+            () -> expect(mock.getInt(1)).andStubDelegateTo(null));
+        assertEquals("delegated to object must not be null", expected.getMessage());
     }
 
     @Test

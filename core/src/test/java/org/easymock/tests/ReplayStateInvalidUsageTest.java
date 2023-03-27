@@ -18,8 +18,9 @@ package org.easymock.tests;
 import org.easymock.EasyMock;
 import org.easymock.IExpectationSetters;
 import org.easymock.IMocksControl;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -36,7 +37,7 @@ public class ReplayStateInvalidUsageTest {
     private IExpectationSetters<String> expectationSetters;
 
     @SuppressWarnings("unchecked")
-    @Before
+    @BeforeEach
     public void setUp() {
         mock = EasyMock.createMock(IMethods.class);
         EasyMock.replay(mock);
@@ -60,8 +61,8 @@ public class ReplayStateInvalidUsageTest {
         EasyMock.reset(mock);
 
         RuntimeException t = assertThrows(RuntimeException.class, () -> EasyMock.replay(mock, mock));
-        assertEquals(IllegalStateException.class, t.getCause().getClass());
-        assertEquals("On mock #1 (zero indexed): This method must not be called in replay state.", t.getMessage());
+        Assertions.assertEquals(IllegalStateException.class, t.getCause().getClass());
+        Assertions.assertEquals("On mock #1 (zero indexed): This method must not be called in replay state.", t.getMessage());
     }
 
     @Test
@@ -119,7 +120,7 @@ public class ReplayStateInvalidUsageTest {
         EasyMock.reset(mock);
 
         RuntimeException t = assertThrows(RuntimeException.class, () -> EasyMock.replay(mock, mock));
-        assertEquals(IllegalStateException.class, t.getCause().getClass());
-        assertEquals("On mock #1 (zero indexed): This method must not be called in replay state.", t.getMessage());
+        Assertions.assertEquals(IllegalStateException.class, t.getCause().getClass());
+        Assertions.assertEquals("On mock #1 (zero indexed): This method must not be called in replay state.", t.getMessage());
     }
 }

@@ -18,11 +18,11 @@ package org.easymock.tests2;
 import org.easymock.internal.ReplayState;
 import org.easymock.tests.IMethods;
 import org.easymock.tests.Util;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -30,7 +30,7 @@ import static org.junit.Assert.*;
 public class UsageStrictMockTest {
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createStrictMock(IMethods.class);
         mock.simpleMethodWithArgument("1");
@@ -54,7 +54,7 @@ public class UsageStrictMockTest {
             failed = true;
         }
         if (!failed) {
-            fail("unordered calls accepted");
+            Assertions.fail("unordered calls accepted");
         }
     }
 
@@ -70,7 +70,7 @@ public class UsageStrictMockTest {
             failed = true;
         }
         if (!failed) {
-            fail("too many calls accepted");
+            Assertions.fail("too many calls accepted");
         }
     }
 
@@ -82,11 +82,11 @@ public class UsageStrictMockTest {
             verify(mock);
         } catch (AssertionError expected) {
             failed = true;
-            assertEquals("stack trace must be filled in", Util.getStackTrace(expected).indexOf(
-                ReplayState.class.getName()), -1);
+            Assertions.assertEquals(Util.getStackTrace(expected).indexOf(
+                ReplayState.class.getName()), -1, "stack trace must be filled in");
         }
         if (!failed) {
-            fail("too few calls accepted");
+            Assertions.fail("too few calls accepted");
         }
     }
 
@@ -104,7 +104,7 @@ public class UsageStrictMockTest {
         expectLastCall().atLeastOnce();
 
         replay(mock);
-        assertTrue(mock.booleanReturningMethod(0));
+        Assertions.assertTrue(mock.booleanReturningMethod(0));
         mock.simpleMethod();
 
         boolean failed = false;
@@ -112,28 +112,27 @@ public class UsageStrictMockTest {
             verify(mock);
         } catch (AssertionError expected) {
             failed = true;
-            assertEquals("\n  Expectation failure on verify:"
+            Assertions.assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.simpleMethod(): expected: 1, actual: 1"
                     + "\n    IMethods.booleanReturningMethod(1 (int)): expected: between 2 and 3, actual: 0"
                     + "\n    IMethods.simpleMethod(): expected: at least 1, actual: 0", expected.getMessage());
         }
         if (!failed) {
-            fail("too few calls accepted");
+            Assertions.fail("too few calls accepted");
         }
 
-        assertFalse(mock.booleanReturningMethod(1));
+        Assertions.assertFalse(mock.booleanReturningMethod(1));
 
         failed = false;
         try {
             mock.simpleMethod();
         } catch (AssertionError expected) {
             failed = true;
-            assertEquals("\n  Unexpected method call IMethods.simpleMethod():"
-                    + "\n    IMethods.booleanReturningMethod(1 (int)): expected: between 2 and 3, actual: 1",
-                    expected.getMessage());
+            Assertions.assertEquals("\n  Unexpected method call IMethods.simpleMethod():"
+                    + "\n    IMethods.booleanReturningMethod(1 (int)): expected: between 2 and 3, actual: 1", expected.getMessage());
         }
         if (!failed) {
-            fail("wrong call accepted");
+            Assertions.fail("wrong call accepted");
         }
     }
 
@@ -166,12 +165,12 @@ public class UsageStrictMockTest {
             mock.booleanReturningMethod(1);
         } catch (AssertionError expected) {
             failed = true;
-            assertEquals("\n  Unexpected method call IMethods.booleanReturningMethod(1 (int)):"
+            Assertions.assertEquals("\n  Unexpected method call IMethods.booleanReturningMethod(1 (int)):"
                     + "\n    IMethods.booleanReturningMethod(1 (int)): expected: between 2 and 3, actual: 4"
                     + "\n    IMethods.simpleMethod(): expected: at least 1, actual: 0", expected.getMessage());
         }
         if (!failed) {
-            fail("too many calls accepted");
+            Assertions.fail("too many calls accepted");
         }
     }
 
@@ -186,23 +185,23 @@ public class UsageStrictMockTest {
 
         replay(mock);
 
-        assertTrue(mock.booleanReturningMethod(2));
-        assertTrue(mock.booleanReturningMethod(3));
-        assertTrue(mock.booleanReturningMethod(1));
-        assertFalse(mock.booleanReturningMethod(1));
-        assertTrue(mock.booleanReturningMethod(3));
+        Assertions.assertTrue(mock.booleanReturningMethod(2));
+        Assertions.assertTrue(mock.booleanReturningMethod(3));
+        Assertions.assertTrue(mock.booleanReturningMethod(1));
+        Assertions.assertFalse(mock.booleanReturningMethod(1));
+        Assertions.assertTrue(mock.booleanReturningMethod(3));
 
         boolean failed = false;
         try {
             verify(mock);
         } catch (AssertionError expected) {
             failed = true;
-            assertEquals("\n  Expectation failure on verify:"
+            Assertions.assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.booleanReturningMethod(1 (int)): expected: 3, actual: 2", expected
                     .getMessage());
         }
         if (!failed) {
-            fail("too few calls accepted");
+            Assertions.fail("too few calls accepted");
         }
     }
 }

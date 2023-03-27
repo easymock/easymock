@@ -17,12 +17,15 @@ package org.easymock.tests;
 
 import org.easymock.IMocksControl;
 import org.easymock.MockType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.createNiceControl;
 import static org.easymock.EasyMock.mock;
 import static org.easymock.EasyMock.niceMock;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * @author Henri Tremblay

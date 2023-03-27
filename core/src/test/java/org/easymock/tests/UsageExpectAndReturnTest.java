@@ -16,10 +16,11 @@
 package org.easymock.tests;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -28,7 +29,7 @@ public class UsageExpectAndReturnTest {
 
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createMock(IMethods.class);
     }

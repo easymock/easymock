@@ -15,12 +15,11 @@
  */
 package org.easymock.tests;
 
-import static org.junit.Assert.*;
-
 import java.lang.reflect.Method;
 
 import org.easymock.internal.MethodSerializationWrapper;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -38,7 +37,7 @@ public class MethodSerializationWrapperTest {
         Method foo = A.class.getMethod("foo", String.class, Integer.TYPE, String[].class, int[].class,
                 String[].class);
         MethodSerializationWrapper wrapper = new MethodSerializationWrapper(foo);
-        assertEquals(foo, wrapper.getMethod());
+        Assertions.assertEquals(foo, wrapper.getMethod());
     }
 
 }

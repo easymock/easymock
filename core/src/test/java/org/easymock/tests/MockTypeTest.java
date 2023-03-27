@@ -15,18 +15,17 @@
  */
 package org.easymock.tests;
 
-import static org.junit.Assert.*;
-
 import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.easymock.IMockBuilder;
 import org.easymock.MockType;
 import org.easymock.internal.MocksControl;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test mocks create with a MockType
- *  
+ *
  * @author Henri Tremblay
  */
 public class MockTypeTest {
@@ -39,62 +38,62 @@ public class MockTypeTest {
     public void fromEasyMockClass() {
         IMethods mock = EasyMock.createMock(MockType.STRICT, IMethods.class);
         MockType type = MocksControl.getControl(mock).getType();
-        assertEquals(MockType.STRICT, type);
-        assertEquals("EasyMock for interface " + IMethods.class.getName(), mock.toString());
+        Assertions.assertEquals(MockType.STRICT, type);
+        Assertions.assertEquals("EasyMock for interface " + IMethods.class.getName(), mock.toString());
     }
 
     @Test
     public void fromEasyMockClassWithName() {
         IMethods mock = EasyMock.createMock("test", MockType.STRICT, IMethods.class);
         MockType type = MocksControl.getControl(mock).getType();
-        assertEquals(MockType.STRICT, type);
-        assertEquals("test", mock.toString());
+        Assertions.assertEquals(MockType.STRICT, type);
+        Assertions.assertEquals("test", mock.toString());
     }
 
     @Test
     public void fromEasyMockControlWithName() {
         MocksControl ctrl = (MocksControl) EasyMock.createControl(MockType.STRICT);
-        assertEquals(MockType.STRICT, ctrl.getType());
+        Assertions.assertEquals(MockType.STRICT, ctrl.getType());
     }
 
     @Test
     public void fromEasyMockSupportClass() {
         IMethods mock = support.createMock(MockType.STRICT, IMethods.class);
         MockType type = MocksControl.getControl(mock).getType();
-        assertEquals(MockType.STRICT, type);
-        assertEquals("EasyMock for interface " + IMethods.class.getName(), mock.toString());
+        Assertions.assertEquals(MockType.STRICT, type);
+        Assertions.assertEquals("EasyMock for interface " + IMethods.class.getName(), mock.toString());
     }
 
     @Test
     public void fromEasyMockSupportClassWithName() {
         IMethods mock = support.createMock("test", MockType.STRICT, IMethods.class);
         MockType type = MocksControl.getControl(mock).getType();
-        assertEquals(MockType.STRICT, type);
-        assertEquals("test", mock.toString());
+        Assertions.assertEquals(MockType.STRICT, type);
+        Assertions.assertEquals("test", mock.toString());
     }
 
     @Test
     public void fromEasyMockSupportControlWithName() {
         MocksControl ctrl = (MocksControl) support.createControl(MockType.STRICT);
-        assertEquals(MockType.STRICT, ctrl.getType());
+        Assertions.assertEquals(MockType.STRICT, ctrl.getType());
     }
 
     // The two following tests are showing a strange behavior. The toString doesn't return the
-    // default EasyMock implementation. I won't change it right now but it doesn't feel right
+    // default EasyMock implementation. I won't change it right now, but it doesn't feel right
     @Test
     public void fromMockBuilderClass() {
         MockTypeTest mock = builder.addMockedMethod("toString").createMock(MockType.STRICT);
         MockType type = MocksControl.getControl(mock).getType();
-        assertEquals(MockType.STRICT, type);
-        assertEquals("EasyMock for class " + MockTypeTest.class.getName(), mock.toString());
+        Assertions.assertEquals(MockType.STRICT, type);
+        Assertions.assertEquals("EasyMock for class " + MockTypeTest.class.getName(), mock.toString());
     }
 
     @Test
     public void fromMockBuilderClassWithName() {
         MockTypeTest mock = builder.addMockedMethod("toString").createMock("test", MockType.STRICT);
         MockType type = MocksControl.getControl(mock).getType();
-        assertEquals(MockType.STRICT, type);
-        assertEquals("test", mock.toString());
+        Assertions.assertEquals(MockType.STRICT, type);
+        Assertions.assertEquals("test", mock.toString());
     }
 
     @Override

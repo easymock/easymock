@@ -18,14 +18,14 @@ package org.easymock.tests2;
 import org.easymock.internal.AssertionErrorWrapper;
 import org.easymock.internal.MocksBehavior;
 import org.easymock.tests.IMethods;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
 /**
  * Test that EasyMock works in replay state in a multithreaded environment. Note
@@ -55,7 +55,7 @@ public class ThreadingTest {
         List<Future<String>> results = service.invokeAll(tasks);
 
         for (Future<String> future : results) {
-            assertEquals("result", future.get());
+            Assertions.assertEquals("result", future.get());
         }
 
         verify(mock);
@@ -85,18 +85,18 @@ public class ThreadingTest {
 
         for (Future<String> future : results) {
             try {
-                assertEquals("result", future.get());
+                Assertions.assertEquals("result", future.get());
             } catch (ExecutionException e) {
                 // Since I don't know which one the lastThread is, that's the
                 // best assert I can do except doing
                 // a regular exception and I don't think it worth it
-                assertTrue(e.getCause().getMessage().startsWith(
+                Assertions.assertTrue(e.getCause().getMessage().startsWith(
                         "\n Mock isn't supposed to be called from multiple threads. Last: "));
                 exceptionThrown = true;
             }
         }
 
-        assertTrue(exceptionThrown);
+        Assertions.assertTrue(exceptionThrown);
     }
 
     @Test
@@ -122,14 +122,14 @@ public class ThreadingTest {
                 .toString());
         try {
             final MocksBehavior behavior = new MocksBehavior(true);
-            assertFalse(behavior.isThreadSafe());
+            Assertions.assertFalse(behavior.isThreadSafe());
 
             Thread t = new Thread(behavior::checkThreadSafety);
             t.start();
             t.join();
             try {
                 behavior.checkThreadSafety();
-                fail("Shouldn't work");
+                Assertions.fail("Shouldn't work");
             } catch (AssertionErrorWrapper e) {
 
             }
@@ -163,7 +163,7 @@ public class ThreadingTest {
         List<Future<String>> results = service.invokeAll(tasks);
 
         for (Future<String> future : results) {
-            assertEquals("result", future.get());
+            Assertions.assertEquals("result", future.get());
         }
     }
 
@@ -184,6 +184,6 @@ public class ThreadingTest {
         mock = createNiceMock(Comparable.class);
         expect(mock.compareTo(isNull())).andReturn(1);
         replay(mock);
-        assertEquals(1, mock.compareTo(null));
+        Assertions.assertEquals(1, mock.compareTo(null));
     }
 }

@@ -15,10 +15,10 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.easymock.EasyMock.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -30,6 +30,6 @@ public class MockNameTest {
         IMethods mock = createMock(IMethods.class);
         String expected = "EasyMock for " + IMethods.class;
         String actual = mock.toString();
-        assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 }

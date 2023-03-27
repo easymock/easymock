@@ -17,12 +17,11 @@ package org.easymock.tests;
 
 import org.easymock.internal.ExpectedInvocation;
 import org.easymock.internal.Invocation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
-
-import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -31,7 +30,7 @@ public class ExpectedMethodCallTest {
 
     private ExpectedInvocation call;
 
-    @Before
+    @BeforeEach
     public void setup() throws SecurityException, NoSuchMethodException {
         Object[] arguments1 = new Object[] { "" };
         Method m = Object.class.getMethod("equals", Object.class);
@@ -42,9 +41,9 @@ public class ExpectedMethodCallTest {
     public void testHashCode() {
         try {
             call.hashCode();
-            fail();
+            Assertions.fail();
         } catch (UnsupportedOperationException expected) {
-            assertEquals("hashCode() is not implemented", expected.getMessage());
+            Assertions.assertEquals("hashCode() is not implemented", expected.getMessage());
         }
     }
 }

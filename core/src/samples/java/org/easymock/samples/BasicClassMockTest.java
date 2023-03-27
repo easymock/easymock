@@ -16,9 +16,9 @@
 package org.easymock.samples;
 
 import org.easymock.EasyMockSupport;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Example of how to use {@code org.easymock.EasyMock} to mock a class
@@ -64,13 +64,13 @@ public class BasicClassMockTest extends EasyMockSupport {
 
     private Document document;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         printer = mock(Printer.class);
         document = new Document(printer);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         printer = null;
         document = null;

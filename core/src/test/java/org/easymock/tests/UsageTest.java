@@ -15,11 +15,11 @@
  */
 package org.easymock.tests;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -28,7 +28,7 @@ public class UsageTest {
 
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createMock(IMethods.class);
     }
@@ -39,8 +39,8 @@ public class UsageTest {
 
         replay(mock);
 
-        assertEquals("Test", mock.oneArg(false));
-        assertEquals("Test2", mock.oneArg(false));
+        Assertions.assertEquals("Test", mock.oneArg(false));
+        Assertions.assertEquals("Test2", mock.oneArg(false));
 
         boolean failed = false;
         try {
@@ -49,7 +49,7 @@ public class UsageTest {
             failed = true;
         }
         if (!failed)
-            fail("expected AssertionError");
+            Assertions.fail("expected AssertionError");
     }
 
     @Test
@@ -58,9 +58,9 @@ public class UsageTest {
 
         replay(mock);
 
-        assertEquals("Test", mock.oneArg(false));
-        assertEquals("Test2", mock.oneArg(false));
-        assertEquals("Test2", mock.oneArg(false));
+        Assertions.assertEquals("Test", mock.oneArg(false));
+        Assertions.assertEquals("Test2", mock.oneArg(false));
+        Assertions.assertEquals("Test2", mock.oneArg(false));
     }
 
     @Test
@@ -70,8 +70,8 @@ public class UsageTest {
 
         replay(mock);
 
-        assertEquals("Test", mock.oneArg(false));
-        assertEquals("Test2", mock.oneArg(false));
+        Assertions.assertEquals("Test", mock.oneArg(false));
+        Assertions.assertEquals("Test2", mock.oneArg(false));
 
         try {
             mock.oneArg(false);
@@ -88,7 +88,7 @@ public class UsageTest {
         } catch (AssertionError expected) {
         }
         if (!failed)
-            fail("expected AssertionError");
+            Assertions.fail("expected AssertionError");
     }
 
     @Test
@@ -98,8 +98,8 @@ public class UsageTest {
 
         replay(mock);
 
-        assertEquals("Test", mock.oneArg(false));
-        assertEquals("Test2", mock.oneArg(false));
+        Assertions.assertEquals("Test", mock.oneArg(false));
+        Assertions.assertEquals("Test2", mock.oneArg(false));
 
         try {
             mock.oneArg(false);
@@ -117,19 +117,19 @@ public class UsageTest {
 
         replay(mock);
 
-        assertEquals("Test", mock.threeArgumentMethod(1, "2", "3"));
+        Assertions.assertEquals("Test", mock.threeArgumentMethod(1, "2", "3"));
 
         boolean failed = true;
         try {
             verify(mock);
             failed = false;
         } catch (AssertionError expected) {
-            assertEquals("\n  Expectation failure on verify:"
+            Assertions.assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.threeArgumentMethod(1 (int), \"2\", \"3\"): expected: 2, actual: 1", expected
                     .getMessage());
         }
         if (!failed) {
-            fail("exception expected");
+            Assertions.fail("exception expected");
         }
     }
 
@@ -140,9 +140,9 @@ public class UsageTest {
         String[] strings = new String[] { "Test" };
         try {
             mock.arrayMethod(strings);
-            fail("exception expected");
+            Assertions.fail("exception expected");
         } catch (AssertionError expected) {
-            assertEquals("\n  Unexpected method call IMethods.arrayMethod(" + "[\"Test\"]" + "):", expected
+            Assertions.assertEquals("\n  Unexpected method call IMethods.arrayMethod(" + "[\"Test\"]" + "):", expected
                     .getMessage());
         }
     }
@@ -154,9 +154,9 @@ public class UsageTest {
 
         try {
             mock.simpleMethodWithArgument("5");
-            fail();
+            Assertions.fail();
         } catch (AssertionError expected) {
-            assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
+            Assertions.assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
                     + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0", expected
                     .getMessage());
         }
@@ -171,9 +171,9 @@ public class UsageTest {
 
         try {
             mock.simpleMethodWithArgument("5");
-            fail();
+            Assertions.fail();
         } catch (AssertionError expected) {
-            assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
+            Assertions.assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
                     + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 2, actual: 0", expected
                     .getMessage());
         }
@@ -191,9 +191,9 @@ public class UsageTest {
 
         try {
             mock.simpleMethodWithArgument("5");
-            fail();
+            Assertions.fail();
         } catch (AssertionError expected) {
-            assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
+            Assertions.assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
                     + "\n    IMethods.simpleMethodWithArgument(\"4\"): expected: 1, actual: 0"
                     + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0"
                     + "\n    IMethods.simpleMethodWithArgument(\"2\"): expected: 1, actual: 0"
@@ -213,7 +213,7 @@ public class UsageTest {
             mock.simpleMethodWithArgument("4");
         }
         catch(RuntimeException e) {
-            assertEquals("Test", e.getMessage());
+            Assertions.assertEquals("Test", e.getMessage());
         }
         mock.simpleMethodWithArgument("4");
         verify(mock);
@@ -229,7 +229,7 @@ public class UsageTest {
             mock.simpleMethodWithArgument("4");
         }
         catch(RuntimeException e) {
-            assertEquals("Test", e.getMessage());
+            Assertions.assertEquals("Test", e.getMessage());
         }
         verify(mock);
     }
@@ -250,7 +250,7 @@ public class UsageTest {
         Long value = 1L;
         expect(mock.oneLongArg(value)).andReturn("test");
         replay(mock);
-        assertEquals("test", mock.oneLongArg(value));
+        Assertions.assertEquals("test", mock.oneLongArg(value));
         verify(mock);
     }
 }

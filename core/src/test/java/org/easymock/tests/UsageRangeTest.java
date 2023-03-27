@@ -15,13 +15,13 @@
  */
 package org.easymock.tests;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -31,7 +31,7 @@ public class UsageRangeTest {
     private Iterator<String> mock;
 
     @SuppressWarnings("unchecked")
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createStrictMock(Iterator.class);
     }
@@ -47,7 +47,7 @@ public class UsageRangeTest {
     public void zeroOrMoreOneCall() {
         expect(mock.hasNext()).andReturn(false).anyTimes();
         replay(mock);
-        assertFalse(mock.hasNext());
+        Assertions.assertFalse(mock.hasNext());
         verify(mock);
     }
 
@@ -55,9 +55,9 @@ public class UsageRangeTest {
     public void zeroOrMoreThreeCalls() {
         expect(mock.hasNext()).andReturn(false).anyTimes();
         replay(mock);
-        assertFalse(mock.hasNext());
-        assertFalse(mock.hasNext());
-        assertFalse(mock.hasNext());
+        Assertions.assertFalse(mock.hasNext());
+        Assertions.assertFalse(mock.hasNext());
+        Assertions.assertFalse(mock.hasNext());
         verify(mock);
     }
 
@@ -73,23 +73,23 @@ public class UsageRangeTest {
 
         replay(mock);
 
-        assertTrue(mock.hasNext());
-        assertTrue(mock.hasNext());
-        assertTrue(mock.hasNext());
+        Assertions.assertTrue(mock.hasNext());
+        Assertions.assertTrue(mock.hasNext());
+        Assertions.assertTrue(mock.hasNext());
 
-        assertEquals("1", mock.next());
+        Assertions.assertEquals("1", mock.next());
 
         try {
             mock.next();
-            fail();
+            Assertions.fail();
         } catch (AssertionError expected) {
         }
 
-        assertTrue(mock.hasNext());
+        Assertions.assertTrue(mock.hasNext());
 
-        assertEquals("2", mock.next());
+        Assertions.assertEquals("2", mock.next());
 
-        assertFalse(mock.hasNext());
+        Assertions.assertFalse(mock.hasNext());
 
         verifyRecording(mock);
 

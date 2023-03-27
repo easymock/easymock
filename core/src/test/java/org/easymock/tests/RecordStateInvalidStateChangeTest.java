@@ -16,11 +16,11 @@
 package org.easymock.tests;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
 import org.easymock.internal.RecordState;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -29,7 +29,7 @@ public class RecordStateInvalidStateChangeTest {
 
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createMock(IMethods.class);
     }
@@ -39,11 +39,11 @@ public class RecordStateInvalidStateChangeTest {
         expect(mock.oneArg(false));
         try {
             replay(mock);
-            fail("IllegalStateException expected");
+            Assertions.fail("IllegalStateException expected");
         } catch (IllegalStateException e) {
-            assertEquals("missing behavior definition for the preceding method call:\nIMethods.oneArg(false)"
+            Assertions.assertEquals("missing behavior definition for the preceding method call:\nIMethods.oneArg(false)"
                     + "\nUsage is: expect(a.foo()).andXXX()", e.getMessage());
-            assertEquals("stack trace must be cut", Util.getStackTrace(e).indexOf(RecordState.class.getName()), -1);
+            Assertions.assertEquals(Util.getStackTrace(e).indexOf(RecordState.class.getName()), -1, "stack trace must be cut");
         }
     }
 
@@ -52,11 +52,11 @@ public class RecordStateInvalidStateChangeTest {
         mock.oneArg(false);
         try {
             mock.oneArg(false);
-            fail("IllegalStateException expected");
+            Assertions.fail("IllegalStateException expected");
         } catch (IllegalStateException e) {
-            assertEquals("missing behavior definition for the preceding method call:\nIMethods.oneArg(false)"
+            Assertions.assertEquals("missing behavior definition for the preceding method call:\nIMethods.oneArg(false)"
                     + "\nUsage is: expect(a.foo()).andXXX()", e.getMessage());
-            assertEquals("stack trace must be cut", Util.getStackTrace(e).indexOf(RecordState.class.getName()), -1);
+            Assertions.assertEquals(Util.getStackTrace(e).indexOf(RecordState.class.getName()), -1, "stack trace must be cut");
         }
     }
 
@@ -64,9 +64,9 @@ public class RecordStateInvalidStateChangeTest {
     public void verifyWithoutActivation() {
         try {
             verify(mock);
-            fail("IllegalStateException expected");
+            Assertions.fail("IllegalStateException expected");
         } catch (IllegalStateException e) {
-            assertEquals("calling verify is not allowed in record state", e.getMessage());
+            Assertions.assertEquals("calling verify is not allowed in record state", e.getMessage());
         }
     }
 }

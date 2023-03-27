@@ -16,39 +16,38 @@
 package org.easymock.java8;
 
 import org.easymock.internal.ReflectionUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 
 import static org.easymock.internal.ReflectionUtils.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Henri Tremblay
  */
 public class ReflectionUtilsTest {
 
-    private static final Class[] NO_PARAMS = new Class[0];
     private static final String DEFAULT_INTERFACE_METHOD = "defaultInterfaceMethod";
 
     @Test
     public void defaultOverride() throws Exception {
         IMethods o = new Methods.DefaultOverride();
-        Method method = ReflectionUtils.findMethod(o.getClass(), DEFAULT_INTERFACE_METHOD, NOT_PRIVATE, NO_PARAMS);
+        Method method = ReflectionUtils.findMethod(o.getClass(), DEFAULT_INTERFACE_METHOD, NOT_PRIVATE);
         assertEquals(2, method.invoke(o));
     }
 
     @Test
     public void noOverride() throws Exception {
         IMethods o = new Methods.NoDefaultOverride();
-        Method method = ReflectionUtils.findMethod(o.getClass(), DEFAULT_INTERFACE_METHOD, NOT_PRIVATE, NO_PARAMS);
+        Method method = ReflectionUtils.findMethod(o.getClass(), DEFAULT_INTERFACE_METHOD, NOT_PRIVATE);
         assertEquals(1, method.invoke(o));
     }
 
     @Test
     public void overrideOnBaseClass() throws Exception {
         IMethods o = new Methods.B();
-        Method method = ReflectionUtils.findMethod(o.getClass(), DEFAULT_INTERFACE_METHOD, NOT_PRIVATE, NO_PARAMS);
+        Method method = ReflectionUtils.findMethod(o.getClass(), DEFAULT_INTERFACE_METHOD, NOT_PRIVATE);
         assertEquals(3, method.invoke(o));
     }
 }

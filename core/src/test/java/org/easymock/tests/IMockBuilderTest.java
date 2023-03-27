@@ -19,7 +19,8 @@ import org.easymock.EasyMock;
 import org.easymock.IMockBuilder;
 import org.easymock.IMocksControl;
 import org.easymock.MockType;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.partialMockBuilder;
 import static org.junit.Assert.assertEquals;
@@ -36,14 +37,14 @@ public class IMockBuilderTest {
     private final IMockBuilder<IMockBuilderTest> builder = partialMockBuilder(IMockBuilderTest.class);
 
     private void assertMock(IMockBuilderTest mock, String name, MockType type) {
-        assertEquals(name, Util.getName(mock));
-        assertEquals(type, Util.getType(mock));
-        assertNotNull(Util.getControl(mock));
+        Assertions.assertEquals(name, Util.getName(mock));
+        Assertions.assertEquals(type, Util.getType(mock));
+        Assertions.assertNotNull(Util.getControl(mock));
     }
 
     private void assertMock(IMockBuilderTest mock, String name, MockType type, IMocksControl control) {
         assertMock(mock, name, type);
-        assertSame(control, Util.getControl(mock));
+        Assertions.assertSame(control, Util.getControl(mock));
     }
     @Test
     public void testMock() {

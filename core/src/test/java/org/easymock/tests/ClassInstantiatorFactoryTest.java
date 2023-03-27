@@ -15,21 +15,22 @@
  */
 package org.easymock.tests;
 
-import static org.junit.Assert.*;
-
 import org.easymock.internal.ClassInstantiatorFactory;
 import org.easymock.internal.DefaultClassInstantiator;
 import org.easymock.internal.IClassInstantiator;
 import org.easymock.internal.ObjenesisClassInstantiator;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Henri Tremblay
  */
 public class ClassInstantiatorFactoryTest {
 
-    @After
+    @AfterEach
     public void tearDown() {
         // put back the default to prevent side effects on other tests
         ClassInstantiatorFactory.setDefaultInstantiator();

@@ -16,16 +16,21 @@
 package org.easymock.tests2;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
 import org.easymock.Capture;
 import org.easymock.CaptureType;
 import org.easymock.tests.IMethods;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Henri Tremblay
@@ -38,11 +43,11 @@ public class CaptureTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
     }
 
@@ -195,12 +200,9 @@ public class CaptureTest {
     public void testCapture() {
         Capture<String> capture = Capture.newInstance();
         assertFalse(capture.hasCaptured());
-        try {
-            capture.getValue();
-            fail("Should not be allowed");
-        } catch (AssertionError e) {
-            assertEquals("Nothing captured yet", e.getMessage());
-        }
+        AssertionError e = assertThrows(AssertionError.class, capture::getValue);
+        assertEquals("Nothing captured yet", e.getMessage());
+
         assertEquals("Nothing captured yet", capture.toString());
         capture.setValue("s");
         assertTrue(capture.hasCaptured());
@@ -208,12 +210,8 @@ public class CaptureTest {
         assertEquals("s", capture.toString());
         capture.reset();
         assertFalse(capture.hasCaptured());
-        try {
-            capture.getValue();
-            fail();
-        } catch (AssertionError e) {
-            assertEquals("Nothing captured yet", e.getMessage());
-        }
+        e = assertThrows(AssertionError.class, capture::getValue);
+        assertEquals("Nothing captured yet", e.getMessage());
 
         capture.setValue(null);
         assertTrue(capture.hasCaptured());
@@ -226,12 +224,8 @@ public class CaptureTest {
         Capture<String> capture = Capture.newInstance(CaptureType.ALL);
         capture.setValue("a");
         capture.setValue("b");
-        try {
-            capture.getValue();
-            fail();
-        } catch (AssertionError e) {
-            assertEquals("More than one value captured: " + capture.getValues(), e.getMessage());
-        }
+        AssertionError e = assertThrows(AssertionError.class, capture::getValue);
+        assertEquals("More than one value captured: " + capture.getValues(), e.getMessage());
         assertEquals(Arrays.asList("a", "b"), capture.getValues());
     }
 

@@ -16,16 +16,16 @@
 package org.easymock.samples;
 
 import org.easymock.EasyMockSupport;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
 /**
  * Example of how to perform partial mocking
- * 
+ *
  * @author Henri Tremblay
  */
 public class PartialClassMockTest extends EasyMockSupport {
@@ -59,12 +59,12 @@ public class PartialClassMockTest extends EasyMockSupport {
 
     private Rect rect;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         rect = partialMockBuilder(Rect.class).addMockedMethods("getX", "getY").createMock();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         rect = null;
     }
@@ -74,7 +74,7 @@ public class PartialClassMockTest extends EasyMockSupport {
         expect(rect.getX()).andReturn(4);
         expect(rect.getY()).andReturn(5);
         replayAll();
-        assertEquals(20, rect.getArea());
+        Assertions.assertEquals(20, rect.getArea());
         verifyAll();
     }
 }

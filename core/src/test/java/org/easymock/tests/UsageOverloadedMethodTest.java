@@ -16,10 +16,10 @@
 package org.easymock.tests;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -28,7 +28,7 @@ public class UsageOverloadedMethodTest {
 
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createMock(IMethods.class);
     }
@@ -65,32 +65,32 @@ public class UsageOverloadedMethodTest {
 
         replay(mock);
 
-        assertEquals("true", mock.oneArg(true));
-        assertEquals("false", mock.oneArg(false));
+        Assertions.assertEquals("true", mock.oneArg(true));
+        Assertions.assertEquals("false", mock.oneArg(false));
 
-        assertEquals("byte 0", mock.oneArg((byte) 0));
-        assertEquals("byte 1", mock.oneArg((byte) 1));
+        Assertions.assertEquals("byte 0", mock.oneArg((byte) 0));
+        Assertions.assertEquals("byte 1", mock.oneArg((byte) 1));
 
-        assertEquals("short 0", mock.oneArg((short) 0));
-        assertEquals("short 1", mock.oneArg((short) 1));
+        Assertions.assertEquals("short 0", mock.oneArg((short) 0));
+        Assertions.assertEquals("short 1", mock.oneArg((short) 1));
 
-        assertEquals("char 0", mock.oneArg((char) 0));
-        assertEquals("char 1", mock.oneArg((char) 1));
+        Assertions.assertEquals("char 0", mock.oneArg((char) 0));
+        Assertions.assertEquals("char 1", mock.oneArg((char) 1));
 
-        assertEquals("int 0", mock.oneArg(0));
-        assertEquals("int 1", mock.oneArg(1));
+        Assertions.assertEquals("int 0", mock.oneArg(0));
+        Assertions.assertEquals("int 1", mock.oneArg(1));
 
-        assertEquals("long 0", mock.oneArg((long) 0));
-        assertEquals("long 1", mock.oneArg((long) 1));
+        Assertions.assertEquals("long 0", mock.oneArg((long) 0));
+        Assertions.assertEquals("long 1", mock.oneArg((long) 1));
 
-        assertEquals("float 0", mock.oneArg((float) 0.0));
-        assertEquals("float 1", mock.oneArg((float) 1.0));
+        Assertions.assertEquals("float 0", mock.oneArg((float) 0.0));
+        Assertions.assertEquals("float 1", mock.oneArg((float) 1.0));
 
-        assertEquals("double 1", mock.oneArg(1.0));
-        assertEquals("double 0", mock.oneArg(0.0));
+        Assertions.assertEquals("double 1", mock.oneArg(1.0));
+        Assertions.assertEquals("double 0", mock.oneArg(0.0));
 
-        assertEquals("1", mock.oneArg("Object 0"));
-        assertEquals("2", mock.oneArg("Object 1"));
+        Assertions.assertEquals("1", mock.oneArg("Object 0"));
+        Assertions.assertEquals("2", mock.oneArg("Object 1"));
 
         verify(mock);
     }
@@ -102,7 +102,7 @@ public class UsageOverloadedMethodTest {
 
         replay(mock);
 
-        assertNull(mock.oneArg("Object"));
+        Assertions.assertNull(mock.oneArg("Object"));
 
     }
 
@@ -114,40 +114,40 @@ public class UsageOverloadedMethodTest {
 
         replay(mock);
 
-        assertEquals("First Result", mock.oneArg(true));
-        assertEquals("First Result", mock.oneArg(true));
-        assertEquals("First Result", mock.oneArg(true));
-        assertEquals("First Result", mock.oneArg(true));
+        Assertions.assertEquals("First Result", mock.oneArg(true));
+        Assertions.assertEquals("First Result", mock.oneArg(true));
+        Assertions.assertEquals("First Result", mock.oneArg(true));
+        Assertions.assertEquals("First Result", mock.oneArg(true));
 
-        assertEquals("Second Result", mock.oneArg(true));
-        assertEquals("Second Result", mock.oneArg(true));
+        Assertions.assertEquals("Second Result", mock.oneArg(true));
+        Assertions.assertEquals("Second Result", mock.oneArg(true));
 
         try {
             mock.oneArg(true);
-            fail("expected exception");
+            Assertions.fail("expected exception");
         } catch (RuntimeException expected) {
-            assertEquals("Third Result", expected.getMessage());
+            Assertions.assertEquals("Third Result", expected.getMessage());
         }
 
         try {
             mock.oneArg(true);
-            fail("expected exception");
+            Assertions.fail("expected exception");
         } catch (RuntimeException expected) {
-            assertEquals("Third Result", expected.getMessage());
+            Assertions.assertEquals("Third Result", expected.getMessage());
         }
 
         try {
             mock.oneArg(true);
-            fail("expected exception");
+            Assertions.fail("expected exception");
         } catch (RuntimeException expected) {
-            assertEquals("Third Result", expected.getMessage());
+            Assertions.assertEquals("Third Result", expected.getMessage());
         }
 
-        assertEquals("Following Result", mock.oneArg(true));
-        assertEquals("Following Result", mock.oneArg(true));
-        assertEquals("Following Result", mock.oneArg(true));
-        assertEquals("Following Result", mock.oneArg(true));
-        assertEquals("Following Result", mock.oneArg(true));
+        Assertions.assertEquals("Following Result", mock.oneArg(true));
+        Assertions.assertEquals("Following Result", mock.oneArg(true));
+        Assertions.assertEquals("Following Result", mock.oneArg(true));
+        Assertions.assertEquals("Following Result", mock.oneArg(true));
+        Assertions.assertEquals("Following Result", mock.oneArg(true));
 
         verify(mock);
     }

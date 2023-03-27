@@ -16,10 +16,10 @@
 package org.easymock.tests;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -28,7 +28,7 @@ public class NiceMockControlTest {
 
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createNiceMock(IMethods.class);
         replay(mock);
@@ -36,25 +36,25 @@ public class NiceMockControlTest {
 
     @Test
     public void defaultReturnValueBoolean() {
-        assertFalse(mock.booleanReturningMethod(12));
+        Assertions.assertFalse(mock.booleanReturningMethod(12));
         verify(mock);
     }
 
     @Test
     public void defaultReturnValueFloat() {
-        assertEquals(0.0f, mock.floatReturningMethod(12), 0.0f);
+        Assertions.assertEquals(0.0f, mock.floatReturningMethod(12), 0.0f);
         verify(mock);
     }
 
     @Test
     public void defaultReturnValueDouble() {
-        assertEquals(0.0d, mock.doubleReturningMethod(12), 0.0d);
+        Assertions.assertEquals(0.0d, mock.doubleReturningMethod(12), 0.0d);
         verify(mock);
     }
 
     @Test
     public void defaultReturnValueObject() {
-        assertNull(mock.objectReturningMethod(12));
+        Assertions.assertNull(mock.objectReturningMethod(12));
         verify(mock);
     }
 }

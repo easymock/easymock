@@ -16,9 +16,9 @@
 package org.easymock.tests2;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Henri Tremblay
@@ -35,7 +35,7 @@ public class MockedExceptionTest {
         try {
             c.length(); // fillInStackTrace will be called internally here
         } catch (RuntimeException actual) {
-            assertSame(expected, actual);
+            Assertions.assertSame(expected, actual);
         }
 
         verify(c, expected);
@@ -56,8 +56,8 @@ public class MockedExceptionTest {
         try {
             c.length(); // fillInStackTrace won't be called internally
         } catch (RuntimeException actual) {
-            assertSame(myException, actual.fillInStackTrace()); // so the fillInStackTrace recording is still valid
-            assertSame(expected, actual);
+            Assertions.assertSame(myException, actual.fillInStackTrace()); // so the fillInStackTrace recording is still valid
+            Assertions.assertSame(expected, actual);
         }
 
         verify(c, expected);
@@ -90,10 +90,9 @@ public class MockedExceptionTest {
         try {
             c.length(); // fillInStackTrace won't be called internally
         } catch (RuntimeException actual) {
-            assertSame(expected, actual);
-            assertSame("fillInStackTrace should have been called normally since it isn't mocked", expected,
-                    actual.fillInStackTrace());
-            assertEquals("The original method was called", 4, check);
+            Assertions.assertSame(expected, actual);
+            Assertions.assertSame(expected, actual.fillInStackTrace(), "fillInStackTrace should have been called normally since it isn't mocked");
+            Assertions.assertEquals(4, check, "The original method was called");
         }
 
         verify(c, expected);
@@ -112,9 +111,8 @@ public class MockedExceptionTest {
         try {
             c.length(); // fillInStackTrace will be called internally here
         } catch (RuntimeException actual) {
-            assertSame(expected, actual);
-            assertEquals("fillInStackTrace should have been called normally",
-                    "org.easymock.internal.MockInvocationHandler", actual.getStackTrace()[0].getClassName());
+            Assertions.assertSame(expected, actual);
+            Assertions.assertEquals("org.easymock.internal.MockInvocationHandler", actual.getStackTrace()[0].getClassName(), "fillInStackTrace should have been called normally");
         }
 
         verify(c);

@@ -17,11 +17,12 @@ package org.easymock.tests2;
 
 import org.easymock.EasyMock;
 import org.easymock.tests.IMethods;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -30,7 +31,7 @@ public class CallbackAndArgumentsTest {
 
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         mock = createStrictMock(IMethods.class);
     }
@@ -71,14 +72,14 @@ public class CallbackAndArgumentsTest {
         assertEquals("12", buffer.toString());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void currentArgumentsFailsOutsideCallbacks() {
-        getCurrentArguments();
+        assertThrows(IllegalStateException.class, EasyMock::getCurrentArguments);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void currentArgumentFailsOutsideCallbacks() {
-        getCurrentArgument(0);
+        assertThrows(IllegalStateException.class, () -> getCurrentArgument(0));
     }
 
     @Test

@@ -17,13 +17,13 @@ package org.easymock.tests2;
 
 import org.easymock.IArgumentMatcher;
 import org.easymock.internal.matchers.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
 public class ConstraintsToStringTest {
     private StringBuffer buffer;
 
-    @Before
+    @BeforeEach
     public void setup() {
         buffer = new StringBuffer();
     }

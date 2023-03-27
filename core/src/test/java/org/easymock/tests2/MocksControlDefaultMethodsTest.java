@@ -16,7 +16,8 @@
 package org.easymock.tests2;
 
 import org.easymock.internal.ReflectionUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 import java.util.function.Function;
@@ -65,7 +66,7 @@ public class MocksControlDefaultMethodsTest {
     private void expectPartialMocking(String caseName, boolean expected, Class<?> toMock, Method... mockedMethods) {
         String allowanceText = "should" + (expected ? "" : "n't") + " be allowed";
         String message = "partial mocking on " + caseName + " " + allowanceText;
-        assertEquals(message, expected, tryMock(toMock, mockedMethods));
+        Assertions.assertEquals(expected, tryMock(toMock, mockedMethods), message);
     }
 
     private boolean tryMock(Class<?> toMock, Method... mockedMethods) {

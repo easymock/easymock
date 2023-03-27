@@ -16,10 +16,10 @@
 package org.easymock.tests;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -28,7 +28,7 @@ public class UsageDefaultReturnValueTest {
 
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createMock(IMethods.class);
     }
@@ -44,12 +44,12 @@ public class UsageDefaultReturnValueTest {
                 defaultValue);
 
         replay(mock);
-        assertEquals("test", mock.threeArgumentMethod(7, "", "test"));
-        assertEquals("test2", mock.threeArgumentMethod(8, null, "test2"));
-        assertSame(defaultValue, mock.threeArgumentMethod(7, new Object(), "test"));
-        assertSame(defaultValue, mock.threeArgumentMethod(7, "", "test"));
-        assertSame(defaultValue, mock.threeArgumentMethod(8, null, "test"));
-        assertSame(defaultValue, mock.threeArgumentMethod(9, null, "test"));
+        Assertions.assertEquals("test", mock.threeArgumentMethod(7, "", "test"));
+        Assertions.assertEquals("test2", mock.threeArgumentMethod(8, null, "test2"));
+        Assertions.assertSame(defaultValue, mock.threeArgumentMethod(7, new Object(), "test"));
+        Assertions.assertSame(defaultValue, mock.threeArgumentMethod(7, "", "test"));
+        Assertions.assertSame(defaultValue, mock.threeArgumentMethod(8, null, "test"));
+        Assertions.assertSame(defaultValue, mock.threeArgumentMethod(9, null, "test"));
 
         verify(mock);
     }
@@ -70,9 +70,9 @@ public class UsageDefaultReturnValueTest {
 
         try {
             mock.twoArgumentMethod(1, 1);
-            fail("RuntimeException expected");
+            Assertions.fail("RuntimeException expected");
         } catch (RuntimeException actual) {
-            assertSame(expected, actual);
+            Assertions.assertSame(expected, actual);
         }
     }
 
@@ -93,9 +93,9 @@ public class UsageDefaultReturnValueTest {
         mock.twoArgumentMethod(1, 1);
         try {
             mock.twoArgumentMethod(2, 1);
-            fail("RuntimeException expected");
+            Assertions.fail("RuntimeException expected");
         } catch (RuntimeException actual) {
-            assertSame(expected, actual);
+            Assertions.assertSame(expected, actual);
         }
     }
 
@@ -106,9 +106,9 @@ public class UsageDefaultReturnValueTest {
 
         replay(mock);
 
-        assertFalse(mock.booleanReturningMethod(11));
-        assertTrue(mock.booleanReturningMethod(12));
-        assertFalse(mock.booleanReturningMethod(13));
+        Assertions.assertFalse(mock.booleanReturningMethod(11));
+        Assertions.assertTrue(mock.booleanReturningMethod(12));
+        Assertions.assertFalse(mock.booleanReturningMethod(13));
 
         verify(mock);
     }
@@ -121,9 +121,9 @@ public class UsageDefaultReturnValueTest {
 
         replay(mock);
 
-        assertEquals("1", mock.oneArg(""));
-        assertEquals("2", mock.oneArg(""));
-        assertEquals("2", mock.oneArg("X"));
+        Assertions.assertEquals("1", mock.oneArg(""));
+        Assertions.assertEquals("2", mock.oneArg(""));
+        Assertions.assertEquals("2", mock.oneArg("X"));
 
         verify(mock);
     }

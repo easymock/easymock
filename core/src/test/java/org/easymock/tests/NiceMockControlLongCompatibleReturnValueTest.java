@@ -16,10 +16,10 @@
 package org.easymock.tests;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -28,7 +28,7 @@ public class NiceMockControlLongCompatibleReturnValueTest {
 
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createNiceMock(IMethods.class);
         replay(mock);
@@ -36,31 +36,31 @@ public class NiceMockControlLongCompatibleReturnValueTest {
 
     @Test
     public void byteReturningValue() {
-        assertEquals((byte) 0, mock.byteReturningMethod(12));
+        Assertions.assertEquals((byte) 0, mock.byteReturningMethod(12));
         verify(mock);
     }
 
     @Test
     public void shortReturningValue() {
-        assertEquals((short) 0, mock.shortReturningMethod(12));
+        Assertions.assertEquals((short) 0, mock.shortReturningMethod(12));
         verify(mock);
     }
 
     @Test
     public void charReturningValue() {
-        assertEquals((char) 0, mock.charReturningMethod(12));
+        Assertions.assertEquals((char) 0, mock.charReturningMethod(12));
         verify(mock);
     }
 
     @Test
     public void intReturningValue() {
-        assertEquals(0, mock.intReturningMethod(12));
+        Assertions.assertEquals(0, mock.intReturningMethod(12));
         verify(mock);
     }
 
     @Test
     public void longReturningValue() {
-        assertEquals(0, mock.longReturningMethod(12));
+        Assertions.assertEquals(0, mock.longReturningMethod(12));
         verify(mock);
     }
 }

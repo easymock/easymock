@@ -20,7 +20,7 @@ import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import org.droidparts.dexmaker.stock.ProxyBuilder;
 import org.easymock.EasyMock;
 import org.easymock.internal.AndroidSupport;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
@@ -29,7 +29,10 @@ import java.util.List;
 
 import static org.easymock.EasyMock.*;
 import static org.easymock.internal.MocksControl.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Henri Tremblay
@@ -65,33 +68,22 @@ public class ClassExtensionHelperTest {
                 .getLoaded()
                 .getDeclaredConstructor().newInstance();
         }
-        try {
-            getControl(o);
-            fail();
-        } catch (IllegalArgumentException e) {
-            assertEquals("Not a mock: " + o.getClass().getName(), e.getMessage());
-        }
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> getControl(o));
+        assertEquals("Not a mock: " + o.getClass().getName(), e.getMessage());
     }
 
     @Test
     public void testGetControl_ProxyButNotMock() {
         Object o = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { List.class },
             (proxy, method, args) -> null);
-        try {
-            getControl(o);
-            fail();
-        } catch (IllegalArgumentException e) {
-            assertEquals("Not a mock: " + o.getClass().getName(), e.getMessage());
-        }
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> getControl(o));
+        assertEquals("Not a mock: " + o.getClass().getName(), e.getMessage());
     }
 
     @Test
     public void testGetControl_NotAMock() {
-        try {
-            getControl("");
-            fail();
-        } catch (IllegalArgumentException expected) {
-        }
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> getControl(""));
+        assertEquals("Not a mock: java.lang.String", e.getMessage());
     }
 
     @Test

@@ -15,11 +15,10 @@
  */
 package org.easymock.tests;
 
-import static org.junit.Assert.*;
-
 import org.easymock.internal.Result;
 import org.easymock.internal.Results;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -31,21 +30,21 @@ public class ResultTest {
     public void createThrowResultToString() {
         Exception e = new Exception("Error message");
         Result r = Result.createThrowResult(e);
-        assertEquals("Answer throwing " + e, r.toString());
+        Assertions.assertEquals("Answer throwing " + e, r.toString());
     }
 
     @Test
     public void createReturnResultToString() {
         String value = "My value";
         Result r = Result.createReturnResult(value);
-        assertEquals("Answer returning " + value, r.toString());
+        Assertions.assertEquals("Answer returning " + value, r.toString());
     }
 
     @Test
     public void createDelegateResultToString() {
         String value = "my value";
         Result r = Result.createDelegatingResult(value);
-        assertEquals("Delegated to " + value, r.toString());
+        Assertions.assertEquals("Delegated to " + value, r.toString());
     }
 
     @Test
@@ -53,7 +52,7 @@ public class ResultTest {
         // We never create a Results without at least one Range
         // This test is only to unit test Results with this to cover the case anyway
         Results results = new Results();
-        assertFalse(results.hasResults());
-        assertNull(results.next());
+        Assertions.assertFalse(results.hasResults());
+        Assertions.assertNull(results.next());
     }
 }

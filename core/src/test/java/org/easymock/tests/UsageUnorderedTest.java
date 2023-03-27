@@ -15,10 +15,11 @@
  */
 package org.easymock.tests;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -46,15 +47,11 @@ public class UsageUnorderedTest {
         mock.method(1);
         mock.method(42);
 
-        try {
-            mock.method(42);
-            fail("Should fail");
-        } catch (AssertionError expected) {
-            assertEquals(
-                    "\n  Unexpected method call Interface.method(42 (int)). Possible matches are marked with (+1):"
-                            + "\n    Interface.method(<any>): expected: 3, actual: 3 (+1)"
-                            + "\n    Interface.method(42 (int)): expected: 1, actual: 1 (+1)", expected
-                            .getMessage());
-        }
+        AssertionError expected = assertThrows(AssertionError.class, () -> mock.method(42));
+        assertEquals(
+            "\n  Unexpected method call Interface.method(42 (int)). Possible matches are marked with (+1):"
+                    + "\n    Interface.method(<any>): expected: 3, actual: 3 (+1)"
+                    + "\n    Interface.method(42 (int)): expected: 1, actual: 1 (+1)",
+            expected.getMessage());
     }
 }

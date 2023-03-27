@@ -19,13 +19,15 @@ import java.io.Serializable;
 
 import org.easymock.internal.ClassInstantiatorFactory;
 import org.easymock.internal.DefaultClassInstantiator;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Class testing the default instantiator. I'm cheating a little here since
@@ -111,13 +113,13 @@ public class DefaultClassInstantiatorTest {
 
     private final String vendor = null;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         // Set the default instantiator
         ClassInstantiatorFactory.setInstantiator(new DefaultClassInstantiator());
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() {
         // Set the value back to be clean
         ClassInstantiatorFactory.setDefaultInstantiator();
@@ -134,7 +136,7 @@ public class DefaultClassInstantiatorTest {
     }
 
     @Test
-    @Ignore // Fails on Java 7 for a currently unknown reason
+    @Disabled // Fails on Java 7 for a currently unknown reason
     public void finalType() {
         checkInstantiation(FinalParamClass.class);
     }
@@ -155,37 +157,28 @@ public class DefaultClassInstantiatorTest {
     }
 
     @Test
-    @Ignore // Fails on Java 7 for a currently unknown reason
+    @Disabled // Fails on Java 7 for a currently unknown reason
     public void objectParamRecursion() {
         checkInstantiation(ObjectParamClass.class);
     }
 
     @Test
     public void constructorWithCodeLimitation() {
-        try {
-            createMock(ConstructorWithCodeClass.class);
-            fail("Shouldn't be possible to mock, code in constructor should crash");
-        } catch (Exception e) {
-        }
+        Exception e = assertThrows(Exception.class, () -> createMock(ConstructorWithCodeClass.class));
+        assertEquals("Failed to instantiate org.easymock.tests.DefaultClassInstantiatorTest$ConstructorWithCodeClass's mock: ", e.getMessage());
     }
 
     @Test
     public void privateConstructorLimitation() {
-        try {
-            createMock(PrivateConstructorClass.class);
-            fail("Shouldn't be able to mock a class with a private constructor using DefaultInstantiator");
-        } catch (Exception e) {
-        }
+        Exception e = assertThrows(Exception.class, () -> createMock(PrivateConstructorClass.class));
+        assertEquals("No visible constructors in class org.easymock.tests.DefaultClassInstantiatorTest$PrivateConstructorClass", e.getMessage());
     }
 
     @Test
     public void privateConstructor() {
         DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
-        try {
-            instantiator.newInstance(PrivateConstructorClass.class);
-            fail("Shouldn't be able to mock a class with a private constructor using DefaultInstantiator");
-        } catch (Exception e) {
-        }
+        Exception e = assertThrows(Exception.class, () -> instantiator.newInstance(PrivateConstructorClass.class));
+        assertEquals("No visible constructors in class org.easymock.tests.DefaultClassInstantiatorTest$PrivateConstructorClass", e.getMessage());
     }
 
     @Test
@@ -194,13 +187,13 @@ public class DefaultClassInstantiatorTest {
     }
 
     @Test
-    @Ignore("requires --add-opens java.base/java.io=ALL-UNNAMED with Java 9+")
+    @Disabled("requires --add-opens java.base/java.io=ALL-UNNAMED with Java 9+")
     public void serializable() {
         checkInstantiation(SerializableClass.class);
     }
 
     @Test
-    @Ignore("requires --add-opens java.base/java.io=ALL-UNNAMED with Java 9+")
+    @Disabled("requires --add-opens java.base/java.io=ALL-UNNAMED with Java 9+")
     public void badSerializable() throws Exception {
         DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
         assertTrue(instantiator.newInstance(BadlyDoneSerializableClass.class) instanceof BadlyDoneSerializableClass);

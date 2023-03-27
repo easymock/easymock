@@ -26,7 +26,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests annotation-driven mocking, requiring to be executed with either
@@ -124,15 +128,10 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     @Test
     public void shouldErrorWhenDuplicateAssignmentPossible() {
 
-        try {
-            EasyMockSupport.injectMocks(new ToInjectDuplicateMocksTest());
-        } catch (AssertionError e) {
-            assertEquals(
-                    "At least two mocks can be assigned to 'protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1': a and b",
-                    e.getMessage());
-            return;
-        }
-        fail("Expected an exception for at least two mocks can be assigned");
+        AssertionError e = assertThrows(AssertionError.class, () -> EasyMockSupport.injectMocks(new ToInjectDuplicateMocksTest()));
+        assertEquals(
+                "At least two mocks can be assigned to 'protected org.easymock.tests.IMethods org.easymock.tests2.EasyMockAnnotationsTest$ToInject.m1': a and b",
+                e.getMessage());
     }
 
     private static class ToInjectQualifiedMocksTest {
@@ -222,14 +221,9 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
     @Test
     public void shouldErrorWhenUnsatisfiedQualifier() {
-        try {
-            EasyMockSupport.injectMocks(new ToInjectUnsatisfiedQualifierTest());
-        } catch (AssertionError e) {
-            assertEquals("Unsatisfied qualifier: 'unmatched'",
-                    e.getMessage());
-            return;
-        }
-        fail("Expected an exception for unsatisfied fieldName qualifier");
+        AssertionError e = assertThrows(AssertionError.class, () -> EasyMockSupport.injectMocks(new ToInjectUnsatisfiedQualifierTest()));
+        assertEquals("Unsatisfied qualifier: 'unmatched'",
+                e.getMessage());
     }
 
     private static class ToInjectTypeIncompatibleQualifierTest {
@@ -245,14 +239,9 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
     @Test
     public void shouldErrorForUnmatchedQualifierWhenTypeIncompatibleQualifier() {
-        try {
-            EasyMockSupport.injectMocks(new ToInjectTypeIncompatibleQualifierTest());
-        } catch (AssertionError e) {
-            assertEquals("Unsatisfied qualifier: 'm2'",
-                    e.getMessage());
-            return;
-        }
-        fail("Expected an exception for unsatisfied fieldName qualifier");
+        AssertionError e = assertThrows(AssertionError.class, () -> EasyMockSupport.injectMocks(new ToInjectTypeIncompatibleQualifierTest()));
+        assertEquals("Unsatisfied qualifier: 'm2'",
+                e.getMessage());
     }
 
     private static class ToInjectUnassignableField extends ToInject {
@@ -271,14 +260,9 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
     @Test
     public void shouldErrorForUnmatchedQualifierWhenUnassignableFinalField() {
-        try {
-            EasyMockSupport.injectMocks(new ToInjectUnassignableFinalFieldQualifierTest());
-        } catch (AssertionError e) {
-            assertEquals("Unsatisfied qualifier: 'finalField'",
-                    e.getMessage());
-            return;
-        }
-        fail("Expected an exception for unsatisfied fieldName qualifier");
+        AssertionError e = assertThrows(AssertionError.class, () -> EasyMockSupport.injectMocks(new ToInjectUnassignableFinalFieldQualifierTest()));
+        assertEquals("Unsatisfied qualifier: 'finalField'",
+                e.getMessage());
     }
 
     private static class ToInjectUnassignableStaticFieldQualifierTest {
@@ -291,14 +275,8 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
     @Test
     public void shouldErrorForUnmatchedQualifierWhenUnassignableStaticField() {
-        try {
-            EasyMockSupport.injectMocks(new ToInjectUnassignableStaticFieldQualifierTest());
-        } catch (AssertionError e) {
-            assertEquals("Unsatisfied qualifier: 'staticField'",
-                    e.getMessage());
-            return;
-        }
-        fail("Expected an exception for unsatisfied fieldName qualifier");
+        AssertionError e = assertThrows(AssertionError.class, () -> EasyMockSupport.injectMocks(new ToInjectUnassignableStaticFieldQualifierTest()));
+        assertEquals("Unsatisfied qualifier: 'staticField'", e.getMessage());
     }
 
     private static class ToInjectDuplicateQualifierTest {
@@ -314,13 +292,8 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
 
     @Test
     public void shouldErrorWhenDuplicateQualifiers() {
-        try {
-            EasyMockSupport.injectMocks(new ToInjectDuplicateQualifierTest());
-            fail("Expected an exception for duplicate fieldName qualifier");
-        } catch (AssertionError e) {
-            assertEquals("At least two mocks have fieldName qualifier 'm1'",
-                    e.getMessage());
-        }
+        AssertionError e = assertThrows(AssertionError.class, () -> EasyMockSupport.injectMocks(new ToInjectDuplicateQualifierTest()));
+        assertEquals("At least two mocks have fieldName qualifier 'm1'", e.getMessage());
     }
 
     private static class ToInjectOneTarget {
@@ -353,12 +326,8 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     @Test
     public void shouldNotDefineValueAndTypeAtTheSameTime() {
         TypeDefinedTwiceTest test = new TypeDefinedTwiceTest();
-        try {
-            EasyMockSupport.injectMocks(test);
-            fail("Should not accept the redefinition");
-        } catch(AssertionError e) {
-            assertEquals("@Mock.value() and @Mock.type() are aliases, you can't specify both at the same time", e.getMessage());
-        }
+        AssertionError e = assertThrows(AssertionError.class, () -> EasyMockSupport.injectMocks(test));
+        assertEquals("@Mock.value() and @Mock.type() are aliases, you can't specify both at the same time", e.getMessage());
     }
 
     private static class TypeDefinedUsingValue {

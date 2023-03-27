@@ -17,14 +17,15 @@ package org.easymock.tests2;
 
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
-import org.junit.Before;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 
 import static org.easymock.EasyMock.*;
 import static org.hamcrest.core.Is.*;
-import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
@@ -40,7 +41,7 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
 
     private Method foo;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         foo = ToMock.class.getMethod("foo");
     }
@@ -48,49 +49,49 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
     @Test
     public void testCreateStrictControl() {
         IMocksControl ctrl = createStrictControl();
-        assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
     public void testCreateControl() {
         IMocksControl ctrl = createControl();
-        assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
     public void testCreateNiceControl() {
         IMocksControl ctrl = createNiceControl();
-        assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
     public void testCreateStrictMockClassOfT() {
-        assertThat(createStrictMock(ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(createStrictMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
     public void testCreateStrictMockStringClassOfT() {
-        assertThat(createStrictMock("myMock", ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(createStrictMock("myMock", ToMock.class), is(ToMock.class));
     }
 
     @Test
     public void testCreateMockClassOfT() {
-        assertThat(createMock(ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(createMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
     public void testCreateMockStringClassOfT() {
-        assertThat(createMock("myMock", ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(createMock("myMock", ToMock.class), is(ToMock.class));
     }
 
     @Test
     public void testCreateNiceMockClassOfT() {
-        assertThat(createNiceMock(ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(createNiceMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
     public void testCreateNiceMockStringClassOfT() {
-        assertThat(createNiceMock("myMock", ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(createNiceMock("myMock", ToMock.class), is(ToMock.class));
     }
 
     @Test
@@ -111,7 +112,7 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
         ToMock t = createMockBuilder(ToMock.class).addMockedMethod(foo).createMock();
         expect(t.foo()).andReturn(1);
         replayAll();
-        assertEquals(1, t.foo());
+        Assertions.assertEquals(1, t.foo());
         verifyAll();
     }
 
@@ -121,7 +122,7 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
         ToMock t = createMockBuilder(ToMock.class).addMockedMethod(foo).createMock(ctrl); // should not be registered a second time here
         expect(t.foo()).andReturn(1);
         replayAll();
-        assertEquals(1, t.foo());
+        Assertions.assertEquals(1, t.foo());
         verifyAll();
     }
 
@@ -134,9 +135,9 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
         expect(t2.foo()).andReturn(2);
         expect(t3.foo()).andReturn(3);
         replayAll();
-        assertEquals(1, t1.foo());
-        assertEquals(2, t2.foo());
-        assertEquals(3, t3.foo());
+        Assertions.assertEquals(1, t1.foo());
+        Assertions.assertEquals(2, t2.foo());
+        Assertions.assertEquals(3, t3.foo());
         verifyAll();
     }
 }

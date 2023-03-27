@@ -17,12 +17,11 @@ package org.easymock.tests;
 
 import org.easymock.internal.ExpectedInvocation;
 import org.easymock.internal.Invocation;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
-
-import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -33,7 +32,7 @@ public class MatchableArgumentsTest {
 
     private Object[] arguments2;
 
-    @Before
+    @BeforeEach
     public void setup() {
         arguments = new Object[] { "" };
         arguments2 = new Object[] { "", "" };
@@ -50,6 +49,6 @@ public class MatchableArgumentsTest {
         ExpectedInvocation nonEqualMatchableArguments = new ExpectedInvocation(new Invocation(mock,
                 toPreventNullPointerException, arguments2), null);
 
-        assertNotEquals(matchableArguments, nonEqualMatchableArguments);
+        Assertions.assertNotEquals(matchableArguments, nonEqualMatchableArguments);
     }
 }

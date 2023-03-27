@@ -15,12 +15,15 @@
  */
 package org.easymock.tests2;
 
-import static org.junit.Assert.*;
-
 import java.math.BigDecimal;
 
 import org.easymock.internal.matchers.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Henri Tremblay

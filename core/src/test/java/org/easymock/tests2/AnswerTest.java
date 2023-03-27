@@ -17,11 +17,15 @@ package org.easymock.tests2;
 
 import org.easymock.IAnswer;
 import org.easymock.tests.IMethods;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -30,7 +34,7 @@ public class AnswerTest {
 
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         mock = createMock(IMethods.class);
     }
@@ -54,12 +58,8 @@ public class AnswerTest {
 
         assertEquals("Call answered", mock.threeArgumentMethod(1, "2", "3"));
         assertEquals("Second call", mock.threeArgumentMethod(1, "2", "3"));
-        try {
-            mock.threeArgumentMethod(1, "2", "3");
-            fail();
-        } catch (IllegalStateException expected) {
-            assertEquals("Call answered", expected.getMessage());
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> mock.threeArgumentMethod(1, "2", "3"));
+        assertEquals("Call answered", expected.getMessage());
         assertEquals("Fourth call", mock.threeArgumentMethod(1, "2", "3"));
 
         verify(mock);

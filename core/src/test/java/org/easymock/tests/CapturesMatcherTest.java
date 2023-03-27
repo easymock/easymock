@@ -22,9 +22,12 @@ import org.easymock.internal.LastControl;
 import org.easymock.internal.matchers.Captures;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Henri Tremblay
@@ -37,13 +40,13 @@ public class CapturesMatcherTest {
 
     private StringBuffer buffer;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         LastControl.pushCurrentInvocation(new Invocation(this, getClass().getMethod("test"), new Object[0]));
         buffer = new StringBuffer();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         LastControl.popCurrentInvocation();
     }

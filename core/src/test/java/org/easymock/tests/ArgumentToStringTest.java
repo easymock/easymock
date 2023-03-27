@@ -16,8 +16,8 @@
 package org.easymock.tests;
 
 import org.easymock.internal.ArgumentToString;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -31,7 +31,7 @@ public class ArgumentToStringTest {
 
     private StringBuffer buffer;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         buffer = new StringBuffer();
     }

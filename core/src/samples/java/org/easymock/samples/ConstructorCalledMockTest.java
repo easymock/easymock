@@ -16,14 +16,14 @@
 package org.easymock.samples;
 
 import org.easymock.EasyMockSupport;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Example of how to partially mock with actually calling a constructor
@@ -58,14 +58,14 @@ public class ConstructorCalledMockTest extends EasyMockSupport {
 
     private TaxCalculator tc;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         tc = partialMockBuilder(TaxCalculator.class).withConstructor(BigDecimal[].class).withArgs(
                 (Object) new BigDecimal[] { new BigDecimal("5"), new BigDecimal("15") }) // varargs are special since they are in fact arrays
                 .createMock(); // no need to mock any methods, abstract ones are mocked by default
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         verifyAll();
     }

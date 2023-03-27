@@ -20,7 +20,8 @@ import org.easymock.EasyMock;
 import org.easymock.IMockBuilder;
 import org.easymock.internal.EasyMockProperties;
 import org.easymock.tests2.MocksControlTest.A;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -29,7 +30,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
 /**
  * @author Henri Tremblay
@@ -113,9 +113,9 @@ public class EasyMockClassExtensionTest {
         EasyMockProperties.getInstance().setProperty(DISABLE_CLASS_MOCKING, Boolean.TRUE.toString());
         try {
             ArrayList<?> list = createMock(ArrayList.class);
-            fail("Class mocking should be disabled");
+            Assertions.fail("Class mocking should be disabled");
         } catch (IllegalArgumentException e) {
-            assertEquals("Class mocking is currently disabled. Change " + EasyMock.DISABLE_CLASS_MOCKING
+            Assertions.assertEquals("Class mocking is currently disabled. Change " + DISABLE_CLASS_MOCKING
                     + " to true do modify this behavior", e.getMessage());
         } finally {
             EasyMockProperties.getInstance().setProperty(DISABLE_CLASS_MOCKING, null);
@@ -137,7 +137,7 @@ public class EasyMockClassExtensionTest {
     private void testList(List<?> list) {
         expect(list.size()).andReturn(3);
         replay(list);
-        assertEquals(3, list.size());
+        Assertions.assertEquals(3, list.size());
         verify(list);
     }
 
@@ -148,7 +148,7 @@ public class EasyMockClassExtensionTest {
         reset(list);
         expect(list.size()).andReturn(1);
         replay(list);
-        assertEquals(1, list.size());
+        Assertions.assertEquals(1, list.size());
         verify(list);
     }
 
@@ -181,8 +181,8 @@ public class EasyMockClassExtensionTest {
         expect(list2.size()).andReturn(4);
         replay(list1, list2);
 
-        assertEquals(3, list1.size());
-        assertEquals(4, list2.size());
+        Assertions.assertEquals(3, list1.size());
+        Assertions.assertEquals(4, list2.size());
 
         verify(list1, list2);
     }
@@ -211,11 +211,11 @@ public class EasyMockClassExtensionTest {
 
         replay(list);
 
-        assertTrue(list.isEmpty());
+        Assertions.assertTrue(list.isEmpty());
 
         try {
             list.add(2);
-            fail();
+            Assertions.fail();
         } catch (AssertionError e) {
         }
     }
@@ -231,7 +231,7 @@ public class EasyMockClassExtensionTest {
 
         replay(list);
 
-        assertTrue(list.isEmpty());
+        Assertions.assertTrue(list.isEmpty());
 
         list.add(2);
         list.add(1);
@@ -245,8 +245,8 @@ public class EasyMockClassExtensionTest {
 
         replay(list);
 
-        assertNull(list.get(0));
-        assertTrue(list.isEmpty());
+        Assertions.assertNull(list.get(0));
+        Assertions.assertTrue(list.isEmpty());
     }
 
     @SuppressWarnings("unchecked")
@@ -269,22 +269,22 @@ public class EasyMockClassExtensionTest {
     @Test
     public void testNamedMock() throws Exception {
         ArrayList<BigDecimal> list = createMock("mockName", ArrayList.class);
-        assertEquals("mockName", list.toString());
+        Assertions.assertEquals("mockName", list.toString());
         list = createStrictMock("mockName", ArrayList.class);
-        assertEquals("mockName", list.toString());
+        Assertions.assertEquals("mockName", list.toString());
         list = createNiceMock("mockName", ArrayList.class);
-        assertEquals("mockName", list.toString());
+        Assertions.assertEquals("mockName", list.toString());
 
         // Note that toString needs to be mocked if you want EasyMock default
         // toString() behavior
         Method m = ArrayList.class.getMethod("toString", (Class<?>[]) null);
 
         list = createMockBuilder(ArrayList.class).addMockedMethod(m).createMock("mockName");
-        assertEquals("mockName", list.toString());
+        Assertions.assertEquals("mockName", list.toString());
         list = createMockBuilder(ArrayList.class).addMockedMethod(m).createStrictMock("mockName");
-        assertEquals("mockName", list.toString());
+        Assertions.assertEquals("mockName", list.toString());
         list = createMockBuilder(ArrayList.class).addMockedMethod(m).createNiceMock("mockName");
-        assertEquals("mockName", list.toString());
+        Assertions.assertEquals("mockName", list.toString());
     }
 
     @Test
@@ -318,7 +318,7 @@ public class EasyMockClassExtensionTest {
     public void testCreateMockBuilder() {
         IMockBuilder<A> builder = createMockBuilder(A.class);
         A a = builder.withConstructor(int.class).withArgs(2).createMock();
-        assertEquals(2, a.i);
+        Assertions.assertEquals(2, a.i);
     }
 
     // 3 mock types
@@ -330,7 +330,7 @@ public class EasyMockClassExtensionTest {
         replay(mock);
         try {
             mock.add(2);
-            fail("Should be ordered");
+            Assertions.fail("Should be ordered");
         } catch (AssertionError e) {
         }
     }
@@ -346,7 +346,7 @@ public class EasyMockClassExtensionTest {
         // but not nice
         try {
             mock.add(3);
-            fail("Should be ordered");
+            Assertions.fail("Should be ordered");
         } catch (AssertionError e) {
         }
     }
@@ -354,22 +354,22 @@ public class EasyMockClassExtensionTest {
     private static void testNice(A mock) {
         reset(mock); // just in case we are not in a stable state
         replay(mock);
-        assertFalse(mock.add(2));
+        Assertions.assertFalse(mock.add(2));
         verify(mock);
     }
 
     // call flavors
 
     private static void testNamed(A mock) {
-        assertEquals("myMock", mock.toString());
+        Assertions.assertEquals("myMock", mock.toString());
     }
 
     private static void testPartial_NoConstructorCalled(A mock) {
         // not really nice since I'm looking at the inner implementation
-        assertEquals(0, mock.i);
+        Assertions.assertEquals(0, mock.i);
     }
 
     private static void testPartial_ConstructorCalled(A mock) {
-        assertEquals(3, mock.i);
+        Assertions.assertEquals(3, mock.i);
     }
 }

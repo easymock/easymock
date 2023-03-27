@@ -16,15 +16,15 @@
 package org.easymock.tests;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Same as UsageExpectAndThrowTest except that each mocked method is called
  * twice to make sure the defaulting works fine.
- * 
+ *
  * @author OFFIS, Tammo Freese
  */
 public class UsageExpectAndDefaultThrowTest {
@@ -33,7 +33,7 @@ public class UsageExpectAndDefaultThrowTest {
 
     private static RuntimeException EXCEPTION = new RuntimeException();
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createMock(IMethods.class);
     }
@@ -44,15 +44,15 @@ public class UsageExpectAndDefaultThrowTest {
         replay(mock);
         try {
             mock.booleanReturningMethod(4);
-            fail();
+            Assertions.fail();
         } catch (RuntimeException exception) {
-            assertSame(EXCEPTION, exception);
+            Assertions.assertSame(EXCEPTION, exception);
         }
         try {
             mock.booleanReturningMethod(4);
-            fail();
+            Assertions.fail();
         } catch (RuntimeException exception) {
-            assertSame(EXCEPTION, exception);
+            Assertions.assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -63,15 +63,15 @@ public class UsageExpectAndDefaultThrowTest {
         replay(mock);
         try {
             mock.longReturningMethod(4);
-            fail();
+            Assertions.fail();
         } catch (RuntimeException exception) {
-            assertSame(EXCEPTION, exception);
+            Assertions.assertSame(EXCEPTION, exception);
         }
         try {
             mock.longReturningMethod(4);
-            fail();
+            Assertions.fail();
         } catch (RuntimeException exception) {
-            assertSame(EXCEPTION, exception);
+            Assertions.assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -82,15 +82,15 @@ public class UsageExpectAndDefaultThrowTest {
         replay(mock);
         try {
             mock.floatReturningMethod(4);
-            fail();
+            Assertions.fail();
         } catch (RuntimeException exception) {
-            assertSame(EXCEPTION, exception);
+            Assertions.assertSame(EXCEPTION, exception);
         }
         try {
             mock.floatReturningMethod(4);
-            fail();
+            Assertions.fail();
         } catch (RuntimeException exception) {
-            assertSame(EXCEPTION, exception);
+            Assertions.assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -101,15 +101,15 @@ public class UsageExpectAndDefaultThrowTest {
         replay(mock);
         try {
             mock.doubleReturningMethod(4);
-            fail();
+            Assertions.fail();
         } catch (RuntimeException exception) {
-            assertSame(EXCEPTION, exception);
+            Assertions.assertSame(EXCEPTION, exception);
         }
         try {
             mock.doubleReturningMethod(4);
-            fail();
+            Assertions.fail();
         } catch (RuntimeException exception) {
-            assertSame(EXCEPTION, exception);
+            Assertions.assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -120,15 +120,15 @@ public class UsageExpectAndDefaultThrowTest {
         replay(mock);
         try {
             mock.objectReturningMethod(4);
-            fail();
+            Assertions.fail();
         } catch (RuntimeException exception) {
-            assertSame(EXCEPTION, exception);
+            Assertions.assertSame(EXCEPTION, exception);
         }
         try {
             mock.objectReturningMethod(4);
-            fail();
+            Assertions.fail();
         } catch (RuntimeException exception) {
-            assertSame(EXCEPTION, exception);
+            Assertions.assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }

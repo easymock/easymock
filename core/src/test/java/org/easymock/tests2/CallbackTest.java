@@ -17,11 +17,11 @@ package org.easymock.tests2;
 
 import org.easymock.IAnswer;
 import org.easymock.tests.IMethods;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -52,7 +52,7 @@ public class CallbackTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         mock = createStrictMock(IMethods.class);
     }

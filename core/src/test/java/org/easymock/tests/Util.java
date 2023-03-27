@@ -47,8 +47,8 @@ public final class Util {
     }
 
     public static MockType getType(Object o) {
-        IMocksControl control = MocksControl.getControl(o);
-        return ((MocksControl) control).getType();
+        MocksControl control = MocksControl.getControl(o);
+        return control.getType();
     }
 
     public static String getName(Object o) {

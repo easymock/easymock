@@ -15,10 +15,13 @@
  */
 package org.easymock.tests2;
 
-import static org.junit.Assert.*;
-
 import org.easymock.ConstructorArgs;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import java.util.StringJoiner;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Henri Tremblay
@@ -33,6 +36,16 @@ public class ConstructorArgsTest {
 
         public A(String s, int i) {
         }
+
+        @Override
+        public String toString() {
+            return "ConstructorArgsTest$A";
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ConstructorArgsTest";
     }
 
     @Test
@@ -49,19 +62,22 @@ public class ConstructorArgsTest {
         assertEquals(A.class.getConstructors()[0], args.getConstructor());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructorArgs_WrongArgument() {
-        new ConstructorArgs(A.class.getConstructors()[0], "a", "b");
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new ConstructorArgs(A.class.getConstructors()[0], "a", "b"));
+        assertEquals("b isn't of type int", e.getMessage());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructorArgs_NullPrimitive() {
-        new ConstructorArgs(A.class.getConstructors()[0], "a", null);
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new ConstructorArgs(A.class.getConstructors()[0], "a", null));
+        assertEquals("Null argument for primitive param 1", e.getMessage());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructorArgs_PrimitiveForObject() {
-        new ConstructorArgs(A.class.getConstructors()[0], 1, 2);
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new ConstructorArgs(A.class.getConstructors()[0], 1, 2));
+        assertEquals("1 isn't of type class java.lang.String", e.getMessage());
     }
 
     @Test
@@ -69,23 +85,27 @@ public class ConstructorArgsTest {
         new ConstructorArgs(A.class.getConstructors()[0], null, 2);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructorArgs_WrongPrimitive() {
-        new ConstructorArgs(A.class.getConstructors()[0], "a", 2.0f);
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new ConstructorArgs(A.class.getConstructors()[0], "a", 2.0f));
+        assertEquals("2.0 isn't of type int", e.getMessage());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructorArgs_WrongNumberOfArgs() {
-        new ConstructorArgs(A.class.getConstructors()[0], "a");
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new ConstructorArgs(A.class.getConstructors()[0], "a"));
+        assertEquals("Number of provided arguments doesn't match constructor ones", e.getMessage());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructorArgs_TypeExistsButPrivate() {
-        new ConstructorArgs(A.class.getConstructors()[0], "a", new A(null, 1));
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new ConstructorArgs(A.class.getConstructors()[0], "a", new A(null, 1)));
+        assertEquals("ConstructorArgsTest$A isn't of type int", e.getMessage());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructorArgs_TypeExistsButNotStatic() {
-        new ConstructorArgs(A.class.getConstructors()[0], "a", new ConstructorArgsTest());
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new ConstructorArgs(A.class.getConstructors()[0], "a", new ConstructorArgsTest()));
+        assertEquals("ConstructorArgsTest isn't of type int", e.getMessage());
     }
 }

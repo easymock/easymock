@@ -19,7 +19,8 @@ import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
 import org.easymock.MockType;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +106,7 @@ public class TypingTest {
     public void testNonMatchingClass() {
         try {
             list = EasyMock.mock(Set.class);
-            fail("Can't cast Set to List");
+            Assertions.fail("Can't cast Set to List");
         }
         catch(ClassCastException e) {
             // Expected

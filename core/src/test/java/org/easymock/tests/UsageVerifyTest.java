@@ -16,13 +16,14 @@
 package org.easymock.tests;
 
 import org.easymock.internal.ReplayState;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -31,7 +32,7 @@ public class UsageVerifyTest {
 
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createMock(IMethods.class);
     }
@@ -52,8 +53,8 @@ public class UsageVerifyTest {
         } catch (AssertionError expected) {
             assertEquals("\n  Expectation failure on verify:"
                     + "\n    IMethods.throwsNothing(true): expected: 2, actual: 1", expected.getMessage());
-            assertEquals("stack trace must be filled in", Util.getStackTrace(expected).indexOf(
-                ReplayState.class.getName()), -1);
+            assertEquals(Util.getStackTrace(expected).indexOf(
+                ReplayState.class.getName()), -1, "stack trace must be filled in");
         }
 
         if (!failed)

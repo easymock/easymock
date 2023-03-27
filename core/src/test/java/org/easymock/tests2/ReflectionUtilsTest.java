@@ -16,7 +16,8 @@
 package org.easymock.tests2;
 
 import org.easymock.internal.ReflectionUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -70,19 +71,19 @@ public class ReflectionUtilsTest {
     @Test
     public void testGetConstructor_public() throws NoSuchMethodException {
         Constructor<A> c = ReflectionUtils.getConstructor(A.class, 5);
-        assertArrayEquals(new Class[] { int.class }, c.getParameterTypes());
+        Assertions.assertArrayEquals(new Class[] { int.class }, c.getParameterTypes());
     }
 
     @Test
     public void testGetConstructor_protected() throws NoSuchMethodException {
         Constructor<A> c = ReflectionUtils.getConstructor(A.class, 5L);
-        assertArrayEquals(new Class[] { long.class }, c.getParameterTypes());
+        Assertions.assertArrayEquals(new Class[] { long.class }, c.getParameterTypes());
     }
 
     @Test
     public void testGetConstructor_default() throws NoSuchMethodException {
         Constructor<A> c = ReflectionUtils.getConstructor(A.class, 'c');
-        assertArrayEquals(new Class[] { char.class }, c.getParameterTypes());
+        Assertions.assertArrayEquals(new Class[] { char.class }, c.getParameterTypes());
     }
 
     @Test
@@ -109,91 +110,91 @@ public class ReflectionUtilsTest {
     public void testGetConstructor_AllPrimitives() throws NoSuchMethodException {
         Constructor<A> c = ReflectionUtils.getConstructor(A.class, true, (byte) 1, 2, (short) 3, 'g',
             5L, 4.0f, 8.0);
-        assertNotNull(c);
+        Assertions.assertNotNull(c);
     }
 
     @Test
     public void testGetDeclareMethod_Found() throws Exception {
         Method expected = A.class.getDeclaredMethod("foo", int.class);
         Method actual = ReflectionUtils.getDeclaredMethod(A.class, "foo", Integer.TYPE);
-        assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
     public void testGetDeclareMethod_NotFound() {
         RuntimeException t = assertThrows(RuntimeException.class, () -> ReflectionUtils.getDeclaredMethod(A.class, "foo"));
-        assertEquals(NoSuchMethodException.class, t.getCause().getClass());
+        Assertions.assertEquals(NoSuchMethodException.class, t.getCause().getClass());
     }
 
     @Test
     public void testIsClassMockingPossible() {
-        assertTrue(ReflectionUtils.isClassAvailable("org.easymock.EasyMock"));
-        assertFalse(ReflectionUtils.isClassAvailable("org.easymock.NotThere"));
+        Assertions.assertTrue(isClassAvailable("org.easymock.EasyMock"));
+        Assertions.assertFalse(isClassAvailable("org.easymock.NotThere"));
     }
 
     @Test
     public void testFindMethodWithParam_notFound() {
-        assertNull(ReflectionUtils.findMethod(getClass(), "xxx", NOT_PRIVATE, int.class));
+        Assertions.assertNull(findMethod(getClass(), "xxx", NOT_PRIVATE, int.class));
     }
 
     @Test
     public void testFindMethodWithParam_foundDirectlyOnClass() {
         Method method = ReflectionUtils.findMethod(A.class, "foo", NOT_PRIVATE, int.class);
-        assertEquals("foo", method.getName());
-        assertEquals(A.class, method.getDeclaringClass());
+        Assertions.assertEquals("foo", method.getName());
+        Assertions.assertEquals(A.class, method.getDeclaringClass());
     }
 
     @Test
     public void testFindMethodWithParam_foundDirectlyOnClassButWithDifferentParams() {
-        assertNull(ReflectionUtils.findMethod(getClass(), "foo", NOT_PRIVATE, double.class));
-        assertNull(ReflectionUtils.findMethod(getClass(), "foo", NOT_PRIVATE, int.class, int.class));
+        Assertions.assertNull(findMethod(getClass(), "foo", NOT_PRIVATE, double.class));
+        Assertions.assertNull(findMethod(getClass(), "foo", NOT_PRIVATE, int.class, int.class));
     }
 
     @Test
     public void testFindMethodWithParam_privateMethodsIgnored() {
-        assertNull(ReflectionUtils.findMethod(A.class, "privateMethod", NOT_PRIVATE, NO_PARAMS));
+        Assertions.assertNull(findMethod(A.class, "privateMethod", NOT_PRIVATE, NO_PARAMS));
     }
 
     @Test
     public void testFindMethodWithParam_protectedMethodsFound() {
         Method method = ReflectionUtils.findMethod(A.class, "protectedMethod", NOT_PRIVATE, NO_PARAMS);
-        assertEquals("protectedMethod", method.getName());
-        assertEquals(A.class, method.getDeclaringClass());
+        Assertions.assertEquals("protectedMethod", method.getName());
+        Assertions.assertEquals(A.class, method.getDeclaringClass());
     }
 
     @Test
     public void testFindMethodWithParam_packageMethodsFound() {
         Method method = ReflectionUtils.findMethod(A.class, "packageMethod", NOT_PRIVATE, NO_PARAMS);
-        assertEquals("packageMethod", method.getName());
-        assertEquals(A.class, method.getDeclaringClass());
+        Assertions.assertEquals("packageMethod", method.getName());
+        Assertions.assertEquals(A.class, method.getDeclaringClass());
     }
 
     @Test
     public void testFindMethodWithParam_parentMethodsFound() {
         Method method = ReflectionUtils.findMethod(A.class, "parentMethod", NOT_PRIVATE, NO_PARAMS);
-        assertEquals("parentMethod", method.getName());
-        assertEquals(B.class, method.getDeclaringClass());
+        Assertions.assertEquals("parentMethod", method.getName());
+        Assertions.assertEquals(B.class, method.getDeclaringClass());
     }
 
     @Test
     public void testGetDefaultMethods_onClass() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ReflectionUtils.getDefaultMethods(getClass()));
-        assertEquals("Only interfaces can have default methods. Not " + getClass(), e.getMessage());
+        Assertions.assertEquals("Only interfaces can have default methods. Not " + getClass(), e.getMessage());
     }
 
     @Test
     public void testGetDefaultMethods_noDefaultMethods() {
-        assertTrue(ReflectionUtils.getDefaultMethods(Runnable.class).isEmpty());
+        Assertions.assertTrue(getDefaultMethods(Runnable.class).isEmpty());
     }
 
     @Test
     public void testGetDefaultMethods_withDefaultMethods() {
-        assertEquals(2, ReflectionUtils.getDefaultMethods(Function.class).size());
+        Assertions.assertEquals(2, getDefaultMethods(Function.class).size());
     }
 
     @Test
     public void testGetDefaultMethods_withDefaultMethodsBaseClass() {
         Method stream = findMethod(Collection.class, "stream", m -> true);
-        assertTrue(ReflectionUtils.getDefaultMethods(List.class).contains(stream));
+        Assertions.assertTrue(getDefaultMethods(List.class).contains(stream));
     }
 }

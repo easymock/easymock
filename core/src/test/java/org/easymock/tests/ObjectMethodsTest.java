@@ -16,13 +16,13 @@
 package org.easymock.tests;
 
 import org.easymock.internal.ObjectMethodsFilter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -34,22 +34,22 @@ public class ObjectMethodsTest {
     private interface EmptyInterface {
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createMock(EmptyInterface.class);
     }
 
     @Test
     public void equalsBeforeActivation() {
-        assertEquals(mock, mock);
-        assertTrue(!mock.equals(null));
+        Assertions.assertEquals(mock, mock);
+        Assertions.assertTrue(!mock.equals(null));
     }
 
     @Test
     public void equalsAfterActivation() {
         replay(mock);
-        assertEquals(mock, mock);
-        assertTrue(!mock.equals(null));
+        Assertions.assertEquals(mock, mock);
+        Assertions.assertTrue(!mock.equals(null));
     }
 
     @Test
@@ -57,18 +57,18 @@ public class ObjectMethodsTest {
         int hashCodeBeforeActivation = mock.hashCode();
         replay(mock);
         int hashCodeAfterActivation = mock.hashCode();
-        assertEquals(hashCodeBeforeActivation, hashCodeAfterActivation);
+        Assertions.assertEquals(hashCodeBeforeActivation, hashCodeAfterActivation);
     }
 
     @Test
     public void toStringBeforeActivation() {
-        assertEquals("EasyMock for " + EmptyInterface.class, mock.toString());
+        Assertions.assertEquals("EasyMock for " + EmptyInterface.class, mock.toString());
     }
 
     @Test
     public void toStringAfterActivation() {
         replay(mock);
-        assertEquals("EasyMock for " + EmptyInterface.class, mock.toString());
+        Assertions.assertEquals("EasyMock for " + EmptyInterface.class, mock.toString());
     }
 
     private static class MockedClass {
@@ -83,7 +83,7 @@ public class ObjectMethodsTest {
     public void toStringForClasses() throws Throwable {
         ObjectMethodsFilter filter = new ObjectMethodsFilter(Object.class, null, null);
         Method toString = Object.class.getMethod("toString");
-        assertEquals("EasyMock for " + MockedClass.class, filter.invoke(new DummyProxy(),
+        Assertions.assertEquals("EasyMock for " + MockedClass.class, filter.invoke(new DummyProxy(),
                 toString, new Object[0]));
     }
 

@@ -16,22 +16,22 @@
 package org.easymock.tests;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Same as UsageExpectAndReturnTest except that each mocked method is called
  * twice to make sure the defaulting works fine.
- * 
+ *
  * @author OFFIS, Tammo Freese
  */
 public class UsageExpectAndDefaultReturnTest {
 
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createMock(IMethods.class);
     }
@@ -40,8 +40,8 @@ public class UsageExpectAndDefaultReturnTest {
     public void booleanType() {
         expect(mock.booleanReturningMethod(4)).andStubReturn(true);
         replay(mock);
-        assertTrue(mock.booleanReturningMethod(4));
-        assertTrue(mock.booleanReturningMethod(4));
+        Assertions.assertTrue(mock.booleanReturningMethod(4));
+        Assertions.assertTrue(mock.booleanReturningMethod(4));
         verify(mock);
     }
 
@@ -49,8 +49,8 @@ public class UsageExpectAndDefaultReturnTest {
     public void longType() {
         expect(mock.longReturningMethod(4)).andStubReturn(12L);
         replay(mock);
-        assertEquals(12L, mock.longReturningMethod(4));
-        assertEquals(12L, mock.longReturningMethod(4));
+        Assertions.assertEquals(12L, mock.longReturningMethod(4));
+        Assertions.assertEquals(12L, mock.longReturningMethod(4));
         verify(mock);
     }
 
@@ -58,8 +58,8 @@ public class UsageExpectAndDefaultReturnTest {
     public void floatType() {
         expect(mock.floatReturningMethod(4)).andStubReturn(12f);
         replay(mock);
-        assertEquals(12f, mock.floatReturningMethod(4), 0f);
-        assertEquals(12f, mock.floatReturningMethod(4), 0f);
+        Assertions.assertEquals(12f, mock.floatReturningMethod(4), 0f);
+        Assertions.assertEquals(12f, mock.floatReturningMethod(4), 0f);
         verify(mock);
     }
 
@@ -67,8 +67,8 @@ public class UsageExpectAndDefaultReturnTest {
     public void doubleType() {
         expect(mock.doubleReturningMethod(4)).andStubReturn(12.0);
         replay(mock);
-        assertEquals(12.0, mock.doubleReturningMethod(4), 0.0);
-        assertEquals(12.0, mock.doubleReturningMethod(4), 0.0);
+        Assertions.assertEquals(12.0, mock.doubleReturningMethod(4), 0.0);
+        Assertions.assertEquals(12.0, mock.doubleReturningMethod(4), 0.0);
         verify(mock);
     }
 
@@ -76,8 +76,8 @@ public class UsageExpectAndDefaultReturnTest {
     public void objectType() {
         expect(mock.objectReturningMethod(4)).andStubReturn("12");
         replay(mock);
-        assertEquals("12", mock.objectReturningMethod(4));
-        assertEquals("12", mock.objectReturningMethod(4));
+        Assertions.assertEquals("12", mock.objectReturningMethod(4));
+        Assertions.assertEquals("12", mock.objectReturningMethod(4));
         verify(mock);
     }
 

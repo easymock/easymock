@@ -16,10 +16,10 @@
 package org.easymock.tests;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -32,7 +32,7 @@ public class UsageCallCountTest {
         void method();
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createMock(VoidMethodInterface.class);
     }
@@ -114,7 +114,7 @@ public class UsageCallCountTest {
     private void assertVerifyFails() {
         try {
             verify(mock);
-            fail("Expected AssertionError");
+            Assertions.fail("Expected AssertionError");
         } catch (AssertionError expected) {
         }
     }
@@ -122,7 +122,7 @@ public class UsageCallCountTest {
     private void assertMethodCallFails() {
         try {
             mock.method();
-            fail("Expected AssertionError");
+            Assertions.fail("Expected AssertionError");
         } catch (AssertionError expected) {
         }
     }

@@ -16,10 +16,10 @@
 package org.easymock.tests;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -28,7 +28,7 @@ public class RecordStateInvalidDefaultReturnValueTest {
 
     private IMethods mock;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mock = createMock(IMethods.class);
     }
@@ -37,9 +37,9 @@ public class RecordStateInvalidDefaultReturnValueTest {
     public void setInvalidStubReturnValue() {
         try {
             expect((Object) mock.oneArg(false)).andStubReturn(false);
-            fail("IllegalStateException expected");
+            Assertions.fail("IllegalStateException expected");
         } catch (IllegalStateException e) {
-            assertEquals("incompatible return value type", e.getMessage());
+            Assertions.assertEquals("incompatible return value type", e.getMessage());
         }
     }
 }
