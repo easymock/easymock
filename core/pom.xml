@@ -167,7 +167,7 @@
             <!-- Force junit provider because surefire will choose the testng one if testng is detected -->
             <groupId>org.apache.maven.surefire</groupId>
             <artifactId>surefire-junit-platform</artifactId>
-            <version>3.0.0</version>
+            <version>3.1.0</version>
           </dependency>
         </dependencies>
       </plugin>
