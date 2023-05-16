@@ -471,7 +471,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.20.0</version>
+        <version>3.21.0</version>
         <configuration>
           <targetJdk>1.8</targetJdk>
         </configuration>
