@@ -96,7 +96,7 @@
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
         <!-- last version supporting Java 8 -->
-        <version>7.5</version>
+        <version>7.8.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
