@@ -160,8 +160,6 @@ public class ClassProxyFactory implements IProxyFactory {
                     return unloaded
                         .load(classLoader, classLoadingStrategy())
                         .getLoaded();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
                 }
             });
 
