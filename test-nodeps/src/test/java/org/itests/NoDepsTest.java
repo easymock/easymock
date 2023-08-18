@@ -18,7 +18,7 @@ package org.itests;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.CharBuffer;
+import java.io.PrintStream;
 
 import static org.easymock.EasyMock.*;
 
@@ -36,8 +36,8 @@ public class NoDepsTest {
 
     @Test
     public void classMocking() throws Exception {
-        CharBuffer buffer =mock(CharBuffer.class);
-        test(buffer);
+        PrintStream stream = mock(PrintStream.class);
+        test(stream);
     }
 
     private void test(Appendable appendable) throws IOException {
