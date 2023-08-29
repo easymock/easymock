@@ -21,6 +21,8 @@ import java.io.Serializable;
 import java.util.regex.Pattern;
 
 /**
+ * Matches if the argument is a string matching a given regex.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class Matches implements IArgumentMatcher, Serializable {
@@ -33,10 +35,12 @@ public class Matches implements IArgumentMatcher, Serializable {
         this.regex = Pattern.compile(regex);
     }
 
+    @Override
     public boolean matches(Object actual) {
         return (actual instanceof String) && regex.matcher((String) actual).matches();
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("matches(\"").append(regex.pattern().replaceAll("\\\\", "\\\\\\\\")).append("\")");
     }

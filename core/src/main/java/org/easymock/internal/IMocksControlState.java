@@ -18,6 +18,8 @@ package org.easymock.internal;
 import org.easymock.IAnswer;
 
 /**
+ * Current state of a mocks control. In practice there are two implementations: record and replay.
+ *
  * @author OFFIS, Tammo Freese
  */
 public interface IMocksControlState {

@@ -16,9 +16,11 @@
 package org.easymock.internal.matchers;
 
 /**
+ * Matches if the argument is equal when compared (as in <code>Comparable.compareTo() == 0</code>) to the given value.
+ *
  * @param <T>
  *            Type of the values compared
- * 
+ *
  * @author Henri Tremblay
  */
 public class CompareEqual<T extends Comparable<T>> extends CompareTo<T> {

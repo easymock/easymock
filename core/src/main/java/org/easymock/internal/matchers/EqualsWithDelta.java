@@ -20,6 +20,8 @@ import java.io.Serializable;
 import org.easymock.IArgumentMatcher;
 
 /**
+ * Matches if the argument is a number equal to the given value with some tolerance equal to delta.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class EqualsWithDelta implements IArgumentMatcher, Serializable {
@@ -35,12 +37,14 @@ public class EqualsWithDelta implements IArgumentMatcher, Serializable {
         this.delta = delta;
     }
 
+    @Override
     public boolean matches(Object actual) {
         Number actualNumber = (Number) actual;
         return expected.doubleValue() - delta.doubleValue() <= actualNumber.doubleValue()
                 && actualNumber.doubleValue() <= expected.doubleValue() + delta.doubleValue();
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("eq(").append(expected).append(", ").append(delta).append(")");
     }

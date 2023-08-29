@@ -23,6 +23,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
+ * The result of an invocation on a mock. It can be a direct constant or the result of some computation.
+ *
  * @author OFFIS, Tammo Freese
  */
 public final class Result implements IAnswer<Object>, Serializable {

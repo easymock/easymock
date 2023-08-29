@@ -18,6 +18,8 @@ package org.easymock.internal;
 import org.objenesis.ObjenesisHelper;
 
 /**
+ * Class instantiator using Objenesis to perform the instantiation without calling any constructor.
+ *
  * @author Henri Tremblay
  */
 public class ObjenesisClassInstantiator implements IClassInstantiator {

@@ -21,6 +21,9 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 /**
+ * Reponsible of creating proxies for objects. The implementation used for an object to proxy depends on its type but also
+ * on the JVM we are running.
+ *
  * @author OFFIS, Tammo Freese
  */
 public interface IProxyFactory {

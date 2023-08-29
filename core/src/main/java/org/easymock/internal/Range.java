@@ -18,6 +18,8 @@ package org.easymock.internal;
 import java.io.Serializable;
 
 /**
+ * The range of a number of invocations. It knows the expected minimum and maximum number of invocations.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class Range implements Serializable {

@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Helper class for primitive types.
+ *
  * @author Henri Tremblay
  */
 public final class PrimitiveUtils {

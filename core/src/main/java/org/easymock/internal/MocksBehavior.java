@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * Default implementation of {@link IMocksBehavior}. It keeps the full behavior of mocks from the same {@link org.easymock.IMocksControl}.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class MocksBehavior implements IMocksBehavior, Serializable {

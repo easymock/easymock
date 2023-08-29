@@ -21,6 +21,9 @@ import java.io.Serializable;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
+ * A mock has two states, record and replay. This class handles the replay state where we return all recorded invocation
+ * for a method call on a mock.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class ReplayState implements IMocksControlState, Serializable {

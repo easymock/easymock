@@ -16,9 +16,11 @@
 package org.easymock.internal.matchers;
 
 /**
+ * Matches if the argument is greater or equal to the given value.
+ *
  * @param <T>
  *            Type of the values compared
- * 
+ *
  * @author OFFIS, Tammo Freese
  */
 public class GreaterOrEqual<T extends Comparable<T>> extends CompareTo<T> {

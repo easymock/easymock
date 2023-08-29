@@ -25,6 +25,8 @@ import org.easymock.internal.matchers.Not;
 import org.easymock.internal.matchers.Or;
 
 /**
+ * The last mocks control used in the current thread.
+ *
  * @author OFFIS, Tammo Freese
  */
 public final class LastControl {

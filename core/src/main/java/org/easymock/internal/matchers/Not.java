@@ -20,6 +20,8 @@ import java.io.Serializable;
 import org.easymock.IArgumentMatcher;
 
 /**
+ * Matches if the argument DOESN'T match another.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class Not implements IArgumentMatcher, Serializable {
@@ -32,10 +34,12 @@ public class Not implements IArgumentMatcher, Serializable {
         this.first = first;
     }
 
+    @Override
     public boolean matches(Object actual) {
         return !first.matches(actual);
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("not(");
         first.appendTo(buffer);

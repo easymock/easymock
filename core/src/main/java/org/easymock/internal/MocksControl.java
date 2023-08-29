@@ -31,6 +31,8 @@ import java.util.Arrays;
 import java.util.Set;
 
 /**
+ * Controls all the mocks created by {@link EasyMock}. It contains the state of the mocks.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class MocksControl implements IMocksControl, IExpectationSetters<Object>, Serializable {

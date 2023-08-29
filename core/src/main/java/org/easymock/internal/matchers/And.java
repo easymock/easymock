@@ -22,6 +22,8 @@ import java.util.List;
 import org.easymock.IArgumentMatcher;
 
 /**
+ * Matches if all given argument matchers match.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class And implements IArgumentMatcher, Serializable {
@@ -30,10 +32,16 @@ public class And implements IArgumentMatcher, Serializable {
 
     private final List<IArgumentMatcher> matchers;
 
+    /**
+     * Creates a new And matcher from a list of matchers that should match altogether.
+     *
+     * @param matchers the matchers to match altogether
+     */
     public And(List<IArgumentMatcher> matchers) {
         this.matchers = matchers;
     }
 
+    @Override
     public boolean matches(Object actual) {
         for (IArgumentMatcher matcher : matchers) {
             if (!matcher.matches(actual)) {
@@ -43,6 +51,7 @@ public class And implements IArgumentMatcher, Serializable {
         return true;
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("and(");
         for (Iterator<IArgumentMatcher> it = matchers.iterator(); it.hasNext();) {

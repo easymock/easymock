@@ -20,6 +20,8 @@ import java.io.Serializable;
 import org.easymock.IArgumentMatcher;
 
 /**
+ * Matches any argument.
+ *
  * @author OFFIS, Tammo Freese
  */
 public final class Any implements IArgumentMatcher, Serializable {
@@ -32,10 +34,12 @@ public final class Any implements IArgumentMatcher, Serializable {
 
     }
 
+    @Override
     public boolean matches(Object actual) {
         return true;
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("<any>");
     }

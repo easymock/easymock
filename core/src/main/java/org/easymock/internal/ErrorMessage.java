@@ -16,6 +16,8 @@
 package org.easymock.internal;
 
 /**
+ * The full content of an error message reporting to the user.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class ErrorMessage {
@@ -32,18 +34,40 @@ public class ErrorMessage {
         this.actualCount = actualCount;
     }
 
+    /**
+     * If the actual invocation matched the expected invocation. It will be used to write the final error message telling
+     * that some recording are matching but were already used.
+     *
+     * @return if the actual invocation matched the expected invocation
+     */
     public boolean isMatching() {
         return matching;
     }
 
+    /**
+     * The actual invocation and its result.
+     *
+     * @return the actual invocation and its result
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * How many time an expected invocation was actually invoked.
+     *
+     * @return how many time an expected invocation was actually invoked
+     */
     public int getActualCount() {
         return actualCount;
     }
 
+    /**
+     * Add the error message to the buffer.
+     *
+     * @param buffer the buffer to append to
+     * @param matches how many times an actual invocation matched expected invocation
+     */
     public void appendTo(StringBuilder buffer, int matches) {
         buffer.append("\n    ").append(message).append(", actual: ");
         if (matching) {

@@ -20,6 +20,8 @@ import java.util.Arrays;
 import org.easymock.internal.ArgumentToString;
 
 /**
+ * Matches if the argument is an array where the elements are equal to the given array.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class ArrayEquals extends Equals {

@@ -21,6 +21,8 @@ import org.easymock.IArgumentMatcher;
 import org.easymock.internal.ArgumentToString;
 
 /**
+ * Matches if the argument is the same instance as the given value.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class Same implements IArgumentMatcher, Serializable {
@@ -33,10 +35,12 @@ public class Same implements IArgumentMatcher, Serializable {
         this.expected = expected;
     }
 
+    @Override
     public boolean matches(Object actual) {
         return expected == actual;
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("same(");
         ArgumentToString.appendArgument(expected, buffer);

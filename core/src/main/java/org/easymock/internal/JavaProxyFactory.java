@@ -21,6 +21,8 @@ import java.lang.reflect.Proxy;
 import org.easymock.ConstructorArgs;
 
 /**
+ * Proxy factory creating proxies from an interface using the standard JDK proxy API.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class JavaProxyFactory implements IProxyFactory {

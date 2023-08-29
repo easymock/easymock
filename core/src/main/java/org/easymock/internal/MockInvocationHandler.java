@@ -20,6 +20,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 /**
+ * The handler of all invocations on a mock interface.
+ *
  * @author OFFIS, Tammo Freese
  */
 public final class MockInvocationHandler implements InvocationHandler, Serializable {

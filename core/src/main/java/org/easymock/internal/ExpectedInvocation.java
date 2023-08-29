@@ -26,6 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * One expected invocation. It is composed of the method invoked and the matchers used to expect the arguments.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class ExpectedInvocation implements Serializable {
@@ -46,8 +48,7 @@ public class ExpectedInvocation implements Serializable {
         if (matchers != null) {
             if (matchers.size() != invocation.getArguments().length) {
                 throw new IllegalStateException(
-                        ""
-                                + invocation.getArguments().length
+                        invocation.getArguments().length
                                 + " matchers expected, "
                                 + matchers.size()
                                 + " recorded.\n"
@@ -87,6 +88,12 @@ public class ExpectedInvocation implements Serializable {
         throw new UnsupportedOperationException("hashCode() is not implemented");
     }
 
+    /**
+     * Tells if the actual invocation matches this expected invocation. It needs to be on the same mock, method and
+     * have the same arguments.
+     *
+     * @return the invocation to compare
+     */
     public boolean matches(Invocation actual) {
         return this.invocation.getMock() == actual.getMock()
                 && this.invocation.getMethod().equals(actual.getMethod()) && matches(actual.getArguments());

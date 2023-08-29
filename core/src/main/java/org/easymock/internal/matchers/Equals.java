@@ -21,6 +21,8 @@ import org.easymock.IArgumentMatcher;
 import org.easymock.internal.ArgumentToString;
 
 /**
+ * Matches if the argument is equal to the given value.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class Equals implements IArgumentMatcher, Serializable {

@@ -20,6 +20,7 @@ import java.io.Serializable;
 import org.easymock.IArgumentMatcher;
 
 /**
+ * Matches if the argument is a string starting with the given prefix.
  * @author OFFIS, Tammo Freese
  */
 public class StartsWith implements IArgumentMatcher, Serializable {
@@ -32,10 +33,12 @@ public class StartsWith implements IArgumentMatcher, Serializable {
         this.prefix = prefix;
     }
 
+    @Override
     public boolean matches(Object actual) {
         return (actual instanceof String) && ((String) actual).startsWith(prefix);
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("startsWith(\"").append(prefix).append("\")");
     }

@@ -22,6 +22,8 @@ import java.util.List;
 import org.easymock.IArgumentMatcher;
 
 /**
+ * Matches if any given argument matcher matches. It will stop calling matches after the first matching one.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class Or implements IArgumentMatcher, Serializable {
@@ -34,6 +36,7 @@ public class Or implements IArgumentMatcher, Serializable {
         this.matchers = matchers;
     }
 
+    @Override
     public boolean matches(Object actual) {
         for (IArgumentMatcher matcher : matchers) {
             if (matcher.matches(actual)) {
@@ -43,6 +46,7 @@ public class Or implements IArgumentMatcher, Serializable {
         return false;
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("or(");
         for (Iterator<IArgumentMatcher> it = matchers.iterator(); it.hasNext();) {

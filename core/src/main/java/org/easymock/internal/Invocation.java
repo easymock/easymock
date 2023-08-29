@@ -27,6 +27,8 @@ import java.util.Collection;
 import static java.lang.Character.*;
 
 /**
+ * Represents a method invocation on a mock object. It's used for record one or for actual calls.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class Invocation implements Serializable {
@@ -76,14 +78,29 @@ public class Invocation implements Serializable {
         return result;
     }
 
+    /**
+     * Returns the mock object on which the invocation was performed.
+     *
+     * @return the mock object on which the invocation was performed.
+     */
     public Object getMock() {
         return mock;
     }
 
+    /**
+     * Returns the method invoked on the mock object.
+     *
+     * @return the method invoked on the mock object.
+     */
     public Method getMethod() {
         return method;
     }
 
+    /**
+     * Returns the arguments passed to the method invocation.
+     *
+     * @return the arguments passed to the method invocation.
+     */
     public Object[] getArguments() {
         return arguments;
     }

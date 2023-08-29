@@ -22,6 +22,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * State in which a mock is recording its behavior.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class RecordState implements IMocksControlState, Serializable {

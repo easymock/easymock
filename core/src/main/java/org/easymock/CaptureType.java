@@ -16,7 +16,7 @@
 package org.easymock;
 
 /**
- * Defines how arguments will be captured by a <tt>Capture</tt> object.
+ * Defines how arguments will be captured by a {@link Capture} object.
  *
  * @author Henri Tremblay
  * @see Capture

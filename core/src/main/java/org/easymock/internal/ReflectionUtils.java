@@ -26,6 +26,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
+ * Helper class for reflection.
+ *
  * @author Henri Tremblay
  */
 public final class ReflectionUtils {

@@ -20,6 +20,8 @@ import java.io.Serializable;
 import org.easymock.IArgumentMatcher;
 
 /**
+ * Matches if the argument is a string ending with a given suffix.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class EndsWith implements IArgumentMatcher, Serializable {
@@ -32,10 +34,12 @@ public class EndsWith implements IArgumentMatcher, Serializable {
         this.suffix = suffix;
     }
 
+    @Override
     public boolean matches(Object actual) {
         return (actual instanceof String) && ((String) actual).endsWith(suffix);
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("endsWith(\"").append(suffix).append("\")");
     }

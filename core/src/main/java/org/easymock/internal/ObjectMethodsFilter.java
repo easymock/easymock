@@ -23,6 +23,9 @@ import java.lang.reflect.Modifier;
 import java.util.function.Predicate;
 
 /**
+ * The filter catching all calls to the mock. It handles <code>equals</code>, <code>hashCode</code>, <code>toString</code>,
+ * and <code>finalize</code> in a special way. Then, for other calls, it delegates to the mock handler.
+ *
  * @author OFFIS, Tammo Freese
  * @author Henri Tremblay
  */

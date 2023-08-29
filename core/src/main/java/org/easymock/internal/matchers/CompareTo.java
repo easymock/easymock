@@ -20,9 +20,11 @@ import java.io.Serializable;
 import org.easymock.IArgumentMatcher;
 
 /**
+ * Base class for matchers that are comparing a value to another.
+ *
  * @param <T>
  *            Type of the values compared
- * 
+ *
  * @author Henri Tremblay
  */
 public abstract class CompareTo<T extends Comparable<T>> implements IArgumentMatcher, Serializable {
@@ -45,6 +47,7 @@ public abstract class CompareTo<T extends Comparable<T>> implements IArgumentMat
         return matchResult(((Comparable) actual).compareTo(expected));
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append(getName()).append("(").append(expected).append(")");
     }

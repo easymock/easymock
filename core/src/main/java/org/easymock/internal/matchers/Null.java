@@ -20,6 +20,8 @@ import java.io.Serializable;
 import org.easymock.IArgumentMatcher;
 
 /**
+ * Matches if the argument is null.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class Null implements IArgumentMatcher, Serializable {
@@ -31,10 +33,12 @@ public class Null implements IArgumentMatcher, Serializable {
     private Null() {
     }
 
+    @Override
     public boolean matches(Object actual) {
         return actual == null;
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("isNull()");
     }

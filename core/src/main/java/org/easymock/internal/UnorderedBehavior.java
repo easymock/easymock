@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * A bit badly named since this class is used for both ordered and unordered expectations. However, it's the class
+ * keeping all expectations and the corresponding results they should return. During the replay phase, it will
+ * give the best answer for a call.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class UnorderedBehavior implements Serializable {

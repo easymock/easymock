@@ -22,9 +22,11 @@ import org.easymock.IArgumentMatcher;
 import org.easymock.internal.LastControl;
 
 /**
+ * Captures the argument to retrieve it later and matches anything.
+ *
  * @param <T>
  *            Type of the value captured
- * 
+ *
  * @author Henri Tremblay
  */
 public class Captures<T> implements IArgumentMatcher, Serializable {
@@ -39,6 +41,7 @@ public class Captures<T> implements IArgumentMatcher, Serializable {
         this.capture = captured;
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("capture(").append(capture).append(")");
     }
@@ -48,6 +51,7 @@ public class Captures<T> implements IArgumentMatcher, Serializable {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public boolean matches(Object actual) {
         LastControl.getCurrentInvocation().addCapture((Captures<Object>) this, actual);
         return true;

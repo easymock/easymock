@@ -16,6 +16,8 @@
 package org.easymock.internal;
 
 /**
+ * The behavior of a mock. I.e. ordered or not, thread safe or not, expectations, etc.
+ *
  * @author OFFIS, Tammo Freese
  */
 public interface IMocksBehavior {

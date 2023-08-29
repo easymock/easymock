@@ -36,6 +36,11 @@ public final class AndroidSupport {
         }
     }
 
+    /**
+     * Returns true if the current platform is Android.
+     *
+     * @return true if running on Android
+     */
     public static boolean isAndroid() {
         return isAndroid;
     }

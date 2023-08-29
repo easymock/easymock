@@ -28,7 +28,7 @@ import java.util.Properties;
  * <li>easymock.properties in classpath default package</li>
  * <li>explicit call to setProperty</li>
  * </ul>
- * 
+ *
  * @author Henri Tremblay
  */
 public final class EasyMockProperties {
@@ -78,7 +78,7 @@ public final class EasyMockProperties {
     /**
      * Searches for the property with the specified key. If the key is not
      * found, return the default value.
-     * 
+     *
      * @param key
      *            key leading to the property
      * @param defaultValue
@@ -92,7 +92,7 @@ public final class EasyMockProperties {
     /**
      * Searches for the property with the specified key. Return null if the key
      * is not found.
-     * 
+     *
      * @param key
      *            key leading to the property
      * @return the value found for the key or null
@@ -104,11 +104,11 @@ public final class EasyMockProperties {
     /**
      * Add a value referenced by the provided key. A null value will remove the
      * key
-     * 
+     *
      * @param key
      *            the key of the new property
      * @param value
-     *            the value corresponding to <tt>key</tt>.
+     *            the value corresponding to <code>key</code>.
      * @return the property previous value
      */
     public String setProperty(String key, String value) {

@@ -20,6 +20,8 @@ import java.io.Serializable;
 import org.easymock.IArgumentMatcher;
 
 /**
+ * Matches if the argument is an instance of the given class.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class InstanceOf implements IArgumentMatcher, Serializable {
@@ -32,10 +34,12 @@ public class InstanceOf implements IArgumentMatcher, Serializable {
         this.clazz = clazz;
     }
 
+    @Override
     public boolean matches(Object actual) {
         return (actual != null) && clazz.isAssignableFrom(actual.getClass());
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("isA(").append(clazz.getName()).append(")");
     }

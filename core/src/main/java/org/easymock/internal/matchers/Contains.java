@@ -20,6 +20,8 @@ import java.io.Serializable;
 import org.easymock.IArgumentMatcher;
 
 /**
+ * Matches if the argument is a string containing a given substring.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class Contains implements IArgumentMatcher, Serializable {
@@ -32,10 +34,12 @@ public class Contains implements IArgumentMatcher, Serializable {
         this.substring = substring;
     }
 
+    @Override
     public boolean matches(Object actual) {
         return (actual instanceof String) && ((String) actual).contains(substring);
     }
 
+    @Override
     public void appendTo(StringBuffer buffer) {
         buffer.append("contains(\"").append(substring).append("\")");
     }

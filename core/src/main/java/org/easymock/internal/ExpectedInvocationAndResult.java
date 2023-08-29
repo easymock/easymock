@@ -18,6 +18,8 @@ package org.easymock.internal;
 import java.io.Serializable;
 
 /**
+ * One expected invocation and its result.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class ExpectedInvocationAndResult implements Serializable {

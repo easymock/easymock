@@ -16,6 +16,9 @@
 package org.easymock.internal;
 
 /**
+ * Wraps an AssertionError that was thrown by a method invocation so that EasyMock knows the difference between an invocation
+ * exception and an real unexpected one.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class AssertionErrorWrapper extends RuntimeException {

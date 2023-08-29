@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * The results of a specific call on a mock. It's plural because a specific call can be called multiple times and so
+ * will return multiple results.
+ *
  * @author OFFIS, Tammo Freese
  */
 public class Results implements Serializable {

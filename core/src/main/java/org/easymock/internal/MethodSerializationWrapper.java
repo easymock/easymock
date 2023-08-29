@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Wrapper used to serialize a <code>java.lang.reflect.Method</code> object when a mock is serialized.
+ *
  * @author Henri Tremblay
  */
 public class MethodSerializationWrapper implements Serializable {
