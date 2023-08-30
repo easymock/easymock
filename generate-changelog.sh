@@ -12,6 +12,6 @@ IFS=$'\n'
 echo "Change log"
 echo "----------"
 
-for i in $(curl -s "https://api.github.com/repos/${repository}/issues?milestone=${milestone}&state=closed" | jq -c '.[] | [.html_url, .number, .title]'); do
+for i in $(curl -H "Accept: application/vnd.github+json" -s "https://api.github.com/repos/${repository}/issues?per_page=100&milestone=${milestone}&state=closed" | jq -c '.[] | [.html_url, .number, .title]'); do
     echo $i | sed 's/\["\(.*\)",\(.*\),\"\(.*\)\"\]/* \3 ([#\2](\1))/' | sed 's/\\"/"/g'
 done
