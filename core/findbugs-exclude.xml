@@ -4,6 +4,10 @@
     <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2" />
   </Match>
   <Match>
+    <!-- I don't care about this one. Using the same name as the JDK from some classes seem normal -->
+    <Bug pattern="PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_CLASS_NAMES" />
+  </Match>
+  <Match>
     <Class name="org.easymock.EasyMock" />
     <Method name="aryEq" />
     <Bug code="PZLA" />
