@@ -114,17 +114,21 @@
           <artifactId>license-maven-plugin</artifactId>
           <version>${license-maven-plugin.version}</version>
           <configuration>
-            <header>${project.basedir}/../header.txt</header>
+            <licenseSets>
+              <licenseSet>
+                <header>${basedir}/../header.txt</header>
+                <includes>
+                  <!-- Only copyright the java -->
+                  <include>src/main/java/**</include>
+                  <include>src/test/java/**</include>
+                  <include>src/samples/java/**</include>
+                </includes>
+              </licenseSet>
+            </licenseSets>
             <strictCheck>true</strictCheck>
             <mapping>
               <java>SLASHSTAR_STYLE</java>
             </mapping>
-            <includes>
-              <!-- Only copyright the java -->
-              <include>src/main/java/**</include>
-              <include>src/test/java/**</include>
-              <include>src/samples/java/**</include>
-            </includes>
             <properties>
               <inceptionYear>${project.inceptionYear}</inceptionYear>
               <year>${year}</year>
