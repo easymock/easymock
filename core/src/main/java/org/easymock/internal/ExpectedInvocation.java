@@ -92,6 +92,7 @@ public class ExpectedInvocation implements Serializable {
      * Tells if the actual invocation matches this expected invocation. It needs to be on the same mock, method and
      * have the same arguments.
      *
+     * @param actual the actual invocation to match with the expected one
      * @return the invocation to compare
      */
     public boolean matches(Invocation actual) {
