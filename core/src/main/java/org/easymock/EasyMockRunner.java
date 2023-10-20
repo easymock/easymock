@@ -28,9 +28,12 @@ import org.junit.runners.model.Statement;
  * @since 3.2
  */
 public class EasyMockRunner extends BlockJUnit4ClassRunner {
+    /** Flag used to prevent OBJ11-J security issue. I do not want this class final since I'm expecting extensions */
+    private volatile boolean initialized = false;
 
     public EasyMockRunner(Class<?> klass) throws InitializationError {
         super(klass);
+        initialized = true;
     }
 
     /**
@@ -44,8 +47,10 @@ public class EasyMockRunner extends BlockJUnit4ClassRunner {
      * @return a statement to return to the caller
      */
     @Override
-    protected Statement withBefores(FrameworkMethod method, Object target,
-            Statement statement) {
+    protected Statement withBefores(FrameworkMethod method, Object target, Statement statement) {
+        if (!this.initialized) {
+            throw new SecurityException("Problem occured during constructor initialization");
+        }
         EasyMockSupport.injectMocks(target);
         return super.withBefores(method, target, statement);
     }
