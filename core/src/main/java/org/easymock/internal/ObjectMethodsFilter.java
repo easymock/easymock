@@ -29,7 +29,7 @@ import java.util.function.Predicate;
  * @author OFFIS, Tammo Freese
  * @author Henri Tremblay
  */
-public class ObjectMethodsFilter implements InvocationHandler, Serializable {
+public final class ObjectMethodsFilter implements InvocationHandler, Serializable {
 
     private static final long serialVersionUID = -1726286682930686024L;
 

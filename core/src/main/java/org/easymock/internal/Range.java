@@ -22,7 +22,7 @@ import java.io.Serializable;
  *
  * @author OFFIS, Tammo Freese
  */
-public class Range implements Serializable {
+public final class Range implements Serializable {
 
     private static final long serialVersionUID = -6743402320315331536L;
 

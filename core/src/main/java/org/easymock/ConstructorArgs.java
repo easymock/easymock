@@ -17,6 +17,7 @@ package org.easymock;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 /**
  * Class wrapping arguments to create a partial class mock that gets
@@ -24,7 +25,7 @@ import java.lang.reflect.Field;
  *
  * @author Henri Tremblay
  */
-public class ConstructorArgs {
+public final class ConstructorArgs {
 
     private final Constructor<?> constructor;
 
@@ -37,13 +38,11 @@ public class ConstructorArgs {
      *            Arguments passed to the constructor
      */
     public ConstructorArgs(Constructor<?> constructor, Object... initArgs) {
-        this.constructor = constructor;
-        this.initArgs = initArgs;
-
-        validateArgs();
+        this.constructor = Objects.requireNonNull(constructor);
+        this.initArgs = validateArgs(constructor, initArgs);
     }
 
-    private void validateArgs() {
+    private static Object[] validateArgs(Constructor<?> constructor, Object[] initArgs) {
 
         Class<?>[] paramTypes = constructor.getParameterTypes();
 
@@ -81,9 +80,11 @@ public class ConstructorArgs {
                 throw throwException(paramType, arg);
             }
         }
+
+        return initArgs;
     }
 
-    private IllegalArgumentException throwException(Class<?> paramType, Object arg) {
+    private static IllegalArgumentException throwException(Class<?> paramType, Object arg) {
         return new IllegalArgumentException(arg + " isn't of type " + paramType);
     }
 

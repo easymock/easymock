@@ -23,4 +23,9 @@
     <Method name="addActual" />
     <Bug pattern="VO_VOLATILE_INCREMENT" />
   </Match>
+  <Match>
+    <!-- Fixed for the method we overload. I can't fix the initialization in the parent class -->
+    <Class name="org.easymock.EasyMockRunner" />
+    <Bug pattern="CT_CONSTRUCTOR_THROW" />
+  </Match>
 </FindBugsFilter>
