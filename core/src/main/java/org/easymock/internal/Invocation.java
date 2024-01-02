@@ -31,7 +31,7 @@ import static java.lang.Character.*;
  *
  * @author OFFIS, Tammo Freese
  */
-public class Invocation implements Serializable {
+public final class Invocation implements Serializable {
 
     private static final long serialVersionUID = 1604995470419943411L;
 
