@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @author OFFIS, Tammo Freese
  */
-public class ExpectedInvocation implements Serializable {
+public final class ExpectedInvocation implements Serializable {
 
     private static final long serialVersionUID = -5554816464613350531L;
 
