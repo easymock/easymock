@@ -27,7 +27,7 @@ import java.util.Set;
 /**
  * Class containing the data required for a class mock to work.
  */
-public class ClassMockingData implements Serializable {
+public final class ClassMockingData implements Serializable {
 
     private static final long serialVersionUID = -1L;
 
