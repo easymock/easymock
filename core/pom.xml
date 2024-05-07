@@ -47,7 +47,7 @@
     <dependency>
       <groupId>org.objenesis</groupId>
       <artifactId>objenesis</artifactId>
-      <version>3.3</version>
+      <version>3.4</version>
     </dependency>
     <!-- Used for class mocking on Android -->
     <dependency>
