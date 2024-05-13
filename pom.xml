@@ -61,7 +61,7 @@
     <spotbugs-maven-plugin.version>4.8.5.0</spotbugs-maven-plugin.version>
     <spotbugs.version>4.8.5</spotbugs.version>
     <junit.jupiter.version>5.10.2</junit.jupiter.version>
-    <license-maven-plugin.version>4.4</license-maven-plugin.version>
+    <license-maven-plugin.version>4.5</license-maven-plugin.version>
     <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
   </properties>
 
