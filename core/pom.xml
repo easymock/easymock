@@ -126,7 +126,6 @@
           </execution>
         </executions>
       </plugin>
-      <!-- source plugin needs to be before the shade plugin so shade will pick up the sources before adding the shaded ones -->
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
         <executions>
@@ -146,38 +145,6 @@
             <goals>
               <goal>jar</goal>
             </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-shade-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <createSourcesJar>true</createSourcesJar>
-              <shadeSourcesContent>true</shadeSourcesContent>
-              <artifactSet>
-                <excludes>
-                  <exclude>junit:junit</exclude>
-                  <exclude>org.objenesis:objenesis</exclude>
-                  <exclude>org.droidparts.dexmaker</exclude>
-                  <exclude>org.hamcrest:hamcrest-core</exclude>
-                </excludes>
-              </artifactSet>
-              <relocations>
-                <relocation>
-                  <pattern>net.bytebuddy</pattern>
-                  <shadedPattern>org.easymock.bytebuddy</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.objectweb.asm</pattern>
-                  <shadedPattern>org.easymock.asm</shadedPattern>
-                </relocation>
-              </relocations>
-            </configuration>
           </execution>
         </executions>
       </plugin>
