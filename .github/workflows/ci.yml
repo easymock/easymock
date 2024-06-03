@@ -24,6 +24,6 @@ jobs:
       uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9 #v4.2.1
       with:
         java-version: ${{ matrix.java }}
-        distribution: 'zulu'
+        distribution: 'temurin'
     - name: Build
       run: ./mvnw --no-transfer-progress -B clean verify --file pom.xml -Pall-no-android,fullBuild
