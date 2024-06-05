@@ -61,6 +61,8 @@
     <spotbugs-maven-plugin.version>4.8.5.0</spotbugs-maven-plugin.version>
     <spotbugs.version>4.8.5</spotbugs.version>
     <junit.jupiter.version>5.10.2</junit.jupiter.version>
+    <!-- last version supporting Java 8 -->
+    <testng.version>7.5.1</testng.version>
     <license-maven-plugin.version>4.5</license-maven-plugin.version>
     <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
   </properties>
@@ -96,8 +98,7 @@
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
-        <!-- last version supporting Java 8 -->
-        <version>7.10.2</version>
+        <version>${testng.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -539,6 +540,15 @@
         <module>bench</module>
         <module>test-deploy</module>
       </modules>
+    </profile>
+    <profile>
+      <id>java-11</id>
+      <activation>
+        <jdk>[11,</jdk>
+      </activation>
+      <properties>
+        <testng.version>7.10.2</testng.version>
+      </properties>
     </profile>
   </profiles>
 
