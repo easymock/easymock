@@ -97,7 +97,7 @@
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
         <!-- last version supporting Java 8 -->
-        <version>7.5.1</version>
+        <version>7.10.2</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -196,7 +196,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.12.1</version>
+          <version>4.0.0-M15</version>
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
@@ -249,7 +249,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.5.3</version>
+          <version>3.6.0</version>
         </plugin>
         <!--This plugin configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
         <plugin>
@@ -279,7 +279,12 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.8.0.2131</version>
+          <version>4.0.0.4121</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>1.7.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -360,7 +365,7 @@
               <rules>
                 <requireMavenVersion>
                   <!-- Just make sure the Maven version will work with the android plugin -->
-                  <version>[3.5.0,)</version>
+                  <version>[3.6.3,)</version>
                 </requireMavenVersion>
               </rules>
             </configuration>
