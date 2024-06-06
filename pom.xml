@@ -64,7 +64,7 @@
     <!-- last version supporting Java 8 -->
     <testng.version>7.5.1</testng.version>
     <license-maven-plugin.version>4.5</license-maven-plugin.version>
-    <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
+    <maven-checkstyle-plugin.version>3.4.0</maven-checkstyle-plugin.version>
   </properties>
 
   <scm>
