@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# This script expects:
-# - gpg_passphrase to be an environment variable
-
 # to exit in case of error
 set -e
 # to see what's going on
@@ -66,10 +63,6 @@ version=$(sed -n 's/.*>\(.*\)-SNAPSHOT<.*/\1/p' pom.xml | head -1)
 tag=easymock-${version}
 
 [ -z "$version" ] && echo "Only snapshots can be delivered" && exit 1
-
-# Get we have the environment variable we need
-message="should be an environment variable"
-[ -z "$gpg_passphrase" ] && echo "gpg_passphrase $message" && exit 1
 
 # Seems to be required to make gpg happy
 export GPG_TTY=$(tty)
