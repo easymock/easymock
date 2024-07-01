@@ -35,8 +35,10 @@ import net.bytebuddy.implementation.bind.annotation.This;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.easymock.ConstructorArgs;
+import org.easymock.internal.classinfoprovider.ClassInfoProvider;
+import org.easymock.internal.classinfoprovider.DefaultClassInfoProvider;
+import org.easymock.internal.classinfoprovider.JdkClassInfoProvider;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -55,6 +57,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ClassProxyFactory implements IProxyFactory {
 
     private static final String CALLBACK_FIELD = "$callback";
+    private static final ClassInfoProvider[] defaultClassInfoProviders = { new DefaultClassInfoProvider() , new JdkClassInfoProvider() };
+    private static final ClassInfoProvider[] jdkClassInfoProviders = { defaultClassInfoProviders[1], defaultClassInfoProviders[0] };
 
     public static class MockMethodInterceptor implements Serializable {
 
@@ -140,19 +144,35 @@ public class ClassProxyFactory implements IProxyFactory {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    @IgnoreAnimalSniffer // It reports errors on MethodHandle.invoke
-    public <T> T createProxy(final Class<T> toMock, InvocationHandler handler,
-            Method[] mockedMethods, ConstructorArgs args) {
+    public <T> T createProxy(final Class<T> toMock, InvocationHandler handler, Method[] mockedMethods, ConstructorArgs args) {
+        Throwable kept = null;
+        // We pick the provider we think will work
+        // But we still loop around all the providers just in case we are wrong when picking but that one will eventually work
+        ClassInfoProvider[] providers = isJdkClassOrWithoutPackage(toMock) ? jdkClassInfoProviders : defaultClassInfoProviders;
+        for (ClassInfoProvider provider : providers) {
+            try {
+                return doCreateProxy(toMock, handler, provider, mockedMethods, args);
+            } catch (Error | RuntimeException e) {
+                kept = e;
+            }
+        }
+        if (kept instanceof Error) {
+            throw (Error) kept;
+        }
+        throw (RuntimeException) kept;
+    }
 
+    @IgnoreAnimalSniffer // It reports errors on MethodHandle.invoke
+    private <T> T doCreateProxy(Class<T> toMock, InvocationHandler handler, ClassInfoProvider provider,
+                                Method[] mockedMethods, ConstructorArgs args) {
         ElementMatcher.Junction<MethodDescription> junction = ElementMatchers.any();
 
-        ClassLoader classLoader = classLoader(toMock);
+        ClassLoader classLoader = provider.classLoader(toMock);
         Class<?> mockClass = typeCache.findOrInsert(classLoader, toMock,  () -> {
 
                 try (DynamicType.Unloaded<T> unloaded = new ByteBuddy()
                     .subclass(toMock)
-                    .name(classPackage(toMock) + toMock.getSimpleName() + "$$$EasyMock$" + id.incrementAndGet())
+                    .name(provider.classPackage(toMock) + toMock.getSimpleName() + "$$$EasyMock$" + id.incrementAndGet())
                     .defineField(CALLBACK_FIELD, ClassMockingData.class, SyntheticState.SYNTHETIC, Visibility.PUBLIC)
                     .method(junction)
                     .intercept(MethodDelegation.to(MockMethodInterceptor.class))
@@ -220,18 +240,6 @@ public class ClassProxyFactory implements IProxyFactory {
         }
 
         return mock;
-    }
-
-    private String classPackage(Class<?> toMock) {
-        // We want to create the mock in the same class as the original class when the class is in default scope
-        if (isJdkClassOrWithoutPackage(toMock)) {
-            return "org.easymock.mocks.";
-        }
-        return  toMock.getPackage().getName() + ".";
-    }
-
-    private <T> ClassLoader classLoader(Class<T> toMock) {
-        return isJdkClassOrWithoutPackage(toMock) ? getClass().getClassLoader() : toMock.getClassLoader();
     }
 
     private static <T> boolean isJdkClassOrWithoutPackage(Class<T> toMock) {
