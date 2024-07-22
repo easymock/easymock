@@ -197,7 +197,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>4.0.0-M15</version>
+          <version>4.0.0-M16</version>
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
