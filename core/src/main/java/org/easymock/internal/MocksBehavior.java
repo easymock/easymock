@@ -144,13 +144,14 @@ public class MocksBehavior implements IMocksBehavior, Serializable {
         }
 
         if (matches > 1) {
-            errorMessage.append(". Possible matches are marked with (+1):");
-        } else {
-            errorMessage.append(":");
+            errorMessage.append(". Possible matches are marked with (+1)");
         }
 
-        for (ErrorMessage m : messages) {
-            m.appendTo(errorMessage, matches);
+        if (!messages.isEmpty()) {
+            errorMessage.append(":");
+            for (ErrorMessage m : messages) {
+                m.appendTo(errorMessage, matches);
+            }
         }
 
         // Keep the unexpected invocation to have a look in the verify

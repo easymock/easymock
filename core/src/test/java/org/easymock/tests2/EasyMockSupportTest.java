@@ -20,12 +20,15 @@ import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
 import org.easymock.tests.IMethods;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Proxy;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.verifyRecording;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Henri Tremblay
@@ -56,8 +59,8 @@ public class EasyMockSupportTest extends EasyMockSupport {
         mock1 = createMock("a", IMethods.class);
         mock2 = createMock("b", IMethods.class);
         testDefaultMock();
-        Assertions.assertEquals("a", mock1.toString());
-        Assertions.assertEquals("b", mock2.toString());
+        assertEquals("a", mock1.toString());
+        assertEquals("b", mock2.toString());
     }
 
     private void testDefaultMock() {
@@ -66,8 +69,8 @@ public class EasyMockSupportTest extends EasyMockSupport {
         mock2.simpleMethod();
         expect(mock2.oneArg(false)).andReturn("foo");
         replayAll();
-        Assertions.assertEquals("foo", mock1.oneArg(true));
-        Assertions.assertEquals("foo", mock2.oneArg(false));
+        assertEquals("foo", mock1.oneArg(true));
+        assertEquals("foo", mock2.oneArg(false));
         mock2.simpleMethod();
         mock1.simpleMethod();
         verifyAll();
@@ -93,18 +96,18 @@ public class EasyMockSupportTest extends EasyMockSupport {
         mock1 = createNiceMock("a", IMethods.class);
         mock2 = createNiceMock("b", IMethods.class);
         testNiceMock();
-        Assertions.assertEquals("a", mock1.toString());
-        Assertions.assertEquals("b", mock2.toString());
+        assertEquals("a", mock1.toString());
+        assertEquals("b", mock2.toString());
     }
 
     private void testNiceMock() {
         expect(mock1.oneArg(true)).andReturn("foo");
         expect(mock2.oneArg(false)).andReturn("foo");
         replayAll();
-        Assertions.assertNull(mock1.oneArg(false));
-        Assertions.assertNull(mock2.oneArg(true));
-        Assertions.assertEquals("foo", mock1.oneArg(true));
-        Assertions.assertEquals("foo", mock2.oneArg(false));
+        assertNull(mock1.oneArg(false));
+        assertNull(mock2.oneArg(true));
+        assertEquals("foo", mock1.oneArg(true));
+        assertEquals("foo", mock2.oneArg(false));
         verifyAll();
     }
 
@@ -118,11 +121,9 @@ public class EasyMockSupportTest extends EasyMockSupport {
         mock1.simpleMethod();
         mock2.simpleMethod();
         replayAll();
-        try {
-            mock2.simpleMethod();
-            Assertions.fail("Should be ordered");
-        } catch (AssertionError e) {
-        }
+
+        assertThrows(AssertionError.class, () -> mock2.simpleMethod(), "Should be ordered");
+
         mock1.simpleMethod();
         mock2.simpleMethod();
         verifyAllRecordings();
@@ -140,8 +141,8 @@ public class EasyMockSupportTest extends EasyMockSupport {
         mock1 = createStrictMock("a", IMethods.class);
         mock2 = createStrictMock("b", IMethods.class);
         testStrictMock();
-        Assertions.assertEquals("a", mock1.toString());
-        Assertions.assertEquals("b", mock2.toString());
+        assertEquals("a", mock1.toString());
+        assertEquals("b", mock2.toString());
     }
 
     private void testStrictMock() {
@@ -150,18 +151,14 @@ public class EasyMockSupportTest extends EasyMockSupport {
         expect(mock2.oneArg(false)).andReturn("foo");
         expect(mock2.oneArg(true)).andReturn("foo");
         replayAll();
-        try {
-            mock1.oneArg(false);
-            Assertions.fail("Should be ordered");
-        } catch (AssertionError e) {
-        }
+
+        assertThrows(AssertionError.class, () -> mock1.oneArg(false), "Should be ordered");
+
         mock1.oneArg(true);
         mock1.oneArg(false);
-        try {
-            mock2.oneArg(true);
-            Assertions.fail("Should be ordered");
-        } catch (AssertionError e) {
-        }
+
+        assertThrows(AssertionError.class, () -> mock1.oneArg(true), "Should be ordered");
+
         mock2.oneArg(false);
         mock2.oneArg(true);
         verifyRecording();
@@ -191,24 +188,14 @@ public class EasyMockSupportTest extends EasyMockSupport {
         mock2 = createMock(IMethods.class);
         replayAll();
 
-        try {
-            mock1.simpleMethod();
-        } catch(AssertionError e) {
-        }
-        try {
-            mock2.simpleMethod();
-        } catch(AssertionError e) {
-        }
+        assertThrows(AssertionError.class, () -> mock1.simpleMethod());
+        assertThrows(AssertionError.class, () -> mock2.simpleMethod());
 
-        try {
-            verifyAllUnexpectedCalls();
-            Assertions.fail("Should see missing calls");
-        } catch(AssertionError e) {
-            // note that only errors from the first mock are shown
-            Assertions.assertEquals("\n" +
-                "  Unexpected method calls:\n" +
-                "    IMethods.simpleMethod()", e.getMessage());
-        }
+        AssertionError e = assertThrows(AssertionError.class, () -> verifyAllUnexpectedCalls(), "Should see missing calls");
+        // note that only errors from the first mock are shown
+        assertEquals("\n" +
+            "  Unexpected method calls:\n" +
+            "    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethod()", e.getMessage());
     }
 
     @Test
@@ -218,15 +205,11 @@ public class EasyMockSupportTest extends EasyMockSupport {
         mock1.simpleMethod();
         mock2.simpleMethod();
         replayAll();
-        try {
-            verifyAllRecordings();
-            Assertions.fail("Should see unexpected calls");
-        } catch(AssertionError e) {
-            // note that only errors from the first mock are shown
-            Assertions.assertEquals("\n" +
-                "  Expectation failure on verify:\n" +
-                "    IMethods.simpleMethod(): expected: 1, actual: 0", e.getMessage());
-        }
+        AssertionError e = assertThrows(AssertionError.class, () -> verifyAllRecordings(), "Should see unexpected calls");
+        // note that only errors from the first mock are shown
+        assertEquals("\n" +
+            "  Expectation failure on verify:\n" +
+            "    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethod(): expected: 1, actual: 0", e.getMessage());
     }
 
     @Test
@@ -243,8 +226,8 @@ public class EasyMockSupportTest extends EasyMockSupport {
 
         replayAll();
 
-        Assertions.assertNull(mock1.oneArg(true));
-        Assertions.assertNull(mock2.oneArg(false));
+        assertNull(mock1.oneArg(true));
+        assertNull(mock2.oneArg(false));
 
         verifyAll();
     }
@@ -270,10 +253,10 @@ public class EasyMockSupportTest extends EasyMockSupport {
 
         replayAll();
 
-        Assertions.assertEquals("foo", mock1.oneArg(false));
-        Assertions.assertEquals("foo", mock1.oneArg(true));
-        Assertions.assertEquals("foo", mock2.oneArg(false));
-        Assertions.assertEquals("foo", mock2.oneArg(true));
+        assertEquals("foo", mock1.oneArg(false));
+        assertEquals("foo", mock1.oneArg(true));
+        assertEquals("foo", mock2.oneArg(false));
+        assertEquals("foo", mock2.oneArg(true));
 
         verifyAll();
     }
@@ -288,8 +271,8 @@ public class EasyMockSupportTest extends EasyMockSupport {
 
         replayAll();
 
-        Assertions.assertNull(mock1.oneArg(true));
-        Assertions.assertNull(mock2.oneArg(true));
+        assertNull(mock1.oneArg(true));
+        assertNull(mock2.oneArg(true));
 
         resetAllToStrict();
 
@@ -300,33 +283,25 @@ public class EasyMockSupportTest extends EasyMockSupport {
 
         replayAll();
 
-        try {
-            mock1.oneArg(true);
-            Assertions.fail("Should be strict");
-        } catch (AssertionError e) {
-        }
-        try {
-            mock2.oneArg(true);
-            Assertions.fail("Should be strict");
-        } catch (AssertionError e) {
-        }
+        assertThrows(AssertionError.class, () -> mock1.oneArg(true), "Should be strict");
+        assertThrows(AssertionError.class, () -> mock2.oneArg(true), "Should be strict");
 
-        Assertions.assertEquals("foo", mock1.oneArg(false));
-        Assertions.assertEquals("foo", mock1.oneArg(true));
-        Assertions.assertEquals("foo", mock2.oneArg(false));
-        Assertions.assertEquals("foo", mock2.oneArg(true));
+        assertEquals("foo", mock1.oneArg(false));
+        assertEquals("foo", mock1.oneArg(true));
+        assertEquals("foo", mock2.oneArg(false));
+        assertEquals("foo", mock2.oneArg(true));
 
         verifyAllRecordings();
     }
 
     @Test
     public void mockType() throws Exception {
-        Assertions.assertNull(EasyMockSupport.getMockedClass(null));
-        Assertions.assertNull(EasyMockSupport.getMockedClass(new Object()));
+        assertNull(EasyMockSupport.getMockedClass(null));
+        assertNull(EasyMockSupport.getMockedClass(new Object()));
 
         // Proxy that is not an EasyMock proxy
-        Assertions.assertNull(EasyMockSupport.getMockedClass(Proxy.newProxyInstance(getClass().getClassLoader(),
-            new Class<?>[] { IMethods.class }, (proxy, method, args) -> null)));
+        assertNull(EasyMockSupport.getMockedClass(Proxy.newProxyInstance(getClass().getClassLoader(),
+            new Class<?>[]{IMethods.class}, (proxy, method, args) -> null)));
 
         // ByteBuddy proxy that is not an EasyMock proxy
         Class<?> mockClass = new ByteBuddy()
@@ -335,6 +310,6 @@ public class EasyMockSupportTest extends EasyMockSupport {
             .load(Object.class.getClassLoader(), new ClassLoadingStrategy.ForUnsafeInjection())
             .getLoaded();
         Object mock = mockClass.getDeclaredConstructor().newInstance();
-        Assertions.assertNull(EasyMockSupport.getMockedClass(mock));
+        assertNull(EasyMockSupport.getMockedClass(mock));
     }
 }

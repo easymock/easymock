@@ -125,7 +125,7 @@ public class UsageTest {
             failed = false;
         } catch (AssertionError expected) {
             Assertions.assertEquals("\n  Expectation failure on verify:"
-                    + "\n    IMethods.threeArgumentMethod(1 (int), \"2\", \"3\"): expected: 2, actual: 1", expected
+                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.threeArgumentMethod(1 (int), \"2\", \"3\"): expected: 2, actual: 1", expected
                     .getMessage());
         }
         if (!failed) {
@@ -142,7 +142,7 @@ public class UsageTest {
             mock.arrayMethod(strings);
             Assertions.fail("exception expected");
         } catch (AssertionError expected) {
-            Assertions.assertEquals("\n  Unexpected method call IMethods.arrayMethod(" + "[\"Test\"]" + "):", expected
+            Assertions.assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.arrayMethod(" + "[\"Test\"]" + ")", expected
                     .getMessage());
         }
     }
@@ -156,8 +156,8 @@ public class UsageTest {
             mock.simpleMethodWithArgument("5");
             Assertions.fail();
         } catch (AssertionError expected) {
-            Assertions.assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
-                    + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0", expected
+            Assertions.assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"5\"):"
+                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0", expected
                     .getMessage());
         }
 
@@ -173,8 +173,8 @@ public class UsageTest {
             mock.simpleMethodWithArgument("5");
             Assertions.fail();
         } catch (AssertionError expected) {
-            Assertions.assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
-                    + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 2, actual: 0", expected
+            Assertions.assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"5\"):"
+                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"3\"): expected: 2, actual: 0", expected
                     .getMessage());
         }
 
@@ -193,12 +193,12 @@ public class UsageTest {
             mock.simpleMethodWithArgument("5");
             Assertions.fail();
         } catch (AssertionError expected) {
-            Assertions.assertEquals("\n  Unexpected method call IMethods.simpleMethodWithArgument(\"5\"):"
-                    + "\n    IMethods.simpleMethodWithArgument(\"4\"): expected: 1, actual: 0"
-                    + "\n    IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0"
-                    + "\n    IMethods.simpleMethodWithArgument(\"2\"): expected: 1, actual: 0"
-                    + "\n    IMethods.simpleMethodWithArgument(\"0\"): expected: 1, actual: 0"
-                    + "\n    IMethods.simpleMethodWithArgument(\"1\"): expected: 1, actual: 0", expected
+            Assertions.assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"5\"):"
+                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"4\"): expected: 1, actual: 0"
+                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0"
+                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"2\"): expected: 1, actual: 0"
+                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"0\"): expected: 1, actual: 0"
+                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"1\"): expected: 1, actual: 0", expected
                     .getMessage());
         }
 

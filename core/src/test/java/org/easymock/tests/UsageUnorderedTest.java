@@ -49,9 +49,9 @@ public class UsageUnorderedTest {
 
         AssertionError expected = assertThrows(AssertionError.class, () -> mock.method(42));
         assertEquals(
-            "\n  Unexpected method call Interface.method(42 (int)). Possible matches are marked with (+1):"
-                    + "\n    Interface.method(<any>): expected: 3, actual: 3 (+1)"
-                    + "\n    Interface.method(42 (int)): expected: 1, actual: 1 (+1)",
+            "\n  Unexpected method call EasyMock for interface org.easymock.tests.UsageUnorderedTest$Interface -> Interface.method(42 (int)). Possible matches are marked with (+1):"
+                    + "\n    EasyMock for interface org.easymock.tests.UsageUnorderedTest$Interface -> Interface.method(<any>): expected: 3, actual: 3 (+1)"
+                    + "\n    EasyMock for interface org.easymock.tests.UsageUnorderedTest$Interface -> Interface.method(42 (int)): expected: 1, actual: 1 (+1)",
             expected.getMessage());
     }
 }

@@ -68,7 +68,7 @@ public class PowermockTest {
             StaticService.say("world");
             fail("Should throw AssertionError!");
         } catch (AssertionError e) {
-            assertEquals("\n  Unexpected method call StaticService.say(\"world\"):", e.getMessage());
+            assertEquals("\n  Unexpected method call EasyMock for class org.itests.StaticService -> StaticService.say(\"world\")", e.getMessage());
         }
     }
 

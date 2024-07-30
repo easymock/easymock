@@ -16,6 +16,8 @@
 package org.easymock.tests2;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.easymock.IMocksControl;
 import org.easymock.tests.IMethods;
@@ -31,13 +33,10 @@ public class NameTest {
         IMethods mock = createMock("mock", IMethods.class);
         mock.simpleMethod();
         replay(mock);
-        try {
-            verify(mock);
-        } catch (AssertionError expected) {
-            String actualMessage = expected.getMessage();
-            String expectedMessage = "\n  Expectation failure on verify:\n    mock.simpleMethod(): expected: 1, actual: 0";
-            Assertions.assertEquals(expectedMessage, actualMessage);
-        }
+        AssertionError expected = assertThrows(AssertionError.class, () -> verify(mock));
+        String actualMessage = expected.getMessage();
+        String expectedMessage = "\n  Expectation failure on verify:\n    Mock named mock -> IMethods.simpleMethod(): expected: 1, actual: 0";
+        assertEquals(expectedMessage, actualMessage);
     }
 
     @Test
@@ -45,13 +44,10 @@ public class NameTest {
         IMethods mock = createStrictMock("mock", IMethods.class);
         mock.simpleMethod();
         replay(mock);
-        try {
-            verify(mock);
-        } catch (AssertionError expected) {
-            String actualMessage = expected.getMessage();
-            String expectedMessage = "\n  Expectation failure on verify:\n    mock.simpleMethod(): expected: 1, actual: 0";
-            Assertions.assertEquals(expectedMessage, actualMessage);
-        }
+        AssertionError expected = assertThrows(AssertionError.class, () -> verify(mock));
+        String actualMessage = expected.getMessage();
+        String expectedMessage = "\n  Expectation failure on verify:\n    Mock named mock -> IMethods.simpleMethod(): expected: 1, actual: 0";
+        assertEquals(expectedMessage, actualMessage);
     }
 
     @Test
@@ -59,13 +55,10 @@ public class NameTest {
         IMethods mock = createNiceMock("mock", IMethods.class);
         mock.simpleMethod();
         replay(mock);
-        try {
-            verify(mock);
-        } catch (AssertionError expected) {
-            String actualMessage = expected.getMessage();
-            String expectedMessage = "\n  Expectation failure on verify:\n    mock.simpleMethod(): expected: 1, actual: 0";
-            Assertions.assertEquals(expectedMessage, actualMessage);
-        }
+        AssertionError expected = assertThrows(AssertionError.class, () -> verify(mock));
+        String actualMessage = expected.getMessage();
+        String expectedMessage = "\n  Expectation failure on verify:\n    Mock named mock -> IMethods.simpleMethod(): expected: 1, actual: 0";
+        assertEquals(expectedMessage, actualMessage);
     }
 
     @Test
@@ -74,13 +67,10 @@ public class NameTest {
         IMethods mock = control.createMock("mock", IMethods.class);
         mock.simpleMethod();
         replay(mock);
-        try {
-            verify(mock);
-        } catch (AssertionError expected) {
-            String actualMessage = expected.getMessage();
-            String expectedMessage = "\n  Expectation failure on verify:\n    mock.simpleMethod(): expected: 1, actual: 0";
-            Assertions.assertEquals(expectedMessage, actualMessage);
-        }
+        AssertionError expected = assertThrows(AssertionError.class, () -> verify(mock));
+        String actualMessage = expected.getMessage();
+        String expectedMessage = "\n  Expectation failure on verify:\n    Mock named mock -> IMethods.simpleMethod(): expected: 1, actual: 0";
+        assertEquals(expectedMessage, actualMessage);
     }
 
 }

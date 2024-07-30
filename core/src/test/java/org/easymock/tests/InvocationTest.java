@@ -22,6 +22,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
  * @author OFFIS, Tammo Freese
  */
@@ -48,24 +52,20 @@ public class InvocationTest {
     @SuppressWarnings("unlikely-arg-type")
     @Test
     public void testEquals() {
-        Assertions.assertNotEquals(null, call);
-        Assertions.assertNotEquals("", call);
-        Assertions.assertEquals(call, equalCall);
-        Assertions.assertNotEquals(call, nonEqualCall);
+        assertNotEquals(null, call);
+        assertNotEquals("", call);
+        assertEquals(call, equalCall);
+        assertNotEquals(call, nonEqualCall);
     }
 
     @Test
     public void testHashCode() {
-        try {
-            call.hashCode();
-            Assertions.fail();
-        } catch (UnsupportedOperationException expected) {
-            Assertions.assertEquals("hashCode() is not implemented", expected.getMessage());
-        }
+        UnsupportedOperationException e = assertThrows(UnsupportedOperationException.class, () -> call.hashCode());
+        assertEquals("hashCode() is not implemented", e.getMessage());
     }
 
     @Test
-    public void testShouldDisplayMocksToStringIfValidJavaIdentifier() throws NoSuchMethodException {
+    public void testShouldDisplayMocksToStringIfDefaultToString() throws NoSuchMethodException {
         class ToString {
             private final String name;
 
@@ -85,11 +85,11 @@ public class InvocationTest {
         Method method = ToString.class.getMethod("aMethod");
         Invocation invocation = new Invocation(new ToString("validJavaIdentifier"), method, null);
 
-        Assertions.assertEquals("validJavaIdentifier.aMethod()", invocation.toString());
+        assertEquals("Mock named validJavaIdentifier -> Object.aMethod()", invocation.toString());
 
-        invocation = new Invocation(new ToString("no-valid-java-identifier"), method, null);
+        invocation = new Invocation(new ToString("EasyMock for something"), method, null);
 
-        Assertions.assertEquals("Object.aMethod()", invocation.toString());
+        assertEquals("EasyMock for something -> Object.aMethod()", invocation.toString());
 
     }
 
@@ -109,11 +109,11 @@ public class InvocationTest {
         Method method = NoToString.class.getMethod("aMethod");
         Invocation invocation = new Invocation(new NoToString("validJavaIdentifier"), method, null);
 
-        Assertions.assertEquals("aMethod()", invocation.toString());
+        assertEquals("aMethod()", invocation.toString());
 
         invocation = new Invocation(new NoToString("no-valid-java-identifier"), method, null);
 
-        Assertions.assertEquals("aMethod()", invocation.toString());
+        assertEquals("aMethod()", invocation.toString());
 
     }
 }

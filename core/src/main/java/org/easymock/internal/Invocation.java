@@ -165,14 +165,11 @@ public final class Invocation implements Serializable {
             return methodName;
         }
         String mockName = mock.toString();
-        // Cheap trick to check if the name is the default "EasyMock for ..." or a name
-        // provided when creating the mock
-        if (isJavaIdentifier(mockName)) {
-            return mockName + "." + methodName;
+        if (!isDefaultName(mockName)) {
+            mockName = "Mock named " + mockName;
         }
-
         Class<?> clazz = MocksControl.getMockedClass(mock);
-        return clazz.getSimpleName() + "." + methodName;
+        return mockName + " -> " + clazz.getSimpleName() + "." + methodName;
     }
 
     public void addCapture(Captures<Object> capture, Object value) {
@@ -204,17 +201,8 @@ public final class Invocation implements Serializable {
         }
     }
 
-    public static boolean isJavaIdentifier(String mockName) {
-        if (mockName.length() == 0 || mockName.indexOf(' ') > -1
-                || !Character.isJavaIdentifierStart(mockName.charAt(0))) {
-            return false;
-        }
-        for (char c : mockName.substring(1).toCharArray()) {
-            if (!isJavaIdentifierPart(c)) {
-                return false;
-            }
-        }
-        return true;
+    private static boolean isDefaultName(String mockName) {
+        return mockName.startsWith("EasyMock for");
     }
 
     private void readObject(java.io.ObjectInputStream stream) throws IOException,
