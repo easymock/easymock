@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"org.easymock","l":"org.easymock"},{"m":"org.easymock","l":"org.easymock.internal"},{"m":"org.easymock","l":"org.easymock.internal.matchers"}];updateSearchResults();
