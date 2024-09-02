@@ -10,6 +10,7 @@ jobs:
             ACTIONS_RUNNER_DEBUG: 'true'
         permissions:
             pull-requests: write
+            contents: write
         steps:
             -   name: Check if PR title starts with "Bump"
                 uses: actions/github-script@v7
