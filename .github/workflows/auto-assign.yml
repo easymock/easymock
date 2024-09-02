@@ -6,8 +6,6 @@ on:
 jobs:
     auto-assign:
         runs-on: ubuntu-latest
-        env:
-            ACTIONS_RUNNER_DEBUG: 'true'
         permissions:
             pull-requests: write
             contents: write
@@ -53,12 +51,10 @@ jobs:
                         const milestoneNumber = parseInt("${{ steps.get_open_milestone.outputs.result }}", 10);
                         const prNumber = context.issue.number;
                         core.info(`Updating pull request ${prNumber} with milestone ${milestoneNumber}`);
-                        core.info(`owner: ${context.repo.owner}, repo: ${context.repo.repo}`);
                         const response = await github.rest.issues.update({
                           owner: context.repo.owner,
                           repo: context.repo.repo,
                           issue_number: prNumber,
                           milestone: milestoneNumber
                         });
-                        core.info(`Issue update response:\n${JSON.stringify(response)}`);
 
