@@ -81,6 +81,9 @@ public final class Result implements IAnswer<Object>, Serializable {
 
             public Object answer() throws Throwable {
                 Invocation invocation = LastControl.getCurrentInvocation();
+                if (invocation == null) {
+                    throw new IllegalStateException("Call was performed outside of a mock invocation");
+                }
                 try {
                     Method m = invocation.getMethod();
                     if(!m.isAccessible()) {

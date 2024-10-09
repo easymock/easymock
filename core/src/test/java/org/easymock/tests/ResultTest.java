@@ -52,7 +52,12 @@ class ResultTest {
     }
 
     @Test
-    public void emptyResults() {
+    void createNullLastInvocation() throws Throwable {
+        Result r = Result.createDelegatingResult("my value");
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> r.answer());
+        assertEquals("Call was performed outside of a mock invocation", e.getMessage());
+    }
+
     @Test
     void emptyResults() {
         // We never create a Results without at least one Range
