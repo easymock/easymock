@@ -17,42 +17,48 @@ package org.easymock.tests;
 
 import org.easymock.internal.Result;
 import org.easymock.internal.Results;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
  * @author Henri Tremblay
  */
-public class ResultTest {
+class ResultTest {
 
     @Test
-    public void createThrowResultToString() {
+    void createThrowResultToString() {
         Exception e = new Exception("Error message");
         Result r = Result.createThrowResult(e);
-        Assertions.assertEquals("Answer throwing " + e, r.toString());
+        assertEquals("Answer throwing " + e, r.toString());
     }
 
     @Test
-    public void createReturnResultToString() {
+    void createReturnResultToString() {
         String value = "My value";
         Result r = Result.createReturnResult(value);
-        Assertions.assertEquals("Answer returning " + value, r.toString());
+        assertEquals("Answer returning " + value, r.toString());
     }
 
     @Test
-    public void createDelegateResultToString() {
+    void createDelegateResultToString() {
         String value = "my value";
         Result r = Result.createDelegatingResult(value);
-        Assertions.assertEquals("Delegated to " + value, r.toString());
+        assertEquals("Delegated to " + value, r.toString());
     }
 
     @Test
     public void emptyResults() {
+    @Test
+    void emptyResults() {
         // We never create a Results without at least one Range
         // This test is only to unit test Results with this to cover the case anyway
         Results results = new Results();
-        Assertions.assertFalse(results.hasResults());
-        Assertions.assertNull(results.next());
+        assertFalse(results.hasResults());
+        assertNull(results.next());
     }
 }
