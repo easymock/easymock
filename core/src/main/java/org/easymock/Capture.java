@@ -37,7 +37,7 @@ public class Capture<T> implements Serializable {
 
     private final UnaryOperator<T> transform;
 
-    private final List<T> values = new ArrayList<T>(2);
+    private final List<T> values = new ArrayList<>(2);
 
     /**
      * Default constructor. Only the last element will be captured
@@ -147,7 +147,7 @@ public class Capture<T> implements Serializable {
 
     /**
      * Return all captured values. It returns the actual list so you can modify
-     * it's content if needed.
+     * its content if needed.
      *
      * @return The currently captured values
      */
