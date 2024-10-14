@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Arrays;
 
 import org.easymock.Capture;
-import org.easymock.Capture.Transform;
 import org.easymock.CaptureType;
 import org.easymock.tests.IMethods;
 import org.junit.jupiter.api.AfterEach;
@@ -375,11 +374,7 @@ public class CaptureTest {
 
     private <T> Capture<Integer> testCaptureTypeAndTransform(CaptureType type) {
         IMethods mock = createMock(IMethods.class);
-        Capture<Integer> captured = Capture.newInstance(type, new Transform<Integer>() {
-            public Integer apply(Integer t) {
-                return t.intValue() * 100;
-            }
-        });
+        Capture<Integer> captured = Capture.newInstance(type, t -> t * 100);
 
         expect(mock.oneArg(captureInt(captured))).andReturn("1");
         expect(mock.oneArg(anyInt())).andReturn("1");

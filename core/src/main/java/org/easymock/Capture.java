@@ -18,6 +18,7 @@ package org.easymock;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 /**
  * Will contain what was captured by the {@code capture()} matcher. Knows
@@ -34,7 +35,7 @@ public class Capture<T> implements Serializable {
 
     private final CaptureType type;
 
-    private Transform<T> transform = identity();
+    private final UnaryOperator<T> transform;
 
     private final List<T> values = new ArrayList<T>(2);
 
@@ -48,14 +49,19 @@ public class Capture<T> implements Serializable {
     /**
      * Constructor allowing to select the capture type.
      *
-     * @param type
-     *            capture type
+     * @param type capture type
      */
     private Capture(CaptureType type) {
-        this.type = type;
+        this(type, UnaryOperator.identity());
     }
 
-    private Capture(CaptureType type, Transform<T> transform) {
+    /**
+     * Constructor allowing to select the capture type and transformation.
+     *
+     * @param type capture type
+     * @param transform transformation applied to the captured value
+     */
+    private Capture(CaptureType type, UnaryOperator<T> transform) {
         this.type = type;
         this.transform = transform;
     }
@@ -83,7 +89,7 @@ public class Capture<T> implements Serializable {
 
     /**
      * Create a new capture instance with a specific {@link org.easymock.CaptureType}
-     * and a specific {@link org.easymock.Capture.Transform} function to change the values
+     * and a specific transformation function to change the values
      * into a different value.
      *
      * @param type capture type wanted
@@ -91,20 +97,20 @@ public class Capture<T> implements Serializable {
      * @param <T> type of the class to be captured
      * @return the new capture object
      */
-    public static <T> Capture<T> newInstance(CaptureType type, Transform<T> transform) {
-        return new Capture<T>(type, transform);
+    public static <T> Capture<T> newInstance(CaptureType type, UnaryOperator<T> transform) {
+        return new Capture<>(type, transform);
     }
 
     /**
-     * Create a new capture instance with a specific {@link org.easymock.Capture.Transform}
+     * Create a new capture instance with a specific transformation
      * function to change the values into a different value.
      *
      * @param transform the transform function
      * @param <T> type of the class to be captured
      * @return the new capture object
      */
-    public static <T> Capture<T> newInstance(Transform<T> transform) {
-        return new Capture<T>(CaptureType.LAST, transform);
+    public static <T> Capture<T> newInstance(UnaryOperator<T> transform) {
+        return new Capture<>(CaptureType.LAST, transform);
     }
 
     /**
@@ -156,7 +162,7 @@ public class Capture<T> implements Serializable {
      *            Value captured
      */
     public void setValue(T value) {
-        value = transform == null ? value : transform.apply(value);
+        value = transform.apply(value);
         switch (type) {
         case NONE:
             break;
@@ -192,17 +198,4 @@ public class Capture<T> implements Serializable {
         return values.toString();
     }
 
-    public static <T> Transform<T> identity() {
-        return new Identity<T>();
-    }
-
-    public interface Transform<T> {
-        T apply(T t);
-    }
-
-    static class Identity<T> implements Transform<T> {
-        public T apply(T t) {
-            return t;
-        }
-    }
 }

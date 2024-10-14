@@ -19,6 +19,7 @@ import org.easymock.internal.*;
 import org.easymock.internal.matchers.*;
 
 import java.util.Comparator;
+import java.util.function.UnaryOperator;
 
 /**
  * Main EasyMock class. Contains methods to create, replay and verify mocks and
@@ -1843,27 +1844,32 @@ public class EasyMock {
 
     /**
      * Create a new capture instance with a specific {@link org.easymock.CaptureType}
-     * and a specific {@link org.easymock.Capture.Transform} function to change the values
-     * into a different value.
+     * and a specific transformation function to change the values into a different value.
+     * <p>
+     * One useful usage for the transformation is when the captured argument will be mutated
+     * after the capture, and you would like to save it before mutation.
      *
      * @param type capture type wanted
      * @param transform the transform function
      * @param <T> type of the class to be captured
      * @return the new capture object
      */
-    public static <T> Capture<T> newCapture(CaptureType type, Capture.Transform<T> transform) {
+    public static <T> Capture<T> newCapture(CaptureType type, UnaryOperator<T> transform) {
         return Capture.newInstance(type, transform);
     }
 
     /**
-     * Create a new capture instance with a specific {@link org.easymock.Capture.Transform}
+     * Create a new capture instance with a specific and a specific transformation
      * function to change the values into a different value.
-     *
+     * <p>
+     * One useful usage for the transformation is when the captured argument will be mutated
+     * after the capture, and you would like to save it before mutation.
+     *  
      * @param transform the transform function
      * @param <T> type of the class to be captured
      * @return the new capture object
      */
-    public static <T> Capture<T> newCapture(Capture.Transform<T> transform) {
+    public static <T> Capture<T> newCapture(UnaryOperator<T> transform) {
         return Capture.newInstance(transform);
     }
 
