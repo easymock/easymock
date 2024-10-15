@@ -1864,7 +1864,7 @@ public class EasyMock {
      * <p>
      * One useful usage for the transformation is when the captured argument will be mutated
      * after the capture, and you would like to save it before mutation.
-     *  
+     *
      * @param transform the transform function
      * @param <T> type of the class to be captured
      * @return the new capture object
