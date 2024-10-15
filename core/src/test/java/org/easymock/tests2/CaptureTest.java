@@ -23,7 +23,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.function.UnaryOperator;
 
 import org.easymock.Capture;
 import org.easymock.CaptureType;
@@ -413,4 +420,31 @@ public class CaptureTest {
         Capture<Integer> captured = testCaptureTypeAndTransform(CaptureType.ALL);
         assertEquals(Arrays.asList(100, 300, 400, 500, 700, 800), captured.getValues());
     }
+
+    @Test
+    public void serializableDefaultTransform() throws Exception  {
+        Capture<String> capture = Capture.newInstance();
+        assertEquals("test", serializable(capture));
+    }
+
+    @Test
+    public void serializableCustomTransform() throws Exception  {
+        Capture<String> capture = Capture.newInstance((Serializable & UnaryOperator<String>) t -> "x" + t);
+        assertEquals("xtest", serializable(capture));
+    }
+
+    private String serializable(Capture<String> capture) throws IOException, ClassNotFoundException {
+        try (ByteArrayOutputStream bOut = new ByteArrayOutputStream(); ObjectOutputStream out = new ObjectOutputStream(bOut)) {
+            out.writeObject(capture);
+            out.flush();
+            byte[] buffer = bOut.toByteArray();
+            try (ByteArrayInputStream bIn = new ByteArrayInputStream(buffer); ObjectInputStream in = new ObjectInputStream(bIn)) {
+                @SuppressWarnings("unchecked")
+                Capture<String> result = (Capture<String>) in.readObject();
+                result.setValue("test");
+                return result.getValue();
+            }
+        }
+    }
+
 }

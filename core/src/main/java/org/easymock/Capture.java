@@ -24,6 +24,9 @@ import java.util.function.UnaryOperator;
  * Will contain what was captured by the {@code capture()} matcher. Knows
  * if something was captured or not (allows to capture a null value).
  *
+ * <b>Implementation note:</b>
+ * If the capture is serialized, it is the user duty to make sure the transformation used also is serializable.
+ *
  * @param <T>
  *            Type of the captured element
  *
@@ -52,7 +55,7 @@ public class Capture<T> implements Serializable {
      * @param type capture type
      */
     private Capture(CaptureType type) {
-        this(type, UnaryOperator.identity());
+        this(type, (UnaryOperator<T> & Serializable) t -> t); // we can't use UnaryOperator.identity() because it's not serializable
     }
 
     /**

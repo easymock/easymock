@@ -32,4 +32,9 @@
     <Class name="org.easymock.EasyMockRunner" />
     <Bug pattern="CT_CONSTRUCTOR_THROW" />
   </Match>
+  <Match>
+    <!-- We assume that if a Capture is serializable, the user should make sure the transformation also is -->
+    <Class name="org.easymock.Capture" />
+    <Bug pattern="SE_BAD_FIELD" />
+  </Match>
 </FindBugsFilter>
