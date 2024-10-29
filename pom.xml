@@ -64,7 +64,7 @@
     <!-- last version supporting Java 8 -->
     <testng.version>7.5.1</testng.version>
     <license-maven-plugin.version>4.6</license-maven-plugin.version>
-    <maven-checkstyle-plugin.version>3.5.0</maven-checkstyle-plugin.version>
+    <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
   </properties>
 
   <scm>
@@ -313,7 +313,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>10.18.2</version>
+            <version>10.19.0</version>
           </dependency>
         </dependencies>
       </plugin>
