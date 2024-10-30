@@ -12,7 +12,7 @@
   <name>EasyMock Test TestNG</name>
 
   <properties>
-    <!-- No code coverage need on this project since it's only a test project -->
+    <!-- No code coverage needed on this project since it's only a test project -->
     <jacoco.skip>true</jacoco.skip>
     <slf4j.version>2.0.16</slf4j.version>
   </properties>
