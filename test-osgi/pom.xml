@@ -182,7 +182,7 @@
         <jdk>[11,</jdk>
       </activation>
       <properties>
-        <logback.version>1.5.10</logback.version>
+        <logback.version>1.5.12</logback.version>
       </properties>
     </profile>
   </profiles>
