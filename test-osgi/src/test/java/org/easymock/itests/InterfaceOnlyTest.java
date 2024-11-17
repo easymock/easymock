@@ -18,14 +18,19 @@ package org.easymock.itests;
 import org.easymock.MockType;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.matchers.Equals;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.ops4j.pax.exam.Configuration;
+import org.ops4j.pax.exam.MavenUtils;
+import org.ops4j.pax.exam.Option;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
+import static org.ops4j.pax.exam.CoreOptions.bundle;
+import static org.ops4j.pax.exam.CoreOptions.junitBundles;
+import static org.ops4j.pax.exam.CoreOptions.options;
 
 /**
  * Test that we still can mock interfaces without ByteBuddy and Objenesis as
@@ -34,6 +39,15 @@ import static org.junit.Assert.*;
  * @author Henri Tremblay
  */
 public class InterfaceOnlyTest extends OsgiBaseTest {
+
+    @Configuration
+    public Option[] config() {
+        String version = MavenUtils.getArtifactVersion("org.easymock", "easymock");
+        return options(
+            bundle("file:../core/target/easymock-" + version + ".jar"),
+            junitBundles()
+        );
+    }
 
     @Test
     public void testCanMock() throws IOException {
@@ -44,28 +58,24 @@ public class InterfaceOnlyTest extends OsgiBaseTest {
         verifyAll();
     }
 
-    @Ignore("Doesn't work with pax-exam yet")
     @Test
     public void testCanUseMatchers() {
         new Equals(new Object());
     }
 
-    @Ignore("Doesn't work with pax-exam yet")
     @Test
     public void testCanUseInternal() {
         new MocksControl(MockType.DEFAULT);
     }
 
-    @Ignore("Doesn't work with pax-exam yet")
     @Test
     public void testCannotMock() {
+        // Do not use assertThrows, Pax-exam doesn't like it
         try {
             mock(ArrayList.class);
             fail("Should throw an exception due to a NoClassDefFoundError");
-        } catch (RuntimeException e) {
-            assertEquals("Class mocking requires to have objenesis library in the classpath", e
-                    .getMessage());
-            assertTrue(e.getCause() instanceof NoClassDefFoundError);
+        } catch (NoClassDefFoundError e) {
+            // a class from bytebuddy will be missing, no need to check which one
         }
     }
 }

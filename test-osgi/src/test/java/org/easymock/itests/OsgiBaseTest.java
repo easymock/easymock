@@ -18,9 +18,6 @@ package org.easymock.itests;
 import org.easymock.EasyMockSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ops4j.pax.exam.Configuration;
-import org.ops4j.pax.exam.MavenUtils;
-import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerMethod;
@@ -29,9 +26,6 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 
 import javax.inject.Inject;
-
-import static org.ops4j.pax.exam.CoreOptions.*;
-
 
 /**
  * @author Henri Tremblay
@@ -60,16 +54,6 @@ public abstract class OsgiBaseTest {
 
     @Inject
     private BundleContext bundleContext;
-
-    @Configuration
-    public Option[] config() {
-        String version = MavenUtils.getArtifactVersion("org.easymock", "easymock");
-        return options(
-            bundle("file:../core/target/easymock-" + version + ".jar"),
-            mavenBundle().groupId("org.objenesis").artifactId("objenesis").versionAsInProject(),
-            junitBundles()
-        );
-    }
 
     @Test
     public void testOsgiPlatformStarts() {

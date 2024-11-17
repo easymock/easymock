@@ -20,6 +20,9 @@ import org.easymock.internal.MocksControl;
 import org.easymock.internal.matchers.Equals;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.ops4j.pax.exam.Configuration;
+import org.ops4j.pax.exam.MavenUtils;
+import org.ops4j.pax.exam.Option;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +30,10 @@ import java.util.ArrayList;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.ops4j.pax.exam.CoreOptions.bundle;
+import static org.ops4j.pax.exam.CoreOptions.junitBundles;
+import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
+import static org.ops4j.pax.exam.CoreOptions.options;
 
 /**
  * Note: This is a JUnit 3 test because of the Spring OSGi test framework
@@ -39,6 +46,18 @@ public class OsgiTest extends OsgiBaseTest {
         public abstract void foo();
     }
 
+    @Configuration
+    public Option[] config() {
+        String version = MavenUtils.getArtifactVersion("org.easymock", "easymock");
+        return options(
+            bundle("file:../core/target/easymock-" + version + ".jar"),
+            mavenBundle().groupId("org.objenesis").artifactId("objenesis").versionAsInProject(),
+            mavenBundle().groupId("net.bytebuddy").artifactId("byte-buddy").versionAsInProject(),
+            mavenBundle().groupId("org.ow2.asm").artifactId("asm").versionAsInProject(),
+            junitBundles()
+        );
+    }
+
     @Test
     public void testCanMock() throws IOException {
         Appendable mock = mock(Appendable.class);
@@ -48,13 +67,11 @@ public class OsgiTest extends OsgiBaseTest {
         verifyAll();
     }
 
-    @Ignore("Doesn't work with pax-exam yet")
     @Test
     public void testCanUseMatchers() {
         new Equals(new Object());
     }
 
-    @Ignore("Doesn't work with pax-exam yet")
     @Test
     public void testCanUseInternal() {
         new MocksControl(MockType.DEFAULT);
@@ -65,7 +82,7 @@ public class OsgiTest extends OsgiBaseTest {
      * this case, cglib creates the proxy in its own class loader. So I need to
      * test this case is working
      */
-    @Ignore("Fails with ByteBuddy and should be fixed")
+    @Ignore("Doesn't work above Java 8 yet")
     @Test
     public void testCanMock_BootstrapClassLoader() {
         ArrayList<?> mock = mock(ArrayList.class);
@@ -78,7 +95,7 @@ public class OsgiTest extends OsgiBaseTest {
     /**
      * Normal case of a class in this class loader
      */
-    @Ignore("Fails with ByteBuddy and should be fixed")
+    @Ignore("Doesn't work above Java 8 yet")
     @Test
     public void testCanMock_OtherClassLoader() {
         A mock = mock(A.class);
@@ -88,7 +105,7 @@ public class OsgiTest extends OsgiBaseTest {
         verifyAll();
     }
 
-    @Ignore("Fails with ByteBuddy and should be fixed")
+    @Ignore("Doesn't work above Java 8 yet")
     @Test
     public void  testCanPartialMock() {
         A mock = partialMockBuilder(A.class).withConstructor().addMockedMethod("foo").createMock();
