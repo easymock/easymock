@@ -155,7 +155,7 @@ echo "Update website"
 echo "Start new version"
 nextVersion=$(incrementVersionLastElement $version)-SNAPSHOT
 mvn versions:set -DnewVersion=${nextVersion} -Pall
-mvn versions:commit
+mvn versions:commit -Pall
 git commit -am "Starting to develop version ${nextVersion}"
 
 echo
