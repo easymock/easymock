@@ -139,7 +139,7 @@ pause
 
 echo "Update Javadoc"
 git rm -rf website/api
-cp -r core/target/apidocs website/api
+cp -r core/target/reports/apidocs website/api
 pause
 
 echo "Update the version on the website"
