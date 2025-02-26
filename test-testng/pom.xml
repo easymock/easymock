@@ -14,7 +14,7 @@
   <properties>
     <!-- No code coverage needed on this project since it's only a test project -->
     <jacoco.skip>true</jacoco.skip>
-    <slf4j.version>2.0.16</slf4j.version>
+    <slf4j.version>2.0.17</slf4j.version>
   </properties>
 
   <dependencies>
