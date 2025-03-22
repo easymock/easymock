@@ -54,6 +54,7 @@
   </mailingLists>
 
   <properties>
+    <project.build.outputTimestamp>2023-01-01T00:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
     <java.version>1.8</java.version>
