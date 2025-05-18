@@ -22,6 +22,7 @@ import org.main.Main;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 /**
  * @author Henri Tremblay
@@ -50,7 +51,7 @@ public class DependencyTest {
     public void testClassMocking() {
         RuntimeException e = assertThrows(RuntimeException.class, () -> createMock(DependencyTest.class));
         assertEquals("Class mocking requires to have Objenesis library in the classpath", e.getMessage());
-        assertTrue(e.getCause() instanceof NoClassDefFoundError);
+        assertInstanceOf(NoClassDefFoundError.class, e.getCause());
     }
 
     @Test
@@ -66,7 +67,7 @@ public class DependencyTest {
     public void testClassMockingSupport() {
         RuntimeException e = assertThrows(RuntimeException.class, () -> support.createMock(DependencyTest.class));
         assertEquals("Class mocking requires to have Objenesis library in the classpath", e.getMessage());
-        assertTrue(e.getCause() instanceof NoClassDefFoundError);
+        assertInstanceOf(NoClassDefFoundError.class, e.getCause());
     }
 
     @Test

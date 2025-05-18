@@ -23,7 +23,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 /**
  * @author Henri Tremblay
@@ -39,14 +39,14 @@ class ClassInstantiatorFactoryTest {
     @Test
     void getInstantiator_Default() {
         IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
-        assertTrue(instantiator instanceof ObjenesisClassInstantiator);
+        assertInstanceOf(ObjenesisClassInstantiator.class, instantiator);
     }
 
     @Test
     void getInstantiator_Overridden() {
         ClassInstantiatorFactory.setInstantiator(new DefaultClassInstantiator());
         IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
-        assertTrue(instantiator instanceof DefaultClassInstantiator);
+        assertInstanceOf(DefaultClassInstantiator.class, instantiator);
     }
 
     @Test
@@ -54,7 +54,7 @@ class ClassInstantiatorFactoryTest {
         ClassInstantiatorFactory.setInstantiator(new DefaultClassInstantiator());
         ClassInstantiatorFactory.setDefaultInstantiator();
         IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
-        assertTrue(instantiator instanceof ObjenesisClassInstantiator);
+        assertInstanceOf(ObjenesisClassInstantiator.class, instantiator);
     }
 
     @Test

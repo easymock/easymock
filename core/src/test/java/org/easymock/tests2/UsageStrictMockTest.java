@@ -18,7 +18,6 @@ package org.easymock.tests2;
 import org.easymock.internal.ReplayState;
 import org.easymock.tests.IMethods;
 import org.easymock.tests.Util;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

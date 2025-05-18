@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -199,13 +200,13 @@ class DefaultClassInstantiatorTest {
     @Disabled("requires --add-opens java.base/java.io=ALL-UNNAMED with Java 9+")
     void badSerializable() throws Exception {
         DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
-        assertTrue(instantiator.newInstance(BadlyDoneSerializableClass.class) instanceof BadlyDoneSerializableClass);
+        assertInstanceOf(BadlyDoneSerializableClass.class, instantiator.newInstance(BadlyDoneSerializableClass.class));
     }
 
     @Test
     void serializableWithUID() throws Exception {
         DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
-        assertTrue(instantiator.newInstance(SerializableWithUIDClass.class) instanceof SerializableWithUIDClass);
+        assertInstanceOf(SerializableWithUIDClass.class, instantiator.newInstance(SerializableWithUIDClass.class));
     }
 
     private <T> void checkInstantiation(Class<T> clazz) {

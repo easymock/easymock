@@ -15,10 +15,12 @@
  */
 package org.easymock.tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.AbstractList;
 
@@ -47,7 +49,7 @@ public class LimitationsTest {
     public void finalClass() {
         try {
             createMock(String.class);
-            Assertions.fail("Magic, we can mock a final class");
+            fail("Magic, we can mock a final class");
         } catch (Exception e) {
         }
     }
@@ -55,7 +57,7 @@ public class LimitationsTest {
     @Test
     void abstractClass() {
         Object o = createMock(AbstractList.class);
-        Assertions.assertTrue(o instanceof AbstractList<?>);
+        assertInstanceOf(AbstractList.class, o);
     }
 
     @Test
@@ -64,7 +66,7 @@ public class LimitationsTest {
 
         try {
             c.foo();
-            Assertions.fail("Final method shouldn't be mocked");
+            fail("Final method shouldn't be mocked");
         } catch (Exception e) {
         }
     }
@@ -79,7 +81,7 @@ public class LimitationsTest {
         NativeClass mock = createMock(NativeClass.class);
         expect(mock.foo()).andReturn(1);
         replay(mock);
-        Assertions.assertEquals(1, mock.foo());
+        assertEquals(1, mock.foo());
         verify(mock);
     }
 }
