@@ -545,7 +545,7 @@
     <profile>
       <id>java-11</id>
       <activation>
-        <jdk>[11,</jdk>
+        <jdk>[11,)</jdk>
       </activation>
       <properties>
         <testng.version>7.10.2</testng.version>
