@@ -16,7 +16,7 @@
 package org.easymock.internal.classinfoprovider;
 
 /**
- * Provider to use when classes are from the JDK of is they have no package. In this case, we create the mock in the
+ * Provider to use when classes are from the JDK or if they have no package. In this case, we create the mock in the
  * "org.easymock.mocks" package and in EasyMock class loader.
  */
 public class JdkClassInfoProvider implements ClassInfoProvider {
