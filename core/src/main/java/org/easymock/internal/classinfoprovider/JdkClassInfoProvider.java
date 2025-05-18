@@ -29,4 +29,10 @@ public class JdkClassInfoProvider implements ClassInfoProvider {
     public <T> ClassLoader classLoader(Class<T> toMock) {
         return getClass().getClassLoader();
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
+
 }

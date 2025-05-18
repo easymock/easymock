@@ -109,7 +109,8 @@ public class PartialMockingTest {
     public void testPartialMock_ExceptionInConstructor() {
         RuntimeException ex = assertThrows(RuntimeException.class,
             () -> createMockBuilder(ArrayList.class).withConstructor(-5).createMock());
-        Assertions.assertEquals("Failed to instantiate mock calling constructor: Exception in constructor", ex.getMessage());
+        Assertions.assertEquals("Failed to mock class java.util.ArrayList with provider JdkClassInfoProvider", ex.getMessage());
+        Assertions.assertEquals("Failed to instantiate mock calling constructor: Exception in constructor", ex.getCause().getMessage());
     }
 
     @Test

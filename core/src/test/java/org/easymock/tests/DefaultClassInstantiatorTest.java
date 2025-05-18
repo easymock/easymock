@@ -165,13 +165,14 @@ public class DefaultClassInstantiatorTest {
     @Test
     public void constructorWithCodeLimitation() {
         Exception e = assertThrows(Exception.class, () -> createMock(ConstructorWithCodeClass.class));
-        assertEquals("Failed to instantiate org.easymock.tests.DefaultClassInstantiatorTest$ConstructorWithCodeClass's mock: ", e.getMessage());
+        assertEquals("Failed to mock class org.easymock.tests.DefaultClassInstantiatorTest$ConstructorWithCodeClass with provider DefaultClassInfoProvider", e.getMessage());
     }
 
     @Test
     public void privateConstructorLimitation() {
         Exception e = assertThrows(Exception.class, () -> createMock(PrivateConstructorClass.class));
-        assertEquals("No visible constructors in class org.easymock.tests.DefaultClassInstantiatorTest$PrivateConstructorClass", e.getMessage());
+        assertEquals("Failed to mock class org.easymock.tests.DefaultClassInstantiatorTest$PrivateConstructorClass with provider DefaultClassInfoProvider", e.getMessage());
+        assertEquals("No visible constructors in class org.easymock.tests.DefaultClassInstantiatorTest$PrivateConstructorClass", e.getCause().getMessage());
     }
 
     @Test

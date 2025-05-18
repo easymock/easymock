@@ -48,14 +48,9 @@ public class DependencyTest {
 
     @Test
     public void testClassMocking() {
-        try {
-            createMock(DependencyTest.class);
-            fail("Should throw an exception due to a NoClassDefFoundError");
-        } catch (RuntimeException e) {
-            assertEquals("Class mocking requires to have Objenesis library in the classpath", e
-                    .getMessage());
-            assertTrue(e.getCause() instanceof NoClassDefFoundError);
-        }
+        RuntimeException e = assertThrows(RuntimeException.class, () -> createMock(DependencyTest.class));
+        assertEquals("Class mocking requires to have Objenesis library in the classpath", e.getMessage());
+        assertTrue(e.getCause() instanceof NoClassDefFoundError);
     }
 
     @Test
@@ -69,23 +64,14 @@ public class DependencyTest {
 
     @Test
     public void testClassMockingSupport() {
-        try {
-            support.createMock(DependencyTest.class);
-            fail("Should throw an exception due to a NoClassDefFoundError");
-        } catch (RuntimeException e) {
-            assertEquals("Class mocking requires to have Objenesis library in the classpath", e
-                    .getMessage());
-            assertTrue(e.getCause() instanceof NoClassDefFoundError);
-        }
+        RuntimeException e = assertThrows(RuntimeException.class, () -> support.createMock(DependencyTest.class));
+        assertEquals("Class mocking requires to have Objenesis library in the classpath", e.getMessage());
+        assertTrue(e.getCause() instanceof NoClassDefFoundError);
     }
 
     @Test
     public void testStillNoClassDefFoundErrorWhenSomeOtherClassIsMissing() {
-        try {
-            support.createMock(Main.class);
-            fail("Should throw an exception due to a NoClassDefFoundError");
-        } catch (NoClassDefFoundError e) {
-            assertEquals("org/depends/Dependency", e.getMessage());
-        }
+        NoClassDefFoundError e = assertThrows(NoClassDefFoundError.class, () -> support.createMock(Main.class));
+        assertEquals("org/depends/Dependency", e.getMessage());
     }
 }

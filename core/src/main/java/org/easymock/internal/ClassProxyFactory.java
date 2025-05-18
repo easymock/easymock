@@ -145,21 +145,22 @@ public class ClassProxyFactory implements IProxyFactory {
 
     @Override
     public <T> T createProxy(final Class<T> toMock, InvocationHandler handler, Method[] mockedMethods, ConstructorArgs args) {
-        Throwable kept = null;
+        RuntimeException exception = null;
         // We pick the provider we think will work
         // But we still loop around all the providers just in case we are wrong when picking but that one will eventually work
         ClassInfoProvider[] providers = isJdkClassOrWithoutPackage(toMock) ? jdkClassInfoProviders : defaultClassInfoProviders;
         for (ClassInfoProvider provider : providers) {
             try {
                 return doCreateProxy(toMock, handler, provider, mockedMethods, args);
-            } catch (Error | RuntimeException e) {
-                kept = e;
+            } catch (Throwable e) {
+                if (exception == null) {
+                    exception = new RuntimeException("Failed to mock " + toMock + " with provider " + provider, e);
+                } else {
+                    exception.addSuppressed(e);
+                }
             }
         }
-        if (kept instanceof Error) {
-            throw (Error) kept;
-        }
-        throw (RuntimeException) kept;
+        throw exception;
     }
 
     @IgnoreAnimalSniffer // It reports errors on MethodHandle.invoke

@@ -110,10 +110,11 @@ public class MocksControl implements IMocksControl, IExpectationSetters<Object>,
                 R mock = (R) proxyFactory.createProxy(toMock, new ObjectMethodsFilter(toMock,
                     new MockInvocationHandler(this), name), mockedMethods, constructorArgs);
                 return mock;
-            } catch (NoClassDefFoundError e) {
-                if(e.getMessage().startsWith("org/objenesis")) {
+            } catch (RuntimeException e) {
+                // special case where Objenesis is not in the classpath and we try to mock classes
+                if(e.getCause() instanceof NoClassDefFoundError && e.getCause().getMessage().startsWith("org/objenesis")) {
                     throw new RuntimeExceptionWrapper(new RuntimeException(
-                        "Class mocking requires to have Objenesis library in the classpath", e));
+                        "Class mocking requires to have Objenesis library in the classpath", e.getCause()));
                 }
                 throw e;
             }

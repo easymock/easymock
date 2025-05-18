@@ -30,4 +30,8 @@ public class DefaultClassInfoProvider implements ClassInfoProvider {
         return toMock.getClassLoader();
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }
