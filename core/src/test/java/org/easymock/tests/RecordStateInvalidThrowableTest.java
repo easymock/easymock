@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class RecordStateInvalidThrowableTest {
+class RecordStateInvalidThrowableTest {
 
     private IMethods mock;
 
@@ -35,12 +35,12 @@ public class RecordStateInvalidThrowableTest {
     }
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void throwNull() {
+    void throwNull() {
         mock.throwsNothing(false);
         try {
             expectLastCall().andThrow(null);
@@ -52,7 +52,7 @@ public class RecordStateInvalidThrowableTest {
     }
 
     @Test
-    public void throwCheckedExceptionWhereNoCheckedExceptionIsThrown() {
+    void throwCheckedExceptionWhereNoCheckedExceptionIsThrown() {
         mock.throwsNothing(false);
         try {
             expectLastCall().andThrow(new CheckedException());
@@ -63,7 +63,7 @@ public class RecordStateInvalidThrowableTest {
     }
 
     @Test
-    public void throwWrongCheckedException() throws IOException {
+    void throwWrongCheckedException() throws IOException {
         mock.throwsIOException(0);
         try {
             expectLastCall().andThrow(new CheckedException());

@@ -27,12 +27,12 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Henri Tremblay
  */
-public class SerializationTest implements Serializable {
+class SerializationTest implements Serializable {
 
     private static final long serialVersionUID = -774994679161263654L;
 
     @Test
-    public void test() throws Exception {
+    void test() throws Exception {
 
         List<String> mock = createMock(List.class);
 
@@ -54,7 +54,7 @@ public class SerializationTest implements Serializable {
     }
 
     @Test
-    public void testClass() throws Exception {
+    void testClass() throws Exception {
 
         ArrayList<String> mock = createMockBuilder(ArrayList.class).addMockedMethod("get").withConstructor()
                 .createMock();
@@ -77,7 +77,7 @@ public class SerializationTest implements Serializable {
     }
 
     @Test
-    public void testAllMockedMethod() throws Exception {
+    void testAllMockedMethod() throws Exception {
 
         SerializationTest mock = createMock(SerializationTest.class);
 
@@ -99,7 +99,7 @@ public class SerializationTest implements Serializable {
     }
 
     @Test
-    public void testChangingClassLoader() {
+    void testChangingClassLoader() {
 
     }
 

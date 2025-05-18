@@ -23,7 +23,7 @@ import static org.easymock.EasyMock.*;
 /**
  * @author Henri Tremblay
  */
-public class FinalEqualsTest {
+class FinalEqualsTest {
 
     public static class MyInt {
         private final int i;
@@ -43,7 +43,7 @@ public class FinalEqualsTest {
     }
 
     @Test
-    public void finalEqualsShouldNotStackOverflow() {
+    void finalEqualsShouldNotStackOverflow() {
         MyInt myInt = createMock(MyInt.class);
         expect(myInt.get()).andReturn(42);
         replay(myInt);

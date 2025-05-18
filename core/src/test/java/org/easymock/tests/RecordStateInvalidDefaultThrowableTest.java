@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class RecordStateInvalidDefaultThrowableTest {
+class RecordStateInvalidDefaultThrowableTest {
 
     private IMethods mock;
 
@@ -35,12 +35,12 @@ public class RecordStateInvalidDefaultThrowableTest {
     }
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void throwNull() {
+    void throwNull() {
         try {
             expect(mock.throwsNothing(false)).andStubThrow(null);
             Assertions.fail("NullPointerException expected");
@@ -51,7 +51,7 @@ public class RecordStateInvalidDefaultThrowableTest {
     }
 
     @Test
-    public void throwCheckedExceptionWhereNoCheckedExceptionIsThrown() {
+    void throwCheckedExceptionWhereNoCheckedExceptionIsThrown() {
         try {
             expect(mock.throwsNothing(false)).andStubThrow(new CheckedException());
             Assertions.fail("IllegalArgumentException expected");
@@ -62,7 +62,7 @@ public class RecordStateInvalidDefaultThrowableTest {
     }
 
     @Test
-    public void throwWrongCheckedException() throws IOException {
+    void throwWrongCheckedException() throws IOException {
         try {
             expect(mock.throwsIOException(0)).andStubThrow(new CheckedException());
             Assertions.fail("IllegalArgumentException expected");

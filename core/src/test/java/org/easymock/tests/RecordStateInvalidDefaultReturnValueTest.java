@@ -24,17 +24,17 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class RecordStateInvalidDefaultReturnValueTest {
+class RecordStateInvalidDefaultReturnValueTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void setInvalidStubReturnValue() {
+    void setInvalidStubReturnValue() {
         try {
             expect((Object) mock.oneArg(false)).andStubReturn(false);
             Assertions.fail("IllegalStateException expected");

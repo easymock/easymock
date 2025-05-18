@@ -34,12 +34,12 @@ import static org.junit.Assert.fail;
  *
  * @author Henri Tremblay
  */
-public class TypingTest {
+class TypingTest {
 
     private List<String> list;
 
     @Test
-    public void testCreateMock() {
+    void testCreateMock() {
         list = EasyMock.createMock(List.class);
         list = EasyMock.createMock("a", List.class);
         list = EasyMock.createMock("a", MockType.DEFAULT, List.class);
@@ -55,7 +55,7 @@ public class TypingTest {
     }
 
     @Test
-    public void testMock() {
+    void testMock() {
         list = EasyMock.mock(List.class);
         list = EasyMock.mock("a", List.class);
         list = EasyMock.mock("a", MockType.DEFAULT, List.class);
@@ -67,7 +67,7 @@ public class TypingTest {
     }
 
     @Test
-    public void testSupportCreateMock() {
+    void testSupportCreateMock() {
         EasyMockSupport support = new EasyMockSupport();
 
         list = support.createMock(List.class);
@@ -85,7 +85,7 @@ public class TypingTest {
     }
 
     @Test
-    public void testSupportMock() {
+    void testSupportMock() {
         EasyMockSupport support = new EasyMockSupport();
 
         list = support.mock(List.class);
@@ -103,7 +103,7 @@ public class TypingTest {
     }
 
     @Test
-    public void testNonMatchingClass() {
+    void testNonMatchingClass() {
         try {
             list = EasyMock.mock(Set.class);
             Assertions.fail("Can't cast Set to List");
@@ -114,7 +114,7 @@ public class TypingTest {
     }
 
     @Test
-    public void testCreatePartialMock() {
+    void testCreatePartialMock() {
         IMocksControl control = EasyMock.createControl();
 
         list = EasyMock.partialMockBuilder(ArrayList.class).createMock();
@@ -130,7 +130,7 @@ public class TypingTest {
     }
 
     @Test
-    public void testPartialMock() {
+    void testPartialMock() {
         IMocksControl control = EasyMock.createControl();
 
         list = EasyMock.partialMockBuilder(ArrayList.class).mock();

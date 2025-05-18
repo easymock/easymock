@@ -24,17 +24,17 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageOverloadedMethodTest {
+class UsageOverloadedMethodTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void overloading() {
+    void overloading() {
 
         expect(mock.oneArg(true)).andReturn("true");
         expect(mock.oneArg(false)).andReturn("false");
@@ -96,7 +96,7 @@ public class UsageOverloadedMethodTest {
     }
 
     @Test
-    public void nullReturnValue() {
+    void nullReturnValue() {
 
         expect(mock.oneArg("Object")).andReturn(null);
 
@@ -107,7 +107,7 @@ public class UsageOverloadedMethodTest {
     }
 
     @Test
-    public void moreThanOneResultAndOpenCallCount() {
+    void moreThanOneResultAndOpenCallCount() {
         expect(mock.oneArg(true)).andReturn("First Result").times(4).andReturn("Second Result").times(2)
                 .andThrow(new RuntimeException("Third Result")).times(3).andReturn("Following Result")
                 .atLeastOnce();

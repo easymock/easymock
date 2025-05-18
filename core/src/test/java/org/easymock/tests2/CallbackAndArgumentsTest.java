@@ -27,17 +27,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class CallbackAndArgumentsTest {
+class CallbackAndArgumentsTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         mock = createStrictMock(IMethods.class);
     }
 
     @Test
-    public void callbackGetsArguments() {
+    void callbackGetsArguments() {
 
         final StringBuilder buffer = new StringBuilder();
 
@@ -55,7 +55,7 @@ public class CallbackAndArgumentsTest {
     }
 
     @Test
-    public void callbackGetsArgument() {
+    void callbackGetsArgument() {
 
         final StringBuilder buffer = new StringBuilder();
 
@@ -73,17 +73,17 @@ public class CallbackAndArgumentsTest {
     }
 
     @Test
-    public void currentArgumentsFailsOutsideCallbacks() {
+    void currentArgumentsFailsOutsideCallbacks() {
         assertThrows(IllegalStateException.class, EasyMock::getCurrentArguments);
     }
 
     @Test
-    public void currentArgumentFailsOutsideCallbacks() {
+    void currentArgumentFailsOutsideCallbacks() {
         assertThrows(IllegalStateException.class, () -> getCurrentArgument(0));
     }
 
     @Test
-    public void callbackGetsArgumentsEvenIfAMockCallsAnother() {
+    void callbackGetsArgumentsEvenIfAMockCallsAnother() {
 
         final StringBuilder buffer = new StringBuilder();
 

@@ -28,17 +28,17 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageVerifyTest {
+class UsageVerifyTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void twoReturns() {
+    void twoReturns() {
         expect(mock.throwsNothing(true)).andReturn("Test").andReturn("Test2");
 
         replay(mock);
@@ -74,7 +74,7 @@ public class UsageVerifyTest {
     }
 
     @Test
-    public void atLeastTwoReturns() {
+    void atLeastTwoReturns() {
         expect(mock.throwsNothing(true)).andReturn("Test").andReturn("Test2").atLeastOnce();
 
         replay(mock);
@@ -98,7 +98,7 @@ public class UsageVerifyTest {
     }
 
     @Test
-    public void twoThrows() throws IOException {
+    void twoThrows() throws IOException {
         expect(mock.throwsIOException(0)).andThrow(new IOException()).andThrow(new IOException());
         expect(mock.throwsIOException(1)).andThrow(new IOException());
 
@@ -151,7 +151,7 @@ public class UsageVerifyTest {
     }
 
     @Test
-    public void manyMocks() {
+    void manyMocks() {
         IMethods otherMock = mock(IMethods.class);
         expect(otherMock.oneArg(1)).andReturn("test");
         replay(mock, otherMock);
@@ -166,7 +166,7 @@ public class UsageVerifyTest {
     }
 
     @Test
-    public void callExtraMethodsCheckedInVerify() {
+    void callExtraMethodsCheckedInVerify() {
         IMethods mock = mock(IMethods.class);
         replay(mock);
 
@@ -194,7 +194,7 @@ public class UsageVerifyTest {
     }
 
     @Test
-    public void uncalledAndUnexpected() {
+    void uncalledAndUnexpected() {
         IMethods mock = mock(IMethods.class);
         expect(mock.oneArg(1)).andReturn("test");
         replay(mock);
@@ -219,7 +219,7 @@ public class UsageVerifyTest {
     }
 
     @Test
-    public void verifyRecordingTest() {
+    void verifyRecordingTest() {
         IMethods mock = mock(IMethods.class);
         expect(mock.oneArg(1)).andReturn("test");
         replay(mock);
@@ -235,7 +235,7 @@ public class UsageVerifyTest {
     }
 
     @Test
-    public void verifyUnexpectedCallsTest() {
+    void verifyUnexpectedCallsTest() {
         IMethods mock = mock(IMethods.class);
         replay(mock);
 

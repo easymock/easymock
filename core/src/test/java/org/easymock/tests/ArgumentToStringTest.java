@@ -27,37 +27,37 @@ import static org.junit.Assert.*;
 /**
  * @author Henri Tremblay
  */
-public class ArgumentToStringTest {
+class ArgumentToStringTest {
 
     private StringBuffer buffer;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         buffer = new StringBuffer();
     }
 
     @Test
-    public void testAppendArgument_null() {
+    void testAppendArgument_null() {
         assertString("null", null);
     }
 
     @Test
-    public void testAppendArgument_String() {
+    void testAppendArgument_String() {
         assertString("\"hello\"", "hello");
     }
 
     @Test
-    public void testAppendArgument_Character() {
+    void testAppendArgument_Character() {
         assertString("'c'", 'c');
     }
 
     @Test
-    public void testAppendArgument_Array() {
+    void testAppendArgument_Array() {
         assertString("[\"a\", \"b\"]", new String[] { "a", "b" });
     }
 
     @Test
-    public void testAppendArgument_Full() {
+    void testAppendArgument_Full() {
         assertString("[3 (int), 4 (int), [\"a\", \"b\"], null]", new Object[] { 3, 4, new String[] { "a", "b" }, null });
     }
 
@@ -67,25 +67,25 @@ public class ArgumentToStringTest {
     }
 
     @Test
-    public void testArgumentToString() {
+    void testArgumentToString() {
         String actual = ArgumentToString.argumentToString(Boolean.TRUE);
         assertEquals(Boolean.TRUE.toString(), actual);
     }
 
     @Test
-    public void testArgumentsToString() {
+    void testArgumentsToString() {
         String actual = ArgumentToString.argumentsToString(Boolean.TRUE, Boolean.FALSE);
         assertEquals("true, false", actual);
     }
 
     @Test
-    public void testArgumentsToString_null() {
+    void testArgumentsToString_null() {
         String actual = ArgumentToString.argumentsToString((Object[]) null);
         assertEquals("", actual);
     }
 
     @Test
-    public void testArrayToLong_100elements() {
+    void testArrayToLong_100elements() {
         int[] array = IntStream.range(0, 100).toArray();
         String actual = ArgumentToString.argumentsToString((Object) array);
         String expected = IntStream.range(0, 100)
@@ -95,7 +95,7 @@ public class ArgumentToStringTest {
     }
 
     @Test
-    public void testArrayToLong_101elements() {
+    void testArrayToLong_101elements() {
         int[] array = IntStream.range(0, 101).toArray();
         String actual = ArgumentToString.argumentsToString((Object) array);
         String expected = "[" + IntStream.range(0, 100)

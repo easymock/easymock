@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Henri Tremblay
  */
-public class ErrorMessageTest {
+class ErrorMessageTest {
 
     @Test
-    public void testGetters() {
+    void testGetters() {
         ErrorMessage m = new ErrorMessage(true, "error", 3);
         Assertions.assertTrue(m.isMatching());
         Assertions.assertEquals("error", m.getMessage());
@@ -33,7 +33,7 @@ public class ErrorMessageTest {
     }
 
     @Test
-    public void testAppendTo_matchingOne() {
+    void testAppendTo_matchingOne() {
         StringBuilder sb = new StringBuilder(20);
         ErrorMessage m = new ErrorMessage(true, "error()", 2);
         m.appendTo(sb, 1);
@@ -41,7 +41,7 @@ public class ErrorMessageTest {
     }
 
     @Test
-    public void testAppendTo_matchingNone() {
+    void testAppendTo_matchingNone() {
         StringBuilder sb = new StringBuilder(20);
         ErrorMessage m = new ErrorMessage(false, "error()", 2);
         m.appendTo(sb, 0);
@@ -49,7 +49,7 @@ public class ErrorMessageTest {
     }
 
     @Test
-    public void testAppendTo_matchingMultiple() {
+    void testAppendTo_matchingMultiple() {
         StringBuilder sb = new StringBuilder(20);
         ErrorMessage m = new ErrorMessage(true, "error()", 2);
         m.appendTo(sb, 2);

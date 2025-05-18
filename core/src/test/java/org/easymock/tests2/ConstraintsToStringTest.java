@@ -28,47 +28,47 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class ConstraintsToStringTest {
+class ConstraintsToStringTest {
     private StringBuffer buffer;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         buffer = new StringBuffer();
     }
 
     @Test
-    public void sameToStringWithString() {
+    void sameToStringWithString() {
         new Same("X").appendTo(buffer);
         assertEquals("same(\"X\")", buffer.toString());
 
     }
 
     @Test
-    public void nullToString() {
+    void nullToString() {
         Null.NULL.appendTo(buffer);
         assertEquals("isNull()", buffer.toString());
     }
 
     @Test
-    public void notNullToString() {
+    void notNullToString() {
         NotNull.NOT_NULL.appendTo(buffer);
         assertEquals("notNull()", buffer.toString());
     }
 
     @Test
-    public void anyToString() {
+    void anyToString() {
         Any.ANY.appendTo(buffer);
         assertEquals("<any>", buffer.toString());
     }
 
     @Test
-    public void sameToStringWithChar() {
+    void sameToStringWithChar() {
         new Same('x').appendTo(buffer);
         assertEquals("same('x')", buffer.toString());
     }
 
     @Test
-    public void sameToStringWithObject() {
+    void sameToStringWithObject() {
         Object o = new Object() {
             @Override
             public String toString() {
@@ -80,20 +80,20 @@ public class ConstraintsToStringTest {
     }
 
     @Test
-    public void equalsToStringWithString() {
+    void equalsToStringWithString() {
         new Equals("X").appendTo(buffer);
         assertEquals("\"X\"", buffer.toString());
 
     }
 
     @Test
-    public void equalsToStringWithChar() {
+    void equalsToStringWithChar() {
         new Equals('x').appendTo(buffer);
         assertEquals("'x'", buffer.toString());
     }
 
     @Test
-    public void equalsToStringWithObject() {
+    void equalsToStringWithObject() {
         Object o = new Object() {
             @Override
             public String toString() {
@@ -105,14 +105,14 @@ public class ConstraintsToStringTest {
     }
 
     @Test
-    public void equalsToStringWithArray() {
+    void equalsToStringWithArray() {
         String[] s = new String[] { "a", "b", null, "c" };
         new Equals(s).appendTo(buffer);
         assertEquals("[\"a\", \"b\", null, \"c\"]", buffer.toString());
     }
 
     @Test
-    public void orToString() {
+    void orToString() {
         List<IArgumentMatcher> matchers = new ArrayList<>();
         matchers.add(new Equals(1));
         matchers.add(new Equals(2));
@@ -121,13 +121,13 @@ public class ConstraintsToStringTest {
     }
 
     @Test
-    public void notToString() {
+    void notToString() {
         new Not(new Equals(1)).appendTo(buffer);
         assertEquals("not(1 (int))", buffer.toString());
     }
 
     @Test
-    public void andToString() {
+    void andToString() {
         List<IArgumentMatcher> matchers = new ArrayList<>();
         matchers.add(new Equals(1));
         matchers.add(new Equals(2));
@@ -136,43 +136,43 @@ public class ConstraintsToStringTest {
     }
 
     @Test
-    public void startsWithToString() {
+    void startsWithToString() {
         new StartsWith("AB").appendTo(buffer);
         assertEquals("startsWith(\"AB\")", buffer.toString());
     }
 
     @Test
-    public void endsWithToString() {
+    void endsWithToString() {
         new EndsWith("AB").appendTo(buffer);
         assertEquals("endsWith(\"AB\")", buffer.toString());
     }
 
     @Test
-    public void containsToString() {
+    void containsToString() {
         new Contains("AB").appendTo(buffer);
         assertEquals("contains(\"AB\")", buffer.toString());
     }
 
     @Test
-    public void findToString() {
+    void findToString() {
         new Find("\\s+").appendTo(buffer);
         assertEquals("find(\"\\\\s+\")", buffer.toString());
     }
 
     @Test
-    public void matchesToString() {
+    void matchesToString() {
         new Matches("\\s+").appendTo(buffer);
         assertEquals("matches(\"\\\\s+\")", buffer.toString());
     }
 
     @Test
-    public void equalsWithDeltaToString() {
+    void equalsWithDeltaToString() {
         new EqualsWithDelta(2.1d, 0.2d).appendTo(buffer);
         assertEquals("eq(2.1, 0.2)", buffer.toString());
     }
 
     @Test
-    public void arrayEqualsToString() {
+    void arrayEqualsToString() {
         new ArrayEquals(new Object[] { 1, "a", null }).appendTo(buffer);
         assertEquals("[1 (int), \"a\", null]", buffer.toString());
     }

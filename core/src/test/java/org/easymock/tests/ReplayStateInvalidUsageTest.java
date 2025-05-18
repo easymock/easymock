@@ -28,7 +28,7 @@ import static org.junit.Assert.assertThrows;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class ReplayStateInvalidUsageTest {
+class ReplayStateInvalidUsageTest {
 
     private IMethods mock;
 
@@ -38,7 +38,7 @@ public class ReplayStateInvalidUsageTest {
 
     @SuppressWarnings("unchecked")
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         mock = EasyMock.createMock(IMethods.class);
         EasyMock.replay(mock);
         mocksControl = EasyMock.createControl();
@@ -47,17 +47,17 @@ public class ReplayStateInvalidUsageTest {
     }
 
     @Test
-    public void setVoidCallable() {
+    void setVoidCallable() {
         assertThrows(IllegalStateException.class, EasyMock::expectLastCall);
     }
 
     @Test
-    public void replay() {
+    void replay() {
         assertThrows(IllegalStateException.class, () -> EasyMock.replay(mock));
     }
 
     @Test
-    public void replaySameMethod() {
+    void replaySameMethod() {
         EasyMock.reset(mock);
 
         RuntimeException t = assertThrows(RuntimeException.class, () -> EasyMock.replay(mock, mock));
@@ -66,57 +66,57 @@ public class ReplayStateInvalidUsageTest {
     }
 
     @Test
-    public void createMock() {
+    void createMock() {
         assertThrows(IllegalStateException.class, () -> mocksControl.createMock(IMethods.class));
     }
 
     @Test
-    public void createMockWithName() {
+    void createMockWithName() {
         assertThrows(IllegalStateException.class, () -> mocksControl.createMock("", IMethods.class));
     }
 
     @Test
-    public void checkOrder() {
+    void checkOrder() {
         assertThrows(IllegalStateException.class, () -> mocksControl.checkOrder(true));
     }
 
     @Test
-    public void makeThreadSafe() {
+    void makeThreadSafe() {
         assertThrows(IllegalStateException.class, () -> mocksControl.makeThreadSafe(true));
     }
 
     @Test
-    public void checkIsUsedInOneThread() {
+    void checkIsUsedInOneThread() {
         assertThrows(IllegalStateException.class, () -> mocksControl.checkIsUsedInOneThread(true));
     }
 
     @Test
-    public void andStubReturn() {
+    void andStubReturn() {
         assertThrows(IllegalStateException.class, () -> expectationSetters.andStubReturn("7"));
     }
 
     @Test
-    public void andStubThrow() {
+    void andStubThrow() {
         assertThrows(IllegalStateException.class, () -> expectationSetters.andStubThrow(new RuntimeException()));
     }
 
     @Test
-    public void asStub() {
+    void asStub() {
         assertThrows(IllegalStateException.class, () -> expectationSetters.asStub());
     }
 
     @Test
-    public void times() {
+    void times() {
         assertThrows(IllegalStateException.class, () -> expectationSetters.times(3));
     }
 
     @Test
-    public void anyTimes() {
+    void anyTimes() {
         assertThrows(IllegalStateException.class, () -> expectationSetters.anyTimes());
     }
 
     @Test
-    public void manyMocks() {
+    void manyMocks() {
         EasyMock.reset(mock);
 
         RuntimeException t = assertThrows(RuntimeException.class, () -> EasyMock.replay(mock, mock));

@@ -24,14 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageUnorderedTest {
+class UsageUnorderedTest {
 
     public interface Interface {
         void method(int number);
     }
 
     @Test
-    public void message() {
+    void message() {
         Interface mock = createMock(Interface.class);
 
         mock.method(anyInt());

@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class CallbackTest {
+class CallbackTest {
 
     private IMethods mock;
 
@@ -53,12 +53,12 @@ public class CallbackTest {
     }
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         mock = createStrictMock(IMethods.class);
     }
 
     @Test
-    public void callback() {
+    void callback() {
         Callback<String> c1 = new Callback<>("1");
         Callback<Object> c2 = new Callback<>(null);
         Callback<Object> c3 = new Callback<>(null);

@@ -34,12 +34,12 @@ import static org.easymock.EasyMock.*;
  *
  * @author Henri Tremblay
  */
-public class ThreadingTest {
+class ThreadingTest {
 
     private static final int THREAD_COUNT = 10;
 
     @Test
-    public void testThreadSafe() throws Throwable {
+    void testThreadSafe() throws Throwable {
 
         final IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg("test")).andReturn("result").times(THREAD_COUNT);
@@ -62,7 +62,7 @@ public class ThreadingTest {
     }
 
     @Test
-    public void testThreadNotSafe() throws Throwable {
+    void testThreadNotSafe() throws Throwable {
 
         final IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg("test")).andReturn("result").times(THREAD_COUNT);
@@ -100,7 +100,7 @@ public class ThreadingTest {
     }
 
     @Test
-    public void testMockUsedCorrectly() {
+    void testMockUsedCorrectly() {
         IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg("test")).andReturn("result").times(2);
 
@@ -115,7 +115,7 @@ public class ThreadingTest {
     }
 
     @Test
-    public void testChangeDefault() throws Throwable {
+    void testChangeDefault() throws Throwable {
         String previousThreadSafetyCheck = setEasyMockProperty(ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT,
                 Boolean.TRUE.toString());
         String previousThreadSafe = setEasyMockProperty(NOT_THREAD_SAFE_BY_DEFAULT, Boolean.TRUE
@@ -141,7 +141,7 @@ public class ThreadingTest {
     }
 
     @Test
-    public void testRecordingInMultipleThreads() throws Exception {
+    void testRecordingInMultipleThreads() throws Exception {
 
         Callable<String> replay = () -> {
             IMethods mock = createMock(IMethods.class);
@@ -169,7 +169,7 @@ public class ThreadingTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testCleanupAfterFailureInRecordPhase() {
+    void testCleanupAfterFailureInRecordPhase() {
         Comparable<String> mock = createNiceMock(Comparable.class);
 
         // Mocking equals() doesn't work

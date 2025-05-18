@@ -28,29 +28,29 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Henri Tremblay
  */
-public class ClassInstantiatorFactoryTest {
+class ClassInstantiatorFactoryTest {
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         // put back the default to prevent side effects on other tests
         ClassInstantiatorFactory.setDefaultInstantiator();
     }
 
     @Test
-    public void getInstantiator_Default() {
+    void getInstantiator_Default() {
         IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
         assertTrue(instantiator instanceof ObjenesisClassInstantiator);
     }
 
     @Test
-    public void getInstantiator_Overridden() {
+    void getInstantiator_Overridden() {
         ClassInstantiatorFactory.setInstantiator(new DefaultClassInstantiator());
         IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
         assertTrue(instantiator instanceof DefaultClassInstantiator);
     }
 
     @Test
-    public void getInstantiator_BackToDefault() {
+    void getInstantiator_BackToDefault() {
         ClassInstantiatorFactory.setInstantiator(new DefaultClassInstantiator());
         ClassInstantiatorFactory.setDefaultInstantiator();
         IClassInstantiator instantiator = ClassInstantiatorFactory.getInstantiator();
@@ -58,7 +58,7 @@ public class ClassInstantiatorFactoryTest {
     }
 
     @Test
-    public void getJVM() {
+    void getJVM() {
         assertEquals(System.getProperty("java.vm.vendor"), ClassInstantiatorFactory.getJVM());
     }
 }

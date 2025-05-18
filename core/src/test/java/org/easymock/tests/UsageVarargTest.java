@@ -26,17 +26,17 @@ import java.lang.reflect.Proxy;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageVarargTest {
+class UsageVarargTest {
 
     private IVarArgs mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createStrictMock(IVarArgs.class);
     }
 
     @Test
-    public void varargObjectAccepted() {
+    void varargObjectAccepted() {
         mock.withVarargsString(1, "1");
         mock.withVarargsString(2, "1", "2");
         mock.withVarargsString(2, "1", "2");
@@ -53,7 +53,7 @@ public class UsageVarargTest {
     }
 
     @Test
-    public void varargBooleanAccepted() {
+    void varargBooleanAccepted() {
         mock.withVarargsBoolean(1, true);
         mock.withVarargsBoolean(2, true, false);
 
@@ -64,7 +64,7 @@ public class UsageVarargTest {
     }
 
     @Test
-    public void varargByteAccepted() {
+    void varargByteAccepted() {
         mock.withVarargsByte(1, (byte) 1);
         mock.withVarargsByte(2, (byte) 1, (byte) 2);
 
@@ -75,7 +75,7 @@ public class UsageVarargTest {
     }
 
     @Test
-    public void varargCharAccepted() {
+    void varargCharAccepted() {
         mock.withVarargsChar(1, 'a');
         mock.withVarargsChar(1, 'a', 'b');
 
@@ -86,7 +86,7 @@ public class UsageVarargTest {
     }
 
     @Test
-    public void varargDoubleAccepted() {
+    void varargDoubleAccepted() {
         mock.withVarargsDouble(1, 1.0d);
         mock.withVarargsDouble(1, 1.0d, 2.0d);
 
@@ -97,7 +97,7 @@ public class UsageVarargTest {
     }
 
     @Test
-    public void varargFloatAccepted() {
+    void varargFloatAccepted() {
         mock.withVarargsFloat(1, 1.0f);
         mock.withVarargsFloat(1, 1.0f, 2.0f);
 
@@ -108,7 +108,7 @@ public class UsageVarargTest {
     }
 
     @Test
-    public void varargIntAccepted() {
+    void varargIntAccepted() {
         mock.withVarargsInt(1, 1);
         mock.withVarargsInt(1, 1, 2);
 
@@ -119,7 +119,7 @@ public class UsageVarargTest {
     }
 
     @Test
-    public void varargLongAccepted() {
+    void varargLongAccepted() {
         mock.withVarargsLong(1, 1L);
         mock.withVarargsLong(1, 1, 2);
 
@@ -130,7 +130,7 @@ public class UsageVarargTest {
     }
 
     @Test
-    public void varargShortAccepted() {
+    void varargShortAccepted() {
         mock.withVarargsShort(1, (short) 1);
         mock.withVarargsShort(1, (short) 1, (short) 2);
 
@@ -141,7 +141,7 @@ public class UsageVarargTest {
     }
 
     @Test
-    public void varargAcceptedIfArrayIsGiven() {
+    void varargAcceptedIfArrayIsGiven() {
         IVarArgs object = (IVarArgs) Proxy.newProxyInstance(Thread.currentThread()
                 .getContextClassLoader(), new Class[] { IVarArgs.class }, (proxy, method, args) -> null);
         object.withVarargsObject(1);
@@ -156,7 +156,7 @@ public class UsageVarargTest {
      * Make sure we can validate any kind of varargs call
      */
     @Test
-    public void allKinds() {
+    void allKinds() {
         mock.withVarargsObject(eq(1), aryEq((Object[]) null));
         mock.withVarargsObject(eq(1), isNull());
         mock.withVarargsObject(1, "a", "b");
@@ -174,7 +174,7 @@ public class UsageVarargTest {
     }
 
     @Test
-    public void differentLength() {
+    void differentLength() {
         mock.withVarargsInt(1, 2, 3);
         replay(mock);
         try {

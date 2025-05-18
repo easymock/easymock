@@ -24,17 +24,17 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageLongCompatibleReturnValueTest {
+class UsageLongCompatibleReturnValueTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void returnByte() {
+    void returnByte() {
         expect(mock.byteReturningMethod(0)).andReturn((byte) 25);
         expect(mock.byteReturningMethod(anyInt())).andStubReturn((byte) 34);
 
@@ -48,7 +48,7 @@ public class UsageLongCompatibleReturnValueTest {
     }
 
     @Test
-    public void returnShort() {
+    void returnShort() {
         expect(mock.shortReturningMethod(0)).andReturn((short) 25);
         expect(mock.shortReturningMethod(anyInt())).andStubReturn((short) 34);
 
@@ -62,7 +62,7 @@ public class UsageLongCompatibleReturnValueTest {
     }
 
     @Test
-    public void returnChar() {
+    void returnChar() {
         expect(mock.charReturningMethod(0)).andReturn((char) 25);
         expect(mock.charReturningMethod(anyInt())).andStubReturn((char) 34);
 
@@ -76,7 +76,7 @@ public class UsageLongCompatibleReturnValueTest {
     }
 
     @Test
-    public void returnInt() {
+    void returnInt() {
         expect(mock.intReturningMethod(0)).andReturn(25);
         expect(mock.intReturningMethod(anyInt())).andStubReturn(34);
 
@@ -90,7 +90,7 @@ public class UsageLongCompatibleReturnValueTest {
     }
 
     @Test
-    public void returnLong() {
+    void returnLong() {
         expect(mock.longReturningMethod(0)).andReturn(25L);
         expect(mock.longReturningMethod(anyInt())).andStubReturn(34L);
 

@@ -27,7 +27,7 @@ import static org.easymock.EasyMock.*;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class ObjectMethodsTest {
+class ObjectMethodsTest {
 
     private EmptyInterface mock;
 
@@ -35,25 +35,25 @@ public class ObjectMethodsTest {
     }
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(EmptyInterface.class);
     }
 
     @Test
-    public void equalsBeforeActivation() {
+    void equalsBeforeActivation() {
         Assertions.assertEquals(mock, mock);
         Assertions.assertTrue(!mock.equals(null));
     }
 
     @Test
-    public void equalsAfterActivation() {
+    void equalsAfterActivation() {
         replay(mock);
         Assertions.assertEquals(mock, mock);
         Assertions.assertTrue(!mock.equals(null));
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         int hashCodeBeforeActivation = mock.hashCode();
         replay(mock);
         int hashCodeAfterActivation = mock.hashCode();
@@ -61,12 +61,12 @@ public class ObjectMethodsTest {
     }
 
     @Test
-    public void toStringBeforeActivation() {
+    void toStringBeforeActivation() {
         Assertions.assertEquals("EasyMock for " + EmptyInterface.class, mock.toString());
     }
 
     @Test
-    public void toStringAfterActivation() {
+    void toStringAfterActivation() {
         replay(mock);
         Assertions.assertEquals("EasyMock for " + EmptyInterface.class, mock.toString());
     }
@@ -80,7 +80,7 @@ public class ObjectMethodsTest {
     // if the class is no Proxy, ObjectMethodFilter should use the
     // superclasses' name. This is needed for the class extension.
     @Test
-    public void toStringForClasses() throws Throwable {
+    void toStringForClasses() throws Throwable {
         ObjectMethodsFilter filter = new ObjectMethodsFilter(Object.class, null, null);
         Method toString = Object.class.getMethod("toString");
         Assertions.assertEquals("EasyMock for " + MockedClass.class, filter.invoke(new DummyProxy(),

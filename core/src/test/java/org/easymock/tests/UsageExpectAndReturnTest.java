@@ -25,17 +25,17 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageExpectAndReturnTest {
+class UsageExpectAndReturnTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void booleanType() {
+    void booleanType() {
         expect(mock.booleanReturningMethod(4)).andReturn(true);
         replay(mock);
         assertTrue(mock.booleanReturningMethod(4));
@@ -43,7 +43,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void longType() {
+    void longType() {
         expect(mock.longReturningMethod(4)).andReturn(12L);
         replay(mock);
         assertEquals(12, mock.longReturningMethod(4));
@@ -51,7 +51,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void floatType() {
+    void floatType() {
         expect(mock.floatReturningMethod(4)).andReturn(12f);
         replay(mock);
         assertEquals(12f, mock.floatReturningMethod(4), 0f);
@@ -59,7 +59,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void doubleType() {
+    void doubleType() {
         expect(mock.doubleReturningMethod(4)).andReturn(12.0);
         replay(mock);
         assertEquals(12.0, mock.doubleReturningMethod(4), 0.0);
@@ -67,7 +67,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void object() {
+    void object() {
         expect(mock.objectReturningMethod(4)).andReturn("12");
         replay(mock);
         assertEquals("12", mock.objectReturningMethod(4));
@@ -75,7 +75,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void booleanAndRange() {
+    void booleanAndRange() {
         expect(mock.booleanReturningMethod(4)).andReturn(true).once();
         replay(mock);
         assertTrue(mock.booleanReturningMethod(4));
@@ -83,7 +83,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void longAndRange() {
+    void longAndRange() {
         expect(mock.longReturningMethod(4)).andReturn(12L).once();
         replay(mock);
         assertEquals(12, mock.longReturningMethod(4));
@@ -91,7 +91,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void floatAndRange() {
+    void floatAndRange() {
         expect(mock.floatReturningMethod(4)).andReturn(12f).once();
         replay(mock);
         assertEquals(12f, mock.floatReturningMethod(4), 0f);
@@ -99,7 +99,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void doubleAndRange() {
+    void doubleAndRange() {
         expect(mock.doubleReturningMethod(4)).andReturn(12.0).once();
         replay(mock);
         assertEquals(12.0, mock.doubleReturningMethod(4), 0.0);
@@ -107,7 +107,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void objectAndRange() {
+    void objectAndRange() {
         expect(mock.objectReturningMethod(4)).andReturn("12").once();
         replay(mock);
         assertEquals("12", mock.objectReturningMethod(4));
@@ -115,7 +115,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void booleanAndCount() {
+    void booleanAndCount() {
         expect(mock.booleanReturningMethod(4)).andReturn(true).times(2);
         replay(mock);
         assertTrue(mock.booleanReturningMethod(4));
@@ -124,7 +124,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void longAndCount() {
+    void longAndCount() {
         expect(mock.longReturningMethod(4)).andReturn(12L).times(2);
         replay(mock);
         assertEquals(12, mock.longReturningMethod(4));
@@ -133,7 +133,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void floatAndCount() {
+    void floatAndCount() {
         expect(mock.floatReturningMethod(4)).andReturn(12f).times(2);
         replay(mock);
         assertEquals(12f, mock.floatReturningMethod(4), 0f);
@@ -142,7 +142,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void doubleAndCount() {
+    void doubleAndCount() {
         expect(mock.doubleReturningMethod(4)).andReturn(12.0).times(2);
         replay(mock);
         assertEquals(12.0, mock.doubleReturningMethod(4), 0.0);
@@ -151,7 +151,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void objectAndCount() {
+    void objectAndCount() {
         expect(mock.objectReturningMethod(4)).andReturn("12").times(2);
         replay(mock);
         assertEquals("12", mock.objectReturningMethod(4));
@@ -160,7 +160,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void booleanAndMinMax() {
+    void booleanAndMinMax() {
         expect(mock.booleanReturningMethod(4)).andReturn(true).times(2, 3);
         replay(mock);
         assertTrue(mock.booleanReturningMethod(4));
@@ -169,7 +169,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void longAndMinMax() {
+    void longAndMinMax() {
         expect(mock.longReturningMethod(4)).andReturn(12L).times(2, 3);
         replay(mock);
         assertEquals(12, mock.longReturningMethod(4));
@@ -178,7 +178,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void floatAndMinMax() {
+    void floatAndMinMax() {
         expect(mock.floatReturningMethod(4)).andReturn(12f).times(2, 3);
         replay(mock);
         assertEquals(12f, mock.floatReturningMethod(4), 0f);
@@ -187,7 +187,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void doubleAndMinMax() {
+    void doubleAndMinMax() {
         expect(mock.doubleReturningMethod(4)).andReturn(12.0).times(2, 3);
         replay(mock);
         assertEquals(12.0, mock.doubleReturningMethod(4), 0.0);
@@ -196,7 +196,7 @@ public class UsageExpectAndReturnTest {
     }
 
     @Test
-    public void objectAndMinMax() {
+    void objectAndMinMax() {
         expect(mock.objectReturningMethod(4)).andReturn("12").times(2, 3);
         replay(mock);
         assertEquals("12", mock.objectReturningMethod(4));

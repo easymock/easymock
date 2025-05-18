@@ -29,7 +29,7 @@ import javax.swing.JTable;
 /**
  * @author Henri Tremblay
  */
-public class PartialMockingTest {
+class PartialMockingTest {
 
     public static abstract class A {
 
@@ -74,13 +74,13 @@ public class PartialMockingTest {
     }
 
     @Test
-    public void testPartialMock_PublicConstructor() {
+    void testPartialMock_PublicConstructor() {
         ArrayList<String> list = createMockBuilder(ArrayList.class).withConstructor(3).createMock();
         list.add("test"); // shouldn't crash since constructor was called
     }
 
     @Test
-    public void testPartialMock_ProtectedConstructor() {
+    void testPartialMock_ProtectedConstructor() {
         A a = createMockBuilder(A.class).withConstructor("test").createMock();
         Assertions.assertEquals("test", a.s); // make sure constructor was called
 
@@ -92,21 +92,21 @@ public class PartialMockingTest {
     }
 
     @Test
-    public void testPartialMock_ConstructorNotFound() {
+    void testPartialMock_ConstructorNotFound() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
             () -> createMockBuilder(ArrayList.class).withConstructor(Float.TYPE).withArgs(2.0).createMock());
         Assertions.assertEquals("No constructor matching arguments can be found", ex.getMessage());
     }
 
     @Test
-    public void testPartialMock_InvalidParams() {
+    void testPartialMock_InvalidParams() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
             () -> createMockBuilder(ArrayList.class).withConstructor(Integer.TYPE).withArgs("test"));
         Assertions.assertEquals("test isn't of type int", ex.getMessage());
     }
 
     @Test
-    public void testPartialMock_ExceptionInConstructor() {
+    void testPartialMock_ExceptionInConstructor() {
         RuntimeException ex = assertThrows(RuntimeException.class,
             () -> createMockBuilder(ArrayList.class).withConstructor(-5).createMock());
         Assertions.assertEquals("Failed to mock class java.util.ArrayList with provider JdkClassInfoProvider", ex.getMessage());
@@ -114,13 +114,13 @@ public class PartialMockingTest {
     }
 
     @Test
-    public void partiallyMockedSwingComponent_which_are_in_the_javax_package() {
+    void partiallyMockedSwingComponent_which_are_in_the_javax_package() {
         JTable table = EasyMock.partialMockBuilder(JTable.class).createMock();
         Assertions.assertNotNull(table);
     }
 
     @Test
-    public void partiallyMockedSwingComponentWithConstructor_calls_real_methods_from_constructor() {
+    void partiallyMockedSwingComponentWithConstructor_calls_real_methods_from_constructor() {
         B b = EasyMock.partialMockBuilder(B.class)
             .withConstructor()
             .createMock();
@@ -128,7 +128,7 @@ public class PartialMockingTest {
     }
 
     @Test
-    public void partiallyMockedSwingComponentWithConstructor_calls_mocked_methods_from_constructor() {
+    void partiallyMockedSwingComponentWithConstructor_calls_mocked_methods_from_constructor() {
         C c = EasyMock.partialMockBuilder(C.class)
             .withConstructor()
             .addMockedMethod("called")

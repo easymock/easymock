@@ -24,17 +24,17 @@ import static org.easymock.EasyMock.*;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageTest {
+class UsageTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void exactCallCountByLastCall() {
+    void exactCallCountByLastCall() {
         expect(mock.oneArg(false)).andReturn("Test").andReturn("Test2");
 
         replay(mock);
@@ -53,7 +53,7 @@ public class UsageTest {
     }
 
     @Test
-    public void openCallCountByLastCall() {
+    void openCallCountByLastCall() {
         expect(mock.oneArg(false)).andReturn("Test").andReturn("Test2").atLeastOnce();
 
         replay(mock);
@@ -64,7 +64,7 @@ public class UsageTest {
     }
 
     @Test
-    public void exactCallCountByLastThrowable() {
+    void exactCallCountByLastThrowable() {
         expect(mock.oneArg(false)).andReturn("Test").andReturn("Test2").andThrow(
                 new IndexOutOfBoundsException()).once();
 
@@ -92,7 +92,7 @@ public class UsageTest {
     }
 
     @Test
-    public void openCallCountByLastThrowable() {
+    void openCallCountByLastThrowable() {
         expect(mock.oneArg(false)).andReturn("Test").andReturn("Test2").andThrow(
                 new IndexOutOfBoundsException()).atLeastOnce();
 
@@ -112,7 +112,7 @@ public class UsageTest {
     }
 
     @Test
-    public void moreThanOneArgument() {
+    void moreThanOneArgument() {
         expect(mock.threeArgumentMethod(1, "2", "3")).andReturn("Test").times(2);
 
         replay(mock);
@@ -134,7 +134,7 @@ public class UsageTest {
     }
 
     @Test
-    public void unexpectedCallWithArray() {
+    void unexpectedCallWithArray() {
         reset(mock);
         replay(mock);
         String[] strings = new String[] { "Test" };
@@ -148,7 +148,7 @@ public class UsageTest {
     }
 
     @Test
-    public void wrongArguments() {
+    void wrongArguments() {
         mock.simpleMethodWithArgument("3");
         replay(mock);
 
@@ -164,7 +164,7 @@ public class UsageTest {
     }
 
     @Test
-    public void summarizeSameObjectArguments() {
+    void summarizeSameObjectArguments() {
         mock.simpleMethodWithArgument("3");
         mock.simpleMethodWithArgument("3");
         replay(mock);
@@ -181,7 +181,7 @@ public class UsageTest {
     }
 
     @Test
-    public void argumentsOrdered() {
+    void argumentsOrdered() {
         mock.simpleMethodWithArgument("4");
         mock.simpleMethodWithArgument("3");
         mock.simpleMethodWithArgument("2");
@@ -205,7 +205,7 @@ public class UsageTest {
     }
 
     @Test
-    public void chainVoidMethodCalls() {
+    void chainVoidMethodCalls() {
         mock.simpleMethodWithArgument("4");
         expectLastCall().andThrow(new RuntimeException("Test")).andVoid();
         replay(mock);
@@ -220,7 +220,7 @@ public class UsageTest {
     }
 
     @Test
-    public void chainVoidMethodCallsVoidFirst() {
+    void chainVoidMethodCallsVoidFirst() {
         mock.simpleMethodWithArgument("4");
         expectLastCall().andVoid().andThrow(new RuntimeException("Test"));
         replay(mock);
@@ -235,7 +235,7 @@ public class UsageTest {
     }
 
     @Test
-    public void chainVoidWithItself() {
+    void chainVoidWithItself() {
         mock.simpleMethodWithArgument("4");
         expectLastCall().andVoid().times(2).andVoid();
         replay(mock);
@@ -246,7 +246,7 @@ public class UsageTest {
     }
 
     @Test
-    public void boxingArgument() {
+    void boxingArgument() {
         Long value = 1L;
         expect(mock.oneLongArg(value)).andReturn("test");
         replay(mock);

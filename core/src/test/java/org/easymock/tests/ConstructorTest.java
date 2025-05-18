@@ -67,7 +67,7 @@ public class ConstructorTest {
      * won't be called and just be ignored
      */
     @Test
-    public void constructorCallingPublicMethod() {
+    void constructorCallingPublicMethod() {
         testConstructor(ConstructorCallingPublicMethodClass.class);
     }
 }

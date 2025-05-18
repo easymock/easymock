@@ -35,7 +35,7 @@ public class MockTypeTest {
     private final IMockBuilder<MockTypeTest> builder = EasyMock.createMockBuilder(MockTypeTest.class);
 
     @Test
-    public void fromEasyMockClass() {
+    void fromEasyMockClass() {
         IMethods mock = EasyMock.createMock(MockType.STRICT, IMethods.class);
         MockType type = MocksControl.getControl(mock).getType();
         Assertions.assertEquals(MockType.STRICT, type);
@@ -43,7 +43,7 @@ public class MockTypeTest {
     }
 
     @Test
-    public void fromEasyMockClassWithName() {
+    void fromEasyMockClassWithName() {
         IMethods mock = EasyMock.createMock("test", MockType.STRICT, IMethods.class);
         MockType type = MocksControl.getControl(mock).getType();
         Assertions.assertEquals(MockType.STRICT, type);
@@ -51,13 +51,13 @@ public class MockTypeTest {
     }
 
     @Test
-    public void fromEasyMockControlWithName() {
+    void fromEasyMockControlWithName() {
         MocksControl ctrl = (MocksControl) EasyMock.createControl(MockType.STRICT);
         Assertions.assertEquals(MockType.STRICT, ctrl.getType());
     }
 
     @Test
-    public void fromEasyMockSupportClass() {
+    void fromEasyMockSupportClass() {
         IMethods mock = support.createMock(MockType.STRICT, IMethods.class);
         MockType type = MocksControl.getControl(mock).getType();
         Assertions.assertEquals(MockType.STRICT, type);
@@ -65,7 +65,7 @@ public class MockTypeTest {
     }
 
     @Test
-    public void fromEasyMockSupportClassWithName() {
+    void fromEasyMockSupportClassWithName() {
         IMethods mock = support.createMock("test", MockType.STRICT, IMethods.class);
         MockType type = MocksControl.getControl(mock).getType();
         Assertions.assertEquals(MockType.STRICT, type);
@@ -73,7 +73,7 @@ public class MockTypeTest {
     }
 
     @Test
-    public void fromEasyMockSupportControlWithName() {
+    void fromEasyMockSupportControlWithName() {
         MocksControl ctrl = (MocksControl) support.createControl(MockType.STRICT);
         Assertions.assertEquals(MockType.STRICT, ctrl.getType());
     }
@@ -81,7 +81,7 @@ public class MockTypeTest {
     // The two following tests are showing a strange behavior. The toString doesn't return the
     // default EasyMock implementation. I won't change it right now, but it doesn't feel right
     @Test
-    public void fromMockBuilderClass() {
+    void fromMockBuilderClass() {
         MockTypeTest mock = builder.addMockedMethod("toString").createMock(MockType.STRICT);
         MockType type = MocksControl.getControl(mock).getType();
         Assertions.assertEquals(MockType.STRICT, type);
@@ -89,7 +89,7 @@ public class MockTypeTest {
     }
 
     @Test
-    public void fromMockBuilderClassWithName() {
+    void fromMockBuilderClassWithName() {
         MockTypeTest mock = builder.addMockedMethod("toString").createMock("test", MockType.STRICT);
         MockType type = MocksControl.getControl(mock).getType();
         Assertions.assertEquals(MockType.STRICT, type);

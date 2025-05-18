@@ -23,10 +23,10 @@ import static org.junit.Assert.*;
 /**
  * @author Henri Tremblay
  */
-public class LinkedClassLoaderTest {
+class LinkedClassLoaderTest {
 
     @Test
-    public void findClass() throws Exception {
+    void findClass() throws Exception {
         OneClassLoader stringLoader = new OneClassLoader(String.class.getName(), getClass().getClassLoader());
         OneClassLoader testLoader = new OneClassLoader(getClass().getName(), getClass().getClassLoader());
         LinkedClassLoader classLoader = new LinkedClassLoader(stringLoader, testLoader);

@@ -25,36 +25,36 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class NiceMockTest {
+class NiceMockTest {
 
     IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createNiceMock(IMethods.class);
         replay(mock);
     }
 
     @Test
-    public void defaultReturnValueBoolean() {
+    void defaultReturnValueBoolean() {
         Assertions.assertFalse(mock.booleanReturningMethod(12));
         verify(mock);
     }
 
     @Test
-    public void defaultReturnValueFloat() {
+    void defaultReturnValueFloat() {
         Assertions.assertEquals(0.0f, mock.floatReturningMethod(12), 0.0f);
         verify(mock);
     }
 
     @Test
-    public void defaultReturnValueDouble() {
+    void defaultReturnValueDouble() {
         Assertions.assertEquals(0.0d, mock.doubleReturningMethod(12), 0.0d);
         verify(mock);
     }
 
     @Test
-    public void defaultReturnValueObject() {
+    void defaultReturnValueObject() {
         Assertions.assertNull(mock.objectReturningMethod(12));
         verify(mock);
     }

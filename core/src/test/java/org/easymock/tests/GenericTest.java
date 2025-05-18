@@ -29,7 +29,7 @@ import static org.easymock.EasyMock.*;
  *
  * @author Henri Tremblay
  */
-public class GenericTest {
+class GenericTest {
 
     public interface C<U> {
         void doCMethod(U u);
@@ -42,7 +42,7 @@ public class GenericTest {
     }
 
     @Test
-    public void testTheBridgeMethodIsRecordedNotTheBridge() {
+    void testTheBridgeMethodIsRecordedNotTheBridge() {
         B b = createMock(B.class);
         b.doCMethod(6);
         replay(b);
@@ -55,7 +55,7 @@ public class GenericTest {
      * needed for ByteBuddy.
      */
     @Test
-    public void testPartialMockingSeesBridgeHasUnmocked() {
+    void testPartialMockingSeesBridgeHasUnmocked() {
         AbstractFoo c = createMockBuilder(ConcreteFoo.class).addMockedMethod("getSomeStrings")
                 .createMock();
         expect(c.getSomeStrings()).andReturn(null);
@@ -78,7 +78,7 @@ public class GenericTest {
      * correctly.
      */
     @Test
-    public void testPackageScope() {
+    void testPackageScope() {
         ConcreteFoo b = createMock(ConcreteFoo.class);
         expect(b.getSomeStrings()).andReturn(null);
         replay(b);
@@ -108,14 +108,14 @@ public class GenericTest {
      * Bridge are never mocked. Only the underlying method should be.
      */
     @Test
-    public void testPartialMockBridgeMethodAreUnmocked() {
+    void testPartialMockBridgeMethodAreUnmocked() {
         StringHolder holder = createMockBuilder(StringHolder.class).createMock();
         holder.go("hello");
         Assertions.assertEquals("hello", holder.value);
     }
 
     @Test
-    public void testBridgedEquals() {
+    void testBridgedEquals() {
         ChildEquals c = createMock(ChildEquals.class);
         Assertions.assertEquals(c, c);
     }

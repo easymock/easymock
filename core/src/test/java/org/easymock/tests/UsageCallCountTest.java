@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageCallCountTest {
+class UsageCallCountTest {
 
     private VoidMethodInterface mock;
 
@@ -33,31 +33,31 @@ public class UsageCallCountTest {
     }
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(VoidMethodInterface.class);
     }
 
     @Test
-    public void mockWithNoExpectedCallsPassesWithNoCalls() {
+    void mockWithNoExpectedCallsPassesWithNoCalls() {
         replay(mock);
         verify(mock);
     }
 
     @Test
-    public void mockWithNoExpectedCallsFailsAtFirstCall() {
+    void mockWithNoExpectedCallsFailsAtFirstCall() {
         replay(mock);
         assertMethodCallFails();
     }
 
     @Test
-    public void mockWithOneExpectedCallFailsAtVerify() {
+    void mockWithOneExpectedCallFailsAtVerify() {
         callMethodOnce();
         replay(mock);
         assertVerifyFails();
     }
 
     @Test
-    public void mockWithOneExpectedCallPassesWithOneCall() {
+    void mockWithOneExpectedCallPassesWithOneCall() {
         callMethodOnce();
         replay(mock);
         callMethodOnce();
@@ -65,7 +65,7 @@ public class UsageCallCountTest {
     }
 
     @Test
-    public void mockWithOneExpectedCallFailsAtSecondCall() {
+    void mockWithOneExpectedCallFailsAtSecondCall() {
         callMethodOnce();
         replay(mock);
         callMethodOnce();
@@ -73,7 +73,7 @@ public class UsageCallCountTest {
     }
 
     @Test
-    public void tooFewCalls() {
+    void tooFewCalls() {
         callMethodThreeTimes();
         replay(mock);
         callMethodTwice();
@@ -81,7 +81,7 @@ public class UsageCallCountTest {
     }
 
     @Test
-    public void correctNumberOfCalls() {
+    void correctNumberOfCalls() {
         callMethodThreeTimes();
         replay(mock);
         callMethodThreeTimes();
@@ -89,7 +89,7 @@ public class UsageCallCountTest {
     }
 
     @Test
-    public void tooManyCalls() {
+    void tooManyCalls() {
         callMethodThreeTimes();
         replay(mock);
         callMethodThreeTimes();
@@ -128,7 +128,7 @@ public class UsageCallCountTest {
     }
 
     @Test
-    public void noUpperLimitWithoutCallCountSet() {
+    void noUpperLimitWithoutCallCountSet() {
         mock.method();
         expectLastCall().atLeastOnce();
         replay(mock);

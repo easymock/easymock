@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Henri Tremblay
  */
-public class MocksControlTest {
+class MocksControlTest {
 
     public static class A {
         int i = 1;
@@ -53,28 +53,28 @@ public class MocksControlTest {
     }
 
     @Test
-    public void testMocksControl_Interface() {
+    void testMocksControl_Interface() {
         IMocksControl ctrl = createControl();
         List<?> list = ctrl.createMock(List.class);
         testList(ctrl, list);
     }
 
     @Test
-    public void testMocksControl_Class() {
+    void testMocksControl_Class() {
         IMocksControl ctrl = createControl();
         ArrayList<?> list = ctrl.createMock(ArrayList.class);
         testList(ctrl, list);
     }
 
     @Test
-    public void testMocksControl_Class_WithName() {
+    void testMocksControl_Class_WithName() {
         IMocksControl ctrl = createControl();
         ArrayList<?> list = ctrl.createMock("myMock", ArrayList.class);
         testList(ctrl, list);
     }
 
     @Test
-    public void testMocksControl_PartialMock_NoConstructorCalled() throws Exception {
+    void testMocksControl_PartialMock_NoConstructorCalled() throws Exception {
         IMocksControl ctrl = createControl();
         A a = ctrl.createMock(null, A.class, null, A.class.getMethod("bar"), A.class.getMethod(
                 "toString"));
@@ -89,7 +89,7 @@ public class MocksControlTest {
     }
 
     @Test
-    public void testMocksControl_NamedPartialMock_NoConstructorCalled() throws Exception {
+    void testMocksControl_NamedPartialMock_NoConstructorCalled() throws Exception {
         IMocksControl ctrl = createControl();
         A a = ctrl.createMock("myMock", A.class, null, A.class.getMethod("bar"), A.class
                 .getMethod("toString"));
@@ -104,7 +104,7 @@ public class MocksControlTest {
     }
 
     @Test
-    public void testMocksControl_PartialMock_ConstructorCalled() throws Exception {
+    void testMocksControl_PartialMock_ConstructorCalled() throws Exception {
         IMocksControl ctrl = createControl();
 
         ConstructorArgs args = new ConstructorArgs(A.class.getConstructor(Integer.TYPE), 6);
@@ -122,7 +122,7 @@ public class MocksControlTest {
     }
 
     @Test
-    public void testMocksControl_NamedPartialMock_ConstructorCalled() throws Exception {
+    void testMocksControl_NamedPartialMock_ConstructorCalled() throws Exception {
         IMocksControl ctrl = createControl();
 
         ConstructorArgs args = new ConstructorArgs(A.class.getConstructor(Integer.TYPE), 6);

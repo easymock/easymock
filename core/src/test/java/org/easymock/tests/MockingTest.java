@@ -30,7 +30,7 @@ import static org.easymock.EasyMock.*;
  *
  * @author Henri Tremblay
  */
-public class MockingTest {
+class MockingTest {
 
     public static class ClassToMock {
         public int foo() {
@@ -56,7 +56,7 @@ public class MockingTest {
      * Make sure one mock is not interacting with another
      */
     @Test
-    public void testTwoMocks() {
+    void testTwoMocks() {
         ClassToMock transition1 = createMock(ClassToMock.class);
         ClassToMock transition2 = createMock(ClassToMock.class);
 
@@ -68,47 +68,47 @@ public class MockingTest {
     }
 
     @Test
-    public void testInterfaceMocking() {
+    void testInterfaceMocking() {
         checkInterfaceMock(createMock(List.class), MockType.DEFAULT);
     }
 
     @Test
-    public void testNiceInterfaceMocking() {
+    void testNiceInterfaceMocking() {
         checkInterfaceMock(createNiceMock(List.class), MockType.NICE);
     }
 
     @Test
-    public void testStrictInterfaceMocking() {
+    void testStrictInterfaceMocking() {
         checkInterfaceMock(createStrictMock(List.class), MockType.STRICT);
     }
 
     @Test
-    public void testClassMocking() {
+    void testClassMocking() {
         checkClassMocking(createMock(ClassToMock.class), MockType.DEFAULT);
     }
 
     @Test
-    public void testPackageScopeClassMocking() {
+    void testPackageScopeClassMocking() {
         checkClassMocking(createMock(PackageScopeClassToMock.class), MockType.DEFAULT);
     }
 
     @Test
-    public void testMockObject() {
+    void testMockObject() {
         checkClassMocking(createMock(Object.class), MockType.DEFAULT);
     }
 
     @Test
-    public void testStrictClassMocking() {
+    void testStrictClassMocking() {
         checkClassMocking(createStrictMock(ClassToMock.class), MockType.STRICT);
     }
 
     @Test
-    public void testNiceClassMocking() {
+    void testNiceClassMocking() {
         checkClassMocking(createNiceMock(ClassToMock.class), MockType.NICE);
     }
 
     @Test
-    public void testMockingNull() {
+    void testMockingNull() {
         try {
             createMock(null);
             Assertions.fail("Should throw a NPE");

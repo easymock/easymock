@@ -24,17 +24,17 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class RecordStateInvalidRangeTest {
+class RecordStateInvalidRangeTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void setOpenCallCountTwice() {
+    void setOpenCallCountTwice() {
         mock.simpleMethod();
         try {
             expectLastCall().atLeastOnce().atLeastOnce();
@@ -46,7 +46,7 @@ public class RecordStateInvalidRangeTest {
     }
 
     @Test
-    public void setCloseCallAfterOpenOne() {
+    void setCloseCallAfterOpenOne() {
         mock.simpleMethod();
         try {
             expectLastCall().atLeastOnce().once();
@@ -58,7 +58,7 @@ public class RecordStateInvalidRangeTest {
     }
 
     @Test
-    public void setIllegalMinimumCount() {
+    void setIllegalMinimumCount() {
         mock.simpleMethod();
         int NEGATIVE = -1;
         try {
@@ -70,7 +70,7 @@ public class RecordStateInvalidRangeTest {
     }
 
     @Test
-    public void setIllegalMaximumCount() {
+    void setIllegalMaximumCount() {
         mock.simpleMethod();
         int NON_POSITIVE = 0;
         try {
@@ -82,7 +82,7 @@ public class RecordStateInvalidRangeTest {
     }
 
     @Test
-    public void setMinimumBiggerThanMaximum() {
+    void setMinimumBiggerThanMaximum() {
         mock.simpleMethod();
         try {
             expectLastCall().times(4, 3);

@@ -27,9 +27,9 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class NameTest {
+class NameTest {
     @Test
-    public void nameForMock() {
+    void nameForMock() {
         IMethods mock = createMock("mock", IMethods.class);
         mock.simpleMethod();
         replay(mock);
@@ -40,7 +40,7 @@ public class NameTest {
     }
 
     @Test
-    public void nameForStrictMock() {
+    void nameForStrictMock() {
         IMethods mock = createStrictMock("mock", IMethods.class);
         mock.simpleMethod();
         replay(mock);
@@ -51,7 +51,7 @@ public class NameTest {
     }
 
     @Test
-    public void nameForNiceMock() {
+    void nameForNiceMock() {
         IMethods mock = createNiceMock("mock", IMethods.class);
         mock.simpleMethod();
         replay(mock);
@@ -62,7 +62,7 @@ public class NameTest {
     }
 
     @Test
-    public void nameForMocksControl() {
+    void nameForMocksControl() {
         IMocksControl control = createControl();
         IMethods mock = control.createMock("mock", IMethods.class);
         mock.simpleMethod();

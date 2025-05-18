@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Henri Tremblay
  */
-public class CaptureTest {
+class CaptureTest {
 
     public static class A {
         public String foo(IMethods methods) {
@@ -51,11 +51,11 @@ public class CaptureTest {
     }
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
     }
 
     private Capture<Integer> testCaptureType(CaptureType type) {
@@ -83,25 +83,25 @@ public class CaptureTest {
     }
 
     @Test
-    public void testCaptureFirst() {
+    void testCaptureFirst() {
         Capture<Integer> captured = testCaptureType(CaptureType.FIRST);
         assertEquals(0, (int) captured.getValue());
     }
 
     @Test
-    public void testCaptureLast() {
+    void testCaptureLast() {
         Capture<Integer> captured = testCaptureType(CaptureType.LAST);
         assertEquals(7, (int) captured.getValue());
     }
 
     @Test
-    public void testCaptureAll() {
+    void testCaptureAll() {
         Capture<Integer> captured = testCaptureType(CaptureType.ALL);
         assertEquals(Arrays.asList(0, 2, 3, 4, 6, 7), captured.getValues());
     }
 
     @Test
-    public void testCaptureNone() {
+    void testCaptureNone() {
         Capture<Integer> captured = testCaptureType(CaptureType.NONE);
         assertFalse(captured.hasCaptured());
     }
@@ -110,7 +110,7 @@ public class CaptureTest {
     // after replay issue?
 
     @Test
-    public void testCaptureRightOne() {
+    void testCaptureRightOne() {
         Capture<String> captured = Capture.newInstance();
         IMethods mock = createMock(IMethods.class);
 
@@ -129,7 +129,7 @@ public class CaptureTest {
     }
 
     @Test
-    public void testPrimitiveVsObject() {
+    void testPrimitiveVsObject() {
         Capture<Integer> capture = Capture.newInstance();
         IMethods mock = createMock(IMethods.class);
 
@@ -148,7 +148,7 @@ public class CaptureTest {
     }
 
     @Test
-    public void testAnd() {
+    void testAnd() {
         Capture<String> captured = Capture.newInstance();
         IMethods mock = createMock(IMethods.class);
 
@@ -163,7 +163,7 @@ public class CaptureTest {
     }
 
     @Test
-    public void testPrimitive() {
+    void testPrimitive() {
         Capture<Integer> captureI = Capture.newInstance();
         Capture<Long> captureL = Capture.newInstance();
         Capture<Float> captureF = Capture.newInstance();
@@ -204,7 +204,7 @@ public class CaptureTest {
     }
 
     @Test
-    public void testCapture() {
+    void testCapture() {
         Capture<String> capture = Capture.newInstance();
         assertFalse(capture.hasCaptured());
         AssertionError e = assertThrows(AssertionError.class, capture::getValue);
@@ -227,7 +227,7 @@ public class CaptureTest {
     }
 
     @Test
-    public void testCaptureMultiple() {
+    void testCaptureMultiple() {
         Capture<String> capture = Capture.newInstance(CaptureType.ALL);
         capture.setValue("a");
         capture.setValue("b");
@@ -237,7 +237,7 @@ public class CaptureTest {
     }
 
     @Test
-    public void testCapture_2617107() {
+    void testCapture_2617107() {
 
         IMethods mock = createMock(IMethods.class);
 
@@ -268,12 +268,12 @@ public class CaptureTest {
     }
 
     @Test
-    public void testCaptureNonStrictControl_2133741() {
+    void testCaptureNonStrictControl_2133741() {
         testCaptureHelper(createMock(IMethods.class));
     }
 
     @Test
-    public void testCaptureStrictControl_2133741() {
+    void testCaptureStrictControl_2133741() {
         testCaptureHelper(createStrictMock(IMethods.class));
     }
 
@@ -295,7 +295,7 @@ public class CaptureTest {
     }
 
     @Test
-    public void testCapture1_2446744() {
+    void testCapture1_2446744() {
         Capture<String> capture1 = Capture.newInstance();
         Capture<String> capture2 = Capture.newInstance();
         Capture<String> capture3 = Capture.newInstance();
@@ -317,7 +317,7 @@ public class CaptureTest {
     }
 
     @Test
-    public void testCapture2_2446744() {
+    void testCapture2_2446744() {
         Capture<String> capture = Capture.newInstance(CaptureType.ALL);
         IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg(capture(capture))).andReturn("1").once();
@@ -335,7 +335,7 @@ public class CaptureTest {
     }
 
     @Test
-    public void testCaptureFromStub() {
+    void testCaptureFromStub() {
         Capture<String> capture = Capture.newInstance(CaptureType.ALL);
         IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg(capture(capture))).andStubReturn("1");
@@ -348,7 +348,7 @@ public class CaptureTest {
     }
 
     @Test
-    public void testNewInstanceForcingType() {
+    void testNewInstanceForcingType() {
         // Just to test, we put it in a base class
         Capture<? extends Number> capture = newCapture();
 
@@ -364,7 +364,7 @@ public class CaptureTest {
     }
 
     @Test
-    public void testNewInstanceWithCaptureTypeForcingType() {
+    void testNewInstanceWithCaptureTypeForcingType() {
         // Just to test, we put it in a base class
         Capture<? extends Number> capture = newCapture(CaptureType.FIRST);
 
@@ -404,31 +404,31 @@ public class CaptureTest {
     }
 
     @Test
-    public void testTransformFirst() {
+    void testTransformFirst() {
         Capture<Integer> captured = testCaptureTypeAndTransform(CaptureType.FIRST);
         assertEquals(100, (int) captured.getValue());
     }
 
     @Test
-    public void testTransformLast() {
+    void testTransformLast() {
         Capture<Integer> captured = testCaptureTypeAndTransform(CaptureType.LAST);
         assertEquals(800, (int) captured.getValue());
     }
 
     @Test
-    public void testTransformAll() {
+    void testTransformAll() {
         Capture<Integer> captured = testCaptureTypeAndTransform(CaptureType.ALL);
         assertEquals(Arrays.asList(100, 300, 400, 500, 700, 800), captured.getValues());
     }
 
     @Test
-    public void serializableDefaultTransform() throws Exception  {
+    void serializableDefaultTransform() throws Exception  {
         Capture<String> capture = Capture.newInstance();
         assertEquals("test", serializable(capture));
     }
 
     @Test
-    public void serializableCustomTransform() throws Exception  {
+    void serializableCustomTransform() throws Exception  {
         Capture<String> capture = Capture.newInstance((Serializable & UnaryOperator<String>) t -> "x" + t);
         assertEquals("xtest", serializable(capture));
     }

@@ -25,13 +25,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(EasyMockExtension.class)
-public class EasymockExtensionTest extends EasyMockSupport {
+class EasymockExtensionTest extends EasyMockSupport {
 
 	@Mock
 	IMethods mockFromAnnotation;
 
-	@Test
-	public void mockInjection() {
+    @Test
+    void mockInjection() {
 		IMethods mockFromMethod = mock(IMethods.class);
         expect(mockFromMethod.result()).andReturn(4);
         expect(mockFromAnnotation.result()).andReturn(8);

@@ -24,17 +24,17 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageOverloadedDefaultValueTest {
+class UsageOverloadedDefaultValueTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void overloading() {
+    void overloading() {
 
         expect(mock.oneArg(true)).andReturn("true");
         expect(mock.oneArg(anyBoolean())).andStubReturn("false");
@@ -96,7 +96,7 @@ public class UsageOverloadedDefaultValueTest {
     }
 
     @Test
-    public void defaultThrowable() {
+    void defaultThrowable() {
 
         RuntimeException expected = new RuntimeException();
         expect(mock.oneArg(anyObject())).andStubThrow(expected);

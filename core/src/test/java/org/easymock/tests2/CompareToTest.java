@@ -28,10 +28,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * @author Henri Tremblay
  */
-public class CompareToTest {
+class CompareToTest {
 
     @Test
-    public void testNotComparable() {
+    void testNotComparable() {
         CompareTo<Long> cmpTo = new CompareTo<Long>(5L) {
 
             private static final long serialVersionUID = 1L;
@@ -53,27 +53,27 @@ public class CompareToTest {
     }
 
     @Test
-    public void testLessThan() {
+    void testLessThan() {
         test(new LessThan<>("b"), true, false, false, "lt");
     }
 
     @Test
-    public void testGreaterThan() {
+    void testGreaterThan() {
         test(new GreaterThan<>("b"), false, true, false, "gt");
     }
 
     @Test
-    public void testLessOrEqual() {
+    void testLessOrEqual() {
         test(new LessOrEqual<>("b"), true, false, true, "leq");
     }
 
     @Test
-    public void testGreaterOrEqual() {
+    void testGreaterOrEqual() {
         test(new GreaterOrEqual<>("b"), false, true, true, "geq");
     }
 
     @Test
-    public void testCompareEqual() {
+    void testCompareEqual() {
         test(new CompareEqual<>("b"), false, false, true, "cmpEq");
 
         // Make sure it works when equals provide a different result than

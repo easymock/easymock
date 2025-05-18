@@ -26,20 +26,20 @@ import java.lang.reflect.Method;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class MatchableArgumentsTest {
+class MatchableArgumentsTest {
 
     private Object[] arguments;
 
     private Object[] arguments2;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         arguments = new Object[] { "" };
         arguments2 = new Object[] { "", "" };
     }
 
     @Test
-    public void testEquals() throws Exception {
+    void testEquals() throws Exception {
         Method toPreventNullPointerException = Object.class.getMethod("toString");
 
         Object mock = new Object();

@@ -31,11 +31,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageStrictMockTest {
+class UsageStrictMockTest {
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createStrictMock(IMethods.class);
         mock.simpleMethodWithArgument("1");
         mock.simpleMethodWithArgument("2");
@@ -43,19 +43,19 @@ public class UsageStrictMockTest {
     }
 
     @Test
-    public void orderedCallsSuccess() {
+    void orderedCallsSuccess() {
         mock.simpleMethodWithArgument("1");
         mock.simpleMethodWithArgument("2");
         verify(mock);
     }
 
     @Test
-    public void unorderedCallsFailure() {
+    void unorderedCallsFailure() {
         assertThrows(AssertionError.class, () -> mock.simpleMethodWithArgument("2"), "unordered calls accepted");
     }
 
     @Test
-    public void tooManyCallsFailure() {
+    void tooManyCallsFailure() {
         mock.simpleMethodWithArgument("1");
         mock.simpleMethodWithArgument("2");
 
@@ -63,14 +63,14 @@ public class UsageStrictMockTest {
     }
 
     @Test
-    public void tooFewCallsFailure() {
+    void tooFewCallsFailure() {
         mock.simpleMethodWithArgument("1");
         AssertionError expected = assertThrows(AssertionError.class, () -> verify(mock), "too few calls accepted");
         assertEquals(Util.getStackTrace(expected).indexOf(ReplayState.class.getName()), -1, "stack trace must be filled in");
     }
 
     @Test
-    public void differentMethods() {
+    void differentMethods() {
 
         reset(mock);
 
@@ -100,7 +100,7 @@ public class UsageStrictMockTest {
     }
 
     @Test
-    public void range() {
+    void range() {
 
         reset(mock);
 
@@ -129,7 +129,7 @@ public class UsageStrictMockTest {
     }
 
     @Test
-    public void stubBehavior() {
+    void stubBehavior() {
         reset(mock);
 
         mock.booleanReturningMethod(1);

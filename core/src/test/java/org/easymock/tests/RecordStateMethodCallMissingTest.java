@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class RecordStateMethodCallMissingTest {
+class RecordStateMethodCallMissingTest {
 
     private static final String METHOD_CALL_NEEDED = "method call on the mock needed before setting ";
 
@@ -34,7 +34,7 @@ public class RecordStateMethodCallMissingTest {
     MocksControl control;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         control = (MocksControl) createControl(); // this cast is a hack. It will provoke the errors below, but I don't think it can happen using EasyMock normally
         mock = control.createMock(IMethods.class);
     }
@@ -44,7 +44,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setBooleanReturnValueWithoutMethodCall() {
+    void setBooleanReturnValueWithoutMethodCall() {
         try {
             control.andReturn(false);
             Assertions.fail("IllegalStateException expected");
@@ -54,7 +54,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setLongReturnValueWithoutMethodCall() {
+    void setLongReturnValueWithoutMethodCall() {
         try {
             control.andReturn(0L);
             Assertions.fail("IllegalStateException expected");
@@ -64,7 +64,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setFloatReturnValueWithoutMethodCall() {
+    void setFloatReturnValueWithoutMethodCall() {
         try {
             control.andReturn(0.0f);
             Assertions.fail("IllegalStateException expected");
@@ -74,7 +74,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setDoubleReturnValueWithoutMethodCall() {
+    void setDoubleReturnValueWithoutMethodCall() {
         try {
             control.andReturn(0.0);
             Assertions.fail("IllegalStateException expected");
@@ -84,7 +84,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setObjectReturnValueWithoutMethodCall() {
+    void setObjectReturnValueWithoutMethodCall() {
         try {
             control.andReturn(null);
             Assertions.fail("IllegalStateException expected");
@@ -94,7 +94,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setThrowableWithoutMethodCall() {
+    void setThrowableWithoutMethodCall() {
         try {
             control.andThrow(new RuntimeException());
             Assertions.fail("IllegalStateException expected");
@@ -104,7 +104,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setAnswerWithoutMethodCall() {
+    void setAnswerWithoutMethodCall() {
         try {
             control.andAnswer(() -> null);
             Assertions.fail("IllegalStateException expected");
@@ -114,7 +114,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setDelegateToWithoutMethodCall() {
+    void setDelegateToWithoutMethodCall() {
         try {
             control.andDelegateTo(null);
             Assertions.fail("IllegalStateException expected");
@@ -124,7 +124,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setAnyTimesWithoutMethodCall() {
+    void setAnyTimesWithoutMethodCall() {
         try {
             control.anyTimes();
             Assertions.fail("IllegalStateException expected");
@@ -134,7 +134,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setAtLeastOnceWithoutMethodCall() {
+    void setAtLeastOnceWithoutMethodCall() {
         try {
             control.atLeastOnce();
             Assertions.fail("IllegalStateException expected");
@@ -144,7 +144,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setTimesWithoutMethodCall() {
+    void setTimesWithoutMethodCall() {
         try {
             control.times(3);
             Assertions.fail("IllegalStateException expected");
@@ -154,7 +154,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setTimesMinMaxWithoutMethodCall() {
+    void setTimesMinMaxWithoutMethodCall() {
         try {
             control.times(1, 3);
             Assertions.fail("IllegalStateException expected");
@@ -164,7 +164,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setOnceWithoutMethodCall() {
+    void setOnceWithoutMethodCall() {
         try {
             control.once();
             Assertions.fail("IllegalStateException expected");
@@ -174,7 +174,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setBooleanDefaultReturnValueWithoutMethodCall() {
+    void setBooleanDefaultReturnValueWithoutMethodCall() {
         try {
             control.andStubReturn(false);
             Assertions.fail("IllegalStateException expected");
@@ -184,7 +184,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setLongDefaultReturnValueWithoutMethodCall() {
+    void setLongDefaultReturnValueWithoutMethodCall() {
         try {
             control.andStubReturn(0L);
             Assertions.fail("IllegalStateException expected");
@@ -194,7 +194,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setFloatDefaultReturnValueWithoutMethodCall() {
+    void setFloatDefaultReturnValueWithoutMethodCall() {
         try {
             control.andStubReturn(0.0f);
             Assertions.fail("IllegalStateException expected");
@@ -204,7 +204,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setDoubleDefaultReturnValueWithoutMethodCall() {
+    void setDoubleDefaultReturnValueWithoutMethodCall() {
         try {
             control.andStubReturn(0.0);
             Assertions.fail("IllegalStateException expected");
@@ -214,7 +214,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setObjectDefaultReturnValueWithoutMethodCall() {
+    void setObjectDefaultReturnValueWithoutMethodCall() {
         try {
             control.andStubReturn(null);
             Assertions.fail("IllegalStateException expected");
@@ -224,7 +224,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setDefaultVoidCallableWithoutMethodCall() {
+    void setDefaultVoidCallableWithoutMethodCall() {
         try {
             control.asStub();
             Assertions.fail("IllegalStateException expected");
@@ -234,7 +234,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setDefaultThrowableWithoutMethodCall() {
+    void setDefaultThrowableWithoutMethodCall() {
         try {
             control.andStubThrow(new RuntimeException());
             Assertions.fail("IllegalStateException expected");
@@ -244,7 +244,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setStubAnswerWithoutMethodCall() {
+    void setStubAnswerWithoutMethodCall() {
         try {
             control.andStubAnswer(() -> null);
             Assertions.fail("IllegalStateException expected");
@@ -254,7 +254,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void setStubDelegateToWithoutMethodCall() {
+    void setStubDelegateToWithoutMethodCall() {
         try {
             control.andStubDelegateTo(null);
             Assertions.fail("IllegalStateException expected");
@@ -264,7 +264,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void timesWithoutReturnValue() {
+    void timesWithoutReturnValue() {
         mock.booleanReturningMethod(1);
         try {
             expectLastCall().times(3);
@@ -275,7 +275,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void asStubWithNonVoidMethod() {
+    void asStubWithNonVoidMethod() {
         mock.booleanReturningMethod(1);
         try {
             expectLastCall().asStub();
@@ -286,7 +286,7 @@ public class RecordStateMethodCallMissingTest {
     }
 
     @Test
-    public void andVoidWithNonVoidMethod() {
+    void andVoidWithNonVoidMethod() {
         mock.booleanReturningMethod(1);
         try {
             expectLastCall().andVoid();

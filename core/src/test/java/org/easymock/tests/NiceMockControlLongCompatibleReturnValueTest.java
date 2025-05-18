@@ -24,42 +24,42 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class NiceMockControlLongCompatibleReturnValueTest {
+class NiceMockControlLongCompatibleReturnValueTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createNiceMock(IMethods.class);
         replay(mock);
     }
 
     @Test
-    public void byteReturningValue() {
+    void byteReturningValue() {
         Assertions.assertEquals((byte) 0, mock.byteReturningMethod(12));
         verify(mock);
     }
 
     @Test
-    public void shortReturningValue() {
+    void shortReturningValue() {
         Assertions.assertEquals((short) 0, mock.shortReturningMethod(12));
         verify(mock);
     }
 
     @Test
-    public void charReturningValue() {
+    void charReturningValue() {
         Assertions.assertEquals((char) 0, mock.charReturningMethod(12));
         verify(mock);
     }
 
     @Test
-    public void intReturningValue() {
+    void intReturningValue() {
         Assertions.assertEquals(0, mock.intReturningMethod(12));
         verify(mock);
     }
 
     @Test
-    public void longReturningValue() {
+    void longReturningValue() {
         Assertions.assertEquals(0, mock.longReturningMethod(12));
         verify(mock);
     }

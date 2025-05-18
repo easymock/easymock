@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class InvocationTest {
+class InvocationTest {
 
     private Invocation call;
 
@@ -38,7 +38,7 @@ public class InvocationTest {
     private Invocation nonEqualCall;
 
     @BeforeEach
-    public void setup() throws SecurityException, NoSuchMethodException {
+    void setup() throws SecurityException, NoSuchMethodException {
         Object[] arguments1 = new Object[] { "" };
         Object[] arguments2 = new Object[] { "" };
         Object[] arguments3 = new Object[] { "X" };
@@ -51,7 +51,7 @@ public class InvocationTest {
 
     @SuppressWarnings("unlikely-arg-type")
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertNotEquals(null, call);
         assertNotEquals("", call);
         assertEquals(call, equalCall);
@@ -59,13 +59,13 @@ public class InvocationTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         UnsupportedOperationException e = assertThrows(UnsupportedOperationException.class, () -> call.hashCode());
         assertEquals("hashCode() is not implemented", e.getMessage());
     }
 
     @Test
-    public void testShouldDisplayMocksToStringIfDefaultToString() throws NoSuchMethodException {
+    void testShouldDisplayMocksToStringIfDefaultToString() throws NoSuchMethodException {
         class ToString {
             private final String name;
 
@@ -94,7 +94,7 @@ public class InvocationTest {
     }
 
     @Test
-    public void testShouldDisplayMocksToStringIfNoToStringMethod() throws NoSuchMethodException {
+    void testShouldDisplayMocksToStringIfNoToStringMethod() throws NoSuchMethodException {
         class NoToString {
             private final String name;
 

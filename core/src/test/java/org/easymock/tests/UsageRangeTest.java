@@ -26,25 +26,25 @@ import static org.easymock.EasyMock.*;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageRangeTest {
+class UsageRangeTest {
 
     private Iterator<String> mock;
 
     @SuppressWarnings("unchecked")
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createStrictMock(Iterator.class);
     }
 
     @Test
-    public void zeroOrMoreNoCalls() {
+    void zeroOrMoreNoCalls() {
         expect(mock.hasNext()).andReturn(false).anyTimes();
         replay(mock);
         verify(mock);
     }
 
     @Test
-    public void zeroOrMoreOneCall() {
+    void zeroOrMoreOneCall() {
         expect(mock.hasNext()).andReturn(false).anyTimes();
         replay(mock);
         Assertions.assertFalse(mock.hasNext());
@@ -52,7 +52,7 @@ public class UsageRangeTest {
     }
 
     @Test
-    public void zeroOrMoreThreeCalls() {
+    void zeroOrMoreThreeCalls() {
         expect(mock.hasNext()).andReturn(false).anyTimes();
         replay(mock);
         Assertions.assertFalse(mock.hasNext());
@@ -62,7 +62,7 @@ public class UsageRangeTest {
     }
 
     @Test
-    public void combination() {
+    void combination() {
         expect(mock.hasNext()).andReturn(true).atLeastOnce();
         expect(mock.next()).andReturn("1");
 

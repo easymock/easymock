@@ -24,17 +24,17 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageDefaultReturnValueTest {
+class UsageDefaultReturnValueTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void defaultReturnValue() {
+    void defaultReturnValue() {
         expect(mock.threeArgumentMethod(7, "", "test")).andReturn("test");
 
         expect(mock.threeArgumentMethod(8, null, "test2")).andReturn("test2");
@@ -55,7 +55,7 @@ public class UsageDefaultReturnValueTest {
     }
 
     @Test
-    public void defaultVoidCallable() {
+    void defaultVoidCallable() {
         mock.twoArgumentMethod(anyInt(), anyInt());
         expectLastCall().asStub();
 
@@ -77,7 +77,7 @@ public class UsageDefaultReturnValueTest {
     }
 
     @Test
-    public void defaultThrowable() {
+    void defaultThrowable() {
         mock.twoArgumentMethod(1, 2);
         expectLastCall();
         mock.twoArgumentMethod(1, 1);
@@ -100,7 +100,7 @@ public class UsageDefaultReturnValueTest {
     }
 
     @Test
-    public void defaultReturnValueBoolean() {
+    void defaultReturnValueBoolean() {
         expect(mock.booleanReturningMethod(12)).andReturn(true);
         expect(mock.booleanReturningMethod(anyInt())).andStubReturn(false);
 
@@ -114,7 +114,7 @@ public class UsageDefaultReturnValueTest {
     }
 
     @Test
-    public void returnValueAndDefaultReturnValue() {
+    void returnValueAndDefaultReturnValue() {
 
         expect(mock.oneArg("")).andReturn("1");
         expect(mock.oneArg(anyObject())).andStubReturn("2");

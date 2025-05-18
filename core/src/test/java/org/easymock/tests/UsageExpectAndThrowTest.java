@@ -24,19 +24,19 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageExpectAndThrowTest {
+class UsageExpectAndThrowTest {
 
     private IMethods mock;
 
     private static RuntimeException EXCEPTION = new RuntimeException();
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void booleanType() {
+    void booleanType() {
         expect(mock.booleanReturningMethod(4)).andThrow(EXCEPTION);
         replay(mock);
         try {
@@ -49,7 +49,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void longType() {
+    void longType() {
         expect(mock.longReturningMethod(4)).andThrow(EXCEPTION);
         replay(mock);
         try {
@@ -62,7 +62,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void floatType() {
+    void floatType() {
         expect(mock.floatReturningMethod(4)).andThrow(EXCEPTION);
         replay(mock);
         try {
@@ -75,7 +75,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void doubleType() {
+    void doubleType() {
         expect(mock.doubleReturningMethod(4)).andThrow(EXCEPTION);
         replay(mock);
         try {
@@ -88,7 +88,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void object() {
+    void object() {
         expect(mock.objectReturningMethod(4)).andThrow(EXCEPTION);
         replay(mock);
         try {
@@ -101,7 +101,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void booleanAndRange() {
+    void booleanAndRange() {
         expect(mock.booleanReturningMethod(4)).andThrow(EXCEPTION).once();
         replay(mock);
         try {
@@ -114,7 +114,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void longAndRange() {
+    void longAndRange() {
         expect(mock.longReturningMethod(4)).andThrow(EXCEPTION).once();
         replay(mock);
         try {
@@ -127,7 +127,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void floatAndRange() {
+    void floatAndRange() {
         expect(mock.floatReturningMethod(4)).andThrow(EXCEPTION).once();
         replay(mock);
         try {
@@ -140,7 +140,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void doubleAndRange() {
+    void doubleAndRange() {
         expect(mock.doubleReturningMethod(4)).andThrow(EXCEPTION).once();
         replay(mock);
         try {
@@ -153,7 +153,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void objectAndRange() {
+    void objectAndRange() {
         expect(mock.objectReturningMethod(4)).andThrow(EXCEPTION).once();
         replay(mock);
         try {
@@ -166,7 +166,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void booleanAndCount() {
+    void booleanAndCount() {
         expect(mock.booleanReturningMethod(4)).andThrow(EXCEPTION).times(2);
         replay(mock);
         try {
@@ -185,7 +185,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void longAndCount() {
+    void longAndCount() {
         expect(mock.longReturningMethod(4)).andThrow(EXCEPTION).times(2);
         replay(mock);
         try {
@@ -204,7 +204,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void floatAndCount() {
+    void floatAndCount() {
         expect(mock.floatReturningMethod(4)).andThrow(EXCEPTION).times(2);
         replay(mock);
         try {
@@ -223,7 +223,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void doubleAndCount() {
+    void doubleAndCount() {
         expect(mock.doubleReturningMethod(4)).andThrow(EXCEPTION).times(2);
         replay(mock);
         try {
@@ -242,7 +242,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void objectAndCount() {
+    void objectAndCount() {
         expect(mock.objectReturningMethod(4)).andThrow(EXCEPTION).times(2);
         replay(mock);
         try {
@@ -261,7 +261,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void booleanAndMinMax() {
+    void booleanAndMinMax() {
         expect(mock.booleanReturningMethod(4)).andThrow(EXCEPTION).times(2, 3);
         replay(mock);
         try {
@@ -287,7 +287,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void longAndMinMax() {
+    void longAndMinMax() {
         expect(mock.longReturningMethod(4)).andThrow(EXCEPTION).times(2, 3);
         replay(mock);
         try {
@@ -313,7 +313,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void floatAndMinMax() {
+    void floatAndMinMax() {
         expect(mock.floatReturningMethod(4)).andThrow(EXCEPTION).times(2, 3);
         replay(mock);
         try {
@@ -339,7 +339,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void doubleAndMinMax() {
+    void doubleAndMinMax() {
         expect(mock.doubleReturningMethod(4)).andThrow(EXCEPTION).times(2, 3);
         replay(mock);
         try {
@@ -365,7 +365,7 @@ public class UsageExpectAndThrowTest {
     }
 
     @Test
-    public void objectAndMinMax() {
+    void objectAndMinMax() {
         expect(mock.objectReturningMethod(4)).andThrow(EXCEPTION).times(2, 3);
         replay(mock);
         try {

@@ -27,17 +27,17 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class RecordStateInvalidStateChangeTest {
+class RecordStateInvalidStateChangeTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void activateWithoutReturnValue() {
+    void activateWithoutReturnValue() {
         expect(mock.oneArg(false));
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> replay(mock));
         assertEquals("missing behavior definition for the preceding method call:\nEasyMock for interface org.easymock.tests.IMethods -> IMethods.oneArg(false)"
@@ -46,7 +46,7 @@ public class RecordStateInvalidStateChangeTest {
     }
 
     @Test
-    public void secondCallWithoutReturnValue() {
+    void secondCallWithoutReturnValue() {
         mock.oneArg(false);
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> mock.oneArg(false));
         assertEquals("missing behavior definition for the preceding method call:\nEasyMock for interface org.easymock.tests.IMethods -> IMethods.oneArg(false)"
@@ -55,7 +55,7 @@ public class RecordStateInvalidStateChangeTest {
     }
 
     @Test
-    public void verifyWithoutActivation() {
+    void verifyWithoutActivation() {
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> verify(mock));
         assertEquals("calling verify is not allowed in record state", e.getMessage());
     }

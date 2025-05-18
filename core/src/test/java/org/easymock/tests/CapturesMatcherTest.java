@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Henri Tremblay
  */
-public class CapturesMatcherTest {
+class CapturesMatcherTest {
 
     private final Capture<String> capture = Capture.newInstance(CaptureType.ALL);
 
@@ -41,16 +41,17 @@ public class CapturesMatcherTest {
     private StringBuffer buffer;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         LastControl.pushCurrentInvocation(new Invocation(this, getClass().getMethod("test"), new Object[0]));
         buffer = new StringBuffer();
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         LastControl.popCurrentInvocation();
     }
 
+    // Method need to be public for the test to work
     @Test
     public void test() {
 

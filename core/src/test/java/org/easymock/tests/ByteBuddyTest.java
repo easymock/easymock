@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Henri Tremblay
  */
-public class ByteBuddyTest {
+class ByteBuddyTest {
 
     /**
      * Check that an interceptor is used by only one instance of a class
@@ -51,7 +51,7 @@ public class ByteBuddyTest {
      * @throws Exception just a test
      */
     @Test
-    public void test() throws Exception {
+    void test() throws Exception {
         Object f1 = createMock();
         Object f2 = createMock();
 
@@ -112,7 +112,7 @@ public class ByteBuddyTest {
      * fine
      */
     @Test
-    public void testJava8() {
+    void testJava8() {
         File file = EasyMock.createMock(File.class);
         EasyMock.expect(file.canExecute()).andReturn(true);
         EasyMock.replay(file);

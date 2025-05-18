@@ -26,19 +26,19 @@ import java.lang.reflect.Method;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class ExpectedMethodCallTest {
+class ExpectedMethodCallTest {
 
     private ExpectedInvocation call;
 
     @BeforeEach
-    public void setup() throws SecurityException, NoSuchMethodException {
+    void setup() throws SecurityException, NoSuchMethodException {
         Object[] arguments1 = new Object[] { "" };
         Method m = Object.class.getMethod("equals", Object.class);
         call = new ExpectedInvocation(new Invocation(null, m, arguments1), null);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         try {
             call.hashCode();
             Assertions.fail();

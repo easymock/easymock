@@ -27,17 +27,17 @@ import org.junit.jupiter.api.Test;
  *
  * @author OFFIS, Tammo Freese
  */
-public class UsageExpectAndDefaultReturnTest {
+class UsageExpectAndDefaultReturnTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void booleanType() {
+    void booleanType() {
         expect(mock.booleanReturningMethod(4)).andStubReturn(true);
         replay(mock);
         Assertions.assertTrue(mock.booleanReturningMethod(4));
@@ -46,7 +46,7 @@ public class UsageExpectAndDefaultReturnTest {
     }
 
     @Test
-    public void longType() {
+    void longType() {
         expect(mock.longReturningMethod(4)).andStubReturn(12L);
         replay(mock);
         Assertions.assertEquals(12L, mock.longReturningMethod(4));
@@ -55,7 +55,7 @@ public class UsageExpectAndDefaultReturnTest {
     }
 
     @Test
-    public void floatType() {
+    void floatType() {
         expect(mock.floatReturningMethod(4)).andStubReturn(12f);
         replay(mock);
         Assertions.assertEquals(12f, mock.floatReturningMethod(4), 0f);
@@ -64,7 +64,7 @@ public class UsageExpectAndDefaultReturnTest {
     }
 
     @Test
-    public void doubleType() {
+    void doubleType() {
         expect(mock.doubleReturningMethod(4)).andStubReturn(12.0);
         replay(mock);
         Assertions.assertEquals(12.0, mock.doubleReturningMethod(4), 0.0);
@@ -73,7 +73,7 @@ public class UsageExpectAndDefaultReturnTest {
     }
 
     @Test
-    public void objectType() {
+    void objectType() {
         expect(mock.objectReturningMethod(4)).andStubReturn("12");
         replay(mock);
         Assertions.assertEquals("12", mock.objectReturningMethod(4));

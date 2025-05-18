@@ -23,10 +23,10 @@ import static org.easymock.EasyMock.*;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class MockNameTest {
+class MockNameTest {
 
     @Test
-    public void defaultName() {
+    void defaultName() {
         IMethods mock = createMock(IMethods.class);
         String expected = "EasyMock for " + IMethods.class;
         String actual = mock.toString();

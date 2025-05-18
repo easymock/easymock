@@ -30,17 +30,17 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class AnswerTest {
+class AnswerTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void answer() {
+    void answer() {
         IAnswer<Object> firstAnswer = () -> {
             assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
             return "Call answered";
@@ -66,7 +66,7 @@ public class AnswerTest {
     }
 
     @Test
-    public void stubAnswer() {
+    void stubAnswer() {
         IAnswer<Object> firstAnswer = () -> {
             assertArrayEquals(new Object[] { 1, "2", "3" }, getCurrentArguments());
             return "Call answered";
@@ -92,7 +92,7 @@ public class AnswerTest {
     }
 
     @Test
-    public void nullAnswerNotAllowed() {
+    void nullAnswerNotAllowed() {
         try {
             expect(mock.threeArgumentMethod(1, "2", "3")).andAnswer(null);
             fail();
@@ -102,7 +102,7 @@ public class AnswerTest {
     }
 
     @Test
-    public void nullStubAnswerNotAllowed() {
+    void nullStubAnswerNotAllowed() {
         try {
             expect(mock.threeArgumentMethod(1, "2", "3")).andStubAnswer(null);
             fail();
@@ -122,7 +122,7 @@ public class AnswerTest {
     }
 
     @Test
-    public void testGenericityFlexibility() {
+    void testGenericityFlexibility() {
 
         C c = createMock(C.class);
         final B b = new B();
@@ -139,7 +139,7 @@ public class AnswerTest {
     }
 
     @Test
-    public void answerOnVoidMethod() {
+    void answerOnVoidMethod() {
         String[] array = new String[] { "a" };
         mock.arrayMethod(array);
         expectLastCall().andAnswer(() -> {

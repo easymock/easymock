@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class MethodSerializationWrapperTest {
+class MethodSerializationWrapperTest {
 
     public static class A {
         public void foo(String s, int i, String[] sArray, int[] iArray,
@@ -33,7 +33,7 @@ public class MethodSerializationWrapperTest {
     }
 
     @Test
-    public void testGetMethod() throws Exception {
+    void testGetMethod() throws Exception {
         Method foo = A.class.getMethod("foo", String.class, Integer.TYPE, String[].class, int[].class,
                 String[].class);
         MethodSerializationWrapper wrapper = new MethodSerializationWrapper(foo);

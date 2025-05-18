@@ -24,17 +24,17 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class RecordStateInvalidReturnValueTest {
+class RecordStateInvalidReturnValueTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void setInvalidBooleanReturnValue() {
+    void setInvalidBooleanReturnValue() {
         try {
             expect((Object) mock.oneArg(false)).andReturn(false);
             Assertions.fail("IllegalStateException expected");
@@ -45,7 +45,7 @@ public class RecordStateInvalidReturnValueTest {
     }
 
     @Test
-    public void setReturnValueForVoidMethod() {
+    void setReturnValueForVoidMethod() {
         mock.simpleMethod();
         try {
             expectLastCall().andReturn(null);
@@ -56,7 +56,7 @@ public class RecordStateInvalidReturnValueTest {
     }
 
     @Test
-    public void nullForPrimitive() {
+    void nullForPrimitive() {
         try {
             expect(mock.longReturningMethod(4)).andReturn(null);
             Assertions.fail("null not allowed");

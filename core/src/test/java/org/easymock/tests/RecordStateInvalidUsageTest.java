@@ -24,17 +24,17 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class RecordStateInvalidUsageTest {
+class RecordStateInvalidUsageTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void notAMockPassedToExpect() {
+    void notAMockPassedToExpect() {
         try {
             expect(null);
             Assertions.fail("IllegalStateException expected");
@@ -44,7 +44,7 @@ public class RecordStateInvalidUsageTest {
     }
 
     @Test
-    public void openVoidCallCountWithoutMethodCall() {
+    void openVoidCallCountWithoutMethodCall() {
         try {
             expectLastCall();
             Assertions.fail("IllegalStateException expected");
@@ -54,7 +54,7 @@ public class RecordStateInvalidUsageTest {
     }
 
     @Test
-    public void setWrongReturnValueBoolean() {
+    void setWrongReturnValueBoolean() {
         try {
             expect((Object) mock.oneArg(false)).andReturn(false);
             Assertions.fail("IllegalStateException expected");

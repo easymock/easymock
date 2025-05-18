@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Henri Tremblay
  */
-public class DefaultClassInstantiatorTest {
+class DefaultClassInstantiatorTest {
 
     public static class PrimitiveParamClass {
         public PrimitiveParamClass(int i) {
@@ -114,94 +114,96 @@ public class DefaultClassInstantiatorTest {
     private final String vendor = null;
 
     @BeforeAll
-    public static void setUp() {
+    static void setUp() {
         // Set the default instantiator
         ClassInstantiatorFactory.setInstantiator(new DefaultClassInstantiator());
     }
 
     @AfterAll
-    public static void tearDown() {
+    static void tearDown() {
         // Set the value back to be clean
         ClassInstantiatorFactory.setDefaultInstantiator();
     }
 
     @Test
-    public void emptyConstructor() {
+    void emptyConstructor() {
         checkInstantiation(DefaultClassInstantiator.class);
     }
 
     @Test
-    public void primitiveType() {
+    void primitiveType() {
         checkInstantiation(PrimitiveParamClass.class);
     }
 
+    // Fails on Java 7 for a currently unknown reason
     @Test
-    @Disabled // Fails on Java 7 for a currently unknown reason
-    public void finalType() {
+    @Disabled
+    void finalType() {
         checkInstantiation(FinalParamClass.class);
     }
 
     @Test
-    public void protectedConstructor() {
+    void protectedConstructor() {
         checkInstantiation(ProtectedConstructorClass.class);
     }
 
     @Test
-    public void protectedWithPrimitiveConstructor() {
+    void protectedWithPrimitiveConstructor() {
         checkInstantiation(ProtectedWithPrimitiveConstructorClass.class);
     }
 
     @Test
-    public void object() {
+    void object() {
         checkInstantiation(ObjectClass.class);
     }
 
+    // Fails on Java 7 for a currently unknown reason
     @Test
-    @Disabled // Fails on Java 7 for a currently unknown reason
-    public void objectParamRecursion() {
+    @Disabled
+    void objectParamRecursion() {
         checkInstantiation(ObjectParamClass.class);
     }
 
     @Test
-    public void constructorWithCodeLimitation() {
+    void constructorWithCodeLimitation() {
         Exception e = assertThrows(Exception.class, () -> createMock(ConstructorWithCodeClass.class));
         assertEquals("Failed to mock class org.easymock.tests.DefaultClassInstantiatorTest$ConstructorWithCodeClass with provider DefaultClassInfoProvider", e.getMessage());
     }
 
     @Test
-    public void privateConstructorLimitation() {
+    void privateConstructorLimitation() {
         Exception e = assertThrows(Exception.class, () -> createMock(PrivateConstructorClass.class));
         assertEquals("Failed to mock class org.easymock.tests.DefaultClassInstantiatorTest$PrivateConstructorClass with provider DefaultClassInfoProvider", e.getMessage());
         assertEquals("No visible constructors in class org.easymock.tests.DefaultClassInstantiatorTest$PrivateConstructorClass", e.getCause().getMessage());
     }
 
     @Test
-    public void privateConstructor() {
+    void privateConstructor() {
         DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
         Exception e = assertThrows(Exception.class, () -> instantiator.newInstance(PrivateConstructorClass.class));
         assertEquals("No visible constructors in class org.easymock.tests.DefaultClassInstantiatorTest$PrivateConstructorClass", e.getMessage());
     }
 
     @Test
-    public void newInstance() {
+    void newInstance() {
         checkInstantiation(DefaultClassInstantiator.class);
     }
 
     @Test
     @Disabled("requires --add-opens java.base/java.io=ALL-UNNAMED with Java 9+")
-    public void serializable() {
+    void serializable() {
         checkInstantiation(SerializableClass.class);
     }
 
     @Test
     @Disabled("requires --add-opens java.base/java.io=ALL-UNNAMED with Java 9+")
-    public void badSerializable() throws Exception {
+    void badSerializable() throws Exception {
         DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
         assertTrue(instantiator.newInstance(BadlyDoneSerializableClass.class) instanceof BadlyDoneSerializableClass);
     }
 
     @Test
-    public void serializableWithUID() throws Exception {
+    void serializableWithUID() throws Exception {
         DefaultClassInstantiator instantiator = new DefaultClassInstantiator();
         assertTrue(instantiator.newInstance(SerializableWithUIDClass.class) instanceof SerializableWithUIDClass);
     }

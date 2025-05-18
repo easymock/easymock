@@ -53,13 +53,13 @@ public class LimitationsTest {
     }
 
     @Test
-    public void abstractClass() {
+    void abstractClass() {
         Object o = createMock(AbstractList.class);
         Assertions.assertTrue(o instanceof AbstractList<?>);
     }
 
     @Test
-    public void mockFinalMethod() {
+    void mockFinalMethod() {
         MyClass c = createMock(MyClass.class);
 
         try {
@@ -70,12 +70,12 @@ public class LimitationsTest {
     }
 
     @Test
-    public void privateConstructor() {
+    void privateConstructor() {
         createMock(PrivateClass.class);
     }
 
     @Test
-    public void mockNativeMethod() {
+    void mockNativeMethod() {
         NativeClass mock = createMock(NativeClass.class);
         expect(mock.foo()).andReturn(1);
         replay(mock);

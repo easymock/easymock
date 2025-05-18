@@ -28,37 +28,37 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Henri Tremblay
  */
-public class MocksControlDefaultMethodsTest {
+class MocksControlDefaultMethodsTest {
 
     @Test
-    public void emptyInterface() {
+    void emptyInterface() {
         expectPartialMocking("an empty interface", false, Cloneable.class);
     }
 
     @Test
-    public void interfaceWithoutDefaultMethods() {
+    void interfaceWithoutDefaultMethods() {
         expectPartialMocking("an interface without default methods", false, Runnable.class);
     }
 
     @Test
-    public void interfaceWithDefaultMethodButNoMockedMethods() {
+    void interfaceWithDefaultMethodButNoMockedMethods() {
         expectPartialMocking("an interface with a default method", true, Function.class);
     }
 
     @Test
-    public void interfaceWithDefaultMethodAndMockedMethods() {
+    void interfaceWithDefaultMethodAndMockedMethods() {
         expectPartialMocking("an interface with a default method and a mocked method", true, Function.class,
             ReflectionUtils.findMethod(Function.class, "andThen", method -> true));
     }
 
     @Test
-    public void interfaceWithInheritedDefaultMethod() {
+    void interfaceWithInheritedDefaultMethod() {
         expectPartialMocking("an interface with an inherited default method", true,
             InterfaceWithInheritedDefaultMethod.class);
     }
 
     @Test
-    public void interfaceWithMockedMethodThatIsNotADefaultMethod() {
+    void interfaceWithMockedMethodThatIsNotADefaultMethod() {
         expectPartialMocking("an interface with a mocked method that is not a default method", false,
             Function.class, ReflectionUtils.findMethod(Function.class, "apply", method -> true));
     }

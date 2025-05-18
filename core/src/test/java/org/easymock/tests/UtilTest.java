@@ -30,10 +30,10 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 /**
  * @author Henri Tremblay
  */
-public class UtilTest {
+class UtilTest {
 
     @Test
-    public void testGet() {
+    void testGet() {
         IMethods mock = niceMock(IMethods.class);
         assertNull(Util.getName(mock));
         assertNotNull(Util.getControl(mock));
@@ -41,7 +41,7 @@ public class UtilTest {
     }
 
     @Test
-    public void testGetSpecificControl() {
+    void testGetSpecificControl() {
         IMocksControl control = createNiceControl();
         IMethods mock = control.mock(IMethods.class);
         assertNull(Util.getName(mock));
@@ -50,7 +50,7 @@ public class UtilTest {
     }
 
     @Test
-    public void testGetSpecificName() {
+    void testGetSpecificName() {
         IMethods mock = mock("a", IMethods.class);
         assertEquals("a", Util.getName(mock));
     }

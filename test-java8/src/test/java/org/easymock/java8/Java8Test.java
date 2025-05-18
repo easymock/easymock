@@ -23,22 +23,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Henri Tremblay
  */
-public class Java8Test {
+class Java8Test {
 
     @Test
-    public void noOverride() {
+    void noOverride() {
         Class<Methods.NoDefaultOverride> toMock = Methods.NoDefaultOverride.class;
         partialMockOfDefaultMethod(toMock);
     }
 
     @Test
-    public void defaultOverride() {
+    void defaultOverride() {
         Class<Methods.DefaultOverride> toMock = Methods.DefaultOverride.class;
         partialMockOfDefaultMethod(toMock);
     }
 
     @Test
-    public void baseClassOverride() {
+    void baseClassOverride() {
         Class<Methods.DefaultOverride> toMock = Methods.DefaultOverride.class;
         partialMockOfDefaultMethod(toMock);
     }
@@ -54,7 +54,7 @@ public class Java8Test {
     }
 
     @Test
-    public void partialMockOnInterface() {
+    void partialMockOnInterface() {
         IMethods mock = partialMockBuilder(IMethods.class)
             .addMockedMethod("defaultInterfaceMethod")
             .createMock();

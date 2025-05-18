@@ -31,7 +31,7 @@ import static org.hamcrest.core.Is.*;
  * @author Henri Tremblay
  */
 @SuppressWarnings("deprecation")
-public class EasyMockSupportClassTest extends EasyMockSupport {
+class EasyMockSupportClassTest extends EasyMockSupport {
 
     public static class ToMock {
         public int foo() {
@@ -42,60 +42,60 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
     private Method foo;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         foo = ToMock.class.getMethod("foo");
     }
 
     @Test
-    public void testCreateStrictControl() {
+    void testCreateStrictControl() {
         IMocksControl ctrl = createStrictControl();
         MatcherAssert.assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
-    public void testCreateControl() {
+    void testCreateControl() {
         IMocksControl ctrl = createControl();
         MatcherAssert.assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
-    public void testCreateNiceControl() {
+    void testCreateNiceControl() {
         IMocksControl ctrl = createNiceControl();
         MatcherAssert.assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
-    public void testCreateStrictMockClassOfT() {
+    void testCreateStrictMockClassOfT() {
         MatcherAssert.assertThat(createStrictMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
-    public void testCreateStrictMockStringClassOfT() {
+    void testCreateStrictMockStringClassOfT() {
         MatcherAssert.assertThat(createStrictMock("myMock", ToMock.class), is(ToMock.class));
     }
 
     @Test
-    public void testCreateMockClassOfT() {
+    void testCreateMockClassOfT() {
         MatcherAssert.assertThat(createMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
-    public void testCreateMockStringClassOfT() {
+    void testCreateMockStringClassOfT() {
         MatcherAssert.assertThat(createMock("myMock", ToMock.class), is(ToMock.class));
     }
 
     @Test
-    public void testCreateNiceMockClassOfT() {
+    void testCreateNiceMockClassOfT() {
         MatcherAssert.assertThat(createNiceMock(ToMock.class), is(ToMock.class));
     }
 
     @Test
-    public void testCreateNiceMockStringClassOfT() {
+    void testCreateNiceMockStringClassOfT() {
         MatcherAssert.assertThat(createNiceMock("myMock", ToMock.class), is(ToMock.class));
     }
 
     @Test
-    public void testAll() {
+    void testAll() {
         ToMock t = createMock(ToMock.class);
         expect(t.foo()).andReturn(1);
         replayAll();
@@ -108,7 +108,7 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
     }
 
     @Test
-    public void testCreateMockBuilder() {
+    void testCreateMockBuilder() {
         ToMock t = createMockBuilder(ToMock.class).addMockedMethod(foo).createMock();
         expect(t.foo()).andReturn(1);
         replayAll();
@@ -117,7 +117,7 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
     }
 
     @Test
-    public void testCreateMockBuilder_existingControl() {
+    void testCreateMockBuilder_existingControl() {
         IMocksControl ctrl = createControl(); // ctrl registered once here
         ToMock t = createMockBuilder(ToMock.class).addMockedMethod(foo).createMock(ctrl); // should not be registered a second time here
         expect(t.foo()).andReturn(1);
@@ -127,7 +127,7 @@ public class EasyMockSupportClassTest extends EasyMockSupport {
     }
 
     @Test
-    public void testAllMockBuilderFlavors() {
+    void testAllMockBuilderFlavors() {
         ToMock t1 = createMockBuilder(ToMock.class).addMockedMethod(foo).createMock();
         ToMock t2 = createMockBuilder(ToMock.class).addMockedMethod(foo).createNiceMock();
         ToMock t3 = createMockBuilder(ToMock.class).addMockedMethod(foo).createStrictMock();

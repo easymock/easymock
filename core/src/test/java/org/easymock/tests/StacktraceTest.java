@@ -30,12 +30,12 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class StacktraceTest {
+class StacktraceTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
@@ -47,7 +47,7 @@ public class StacktraceTest {
     }
 
     @Test
-    public void assertRecordStateNoFillInStacktraceWhenExceptionNotFromEasyMock() {
+    void assertRecordStateNoFillInStacktraceWhenExceptionNotFromEasyMock() {
         mock.oneArg(new ToStringThrowsException());
         try {
             mock.oneArg(new ToStringThrowsException());
@@ -58,7 +58,7 @@ public class StacktraceTest {
     }
 
     @Test
-    public void assertReplayNoFillInStacktraceWhenExceptionNotFromEasyMock() {
+    void assertReplayNoFillInStacktraceWhenExceptionNotFromEasyMock() {
         mock.oneArg(new ToStringThrowsException());
         try {
             replay(mock);
@@ -69,7 +69,7 @@ public class StacktraceTest {
     }
 
     @Test
-    public void assertReplayStateNoFillInStacktraceWhenExceptionNotFromEasyMock() {
+    void assertReplayStateNoFillInStacktraceWhenExceptionNotFromEasyMock() {
         replay(mock);
         try {
             mock.oneArg(new ToStringThrowsException());
@@ -80,7 +80,7 @@ public class StacktraceTest {
     }
 
     @Test
-    public void assertVerifyNoFillInStacktraceWhenExceptionNotFromEasyMock() {
+    void assertVerifyNoFillInStacktraceWhenExceptionNotFromEasyMock() {
         expect(mock.oneArg(new ToStringThrowsException())).andReturn("");
         replay(mock);
         try {
@@ -93,7 +93,7 @@ public class StacktraceTest {
     }
 
     @Test
-    public void assertFillWhenThrowingAnswer() {
+    void assertFillWhenThrowingAnswer() {
         expect(mock.oneArg("")).andThrow(new NullPointerException());
         replay(mock);
         try {
@@ -104,7 +104,7 @@ public class StacktraceTest {
     }
 
     @Test
-    public void assertNoFillWhenDelegatingAnswer() {
+    void assertNoFillWhenDelegatingAnswer() {
         @SuppressWarnings("Convert2Lambda") // otherwise the assertion below won't work
         IMethods answer = (IMethods) Proxy.newProxyInstance(getClass().getClassLoader(),
             new Class<?>[] { IMethods.class }, new InvocationHandler() {
@@ -125,7 +125,7 @@ public class StacktraceTest {
     }
 
     @Test
-    public void assertNoFillWhenIAnswerAnswer() {
+    void assertNoFillWhenIAnswerAnswer() {
         @SuppressWarnings("Convert2Lambda") // otherwise the assertion below won't work
         IAnswer<String> answer = new IAnswer<String>() {
             @Override

@@ -28,17 +28,17 @@ import java.io.IOException;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageThrowableTest {
+class UsageThrowableTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void noUpperLimit() {
+    void noUpperLimit() {
         mock.simpleMethodWithArgument("1");
         expectLastCall().atLeastOnce();
         mock.simpleMethodWithArgument("2");
@@ -52,24 +52,24 @@ public class UsageThrowableTest {
     }
 
     @Test
-    public void throwRuntimeException() {
+    void throwRuntimeException() {
         testThrowUncheckedException(new RuntimeException());
     }
 
     @Test
-    public void throwSubclassOfRuntimeException() {
+    void throwSubclassOfRuntimeException() {
         testThrowUncheckedException(new RuntimeException() {
             private static final long serialVersionUID = 1L;
         });
     }
 
     @Test
-    public void throwError() {
+    void throwError() {
         testThrowUncheckedException(new Error());
     }
 
     @Test
-    public void throwSubclassOfError() {
+    void throwSubclassOfError() {
         testThrowUncheckedException(new Error() {
             private static final long serialVersionUID = 1L;
         });
@@ -88,12 +88,12 @@ public class UsageThrowableTest {
     }
 
     @Test
-    public void throwCheckedException() throws IOException {
+    void throwCheckedException() throws IOException {
         testThrowCheckedException(new IOException());
     }
 
     @Test
-    public void throwSubclassOfCheckedException() throws IOException {
+    void throwSubclassOfCheckedException() throws IOException {
         testThrowCheckedException(new IOException() {
             private static final long serialVersionUID = 1L;
         });
@@ -114,7 +114,7 @@ public class UsageThrowableTest {
     }
 
     @Test
-    public void throwAfterReturnValue() {
+    void throwAfterReturnValue() {
         RuntimeException expectedException = new RuntimeException();
         expect(mock.throwsNothing(false)).andReturn("").andThrow(expectedException);
 

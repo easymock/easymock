@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  * @author Henri Tremblay
  * @author OFFIS, Tammo Freese
  */
-public class MockClassControlTest {
+class MockClassControlTest {
 
     /**
      * Class that will be mocked. The methods defined in it are there just to
@@ -80,11 +80,11 @@ public class MockClassControlTest {
     private Object mock;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         mock = null;
     }
 
@@ -93,12 +93,12 @@ public class MockClassControlTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         testEquals(ClassToMock.class);
     }
 
     @Test
-    public void testEquals_WithOverload() {
+    void testEquals_WithOverload() {
         testEquals(ClassToMockWithOverload.class);
     }
 
@@ -113,12 +113,12 @@ public class MockClassControlTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         testHashCode(ClassToMock.class);
     }
 
     @Test
-    public void testHashCode_WithOverload() {
+    void testHashCode_WithOverload() {
         testHashCode(ClassToMockWithOverload.class);
     }
 
@@ -134,17 +134,17 @@ public class MockClassControlTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         testToString(ClassToMock.class);
     }
 
     @Test
-    public void testToString_WithOverload() {
+    void testToString_WithOverload() {
         testToString(ClassToMockWithOverload.class);
     }
 
     @Test
-    public void testToString_WithTwoOverload() {
+    void testToString_WithTwoOverload() {
         testToString(ClassWithAnotherOverload.class);
     }
 
@@ -160,7 +160,7 @@ public class MockClassControlTest {
     }
 
     @Test
-    public void testFinalize_AreIgnored() {
+    void testFinalize_AreIgnored() {
         ClassWithFinalize mock = createMock(ClassWithFinalize.class);
         replay(mock);
         mock.finalize();

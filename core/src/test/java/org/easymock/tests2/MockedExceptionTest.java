@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Henri Tremblay
  */
-public class MockedExceptionTest {
+class MockedExceptionTest {
 
     @Test
-    public void testMockedException() {
+    void testMockedException() {
         RuntimeException expected = createNiceMock(RuntimeException.class);
         CharSequence c = createMock(CharSequence.class);
         expect(c.length()).andStubThrow(expected);
@@ -42,7 +42,7 @@ public class MockedExceptionTest {
     }
 
     @Test
-    public void testExplicitFillInStackTrace() {
+    void testExplicitFillInStackTrace() {
 
         RuntimeException expected = createNiceMock(RuntimeException.class);
         RuntimeException myException = new RuntimeException();
@@ -77,7 +77,7 @@ public class MockedExceptionTest {
     }
 
     @Test
-    public void testNotMockedFillInStackTrace() {
+    void testNotMockedFillInStackTrace() {
 
         RuntimeException expected = createMockBuilder(MyException.class)
                 .createNiceMock();
@@ -99,7 +99,7 @@ public class MockedExceptionTest {
     }
 
     @Test
-    public void testRealException() {
+    void testRealException() {
 
         RuntimeException expected = new RuntimeException();
 

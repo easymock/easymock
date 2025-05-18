@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author Henri Tremblay
  */
-public class DelegateToTest {
+class DelegateToTest {
 
     public interface IMyInterface {
         int getInt(int k);
@@ -37,7 +37,7 @@ public class DelegateToTest {
     }
 
     @Test
-    public void testDelegate() {
+    void testDelegate() {
         IMyInterface mock = createMock(IMyInterface.class);
         IMyInterface delegateTo = new IMyInterface() {
             private int i = 0;
@@ -61,7 +61,7 @@ public class DelegateToTest {
     }
 
     @Test
-    public void testStubDelegate() {
+    void testStubDelegate() {
         IMyInterface mock = createMock(IMyInterface.class);
         IMyInterface delegateTo = new IMyInterface() {
             private int i = 0;
@@ -85,7 +85,7 @@ public class DelegateToTest {
     }
 
     @Test
-    public void testReturnException() {
+    void testReturnException() {
         IMyInterface m = createMock(IMyInterface.class);
         IMyInterface delegateTo = k -> {
             throw new ArithmeticException("Not good!");
@@ -101,7 +101,7 @@ public class DelegateToTest {
     }
 
     @Test
-    public void testWrongClass() {
+    void testWrongClass() {
         IMyInterface m = createMock(IMyInterface.class);
         expect(m.getInt(0)).andDelegateTo("allo");
         replay(m);
@@ -113,14 +113,14 @@ public class DelegateToTest {
     }
 
     @Test
-    public void nullDelegationNotAllowed() {
+    void nullDelegationNotAllowed() {
         IMyInterface mock = createMock(IMyInterface.class);
         NullPointerException expected = assertThrows(NullPointerException.class, () -> expect(mock.getInt(1)).andDelegateTo(null));
         assertEquals("delegated to object must not be null", expected.getMessage());
     }
 
     @Test
-    public void nullStubDelegationNotAllowed() {
+    void nullStubDelegationNotAllowed() {
         IMyInterface mock = createMock(IMyInterface.class);
         NullPointerException expected = assertThrows(NullPointerException.class,
             () -> expect(mock.getInt(1)).andStubDelegateTo(null));
@@ -128,7 +128,7 @@ public class DelegateToTest {
     }
 
     @Test
-    public void varargs() {
+    void varargs() {
         IMyVarArgsInterface mock = createMock(IMyVarArgsInterface.class);
         IMyVarArgsInterface delegateTo = new IMyVarArgsInterface() {
             @Override

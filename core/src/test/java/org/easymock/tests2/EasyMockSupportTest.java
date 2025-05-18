@@ -33,14 +33,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author Henri Tremblay
  */
-public class EasyMockSupportTest extends EasyMockSupport {
+class EasyMockSupportTest extends EasyMockSupport {
 
     private IMethods mock1;
 
     private IMethods mock2;
 
     @Test
-    public void testCreateControl() {
+    void testCreateControl() {
         IMocksControl ctrl = createControl();
         mock1 = ctrl.createMock(IMethods.class);
         mock2 = ctrl.createMock(IMethods.class);
@@ -48,14 +48,14 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void testCreateMock() {
+    void testCreateMock() {
         mock1 = createMock(IMethods.class);
         mock2 = createMock(IMethods.class);
         testDefaultMock();
     }
 
     @Test
-    public void testCreateNamedMock() {
+    void testCreateNamedMock() {
         mock1 = createMock("a", IMethods.class);
         mock2 = createMock("b", IMethods.class);
         testDefaultMock();
@@ -77,7 +77,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void testCreateNiceControl() {
+    void testCreateNiceControl() {
         IMocksControl ctrl = createNiceControl();
         mock1 = ctrl.createMock(IMethods.class);
         mock2 = ctrl.createMock(IMethods.class);
@@ -85,14 +85,14 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void testCreateNiceMock() {
+    void testCreateNiceMock() {
         mock1 = createNiceMock(IMethods.class);
         mock2 = createNiceMock(IMethods.class);
         testNiceMock();
     }
 
     @Test
-    public void testCreateNamedNiceMock() {
+    void testCreateNamedNiceMock() {
         mock1 = createNiceMock("a", IMethods.class);
         mock2 = createNiceMock("b", IMethods.class);
         testNiceMock();
@@ -112,7 +112,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void testCreateStrictControl() {
+    void testCreateStrictControl() {
         IMocksControl ctrl = createStrictControl();
         mock1 = ctrl.createMock(IMethods.class);
         mock2 = ctrl.createMock(IMethods.class);
@@ -130,14 +130,14 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void testCreateStrictMock() {
+    void testCreateStrictMock() {
         mock1 = createStrictMock(IMethods.class);
         mock2 = createStrictMock(IMethods.class);
         testStrictMock();
     }
 
     @Test
-    public void testCreateNamedStrictMock() {
+    void testCreateNamedStrictMock() {
         mock1 = createStrictMock("a", IMethods.class);
         mock2 = createStrictMock("b", IMethods.class);
         testStrictMock();
@@ -165,7 +165,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void testVerify() {
+    void testVerify() {
         mock1 = createMock(IMethods.class);
         mock2 = createMock(IMethods.class);
         mock1.simpleMethod();
@@ -183,7 +183,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void testVerifyUnexpectedCalls() {
+    void testVerifyUnexpectedCalls() {
         mock1 = createMock(IMethods.class);
         mock2 = createMock(IMethods.class);
         replayAll();
@@ -199,7 +199,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void testVerifyRecording() {
+    void testVerifyRecording() {
         mock1 = createMock(IMethods.class);
         mock2 = createMock(IMethods.class);
         mock1.simpleMethod();
@@ -213,7 +213,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void defaultResetToNice() {
+    void defaultResetToNice() {
         mock1 = createMock(IMethods.class);
         mock2 = createMock(IMethods.class);
 
@@ -233,7 +233,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void strictResetToDefault() {
+    void strictResetToDefault() {
         mock1 = createStrictMock(IMethods.class);
         mock2 = createStrictMock(IMethods.class);
 
@@ -262,7 +262,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void niceToStrict() {
+    void niceToStrict() {
         IMethods mock1 = createNiceMock(IMethods.class);
         IMethods mock2 = createNiceMock(IMethods.class);
 
@@ -295,7 +295,7 @@ public class EasyMockSupportTest extends EasyMockSupport {
     }
 
     @Test
-    public void mockType() throws Exception {
+    void mockType() throws Exception {
         assertNull(EasyMockSupport.getMockedClass(null));
         assertNull(EasyMockSupport.getMockedClass(new Object()));
 

@@ -27,17 +27,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageTest {
+class UsageTest {
 
     IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void exactCallCountByLastCall() {
+    void exactCallCountByLastCall() {
         expect(mock.oneArg(false)).andReturn("Test").andReturn("Test2");
         replay(mock);
 
@@ -51,7 +51,7 @@ public class UsageTest {
     }
 
     @Test
-    public void openCallCountByLastCall() {
+    void openCallCountByLastCall() {
         expect(mock.oneArg(false)).andReturn("Test").andReturn("Test2").atLeastOnce();
 
         replay(mock);
@@ -62,7 +62,7 @@ public class UsageTest {
     }
 
     @Test
-    public void exactCallCountByLastThrowable() {
+    void exactCallCountByLastThrowable() {
         expect(mock.oneArg(false)).andReturn("Test").andReturn("Test2").andThrow(
                 new IndexOutOfBoundsException());
 
@@ -78,7 +78,7 @@ public class UsageTest {
     }
 
     @Test
-    public void openCallCountByLastThrowable() {
+    void openCallCountByLastThrowable() {
         expect(mock.oneArg(false)).andReturn("Test").andReturn("Test2").andThrow(
                 new IndexOutOfBoundsException()).atLeastOnce();
 
@@ -92,7 +92,7 @@ public class UsageTest {
     }
 
     @Test
-    public void moreThanOneArgument() {
+    void moreThanOneArgument() {
         expect(mock.threeArgumentMethod(1, "2", "3")).andReturn("Test").times(2);
 
         replay(mock);
@@ -106,7 +106,7 @@ public class UsageTest {
     }
 
     @Test
-    public void wrongArguments() {
+    void wrongArguments() {
         mock.simpleMethodWithArgument("3");
         replay(mock);
 
@@ -117,7 +117,7 @@ public class UsageTest {
     }
 
     @Test
-    public void summarizeSameObjectArguments() {
+    void summarizeSameObjectArguments() {
         mock.simpleMethodWithArgument("3");
         mock.simpleMethodWithArgument("3");
         replay(mock);
@@ -129,7 +129,7 @@ public class UsageTest {
     }
 
     @Test
-    public void argumentsOrdered() {
+    void argumentsOrdered() {
         mock.simpleMethodWithArgument("4");
         mock.simpleMethodWithArgument("3");
         mock.simpleMethodWithArgument("2");
@@ -148,7 +148,7 @@ public class UsageTest {
     }
 
     @Test
-    public void mixingOrderedAndUnordered() {
+    void mixingOrderedAndUnordered() {
         mock.simpleMethodWithArgument("2");
         mock.simpleMethodWithArgument("1");
         checkOrder(mock, true);
@@ -176,7 +176,7 @@ public class UsageTest {
     }
 
     @Test
-    public void resumeIfFailure() {
+    void resumeIfFailure() {
         IMethods mock = createMock(IMethods.class);
         expect(mock.oneArg(true)).andReturn("foo").anyTimes();
         replay(mock);
@@ -191,7 +191,7 @@ public class UsageTest {
     }
 
     @Test
-    public void defaultResetToNice() {
+    void defaultResetToNice() {
         IMethods mock = createMock(IMethods.class);
 
         expect(mock.oneArg(true)).andReturn("foo");
@@ -207,7 +207,7 @@ public class UsageTest {
     }
 
     @Test
-    public void strictResetToDefault() {
+    void strictResetToDefault() {
         IMethods mock = createStrictMock(IMethods.class);
 
         expect(mock.oneArg(true)).andReturn("foo");
@@ -229,7 +229,7 @@ public class UsageTest {
     }
 
     @Test
-    public void niceToStrict() {
+    void niceToStrict() {
         IMethods mock = createNiceMock(IMethods.class);
 
         expect(mock.oneArg(false)).andReturn("foo");

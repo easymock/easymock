@@ -26,16 +26,16 @@ import static org.easymock.EasyMock.*;
  *
  * @author Henri Tremblay
  */
-public class NoDepsTest {
+class NoDepsTest {
 
     @Test
-    public void interfaceMocking() throws Exception {
+    void interfaceMocking() throws Exception {
         Appendable appendable = mock(Appendable.class);
         test(appendable);
     }
 
     @Test
-    public void classMocking() throws Exception {
+    void classMocking() throws Exception {
         PrintStream stream = mock(PrintStream.class);
         test(stream);
     }

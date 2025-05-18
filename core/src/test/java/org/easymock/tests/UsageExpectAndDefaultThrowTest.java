@@ -27,19 +27,19 @@ import org.junit.jupiter.api.Test;
  *
  * @author OFFIS, Tammo Freese
  */
-public class UsageExpectAndDefaultThrowTest {
+class UsageExpectAndDefaultThrowTest {
 
     private IMethods mock;
 
     private static RuntimeException EXCEPTION = new RuntimeException();
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void booleanType() {
+    void booleanType() {
         expect(mock.booleanReturningMethod(4)).andStubThrow(EXCEPTION);
         replay(mock);
         try {
@@ -58,7 +58,7 @@ public class UsageExpectAndDefaultThrowTest {
     }
 
     @Test
-    public void longType() {
+    void longType() {
         expect(mock.longReturningMethod(4)).andStubThrow(EXCEPTION);
         replay(mock);
         try {
@@ -77,7 +77,7 @@ public class UsageExpectAndDefaultThrowTest {
     }
 
     @Test
-    public void floatType() {
+    void floatType() {
         expect(mock.floatReturningMethod(4)).andStubThrow(EXCEPTION);
         replay(mock);
         try {
@@ -96,7 +96,7 @@ public class UsageExpectAndDefaultThrowTest {
     }
 
     @Test
-    public void doubleType() {
+    void doubleType() {
         expect(mock.doubleReturningMethod(4)).andStubThrow(EXCEPTION);
         replay(mock);
         try {
@@ -115,7 +115,7 @@ public class UsageExpectAndDefaultThrowTest {
     }
 
     @Test
-    public void object() {
+    void object() {
         expect(mock.objectReturningMethod(4)).andStubThrow(EXCEPTION);
         replay(mock);
         try {
@@ -134,7 +134,7 @@ public class UsageExpectAndDefaultThrowTest {
     }
 
     @Test
-    public void throwableAndDefaultThrowable() {
+    void throwableAndDefaultThrowable() {
 
         expect(mock.oneArg("1")).andThrow(new IllegalArgumentException());
         expect(mock.oneArg(anyObject())).andStubThrow(new IllegalStateException());

@@ -37,24 +37,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author Henri Tremblay
  */
-public class ClassExtensionHelperTest {
+class ClassExtensionHelperTest {
 
     private static final InvocationHandler NOOP_INVOCATION_HANDLER = (proxy, method, args) -> null;
 
     @Test
-    public void testGetControl_EasyMock() {
+    void testGetControl_EasyMock() {
         List<?> mock = EasyMock.createMock(List.class);
         assertNotNull(getControl(mock));
     }
 
     @Test
-    public void testGetControl_EasyMockClassExtension() {
+    void testGetControl_EasyMockClassExtension() {
         ArrayList<?> mock = EasyMock.createMock(ArrayList.class);
         assertNotNull(getControl(mock));
     }
 
     @Test
-    public void testGetControl_ByteBuddyButNotAMock() throws Exception {
+    void testGetControl_ByteBuddyButNotAMock() throws Exception {
         Object o;
         if (AndroidSupport.isAndroid()) {
             o = ProxyBuilder.forClass(ArrayList.class)
@@ -73,7 +73,7 @@ public class ClassExtensionHelperTest {
     }
 
     @Test
-    public void testGetControl_ProxyButNotMock() {
+    void testGetControl_ProxyButNotMock() {
         Object o = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { List.class },
             (proxy, method, args) -> null);
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> getControl(o));
@@ -81,20 +81,20 @@ public class ClassExtensionHelperTest {
     }
 
     @Test
-    public void testGetControl_NotAMock() {
+    void testGetControl_NotAMock() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> getControl(""));
         assertEquals("Not a mock: java.lang.String", e.getMessage());
     }
 
     @Test
-    public void testMockType_Class() {
+    void testMockType_Class() {
         Object o = createMock(ArrayList.class);
         Class<?> c = getMockedClass(o);
         assertSame(ArrayList.class, c);
     }
 
     @Test
-    public void testMockType_Interface() {
+    void testMockType_Interface() {
         Object o = createMock(List.class);
         Class<?> c = getMockedClass(o);
         assertSame(List.class, c);

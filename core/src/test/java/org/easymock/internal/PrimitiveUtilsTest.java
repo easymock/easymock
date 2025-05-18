@@ -21,9 +21,9 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Henri Tremblay
  */
-public class PrimitiveUtilsTest {
+class PrimitiveUtilsTest {
     @Test
-    public void getEmptyValue() {
+    void getEmptyValue() {
         Assertions.assertNull(PrimitiveUtils.getEmptyValue(Void.TYPE));
         Assertions.assertEquals(false, PrimitiveUtils.getEmptyValue(Boolean.TYPE));
         Assertions.assertEquals((byte) 0, PrimitiveUtils.getEmptyValue(Byte.TYPE));
@@ -36,7 +36,7 @@ public class PrimitiveUtilsTest {
     }
 
     @Test
-    public void getWrapperType() {
+    void getWrapperType() {
         Assertions.assertEquals(Void.class, PrimitiveUtils.getWrapperType(Void.TYPE));
         Assertions.assertEquals(Boolean.class, PrimitiveUtils.getWrapperType(Boolean.TYPE));
         Assertions.assertEquals(Byte.class, PrimitiveUtils.getWrapperType(Byte.TYPE));
@@ -49,7 +49,7 @@ public class PrimitiveUtilsTest {
     }
 
     @Test
-    public void isNumberWrapper() {
+    void isNumberWrapper() {
         Assertions.assertTrue(PrimitiveUtils.isPrimitiveWrapper(Byte.class));
         Assertions.assertTrue(PrimitiveUtils.isPrimitiveWrapper(Short.class));
         Assertions.assertTrue(PrimitiveUtils.isPrimitiveWrapper(Integer.class));
@@ -62,7 +62,7 @@ public class PrimitiveUtilsTest {
     }
 
     @Test
-    public void getPrimitiveTypeNameFromWrapper() {
+    void getPrimitiveTypeNameFromWrapper() {
         assertPrimitiveName(Byte.TYPE, Byte.class);
         assertPrimitiveName(Short.TYPE, Short.class);
         assertPrimitiveName(Integer.TYPE, Integer.class);

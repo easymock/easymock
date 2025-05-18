@@ -33,16 +33,16 @@ import static org.easymock.EasyMock.*;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageConstraintsTest {
+class UsageConstraintsTest {
     private IMethods mock;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void equalsMissing() {
+    void equalsMissing() {
         mock.simpleMethodWithArgument(not(eq("asd")));
         try {
             mock.simpleMethodWithArgument(not("jkl"));
@@ -70,7 +70,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void differentConstraintsOnSameCall() {
+    void differentConstraintsOnSameCall() {
         mock.simpleMethodWithArgument(isNull());
         mock.simpleMethodWithArgument(notNull());
         replay(mock);
@@ -80,7 +80,7 @@ public class UsageConstraintsTest {
 
     @SuppressWarnings("unlikely-arg-type")
     @Test
-    public void equals() {
+    void equals() {
         Assertions.assertEquals(new Equals(null), new Equals(null));
         Assertions.assertEquals(new Equals(2), new Equals(2));
         Assertions.assertNotEquals(null, new Equals(null));
@@ -93,7 +93,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void constraints() {
+    void constraints() {
         expect(mock.threeArgumentMethod(and(geq(7), leq(10)), isA(String.class), contains("123"))).andReturn(
                 "456").atLeastOnce();
         replay(mock);
@@ -129,7 +129,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void andOverloaded() {
+    void andOverloaded() {
         expect(mock.oneArg(and(eq(false), eq(false)))).andReturn("0");
         expect(mock.oneArg(and(eq((byte) 1), eq((byte) 1)))).andReturn("1");
         expect(mock.oneArg(and(eq('a'), eq('a')))).andReturn("2");
@@ -155,7 +155,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void orOverloaded() {
+    void orOverloaded() {
         expect(mock.oneArg(or(eq(false), eq(true)))).andReturn("0");
         expect(mock.oneArg(or(eq((byte) 1), eq((byte) 2)))).andReturn("1");
         expect(mock.oneArg(or(eq((char) 1), eq((char) 2)))).andReturn("2");
@@ -181,7 +181,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void notOverloaded() {
+    void notOverloaded() {
         expect(mock.oneArg(not(eq(false)))).andReturn("0");
         expect(mock.oneArg(not(eq((byte) 1)))).andReturn("1");
         expect(mock.oneArg(not(eq('a')))).andReturn("2");
@@ -207,7 +207,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void lessOrEqualOverloaded() {
+    void lessOrEqualOverloaded() {
         expect(mock.oneArg(leq((byte) 1))).andReturn("1");
         expect(mock.oneArg(leq((double) 1))).andReturn("3");
         expect(mock.oneArg(leq((float) 1))).andReturn("4");
@@ -227,7 +227,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void lessThanOverloaded() {
+    void lessThanOverloaded() {
         expect(mock.oneArg(lt((byte) 1))).andReturn("1");
         expect(mock.oneArg(lt((double) 1))).andReturn("3");
         expect(mock.oneArg(lt((float) 1))).andReturn("4");
@@ -247,7 +247,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void greaterOrEqualOverloaded() {
+    void greaterOrEqualOverloaded() {
         expect(mock.oneArg(geq((byte) 1))).andReturn("1");
         expect(mock.oneArg(geq((double) 1))).andReturn("3");
         expect(mock.oneArg(geq((float) 1))).andReturn("4");
@@ -267,7 +267,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void greaterThanOverloaded() {
+    void greaterThanOverloaded() {
         expect(mock.oneArg(gt((byte) 1))).andReturn("1");
         expect(mock.oneArg(gt((double) 1))).andReturn("3");
         expect(mock.oneArg(gt((float) 1))).andReturn("4");
@@ -287,7 +287,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void cmpTo() {
+    void cmpTo() {
         expect(mock.oneArg(cmpEq(new BigDecimal("1.5")))).andReturn("0");
         replay(mock);
         Assertions.assertEquals("0", mock.oneArg(new BigDecimal("1.50")));
@@ -307,7 +307,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void compareWithComparator() {
+    void compareWithComparator() {
         // Undertype just to make sure the generic typing works
         Comparator<Object> comparator = new Comparator<Object>() {
             private int compare(A a1, A a2) {
@@ -381,7 +381,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void any() {
+    void any() {
         expect(mock.oneArg(anyBoolean())).andReturn("0");
         expect(mock.oneArg(anyByte())).andReturn("1");
         expect(mock.oneArg(anyChar())).andReturn("2");
@@ -411,7 +411,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void arrayEquals() {
+    void arrayEquals() {
         expect(mock.oneArray(aryEq(new boolean[] { true }))).andReturn("0");
         expect(mock.oneArray(aryEq(new byte[] { 1 }))).andReturn("1");
         expect(mock.oneArray(aryEq(new char[] { 1 }))).andReturn("2");
@@ -437,7 +437,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void greaterOrEqual() {
+    void greaterOrEqual() {
         expect(mock.oneArg(geq(7))).andReturn("1").times(3);
         expect(mock.oneArg(lt(7))).andStubReturn("2");
 
@@ -453,7 +453,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void greaterThan() {
+    void greaterThan() {
         expect(mock.oneArg(gt(7))).andReturn("1").times(3);
         expect(mock.oneArg(leq(7))).andStubReturn("2");
 
@@ -469,7 +469,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void lessOrEqual() {
+    void lessOrEqual() {
         expect(mock.oneArg(leq(7))).andReturn("1").times(3);
         expect(mock.oneArg(gt(7))).andStubReturn("2");
 
@@ -485,7 +485,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void lessThan() {
+    void lessThan() {
         expect(mock.oneArg(lt(7))).andReturn("1").times(3);
         expect(mock.oneArg(geq(7))).andStubReturn("2");
 
@@ -501,7 +501,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void testOr() {
+    void testOr() {
         expect(mock.oneArg(or(eq(7), eq(9)))).andReturn("1").atLeastOnce();
         expect(mock.oneArg(anyInt())).andStubReturn("2");
 
@@ -515,7 +515,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void testNull() {
+    void testNull() {
         expect(mock.threeArgumentMethod(eq(1), isNull(), eq(""))).andReturn("1");
         expect(mock.threeArgumentMethod(eq(1), isNull(Object.class), eq(""))).andReturn("2");
         expect(mock.threeArgumentMethod(eq(1), not(isNull()), eq(""))).andStubReturn("3");
@@ -530,7 +530,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void testNotNull() {
+    void testNotNull() {
         expect(mock.threeArgumentMethod(eq(1), notNull(), eq(""))).andReturn("1");
         expect(mock.threeArgumentMethod(eq(1), notNull(Object.class), eq(""))).andReturn("2");
         expect(mock.threeArgumentMethod(eq(1), not(notNull()), eq(""))).andStubReturn("3");
@@ -545,7 +545,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void testFind() {
+    void testFind() {
         expect(mock.oneArg(find("[a-z]+\\d"))).andReturn("1").atLeastOnce();
         expect(mock.oneArg(find("\\d\\d"))).andStubReturn("2");
 
@@ -558,7 +558,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void testMatches() {
+    void testMatches() {
         expect(mock.oneArg(matches("[a-z]+\\d\\d"))).andReturn("1").atLeastOnce();
         expect(mock.oneArg(matches("\\d\\d\\d"))).andStubReturn("2");
 
@@ -571,7 +571,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void testContains() {
+    void testContains() {
         expect(mock.oneArg(contains("ab"))).andReturn("1").atLeastOnce();
         expect(mock.oneArg(contains("bc"))).andStubReturn("2");
 
@@ -584,7 +584,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void testStartsWith() {
+    void testStartsWith() {
         expect(mock.oneArg(startsWith("ab"))).andReturn("1").atLeastOnce();
         expect(mock.oneArg(startsWith("bc"))).andStubReturn("2");
 
@@ -597,7 +597,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void testEndsWith() {
+    void testEndsWith() {
         expect(mock.oneArg(endsWith("ab"))).andReturn("1").atLeastOnce();
         expect(mock.oneArg(endsWith("bc"))).andStubReturn("2");
 
@@ -610,7 +610,7 @@ public class UsageConstraintsTest {
     }
 
     @Test
-    public void equalsWithDelta() {
+    void equalsWithDelta() {
         expect(mock.oneArg(eq(1.0D, 0.1D))).andReturn("1").atLeastOnce();
         expect(mock.oneArg(eq(2.0D, 0.1D))).andStubReturn("2");
         expect(mock.oneArg(eq(1.0F, 0.1F))).andReturn("3").atLeastOnce();
@@ -634,7 +634,7 @@ public class UsageConstraintsTest {
 
     @SuppressWarnings("RedundantStringConstructorCall")
     @Test
-    public void testSame() {
+    void testSame() {
         Object one = new String("1243");
         Object two = new String("1243");
 

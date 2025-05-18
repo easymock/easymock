@@ -34,7 +34,7 @@ import static org.easymock.EasyMock.*;
 /**
  * @author Henri Tremblay
  */
-public class EasyMockClassExtensionTest {
+class EasyMockClassExtensionTest {
 
     private static class ParamEntry {
         Class<?>[] types;
@@ -109,7 +109,7 @@ public class EasyMockClassExtensionTest {
     }
 
     @Test
-    public void testDisablingClassMocking() {
+    void testDisablingClassMocking() {
         EasyMockProperties.getInstance().setProperty(DISABLE_CLASS_MOCKING, Boolean.TRUE.toString());
         try {
             ArrayList<?> list = createMock(ArrayList.class);
@@ -123,13 +123,13 @@ public class EasyMockClassExtensionTest {
     }
 
     @Test
-    public void testClassMocking() {
+    void testClassMocking() {
         ArrayList<?> list = createMock(ArrayList.class);
         testList(list);
     }
 
     @Test
-    public void testInterfaceMocking() {
+    void testInterfaceMocking() {
         List<?> list = createMock(List.class);
         testList(list);
     }
@@ -142,7 +142,7 @@ public class EasyMockClassExtensionTest {
     }
 
     @Test
-    public void testResetReplay() {
+    void testResetReplay() {
         ArrayList<?> list = createStrictMock(ArrayList.class);
         expect(list.size()).andReturn(3);
         reset(list);
@@ -153,7 +153,7 @@ public class EasyMockClassExtensionTest {
     }
 
     @Test
-    public void testResetTo() {
+    void testResetTo() {
         ArrayList<?> list = createMock(ArrayList.class);
         // Just to make sure the all can be called on a mock
         resetToNice(list);
@@ -162,14 +162,14 @@ public class EasyMockClassExtensionTest {
     }
 
     @Test
-    public void testMakeThreadSafe() {
+    void testMakeThreadSafe() {
         ArrayList<?> list = createMock(ArrayList.class);
         // Just to make sure the all can be called on a mock
         makeThreadSafe(list, true);
     }
 
     @Test
-    public void testVarargs() {
+    void testVarargs() {
         ArrayList<?> list2 = createStrictMock(ArrayList.class);
         ArrayList<?> list1 = createStrictMock(ArrayList.class);
 
@@ -189,7 +189,7 @@ public class EasyMockClassExtensionTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testCheckOrder() {
+    void testCheckOrder() {
         ArrayList<Integer> list = createStrictMock(ArrayList.class);
         checkOrder(list, false);
         expect(list.add(1)).andReturn(true);
@@ -202,7 +202,7 @@ public class EasyMockClassExtensionTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testStrictMock_Partial() {
+    void testStrictMock_Partial() {
         List<Integer> list = createMockBuilder(ArrayList.class).addMockedMethod("add",
                 Object.class).createStrictMock();
 
@@ -222,7 +222,7 @@ public class EasyMockClassExtensionTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testMock_Partial() {
+    void testMock_Partial() {
         ArrayList<Integer> list = createMockBuilder(ArrayList.class).addMockedMethod("add",
                 Object.class).createMock();
 
@@ -240,7 +240,7 @@ public class EasyMockClassExtensionTest {
     }
 
     @Test
-    public void testNiceMock_Partial() {
+    void testNiceMock_Partial() {
         ArrayList<?> list = createMockBuilder(ArrayList.class).addMockedMethod("get").createNiceMock();
 
         replay(list);
@@ -251,7 +251,7 @@ public class EasyMockClassExtensionTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testCompare() {
+    void testCompare() {
         BigDecimal expected = new BigDecimal("15.6");
         BigDecimal actual = new BigDecimal("15.60");
 
@@ -267,7 +267,7 @@ public class EasyMockClassExtensionTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testNamedMock() throws Exception {
+    void testNamedMock() throws Exception {
         ArrayList<BigDecimal> list = createMock("mockName", ArrayList.class);
         Assertions.assertEquals("mockName", list.toString());
         list = createStrictMock("mockName", ArrayList.class);
@@ -288,7 +288,7 @@ public class EasyMockClassExtensionTest {
     }
 
     @Test
-    public void testStrictMock() throws Exception {
+    void testStrictMock() throws Exception {
         for (ParamEntry p : PARAMETERS) {
             A mock = p.getMock("createStrictMock");
             p.test(mock);
@@ -297,7 +297,7 @@ public class EasyMockClassExtensionTest {
     }
 
     @Test
-    public void testNormalMock() throws Exception {
+    void testNormalMock() throws Exception {
         for (ParamEntry p : PARAMETERS) {
             A mock = p.getMock("createMock");
             p.test(mock);
@@ -306,7 +306,7 @@ public class EasyMockClassExtensionTest {
     }
 
     @Test
-    public void testNiceMock() throws Exception {
+    void testNiceMock() throws Exception {
         for (ParamEntry p : PARAMETERS) {
             A mock = p.getMock("createNiceMock");
             p.test(mock);
@@ -315,7 +315,7 @@ public class EasyMockClassExtensionTest {
     }
 
     @Test
-    public void testCreateMockBuilder() {
+    void testCreateMockBuilder() {
         IMockBuilder<A> builder = createMockBuilder(A.class);
         A a = builder.withConstructor(int.class).withArgs(2).createMock();
         Assertions.assertEquals(2, a.i);

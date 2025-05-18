@@ -25,16 +25,16 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class StubTest {
+class StubTest {
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createStrictMock(IMethods.class);
     }
 
     @Test
-    public void stub() {
+    void stub() {
         mock.simpleMethodWithArgument("1");
         expectLastCall().anyTimes();
         mock.simpleMethodWithArgument("2");
@@ -56,7 +56,7 @@ public class StubTest {
     }
 
     @Test
-    public void stubWithReturnValue() {
+    void stubWithReturnValue() {
         expect(mock.oneArg("1")).andReturn("A").andStubReturn("B");
         expect(mock.oneArg("2")).andThrow(new IllegalArgumentException()).andStubThrow(
                 new IllegalStateException());

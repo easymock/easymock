@@ -24,17 +24,17 @@ import org.junit.jupiter.api.Test;
 /**
  * @author OFFIS, Tammo Freese
  */
-public class UsageFloatingPointReturnValueTest {
+class UsageFloatingPointReturnValueTest {
 
     private IMethods mock;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mock = createMock(IMethods.class);
     }
 
     @Test
-    public void returnFloat() {
+    void returnFloat() {
         expect(mock.floatReturningMethod(0)).andReturn(25.0F);
         expect(mock.floatReturningMethod(anyInt())).andStubReturn(34.0F);
 
@@ -48,7 +48,7 @@ public class UsageFloatingPointReturnValueTest {
     }
 
     @Test
-    public void returnDouble() {
+    void returnDouble() {
         expect(mock.doubleReturningMethod(0)).andReturn(25.0);
         expect(mock.doubleReturningMethod(anyInt())).andStubReturn(34.0);
 

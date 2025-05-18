@@ -32,7 +32,7 @@ import static org.junit.Assert.assertSame;
  *
  * @author Henri Tremblay
  */
-public class IMockBuilderTest {
+class IMockBuilderTest {
 
     private final IMockBuilder<IMockBuilderTest> builder = partialMockBuilder(IMockBuilderTest.class);
 
@@ -46,62 +46,63 @@ public class IMockBuilderTest {
         assertMock(mock, name, type);
         Assertions.assertSame(control, Util.getControl(mock));
     }
+
     @Test
-    public void testMock() {
+    void testMock() {
         IMockBuilderTest mock = builder.mock();assertMock(mock, null, MockType.DEFAULT);
     }
 
     @Test
-    public void testNiceMock() {
+    void testNiceMock() {
         IMockBuilderTest mock = builder.niceMock();
         assertMock(mock, null, MockType.NICE);
     }
 
     @Test
-    public void testStrictMock() {
+    void testStrictMock() {
         IMockBuilderTest mock = builder.strictMock();
         assertMock(mock, null, MockType.STRICT);
     }
 
     @Test
-    public void testMockWithName() {
+    void testMockWithName() {
         IMockBuilderTest mock = builder.mock("a");
         assertMock(mock, "a", MockType.DEFAULT);
     }
 
     @Test
-    public void testNiceMockWithName() {
+    void testNiceMockWithName() {
         IMockBuilderTest mock = builder.niceMock("a");
         assertMock(mock, "a", MockType.NICE);
     }
 
     @Test
-    public void testStrictMockWithName() {
+    void testStrictMockWithName() {
         IMockBuilderTest mock = builder.strictMock("a");
         assertMock(mock, "a", MockType.STRICT);
     }
 
     @Test
-    public void testMockWithType() {
+    void testMockWithType() {
         IMockBuilderTest mock = builder.mock(MockType.NICE);
         assertMock(mock, null, MockType.NICE);
     }
 
     @Test
-    public void testMockWithNameAndType() {
+    void testMockWithNameAndType() {
         IMockBuilderTest mock = builder.mock("a", MockType.NICE);
         assertMock(mock, "a", MockType.NICE);
     }
 
     @Test
-    public void testMockWithControl() {
+    void testMockWithControl() {
         IMocksControl control = EasyMock.createNiceControl();
         IMockBuilderTest mock = builder.mock(control);
         assertMock(mock, null, MockType.NICE, control);
     }
 
     @Test
-    public void testMockWithNameAndControl() {
+    void testMockWithNameAndControl() {
         IMocksControl control = EasyMock.createNiceControl();
         IMockBuilderTest mock = builder.mock("a", control);
         assertMock(mock, "a", MockType.NICE, control);
