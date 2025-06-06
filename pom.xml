@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.easymock</groupId>
   <artifactId>easymock-parent</artifactId>
-  <version>5.6.0</version>
+  <version>5.7.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>EasyMock Parent</name>
   <url>http://easymock.org</url>
@@ -54,7 +54,7 @@
   </mailingLists>
 
   <properties>
-    <project.build.outputTimestamp>2025-05-18T03:53:29Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-05-18T04:04:21Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
     <java.version>1.8</java.version>
