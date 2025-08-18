@@ -190,7 +190,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.11.2</version>
+          <version>3.11.3</version>
         </plugin>
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
@@ -406,7 +406,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.11.2</version>
+        <version>3.11.3</version>
         <configuration>
           <excludePackageNames>*.internal</excludePackageNames>
           <bottom><![CDATA[<i>Copyright &#169; ${project.inceptionYear}-${maven.build.timestamp} ${project.organization.name}. This documentation is provided under the terms of the Apache 2 licence.</i>]]></bottom>
