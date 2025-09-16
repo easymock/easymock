@@ -59,7 +59,7 @@
     <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
     <java.version>1.8</java.version>
     <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-    <spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
+    <spotbugs-maven-plugin.version>4.9.5.0</spotbugs-maven-plugin.version>
     <spotbugs.version>4.8.6</spotbugs.version>
     <junit.jupiter.version>5.13.4</junit.jupiter.version>
     <!-- last version supporting Java 8 -->
