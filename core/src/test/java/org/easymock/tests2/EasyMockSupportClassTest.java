@@ -25,12 +25,11 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Method;
 
 import static org.easymock.EasyMock.*;
-import static org.hamcrest.core.Is.*;
+import static org.hamcrest.core.Is.isA;
 
 /**
  * @author Henri Tremblay
  */
-@SuppressWarnings("deprecation")
 class EasyMockSupportClassTest extends EasyMockSupport {
 
     public static class ToMock {
@@ -49,49 +48,49 @@ class EasyMockSupportClassTest extends EasyMockSupport {
     @Test
     void testCreateStrictControl() {
         IMocksControl ctrl = createStrictControl();
-        MatcherAssert.assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(ctrl.createMock(ToMock.class), isA(ToMock.class));
     }
 
     @Test
     void testCreateControl() {
         IMocksControl ctrl = createControl();
-        MatcherAssert.assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(ctrl.createMock(ToMock.class), isA(ToMock.class));
     }
 
     @Test
     void testCreateNiceControl() {
         IMocksControl ctrl = createNiceControl();
-        MatcherAssert.assertThat(ctrl.createMock(ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(ctrl.createMock(ToMock.class), isA(ToMock.class));
     }
 
     @Test
     void testCreateStrictMockClassOfT() {
-        MatcherAssert.assertThat(createStrictMock(ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(createStrictMock(ToMock.class), isA(ToMock.class));
     }
 
     @Test
     void testCreateStrictMockStringClassOfT() {
-        MatcherAssert.assertThat(createStrictMock("myMock", ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(createStrictMock("myMock", ToMock.class), isA(ToMock.class));
     }
 
     @Test
     void testCreateMockClassOfT() {
-        MatcherAssert.assertThat(createMock(ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(createMock(ToMock.class), isA(ToMock.class));
     }
 
     @Test
     void testCreateMockStringClassOfT() {
-        MatcherAssert.assertThat(createMock("myMock", ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(createMock("myMock", ToMock.class), isA(ToMock.class));
     }
 
     @Test
     void testCreateNiceMockClassOfT() {
-        MatcherAssert.assertThat(createNiceMock(ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(createNiceMock(ToMock.class), isA(ToMock.class));
     }
 
     @Test
     void testCreateNiceMockStringClassOfT() {
-        MatcherAssert.assertThat(createNiceMock("myMock", ToMock.class), is(ToMock.class));
+        MatcherAssert.assertThat(createNiceMock("myMock", ToMock.class), isA(ToMock.class));
     }
 
     @Test
