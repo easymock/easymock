@@ -25,5 +25,6 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
         distribution: 'temurin'
+        cache: maven
     - name: Build
       run: ./mvnw --no-transfer-progress -B clean verify --file pom.xml -Pall-no-android,fullBuild
