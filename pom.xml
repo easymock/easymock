@@ -549,6 +549,8 @@
       </activation>
       <properties>
         <testng.version>7.10.2</testng.version>
+        <spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
+        <spotbugs.version>4.9.3</spotbugs.version>
       </properties>
     </profile>
   </profiles>
