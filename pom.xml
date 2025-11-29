@@ -549,18 +549,8 @@
       </activation>
       <properties>
         <testng.version>7.10.2</testng.version>
-        <spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
-        <spotbugs.version>4.9.3</spotbugs.version>
-      </properties>
-    </profile>
-    <profile>
-      <id>java-25</id>
-      <activation>
-        <jdk>[25,)</jdk>
-      </activation>
-      <properties>
-        <!-- we skip spotbugs for Java 25 because it doesn't support it yet -->
-        <spotbugs.skip>true</spotbugs.skip>
+        <spotbugs-maven-plugin.version>4.9.8.2</spotbugs-maven-plugin.version>
+        <spotbugs.version>4.9.8</spotbugs.version>
       </properties>
     </profile>
   </profiles>
