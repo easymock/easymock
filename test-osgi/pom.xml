@@ -29,7 +29,7 @@
     <paxexam.version>4.13.5</paxexam.version>
     <!-- No code coverage needed on this project since it's only a test project -->
     <jacoco.skip>true</jacoco.skip>
-    <logback.version>1.3.14</logback.version>
+    <logback.version>1.5.23</logback.version>
   </properties>
 
   <dependencies>
