@@ -61,7 +61,7 @@
     <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
     <spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
     <spotbugs.version>4.8.6</spotbugs.version>
-    <junit.jupiter.version>5.13.4</junit.jupiter.version>
+    <junit.jupiter.version>5.14.1</junit.jupiter.version>
     <!-- last version supporting Java 8 -->
     <testng.version>7.5.1</testng.version>
     <license-maven-plugin.version>4.6</license-maven-plugin.version>
@@ -551,6 +551,15 @@
         <testng.version>7.10.2</testng.version>
         <spotbugs-maven-plugin.version>4.9.8.2</spotbugs-maven-plugin.version>
         <spotbugs.version>4.9.8</spotbugs.version>
+      </properties>
+    </profile>
+    <profile>
+      <id>java-17</id>
+      <activation>
+        <jdk>[17,)</jdk>
+      </activation>
+      <properties>
+        <junit.jupiter.version>6.0.1</junit.jupiter.version>
       </properties>
     </profile>
   </profiles>
