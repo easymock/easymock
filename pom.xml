@@ -58,13 +58,14 @@
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
     <java.version>1.8</java.version>
-    <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
     <spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
     <spotbugs.version>4.8.6</spotbugs.version>
     <junit.jupiter.version>5.14.1</junit.jupiter.version>
     <!-- last version supporting Java 8 -->
     <testng.version>7.5.1</testng.version>
     <license-maven-plugin.version>4.6</license-maven-plugin.version>
+    <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
     <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
   </properties>
 
@@ -162,7 +163,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>5.1.9</version>
+          <version>${maven-bundle-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
@@ -186,7 +187,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.5.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
@@ -314,7 +315,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>13.4.2</version>
+            <version>13.9.0</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -346,6 +347,17 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
         <version>2.21.0</version>
+        <configuration>
+          <ruleSet>
+            <!-- zero or more elements -->
+            <ignoreVersions>
+              <ignoreVersion>
+                <type>regex</type>
+                <version>.+-(alpha|beta|M\d+|jdk\d+).*</version>
+              </ignoreVersion>
+            </ignoreVersions>
+          </ruleSet>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>com.mycila</groupId>
@@ -548,9 +560,10 @@
         <jdk>[11,)</jdk>
       </activation>
       <properties>
-        <testng.version>7.10.2</testng.version>
-        <spotbugs-maven-plugin.version>4.9.8.2</spotbugs-maven-plugin.version>
-        <spotbugs.version>4.9.8</spotbugs.version>
+        <license-maven-plugin.version>5.1.1</license-maven-plugin.version>
+        <testng.version>7.12.0</testng.version>
+        <spotbugs-maven-plugin.version>4.10.3.0</spotbugs-maven-plugin.version>
+        <spotbugs.version>4.10.3</spotbugs.version>
       </properties>
     </profile>
     <profile>
@@ -559,7 +572,8 @@
         <jdk>[17,)</jdk>
       </activation>
       <properties>
-        <junit.jupiter.version>6.0.1</junit.jupiter.version>
+        <junit.jupiter.version>6.1.2</junit.jupiter.version>
+        <maven-bundle-plugin.version>6.1.0</maven-bundle-plugin.version>
       </properties>
     </profile>
   </profiles>
