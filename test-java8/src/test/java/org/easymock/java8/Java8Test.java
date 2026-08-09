@@ -17,7 +17,10 @@ package org.easymock.java8;
 
 import org.junit.jupiter.api.Test;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.partialMockBuilder;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**

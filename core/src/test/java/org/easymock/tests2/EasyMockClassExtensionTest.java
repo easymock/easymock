@@ -29,7 +29,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.DISABLE_CLASS_MOCKING;
+import static org.easymock.EasyMock.checkOrder;
+import static org.easymock.EasyMock.cmpEq;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createMockBuilder;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.createStrictMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.makeThreadSafe;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.reset;
+import static org.easymock.EasyMock.resetToDefault;
+import static org.easymock.EasyMock.resetToNice;
+import static org.easymock.EasyMock.resetToStrict;
+import static org.easymock.EasyMock.verify;
 
 /**
  * @author Henri Tremblay

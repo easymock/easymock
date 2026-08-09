@@ -22,16 +22,16 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.net.URL;
 import java.sql.Timestamp;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.mock;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
-import static org.powermock.api.easymock.PowerMock.*;
+import static org.junit.Assert.assertThrows;
+import static org.powermock.api.easymock.PowerMock.mockStatic;
+import static org.powermock.api.easymock.PowerMock.replay;
+import static org.powermock.api.easymock.PowerMock.verify;
 
 /**
  * Test doing a basic smoke test to make sure EasyMock is still compatible with
@@ -64,12 +64,8 @@ public class PowermockTest {
         assertEquals(expected, actual);
 
         // Singleton still be mocked by now.
-        try {
-            StaticService.say("world");
-            fail("Should throw AssertionError!");
-        } catch (AssertionError e) {
-            assertEquals("\n  Unexpected method call EasyMock for class org.itests.StaticService -> StaticService.say(\"world\")", e.getMessage());
-        }
+        AssertionError e = assertThrows(AssertionError.class, () -> StaticService.say("world"));
+        assertEquals("\n  Unexpected method call EasyMock for class org.itests.StaticService -> StaticService.say(\"world\")", e.getMessage());
     }
 
     @Test

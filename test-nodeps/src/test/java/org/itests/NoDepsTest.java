@@ -20,7 +20,10 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.mock;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 /**
  *

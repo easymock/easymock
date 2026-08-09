@@ -15,10 +15,10 @@
  */
 package org.easymock.internal.matchers;
 
-import java.io.Serializable;
-
 import org.easymock.IArgumentMatcher;
 import org.easymock.internal.ArgumentToString;
+
+import java.io.Serializable;
 
 /**
  * Matches if the argument is equal to the given value.

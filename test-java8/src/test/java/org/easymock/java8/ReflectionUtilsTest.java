@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 
-import static org.easymock.internal.ReflectionUtils.*;
+import static org.easymock.internal.ReflectionUtils.NOT_PRIVATE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**

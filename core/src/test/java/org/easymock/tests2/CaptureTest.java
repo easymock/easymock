@@ -15,13 +15,12 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.easymock.Capture;
+import org.easymock.CaptureType;
+import org.easymock.tests.IMethods;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,12 +31,30 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.function.UnaryOperator;
 
-import org.easymock.Capture;
-import org.easymock.CaptureType;
-import org.easymock.tests.IMethods;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.easymock.EasyMock.and;
+import static org.easymock.EasyMock.anyInt;
+import static org.easymock.EasyMock.capture;
+import static org.easymock.EasyMock.captureBoolean;
+import static org.easymock.EasyMock.captureByte;
+import static org.easymock.EasyMock.captureChar;
+import static org.easymock.EasyMock.captureDouble;
+import static org.easymock.EasyMock.captureFloat;
+import static org.easymock.EasyMock.captureInt;
+import static org.easymock.EasyMock.captureLong;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createStrictMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.newCapture;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Henri Tremblay

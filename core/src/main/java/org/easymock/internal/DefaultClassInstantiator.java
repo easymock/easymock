@@ -16,10 +16,20 @@
 package org.easymock.internal;
 
 import org.easymock.EasyMock;
-import org.easymock.EasyMockSupport;
 
-import java.io.*;
-import java.lang.reflect.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectStreamClass;
+import java.io.ObjectStreamConstants;
+import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 /**
  * Default class instantiator that is pretty limited. It just hope that the

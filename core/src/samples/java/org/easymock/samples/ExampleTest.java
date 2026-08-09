@@ -15,15 +15,22 @@
  */
 package org.easymock.samples;
 
-import org.easymock.*;
+import org.easymock.EasyMockRule;
+import org.easymock.EasyMockSupport;
+import org.easymock.Mock;
+import org.easymock.TestSubject;
 import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.getCurrentArgument;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author OFFIS, Tammo Freese, Henri Tremblay

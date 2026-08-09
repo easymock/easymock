@@ -18,8 +18,6 @@ package org.easymock.tests2;
 import org.easymock.ConstructorArgs;
 import org.junit.jupiter.api.Test;
 
-import java.util.StringJoiner;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

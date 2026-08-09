@@ -15,6 +15,10 @@
  */
 package org.itests;
 
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,10 +29,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
 
 /**
  * @author Henri Tremblay
@@ -153,7 +153,7 @@ class FilteringStatement extends Statement {
     public void evaluate() throws Throwable {
         FilteringClassLoader cl = new FilteringClassLoader(Arrays.asList(filteredPackages));
         Class<?> c = cl.loadClass(description.getTestClass().getName());
-        Constructor constructor = c.getConstructor();
+        Constructor<?> constructor = c.getConstructor();
         Object test = constructor.newInstance();
         Method m = c.getMethod(description.getMethodName());
         try {

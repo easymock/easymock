@@ -15,8 +15,6 @@
  */
 package org.easymock.tests;
 
-import java.io.Serializable;
-
 import org.easymock.internal.ClassInstantiatorFactory;
 import org.easymock.internal.DefaultClassInstantiator;
 import org.junit.jupiter.api.AfterAll;
@@ -24,7 +22,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.easymock.EasyMock.*;
+import java.io.Serializable;
+
+import static org.easymock.EasyMock.createMock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;

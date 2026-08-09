@@ -15,13 +15,20 @@
  */
 package org.easymock.itests;
 
-import org.easymock.*;
+import org.easymock.EasyMockListener;
+import org.easymock.EasyMockSupport;
+import org.easymock.Mock;
+import org.easymock.MockType;
+import org.easymock.TestSubject;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import static org.easymock.EasyMock.expect;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertSame;
 
 @Listeners(EasyMockListener.class)
 public class EasyMockListenerTest extends EasyMockSupport {

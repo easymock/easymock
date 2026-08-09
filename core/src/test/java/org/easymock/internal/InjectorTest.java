@@ -15,16 +15,15 @@
  */
 package org.easymock.internal;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class InjectorTest {
 
@@ -42,39 +41,39 @@ class InjectorTest {
     @Test
     void testInstantiateTestSubject_existingNoArg() {
         String actual = Injector.instantiateTestSubject(field("noArg"));
-        Assertions.assertEquals("", actual);
+        assertEquals("", actual);
     }
 
     @Test
     void testInstantiateTestSubject_noNoArg() {
         AssertionError e = assertThrows(AssertionError.class, () -> Injector.instantiateTestSubject(field("noNoArg")));
-        Assertions.assertEquals("TestSubject is null and has no default constructor. You need to instantiate 'noNoArg' manually", e.getMessage());
+        assertEquals("TestSubject is null and has no default constructor. You need to instantiate 'noNoArg' manually", e.getMessage());
     }
 
     @Test
     void testInstantiateTestSubject_noArgWithException() {
         AssertionError e = assertThrows(AssertionError.class, () -> Injector.instantiateTestSubject(field("throwingNoArgConstructor")));
-        Assertions.assertEquals("TestSubject is null and default constructor fails on invocation. You need to instantiate 'throwingNoArgConstructor' manually", e.getMessage());
-        Assertions.assertEquals(InvocationTargetException.class, e.getCause().getClass());
-        Assertions.assertEquals("Test", e.getCause().getCause().getMessage());
+        assertEquals("TestSubject is null and default constructor fails on invocation. You need to instantiate 'throwingNoArgConstructor' manually", e.getMessage());
+        assertEquals(InvocationTargetException.class, e.getCause().getClass());
+        assertEquals("Test", e.getCause().getCause().getMessage());
     }
 
     @Test
     void testInstantiateTestSubject_privateNoArg() {
         PrivateNoArgConstructor actual = Injector.instantiateTestSubject(field("privateNoArgConstructor"));
-        Assertions.assertNotNull(actual);
+        assertNotNull(actual);
     }
 
     @Test
     void testInstantiateTestSubject_staticClass() {
         StaticClass actual = Injector.instantiateTestSubject(field("staticClass"));
-        Assertions.assertNotNull(actual);
+        assertNotNull(actual);
     }
 
     @Test
     void testInstantiateTestSubject_innerClass() {
         AssertionError e = assertThrows(AssertionError.class, () -> Injector.instantiateTestSubject(field("innerClass")));
-        Assertions.assertEquals("TestSubject is an inner class. You need to instantiate 'innerClass' manually", e.getMessage());
+        assertEquals("TestSubject is an inner class. You need to instantiate 'innerClass' manually", e.getMessage());
     }
 
     private Field field(String name) {

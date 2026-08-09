@@ -23,9 +23,24 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT;
+import static org.easymock.EasyMock.NOT_THREAD_SAFE_BY_DEFAULT;
+import static org.easymock.EasyMock.checkIsUsedInOneThread;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isNull;
+import static org.easymock.EasyMock.makeThreadSafe;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.setEasyMockProperty;
+import static org.easymock.EasyMock.verify;
 
 /**
  * Test that EasyMock works in replay state in a multithreaded environment. Note

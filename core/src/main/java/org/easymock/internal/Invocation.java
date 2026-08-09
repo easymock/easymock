@@ -24,8 +24,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static java.lang.Character.*;
-
 /**
  * Represents a method invocation on a mock object. It's used for record one or for actual calls.
  *

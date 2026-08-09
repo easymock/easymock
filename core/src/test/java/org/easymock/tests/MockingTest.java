@@ -22,7 +22,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.createStrictMock;
 
 /**
  * Test all kind of mocking making sure the partial mocking and interface works

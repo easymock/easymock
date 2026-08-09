@@ -15,12 +15,13 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-
 import org.easymock.internal.MocksControl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.easymock.EasyMock.createControl;
+import static org.easymock.EasyMock.expectLastCall;
 
 /**
  * @author OFFIS, Tammo Freese

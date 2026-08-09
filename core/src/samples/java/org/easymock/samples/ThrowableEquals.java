@@ -15,9 +15,9 @@
  */
 package org.easymock.samples;
 
-import static org.easymock.EasyMock.*;
-
 import org.easymock.IArgumentMatcher;
+
+import static org.easymock.EasyMock.reportMatcher;
 
 /**
  * @author OFFIS, Tammo Freese

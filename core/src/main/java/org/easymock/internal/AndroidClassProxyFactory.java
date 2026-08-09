@@ -15,6 +15,9 @@
  */
 package org.easymock.internal;
 
+import org.droidparts.dexmaker.stock.ProxyBuilder;
+import org.easymock.ConstructorArgs;
+
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
@@ -23,10 +26,6 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.easymock.ConstructorArgs;
-
-import org.droidparts.dexmaker.stock.ProxyBuilder;
 
 // ///CLOVER:OFF (sadly not possible to test android with clover)
 /**

@@ -19,13 +19,12 @@ import org.easymock.EasyMock;
 import org.easymock.IMockBuilder;
 import org.easymock.IMocksControl;
 import org.easymock.MockType;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.partialMockBuilder;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * Testing that all default methods on IMockBuilder are delegating to the right method.
@@ -37,14 +36,14 @@ class IMockBuilderTest {
     private final IMockBuilder<IMockBuilderTest> builder = partialMockBuilder(IMockBuilderTest.class);
 
     private void assertMock(IMockBuilderTest mock, String name, MockType type) {
-        Assertions.assertEquals(name, Util.getName(mock));
-        Assertions.assertEquals(type, Util.getType(mock));
-        Assertions.assertNotNull(Util.getControl(mock));
+        assertEquals(name, Util.getName(mock));
+        assertEquals(type, Util.getType(mock));
+        assertNotNull(Util.getControl(mock));
     }
 
     private void assertMock(IMockBuilderTest mock, String name, MockType type, IMocksControl control) {
         assertMock(mock, name, type);
-        Assertions.assertSame(control, Util.getControl(mock));
+        assertSame(control, Util.getControl(mock));
     }
 
     @Test

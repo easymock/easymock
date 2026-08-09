@@ -15,10 +15,11 @@
  */
 package org.easymock.internal;
 
+import org.easymock.ConstructorArgs;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import org.easymock.ConstructorArgs;
 
 /**
  * Proxy factory creating proxies from an interface using the standard JDK proxy API.

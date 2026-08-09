@@ -15,11 +15,13 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 /**
  * @author OFFIS, Tammo Freese

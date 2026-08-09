@@ -15,9 +15,9 @@
  */
 package org.easymock.internal.matchers;
 
-import java.io.Serializable;
-
 import org.easymock.IArgumentMatcher;
+
+import java.io.Serializable;
 
 /**
  * Base class for matchers that are comparing a value to another.

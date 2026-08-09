@@ -15,11 +15,11 @@
  */
 package org.easymock.internal.matchers;
 
+import org.easymock.IArgumentMatcher;
+
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
-
-import org.easymock.IArgumentMatcher;
 
 /**
  * Matches if any given argument matcher matches. It will stop calling matches after the first matching one.

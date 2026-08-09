@@ -15,8 +15,31 @@
  */
 package org.easymock;
 
-import org.easymock.internal.*;
-import org.easymock.internal.matchers.*;
+import org.easymock.internal.EasyMockProperties;
+import org.easymock.internal.Invocation;
+import org.easymock.internal.LastControl;
+import org.easymock.internal.MockBuilder;
+import org.easymock.internal.MocksControl;
+import org.easymock.internal.matchers.Any;
+import org.easymock.internal.matchers.ArrayEquals;
+import org.easymock.internal.matchers.Captures;
+import org.easymock.internal.matchers.Compare;
+import org.easymock.internal.matchers.CompareEqual;
+import org.easymock.internal.matchers.Contains;
+import org.easymock.internal.matchers.EndsWith;
+import org.easymock.internal.matchers.Equals;
+import org.easymock.internal.matchers.EqualsWithDelta;
+import org.easymock.internal.matchers.Find;
+import org.easymock.internal.matchers.GreaterOrEqual;
+import org.easymock.internal.matchers.GreaterThan;
+import org.easymock.internal.matchers.InstanceOf;
+import org.easymock.internal.matchers.LessOrEqual;
+import org.easymock.internal.matchers.LessThan;
+import org.easymock.internal.matchers.Matches;
+import org.easymock.internal.matchers.NotNull;
+import org.easymock.internal.matchers.Null;
+import org.easymock.internal.matchers.Same;
+import org.easymock.internal.matchers.StartsWith;
 
 import java.util.Comparator;
 import java.util.function.UnaryOperator;

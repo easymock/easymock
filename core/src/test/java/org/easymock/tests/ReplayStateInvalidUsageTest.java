@@ -22,8 +22,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -120,7 +120,7 @@ class ReplayStateInvalidUsageTest {
         EasyMock.reset(mock);
 
         RuntimeException t = assertThrows(RuntimeException.class, () -> EasyMock.replay(mock, mock));
-        Assertions.assertEquals(IllegalStateException.class, t.getCause().getClass());
-        Assertions.assertEquals("On mock #1 (zero indexed): This method must not be called in replay state.", t.getMessage());
+        assertEquals(IllegalStateException.class, t.getCause().getClass());
+        assertEquals("On mock #1 (zero indexed): This method must not be called in replay state.", t.getMessage());
     }
 }

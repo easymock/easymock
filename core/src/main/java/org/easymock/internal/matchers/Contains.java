@@ -15,9 +15,9 @@
  */
 package org.easymock.internal.matchers;
 
-import java.io.Serializable;
-
 import org.easymock.IArgumentMatcher;
+
+import java.io.Serializable;
 
 /**
  * Matches if the argument is a string containing a given substring.

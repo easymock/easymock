@@ -17,12 +17,15 @@ package org.easymock.tests;
 
 import org.junit.jupiter.api.Test;
 
-import static org.easymock.EasyMock.*;
+import java.util.AbstractList;
+
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.fail;
-
-import java.util.AbstractList;
 
 /**
  * Test the limitations of class mocking

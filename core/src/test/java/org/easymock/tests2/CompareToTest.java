@@ -15,10 +15,15 @@
  */
 package org.easymock.tests2;
 
-import java.math.BigDecimal;
-
-import org.easymock.internal.matchers.*;
+import org.easymock.internal.matchers.CompareEqual;
+import org.easymock.internal.matchers.CompareTo;
+import org.easymock.internal.matchers.GreaterOrEqual;
+import org.easymock.internal.matchers.GreaterThan;
+import org.easymock.internal.matchers.LessOrEqual;
+import org.easymock.internal.matchers.LessThan;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

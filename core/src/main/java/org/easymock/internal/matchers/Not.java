@@ -15,9 +15,9 @@
  */
 package org.easymock.internal.matchers;
 
-import java.io.Serializable;
-
 import org.easymock.IArgumentMatcher;
+
+import java.io.Serializable;
 
 /**
  * Matches if the argument DOESN'T match another.

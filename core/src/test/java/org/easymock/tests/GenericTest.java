@@ -21,7 +21,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createMockBuilder;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 /**
  * Bridges are generated methods used for generics. They shouldn't be mocked to

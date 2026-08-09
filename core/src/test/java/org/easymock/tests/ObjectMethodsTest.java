@@ -22,7 +22,8 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.replay;
 
 /**
  * @author OFFIS, Tammo Freese

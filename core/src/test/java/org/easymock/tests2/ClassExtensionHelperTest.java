@@ -27,8 +27,9 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.easymock.EasyMock.*;
-import static org.easymock.internal.MocksControl.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.internal.MocksControl.getControl;
+import static org.easymock.internal.MocksControl.getMockedClass;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;

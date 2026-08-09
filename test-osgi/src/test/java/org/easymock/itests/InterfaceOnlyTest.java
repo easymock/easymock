@@ -26,8 +26,9 @@ import org.ops4j.pax.exam.Option;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertSame;
+import static junit.framework.TestCase.fail;
+import static org.easymock.EasyMock.expect;
 import static org.ops4j.pax.exam.CoreOptions.bundle;
 import static org.ops4j.pax.exam.CoreOptions.junitBundles;
 import static org.ops4j.pax.exam.CoreOptions.options;

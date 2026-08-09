@@ -15,19 +15,12 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.expect;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Objects;
-
-import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.dynamic.DynamicType;
-import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
-import net.bytebuddy.implementation.InvocationHandlerAdapter;
-import net.bytebuddy.matcher.ElementMatchers;
 import org.easymock.EasyMockSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.easymock.EasyMock.expect;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MethodTest extends EasyMockSupport {
 

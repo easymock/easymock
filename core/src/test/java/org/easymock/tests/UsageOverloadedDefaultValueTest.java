@@ -15,11 +15,23 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.easymock.EasyMock.anyBoolean;
+import static org.easymock.EasyMock.anyByte;
+import static org.easymock.EasyMock.anyChar;
+import static org.easymock.EasyMock.anyDouble;
+import static org.easymock.EasyMock.anyFloat;
+import static org.easymock.EasyMock.anyInt;
+import static org.easymock.EasyMock.anyLong;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.anyShort;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 /**
  * @author OFFIS, Tammo Freese

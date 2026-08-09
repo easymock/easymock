@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.fail;
-
 /**
  * We are making sure here that the typing here is generic friendly. No assertions are made, if
  * it's compiling we are happy.

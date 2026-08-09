@@ -15,13 +15,14 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-
-import java.io.IOException;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
 
 /**
  * @author OFFIS, Tammo Freese

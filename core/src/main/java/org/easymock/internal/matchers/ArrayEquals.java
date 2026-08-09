@@ -15,9 +15,9 @@
  */
 package org.easymock.internal.matchers;
 
-import java.util.Arrays;
-
 import org.easymock.internal.ArgumentToString;
+
+import java.util.Arrays;
 
 /**
  * Matches if the argument is an array where the elements are equal to the given array.

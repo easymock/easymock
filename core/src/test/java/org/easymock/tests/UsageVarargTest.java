@@ -18,10 +18,15 @@ package org.easymock.tests;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.lang.reflect.Proxy;
+
+import static org.easymock.EasyMock.aryEq;
+import static org.easymock.EasyMock.createStrictMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.isNull;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese

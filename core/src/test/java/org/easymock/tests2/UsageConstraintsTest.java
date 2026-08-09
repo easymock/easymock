@@ -28,7 +28,42 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.and;
+import static org.easymock.EasyMock.anyBoolean;
+import static org.easymock.EasyMock.anyByte;
+import static org.easymock.EasyMock.anyChar;
+import static org.easymock.EasyMock.anyDouble;
+import static org.easymock.EasyMock.anyFloat;
+import static org.easymock.EasyMock.anyInt;
+import static org.easymock.EasyMock.anyLong;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.anyShort;
+import static org.easymock.EasyMock.anyString;
+import static org.easymock.EasyMock.aryEq;
+import static org.easymock.EasyMock.checkOrder;
+import static org.easymock.EasyMock.cmp;
+import static org.easymock.EasyMock.cmpEq;
+import static org.easymock.EasyMock.contains;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.endsWith;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.find;
+import static org.easymock.EasyMock.geq;
+import static org.easymock.EasyMock.gt;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.isNull;
+import static org.easymock.EasyMock.leq;
+import static org.easymock.EasyMock.lt;
+import static org.easymock.EasyMock.matches;
+import static org.easymock.EasyMock.not;
+import static org.easymock.EasyMock.notNull;
+import static org.easymock.EasyMock.or;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.same;
+import static org.easymock.EasyMock.startsWith;
+import static org.easymock.EasyMock.verify;
+import static org.easymock.EasyMock.verifyRecording;
 
 /**
  * @author OFFIS, Tammo Freese

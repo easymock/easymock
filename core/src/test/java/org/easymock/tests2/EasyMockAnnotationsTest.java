@@ -25,7 +25,7 @@ import org.easymock.tests.IVarArgs;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.expect;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;

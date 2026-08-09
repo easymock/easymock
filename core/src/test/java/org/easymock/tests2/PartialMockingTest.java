@@ -15,16 +15,19 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
 import org.easymock.EasyMock;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.JTable;
+import java.util.ArrayList;
+
+import static org.easymock.EasyMock.createMockBuilder;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Henri Tremblay
@@ -82,12 +85,12 @@ class PartialMockingTest {
     @Test
     void testPartialMock_ProtectedConstructor() {
         A a = createMockBuilder(A.class).withConstructor("test").createMock();
-        Assertions.assertEquals("test", a.s); // make sure constructor was called
+        assertEquals("test", a.s); // make sure constructor was called
 
         // Check that abstract method is mocked by default
         expect(a.foo()).andReturn(3);
         replay(a);
-        Assertions.assertEquals(3, a.foo());
+        assertEquals(3, a.foo());
         verify(a);
     }
 
@@ -95,28 +98,28 @@ class PartialMockingTest {
     void testPartialMock_ConstructorNotFound() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
             () -> createMockBuilder(ArrayList.class).withConstructor(Float.TYPE).withArgs(2.0).createMock());
-        Assertions.assertEquals("No constructor matching arguments can be found", ex.getMessage());
+        assertEquals("No constructor matching arguments can be found", ex.getMessage());
     }
 
     @Test
     void testPartialMock_InvalidParams() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
             () -> createMockBuilder(ArrayList.class).withConstructor(Integer.TYPE).withArgs("test"));
-        Assertions.assertEquals("test isn't of type int", ex.getMessage());
+        assertEquals("test isn't of type int", ex.getMessage());
     }
 
     @Test
     void testPartialMock_ExceptionInConstructor() {
         RuntimeException ex = assertThrows(RuntimeException.class,
             () -> createMockBuilder(ArrayList.class).withConstructor(-5).createMock());
-        Assertions.assertEquals("Failed to mock class java.util.ArrayList with provider JdkClassInfoProvider", ex.getMessage());
-        Assertions.assertEquals("Failed to instantiate mock calling constructor: Exception in constructor", ex.getCause().getMessage());
+        assertEquals("Failed to mock class java.util.ArrayList with provider JdkClassInfoProvider", ex.getMessage());
+        assertEquals("Failed to instantiate mock calling constructor: Exception in constructor", ex.getCause().getMessage());
     }
 
     @Test
     void partiallyMockedSwingComponent_which_are_in_the_javax_package() {
         JTable table = EasyMock.partialMockBuilder(JTable.class).createMock();
-        Assertions.assertNotNull(table);
+        assertNotNull(table);
     }
 
     @Test
@@ -124,7 +127,7 @@ class PartialMockingTest {
         B b = EasyMock.partialMockBuilder(B.class)
             .withConstructor()
             .createMock();
-        Assertions.assertNotNull(b);
+        assertNotNull(b);
     }
 
     @Test
@@ -133,6 +136,6 @@ class PartialMockingTest {
             .withConstructor()
             .addMockedMethod("called")
             .createMock();
-        Assertions.assertNotNull(c);
+        assertNotNull(c);
     }
 }

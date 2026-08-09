@@ -27,7 +27,10 @@ import org.ops4j.pax.exam.Option;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.partialMockBuilder;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.ops4j.pax.exam.CoreOptions.bundle;

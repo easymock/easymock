@@ -16,7 +16,21 @@
 package org.easymock.tests2;
 
 import org.easymock.IArgumentMatcher;
-import org.easymock.internal.matchers.*;
+import org.easymock.internal.matchers.And;
+import org.easymock.internal.matchers.Any;
+import org.easymock.internal.matchers.ArrayEquals;
+import org.easymock.internal.matchers.Contains;
+import org.easymock.internal.matchers.EndsWith;
+import org.easymock.internal.matchers.Equals;
+import org.easymock.internal.matchers.EqualsWithDelta;
+import org.easymock.internal.matchers.Find;
+import org.easymock.internal.matchers.Matches;
+import org.easymock.internal.matchers.Not;
+import org.easymock.internal.matchers.NotNull;
+import org.easymock.internal.matchers.Null;
+import org.easymock.internal.matchers.Or;
+import org.easymock.internal.matchers.Same;
+import org.easymock.internal.matchers.StartsWith;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

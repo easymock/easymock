@@ -15,14 +15,14 @@
  */
 package org.easmock.junit5;
 
-import static org.easymock.EasyMock.expect;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.easymock.EasyMockExtension;
 import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import static org.easymock.EasyMock.expect;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(EasyMockExtension.class)
 class EasymockExtensionTest extends EasyMockSupport {

@@ -15,23 +15,28 @@
  */
 package org.easymock.tests2;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-
 import org.easymock.tests.IMethods;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.lt;
+import static org.easymock.EasyMock.mock;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
  */
 public class UsageMatchersTest {
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void additionalMatchersFailAtReplay() {
 
         IMethods mock = mock(IMethods.class);
         lt(5);
 
-        replay(mock);
+        assertThrows(IllegalStateException.class, () -> replay(mock));
     }
 
     @Test
@@ -42,7 +47,7 @@ public class UsageMatchersTest {
 
         replay(mock);
 
-        assertEquals("should use ArrayEquals to compare", "test", mock.oneArray(new int[] { 1 }));
+        assertEquals("test", mock.oneArray(new int[] { 1 }), "should use ArrayEquals to compare");
 
         verify(mock);
     }

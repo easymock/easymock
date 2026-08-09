@@ -17,7 +17,10 @@ package org.easymock.tests;
 
 import org.junit.jupiter.api.Test;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.anyInt;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

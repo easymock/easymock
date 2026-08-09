@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Henri Tremblay

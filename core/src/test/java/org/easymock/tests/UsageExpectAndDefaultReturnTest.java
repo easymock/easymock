@@ -15,11 +15,14 @@
  */
 package org.easymock.tests;
 
-import static org.easymock.EasyMock.*;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 /**
  * Same as UsageExpectAndReturnTest except that each mocked method is called

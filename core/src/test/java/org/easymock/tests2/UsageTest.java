@@ -19,7 +19,17 @@ import org.easymock.tests.IMethods;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.checkOrder;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.createStrictMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.resetToDefault;
+import static org.easymock.EasyMock.resetToNice;
+import static org.easymock.EasyMock.resetToStrict;
+import static org.easymock.EasyMock.verify;
+import static org.easymock.EasyMock.verifyRecording;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;

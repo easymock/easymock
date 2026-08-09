@@ -15,11 +15,11 @@
  */
 package org.easymock.internal.matchers;
 
-import java.io.Serializable;
-import java.util.Comparator;
-
 import org.easymock.IArgumentMatcher;
 import org.easymock.LogicalOperator;
+
+import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * Matches if the argument, when compared (<code>Comparator.compare()</code>), agrees with the logical operator.

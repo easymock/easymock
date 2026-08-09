@@ -15,11 +15,11 @@
  */
 package org.easymock.internal.matchers;
 
-import java.io.Serializable;
-
 import org.easymock.Capture;
 import org.easymock.IArgumentMatcher;
 import org.easymock.internal.LastControl;
+
+import java.io.Serializable;
 
 /**
  * Captures the argument to retrieve it later and matches anything.

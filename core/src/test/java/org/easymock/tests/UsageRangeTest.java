@@ -21,7 +21,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createStrictMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.easymock.EasyMock.verifyRecording;
 
 /**
  * @author OFFIS, Tammo Freese

@@ -15,14 +15,14 @@
  */
 package org.easymock.internal;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.easymock.IArgumentMatcher;
 import org.easymock.internal.matchers.And;
 import org.easymock.internal.matchers.Not;
 import org.easymock.internal.matchers.Or;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The last mocks control used in the current thread.

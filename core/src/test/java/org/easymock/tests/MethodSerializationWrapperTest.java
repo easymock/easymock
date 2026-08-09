@@ -15,11 +15,11 @@
  */
 package org.easymock.tests;
 
-import java.lang.reflect.Method;
-
 import org.easymock.internal.MethodSerializationWrapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.Method;
 
 /**
  * @author OFFIS, Tammo Freese

@@ -20,8 +20,6 @@ import org.easymock.CaptureType;
 import org.easymock.internal.Invocation;
 import org.easymock.internal.LastControl;
 import org.easymock.internal.matchers.Captures;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
