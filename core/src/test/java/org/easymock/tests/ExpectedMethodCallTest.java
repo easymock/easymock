@@ -17,11 +17,13 @@ package org.easymock.tests;
 
 import org.easymock.internal.ExpectedInvocation;
 import org.easymock.internal.Invocation;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -39,11 +41,7 @@ class ExpectedMethodCallTest {
 
     @Test
     void testHashCode() {
-        try {
-            call.hashCode();
-            Assertions.fail();
-        } catch (UnsupportedOperationException expected) {
-            Assertions.assertEquals("hashCode() is not implemented", expected.getMessage());
-        }
+        UnsupportedOperationException e = assertThrows(UnsupportedOperationException.class, () -> call.hashCode());
+        assertEquals("hashCode() is not implemented", e.getMessage());
     }
 }

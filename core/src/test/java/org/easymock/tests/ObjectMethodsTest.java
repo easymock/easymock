@@ -16,7 +16,6 @@
 package org.easymock.tests;
 
 import org.easymock.internal.ObjectMethodsFilter;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +23,8 @@ import java.lang.reflect.Method;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.replay;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -42,15 +43,15 @@ class ObjectMethodsTest {
 
     @Test
     void equalsBeforeActivation() {
-        Assertions.assertEquals(mock, mock);
-        Assertions.assertTrue(!mock.equals(null));
+        assertEquals(mock, mock);
+        assertTrue(!mock.equals(null));
     }
 
     @Test
     void equalsAfterActivation() {
         replay(mock);
-        Assertions.assertEquals(mock, mock);
-        Assertions.assertTrue(!mock.equals(null));
+        assertEquals(mock, mock);
+        assertTrue(!mock.equals(null));
     }
 
     @Test
@@ -58,18 +59,18 @@ class ObjectMethodsTest {
         int hashCodeBeforeActivation = mock.hashCode();
         replay(mock);
         int hashCodeAfterActivation = mock.hashCode();
-        Assertions.assertEquals(hashCodeBeforeActivation, hashCodeAfterActivation);
+        assertEquals(hashCodeBeforeActivation, hashCodeAfterActivation);
     }
 
     @Test
     void toStringBeforeActivation() {
-        Assertions.assertEquals("EasyMock for " + EmptyInterface.class, mock.toString());
+        assertEquals("EasyMock for " + EmptyInterface.class, mock.toString());
     }
 
     @Test
     void toStringAfterActivation() {
         replay(mock);
-        Assertions.assertEquals("EasyMock for " + EmptyInterface.class, mock.toString());
+        assertEquals("EasyMock for " + EmptyInterface.class, mock.toString());
     }
 
     private static class MockedClass {
@@ -84,7 +85,7 @@ class ObjectMethodsTest {
     void toStringForClasses() throws Throwable {
         ObjectMethodsFilter filter = new ObjectMethodsFilter(Object.class, null, null);
         Method toString = Object.class.getMethod("toString");
-        Assertions.assertEquals("EasyMock for " + MockedClass.class, filter.invoke(new DummyProxy(),
+        assertEquals("EasyMock for " + MockedClass.class, filter.invoke(new DummyProxy(),
                 toString, new Object[0]));
     }
 

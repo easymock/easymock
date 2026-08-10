@@ -16,13 +16,13 @@
 package org.easymock.tests;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests of MockClassControl basic functionalities
@@ -109,9 +109,9 @@ class MockClassControlTest {
      */
     private void testEquals(Class<?> toMock) {
         initMock(toMock);
-        Assertions.assertEquals(mock, mock);
+        assertEquals(mock, mock);
         replay(mock);
-        Assertions.assertEquals(mock, mock);
+        assertEquals(mock, mock);
     }
 
     @Test
@@ -132,7 +132,7 @@ class MockClassControlTest {
         initMock(toMock);
         int code = mock.hashCode();
         replay(mock);
-        Assertions.assertEquals(code, mock.hashCode());
+        assertEquals(code, mock.hashCode());
     }
 
     @Test
@@ -156,9 +156,9 @@ class MockClassControlTest {
     private void testToString(Class<?> toMock) {
         initMock(toMock);
         String expectedValue = "EasyMock for " + toMock.toString();
-        Assertions.assertEquals(expectedValue, mock.toString());
+        assertEquals(expectedValue, mock.toString());
         replay(mock);
-        Assertions.assertEquals(expectedValue, mock.toString());
+        assertEquals(expectedValue, mock.toString());
     }
 
     @Test

@@ -15,7 +15,6 @@
  */
 package org.easymock.tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +22,8 @@ import java.io.IOException;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -42,34 +43,21 @@ class RecordStateInvalidDefaultThrowableTest {
 
     @Test
     void throwNull() {
-        try {
-            expect(mock.throwsNothing(false)).andStubThrow(null);
-            Assertions.fail("NullPointerException expected");
-        } catch (NullPointerException expected) {
-            Assertions.assertEquals("null cannot be thrown", expected.getMessage());
-        }
-
+        NullPointerException e = assertThrows(NullPointerException.class, () -> expect(mock.throwsNothing(false)).andStubThrow(null));
+        assertEquals("null cannot be thrown", e.getMessage());
     }
 
     @Test
     void throwCheckedExceptionWhereNoCheckedExceptionIsThrown() {
-        try {
-            expect(mock.throwsNothing(false)).andStubThrow(new CheckedException());
-            Assertions.fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException expected) {
-            Assertions.assertEquals("last method called on mock cannot throw " + this.getClass().getName()
-                    + "$CheckedException", expected.getMessage());
-        }
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> expect(mock.throwsNothing(false)).andStubThrow(new CheckedException()));
+        assertEquals("last method called on mock cannot throw " + this.getClass().getName()
+                + "$CheckedException", e.getMessage());
     }
 
     @Test
     void throwWrongCheckedException() throws IOException {
-        try {
-            expect(mock.throwsIOException(0)).andStubThrow(new CheckedException());
-            Assertions.fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException expected) {
-            Assertions.assertEquals("last method called on mock cannot throw " + this.getClass().getName()
-                    + "$CheckedException", expected.getMessage());
-        }
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> expect(mock.throwsIOException(0)).andStubThrow(new CheckedException()));
+        assertEquals("last method called on mock cannot throw " + this.getClass().getName()
+                + "$CheckedException", e.getMessage());
     }
 }

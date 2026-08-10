@@ -15,13 +15,14 @@
  */
 package org.easymock.tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -39,9 +40,9 @@ class RecordStateInvalidReturnValueTest {
     void setInvalidBooleanReturnValue() {
         try {
             expect((Object) mock.oneArg(false)).andReturn(false);
-            Assertions.fail("IllegalStateException expected");
+            fail("IllegalStateException expected");
         } catch (IllegalStateException e) {
-            Assertions.assertEquals("incompatible return value type", e.getMessage());
+            assertEquals("incompatible return value type", e.getMessage());
         }
 
     }
@@ -51,9 +52,9 @@ class RecordStateInvalidReturnValueTest {
         mock.simpleMethod();
         try {
             expectLastCall().andReturn(null);
-            Assertions.fail("IllegalStateException expected");
+            fail("IllegalStateException expected");
         } catch (IllegalStateException e) {
-            Assertions.assertEquals("void method cannot return a value", e.getMessage());
+            assertEquals("void method cannot return a value", e.getMessage());
         }
     }
 
@@ -61,9 +62,9 @@ class RecordStateInvalidReturnValueTest {
     void nullForPrimitive() {
         try {
             expect(mock.longReturningMethod(4)).andReturn(null);
-            Assertions.fail("null not allowed");
+            fail("null not allowed");
         } catch (IllegalStateException e) {
-            Assertions.assertEquals("can't return null for a method returning a primitive type", e.getMessage());
+            assertEquals("can't return null for a method returning a primitive type", e.getMessage());
         }
     }
 }

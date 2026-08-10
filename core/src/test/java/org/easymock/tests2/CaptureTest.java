@@ -396,7 +396,7 @@ class CaptureTest {
         assertEquals(0L, capture.getValue());
     }
 
-    private <T> Capture<Integer> testCaptureTypeAndTransform(CaptureType type) {
+    private Capture<Integer> testCaptureTypeAndTransform(CaptureType type) {
         IMethods mock = createMock(IMethods.class);
         Capture<Integer> captured = Capture.newInstance(type, t -> t * 100);
 

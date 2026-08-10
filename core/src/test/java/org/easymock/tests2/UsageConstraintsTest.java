@@ -19,7 +19,6 @@ import org.easymock.EasyMock;
 import org.easymock.LogicalOperator;
 import org.easymock.internal.matchers.Equals;
 import org.easymock.tests.IMethods;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -64,6 +63,11 @@ import static org.easymock.EasyMock.same;
 import static org.easymock.EasyMock.startsWith;
 import static org.easymock.EasyMock.verify;
 import static org.easymock.EasyMock.verifyRecording;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -81,21 +85,21 @@ class UsageConstraintsTest {
         mock.simpleMethodWithArgument(not(eq("asd")));
         try {
             mock.simpleMethodWithArgument(not("jkl"));
-            Assertions.fail();
+            fail();
         } catch (IllegalStateException e) {
-            Assertions.assertEquals("no matchers found.", e.getMessage());
+            assertEquals("no matchers found.", e.getMessage());
         }
         try {
             mock.simpleMethodWithArgument(or(eq("jkl"), "asd"));
-            Assertions.fail();
+            fail();
         } catch (IllegalStateException e) {
-            Assertions.assertEquals("2 matchers expected, 1 recorded.", e.getMessage());
+            assertEquals("2 matchers expected, 1 recorded.", e.getMessage());
         }
         try {
             mock.threeArgumentMethod(1, "asd", eq("asd"));
-            Assertions.fail();
+            fail();
         } catch (IllegalStateException e) {
-            Assertions.assertEquals("3 matchers expected, 1 recorded.\n"
+            assertEquals("3 matchers expected, 1 recorded.\n"
                     + "This exception usually occurs when matchers are mixed with raw values when recording a method:\n"
                     + "\tfoo(5, eq(6));\t// wrong\n"
                     + "You need to use no matcher at all or a matcher for every single param:\n"
@@ -116,13 +120,13 @@ class UsageConstraintsTest {
     @SuppressWarnings("unlikely-arg-type")
     @Test
     void equals() {
-        Assertions.assertEquals(new Equals(null), new Equals(null));
-        Assertions.assertEquals(new Equals(2), new Equals(2));
-        Assertions.assertNotEquals(null, new Equals(null));
-        Assertions.assertNotEquals("Test", new Equals(null));
+        assertEquals(new Equals(null), new Equals(null));
+        assertEquals(new Equals(2), new Equals(2));
+        assertNotEquals(null, new Equals(null));
+        assertNotEquals("Test", new Equals(null));
         try {
             new Equals(null).hashCode();
-            Assertions.fail();
+            fail();
         } catch (UnsupportedOperationException expected) {
         }
     }
@@ -139,7 +143,7 @@ class UsageConstraintsTest {
             failed = true;
         }
         if (!failed) {
-            Assertions.fail();
+            fail();
         }
         failed = false;
         try {
@@ -148,7 +152,7 @@ class UsageConstraintsTest {
             failed = true;
         }
         if (!failed) {
-            Assertions.fail();
+            fail();
         }
         failed = false;
         try {
@@ -157,9 +161,9 @@ class UsageConstraintsTest {
             failed = true;
         }
         if (!failed) {
-            Assertions.fail();
+            fail();
         }
-        Assertions.assertEquals("456", mock.threeArgumentMethod(8, "", "01234"));
+        assertEquals("456", mock.threeArgumentMethod(8, "", "01234"));
         verifyRecording(mock);
     }
 
@@ -176,16 +180,16 @@ class UsageConstraintsTest {
         expect(mock.oneArg(and(contains("a"), contains("d")))).andReturn("8");
         expect(mock.oneArg(and(isA(Class.class), eq(Object.class)))).andReturn("9");
         replay(mock);
-        Assertions.assertEquals("9", mock.oneArg(Object.class));
-        Assertions.assertEquals("0", mock.oneArg(false));
-        Assertions.assertEquals("1", mock.oneArg((byte) 1));
-        Assertions.assertEquals("2", mock.oneArg('a'));
-        Assertions.assertEquals("3", mock.oneArg((double) 1));
-        Assertions.assertEquals("7", mock.oneArg((short) 1));
-        Assertions.assertEquals("8", mock.oneArg("abcde"));
-        Assertions.assertEquals("4", mock.oneArg((float) 1));
-        Assertions.assertEquals("5", mock.oneArg(1));
-        Assertions.assertEquals("6", mock.oneArg((long) 1));
+        assertEquals("9", mock.oneArg(Object.class));
+        assertEquals("0", mock.oneArg(false));
+        assertEquals("1", mock.oneArg((byte) 1));
+        assertEquals("2", mock.oneArg('a'));
+        assertEquals("3", mock.oneArg((double) 1));
+        assertEquals("7", mock.oneArg((short) 1));
+        assertEquals("8", mock.oneArg("abcde"));
+        assertEquals("4", mock.oneArg((float) 1));
+        assertEquals("5", mock.oneArg(1));
+        assertEquals("6", mock.oneArg((long) 1));
         verify(mock);
     }
 
@@ -202,16 +206,16 @@ class UsageConstraintsTest {
         expect(mock.oneArg(or(eq("asd"), eq("jkl")))).andReturn("8");
         expect(mock.oneArg(or(eq(this.getClass()), eq(Object.class)))).andReturn("9");
         replay(mock);
-        Assertions.assertEquals("9", mock.oneArg(Object.class));
-        Assertions.assertEquals("0", mock.oneArg(true));
-        Assertions.assertEquals("1", mock.oneArg((byte) 2));
-        Assertions.assertEquals("2", mock.oneArg((char) 1));
-        Assertions.assertEquals("3", mock.oneArg((double) 2));
-        Assertions.assertEquals("7", mock.oneArg((short) 1));
-        Assertions.assertEquals("8", mock.oneArg("jkl"));
-        Assertions.assertEquals("4", mock.oneArg((float) 1));
-        Assertions.assertEquals("5", mock.oneArg(2));
-        Assertions.assertEquals("6", mock.oneArg((long) 1));
+        assertEquals("9", mock.oneArg(Object.class));
+        assertEquals("0", mock.oneArg(true));
+        assertEquals("1", mock.oneArg((byte) 2));
+        assertEquals("2", mock.oneArg((char) 1));
+        assertEquals("3", mock.oneArg((double) 2));
+        assertEquals("7", mock.oneArg((short) 1));
+        assertEquals("8", mock.oneArg("jkl"));
+        assertEquals("4", mock.oneArg((float) 1));
+        assertEquals("5", mock.oneArg(2));
+        assertEquals("6", mock.oneArg((long) 1));
         verify(mock);
     }
 
@@ -228,16 +232,16 @@ class UsageConstraintsTest {
         expect(mock.oneArg(not(contains("a")))).andReturn("8");
         expect(mock.oneArg(not(isA(Class.class)))).andReturn("9");
         replay(mock);
-        Assertions.assertEquals("9", mock.oneArg(new Object()));
-        Assertions.assertEquals("0", mock.oneArg(true));
-        Assertions.assertEquals("1", mock.oneArg((byte) 2));
-        Assertions.assertEquals("2", mock.oneArg('b'));
-        Assertions.assertEquals("3", mock.oneArg((double) 2));
-        Assertions.assertEquals("7", mock.oneArg((short) 2));
-        Assertions.assertEquals("8", mock.oneArg("bcde"));
-        Assertions.assertEquals("4", mock.oneArg((float) 2));
-        Assertions.assertEquals("5", mock.oneArg(2));
-        Assertions.assertEquals("6", mock.oneArg((long) 2));
+        assertEquals("9", mock.oneArg(new Object()));
+        assertEquals("0", mock.oneArg(true));
+        assertEquals("1", mock.oneArg((byte) 2));
+        assertEquals("2", mock.oneArg('b'));
+        assertEquals("3", mock.oneArg((double) 2));
+        assertEquals("7", mock.oneArg((short) 2));
+        assertEquals("8", mock.oneArg("bcde"));
+        assertEquals("4", mock.oneArg((float) 2));
+        assertEquals("5", mock.oneArg(2));
+        assertEquals("6", mock.oneArg((long) 2));
         verify(mock);
     }
 
@@ -251,13 +255,13 @@ class UsageConstraintsTest {
         expect(mock.oneArg(leq((short) 1))).andReturn("7");
         expect(mock.oneArg(leq(new BigDecimal("1")))).andReturn("8");
         replay(mock);
-        Assertions.assertEquals("1", mock.oneArg((byte) 1));
-        Assertions.assertEquals("3", mock.oneArg((double) 1));
-        Assertions.assertEquals("7", mock.oneArg((short) 0));
-        Assertions.assertEquals("4", mock.oneArg((float) -5));
-        Assertions.assertEquals("5", mock.oneArg(-2));
-        Assertions.assertEquals("6", mock.oneArg((long) -3));
-        Assertions.assertEquals("8", mock.oneArg(new BigDecimal("0.5")));
+        assertEquals("1", mock.oneArg((byte) 1));
+        assertEquals("3", mock.oneArg((double) 1));
+        assertEquals("7", mock.oneArg((short) 0));
+        assertEquals("4", mock.oneArg((float) -5));
+        assertEquals("5", mock.oneArg(-2));
+        assertEquals("6", mock.oneArg((long) -3));
+        assertEquals("8", mock.oneArg(new BigDecimal("0.5")));
         verify(mock);
     }
 
@@ -271,13 +275,13 @@ class UsageConstraintsTest {
         expect(mock.oneArg(lt((short) 1))).andReturn("7");
         expect(mock.oneArg(lt(new BigDecimal("1")))).andReturn("8");
         replay(mock);
-        Assertions.assertEquals("1", mock.oneArg((byte) 0));
-        Assertions.assertEquals("3", mock.oneArg((double) 0));
-        Assertions.assertEquals("7", mock.oneArg((short) 0));
-        Assertions.assertEquals("4", mock.oneArg((float) -4));
-        Assertions.assertEquals("5", mock.oneArg(-34));
-        Assertions.assertEquals("6", mock.oneArg((long) -6));
-        Assertions.assertEquals("8", mock.oneArg(new BigDecimal("0.5")));
+        assertEquals("1", mock.oneArg((byte) 0));
+        assertEquals("3", mock.oneArg((double) 0));
+        assertEquals("7", mock.oneArg((short) 0));
+        assertEquals("4", mock.oneArg((float) -4));
+        assertEquals("5", mock.oneArg(-34));
+        assertEquals("6", mock.oneArg((long) -6));
+        assertEquals("8", mock.oneArg(new BigDecimal("0.5")));
         verify(mock);
     }
 
@@ -291,13 +295,13 @@ class UsageConstraintsTest {
         expect(mock.oneArg(geq((short) 1))).andReturn("7");
         expect(mock.oneArg(geq(new BigDecimal("1")))).andReturn("8");
         replay(mock);
-        Assertions.assertEquals("1", mock.oneArg((byte) 2));
-        Assertions.assertEquals("3", mock.oneArg((double) 1));
-        Assertions.assertEquals("7", mock.oneArg((short) 2));
-        Assertions.assertEquals("4", mock.oneArg((float) 3));
-        Assertions.assertEquals("5", mock.oneArg(4));
-        Assertions.assertEquals("6", mock.oneArg((long) 5));
-        Assertions.assertEquals("8", mock.oneArg(new BigDecimal("1.5")));
+        assertEquals("1", mock.oneArg((byte) 2));
+        assertEquals("3", mock.oneArg((double) 1));
+        assertEquals("7", mock.oneArg((short) 2));
+        assertEquals("4", mock.oneArg((float) 3));
+        assertEquals("5", mock.oneArg(4));
+        assertEquals("6", mock.oneArg((long) 5));
+        assertEquals("8", mock.oneArg(new BigDecimal("1.5")));
         verify(mock);
     }
 
@@ -311,13 +315,13 @@ class UsageConstraintsTest {
         expect(mock.oneArg(gt((short) 1))).andReturn("7");
         expect(mock.oneArg(gt(new BigDecimal("1")))).andReturn("8");
         replay(mock);
-        Assertions.assertEquals("1", mock.oneArg((byte) 2));
-        Assertions.assertEquals("3", mock.oneArg((double) 2));
-        Assertions.assertEquals("7", mock.oneArg((short) 2));
-        Assertions.assertEquals("4", mock.oneArg((float) 3));
-        Assertions.assertEquals("5", mock.oneArg(2));
-        Assertions.assertEquals("6", mock.oneArg((long) 5));
-        Assertions.assertEquals("8", mock.oneArg(new BigDecimal("1.5")));
+        assertEquals("1", mock.oneArg((byte) 2));
+        assertEquals("3", mock.oneArg((double) 2));
+        assertEquals("7", mock.oneArg((short) 2));
+        assertEquals("4", mock.oneArg((float) 3));
+        assertEquals("5", mock.oneArg(2));
+        assertEquals("6", mock.oneArg((long) 5));
+        assertEquals("8", mock.oneArg(new BigDecimal("1.5")));
         verify(mock);
     }
 
@@ -325,7 +329,7 @@ class UsageConstraintsTest {
     void cmpTo() {
         expect(mock.oneArg(cmpEq(new BigDecimal("1.5")))).andReturn("0");
         replay(mock);
-        Assertions.assertEquals("0", mock.oneArg(new BigDecimal("1.50")));
+        assertEquals("0", mock.oneArg(new BigDecimal("1.50")));
         verify(mock);
     }
 
@@ -356,9 +360,9 @@ class UsageConstraintsTest {
         };
 
         // Check my comparator works
-        Assertions.assertTrue(comparator.compare(new A(1), new A(2)) < 0);
-        Assertions.assertTrue(comparator.compare(new A(2), new A(1)) > 0);
-        Assertions.assertEquals(0, comparator.compare(new A(1), new A(1)));
+        assertTrue(comparator.compare(new A(1), new A(2)) < 0);
+        assertTrue(comparator.compare(new A(2), new A(1)) > 0);
+        assertEquals(0, comparator.compare(new A(1), new A(1)));
 
         // Now test EasyMock.cmp
         checkOrder(mock, true);
@@ -380,29 +384,29 @@ class UsageConstraintsTest {
         checkItFails(null); // null is not comparable so always return false
         try {
             mock.oneArg("");
-            Assertions.fail();
+            fail();
         } catch (AssertionError e) {
         } // different type isn't either
 
         checkItFails(new A(4));
         checkItFails(new A(6));
-        Assertions.assertEquals("0", mock.oneArg(new A(5)));
+        assertEquals("0", mock.oneArg(new A(5)));
 
         checkItFails(new A(4));
         checkItFails(new A(5));
-        Assertions.assertEquals("1", mock.oneArg(new A(6)));
+        assertEquals("1", mock.oneArg(new A(6)));
 
         checkItFails(new A(4));
-        Assertions.assertEquals("2", mock.oneArg(new A(6)));
-        Assertions.assertEquals("2", mock.oneArg(new A(5)));
+        assertEquals("2", mock.oneArg(new A(6)));
+        assertEquals("2", mock.oneArg(new A(5)));
 
         checkItFails(new A(6));
-        Assertions.assertEquals("3", mock.oneArg(new A(4)));
-        Assertions.assertEquals("3", mock.oneArg(new A(5)));
+        assertEquals("3", mock.oneArg(new A(4)));
+        assertEquals("3", mock.oneArg(new A(5)));
 
         checkItFails(new A(5));
         checkItFails(new A(6));
-        Assertions.assertEquals("4", mock.oneArg(new A(4)));
+        assertEquals("4", mock.oneArg(new A(4)));
 
         verifyRecording(mock);
     }
@@ -410,7 +414,7 @@ class UsageConstraintsTest {
     private void checkItFails(A a) {
         try {
             mock.oneArg(a);
-            Assertions.fail();
+            fail();
         } catch (AssertionError e) {
         }
     }
@@ -430,18 +434,18 @@ class UsageConstraintsTest {
         expect(mock.oneArg(EasyMock.<List<String>> anyObject())).andReturn("9"); // make sure there's no warning on the cast
         expect(mock.oneArg(anyString())).andReturn("10");
         replay(mock);
-        Assertions.assertEquals("9", mock.oneArg(Collections.emptyList()));
-        Assertions.assertEquals("0", mock.oneArg(true));
-        Assertions.assertEquals("1", mock.oneArg((byte) 1));
-        Assertions.assertEquals("2", mock.oneArg((char) 1));
-        Assertions.assertEquals("3", mock.oneArg((double) 1));
-        Assertions.assertEquals("7", mock.oneArg((short) 1));
-        Assertions.assertEquals("8", mock.oneArg("Test"));
-        Assertions.assertEquals("4", mock.oneArg((float) 1));
-        Assertions.assertEquals("5", mock.oneArg(1));
-        Assertions.assertEquals("6", mock.oneArg((long) 1));
-        Assertions.assertEquals("9", mock.oneArg("Other Test"));
-        Assertions.assertEquals("10", mock.oneArg(""));
+        assertEquals("9", mock.oneArg(Collections.emptyList()));
+        assertEquals("0", mock.oneArg(true));
+        assertEquals("1", mock.oneArg((byte) 1));
+        assertEquals("2", mock.oneArg((char) 1));
+        assertEquals("3", mock.oneArg((double) 1));
+        assertEquals("7", mock.oneArg((short) 1));
+        assertEquals("8", mock.oneArg("Test"));
+        assertEquals("4", mock.oneArg((float) 1));
+        assertEquals("5", mock.oneArg(1));
+        assertEquals("6", mock.oneArg((long) 1));
+        assertEquals("9", mock.oneArg("Other Test"));
+        assertEquals("10", mock.oneArg(""));
         verify(mock);
     }
 
@@ -458,16 +462,16 @@ class UsageConstraintsTest {
         expect(mock.oneArray(aryEq(new String[] { "Test" }))).andReturn("8");
         expect(mock.oneArray(aryEq(new Object[] { "Test" }))).andReturn("9");
         replay(mock);
-        Assertions.assertEquals("9", mock.oneArray(new Object[] { "Test" }));
-        Assertions.assertEquals("0", mock.oneArray(new boolean[] { true }));
-        Assertions.assertEquals("1", mock.oneArray(new byte[] { 1 }));
-        Assertions.assertEquals("2", mock.oneArray(new char[] { 1 }));
-        Assertions.assertEquals("3", mock.oneArray(new double[] { 1 }));
-        Assertions.assertEquals("7", mock.oneArray(new short[] { 1 }));
-        Assertions.assertEquals("8", mock.oneArray(new String[] { "Test" }));
-        Assertions.assertEquals("4", mock.oneArray(new float[] { 1 }));
-        Assertions.assertEquals("5", mock.oneArray(new int[] { 1 }));
-        Assertions.assertEquals("6", mock.oneArray(new long[] { 1 }));
+        assertEquals("9", mock.oneArray(new Object[] { "Test" }));
+        assertEquals("0", mock.oneArray(new boolean[] { true }));
+        assertEquals("1", mock.oneArray(new byte[] { 1 }));
+        assertEquals("2", mock.oneArray(new char[] { 1 }));
+        assertEquals("3", mock.oneArray(new double[] { 1 }));
+        assertEquals("7", mock.oneArray(new short[] { 1 }));
+        assertEquals("8", mock.oneArray(new String[] { "Test" }));
+        assertEquals("4", mock.oneArray(new float[] { 1 }));
+        assertEquals("5", mock.oneArray(new int[] { 1 }));
+        assertEquals("6", mock.oneArray(new long[] { 1 }));
         verify(mock);
     }
 
@@ -478,11 +482,11 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.oneArg(7));
-        Assertions.assertEquals("2", mock.oneArg(6));
-        Assertions.assertEquals("1", mock.oneArg(8));
-        Assertions.assertEquals("2", mock.oneArg(6));
-        Assertions.assertEquals("1", mock.oneArg(9));
+        assertEquals("1", mock.oneArg(7));
+        assertEquals("2", mock.oneArg(6));
+        assertEquals("1", mock.oneArg(8));
+        assertEquals("2", mock.oneArg(6));
+        assertEquals("1", mock.oneArg(9));
 
         verify(mock);
     }
@@ -494,11 +498,11 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.oneArg(8));
-        Assertions.assertEquals("2", mock.oneArg(7));
-        Assertions.assertEquals("1", mock.oneArg(9));
-        Assertions.assertEquals("2", mock.oneArg(6));
-        Assertions.assertEquals("1", mock.oneArg(10));
+        assertEquals("1", mock.oneArg(8));
+        assertEquals("2", mock.oneArg(7));
+        assertEquals("1", mock.oneArg(9));
+        assertEquals("2", mock.oneArg(6));
+        assertEquals("1", mock.oneArg(10));
 
         verify(mock);
     }
@@ -510,11 +514,11 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.oneArg(7));
-        Assertions.assertEquals("2", mock.oneArg(8));
-        Assertions.assertEquals("1", mock.oneArg(6));
-        Assertions.assertEquals("2", mock.oneArg(9));
-        Assertions.assertEquals("1", mock.oneArg(5));
+        assertEquals("1", mock.oneArg(7));
+        assertEquals("2", mock.oneArg(8));
+        assertEquals("1", mock.oneArg(6));
+        assertEquals("2", mock.oneArg(9));
+        assertEquals("1", mock.oneArg(5));
 
         verify(mock);
     }
@@ -526,11 +530,11 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.oneArg(5));
-        Assertions.assertEquals("2", mock.oneArg(7));
-        Assertions.assertEquals("1", mock.oneArg(6));
-        Assertions.assertEquals("2", mock.oneArg(8));
-        Assertions.assertEquals("1", mock.oneArg(4));
+        assertEquals("1", mock.oneArg(5));
+        assertEquals("2", mock.oneArg(7));
+        assertEquals("1", mock.oneArg(6));
+        assertEquals("2", mock.oneArg(8));
+        assertEquals("1", mock.oneArg(4));
 
         verify(mock);
     }
@@ -542,9 +546,9 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.oneArg(7));
-        Assertions.assertEquals("1", mock.oneArg(9));
-        Assertions.assertEquals("2", mock.oneArg(10));
+        assertEquals("1", mock.oneArg(7));
+        assertEquals("1", mock.oneArg(9));
+        assertEquals("2", mock.oneArg(10));
 
         verify(mock);
     }
@@ -557,9 +561,9 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.threeArgumentMethod(1, null, ""));
-        Assertions.assertEquals("2", mock.threeArgumentMethod(1, null, ""));
-        Assertions.assertEquals("3", mock.threeArgumentMethod(1, new Object(), ""));
+        assertEquals("1", mock.threeArgumentMethod(1, null, ""));
+        assertEquals("2", mock.threeArgumentMethod(1, null, ""));
+        assertEquals("3", mock.threeArgumentMethod(1, new Object(), ""));
 
         verify(mock);
     }
@@ -572,9 +576,9 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.threeArgumentMethod(1, new Object(), ""));
-        Assertions.assertEquals("2", mock.threeArgumentMethod(1, new Object(), ""));
-        Assertions.assertEquals("3", mock.threeArgumentMethod(1, null, ""));
+        assertEquals("1", mock.threeArgumentMethod(1, new Object(), ""));
+        assertEquals("2", mock.threeArgumentMethod(1, new Object(), ""));
+        assertEquals("3", mock.threeArgumentMethod(1, null, ""));
 
         verify(mock);
     }
@@ -586,8 +590,8 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.oneArg("1ab12"));
-        Assertions.assertEquals("2", mock.oneArg("312xx"));
+        assertEquals("1", mock.oneArg("1ab12"));
+        assertEquals("2", mock.oneArg("312xx"));
 
         verify(mock);
     }
@@ -599,8 +603,8 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.oneArg("a12"));
-        Assertions.assertEquals("2", mock.oneArg("131"));
+        assertEquals("1", mock.oneArg("a12"));
+        assertEquals("2", mock.oneArg("131"));
 
         verify(mock);
     }
@@ -612,8 +616,8 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.oneArg("xabcx"));
-        Assertions.assertEquals("2", mock.oneArg("xdbcx"));
+        assertEquals("1", mock.oneArg("xabcx"));
+        assertEquals("2", mock.oneArg("xdbcx"));
 
         verify(mock);
     }
@@ -625,8 +629,8 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.oneArg("abcx"));
-        Assertions.assertEquals("2", mock.oneArg("bcxe"));
+        assertEquals("1", mock.oneArg("abcx"));
+        assertEquals("2", mock.oneArg("bcxe"));
 
         verify(mock);
     }
@@ -638,8 +642,8 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.oneArg("xab"));
-        Assertions.assertEquals("2", mock.oneArg("xbc"));
+        assertEquals("1", mock.oneArg("xab"));
+        assertEquals("2", mock.oneArg("xbc"));
 
         verify(mock);
     }
@@ -654,15 +658,15 @@ class UsageConstraintsTest {
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.oneArg(1.0));
-        Assertions.assertEquals("1", mock.oneArg(0.91));
-        Assertions.assertEquals("1", mock.oneArg(1.09));
-        Assertions.assertEquals("2", mock.oneArg(2.0));
+        assertEquals("1", mock.oneArg(1.0));
+        assertEquals("1", mock.oneArg(0.91));
+        assertEquals("1", mock.oneArg(1.09));
+        assertEquals("2", mock.oneArg(2.0));
 
-        Assertions.assertEquals("3", mock.oneArg(1.0F));
-        Assertions.assertEquals("3", mock.oneArg(0.91F));
-        Assertions.assertEquals("3", mock.oneArg(1.09F));
-        Assertions.assertEquals("4", mock.oneArg(2.0F));
+        assertEquals("3", mock.oneArg(1.0F));
+        assertEquals("3", mock.oneArg(0.91F));
+        assertEquals("3", mock.oneArg(1.09F));
+        assertEquals("4", mock.oneArg(2.0F));
 
         verify(mock);
     }
@@ -673,16 +677,16 @@ class UsageConstraintsTest {
         Object one = new String("1243");
         Object two = new String("1243");
 
-        Assertions.assertNotSame(one, two);
-        Assertions.assertEquals(one, two);
+        assertNotSame(one, two);
+        assertEquals(one, two);
 
         expect(mock.oneArg(same(one))).andReturn("1").atLeastOnce();
         expect(mock.oneArg(same(two))).andStubReturn("2");
 
         replay(mock);
 
-        Assertions.assertEquals("1", mock.oneArg(one));
-        Assertions.assertEquals("2", mock.oneArg(two));
+        assertEquals("1", mock.oneArg(one));
+        assertEquals("2", mock.oneArg(two));
 
         verify(mock);
     }

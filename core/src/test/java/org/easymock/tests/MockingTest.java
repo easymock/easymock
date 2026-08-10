@@ -17,7 +17,6 @@ package org.easymock.tests;
 
 import org.easymock.MockType;
 import org.easymock.internal.MocksControl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -25,6 +24,9 @@ import java.util.List;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.createStrictMock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test all kind of mocking making sure the partial mocking and interface works
@@ -63,7 +65,7 @@ class MockingTest {
         ClassToMock transition2 = createMock(ClassToMock.class);
 
         // Should have two different callbacks
-        Assertions.assertNotSame(MocksControl.getInvocationHandler(transition2), MocksControl.getInvocationHandler(transition1));
+        assertNotSame(MocksControl.getInvocationHandler(transition2), MocksControl.getInvocationHandler(transition1));
 
         transition2.foo();
         transition1.foo();
@@ -113,9 +115,9 @@ class MockingTest {
     void testMockingNull() {
         try {
             createMock(null);
-            Assertions.fail("Should throw a NPE");
+            fail("Should throw a NPE");
         } catch(NullPointerException e) {
-            Assertions.assertEquals("Can't mock 'null'", e.getMessage());
+            assertEquals("Can't mock 'null'", e.getMessage());
         }
     }
 
@@ -128,7 +130,7 @@ class MockingTest {
     }
 
     private void checkBehavior(Object mock, MockType behavior) {
-        Assertions.assertEquals(behavior, extractBehavior(mock));
+        assertEquals(behavior, extractBehavior(mock));
     }
 
     private MockType extractBehavior(Object mock) {

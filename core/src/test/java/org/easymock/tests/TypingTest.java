@@ -19,12 +19,13 @@ import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
 import org.easymock.MockType;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * We are making sure here that the typing here is generic friendly. No assertions are made, if
@@ -34,6 +35,7 @@ import java.util.Set;
  */
 class TypingTest {
 
+	@SuppressWarnings("unused")
     private List<String> list;
 
     @Test
@@ -102,13 +104,7 @@ class TypingTest {
 
     @Test
     void testNonMatchingClass() {
-        try {
-            list = EasyMock.mock(Set.class);
-            Assertions.fail("Can't cast Set to List");
-        }
-        catch(ClassCastException e) {
-            // Expected
-        }
+        assertThrows(ClassCastException.class, () -> list = EasyMock.mock(Set.class), "Can't cast Set to List");
     }
 
     @Test

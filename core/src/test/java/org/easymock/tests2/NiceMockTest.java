@@ -16,13 +16,15 @@
 package org.easymock.tests2;
 
 import org.easymock.tests.IMethods;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -39,25 +41,25 @@ class NiceMockTest {
 
     @Test
     void defaultReturnValueBoolean() {
-        Assertions.assertFalse(mock.booleanReturningMethod(12));
+        assertFalse(mock.booleanReturningMethod(12));
         verify(mock);
     }
 
     @Test
     void defaultReturnValueFloat() {
-        Assertions.assertEquals(0.0f, mock.floatReturningMethod(12), 0.0f);
+        assertEquals(0.0f, mock.floatReturningMethod(12), 0.0f);
         verify(mock);
     }
 
     @Test
     void defaultReturnValueDouble() {
-        Assertions.assertEquals(0.0d, mock.doubleReturningMethod(12), 0.0d);
+        assertEquals(0.0d, mock.doubleReturningMethod(12), 0.0d);
         verify(mock);
     }
 
     @Test
     void defaultReturnValueObject() {
-        Assertions.assertNull(mock.objectReturningMethod(12));
+        assertNull(mock.objectReturningMethod(12));
         verify(mock);
     }
 }

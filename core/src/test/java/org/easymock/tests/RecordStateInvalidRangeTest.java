@@ -15,12 +15,13 @@
  */
 package org.easymock.tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expectLastCall;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -39,9 +40,9 @@ class RecordStateInvalidRangeTest {
         mock.simpleMethod();
         try {
             expectLastCall().atLeastOnce().atLeastOnce();
-            Assertions.fail();
+            fail();
         } catch (IllegalStateException expected) {
-            Assertions.assertEquals("last method called on mock already has a non-fixed count set.", expected
+            assertEquals("last method called on mock already has a non-fixed count set.", expected
                     .getMessage());
         }
     }
@@ -51,9 +52,9 @@ class RecordStateInvalidRangeTest {
         mock.simpleMethod();
         try {
             expectLastCall().atLeastOnce().once();
-            Assertions.fail();
+            fail();
         } catch (IllegalStateException expected) {
-            Assertions.assertEquals("last method called on mock already has a non-fixed count set.", expected
+            assertEquals("last method called on mock already has a non-fixed count set.", expected
                     .getMessage());
         }
     }
@@ -64,9 +65,9 @@ class RecordStateInvalidRangeTest {
         int NEGATIVE = -1;
         try {
             expectLastCall().times(NEGATIVE, 2);
-            Assertions.fail();
+            fail();
         } catch (IllegalArgumentException expected) {
-            Assertions.assertEquals("minimum must be >= 0", expected.getMessage());
+            assertEquals("minimum must be >= 0", expected.getMessage());
         }
     }
 
@@ -76,9 +77,9 @@ class RecordStateInvalidRangeTest {
         int NON_POSITIVE = 0;
         try {
             expectLastCall().times(0, NON_POSITIVE);
-            Assertions.fail();
+            fail();
         } catch (IllegalArgumentException expected) {
-            Assertions.assertEquals("maximum must be >= 1", expected.getMessage());
+            assertEquals("maximum must be >= 1", expected.getMessage());
         }
     }
 
@@ -87,9 +88,9 @@ class RecordStateInvalidRangeTest {
         mock.simpleMethod();
         try {
             expectLastCall().times(4, 3);
-            Assertions.fail();
+            fail();
         } catch (IllegalArgumentException expected) {
-            Assertions.assertEquals("minimum must be <= maximum", expected.getMessage());
+            assertEquals("minimum must be <= maximum", expected.getMessage());
         }
     }
 }

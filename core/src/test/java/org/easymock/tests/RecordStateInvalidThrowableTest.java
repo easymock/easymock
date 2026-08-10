@@ -15,7 +15,6 @@
  */
 package org.easymock.tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +22,8 @@ import java.io.IOException;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expectLastCall;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -45,9 +46,9 @@ class RecordStateInvalidThrowableTest {
         mock.throwsNothing(false);
         try {
             expectLastCall().andThrow(null);
-            Assertions.fail("NullPointerException expected");
+            fail("NullPointerException expected");
         } catch (NullPointerException expected) {
-            Assertions.assertEquals("null cannot be thrown", expected.getMessage());
+            assertEquals("null cannot be thrown", expected.getMessage());
         }
 
     }
@@ -57,9 +58,9 @@ class RecordStateInvalidThrowableTest {
         mock.throwsNothing(false);
         try {
             expectLastCall().andThrow(new CheckedException());
-            Assertions.fail("IllegalArgumentException expected");
+            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException expected) {
-            Assertions.assertEquals("last method called on mock cannot throw " + CheckedException.class.getName(), expected.getMessage());
+            assertEquals("last method called on mock cannot throw " + CheckedException.class.getName(), expected.getMessage());
         }
     }
 
@@ -68,9 +69,9 @@ class RecordStateInvalidThrowableTest {
         mock.throwsIOException(0);
         try {
             expectLastCall().andThrow(new CheckedException());
-            Assertions.fail("IllegalArgumentException expected");
+            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException expected) {
-            Assertions.assertEquals("last method called on mock cannot throw " + CheckedException.class.getName(), expected.getMessage());
+            assertEquals("last method called on mock cannot throw " + CheckedException.class.getName(), expected.getMessage());
         }
     }
 }

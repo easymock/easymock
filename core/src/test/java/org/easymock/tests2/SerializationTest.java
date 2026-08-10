@@ -15,7 +15,6 @@
  */
 package org.easymock.tests2;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -32,6 +31,7 @@ import static org.easymock.EasyMock.createMockBuilder;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Henri Tremblay
@@ -55,7 +55,7 @@ class SerializationTest implements Serializable {
 
         mock = serialize(mock);
 
-        Assertions.assertEquals("a", mock.get(1));
+        assertEquals("a", mock.get(1));
 
         mock = serialize(mock);
 
@@ -78,7 +78,7 @@ class SerializationTest implements Serializable {
 
         mock = serialize(mock);
 
-        Assertions.assertEquals("a", mock.get(1));
+        assertEquals("a", mock.get(1));
 
         mock = serialize(mock);
 

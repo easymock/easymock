@@ -17,11 +17,11 @@ package org.easymock.samples;
 
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.expect;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Henri Tremblay
@@ -63,7 +63,7 @@ public class SupportTest extends EasyMockSupport {
         replayAll();
 
         classUnderTest.addDocument("Document 1", "content");
-        Assertions.assertTrue(classUnderTest.removeDocuments("Document 1"));
+        assertTrue(classUnderTest.removeDocuments("Document 1"));
 
         verifyAll();
     }

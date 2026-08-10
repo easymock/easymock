@@ -15,9 +15,9 @@
  */
 package org.easymock.internal;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -30,8 +30,8 @@ class LinkedClassLoaderTest {
         OneClassLoader stringLoader = new OneClassLoader(String.class.getName(), getClass().getClassLoader());
         OneClassLoader testLoader = new OneClassLoader(getClass().getName(), getClass().getClassLoader());
         LinkedClassLoader classLoader = new LinkedClassLoader(stringLoader, testLoader);
-        Assertions.assertSame(String.class, classLoader.findClass(String.class.getName()));
-        Assertions.assertSame(getClass(), classLoader.findClass(getClass().getName()));
+        assertSame(String.class, classLoader.findClass(String.class.getName()));
+        assertSame(getClass(), classLoader.findClass(getClass().getName()));
 
         assertThrows(ClassNotFoundException.class, () -> classLoader.findClass(Test.class.getName()));
     }

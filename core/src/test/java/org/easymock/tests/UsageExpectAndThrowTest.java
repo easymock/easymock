@@ -15,7 +15,6 @@
  */
 package org.easymock.tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +22,8 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -44,9 +45,9 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.booleanReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -57,9 +58,9 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.longReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -70,9 +71,9 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.floatReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -83,9 +84,9 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.doubleReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -96,9 +97,9 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.objectReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -109,9 +110,9 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.booleanReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -122,9 +123,9 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.longReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -135,9 +136,9 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.floatReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -148,9 +149,9 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.doubleReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -161,9 +162,9 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.objectReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -174,15 +175,15 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.booleanReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         try {
             mock.booleanReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -193,15 +194,15 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.longReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         try {
             mock.longReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -212,15 +213,15 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.floatReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         try {
             mock.floatReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -231,15 +232,15 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.doubleReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         try {
             mock.doubleReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -250,15 +251,15 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.objectReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         try {
             mock.objectReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -269,22 +270,22 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.booleanReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         try {
             mock.booleanReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
         try {
             mock.booleanReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -295,22 +296,22 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.longReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         try {
             mock.longReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
         try {
             mock.longReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -321,22 +322,22 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.floatReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         try {
             mock.floatReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
         try {
             mock.floatReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -347,22 +348,22 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.doubleReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         try {
             mock.doubleReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
         try {
             mock.doubleReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }
@@ -373,22 +374,22 @@ class UsageExpectAndThrowTest {
         replay(mock);
         try {
             mock.objectReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         try {
             mock.objectReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
         try {
             mock.objectReturningMethod(4);
-            Assertions.fail();
+            fail();
         } catch (RuntimeException exception) {
-            Assertions.assertSame(EXCEPTION, exception);
+            assertSame(EXCEPTION, exception);
         }
         verify(mock);
     }

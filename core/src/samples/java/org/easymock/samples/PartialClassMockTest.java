@@ -17,11 +17,11 @@ package org.easymock.samples;
 
 import org.easymock.EasyMockSupport;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.expect;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Example of how to perform partial mocking
@@ -74,7 +74,7 @@ public class PartialClassMockTest extends EasyMockSupport {
         expect(rect.getX()).andReturn(4);
         expect(rect.getY()).andReturn(5);
         replayAll();
-        Assertions.assertEquals(20, rect.getArea());
+        assertEquals(20, rect.getArea());
         verifyAll();
     }
 }

@@ -15,7 +15,6 @@
  */
 package org.easymock.tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +23,7 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -44,9 +44,9 @@ class UsageLongCompatibleReturnValueTest {
 
         replay(mock);
 
-        Assertions.assertEquals((byte) 25, mock.byteReturningMethod(0));
-        Assertions.assertEquals((byte) 34, mock.byteReturningMethod(-4));
-        Assertions.assertEquals((byte) 34, mock.byteReturningMethod(12));
+        assertEquals((byte) 25, mock.byteReturningMethod(0));
+        assertEquals((byte) 34, mock.byteReturningMethod(-4));
+        assertEquals((byte) 34, mock.byteReturningMethod(12));
 
         verify(mock);
     }
@@ -58,9 +58,9 @@ class UsageLongCompatibleReturnValueTest {
 
         replay(mock);
 
-        Assertions.assertEquals((short) 25, mock.shortReturningMethod(0));
-        Assertions.assertEquals((short) 34, mock.shortReturningMethod(-4));
-        Assertions.assertEquals((short) 34, mock.shortReturningMethod(12));
+        assertEquals((short) 25, mock.shortReturningMethod(0));
+        assertEquals((short) 34, mock.shortReturningMethod(-4));
+        assertEquals((short) 34, mock.shortReturningMethod(12));
 
         verify(mock);
     }
@@ -72,9 +72,9 @@ class UsageLongCompatibleReturnValueTest {
 
         replay(mock);
 
-        Assertions.assertEquals((char) 25, mock.charReturningMethod(0));
-        Assertions.assertEquals((char) 34, mock.charReturningMethod(-4));
-        Assertions.assertEquals((char) 34, mock.charReturningMethod(12));
+        assertEquals((char) 25, mock.charReturningMethod(0));
+        assertEquals((char) 34, mock.charReturningMethod(-4));
+        assertEquals((char) 34, mock.charReturningMethod(12));
 
         verify(mock);
     }
@@ -86,9 +86,9 @@ class UsageLongCompatibleReturnValueTest {
 
         replay(mock);
 
-        Assertions.assertEquals(25, mock.intReturningMethod(0));
-        Assertions.assertEquals(34, mock.intReturningMethod(-4));
-        Assertions.assertEquals(34, mock.intReturningMethod(12));
+        assertEquals(25, mock.intReturningMethod(0));
+        assertEquals(34, mock.intReturningMethod(-4));
+        assertEquals(34, mock.intReturningMethod(12));
 
         verify(mock);
     }
@@ -100,9 +100,9 @@ class UsageLongCompatibleReturnValueTest {
 
         replay(mock);
 
-        Assertions.assertEquals(25, mock.longReturningMethod(0));
-        Assertions.assertEquals(34, mock.longReturningMethod(-4));
-        Assertions.assertEquals(34, mock.longReturningMethod(12));
+        assertEquals(25, mock.longReturningMethod(0));
+        assertEquals(34, mock.longReturningMethod(-4));
+        assertEquals(34, mock.longReturningMethod(12));
 
         verify(mock);
     }

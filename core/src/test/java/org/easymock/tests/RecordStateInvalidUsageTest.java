@@ -15,13 +15,14 @@
  */
 package org.easymock.tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -39,9 +40,9 @@ class RecordStateInvalidUsageTest {
     void notAMockPassedToExpect() {
         try {
             expect(null);
-            Assertions.fail("IllegalStateException expected");
+            fail("IllegalStateException expected");
         } catch (IllegalStateException expected) {
-            Assertions.assertEquals("no last call on a mock available", expected.getMessage());
+            assertEquals("no last call on a mock available", expected.getMessage());
         }
     }
 
@@ -49,9 +50,9 @@ class RecordStateInvalidUsageTest {
     void openVoidCallCountWithoutMethodCall() {
         try {
             expectLastCall();
-            Assertions.fail("IllegalStateException expected");
+            fail("IllegalStateException expected");
         } catch (IllegalStateException expected) {
-            Assertions.assertEquals("no last call on a mock available", expected.getMessage());
+            assertEquals("no last call on a mock available", expected.getMessage());
         }
     }
 
@@ -59,9 +60,9 @@ class RecordStateInvalidUsageTest {
     void setWrongReturnValueBoolean() {
         try {
             expect((Object) mock.oneArg(false)).andReturn(false);
-            Assertions.fail("IllegalStateException expected");
+            fail("IllegalStateException expected");
         } catch (IllegalStateException expected) {
-            Assertions.assertEquals("incompatible return value type", expected.getMessage());
+            assertEquals("incompatible return value type", expected.getMessage());
         }
     }
 }

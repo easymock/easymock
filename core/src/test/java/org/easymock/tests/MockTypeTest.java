@@ -20,8 +20,9 @@ import org.easymock.EasyMockSupport;
 import org.easymock.IMockBuilder;
 import org.easymock.MockType;
 import org.easymock.internal.MocksControl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test mocks create with a MockType
@@ -38,44 +39,44 @@ public class MockTypeTest {
     void fromEasyMockClass() {
         IMethods mock = EasyMock.createMock(MockType.STRICT, IMethods.class);
         MockType type = MocksControl.getControl(mock).getType();
-        Assertions.assertEquals(MockType.STRICT, type);
-        Assertions.assertEquals("EasyMock for interface " + IMethods.class.getName(), mock.toString());
+        assertEquals(MockType.STRICT, type);
+        assertEquals("EasyMock for interface " + IMethods.class.getName(), mock.toString());
     }
 
     @Test
     void fromEasyMockClassWithName() {
         IMethods mock = EasyMock.createMock("test", MockType.STRICT, IMethods.class);
         MockType type = MocksControl.getControl(mock).getType();
-        Assertions.assertEquals(MockType.STRICT, type);
-        Assertions.assertEquals("test", mock.toString());
+        assertEquals(MockType.STRICT, type);
+        assertEquals("test", mock.toString());
     }
 
     @Test
     void fromEasyMockControlWithName() {
         MocksControl ctrl = (MocksControl) EasyMock.createControl(MockType.STRICT);
-        Assertions.assertEquals(MockType.STRICT, ctrl.getType());
+        assertEquals(MockType.STRICT, ctrl.getType());
     }
 
     @Test
     void fromEasyMockSupportClass() {
         IMethods mock = support.createMock(MockType.STRICT, IMethods.class);
         MockType type = MocksControl.getControl(mock).getType();
-        Assertions.assertEquals(MockType.STRICT, type);
-        Assertions.assertEquals("EasyMock for interface " + IMethods.class.getName(), mock.toString());
+        assertEquals(MockType.STRICT, type);
+        assertEquals("EasyMock for interface " + IMethods.class.getName(), mock.toString());
     }
 
     @Test
     void fromEasyMockSupportClassWithName() {
         IMethods mock = support.createMock("test", MockType.STRICT, IMethods.class);
         MockType type = MocksControl.getControl(mock).getType();
-        Assertions.assertEquals(MockType.STRICT, type);
-        Assertions.assertEquals("test", mock.toString());
+        assertEquals(MockType.STRICT, type);
+        assertEquals("test", mock.toString());
     }
 
     @Test
     void fromEasyMockSupportControlWithName() {
         MocksControl ctrl = (MocksControl) support.createControl(MockType.STRICT);
-        Assertions.assertEquals(MockType.STRICT, ctrl.getType());
+        assertEquals(MockType.STRICT, ctrl.getType());
     }
 
     // The two following tests are showing a strange behavior. The toString doesn't return the
@@ -84,16 +85,16 @@ public class MockTypeTest {
     void fromMockBuilderClass() {
         MockTypeTest mock = builder.addMockedMethod("toString").createMock(MockType.STRICT);
         MockType type = MocksControl.getControl(mock).getType();
-        Assertions.assertEquals(MockType.STRICT, type);
-        Assertions.assertEquals("EasyMock for class " + MockTypeTest.class.getName(), mock.toString());
+        assertEquals(MockType.STRICT, type);
+        assertEquals("EasyMock for class " + MockTypeTest.class.getName(), mock.toString());
     }
 
     @Test
     void fromMockBuilderClassWithName() {
         MockTypeTest mock = builder.addMockedMethod("toString").createMock("test", MockType.STRICT);
         MockType type = MocksControl.getControl(mock).getType();
-        Assertions.assertEquals(MockType.STRICT, type);
-        Assertions.assertEquals("test", mock.toString());
+        assertEquals(MockType.STRICT, type);
+        assertEquals("test", mock.toString());
     }
 
     @Override
