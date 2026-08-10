@@ -20,12 +20,16 @@ import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.description.modifier.FieldManifestation;
 import net.bytebuddy.description.modifier.SyntheticState;
 import net.bytebuddy.description.modifier.Visibility;
+import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.dynamic.loading.ClassInjector;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.InvocationHandlerAdapter;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.easymock.EasyMock;
 import org.easymock.internal.ClassInstantiatorFactory;
+import org.easymock.internal.classinfoprovider.JdkClassInfoProvider;
+import org.easymock.mocks.MocksPackageLookup;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -67,25 +71,38 @@ class ByteBuddyTest {
                 return method.invoke(proxy, args);
             }
         };
-        Class<?> mockClass = new ByteBuddy()
+
+        JdkClassInfoProvider provider = new JdkClassInfoProvider();
+        try (@SuppressWarnings({"unchecked", "rawtypes"}) DynamicType.Unloaded<ArrayList<?>> unloaded = (DynamicType.Unloaded) new ByteBuddy()
             .subclass(ArrayList.class)
+            .name(provider.classPackage(ArrayList.class) + ArrayList.class.getSimpleName() + "$$$ByteBuddyTest$" + System.nanoTime())
             .defineField("$callback", InvocationHandler.class, SyntheticState.SYNTHETIC, Visibility.PRIVATE, FieldManifestation.FINAL)
             .method(junction)
             .intercept(InvocationHandlerAdapter.of(handler))
-            .make()
-            .load(ArrayList.class.getClassLoader(), new ClassLoadingStrategy.ForUnsafeInjection())
-            .getLoaded();
+            .make()) {
 
-        Object mock = ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
+            Class<?> mockClass = unloaded
+                .load(ArrayList.class.getClassLoader(), classLoadingStrategy())
+                .getLoaded();
 
-        Field callbackField = getCallbackField(mock);
-        try {
-            callbackField.set(mock, handler);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            Object mock = ClassInstantiatorFactory.getInstantiator().newInstance(mockClass);
+
+            Field callbackField = getCallbackField(mock);
+            try {
+                callbackField.set(mock, handler);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+
+            return mock;
         }
+    }
 
-        return mock;
+    private static ClassLoadingStrategy<ClassLoader> classLoadingStrategy() {
+        if (ClassInjector.UsingUnsafe.isAvailable()) {
+            return new ClassLoadingStrategy.ForUnsafeInjection();
+        }
+        return ClassLoadingStrategy.UsingLookup.of(MocksPackageLookup.LOOKUP);
     }
 
     private InvocationHandler getCallback(Object mock) {

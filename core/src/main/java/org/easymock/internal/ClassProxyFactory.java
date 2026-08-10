@@ -15,15 +15,7 @@
  */
 package org.easymock.internal;
 
-import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.TypeCache;
-import net.bytebuddy.description.method.MethodDescription;
-import net.bytebuddy.description.modifier.SyntheticState;
-import net.bytebuddy.description.modifier.Visibility;
-import net.bytebuddy.dynamic.DynamicType;
-import net.bytebuddy.dynamic.loading.ClassInjector;
-import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
-import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.BindingPriority;
 import net.bytebuddy.implementation.bind.annotation.FieldValue;
@@ -32,8 +24,6 @@ import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.StubValue;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.This;
-import net.bytebuddy.matcher.ElementMatcher;
-import net.bytebuddy.matcher.ElementMatchers;
 import org.easymock.ConstructorArgs;
 import org.easymock.internal.classinfoprovider.ClassInfoProvider;
 import org.easymock.internal.classinfoprovider.DefaultClassInfoProvider;
@@ -48,7 +38,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Factory generating a mock for a class.
@@ -57,9 +46,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ClassProxyFactory implements IProxyFactory {
 
-    private static final String CALLBACK_FIELD = "$callback";
     private static final ClassInfoProvider[] defaultClassInfoProviders = { new DefaultClassInfoProvider() , new JdkClassInfoProvider() };
     private static final ClassInfoProvider[] jdkClassInfoProviders = { defaultClassInfoProviders[1], defaultClassInfoProviders[0] };
+    static final String CALLBACK_FIELD = "$callback";
 
     public static class MockMethodInterceptor implements Serializable {
 
@@ -131,8 +120,6 @@ public class ClassProxyFactory implements IProxyFactory {
         }
     }
 
-    private static final AtomicInteger id = new AtomicInteger(0);
-
     private static final ThreadLocal<ClassMockingData> currentData = new ThreadLocal<>();
 
     private final TypeCache<Class<?>> typeCache = new TypeCache.WithInlineExpunction<>();
@@ -164,26 +151,13 @@ public class ClassProxyFactory implements IProxyFactory {
         throw exception;
     }
 
-    @IgnoreAnimalSniffer // It reports errors on MethodHandle.invoke
+    @IgnoreAnimalSniffer
+    @SuppressWarnings("unchecked")
     private <T> T doCreateProxy(Class<T> toMock, InvocationHandler handler, ClassInfoProvider provider,
                                 Method[] mockedMethods, ConstructorArgs args) {
-        ElementMatcher.Junction<MethodDescription> junction = ElementMatchers.any();
-
         ClassLoader classLoader = provider.classLoader(toMock);
-        Class<?> mockClass = typeCache.findOrInsert(classLoader, toMock,  () -> {
-
-                try (DynamicType.Unloaded<T> unloaded = new ByteBuddy()
-                    .subclass(toMock)
-                    .name(provider.classPackage(toMock) + toMock.getSimpleName() + "$$$EasyMock$" + id.incrementAndGet())
-                    .defineField(CALLBACK_FIELD, ClassMockingData.class, SyntheticState.SYNTHETIC, Visibility.PUBLIC)
-                    .method(junction)
-                    .intercept(MethodDelegation.to(MockMethodInterceptor.class))
-                    .make()) {
-                    return unloaded
-                        .load(classLoader, classLoadingStrategy(provider, toMock))
-                        .getLoaded();
-                }
-            });
+        Class<?> mockClass = typeCache.findOrInsert(classLoader, toMock,
+            () -> ByteBuddyMocker.generateMockedClass(toMock, classLoader, provider));
 
         T mock;
 
@@ -191,16 +165,7 @@ public class ClassProxyFactory implements IProxyFactory {
 
         if (args != null) {
             // Really instantiate the class
-            Constructor<?> cstr;
-            try {
-                // Get the constructor with the same params
-                cstr = mockClass.getDeclaredConstructor(args.getConstructor().getParameterTypes());
-            } catch (NoSuchMethodException e) {
-                // Shouldn't happen, constructor is checked when ConstructorArgs is instantiated
-                // ///CLOVER:OFF
-                throw new RuntimeException("Fail to find constructor for param types", e);
-                // ///CLOVER:ON
-            }
+            Constructor<?> cstr = getConstructor(args, mockClass);
             try {
                 cstr.setAccessible(true); // So we can call a protected
                 // Call the constructor. The handler needs to know the mockedMethods but the callback field is not set yet
@@ -244,6 +209,18 @@ public class ClassProxyFactory implements IProxyFactory {
         return mock;
     }
 
+    private static Constructor<?> getConstructor(ConstructorArgs args, Class<?> mockClass) {
+        try {
+            // Get the constructor with the same params
+            return mockClass.getDeclaredConstructor(args.getConstructor().getParameterTypes());
+        } catch (NoSuchMethodException e) {
+            // Shouldn't happen, constructor is checked when ConstructorArgs is instantiated
+            // ///CLOVER:OFF
+            throw new RuntimeException("Fail to find constructor for param types", e);
+            // ///CLOVER:ON
+        }
+    }
+
     private static <T> boolean isJdkClassOrWithoutPackage(Class<T> toMock) {
         // null class loader means we are from the bootstrap class loader, the mocks will go in another package in class loader
         // we need to verify for null since some dynamic classes have no package
@@ -255,28 +232,6 @@ public class ClassProxyFactory implements IProxyFactory {
         // Here, we just try to guess it's coming from the JDK. Some might not be. "javax" in particular
         // But since we will try both provider, it will work in the end. It's just a matter of which one we try first
         return name.startsWith("java.") || name.startsWith("javax.") || name.startsWith("com.sun.") || name.startsWith("jdk.");
-    }
-
-    @IgnoreAnimalSniffer // privateLookupIn is Java 9+
-    private ClassLoadingStrategy<ClassLoader> classLoadingStrategy(ClassInfoProvider provider, Class<?> toMock) {
-        if (ClassInjector.UsingUnsafe.isAvailable()) {
-            return new ClassLoadingStrategy.ForUnsafeInjection();
-        }
-        // Fallback for Java 26+: ByteBuddy disables Unsafe by default; use Lookup.defineClass instead.
-        // Lookup.defineClass requires the lookup to reside in the same package as the class being defined.
-        if (provider instanceof JdkClassInfoProvider) {
-            // Mock will be placed in org.easymock.mocks — use a lookup rooted in that package.
-            return ClassLoadingStrategy.UsingLookup.of(MocksPackageLookup.LOOKUP);
-        }
-        // Mock will be placed in toMock's own package — privateLookupIn grants the required access
-        // as long as toMock's module opens the package (unnamed modules are always open).
-        try {
-            return ClassLoadingStrategy.UsingLookup.of(MethodHandles.privateLookupIn(toMock, MethodHandles.lookup()));
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("Cannot acquire private lookup for " + toMock
-                    + ": the module does not open its package. "
-                    + "Add --add-opens <module>/<package>=org.easymock to the JVM arguments.", e);
-        }
     }
 
     @Override

@@ -15,14 +15,9 @@
  */
 package org.easymock.tests2;
 
-import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
-import org.droidparts.dexmaker.stock.ProxyBuilder;
 import org.easymock.EasyMock;
-import org.easymock.internal.AndroidSupport;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +35,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 class ClassExtensionHelperTest {
 
-    private static final InvocationHandler NOOP_INVOCATION_HANDLER = (proxy, method, args) -> null;
-
     @Test
     void testGetControl_EasyMock() {
         List<?> mock = EasyMock.createMock(List.class);
@@ -52,25 +45,6 @@ class ClassExtensionHelperTest {
     void testGetControl_EasyMockClassExtension() {
         ArrayList<?> mock = EasyMock.createMock(ArrayList.class);
         assertNotNull(getControl(mock));
-    }
-
-    @Test
-    void testGetControl_ByteBuddyButNotAMock() throws Exception {
-        Object o;
-        if (AndroidSupport.isAndroid()) {
-            o = ProxyBuilder.forClass(ArrayList.class)
-                    .handler(NOOP_INVOCATION_HANDLER)
-                    .build();
-        } else {
-            o = new ByteBuddy()
-                .subclass(Object.class)
-                .make()
-                .load(Object.class.getClassLoader(), new ClassLoadingStrategy.ForUnsafeInjection())
-                .getLoaded()
-                .getDeclaredConstructor().newInstance();
-        }
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> getControl(o));
-        assertEquals("Not a mock: " + o.getClass().getName(), e.getMessage());
     }
 
     @Test

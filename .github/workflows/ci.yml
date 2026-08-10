@@ -17,7 +17,7 @@ jobs:
     timeout-minutes: 2
     strategy:
       matrix:
-        java: ['8', '11', '17', '21', '25']
+        java: ['8', '11', '17', '21', '25', '26']
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #v7.0.1
     - name: Set up JDK

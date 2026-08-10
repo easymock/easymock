@@ -16,9 +16,11 @@
 package org.easymock.tests2;
 
 import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
+import org.easymock.mocks.MocksPackageLookup;
 import org.easymock.tests.IMethods;
 import org.junit.jupiter.api.Test;
 
@@ -304,12 +306,14 @@ class EasyMockSupportTest extends EasyMockSupport {
             new Class<?>[]{IMethods.class}, (proxy, method, args) -> null)));
 
         // ByteBuddy proxy that is not an EasyMock proxy
-        Class<?> mockClass = new ByteBuddy()
+        try (DynamicType.Unloaded<?> unloaded = new ByteBuddy()
             .subclass(Object.class)
-            .make()
-            .load(Object.class.getClassLoader(), new ClassLoadingStrategy.ForUnsafeInjection())
-            .getLoaded();
-        Object mock = mockClass.getDeclaredConstructor().newInstance();
-        assertNull(EasyMockSupport.getMockedClass(mock));
+            .name("org.easymock.mocks.Dummy$$" + System.nanoTime())
+            .make()) {
+            Class<?> mockClass = unloaded.load(Object.class.getClassLoader(), ClassLoadingStrategy.UsingLookup.of(MocksPackageLookup.LOOKUP))
+                .getLoaded();
+            Object mock = mockClass.getDeclaredConstructor().newInstance();
+            assertNull(EasyMockSupport.getMockedClass(mock));
+        }
     }
 }
