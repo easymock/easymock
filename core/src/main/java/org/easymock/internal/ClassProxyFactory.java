@@ -256,7 +256,8 @@ public class ClassProxyFactory implements IProxyFactory {
         return name.startsWith("java.") || name.startsWith("javax.") || name.startsWith("com.sun.") || name.startsWith("jdk.");
     }
 
-    private ClassLoadingStrategy<ClassLoader> classLoadingStrategy() {
+    @IgnoreAnimalSniffer // privateLookupIn is Java 9+
+    private ClassLoadingStrategy<ClassLoader> classLoadingStrategy(ClassInfoProvider provider, Class<?> toMock) {
         if (ClassInjector.UsingUnsafe.isAvailable()) {
             return new ClassLoadingStrategy.ForUnsafeInjection();
         }
