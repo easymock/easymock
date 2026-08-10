@@ -34,8 +34,8 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Henri Tremblay
@@ -105,51 +105,27 @@ public class MockBuilderTest {
     @Test
     public void testAddMethod_Final() throws Exception {
         MockBuilder<A> builder = new MockBuilder<>(A.class);
-        try {
-            builder.addMockedMethod(A.class.getMethod("foo", String.class));
-            fail("shouldn't be allowed to be mocked");
-        } catch (IllegalArgumentException e) {
-            assertEquals(errorMessage, e.getMessage());
-        }
-        try {
-            builder.addMockedMethod("foo");
-            fail("shouldn't be allowed to be mocked");
-        } catch (IllegalArgumentException e) {
-            assertEquals(errorMessage, e.getMessage());
-        }
-        try {
-            builder.addMockedMethod("foo", String.class);
-            fail("shouldn't be allowed to be mocked");
-        } catch (IllegalArgumentException e) {
-            assertEquals(errorMessage, e.getMessage());
-        }
+        IllegalArgumentException e1 = assertThrows(IllegalArgumentException.class, () -> builder.addMockedMethod(A.class.getMethod("foo", String.class)), "shouldn't be allowed to be mocked");
+        assertEquals(errorMessage, e1.getMessage());
+        IllegalArgumentException e2 = assertThrows(IllegalArgumentException.class, () -> builder.addMockedMethod("foo"), "shouldn't be allowed to be mocked");
+        assertEquals(errorMessage, e2.getMessage());
+        IllegalArgumentException e3 = assertThrows(IllegalArgumentException.class, () -> builder.addMockedMethod("foo", String.class), "shouldn't be allowed to be mocked");
+        assertEquals(errorMessage, e3.getMessage());
     }
 
     @Test
     public void testAddMethods_Final() throws Exception {
         MockBuilder<A> builder = new MockBuilder<>(A.class);
-        try {
-            builder.addMockedMethods(A.class.getMethod("foo", String.class));
-            fail("shouldn't be allowed to be mocked");
-        } catch (IllegalArgumentException e) {
-            assertEquals(errorMessage, e.getMessage());
-        }
-        try {
-            builder.addMockedMethods("foo");
-            fail("shouldn't be allowed to be mocked");
-        } catch (IllegalArgumentException e) {
-            assertEquals(errorMessage, e.getMessage());
-        }
+        IllegalArgumentException e1 = assertThrows(IllegalArgumentException.class, () -> builder.addMockedMethods(A.class.getMethod("foo", String.class)), "shouldn't be allowed to be mocked");
+        assertEquals(errorMessage, e1.getMessage());
+        IllegalArgumentException e2 = assertThrows(IllegalArgumentException.class, () -> builder.addMockedMethods("foo"), "shouldn't be allowed to be mocked");
+        assertEquals(errorMessage, e2.getMessage());
     }
 
     @Test
     public void testWithConstructorParams() {
         builder.withConstructor(int.class).withArgs(-3);
-        try {
-            builder.createMock();
-            fail("instantiation should fail because of negative");
-        } catch (RuntimeException e) {
-        }
+        assertThrows(RuntimeException.class, () -> builder.createMock(), "instantiation should fail because of negative");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -174,21 +150,13 @@ public class MockBuilderTest {
 
     @Test
     public void testWithEmptyConstructor_NoEmptyConstructor() {
-        try {
-            createMockBuilder(Integer.class).withConstructor().createMock();
-            fail("no empty constructor should be found");
-        } catch (IllegalArgumentException e) {
-        }
+        assertThrows(IllegalArgumentException.class, () -> createMockBuilder(Integer.class).withConstructor().createMock(), "no empty constructor should be found");
     }
 
     @Test
     public void testWithConstructor() throws NoSuchMethodException {
         builder.withConstructor(ArrayList.class.getConstructor(int.class)).withArgs(-3);
-        try {
-            builder.createMock();
-            fail("instantiation should fail because of negative");
-        } catch (RuntimeException e) {
-        }
+        assertThrows(RuntimeException.class, () -> builder.createMock(), "instantiation should fail because of negative");
     }
 
     @Test(expected = IllegalStateException.class)
@@ -201,21 +169,13 @@ public class MockBuilderTest {
         ConstructorArgs args = new ConstructorArgs(ArrayList.class.getConstructor(int.class),
             -3);
         builder.withConstructor(args);
-        try {
-            builder.createMock();
-            fail("instantiation should fail because of negative");
-        } catch (RuntimeException e) {
-        }
+        assertThrows(RuntimeException.class, () -> builder.createMock(), "instantiation should fail because of negative");
     }
 
     @Test
     public void testWithConstructorWithArgs() {
         builder.withConstructor(-3);
-        try {
-            builder.createMock();
-            fail("instantiation should fail because of negative");
-        } catch (RuntimeException e) {
-        }
+        assertThrows(RuntimeException.class, () -> builder.createMock(), "instantiation should fail because of negative");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -225,23 +185,15 @@ public class MockBuilderTest {
 
     @Test
     public void testWithArgsTwice() {
-        try {
-            builder.withConstructor(int.class).withArgs(3).withArgs(2);
-            fail("withArgs called twice");
-        } catch (IllegalStateException e) {
-            assertEquals("Trying to define the constructor arguments more than once.", e.getMessage());
-        }
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> builder.withConstructor(int.class).withArgs(3).withArgs(2), "withArgs called twice");
+        assertEquals("Trying to define the constructor arguments more than once.", e.getMessage());
     }
 
     @Test
     public void testWithArgs_WithoutConstructor() {
-        try {
-            builder.withArgs(2);
-            fail("withArgs without constructor");
-        } catch (IllegalStateException e) {
-            assertEquals("Trying to define constructor arguments without first setting their type.",
-                    e.getMessage());
-        }
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> builder.withArgs(2), "withArgs without constructor");
+        assertEquals("Trying to define constructor arguments without first setting their type.",
+                e.getMessage());
     }
 
     @Test
@@ -255,11 +207,7 @@ public class MockBuilderTest {
     public void testCreateMock() {
         mock = builder.addMockedMethod("size").addMockedMethod("toString").createMock();
         replay(mock);
-        try {
-            mock.size();
-            fail("Unexpected call");
-        } catch (AssertionError e) {
-        }
+        assertThrows(AssertionError.class, () -> mock.size(), "Unexpected call");
     }
 
     @Test
@@ -277,11 +225,7 @@ public class MockBuilderTest {
         expect(mock.size()).andReturn(1);
         mock.clear();
         replay(mock);
-        try {
-            mock.clear();
-            fail("Unexpected call");
-        } catch (AssertionError e) {
-        }
+        assertThrows(AssertionError.class, () -> mock.clear(), "Unexpected call");
     }
 
     @Test
@@ -296,12 +240,8 @@ public class MockBuilderTest {
     public void testCreateMockString() {
         mock = builder.addMockedMethod("size").addMockedMethod("toString").createMock("myName");
         replay(mock);
-        try {
-            mock.size();
-            fail("Unexpected call");
-        } catch (AssertionError e) {
-            assertTrue(e.getMessage().contains("myName"));
-        }
+        AssertionError e = assertThrows(AssertionError.class, () -> mock.size(), "Unexpected call");
+        assertTrue(e.getMessage().contains("myName"));
     }
 
     @Test
@@ -320,12 +260,8 @@ public class MockBuilderTest {
         expect(mock.size()).andReturn(1);
         mock.clear();
         replay(mock);
-        try {
-            mock.clear();
-            fail("Unexpected call");
-        } catch (AssertionError e) {
-            assertTrue(e.getMessage().contains("myName"));
-        }
+        AssertionError e = assertThrows(AssertionError.class, () -> mock.clear(), "Unexpected call");
+        assertTrue(e.getMessage().contains("myName"));
     }
 
     @Test(expected = IllegalStateException.class)

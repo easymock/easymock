@@ -42,8 +42,8 @@ import static org.easymock.EasyMock.setEasyMockProperty;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test that EasyMock works in replay state in a multithreaded environment. Note
@@ -145,12 +145,7 @@ class ThreadingTest {
             Thread t = new Thread(behavior::checkThreadSafety);
             t.start();
             t.join();
-            try {
-                behavior.checkThreadSafety();
-                fail("Shouldn't work");
-            } catch (AssertionErrorWrapper e) {
-
-            }
+            assertThrows(AssertionErrorWrapper.class, () -> behavior.checkThreadSafety(), "Shouldn't work");
 
         } finally {
             setEasyMockProperty(ENABLE_THREAD_SAFETY_CHECK_BY_DEFAULT, previousThreadSafetyCheck);

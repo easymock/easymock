@@ -66,8 +66,8 @@ import static org.easymock.EasyMock.verifyRecording;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -83,29 +83,16 @@ class UsageConstraintsTest {
     @Test
     void equalsMissing() {
         mock.simpleMethodWithArgument(not(eq("asd")));
-        try {
-            mock.simpleMethodWithArgument(not("jkl"));
-            fail();
-        } catch (IllegalStateException e) {
-            assertEquals("no matchers found.", e.getMessage());
-        }
-        try {
-            mock.simpleMethodWithArgument(or(eq("jkl"), "asd"));
-            fail();
-        } catch (IllegalStateException e) {
-            assertEquals("2 matchers expected, 1 recorded.", e.getMessage());
-        }
-        try {
-            mock.threeArgumentMethod(1, "asd", eq("asd"));
-            fail();
-        } catch (IllegalStateException e) {
-            assertEquals("3 matchers expected, 1 recorded.\n"
-                    + "This exception usually occurs when matchers are mixed with raw values when recording a method:\n"
-                    + "\tfoo(5, eq(6));\t// wrong\n"
-                    + "You need to use no matcher at all or a matcher for every single param:\n"
-                    + "\tfoo(eq(5), eq(6));\t// right\n" + "\tfoo(5, 6);\t// also right", e.getMessage());
-        }
-
+        IllegalStateException e1 = assertThrows(IllegalStateException.class, () -> mock.simpleMethodWithArgument(not("jkl")));
+        assertEquals("no matchers found.", e1.getMessage());
+        IllegalStateException e2 = assertThrows(IllegalStateException.class, () -> mock.simpleMethodWithArgument(or(eq("jkl"), "asd")));
+        assertEquals("2 matchers expected, 1 recorded.", e2.getMessage());
+        IllegalStateException e3 = assertThrows(IllegalStateException.class, () -> mock.threeArgumentMethod(1, "asd", eq("asd")));
+        assertEquals("3 matchers expected, 1 recorded.\n"
+                + "This exception usually occurs when matchers are mixed with raw values when recording a method:\n"
+                + "\tfoo(5, eq(6));\t// wrong\n"
+                + "You need to use no matcher at all or a matcher for every single param:\n"
+                + "\tfoo(eq(5), eq(6));\t// right\n" + "\tfoo(5, 6);\t// also right", e3.getMessage());
     }
 
     @Test
@@ -124,11 +111,7 @@ class UsageConstraintsTest {
         assertEquals(new Equals(2), new Equals(2));
         assertNotEquals(null, new Equals(null));
         assertNotEquals("Test", new Equals(null));
-        try {
-            new Equals(null).hashCode();
-            fail();
-        } catch (UnsupportedOperationException expected) {
-        }
+        assertThrows(UnsupportedOperationException.class, () -> new Equals(null).hashCode());
     }
 
     @Test
@@ -136,33 +119,9 @@ class UsageConstraintsTest {
         expect(mock.threeArgumentMethod(and(geq(7), leq(10)), isA(String.class), contains("123"))).andReturn(
                 "456").atLeastOnce();
         replay(mock);
-        boolean failed = false;
-        try {
-            mock.threeArgumentMethod(11, "", "01234");
-        } catch (AssertionError expected) {
-            failed = true;
-        }
-        if (!failed) {
-            fail();
-        }
-        failed = false;
-        try {
-            mock.threeArgumentMethod(8, new Object(), "01234");
-        } catch (AssertionError expected) {
-            failed = true;
-        }
-        if (!failed) {
-            fail();
-        }
-        failed = false;
-        try {
-            mock.threeArgumentMethod(8, "", "no match");
-        } catch (AssertionError expected) {
-            failed = true;
-        }
-        if (!failed) {
-            fail();
-        }
+        assertThrows(AssertionError.class, () -> mock.threeArgumentMethod(11, "", "01234"));
+        assertThrows(AssertionError.class, () -> mock.threeArgumentMethod(8, new Object(), "01234"));
+        assertThrows(AssertionError.class, () -> mock.threeArgumentMethod(8, "", "no match"));
         assertEquals("456", mock.threeArgumentMethod(8, "", "01234"));
         verifyRecording(mock);
     }
@@ -382,11 +341,7 @@ class UsageConstraintsTest {
         replay(mock);
 
         checkItFails(null); // null is not comparable so always return false
-        try {
-            mock.oneArg("");
-            fail();
-        } catch (AssertionError e) {
-        } // different type isn't either
+        assertThrows(AssertionError.class, () -> mock.oneArg("")); // different type isn't either
 
         checkItFails(new A(4));
         checkItFails(new A(6));
@@ -412,11 +367,7 @@ class UsageConstraintsTest {
     }
 
     private void checkItFails(A a) {
-        try {
-            mock.oneArg(a);
-            fail();
-        } catch (AssertionError e) {
-        }
+        assertThrows(AssertionError.class, () -> mock.oneArg(a));
     }
 
     @Test

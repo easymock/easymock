@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import static org.easymock.EasyMock.createControl;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -47,254 +47,154 @@ class RecordStateMethodCallMissingTest {
 
     @Test
     void setBooleanReturnValueWithoutMethodCall() {
-        try {
-            control.andReturn(false);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("return value", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andReturn(false));
+        assertMessage("return value", expected);
     }
 
     @Test
     void setLongReturnValueWithoutMethodCall() {
-        try {
-            control.andReturn(0L);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("return value", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andReturn(0L));
+        assertMessage("return value", expected);
     }
 
     @Test
     void setFloatReturnValueWithoutMethodCall() {
-        try {
-            control.andReturn(0.0f);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("return value", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andReturn(0.0f));
+        assertMessage("return value", expected);
     }
 
     @Test
     void setDoubleReturnValueWithoutMethodCall() {
-        try {
-            control.andReturn(0.0);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("return value", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andReturn(0.0));
+        assertMessage("return value", expected);
     }
 
     @Test
     void setObjectReturnValueWithoutMethodCall() {
-        try {
-            control.andReturn(null);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("return value", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andReturn(null));
+        assertMessage("return value", expected);
     }
 
     @Test
     void setThrowableWithoutMethodCall() {
-        try {
-            control.andThrow(new RuntimeException());
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("Throwable", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andThrow(new RuntimeException()));
+        assertMessage("Throwable", expected);
     }
 
     @Test
     void setAnswerWithoutMethodCall() {
-        try {
-            control.andAnswer(() -> null);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("answer", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andAnswer(() -> null));
+        assertMessage("answer", expected);
     }
 
     @Test
     void setDelegateToWithoutMethodCall() {
-        try {
-            control.andDelegateTo(null);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("delegate", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andDelegateTo(null));
+        assertMessage("delegate", expected);
     }
 
     @Test
     void setAnyTimesWithoutMethodCall() {
-        try {
-            control.anyTimes();
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("times", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.anyTimes());
+        assertMessage("times", expected);
     }
 
     @Test
     void setAtLeastOnceWithoutMethodCall() {
-        try {
-            control.atLeastOnce();
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("times", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.atLeastOnce());
+        assertMessage("times", expected);
     }
 
     @Test
     void setTimesWithoutMethodCall() {
-        try {
-            control.times(3);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("times", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.times(3));
+        assertMessage("times", expected);
     }
 
     @Test
     void setTimesMinMaxWithoutMethodCall() {
-        try {
-            control.times(1, 3);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("times", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.times(1, 3));
+        assertMessage("times", expected);
     }
 
     @Test
     void setOnceWithoutMethodCall() {
-        try {
-            control.once();
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("times", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.once());
+        assertMessage("times", expected);
     }
 
     @Test
     void setBooleanDefaultReturnValueWithoutMethodCall() {
-        try {
-            control.andStubReturn(false);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("stub return value", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andStubReturn(false));
+        assertMessage("stub return value", expected);
     }
 
     @Test
     void setLongDefaultReturnValueWithoutMethodCall() {
-        try {
-            control.andStubReturn(0L);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("stub return value", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andStubReturn(0L));
+        assertMessage("stub return value", expected);
     }
 
     @Test
     void setFloatDefaultReturnValueWithoutMethodCall() {
-        try {
-            control.andStubReturn(0.0f);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("stub return value", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andStubReturn(0.0f));
+        assertMessage("stub return value", expected);
     }
 
     @Test
     void setDoubleDefaultReturnValueWithoutMethodCall() {
-        try {
-            control.andStubReturn(0.0);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("stub return value", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andStubReturn(0.0));
+        assertMessage("stub return value", expected);
     }
 
     @Test
     void setObjectDefaultReturnValueWithoutMethodCall() {
-        try {
-            control.andStubReturn(null);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("stub return value", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andStubReturn(null));
+        assertMessage("stub return value", expected);
     }
 
     @Test
     void setDefaultVoidCallableWithoutMethodCall() {
-        try {
-            control.asStub();
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("stub behavior", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.asStub());
+        assertMessage("stub behavior", expected);
     }
 
     @Test
     void setDefaultThrowableWithoutMethodCall() {
-        try {
-            control.andStubThrow(new RuntimeException());
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("stub Throwable", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andStubThrow(new RuntimeException()));
+        assertMessage("stub Throwable", expected);
     }
 
     @Test
     void setStubAnswerWithoutMethodCall() {
-        try {
-            control.andStubAnswer(() -> null);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("stub answer", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andStubAnswer(() -> null));
+        assertMessage("stub answer", expected);
     }
 
     @Test
     void setStubDelegateToWithoutMethodCall() {
-        try {
-            control.andStubDelegateTo(null);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertMessage("stub delegate", expected);
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> control.andStubDelegateTo(null));
+        assertMessage("stub delegate", expected);
     }
 
     @Test
     void timesWithoutReturnValue() {
         mock.booleanReturningMethod(1);
-        try {
-            expectLastCall().times(3);
-            fail();
-        } catch (IllegalStateException expected) {
-            assertEquals("last method called on mock is not a void method", expected.getMessage());
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> expectLastCall().times(3));
+        assertEquals("last method called on mock is not a void method", expected.getMessage());
     }
 
     @Test
     void asStubWithNonVoidMethod() {
         mock.booleanReturningMethod(1);
-        try {
-            expectLastCall().asStub();
-            fail();
-        } catch (IllegalStateException expected) {
-            assertEquals("last method called on mock is not a void method", expected.getMessage());
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> expectLastCall().asStub());
+        assertEquals("last method called on mock is not a void method", expected.getMessage());
     }
 
     @Test
     void andVoidWithNonVoidMethod() {
         mock.booleanReturningMethod(1);
-        try {
-            expectLastCall().andVoid();
-            fail();
-        } catch (IllegalStateException expected) {
-            assertEquals("last method called on mock is not a void method", expected.getMessage());
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> expectLastCall().andVoid());
+        assertEquals("last method called on mock is not a void method", expected.getMessage());
     }
 }

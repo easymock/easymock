@@ -27,8 +27,8 @@ import static org.easymock.EasyMock.verify;
 import static org.easymock.EasyMock.verifyRecording;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -86,11 +86,7 @@ class UsageRangeTest {
 
         assertEquals("1", mock.next());
 
-        try {
-            mock.next();
-            fail();
-        } catch (AssertionError expected) {
-        }
+        assertThrows(AssertionError.class, () -> mock.next());
 
         assertTrue(mock.hasNext());
 

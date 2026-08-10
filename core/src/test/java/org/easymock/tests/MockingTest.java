@@ -26,7 +26,7 @@ import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test all kind of mocking making sure the partial mocking and interface works
@@ -113,12 +113,8 @@ class MockingTest {
 
     @Test
     void testMockingNull() {
-        try {
-            createMock(null);
-            fail("Should throw a NPE");
-        } catch(NullPointerException e) {
-            assertEquals("Can't mock 'null'", e.getMessage());
-        }
+        NullPointerException e = assertThrows(NullPointerException.class, () -> createMock(null));
+        assertEquals("Can't mock 'null'", e.getMessage());
     }
 
     private void checkInterfaceMock(Object mock, MockType behavior) {

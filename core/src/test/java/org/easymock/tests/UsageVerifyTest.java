@@ -29,7 +29,7 @@ import static org.easymock.EasyMock.verify;
 import static org.easymock.EasyMock.verifyRecording;
 import static org.easymock.EasyMock.verifyUnexpectedCalls;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -51,32 +51,19 @@ class UsageVerifyTest {
 
         assertEquals("Test", mock.throwsNothing(true));
 
-        boolean failed = true;
-
-        try {
-            verify(mock);
-            failed = false;
-        } catch (AssertionError expected) {
-            assertEquals("\n  Expectation failure on verify:"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsNothing(true): expected: 2, actual: 1", expected.getMessage());
-            assertEquals(Util.getStackTrace(expected).indexOf(
-                ReplayState.class.getName()), -1, "stack trace must be filled in");
-        }
-
-        if (!failed)
-            fail("AssertionError expected");
+        AssertionError expected = assertThrows(AssertionError.class, () -> verify(mock));
+        assertEquals("\n  Expectation failure on verify:"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsNothing(true): expected: 2, actual: 1", expected.getMessage());
+        assertEquals(Util.getStackTrace(expected).indexOf(
+            ReplayState.class.getName()), -1, "stack trace must be filled in");
 
         assertEquals("Test2", mock.throwsNothing(true));
 
         verify(mock);
 
-        try {
-            mock.throwsNothing(true);
-            fail("AssertionError expected");
-        } catch (AssertionError expected) {
-            assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsNothing(true):"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsNothing(true): expected: 2, actual: 3", expected.getMessage());
-        }
+        AssertionError expected2 = assertThrows(AssertionError.class, () -> mock.throwsNothing(true));
+        assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsNothing(true):"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsNothing(true): expected: 2, actual: 3", expected2.getMessage());
     }
 
     @Test
@@ -87,15 +74,10 @@ class UsageVerifyTest {
 
         assertEquals("Test", mock.throwsNothing(true));
 
-        try {
-            verify(mock);
-            fail("AssertionError expected");
-        } catch (AssertionError expected) {
-
-            assertEquals("\n  Expectation failure on verify:"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsNothing(true): expected: at least 2, actual: 1", expected
-                    .getMessage());
-        }
+        AssertionError expected = assertThrows(AssertionError.class, () -> verify(mock));
+        assertEquals("\n  Expectation failure on verify:"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsNothing(true): expected: at least 2, actual: 1", expected
+                .getMessage());
 
         assertEquals("Test2", mock.throwsNothing(true));
         assertEquals("Test2", mock.throwsNothing(true));
@@ -110,50 +92,26 @@ class UsageVerifyTest {
 
         replay(mock);
 
-        try {
-            mock.throwsIOException(0);
-            fail("IOException expected");
-        } catch (IOException expected) {
-        }
+        assertThrows(IOException.class, () -> mock.throwsIOException(0));
 
-        try {
-            verify(mock);
-            fail("AssertionError expected");
-        } catch (AssertionError expected) {
-            assertEquals("\n  Expectation failure on verify:"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsIOException(0 (int)): expected: 2, actual: 1"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsIOException(1 (int)): expected: 1, actual: 0", expected.getMessage());
-        }
+        AssertionError expected1 = assertThrows(AssertionError.class, () -> verify(mock));
+        assertEquals("\n  Expectation failure on verify:"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsIOException(0 (int)): expected: 2, actual: 1"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsIOException(1 (int)): expected: 1, actual: 0", expected1.getMessage());
 
-        try {
-            mock.throwsIOException(0);
-            fail("IOException expected");
-        } catch (IOException expected) {
-        }
+        assertThrows(IOException.class, () -> mock.throwsIOException(0));
 
-        try {
-            verify(mock);
-            fail("AssertionError expected");
-        } catch (AssertionError expected) {
-            assertEquals("\n  Expectation failure on verify:"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsIOException(1 (int)): expected: 1, actual: 0", expected.getMessage());
-        }
+        AssertionError expected2 = assertThrows(AssertionError.class, () -> verify(mock));
+        assertEquals("\n  Expectation failure on verify:"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsIOException(1 (int)): expected: 1, actual: 0", expected2.getMessage());
 
-        try {
-            mock.throwsIOException(1);
-            fail("IOException expected");
-        } catch (IOException expected) {
-        }
+        assertThrows(IOException.class, () -> mock.throwsIOException(1));
 
         verify(mock);
 
-        try {
-            mock.throwsIOException(0);
-            fail("AssertionError expected");
-        } catch (AssertionError expected) {
-            assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsIOException(0 (int)):"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsIOException(0 (int)): expected: 2, actual: 3", expected.getMessage());
-        }
+        AssertionError expected3 = assertThrows(AssertionError.class, () -> mock.throwsIOException(0));
+        assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsIOException(0 (int)):"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsIOException(0 (int)): expected: 2, actual: 3", expected3.getMessage());
     }
 
     @Test
@@ -162,13 +120,9 @@ class UsageVerifyTest {
         expect(otherMock.oneArg(1)).andReturn("test");
         replay(mock, otherMock);
 
-        try {
-            verify(mock, otherMock);
-            fail("Should fail on otherMock");
-        } catch (AssertionError e) {
-            assertEquals(AssertionError.class, e.getClass());
-            assertEquals("On mock #1 (zero indexed): \n  Expectation failure on verify:\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.oneArg(1 (int)): expected: 1, actual: 0", e.getMessage());
-        }
+        AssertionError e = assertThrows(AssertionError.class, () -> verify(mock, otherMock), "Should fail on otherMock");
+        assertEquals(AssertionError.class, e.getClass());
+        assertEquals("On mock #1 (zero indexed): \n  Expectation failure on verify:\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.oneArg(1 (int)): expected: 1, actual: 0", e.getMessage());
     }
 
     @Test
@@ -189,14 +143,10 @@ class UsageVerifyTest {
         }
 
         // the verify should notice an assertion failed earlier
-        try {
-            verify(mock);
-            fail("Should find unexpected calls");
-        } catch(AssertionError e) {
-            assertEquals("\n  Unexpected method calls:" +
-                "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethod()" +
-                "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.oneArg(1 (int))", e.getMessage());
-        }
+        AssertionError e = assertThrows(AssertionError.class, () -> verify(mock), "Should find unexpected calls");
+        assertEquals("\n  Unexpected method calls:" +
+            "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethod()" +
+            "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.oneArg(1 (int))", e.getMessage());
     }
 
     @Test
@@ -212,16 +162,12 @@ class UsageVerifyTest {
         }
 
         // the verify should notice an assertion failed earlier
-        try {
-            verify(mock);
-            fail("Should find unexpected calls");
-        } catch(AssertionError e) {
-            assertEquals(
-                "\n  Expectation failure on verify:" +
-                    "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.oneArg(1 (int)): expected: 1, actual: 0" +
-                    "\n  Unexpected method calls:" +
-                    "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethod()", e.getMessage());
-        }
+        AssertionError e = assertThrows(AssertionError.class, () -> verify(mock), "Should find unexpected calls");
+        assertEquals(
+            "\n  Expectation failure on verify:" +
+                "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.oneArg(1 (int)): expected: 1, actual: 0" +
+                "\n  Unexpected method calls:" +
+                "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethod()", e.getMessage());
     }
 
     @Test
@@ -230,14 +176,10 @@ class UsageVerifyTest {
         expect(mock.oneArg(1)).andReturn("test");
         replay(mock);
 
-        try {
-            verifyRecording(mock);
-            fail("Should see unused expectations");
-        } catch(AssertionError e) {
-            assertEquals(
-                "\n  Expectation failure on verify:" +
-                    "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.oneArg(1 (int)): expected: 1, actual: 0", e.getMessage());
-        }
+        AssertionError e = assertThrows(AssertionError.class, () -> verifyRecording(mock), "Should see unused expectations");
+        assertEquals(
+            "\n  Expectation failure on verify:" +
+                "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.oneArg(1 (int)): expected: 1, actual: 0", e.getMessage());
     }
 
     @Test
@@ -252,12 +194,8 @@ class UsageVerifyTest {
         }
 
         // the verify should notice an assertion failed earlier
-        try {
-            verifyUnexpectedCalls(mock);
-            fail("Should find unexpected calls");
-        } catch(AssertionError e) {
-            assertEquals("\n  Unexpected method calls:" +
-                    "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethod()", e.getMessage());
-        }
+        AssertionError e = assertThrows(AssertionError.class, () -> verifyUnexpectedCalls(mock), "Should find unexpected calls");
+        assertEquals("\n  Unexpected method calls:" +
+                "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethod()", e.getMessage());
     }
 }

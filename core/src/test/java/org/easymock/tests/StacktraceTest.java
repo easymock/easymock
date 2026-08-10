@@ -28,8 +28,8 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -87,13 +87,9 @@ class StacktraceTest {
     void assertVerifyNoFillInStacktraceWhenExceptionNotFromEasyMock() {
         expect(mock.oneArg(new ToStringThrowsException())).andReturn("");
         replay(mock);
-        try {
-            verify(mock);
-            fail();
-        } catch (NullPointerException expected) {
-            assertTrue(Util.getStackTrace(expected).indexOf(
-                    ToStringThrowsException.class.getName()) > 0, "stack trace must not be cut");
-        }
+        NullPointerException expected = assertThrows(NullPointerException.class, () -> verify(mock));
+        assertTrue(Util.getStackTrace(expected).indexOf(
+                ToStringThrowsException.class.getName()) > 0, "stack trace must not be cut");
     }
 
     @Test

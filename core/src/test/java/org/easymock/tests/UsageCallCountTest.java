@@ -22,7 +22,7 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -115,19 +115,11 @@ class UsageCallCountTest {
     }
 
     private void assertVerifyFails() {
-        try {
-            verify(mock);
-            fail("Expected AssertionError");
-        } catch (AssertionError expected) {
-        }
+        assertThrows(AssertionError.class, () -> verify(mock));
     }
 
     private void assertMethodCallFails() {
-        try {
-            mock.method();
-            fail("Expected AssertionError");
-        } catch (AssertionError expected) {
-        }
+        assertThrows(AssertionError.class, () -> mock.method());
     }
 
     @Test

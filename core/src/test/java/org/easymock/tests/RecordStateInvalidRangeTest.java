@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -38,59 +38,39 @@ class RecordStateInvalidRangeTest {
     @Test
     void setOpenCallCountTwice() {
         mock.simpleMethod();
-        try {
-            expectLastCall().atLeastOnce().atLeastOnce();
-            fail();
-        } catch (IllegalStateException expected) {
-            assertEquals("last method called on mock already has a non-fixed count set.", expected
-                    .getMessage());
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> expectLastCall().atLeastOnce().atLeastOnce());
+        assertEquals("last method called on mock already has a non-fixed count set.", expected
+                .getMessage());
     }
 
     @Test
     void setCloseCallAfterOpenOne() {
         mock.simpleMethod();
-        try {
-            expectLastCall().atLeastOnce().once();
-            fail();
-        } catch (IllegalStateException expected) {
-            assertEquals("last method called on mock already has a non-fixed count set.", expected
-                    .getMessage());
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> expectLastCall().atLeastOnce().once());
+        assertEquals("last method called on mock already has a non-fixed count set.", expected
+                .getMessage());
     }
 
     @Test
     void setIllegalMinimumCount() {
         mock.simpleMethod();
         int NEGATIVE = -1;
-        try {
-            expectLastCall().times(NEGATIVE, 2);
-            fail();
-        } catch (IllegalArgumentException expected) {
-            assertEquals("minimum must be >= 0", expected.getMessage());
-        }
+        IllegalArgumentException expected = assertThrows(IllegalArgumentException.class, () -> expectLastCall().times(NEGATIVE, 2));
+        assertEquals("minimum must be >= 0", expected.getMessage());
     }
 
     @Test
     void setIllegalMaximumCount() {
         mock.simpleMethod();
         int NON_POSITIVE = 0;
-        try {
-            expectLastCall().times(0, NON_POSITIVE);
-            fail();
-        } catch (IllegalArgumentException expected) {
-            assertEquals("maximum must be >= 1", expected.getMessage());
-        }
+        IllegalArgumentException expected = assertThrows(IllegalArgumentException.class, () -> expectLastCall().times(0, NON_POSITIVE));
+        assertEquals("maximum must be >= 1", expected.getMessage());
     }
 
     @Test
     void setMinimumBiggerThanMaximum() {
         mock.simpleMethod();
-        try {
-            expectLastCall().times(4, 3);
-            fail();
-        } catch (IllegalArgumentException expected) {
-            assertEquals("minimum must be <= maximum", expected.getMessage());
-        }
+        IllegalArgumentException expected = assertThrows(IllegalArgumentException.class, () -> expectLastCall().times(4, 3));
+        assertEquals("minimum must be <= maximum", expected.getMessage());
     }
 }

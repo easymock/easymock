@@ -28,8 +28,8 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -78,12 +78,8 @@ class UsageDefaultReturnValueTest {
         mock.twoArgumentMethod(1, 2);
         mock.twoArgumentMethod(3, 7);
 
-        try {
-            mock.twoArgumentMethod(1, 1);
-            fail("RuntimeException expected");
-        } catch (RuntimeException actual) {
-            assertSame(expected, actual);
-        }
+        RuntimeException actual = assertThrows(RuntimeException.class, () -> mock.twoArgumentMethod(1, 1));
+        assertSame(expected, actual);
     }
 
     @Test
@@ -101,12 +97,8 @@ class UsageDefaultReturnValueTest {
 
         mock.twoArgumentMethod(1, 2);
         mock.twoArgumentMethod(1, 1);
-        try {
-            mock.twoArgumentMethod(2, 1);
-            fail("RuntimeException expected");
-        } catch (RuntimeException actual) {
-            assertSame(expected, actual);
-        }
+        RuntimeException actual = assertThrows(RuntimeException.class, () -> mock.twoArgumentMethod(2, 1));
+        assertSame(expected, actual);
     }
 
     @Test

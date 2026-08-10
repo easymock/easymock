@@ -22,7 +22,7 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -38,31 +38,19 @@ class RecordStateInvalidUsageTest {
 
     @Test
     void notAMockPassedToExpect() {
-        try {
-            expect(null);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals("no last call on a mock available", expected.getMessage());
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> expect(null));
+        assertEquals("no last call on a mock available", expected.getMessage());
     }
 
     @Test
     void openVoidCallCountWithoutMethodCall() {
-        try {
-            expectLastCall();
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals("no last call on a mock available", expected.getMessage());
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> expectLastCall());
+        assertEquals("no last call on a mock available", expected.getMessage());
     }
 
     @Test
     void setWrongReturnValueBoolean() {
-        try {
-            expect((Object) mock.oneArg(false)).andReturn(false);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException expected) {
-            assertEquals("incompatible return value type", expected.getMessage());
-        }
+        IllegalStateException expected = assertThrows(IllegalStateException.class, () -> expect((Object) mock.oneArg(false)).andReturn(false));
+        assertEquals("incompatible return value type", expected.getMessage());
     }
 }

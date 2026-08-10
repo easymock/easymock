@@ -22,7 +22,7 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -38,33 +38,20 @@ class RecordStateInvalidReturnValueTest {
 
     @Test
     void setInvalidBooleanReturnValue() {
-        try {
-            expect((Object) mock.oneArg(false)).andReturn(false);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException e) {
-            assertEquals("incompatible return value type", e.getMessage());
-        }
-
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> expect((Object) mock.oneArg(false)).andReturn(false));
+        assertEquals("incompatible return value type", e.getMessage());
     }
 
     @Test
     void setReturnValueForVoidMethod() {
         mock.simpleMethod();
-        try {
-            expectLastCall().andReturn(null);
-            fail("IllegalStateException expected");
-        } catch (IllegalStateException e) {
-            assertEquals("void method cannot return a value", e.getMessage());
-        }
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> expectLastCall().andReturn(null));
+        assertEquals("void method cannot return a value", e.getMessage());
     }
 
     @Test
     void nullForPrimitive() {
-        try {
-            expect(mock.longReturningMethod(4)).andReturn(null);
-            fail("null not allowed");
-        } catch (IllegalStateException e) {
-            assertEquals("can't return null for a method returning a primitive type", e.getMessage());
-        }
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> expect(mock.longReturningMethod(4)).andReturn(null));
+        assertEquals("can't return null for a method returning a primitive type", e.getMessage());
     }
 }

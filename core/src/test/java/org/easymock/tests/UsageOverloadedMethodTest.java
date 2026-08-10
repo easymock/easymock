@@ -24,7 +24,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -127,26 +127,14 @@ class UsageOverloadedMethodTest {
         assertEquals("Second Result", mock.oneArg(true));
         assertEquals("Second Result", mock.oneArg(true));
 
-        try {
-            mock.oneArg(true);
-            fail("expected exception");
-        } catch (RuntimeException expected) {
-            assertEquals("Third Result", expected.getMessage());
-        }
+        RuntimeException expected1 = assertThrows(RuntimeException.class, () -> mock.oneArg(true));
+        assertEquals("Third Result", expected1.getMessage());
 
-        try {
-            mock.oneArg(true);
-            fail("expected exception");
-        } catch (RuntimeException expected) {
-            assertEquals("Third Result", expected.getMessage());
-        }
+        RuntimeException expected2 = assertThrows(RuntimeException.class, () -> mock.oneArg(true));
+        assertEquals("Third Result", expected2.getMessage());
 
-        try {
-            mock.oneArg(true);
-            fail("expected exception");
-        } catch (RuntimeException expected) {
-            assertEquals("Third Result", expected.getMessage());
-        }
+        RuntimeException expected3 = assertThrows(RuntimeException.class, () -> mock.oneArg(true));
+        assertEquals("Third Result", expected3.getMessage());
 
         assertEquals("Following Result", mock.oneArg(true));
         assertEquals("Following Result", mock.oneArg(true));

@@ -26,7 +26,7 @@ import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.isNull;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -182,11 +182,6 @@ class UsageVarargTest {
     void differentLength() {
         mock.withVarargsInt(1, 2, 3);
         replay(mock);
-        try {
-            mock.withVarargsInt(1, 2);
-            fail("not the same number of params");
-        } catch (AssertionError e) {
-
-        }
+        assertThrows(AssertionError.class, () -> mock.withVarargsInt(1, 2), "not the same number of params");
     }
 }

@@ -48,7 +48,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Henri Tremblay
@@ -117,9 +116,7 @@ class EasyMockClassExtensionTest {
     void testDisablingClassMocking() {
         EasyMockProperties.getInstance().setProperty(DISABLE_CLASS_MOCKING, Boolean.TRUE.toString());
         try {
-            createMock(ArrayList.class);
-            fail("Class mocking should be disabled");
-        } catch (IllegalArgumentException e) {
+            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> createMock(ArrayList.class), "Class mocking should be disabled");
             assertEquals("Class mocking is currently disabled. Change " + DISABLE_CLASS_MOCKING
                     + " to true do modify this behavior", e.getMessage());
         } finally {
