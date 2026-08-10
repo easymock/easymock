@@ -43,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class MockBuilderTest {
 
     private static class A {
+    	@SuppressWarnings("unused")
         public final void foo(String s) {
         }
     }

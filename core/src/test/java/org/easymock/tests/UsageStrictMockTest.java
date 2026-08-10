@@ -165,6 +165,7 @@ class UsageStrictMockTest {
         reset(mock);
         mock.arrayMethod(aryEq(new String[]{"Test", "Test 2"}));
         replay(mock);
+        @SuppressWarnings("unused")
         boolean failed = false;
         String[] strings = new String[]{"Test"};
         AssertionError expected = assertThrows(AssertionError.class, () -> mock.arrayMethod(strings), "exception expected");

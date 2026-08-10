@@ -30,6 +30,7 @@ public class ConstructorArgsTest {
 
     public static class A {
 
+    	@SuppressWarnings("unused")
         private static final Class<?> TYPE = null;
 
         public A(String s, int i) {

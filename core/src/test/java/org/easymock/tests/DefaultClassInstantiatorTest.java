@@ -105,6 +105,7 @@ class DefaultClassInstantiatorTest {
     @SuppressWarnings("serial")
     public static class BadlyDoneSerializableClass implements Serializable {
 
+    	@SuppressWarnings("unused")
         private final long serialVersionUID = 2; // not static
 
         public BadlyDoneSerializableClass() {
@@ -112,6 +113,7 @@ class DefaultClassInstantiatorTest {
         }
     }
 
+    @SuppressWarnings("unused")
     private final String vendor = null;
 
     @BeforeAll
