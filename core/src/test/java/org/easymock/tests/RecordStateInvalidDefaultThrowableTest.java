@@ -32,7 +32,7 @@ class RecordStateInvalidDefaultThrowableTest {
 
     private IMethods mock;
 
-    private class CheckedException extends Exception {
+    private static class CheckedException extends Exception {
         private static final long serialVersionUID = 1L;
     }
 
@@ -55,7 +55,7 @@ class RecordStateInvalidDefaultThrowableTest {
     }
 
     @Test
-    void throwWrongCheckedException() throws IOException {
+    void throwWrongCheckedException() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> expect(mock.throwsIOException(0)).andStubThrow(new CheckedException()));
         assertEquals("last method called on mock cannot throw " + this.getClass().getName()
                 + "$CheckedException", e.getMessage());

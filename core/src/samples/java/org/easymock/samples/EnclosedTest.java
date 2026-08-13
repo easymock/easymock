@@ -39,7 +39,7 @@ public class EnclosedTest {
     public static abstract class Fixtures extends EasyMockSupport {
 
         @TestSubject
-        ClassTested classUnderTest = new ClassTested();
+        final ClassTested classUnderTest = new ClassTested();
 
         @Mock
         Collaborator mock;

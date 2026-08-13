@@ -114,7 +114,7 @@ class UsageThrowableTest {
         assertEquals("Value 2", mock.throwsIOException(2));
 
         IOException exception = assertThrows(IOException.class, () -> mock.throwsIOException(1));
-        assertSame(exception, expected);
+        assertSame(expected, exception);
     }
 
     @Test

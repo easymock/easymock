@@ -38,9 +38,9 @@ import org.openjdk.jmh.annotations.Warmup;
 @State(Scope.Benchmark)
 public class EasyMockBenchmark {
 
-    private Class<?> anInterface = List.class;
+    private final Class<?> anInterface = List.class;
 
-    private Class<?> aClass = ArrayList.class;
+    private final Class<?> aClass = ArrayList.class;
 
     @Benchmark
     public Object list() {

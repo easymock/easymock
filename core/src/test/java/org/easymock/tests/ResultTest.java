@@ -52,7 +52,7 @@ class ResultTest {
     }
 
     @Test
-    void createNullLastInvocation() throws Throwable {
+    void createNullLastInvocation() {
         Result r = Result.createDelegatingResult("my value");
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> r.answer());
         assertEquals("Call was performed outside of a mock invocation", e.getMessage());

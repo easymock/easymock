@@ -36,7 +36,7 @@ class UsageExpectAndDefaultThrowTest {
 
     private IMethods mock;
 
-    private static RuntimeException EXCEPTION = new RuntimeException();
+    private static final RuntimeException EXCEPTION = new RuntimeException();
 
     @BeforeEach
     void setup() {

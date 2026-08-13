@@ -16,6 +16,7 @@
 package org.easymock.internal;
 
 import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.implementation.InvocationHandlerAdapter;
 import org.easymock.ConstructorArgs;
 import org.junit.jupiter.api.Test;
@@ -40,20 +41,22 @@ public class ClassProxyFactoryTest {
     void testInterception() throws Exception {
         AtomicBoolean called = new AtomicBoolean(false);
 
-        Class<?> clazz = new ByteBuddy()
+        try (DynamicType.Unloaded<?> unloaded = new ByteBuddy()
             .subclass(getClass())
             .method(any())
             .intercept(InvocationHandlerAdapter.of((proxy, method, args) -> {
                 called.set(true);
                 return null;
             }))
-            .make()
-            .load(getClass().getClassLoader())
-            .getLoaded();
-        Constructor<?> constructor = clazz.getConstructor();
-        ClassProxyFactoryTest t = (ClassProxyFactoryTest) constructor.newInstance();
-        t.hello();
-        assertTrue(called.get());
+            .make()) {
+            Class<?> clazz = unloaded
+                .load(getClass().getClassLoader())
+                .getLoaded();
+            Constructor<?> constructor = clazz.getConstructor();
+            ClassProxyFactoryTest t = (ClassProxyFactoryTest) constructor.newInstance();
+            t.hello();
+            assertTrue(called.get());
+        }
     }
 
     public void hello() {

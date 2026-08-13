@@ -54,7 +54,6 @@ public class ClassProxyFactory implements IProxyFactory {
 
         private static final long serialVersionUID = -9054190871232972342L;
 
-        @SuppressWarnings("unused")
         @RuntimeType
         @BindingPriority(BindingPriority.DEFAULT * 2)
         public static Object interceptSuperCallable(
@@ -106,7 +105,6 @@ public class ClassProxyFactory implements IProxyFactory {
             return ClassProxyFactory.currentData.get();
         }
 
-        @SuppressWarnings("unused")
         @RuntimeType
         public static Object interceptAbstract(
             @This Object obj,

@@ -44,7 +44,7 @@ public class ExampleTest extends EasyMockSupport {
     private Collaborator collaborator; // 1
 
     @TestSubject
-    private ClassTested classUnderTest = new ClassTested(); // 2
+    private final ClassTested classUnderTest = new ClassTested(); // 2
 
     @Test
     public void removeNonExistingDocument() {

@@ -180,7 +180,6 @@ class ThreadingTest {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     void testCleanupAfterFailureInRecordPhase() {
         Comparable<String> mock = createNiceMock(Comparable.class);

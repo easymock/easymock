@@ -44,7 +44,7 @@ class RecordStateInvalidStateChangeTest {
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> replay(mock));
         assertEquals("missing behavior definition for the preceding method call:\nEasyMock for interface org.easymock.tests.IMethods -> IMethods.oneArg(false)"
                     + "\nUsage is: expect(a.foo()).andXXX()", e.getMessage());
-        assertEquals(Util.getStackTrace(e).indexOf(RecordState.class.getName()), -1, "stack trace must be cut");
+        assertEquals(-1, Util.getStackTrace(e).indexOf(RecordState.class.getName()), "stack trace must be cut");
     }
 
     @Test
@@ -53,7 +53,7 @@ class RecordStateInvalidStateChangeTest {
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> mock.oneArg(false));
         assertEquals("missing behavior definition for the preceding method call:\nEasyMock for interface org.easymock.tests.IMethods -> IMethods.oneArg(false)"
                     + "\nUsage is: expect(a.foo()).andXXX()", e.getMessage());
-        assertEquals(Util.getStackTrace(e).indexOf(RecordState.class.getName()), -1, "stack trace must be cut");
+        assertEquals(-1, Util.getStackTrace(e).indexOf(RecordState.class.getName()), "stack trace must be cut");
     }
 
     @Test

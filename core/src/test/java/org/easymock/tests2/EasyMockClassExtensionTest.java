@@ -55,9 +55,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class EasyMockClassExtensionTest {
 
     private static class ParamEntry {
-        Class<?>[] types;
+        final  Class<?>[] types;
 
-        Object[] values;
+        final Object[] values;
 
         ParamEntry(Class<?>[] types, Object[] values) {
             this.types = types;

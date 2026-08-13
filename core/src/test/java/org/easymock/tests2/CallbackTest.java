@@ -43,7 +43,7 @@ class CallbackTest {
             this.result = result;
         }
 
-        @SuppressWarnings("unused")
+        @SuppressWarnings({"unused", "EmptyMethod"})
         public void run() {
         }
 

@@ -92,7 +92,7 @@ public class EasyMockListenerTest extends EasyMockSupport {
         protected IVarArgs v;
 
         @TestSubject
-        protected ToInject toInject = new ToInject();
+        protected final ToInject toInject = new ToInject();
 
         @Test
         public void shouldInjectMocksWhereTypeCompatible() {

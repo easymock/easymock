@@ -103,7 +103,7 @@ public class MockBuilderTest {
     private static final String errorMessage = "Method is not found, null, final, private or synthetic and so can't be mocked";
 
     @Test
-    public void testAddMethod_Final() throws Exception {
+    public void testAddMethod_Final() {
         MockBuilder<A> builder = new MockBuilder<>(A.class);
         IllegalArgumentException e1 = assertThrows(IllegalArgumentException.class, () -> builder.addMockedMethod(A.class.getMethod("foo", String.class)), "shouldn't be allowed to be mocked");
         assertEquals(errorMessage, e1.getMessage());
@@ -114,7 +114,7 @@ public class MockBuilderTest {
     }
 
     @Test
-    public void testAddMethods_Final() throws Exception {
+    public void testAddMethods_Final() {
         MockBuilder<A> builder = new MockBuilder<>(A.class);
         IllegalArgumentException e1 = assertThrows(IllegalArgumentException.class, () -> builder.addMockedMethods(A.class.getMethod("foo", String.class)), "shouldn't be allowed to be mocked");
         assertEquals(errorMessage, e1.getMessage());

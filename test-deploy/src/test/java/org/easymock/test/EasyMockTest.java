@@ -41,7 +41,7 @@ public class EasyMockTest {
     }
 
     @Test
-    public void testClass() throws IOException {
+    public void testClass() {
         ArrayList<?> mock = createMock(ArrayList.class);
         expect(mock.size()).andReturn(5);
         replay(mock);

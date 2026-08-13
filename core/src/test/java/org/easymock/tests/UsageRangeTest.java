@@ -37,7 +37,6 @@ class UsageRangeTest {
 
     private Iterator<String> mock;
 
-    @SuppressWarnings("unchecked")
     @BeforeEach
     void setup() {
         mock = createStrictMock(Iterator.class);

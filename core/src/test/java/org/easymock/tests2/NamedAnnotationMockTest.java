@@ -44,7 +44,7 @@ class NamedAnnotationMockTest extends EasyMockSupport {
     void testFailsVerify() {
         myRunner2.run();
         replayAll();
-        AssertionError error = assertThrows(AssertionError.class, () -> verifyAll());
+        AssertionError error = assertThrows(AssertionError.class, this::verifyAll);
         assertEquals("\n  Expectation failure on verify:\n" +
             "    EasyMock for field org.easymock.tests2.NamedAnnotationMockTest.myRunner2 -> Runnable.run(): expected: 1, actual: 0", error.getMessage());
     }

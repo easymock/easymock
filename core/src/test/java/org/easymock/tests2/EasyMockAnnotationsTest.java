@@ -99,7 +99,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         protected IVarArgs v;
 
         @TestSubject
-        protected ToInject toInject = new ToInject();
+        protected final ToInject toInject = new ToInject();
     }
 
     @Test
@@ -142,7 +142,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         protected IMethods b;
 
         @TestSubject
-        protected ToInject toInject = new ToInject();
+        protected final ToInject toInject = new ToInject();
     }
 
     @Test
@@ -167,7 +167,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         protected IMethods b;
 
         @TestSubject
-        protected ToInjectExtension toInject = new ToInjectExtension();
+        protected final ToInjectExtension toInject = new ToInjectExtension();
     }
 
     @Test
@@ -187,10 +187,10 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         protected IMethods b;
 
         @TestSubject
-        protected ToInject toInject = new ToInject();
+        protected final ToInject toInject = new ToInject();
 
         @TestSubject
-        protected ToInject toInject2 = new ToInject();
+        protected final ToInject toInject2 = new ToInject();
     }
 
     @Test
@@ -310,7 +310,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         protected IMethods b;
 
         @TestSubject
-        protected ToInjectOneTarget toInjectOneTarget = new ToInjectOneTarget();
+        protected final ToInjectOneTarget toInjectOneTarget = new ToInjectOneTarget();
     }
 
     @Test
@@ -337,7 +337,7 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         private IMethods standardMock;
 
         @TestSubject
-        protected ToInjectOneTarget toInjectOneTarget = new ToInjectOneTarget();
+        protected final ToInjectOneTarget toInjectOneTarget = new ToInjectOneTarget();
     }
 
     @Test
@@ -345,6 +345,6 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
         TypeDefinedUsingValue test = new TypeDefinedUsingValue();
         EasyMockSupport.injectMocks(test);
         assertSame(test.standardMock, test.toInjectOneTarget.m1);
-        assertEquals(MocksControl.getControl(test.standardMock).getType(), MockType.STRICT);
+        assertEquals(MockType.STRICT, MocksControl.getControl(test.standardMock).getType());
     }
 }

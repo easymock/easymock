@@ -104,7 +104,6 @@ class UsageConstraintsTest {
         mock.simpleMethodWithArgument("2");
     }
 
-    @SuppressWarnings("unlikely-arg-type")
     @Test
     void equals() {
         assertEquals(new Equals(null), new Equals(null));

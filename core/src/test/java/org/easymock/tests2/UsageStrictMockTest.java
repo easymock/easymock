@@ -71,7 +71,7 @@ class UsageStrictMockTest {
     void tooFewCallsFailure() {
         mock.simpleMethodWithArgument("1");
         AssertionError expected = assertThrows(AssertionError.class, () -> verify(mock), "too few calls accepted");
-        assertEquals(Util.getStackTrace(expected).indexOf(ReplayState.class.getName()), -1, "stack trace must be filled in");
+        assertEquals(-1, Util.getStackTrace(expected).indexOf(ReplayState.class.getName()), "stack trace must be filled in");
     }
 
     @Test

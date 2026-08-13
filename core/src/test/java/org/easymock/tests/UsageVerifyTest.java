@@ -54,8 +54,8 @@ class UsageVerifyTest {
         AssertionError expected = assertThrows(AssertionError.class, () -> verify(mock));
         assertEquals("\n  Expectation failure on verify:"
                 + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.throwsNothing(true): expected: 2, actual: 1", expected.getMessage());
-        assertEquals(Util.getStackTrace(expected).indexOf(
-            ReplayState.class.getName()), -1, "stack trace must be filled in");
+        assertEquals(-1, Util.getStackTrace(expected).indexOf(
+            ReplayState.class.getName()), "stack trace must be filled in");
 
         assertEquals("Test2", mock.throwsNothing(true));
 

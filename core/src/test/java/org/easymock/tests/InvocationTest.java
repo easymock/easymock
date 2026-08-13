@@ -48,7 +48,6 @@ class InvocationTest {
         nonEqualCall = new Invocation(mock, m, arguments3);
     }
 
-    @SuppressWarnings("unlikely-arg-type")
     @Test
     void testEquals() {
         assertNotEquals(null, call);
