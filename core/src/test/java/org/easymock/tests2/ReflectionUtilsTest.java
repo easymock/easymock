@@ -57,6 +57,7 @@ class ReflectionUtilsTest {
 
         protected A(long l) { }
 
+        @SuppressWarnings("unused")
         private A(byte b) { }
 
         A(char c) { }
@@ -69,6 +70,7 @@ class ReflectionUtilsTest {
 
         public static void staticMethod() {}
 
+        @SuppressWarnings("unused")
         private void privateMethod() {}
 
         protected void protectedMethod() {}

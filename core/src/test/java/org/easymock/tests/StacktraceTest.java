@@ -17,7 +17,6 @@ package org.easymock.tests;
 
 import org.easymock.IAnswer;
 import org.easymock.internal.MockInvocationHandler;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +28,8 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -55,7 +56,7 @@ class StacktraceTest {
         try {
             mock.oneArg(new ToStringThrowsException());
         } catch (NullPointerException expected) {
-            Assertions.assertTrue(Util.getStackTrace(expected).indexOf(
+            assertTrue(Util.getStackTrace(expected).indexOf(
                     ToStringThrowsException.class.getName()) > 0, "stack trace must not be cut");
         }
     }
@@ -66,7 +67,7 @@ class StacktraceTest {
         try {
             replay(mock);
         } catch (NullPointerException expected) {
-            Assertions.assertTrue(Util.getStackTrace(expected).indexOf(
+            assertTrue(Util.getStackTrace(expected).indexOf(
                     ToStringThrowsException.class.getName()) > 0, "stack trace must not be cut");
         }
     }
@@ -77,7 +78,7 @@ class StacktraceTest {
         try {
             mock.oneArg(new ToStringThrowsException());
         } catch (NullPointerException expected) {
-            Assertions.assertTrue(Util.getStackTrace(expected).indexOf(
+            assertTrue(Util.getStackTrace(expected).indexOf(
                     ToStringThrowsException.class.getName()) > 0, "stack trace must not be cut");
         }
     }
@@ -86,13 +87,9 @@ class StacktraceTest {
     void assertVerifyNoFillInStacktraceWhenExceptionNotFromEasyMock() {
         expect(mock.oneArg(new ToStringThrowsException())).andReturn("");
         replay(mock);
-        try {
-            verify(mock);
-            Assertions.fail();
-        } catch (NullPointerException expected) {
-            Assertions.assertTrue(Util.getStackTrace(expected).indexOf(
-                    ToStringThrowsException.class.getName()) > 0, "stack trace must not be cut");
-        }
+        NullPointerException expected = assertThrows(NullPointerException.class, () -> verify(mock));
+        assertTrue(Util.getStackTrace(expected).indexOf(
+                ToStringThrowsException.class.getName()) > 0, "stack trace must not be cut");
     }
 
     @Test
@@ -102,7 +99,7 @@ class StacktraceTest {
         try {
             mock.oneArg("");
         } catch (NullPointerException expected) {
-            Assertions.assertTrue(Util.startWithClass(expected, MockInvocationHandler.class), "stack trace should cut");
+            assertTrue(Util.startWithClass(expected, MockInvocationHandler.class), "stack trace should cut");
         }
     }
 
@@ -122,7 +119,7 @@ class StacktraceTest {
             mock.oneArg("");
         } catch (NullPointerException expected) {
             Class<? extends InvocationHandler> proxyClass = Proxy.getInvocationHandler(answer).getClass();
-            Assertions.assertTrue(Util.startWithClass(expected, proxyClass), "stack trace must not be cut but was\nstarting with " +
+            assertTrue(Util.startWithClass(expected, proxyClass), "stack trace must not be cut but was\nstarting with " +
                        expected.getStackTrace()[0] + "\ninstead of " + proxyClass);
         }
     }
@@ -141,7 +138,7 @@ class StacktraceTest {
         try {
             mock.oneArg("");
         } catch (NullPointerException expected) {
-            Assertions.assertTrue(Util.startWithClass(expected, answer.getClass()), "stack trace must not be cut but was\nstarting with " +
+            assertTrue(Util.startWithClass(expected, answer.getClass()), "stack trace must not be cut but was\nstarting with " +
                        expected.getStackTrace()[0] + "\ninstead of " + answer.getClass());
         }
     }

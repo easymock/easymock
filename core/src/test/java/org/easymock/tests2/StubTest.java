@@ -16,7 +16,6 @@
 package org.easymock.tests2;
 
 import org.easymock.tests.IMethods;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +24,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -67,19 +67,19 @@ class StubTest {
 
         replay(mock);
 
-        Assertions.assertEquals("A", mock.oneArg("1"));
-        Assertions.assertEquals("B", mock.oneArg("1"));
-        Assertions.assertEquals("B", mock.oneArg("1"));
+        assertEquals("A", mock.oneArg("1"));
+        assertEquals("B", mock.oneArg("1"));
+        assertEquals("B", mock.oneArg("1"));
         try {
             mock.oneArg("2");
         } catch (IllegalArgumentException ignored) {
         }
-        Assertions.assertEquals("B", mock.oneArg("1"));
+        assertEquals("B", mock.oneArg("1"));
         try {
             mock.oneArg("2");
         } catch (IllegalStateException ignored) {
         }
-        Assertions.assertEquals("B", mock.oneArg("1"));
+        assertEquals("B", mock.oneArg("1"));
         try {
             mock.oneArg("2");
         } catch (IllegalStateException ignored) {

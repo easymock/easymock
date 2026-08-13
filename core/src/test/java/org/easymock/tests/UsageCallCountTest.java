@@ -15,7 +15,6 @@
  */
 package org.easymock.tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +22,7 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -115,19 +115,11 @@ class UsageCallCountTest {
     }
 
     private void assertVerifyFails() {
-        try {
-            verify(mock);
-            Assertions.fail("Expected AssertionError");
-        } catch (AssertionError expected) {
-        }
+        assertThrows(AssertionError.class, () -> verify(mock));
     }
 
     private void assertMethodCallFails() {
-        try {
-            mock.method();
-            Assertions.fail("Expected AssertionError");
-        } catch (AssertionError expected) {
-        }
+        assertThrows(AssertionError.class, () -> mock.method());
     }
 
     @Test

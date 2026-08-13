@@ -245,8 +245,10 @@ public abstract class EasyMockAnnotationsTest extends EasyMockSupport {
     }
 
     private static class ToInjectUnassignableField extends ToInject {
+    	@SuppressWarnings("unused")
         final IMethods finalField = null;
 
+        @SuppressWarnings("unused")
         static IMethods staticField;
     }
 

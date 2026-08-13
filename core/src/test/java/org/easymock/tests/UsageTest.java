@@ -15,7 +15,6 @@
  */
 package org.easymock.tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +24,8 @@ import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -44,17 +45,10 @@ class UsageTest {
 
         replay(mock);
 
-        Assertions.assertEquals("Test", mock.oneArg(false));
-        Assertions.assertEquals("Test2", mock.oneArg(false));
+        assertEquals("Test", mock.oneArg(false));
+        assertEquals("Test2", mock.oneArg(false));
 
-        boolean failed = false;
-        try {
-            mock.oneArg(false);
-        } catch (AssertionError expected) {
-            failed = true;
-        }
-        if (!failed)
-            Assertions.fail("expected AssertionError");
+        assertThrows(AssertionError.class, () -> mock.oneArg(false));
     }
 
     @Test
@@ -63,9 +57,9 @@ class UsageTest {
 
         replay(mock);
 
-        Assertions.assertEquals("Test", mock.oneArg(false));
-        Assertions.assertEquals("Test2", mock.oneArg(false));
-        Assertions.assertEquals("Test2", mock.oneArg(false));
+        assertEquals("Test", mock.oneArg(false));
+        assertEquals("Test2", mock.oneArg(false));
+        assertEquals("Test2", mock.oneArg(false));
     }
 
     @Test
@@ -75,25 +69,15 @@ class UsageTest {
 
         replay(mock);
 
-        Assertions.assertEquals("Test", mock.oneArg(false));
-        Assertions.assertEquals("Test2", mock.oneArg(false));
+        assertEquals("Test", mock.oneArg(false));
+        assertEquals("Test2", mock.oneArg(false));
 
         try {
             mock.oneArg(false);
         } catch (IndexOutOfBoundsException expected) {
         }
 
-        boolean failed = true;
-        try {
-            try {
-                mock.oneArg(false);
-            } catch (IndexOutOfBoundsException expected) {
-            }
-            failed = false;
-        } catch (AssertionError expected) {
-        }
-        if (!failed)
-            Assertions.fail("expected AssertionError");
+        assertThrows(AssertionError.class, () -> mock.oneArg(false));
     }
 
     @Test
@@ -103,8 +87,8 @@ class UsageTest {
 
         replay(mock);
 
-        Assertions.assertEquals("Test", mock.oneArg(false));
-        Assertions.assertEquals("Test2", mock.oneArg(false));
+        assertEquals("Test", mock.oneArg(false));
+        assertEquals("Test2", mock.oneArg(false));
 
         try {
             mock.oneArg(false);
@@ -122,20 +106,12 @@ class UsageTest {
 
         replay(mock);
 
-        Assertions.assertEquals("Test", mock.threeArgumentMethod(1, "2", "3"));
+        assertEquals("Test", mock.threeArgumentMethod(1, "2", "3"));
 
-        boolean failed = true;
-        try {
-            verify(mock);
-            failed = false;
-        } catch (AssertionError expected) {
-            Assertions.assertEquals("\n  Expectation failure on verify:"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.threeArgumentMethod(1 (int), \"2\", \"3\"): expected: 2, actual: 1", expected
-                    .getMessage());
-        }
-        if (!failed) {
-            Assertions.fail("exception expected");
-        }
+        AssertionError expected = assertThrows(AssertionError.class, () -> verify(mock));
+        assertEquals("\n  Expectation failure on verify:"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.threeArgumentMethod(1 (int), \"2\", \"3\"): expected: 2, actual: 1", expected
+                .getMessage());
     }
 
     @Test
@@ -143,13 +119,9 @@ class UsageTest {
         reset(mock);
         replay(mock);
         String[] strings = new String[] { "Test" };
-        try {
-            mock.arrayMethod(strings);
-            Assertions.fail("exception expected");
-        } catch (AssertionError expected) {
-            Assertions.assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.arrayMethod(" + "[\"Test\"]" + ")", expected
-                    .getMessage());
-        }
+        AssertionError expected = assertThrows(AssertionError.class, () -> mock.arrayMethod(strings));
+        assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.arrayMethod(" + "[\"Test\"]" + ")", expected
+                .getMessage());
     }
 
     @Test
@@ -157,15 +129,10 @@ class UsageTest {
         mock.simpleMethodWithArgument("3");
         replay(mock);
 
-        try {
-            mock.simpleMethodWithArgument("5");
-            Assertions.fail();
-        } catch (AssertionError expected) {
-            Assertions.assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"5\"):"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0", expected
-                    .getMessage());
-        }
-
+        AssertionError expected = assertThrows(AssertionError.class, () -> mock.simpleMethodWithArgument("5"));
+        assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"5\"):"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0", expected
+                .getMessage());
     }
 
     @Test
@@ -174,15 +141,10 @@ class UsageTest {
         mock.simpleMethodWithArgument("3");
         replay(mock);
 
-        try {
-            mock.simpleMethodWithArgument("5");
-            Assertions.fail();
-        } catch (AssertionError expected) {
-            Assertions.assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"5\"):"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"3\"): expected: 2, actual: 0", expected
-                    .getMessage());
-        }
-
+        AssertionError expected = assertThrows(AssertionError.class, () -> mock.simpleMethodWithArgument("5"));
+        assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"5\"):"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"3\"): expected: 2, actual: 0", expected
+                .getMessage());
     }
 
     @Test
@@ -194,19 +156,14 @@ class UsageTest {
         mock.simpleMethodWithArgument("1");
         replay(mock);
 
-        try {
-            mock.simpleMethodWithArgument("5");
-            Assertions.fail();
-        } catch (AssertionError expected) {
-            Assertions.assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"5\"):"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"4\"): expected: 1, actual: 0"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"2\"): expected: 1, actual: 0"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"0\"): expected: 1, actual: 0"
-                    + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"1\"): expected: 1, actual: 0", expected
-                    .getMessage());
-        }
-
+        AssertionError expected = assertThrows(AssertionError.class, () -> mock.simpleMethodWithArgument("5"));
+        assertEquals("\n  Unexpected method call EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"5\"):"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"4\"): expected: 1, actual: 0"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"3\"): expected: 1, actual: 0"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"2\"): expected: 1, actual: 0"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"0\"): expected: 1, actual: 0"
+                + "\n    EasyMock for interface org.easymock.tests.IMethods -> IMethods.simpleMethodWithArgument(\"1\"): expected: 1, actual: 0", expected
+                .getMessage());
     }
 
     @Test
@@ -218,7 +175,7 @@ class UsageTest {
             mock.simpleMethodWithArgument("4");
         }
         catch(RuntimeException e) {
-            Assertions.assertEquals("Test", e.getMessage());
+            assertEquals("Test", e.getMessage());
         }
         mock.simpleMethodWithArgument("4");
         verify(mock);
@@ -234,7 +191,7 @@ class UsageTest {
             mock.simpleMethodWithArgument("4");
         }
         catch(RuntimeException e) {
-            Assertions.assertEquals("Test", e.getMessage());
+            assertEquals("Test", e.getMessage());
         }
         verify(mock);
     }
@@ -255,7 +212,7 @@ class UsageTest {
         Long value = 1L;
         expect(mock.oneLongArg(value)).andReturn("test");
         replay(mock);
-        Assertions.assertEquals("test", mock.oneLongArg(value));
+        assertEquals("test", mock.oneLongArg(value));
         verify(mock);
     }
 }

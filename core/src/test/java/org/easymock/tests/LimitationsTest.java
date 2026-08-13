@@ -25,7 +25,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test the limitations of class mocking
@@ -50,11 +50,7 @@ public class LimitationsTest {
     }
 
     public void finalClass() {
-        try {
-            createMock(String.class);
-            fail("Magic, we can mock a final class");
-        } catch (Exception e) {
-        }
+        assertThrows(Exception.class, () -> createMock(String.class), "Magic, we can mock a final class");
     }
 
     @Test
@@ -67,11 +63,7 @@ public class LimitationsTest {
     void mockFinalMethod() {
         MyClass c = createMock(MyClass.class);
 
-        try {
-            c.foo();
-            fail("Final method shouldn't be mocked");
-        } catch (Exception e) {
-        }
+        assertThrows(Exception.class, () -> c.foo());
     }
 
     @Test

@@ -30,7 +30,6 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -98,22 +97,14 @@ class AnswerTest {
 
     @Test
     void nullAnswerNotAllowed() {
-        try {
-            expect(mock.threeArgumentMethod(1, "2", "3")).andAnswer(null);
-            fail();
-        } catch (NullPointerException expected) {
-            assertEquals("answer object must not be null", expected.getMessage());
-        }
+        NullPointerException expected = assertThrows(NullPointerException.class, () -> expect(mock.threeArgumentMethod(1, "2", "3")).andAnswer(null));
+        assertEquals("answer object must not be null", expected.getMessage());
     }
 
     @Test
     void nullStubAnswerNotAllowed() {
-        try {
-            expect(mock.threeArgumentMethod(1, "2", "3")).andStubAnswer(null);
-            fail();
-        } catch (NullPointerException expected) {
-            assertEquals("answer object must not be null", expected.getMessage());
-        }
+        NullPointerException expected = assertThrows(NullPointerException.class, () -> expect(mock.threeArgumentMethod(1, "2", "3")).andStubAnswer(null));
+        assertEquals("answer object must not be null", expected.getMessage());
     }
 
     public static class A {

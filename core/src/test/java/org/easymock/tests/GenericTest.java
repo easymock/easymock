@@ -16,7 +16,6 @@
 package org.easymock.tests;
 
 import org.easymock.tests2.ChildEquals;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
@@ -26,6 +25,8 @@ import static org.easymock.EasyMock.createMockBuilder;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Bridges are generated methods used for generics. They shouldn't be mocked to
@@ -41,7 +42,7 @@ class GenericTest {
 
     public class B implements C<Integer> {
         public void doCMethod(Integer u) {
-            Assertions.fail("Should be mocked");
+            fail("Should be mocked");
         }
     }
 
@@ -67,7 +68,7 @@ class GenericTest {
 
     static abstract class AbstractFoo {
         public Collection<String> getSomeStrings() {
-            Assertions.fail("Should be mocked");
+            fail("Should be mocked");
             return null;
         }
     }
@@ -115,12 +116,12 @@ class GenericTest {
     void testPartialMockBridgeMethodAreUnmocked() {
         StringHolder holder = createMockBuilder(StringHolder.class).createMock();
         holder.go("hello");
-        Assertions.assertEquals("hello", holder.value);
+        assertEquals("hello", holder.value);
     }
 
     @Test
     void testBridgedEquals() {
         ChildEquals c = createMock(ChildEquals.class);
-        Assertions.assertEquals(c, c);
+        assertEquals(c, c);
     }
 }

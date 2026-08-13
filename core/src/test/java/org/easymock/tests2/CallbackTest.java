@@ -43,6 +43,7 @@ class CallbackTest {
             this.result = result;
         }
 
+        @SuppressWarnings("unused")
         public void run() {
         }
 

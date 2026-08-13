@@ -78,6 +78,7 @@ class MocksControlDefaultMethodsTest {
     }
 
     private interface InterfaceWithDefaultMethod {
+    	@SuppressWarnings("unused")
         default void method() {}
     }
 

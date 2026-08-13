@@ -33,8 +33,8 @@ import static org.easymock.EasyMock.getEasyMockProperty;
 import static org.easymock.EasyMock.setEasyMockProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Henri Tremblay
@@ -196,14 +196,10 @@ public class EasyMockPropertiesTest {
             // Remove the context class loader
             Thread.currentThread().setContextClassLoader(cl);
 
-            try {
-                EasyMockProperties.getInstance();
-                fail("Should have an issue loading the easymock.properties file");
-            } catch (RuntimeException e) {
-                assertEquals("Failed to read easymock.properties file", e.getMessage());
-                // Make sure the thread was closed
-                assertTrue(close[0]);
-            }
+            RuntimeException e = assertThrows(RuntimeException.class, () -> EasyMockProperties.getInstance(), "Should have an issue loading the easymock.properties file");
+            assertEquals("Failed to read easymock.properties file", e.getMessage());
+            // Make sure the thread was closed
+            assertTrue(close[0]);
 
         } finally {
             // Whatever happens, set the initial class loader back, or it'll get

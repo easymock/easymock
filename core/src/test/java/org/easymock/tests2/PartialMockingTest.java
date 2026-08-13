@@ -44,6 +44,7 @@ class PartialMockingTest {
             this.s = s;
         }
 
+        @SuppressWarnings("unused")
         private A(int i) {
             this.i = i;
         }

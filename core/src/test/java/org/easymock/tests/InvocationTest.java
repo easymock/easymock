@@ -77,6 +77,7 @@ class InvocationTest {
                 return name;
             }
 
+            @SuppressWarnings("unused")
             public void aMethod() {
             }
         }
@@ -95,12 +96,14 @@ class InvocationTest {
     @Test
     void testShouldDisplayMocksToStringIfNoToStringMethod() throws NoSuchMethodException {
         class NoToString {
+        	@SuppressWarnings("unused")
             private final String name;
 
             public NoToString(String name) {
                 this.name = name;
             }
 
+            @SuppressWarnings("unused")
             public void aMethod() {
             }
         }

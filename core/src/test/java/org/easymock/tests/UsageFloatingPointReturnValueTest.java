@@ -15,7 +15,6 @@
  */
 package org.easymock.tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +23,7 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author OFFIS, Tammo Freese
@@ -44,9 +44,9 @@ class UsageFloatingPointReturnValueTest {
 
         replay(mock);
 
-        Assertions.assertEquals(25.0F, mock.floatReturningMethod(0), 0.0F);
-        Assertions.assertEquals(34.0F, mock.floatReturningMethod(-4), 0.0F);
-        Assertions.assertEquals(34.0F, mock.floatReturningMethod(12), 0.0F);
+        assertEquals(25.0F, mock.floatReturningMethod(0), 0.0F);
+        assertEquals(34.0F, mock.floatReturningMethod(-4), 0.0F);
+        assertEquals(34.0F, mock.floatReturningMethod(12), 0.0F);
 
         verify(mock);
     }
@@ -58,9 +58,9 @@ class UsageFloatingPointReturnValueTest {
 
         replay(mock);
 
-        Assertions.assertEquals(25.0, mock.doubleReturningMethod(0), 0.0);
-        Assertions.assertEquals(34.0, mock.doubleReturningMethod(-4), 0.0);
-        Assertions.assertEquals(34.0, mock.doubleReturningMethod(12), 0.0);
+        assertEquals(25.0, mock.doubleReturningMethod(0), 0.0);
+        assertEquals(34.0, mock.doubleReturningMethod(-4), 0.0);
+        assertEquals(34.0, mock.doubleReturningMethod(12), 0.0);
 
         verify(mock);
     }

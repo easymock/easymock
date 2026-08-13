@@ -16,8 +16,10 @@
 package org.easymock.tests;
 
 import org.easymock.internal.ErrorMessage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Henri Tremblay
@@ -27,9 +29,9 @@ class ErrorMessageTest {
     @Test
     void testGetters() {
         ErrorMessage m = new ErrorMessage(true, "error", 3);
-        Assertions.assertTrue(m.isMatching());
-        Assertions.assertEquals("error", m.getMessage());
-        Assertions.assertEquals(3, m.getActualCount());
+        assertTrue(m.isMatching());
+        assertEquals("error", m.getMessage());
+        assertEquals(3, m.getActualCount());
     }
 
     @Test
@@ -37,7 +39,7 @@ class ErrorMessageTest {
         StringBuilder sb = new StringBuilder(20);
         ErrorMessage m = new ErrorMessage(true, "error()", 2);
         m.appendTo(sb, 1);
-        Assertions.assertEquals("\n    error(), actual: 3", sb.toString());
+        assertEquals("\n    error(), actual: 3", sb.toString());
     }
 
     @Test
@@ -45,7 +47,7 @@ class ErrorMessageTest {
         StringBuilder sb = new StringBuilder(20);
         ErrorMessage m = new ErrorMessage(false, "error()", 2);
         m.appendTo(sb, 0);
-        Assertions.assertEquals("\n    error(), actual: 2", sb.toString());
+        assertEquals("\n    error(), actual: 2", sb.toString());
     }
 
     @Test
@@ -53,6 +55,6 @@ class ErrorMessageTest {
         StringBuilder sb = new StringBuilder(20);
         ErrorMessage m = new ErrorMessage(true, "error()", 2);
         m.appendTo(sb, 2);
-        Assertions.assertEquals("\n    error(), actual: 2 (+1)", sb.toString());
+        assertEquals("\n    error(), actual: 2 (+1)", sb.toString());
     }
 }

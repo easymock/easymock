@@ -15,12 +15,12 @@
  */
 package org.easymock.tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Henri Tremblay
@@ -49,6 +49,6 @@ class FinalEqualsTest {
         MyInt myInt = createMock(MyInt.class);
         expect(myInt.get()).andReturn(42);
         replay(myInt);
-        Assertions.assertEquals(42, myInt.get());
+        assertEquals(42, myInt.get());
     }
 }

@@ -31,11 +31,17 @@ class InjectorTest {
 
     private class InnerClass {}
 
+    @SuppressWarnings("unused")
     private String noArg;
+    @SuppressWarnings("unused")
     private URL noNoArg;
+    @SuppressWarnings("unused")
     private PrivateNoArgConstructor privateNoArgConstructor;
+    @SuppressWarnings("unused")
     private ThrowingNoArgConstructor throwingNoArgConstructor;
+    @SuppressWarnings("unused")
     private StaticClass staticClass;
+    @SuppressWarnings("unused")
     private InnerClass innerClass;
 
     @Test

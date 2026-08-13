@@ -23,8 +23,9 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 #v5.7.0
       with:
-        java-version: ${{ matrix.java }}
+        java-version: 11
         distribution: 'temurin'
         cache: maven
+        mvn-toolchain-id: ${{ matrix.java }}
     - name: Build
-      run: ./mvnw --no-transfer-progress -B clean verify --file pom.xml -Pall-no-android,fullBuild
+      run: ./mvnw --no-transfer-progress -B clean verify --file pom.xml -Pall-no-android,fullBuild -Dtoolchain.id=${{ matrix.java }}

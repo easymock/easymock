@@ -38,6 +38,7 @@ import org.easymock.ConstructorArgs;
 import org.easymock.internal.classinfoprovider.ClassInfoProvider;
 import org.easymock.internal.classinfoprovider.DefaultClassInfoProvider;
 import org.easymock.internal.classinfoprovider.JdkClassInfoProvider;
+import org.easymock.mocks.MocksPackageLookup;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
@@ -179,7 +180,7 @@ public class ClassProxyFactory implements IProxyFactory {
                     .intercept(MethodDelegation.to(MockMethodInterceptor.class))
                     .make()) {
                     return unloaded
-                        .load(classLoader, classLoadingStrategy())
+                        .load(classLoader, classLoadingStrategy(provider, toMock))
                         .getLoaded();
                 }
             });
@@ -256,13 +257,26 @@ public class ClassProxyFactory implements IProxyFactory {
         return name.startsWith("java.") || name.startsWith("javax.") || name.startsWith("com.sun.") || name.startsWith("jdk.");
     }
 
-    private ClassLoadingStrategy<ClassLoader> classLoadingStrategy() {
+    @IgnoreAnimalSniffer // privateLookupIn is Java 9+
+    private ClassLoadingStrategy<ClassLoader> classLoadingStrategy(ClassInfoProvider provider, Class<?> toMock) {
         if (ClassInjector.UsingUnsafe.isAvailable()) {
             return new ClassLoadingStrategy.ForUnsafeInjection();
         }
-        // I don't think this helps much. It was an attempt to help OSGi, but it doesn't work.
-        // Right now, everything is using Unsafe to we never get there
-        return ClassLoadingStrategy.UsingLookup.of(MethodHandles.lookup());
+        // Fallback for Java 26+: ByteBuddy disables Unsafe by default; use Lookup.defineClass instead.
+        // Lookup.defineClass requires the lookup to reside in the same package as the class being defined.
+        if (provider instanceof JdkClassInfoProvider) {
+            // Mock will be placed in org.easymock.mocks — use a lookup rooted in that package.
+            return ClassLoadingStrategy.UsingLookup.of(MocksPackageLookup.LOOKUP);
+        }
+        // Mock will be placed in toMock's own package — privateLookupIn grants the required access
+        // as long as toMock's module opens the package (unnamed modules are always open).
+        try {
+            return ClassLoadingStrategy.UsingLookup.of(MethodHandles.privateLookupIn(toMock, MethodHandles.lookup()));
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Cannot acquire private lookup for " + toMock
+                    + ": the module does not open its package. "
+                    + "Add --add-opens <module>/<package>=org.easymock to the JVM arguments.", e);
+        }
     }
 
     @Override
