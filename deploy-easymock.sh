@@ -20,6 +20,11 @@ case $increment in
     ;;
 esac
 
+if [ -z "$github_token" ]; then
+    echo "github_token environment variable must be set"
+    exit 1
+fi
+
 function pause {
     echo
     read -p "Press [enter]  to continue"
@@ -117,14 +122,14 @@ pause
 echo "Create the github draft release"
 description=$(jq -Rs . < ReleaseNotes.md)
 content="{\"tag_name\": \"$tag\", \"target_commitish\": \"master\", \"name\": \"$version\", \"body\": $description, \"draft\": true, \"prerelease\": false }"
-release_response=$(curl -v -u "${github_user}:${github_password}" \
+release_response=$(curl -v -H "Authorization: token ${github_token}" \
   -XPOST -H "Accept: application/vnd.github.v3+json" \
   -d "$content" \
   "https://api.github.com/repos/easymock/easymock/releases")
 
 release_id=$(echo "$release_response" | jq ".id")
 
-curl -v -u "${github_user}:${github_password}" \
+curl -v -H "Authorization: token ${github_token}" \
   -XPOST \
   -H "Accept: application/vnd.github.v3+json" \
   -H "Content-Type: application/zip" \
@@ -136,20 +141,20 @@ open "https://github.com/easymock/easymock/releases#release-easymock-${version}"
 pause
 
 echo "Publish the release"
-curl -v -u "${github_user}:${github_password}" \
+curl -v -H "Authorization: token ${github_token}" \
   -XPATCH \
   -H "Accept: application/vnd.github.v3+json" \
   -d '{"draft": false}' \
   "https://api.github.com/repos/easymock/easymock/releases/${release_id}"
 
 echo "Close the milestone in GitHub and create the new one"
-curl -v -u "${github_user}:${github_password}" \
+curl -v -H "Authorization: token ${github_token}" \
   -XPATCH \
   -H "Accept: application/vnd.github.v3+json" \
   -d '{"state": "closed"}' \
   "https://api.github.com/repos/easymock/easymock/milestones/${milestone}"
 
-curl -v -u "${github_user}:${github_password}" \
+curl -v -H "Authorization: token ${github_token}" \
   -XPOST \
   -H "Accept: application/vnd.github.v3+json" \
   -d "{\"title\": \"${nextVersion%%-SNAPSHOT}\"}" \

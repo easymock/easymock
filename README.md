@@ -110,7 +110,7 @@ The command line will ask you to give the passphrase for the gpg private key.
 
 - Install the Android SDK
 - Configure a device (real or simulated)
-- Add an `ANDROID_HOME` to target the Android SDK
+- Add an `ANDROID_HOME` to target the Android SDK[.zshrc](../../../.zshrc)
 - Possibly put these in your path: `$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/emulator`
 - To launch an emulator from command line
   - To list the configured device: `emulator -list-avds`
@@ -123,7 +123,7 @@ The command line will ask you to give the passphrase for the gpg private key.
 - Make sure the poms are on the snapshot of the version you want to deploy
 - Make sure `jq` is installed. If not, install it with your favorite package manager (`brew install jq`, `choco install jq`, `apt-get install jq`, `yum install jq`, etc.).
 - Add a little speech on the features in "ReleaseNotes.md" (remove the Change Log part, which will be regenerated automatically)
-- Set the gpg_passphrase as environment variables
+- Set the `gpg_passphrase` and `github_token` as environment variables
 - Launch `./deploy-easymock.sh (major|minor|patch)` where the parameter tells which version number should be incremented at the end
 - During the deployment, you will be asked to do different things. Do them
 - Announce to gitter, tweet and blog ;-)
