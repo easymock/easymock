@@ -59,7 +59,7 @@ if [ "$(dirname $0)" != "." ]; then
 fi
 
 # Get the version to deliver
-version=$(sed -n 's/.*>\(.*\)-SNAPSHOT<.*/\1/p' pom.xml | head -1)
+version=$(sed -n 's/^-Drevision=\(.*\)-SNAPSHOT$/\1/p' .mvn/maven.config | head -1)
 tag=easymock-${version}
 
 [ -z "$version" ] && echo "Only snapshots can be delivered" && exit 1
@@ -93,7 +93,7 @@ echo "Make sure we have a target directory"
 test ! -d target && mkdir target
 
 echo "Update the Maven version"
-mvn versions:set -DnewVersion=${version} -Pall
+sed -i '' "s/^-Drevision=.*/-Drevision=${version}/" .mvn/maven.config
 
 echo "Build"
 mvn clean install -PfullBuild,deployBuild,all-no-android
@@ -105,7 +105,6 @@ echo "Deployment done, please validate the staging repository https://oss.sonaty
 pause
 
 echo "Commit everything"
-mvn versions:commit -Pall
 git commit -am "Move to version ${version}"
 git tag $tag
 git status
@@ -154,8 +153,7 @@ echo "Update website"
 
 echo "Start new version"
 nextVersion=$(incrementVersionLastElement $version)-SNAPSHOT
-mvn versions:set -DnewVersion=${nextVersion} -Pall
-mvn versions:commit -Pall
+sed -i '' "s/^-Drevision=.*/-Drevision=${nextVersion}/" .mvn/maven.config
 git commit -am "Starting to develop version ${nextVersion}"
 
 echo
