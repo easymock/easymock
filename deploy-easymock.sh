@@ -60,6 +60,7 @@ fi
 
 # Get the version to deliver
 version=$(sed -n 's/^-Drevision=\(.*\)-SNAPSHOT$/\1/p' .mvn/maven.config | head -1)
+nextVersion=$(incrementVersionLastElement $version)-SNAPSHOT
 tag=easymock-${version}
 
 [ -z "$version" ] && echo "Only snapshots can be delivered" && exit 1
@@ -113,27 +114,47 @@ git push --tags
 
 pause
 
-# currently not working because of the description that is multiline. Probably need to replace with \n
-#echo "Create the github release"
-#description="$(cat ReleaseNotes.md)"
-#content="{\"tag_name\": \"$tag\", \"target_commitish\": \"master\", \"name\": \"$tag\", \"body\": \"$description\", \"draft\": false, \"prerelease\": false }"
-#curl -v -u "${github_user}:${github_password}" \
-#  -XPOST -H "Accept: application/vnd.github.v3+json" \
-#  -d "$content" \
-#  "https://api.github.com/repos/easymock/easymock/releases"
+echo "Create the github draft release"
+description=$(jq -Rs . < ReleaseNotes.md)
+content="{\"tag_name\": \"$tag\", \"target_commitish\": \"master\", \"name\": \"$version\", \"body\": $description, \"draft\": true, \"prerelease\": false }"
+release_response=$(curl -v -u "${github_user}:${github_password}" \
+  -XPOST -H "Accept: application/vnd.github.v3+json" \
+  -d "$content" \
+  "https://api.github.com/repos/easymock/easymock/releases")
 
-# Do the github release note
-echo "Please add the release notes in github (Draft New Release)"
-echo "\tTag version: easymock-${version}"
-echo "\tRelease title: ${version}"
-echo "\tDescription: Content of ReleaseNotes.md"
-echo "\tAttach core/target/easymock-${version}-bundle.zip"
-echo "\tPublish release"
-open "https://github.com/easymock/easymock/releases"
+release_id=$(echo "$release_response" | jq ".id")
+
+curl -v -u "${github_user}:${github_password}" \
+  -XPOST \
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Content-Type: application/zip" \
+  --data-binary "@core/target/easymock-${version}-bundle.zip" \
+  "https://uploads.github.com/repos/easymock/easymock/releases/${release_id}/assets?name=easymock-${version}-bundle.zip"
+
+echo "Check the release"
+open "https://github.com/easymock/easymock/releases#release-easymock-${version}"
 pause
 
+echo "Publish the release"
+curl -v -u "${github_user}:${github_password}" \
+  -XPATCH \
+  -H "Accept: application/vnd.github.v3+json" \
+  -d '{"draft": false}' \
+  "https://api.github.com/repos/easymock/easymock/releases/${release_id}"
+
 echo "Close the milestone in GitHub and create the new one"
-open "https://github.com/easymock/easymock/milestones"
+curl -v -u "${github_user}:${github_password}" \
+  -XPATCH \
+  -H "Accept: application/vnd.github.v3+json" \
+  -d '{"state": "closed"}' \
+  "https://api.github.com/repos/easymock/easymock/milestones/${milestone}"
+
+curl -v -u "${github_user}:${github_password}" \
+  -XPOST \
+  -H "Accept: application/vnd.github.v3+json" \
+  -d "{\"title\": \"${nextVersion%%-SNAPSHOT}\"}" \
+  "https://api.github.com/repos/easymock/easymock/milestones"
+open "https://api.github.com/repos/easymock/easymock/milestones"
 pause
 
 echo "Update Javadoc"
@@ -152,7 +173,6 @@ echo "Update website"
 ./deploy-website.sh
 
 echo "Start new version"
-nextVersion=$(incrementVersionLastElement $version)-SNAPSHOT
 sed -i '' "s/^-Drevision=.*/-Drevision=${nextVersion}/" .mvn/maven.config
 git commit -am "Starting to develop version ${nextVersion}"
 
