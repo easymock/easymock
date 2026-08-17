@@ -64,8 +64,7 @@ The command line will ask you to give the passphrase for the gpg private key.
 
 ## To update the versions
 
-- `mvn versions:set -DnewVersion=X.Y -Pall`
-- `mvn versions:commit -Pall` if everything is ok, `mvn versions:revert -Pall` otherwise
+- Modify the version in `.mvn/maven.config`
 
 ## Configure to deploy to Maven Central repository
 
