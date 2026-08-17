@@ -48,7 +48,8 @@ class IMockBuilderTest {
 
     @Test
     void testMock() {
-        IMockBuilderTest mock = builder.mock();assertMock(mock, null, MockType.DEFAULT);
+        IMockBuilderTest mock = builder.mock();
+        assertMock(mock, null, MockType.DEFAULT);
     }
 
     @Test
