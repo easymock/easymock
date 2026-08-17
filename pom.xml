@@ -261,7 +261,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-toolchains-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.3.0</version>
         </plugin>
         <plugin>
           <groupId>org.sonatype.plugins</groupId>
