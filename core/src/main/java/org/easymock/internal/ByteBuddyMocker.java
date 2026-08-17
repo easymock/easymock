@@ -39,16 +39,16 @@ public class ByteBuddyMocker {
     private static final AtomicInteger id = new AtomicInteger(0);
 
     private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
-    private static final MethodHandle privateLookupIn;
+    private static final MethodHandle privateLookupIn = getPrivateLookupIn();
 
-    static {
+    private static MethodHandle getPrivateLookupIn() {
         // the method appeared in Java 9, so I call it by reflection to compile in Java 8
+        MethodType type = MethodType.methodType(MethodHandles.Lookup.class, Class.class, MethodHandles.Lookup.class);
         try {
-            privateLookupIn = lookup
-                .findStatic(MethodHandles.class, "privateLookupIn",
-                    MethodType.methodType(MethodHandles.Lookup.class, Class.class, MethodHandles.Lookup.class));
+            return lookup.findStatic(MethodHandles.class, "privateLookupIn", type);
         } catch (NoSuchMethodException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            // we are before Java 9, so we cannot use privateLookupIn
+            return null;
         }
     }
 

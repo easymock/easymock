@@ -17,6 +17,7 @@ package org.easymock.tests2;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.dynamic.loading.ClassInjector;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
@@ -310,7 +311,14 @@ class EasyMockSupportTest extends EasyMockSupport {
             .subclass(Object.class)
             .name("org.easymock.mocks.Dummy$$" + System.nanoTime())
             .make()) {
-            Class<?> mockClass = unloaded.load(Object.class.getClassLoader(), ClassLoadingStrategy.UsingLookup.of(MocksPackageLookup.LOOKUP))
+
+            ClassLoadingStrategy<ClassLoader> classLoadingStrategy;
+            if (ClassInjector.UsingUnsafe.isAvailable()) {
+                classLoadingStrategy = new ClassLoadingStrategy.ForUnsafeInjection();
+            } else {
+                classLoadingStrategy = ClassLoadingStrategy.UsingLookup.of(MocksPackageLookup.LOOKUP);
+            }
+            Class<?> mockClass = unloaded.load(Object.class.getClassLoader(), classLoadingStrategy)
                 .getLoaded();
             Object mock = mockClass.getDeclaredConstructor().newInstance();
             assertNull(EasyMockSupport.getMockedClass(mock));
