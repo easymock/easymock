@@ -17,11 +17,11 @@ You can find the website and user documentation at http://easymock.org.
 ## Environment setup
 
 I'm using:
-- IntelliJ 2025.3.1 Ultimate (thanks to JetBrains for the license)
-- Maven 3.9.11
+- IntelliJ 2026.1.5 Ultimate (thanks to JetBrains for the license)
+- Maven 3.9.16
 
 You can also use Eclipse. I tried
-- Eclipse 2020.12 (but there was a weird compilation issue with ASM)
+- Eclipse 2026-06 (but there was a weird compilation issue with ASM)
 
 To configure your local workspace:
 - Import the Maven parent project to Eclipse or IntelliJ
