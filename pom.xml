@@ -260,9 +260,13 @@
           <version>4.0.0.4121</version>
         </plugin>
         <plugin>
-          <groupId>org.sonatype.plugins</groupId>
-          <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>1.7.0</version>
+          <groupId>org.sonatype.central</groupId>
+          <artifactId>central-publishing-maven-plugin</artifactId>
+          <version>0.11.0</version>
+          <extensions>true</extensions>
+          <configuration>
+            <autoPublish>false</autoPublish>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -361,27 +365,7 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <serverId>ossrh</serverId>
-          <nexusUrl>https://oss.sonatype.org</nexusUrl>
-          <!-- Prevent releasing automatically to central. Allows to check if the release is ok -->
-          <autoReleaseAfterClose>false</autoReleaseAfterClose>
-          <!-- Deactivate the feature deploying everything at the end to allow skipping the last module -->
-          <skipLocalStaging>true</skipLocalStaging>
-        </configuration>
-      </plugin>
     </plugins>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh-external</artifactId>
-        <version>3.5.3</version>
-      </extension>
-    </extensions>
   </build>
 
   <reporting>
@@ -397,6 +381,11 @@
           <excludePackageNames>*.internal</excludePackageNames>
           <bottom><![CDATA[<i>Copyright &#169; ${project.inceptionYear}-${maven.build.timestamp} ${project.organization.name}. This documentation is provided under the terms of the Apache 2 licence.</i>]]></bottom>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <inherited>false</inherited>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
