@@ -39,8 +39,8 @@
   </issueManagement>
 
   <ciManagement>
-	  <system>Travis</system>
-    <url>https://travis-ci.org/easymock/easymock</url>
+    <system>GitHub</system>
+    <url>https://github.com/easymock/easymock/actions</url>
   </ciManagement>
 
   <mailingLists>
