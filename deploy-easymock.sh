@@ -107,7 +107,7 @@ mvn clean install -PfullBuild,deployBuild,all-no-android
 echo "Deploy"
 mvn deploy -PfullBuild,deployBuild,all-no-android -DskipTests
 
-echo "Deployment done, please validate the staging repository https://oss.sonatype.org/#stagingRepositories"
+echo "Deployment done, please validate the staging repository https://central.sonatype.com/publishing"
 pause
 
 echo "Commit everything"

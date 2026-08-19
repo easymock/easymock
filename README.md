@@ -68,17 +68,8 @@ The command line will ask you to give the passphrase for the gpg private key.
 
 ## Configure to deploy to Maven Central repository
 
-- You will first need to add something like this to your settings.xml
-```xml
-<servers>
-    <server>
-        <id>ossrh</id>
-        <username>sonatypeuser</username>
-        <password>sonatypepassword</password>
-    </server>
-</servers>
-```
-- Then follow the [instructions](https://central.sonatype.org/pages/working-with-pgp-signatures.html) from the site below to create your key to sign the deployed items
+- You need a login to [Sonartype Central](https://central.sonatype.com/publishing)
+- Follow the [instructions](https://central.sonatype.org/publish/requirements/gpg/) from the site below to create your key to sign the deployed items
 
 ## To build the maven site (with spotbugs, checkstyle, jdepends and JavaNCSS reports)
 
@@ -137,12 +128,3 @@ If something was staged in Maven Central, you can drop the staging repository wi
   - Go to the EasyMock root directory
   - Make sure the website directory is clean
   - `./deploy-website.sh`
-
-## Start next version
-
-In local:
-```bash
-mvn versions:set -DnewVersion=X.Z-SNAPSHOT -Pall
-mvn versions:commit -Pall
-```
-- Create next version in Jira (http://jira.codehaus.org/plugins/servlet/project-config/EASYMOCK/versions)
