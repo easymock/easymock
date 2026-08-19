@@ -6,7 +6,7 @@
 
 EasyMock is a Java library that provides an easy way to use Mock Objects in unit testing.
 
-You can find the website and user documentation at http://easymock.org.
+You can find the website and user documentation at https://easymock.org.
 
 # Developer information
 
