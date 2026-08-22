@@ -9,6 +9,7 @@ target
 *.versionsBackup
 dependency-reduced-pom.xml
 /.mvn/wrapper/maven-wrapper.jar
+.flattened-pom.xml
 
 # IntelliJ
 /.idea/
