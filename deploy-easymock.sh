@@ -122,10 +122,16 @@ pause
 echo "Create the github draft release"
 description=$(jq -Rs . < ReleaseNotes.md)
 content="{\"tag_name\": \"$tag\", \"target_commitish\": \"master\", \"name\": \"$version\", \"body\": $description, \"draft\": true, \"prerelease\": false }"
-release_response=$(curl -v -H "Authorization: token ${github_token}" \
-  -XPOST -H "Accept: application/vnd.github.v3+json" \
-  -d "$content" \
-  "https://api.github.com/repos/easymock/easymock/releases")
+release_response=$(curl -L \
+  -X POST \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer ${github_token}" \
+  -H "X-GitHub-Api-Version: 2026-03-10" \
+  https://api.github.com/repos/easymock/easymock/releases \
+  -d "$content")
+
+echo "$release_response"
+pause
 
 release_id=$(echo "$release_response" | jq ".id")
 
@@ -153,6 +159,7 @@ curl -v -H "Authorization: token ${github_token}" \
   -H "Accept: application/vnd.github.v3+json" \
   -d '{"state": "closed"}' \
   "https://api.github.com/repos/easymock/easymock/milestones/${milestone}"
+pause
 
 curl -v -H "Authorization: token ${github_token}" \
   -XPOST \
