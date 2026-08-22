@@ -78,6 +78,24 @@ public class EasyMock {
     public static final String DISABLE_CLASS_MOCKING = "easymock.disableClassMocking";
 
     /**
+     * Creates a mock object that implements the type that it is assigned to, order checking
+     * is disabled by default.
+     *
+     * @param reified
+     *            placeholder, you should leave it empty, do not pass any value
+     * @param <T>
+     *            the class or interface that the mock object should extend/implement. This will be inferred
+     *            from the return type.
+     * @return the mock object.
+     *
+     * @since 5.7
+     */
+    @SafeVarargs
+    public static <T> T mock(T... reified) {
+        return createControl().mock(reified.getClass().getComponentType());
+    }
+
+    /**
      * Creates a mock object that implements the given interface, order checking
      * is disabled by default.
      *
@@ -92,6 +110,26 @@ public class EasyMock {
      */
     public static <T> T mock(Class<?> toMock) {
         return createControl().mock(toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the type that it is assigned to, order checking
+     * is disabled by default.
+     *
+     * @param name
+     *            the name of the mock object.
+     * @param reified
+     *            placeholder, you should leave it empty, do not pass any value
+     * @param <T>
+     *            the class or interface that the mock object should extend/implement. This will be inferred
+     *            from the return type.
+     * @return the mock object.
+     *
+     * @since 5.7
+     */
+    @SafeVarargs
+    public static <T> T mock(String name, T... reified) {
+        return createControl().mock(name, reified.getClass().getComponentType());
     }
 
     /**
@@ -116,6 +154,25 @@ public class EasyMock {
     }
 
     /**
+     * Creates a mock object that implements the type that it is assigned to, and of the requested type.
+     *
+     * @param type
+     *            the type of the mock to be created.
+     * @param reified
+     *            placeholder, you should leave it empty, do not pass any value
+     * @param <T>
+     *            the class or interface that the mock object should extend/implement. This will be inferred
+     *            from the return type.
+     * @return the mock object.
+     *
+     * @since 5.7
+     */
+    @SafeVarargs
+    public static <T> T mock(MockType type, T... reified) {
+        return createControl(type).mock(reified.getClass().getComponentType());
+    }
+
+    /**
      * Creates a mock object, of the requested type, that implements the given interface
      * or extends the given class
      *
@@ -132,6 +189,27 @@ public class EasyMock {
      */
     public static <T> T mock(MockType type, Class<?> toMock) {
         return createControl(type).mock(toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the type that it is assigned to, and of the requested type and name.
+     *
+     * @param name
+     *            the name of the mock object.
+     * @param type
+     *            the type of the mock to be created.
+     * @param reified
+     *            placeholder, you should leave it empty, do not pass any value
+     * @param <T>
+     *            the class or interface that the mock object should extend/implement. This will be inferred
+     *            from the return type.
+     * @return the mock object.
+     *
+     * @since 5.7
+     */
+    @SafeVarargs
+    public static <T> T mock(String name, MockType type, T... reified) {
+        return createControl(type).mock(name, reified.getClass().getComponentType());
     }
 
     /**
@@ -156,6 +234,24 @@ public class EasyMock {
     }
 
     /**
+     * Creates a mock object that implements the type that it is assigned to, order checking
+     * is enabled by default.
+     *
+     * @param reified
+     *            placeholder, you should leave it empty, do not pass any value
+     * @param <T>
+     *            the class or interface that the mock object should extend/implement. This will be inferred
+     *            from the return type.
+     * @return the mock object.
+     *
+     * @since 5.7
+     */
+    @SafeVarargs
+    public static <T> T strictMock(T... reified) {
+        return createStrictControl().mock(reified.getClass().getComponentType());
+    }
+
+    /**
      * Creates a mock object that implements the given interface, order checking
      * is enabled by default.
      *
@@ -170,6 +266,26 @@ public class EasyMock {
      */
     public static <T> T strictMock(Class<?> toMock) {
         return createStrictControl().mock(toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the type that it is assigned to, order checking
+     * is enabled by default.
+     *
+     * @param name
+     *            the name of the mock object.
+     * @param reified
+     *            placeholder, you should leave it empty, do not pass any value
+     * @param <T>
+     *            the class or interface that the mock object should extend/implement. This will be inferred
+     *            from the return type.
+     * @return the mock object.
+     *
+     * @since 5.7
+     */
+    @SafeVarargs
+    public static <T> T strictMock(String name, T... reified) {
+        return createStrictControl().mock(name, reified.getClass().getComponentType());
     }
 
     /**
@@ -194,6 +310,25 @@ public class EasyMock {
     }
 
     /**
+     * Creates a mock object that implements the type that it is assigned to, order checking
+     * is disabled by default, and the mock object will return {@code 0},
+     * {@code null} or {@code false} for unexpected invocations.
+     *
+     * @param reified
+     *            placeholder, you should leave it empty, do not pass any value
+     * @param <T>
+     *            the class or interface that the mock object should extend/implement. This will be inferred
+     *            from the return type.
+     * @return the mock object.
+     *
+     * @since 5.7
+     */
+    @SafeVarargs
+    public static <T> T niceMock(T... reified) {
+        return createNiceControl().mock(reified.getClass().getComponentType());
+    }
+
+    /**
      * Creates a mock object that implements the given interface, order checking
      * is disabled by default, and the mock object will return {@code 0},
      * {@code null} or {@code false} for unexpected invocations.
@@ -209,6 +344,29 @@ public class EasyMock {
      */
     public static <T> T niceMock(Class<?> toMock) {
         return createNiceControl().mock(toMock);
+    }
+
+    /**
+     * Creates a mock object that implements the type that it is assigned to, order checking
+     * is disabled by default, and the mock object will return {@code 0},
+     * {@code null} or {@code false} for unexpected invocations.
+     *
+     * @param name
+     *            the name of the mock object.
+     * @param reified
+     *            placeholder, you should leave it empty, do not pass any value
+     * @param <T>
+     *            the class or interface that the mock object should extend/implement. This will be inferred
+     *            from the return type.
+     * @return the mock object.
+     * @throws IllegalArgumentException
+     *             if the name is not a valid Java identifier.
+     *
+     * @since 5.7
+     */
+    @SafeVarargs
+    public static <T> T niceMock(String name, T... reified) {
+        return createNiceControl().mock(name, reified.getClass().getComponentType());
     }
 
     /**
