@@ -67,14 +67,6 @@
     <license-maven-plugin.version>4.6</license-maven-plugin.version>
     <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
     <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-
-    <!-- flatten-maven-plugin -->
-    <!-- We only care about resolving the revision variable when a .mvn structure is used, nothing else -->
-    <flatten.mode>resolveCiFriendliesOnly</flatten.mode>
-    <!-- because comments are cool -->
-    <flatten.dependency.keepComments>true</flatten.dependency.keepComments>
-    <!-- required so parent poms are correctly updated -->
-    <updatePomFile>true</updatePomFile>
   </properties>
 
   <scm>
@@ -381,27 +373,6 @@
                 </requireMavenVersion>
               </rules>
             </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Will flatten the final pom to remove properties from it. Required because of the .mvn/maven.config file -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>flatten-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>flatten</id>
-            <goals>
-              <goal>flatten</goal>
-            </goals>
-            <phase>process-resources</phase>
-          </execution>
-          <execution>
-            <id>flatten.clean</id>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-            <phase>clean</phase>
           </execution>
         </executions>
       </plugin>

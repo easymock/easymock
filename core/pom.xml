@@ -13,6 +13,15 @@
   <artifactId>easymock</artifactId>
   <packaging>jar</packaging>
   <name>EasyMock</name>
+
+  <properties>
+    <!-- flatten-maven-plugin -->
+    <!-- We only care about resolving the revision variable when a .mvn structure is used, nothing else -->
+    <flatten.mode>oss</flatten.mode>
+    <!-- because comments are cool -->
+    <flatten.dependency.keepComments>true</flatten.dependency.keepComments>
+  </properties>
+
   <description>EasyMock provides an easy way to create Mock Objects for interfaces and classes generating them on the fly</description>
   <inceptionYear>2001</inceptionYear>
 
@@ -174,6 +183,29 @@
       <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
+      </plugin>
+      <!-- oss mode produces a self-contained POM with url/licenses/scm and resolved dependency
+           versions, which Maven Central requires for publishing -->
+      <!-- Will flatten the final pom to remove properties from it. Required because of the .mvn/maven.config file -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>flatten</id>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+            <phase>process-resources</phase>
+          </execution>
+          <execution>
+            <id>flatten.clean</id>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+            <phase>clean</phase>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
