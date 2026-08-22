@@ -1,1 +1,1 @@
-moduleSearchIndex = [{"l":"org.easymock"}]
+moduleSearchIndex = [{"l":"org.easymock"}];updateSearchResults();
