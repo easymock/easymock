@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class EnclosedTest {
 
-    abstract class Fixtures extends EasyMockSupport {
+    abstract static class Fixtures extends EasyMockSupport {
 
         @TestSubject
         final ClassTested classUnderTest = new ClassTested();
