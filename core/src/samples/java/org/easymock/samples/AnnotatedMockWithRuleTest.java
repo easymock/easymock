@@ -15,22 +15,20 @@
  */
 package org.easymock.samples;
 
-import org.easymock.EasyMockRule;
+import org.easymock.EasyMockExtension;
 import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
- * Example of how to use {@code @Mock} and {@code @TestSubject} annotations with Junit Rule.
+ * Example of how to use {@code @Mock} and {@code @TestSubject} annotations with JUnit 5 extension.
  *
  * @author Alistair Todd
  */
+@ExtendWith(EasyMockExtension.class)
 public class AnnotatedMockWithRuleTest extends EasyMockSupport {
-
-    @Rule
-    public EasyMockRule mocks = new EasyMockRule(this);
 
     @Mock
     private Collaborator collaborator;

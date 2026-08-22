@@ -66,7 +66,7 @@ public class BasicClassMockTest extends EasyMockSupport {
 
     @BeforeEach
     public void setUp() {
-        printer = mock(Printer.class);
+        printer = mock();
         document = new Document(printer);
     }
 

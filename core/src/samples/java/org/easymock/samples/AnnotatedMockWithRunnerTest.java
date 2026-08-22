@@ -15,19 +15,19 @@
  */
 package org.easymock.samples;
 
-import org.easymock.EasyMockRunner;
+import org.easymock.EasyMockExtension;
 import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
- * Example of how to use {@code @Mock} and {@code @TestSubject} annotations with JUnit Runner.
+ * Example of how to use {@code @Mock} and {@code @TestSubject} annotations with JUnit 5 extension.
  *
  * @author Henri Tremblay
  */
-@RunWith(EasyMockRunner.class)
+@ExtendWith(EasyMockExtension.class)
 public class AnnotatedMockWithRunnerTest extends EasyMockSupport {
 
     @TestSubject

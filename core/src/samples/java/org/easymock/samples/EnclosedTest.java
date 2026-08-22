@@ -15,28 +15,27 @@
  */
 package org.easymock.samples;
 
-import org.easymock.EasyMockRunner;
+import org.easymock.EasyMockExtension;
 import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
 import static org.easymock.EasyMock.expect;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Test demonstrating the use of JUnit 4.12 new enclosed feature
+ * Test demonstrating the use of JUnit 5 nested test classes
  *
  * @author Henri Tremblay
  */
-@RunWith(Enclosed.class)
 public class EnclosedTest {
 
-    public static abstract class Fixtures extends EasyMockSupport {
+    abstract class Fixtures extends EasyMockSupport {
 
         @TestSubject
         final ClassTested classUnderTest = new ClassTested();
@@ -45,17 +44,18 @@ public class EnclosedTest {
         Collaborator mock;
     }
 
-    @RunWith(EasyMockRunner.class)
-    public static class VoteRemoval extends Fixtures {
+    @Nested
+    @ExtendWith(EasyMockExtension.class)
+    class VoteRemoval extends Fixtures {
 
-        @Before
-        public void when() {
+        @BeforeEach
+        void when() {
             // expect document addition
             mock.documentAdded("Document");
         }
 
         @Test
-        public void voteForRemoval() {
+        void voteForRemoval() {
             // expect to be asked to vote, and vote for it
             expect(mock.voteForRemoval("Document")).andReturn((byte) 42);
             // expect document removal
@@ -68,7 +68,7 @@ public class EnclosedTest {
         }
 
         @Test
-        public void voteAgainstRemoval() {
+        void voteAgainstRemoval() {
             // expect to be asked to vote, and vote against it
             expect(mock.voteForRemoval("Document")).andReturn((byte) -42); //
             // document removal is *not* expected
@@ -80,17 +80,18 @@ public class EnclosedTest {
         }
     }
 
-    @RunWith(EasyMockRunner.class)
-    public static class VoteRemovals extends Fixtures {
+    @Nested
+    @ExtendWith(EasyMockExtension.class)
+    class VoteRemovals extends Fixtures {
 
-        @Before
-        public void when() {
+        @BeforeEach
+        void when() {
             mock.documentAdded("Document 1");
             mock.documentAdded("Document 2");
         }
 
         @Test
-        public void voteForRemovals() {
+        void voteForRemovals() {
             expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn((byte) 42);
             mock.documentRemoved("Document 1");
             mock.documentRemoved("Document 2");
@@ -102,7 +103,7 @@ public class EnclosedTest {
         }
 
         @Test
-        public void voteAgainstRemovals() {
+        void voteAgainstRemovals() {
             expect(mock.voteForRemovals("Document 1", "Document 2")).andReturn((byte) -42);
             replayAll();
             classUnderTest.addDocument("Document 1", "content 1");

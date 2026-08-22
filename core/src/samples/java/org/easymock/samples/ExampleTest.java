@@ -15,12 +15,12 @@
  */
 package org.easymock.samples;
 
-import org.easymock.EasyMockRule;
+import org.easymock.EasyMockExtension;
 import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +28,15 @@ import java.util.List;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.getCurrentArgument;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author OFFIS, Tammo Freese, Henri Tremblay
  */
+@ExtendWith(EasyMockExtension.class)
 public class ExampleTest extends EasyMockSupport {
-
-    @Rule
-    public EasyMockRule rule = new EasyMockRule(this);
 
     @Mock
     private Collaborator collaborator; // 1
@@ -130,7 +128,7 @@ public class ExampleTest extends EasyMockSupport {
 
     @Test
     public void answerVsDelegate() {
-        List<String> l = createMock(List.class);
+        List<String> l = mock();
 
         // andAnswer style
         expect(l.remove(10)).andAnswer(() -> getCurrentArgument(0).toString());
